@@ -446,6 +446,37 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::administers_mutagen: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == avatar_id ) {
+                mutagen_technique technique = e.get<mutagen_technique>( "technique" );
+                switch( technique ) {
+                    case mutagen_technique::consumed_mutagen:
+                        add( pgettext( "memorial_male", "Consumed mutagen." ),
+                             pgettext( "memorial_female", "Consumed mutagen." ) );
+                        break;
+                    case mutagen_technique::injected_mutagen:
+                        add( pgettext( "memorial_male", "Injected mutagen." ),
+                             pgettext( "memorial_female", "Injected mutagen." ) );
+                        break;
+                    case mutagen_technique::consumed_purifier:
+                        add( pgettext( "memorial_male", "Consumed purifier." ),
+                             pgettext( "memorial_female", "Consumed purifier." ) );
+                        break;
+                    case mutagen_technique::injected_purifier:
+                        add( pgettext( "memorial_male", "Injected purifier." ),
+                             pgettext( "memorial_female", "Injected purifier." ) );
+                        break;
+                    case mutagen_technique::injected_smart_purifier:
+                        add( pgettext( "memorial_male", "Injected smart purifier." ),
+                             pgettext( "memorial_female", "Injected smart purifier." ) );
+                        break;
+                    case mutagen_technique::num_mutagen_techniques:
+                        break;
+                }
+            }
+            break;
+        }
         case event_type::angers_amigara_horrors: {
             add( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
@@ -871,14 +902,6 @@ void memorial_logger::notify( const cata::event &e )
                 pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
                 pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
                 avatar_name );
-            break;
-        }
-        case event_type::injects_smart_purifier: {
-            character_id ch = e.get<character_id>( "character" );
-            if( ch == avatar_id ) {
-                add( pgettext( "memorial_male", "Injected smart purifier." ),
-                     pgettext( "memorial_female", "Injected smart purifier." ) );
-            }
             break;
         }
         case event_type::installs_cbm: {

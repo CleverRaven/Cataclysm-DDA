@@ -24,6 +24,8 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
+enum class mutagen_technique : int;
+
 namespace debug_menu
 {
 enum class debug_menu_index : int;
@@ -56,6 +58,7 @@ enum class cata_variant_type : int {
     mtype_id,
     mongroup_id,
     move_mode_id,
+    mutagen_technique,
     mutation_category_id,
     nested_mapgen_id,
     npc_template_id,
@@ -184,7 +187,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 45,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 46,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -310,6 +313,9 @@ struct convert<cata_variant_type::mtype_id> : convert_string_id<mtype_id> {};
 
 template<>
 struct convert<cata_variant_type::mongroup_id> : convert_string_id<mongroup_id> {};
+
+template<>
+struct convert<cata_variant_type::mutagen_technique> : convert_enum<mutagen_technique> {};
 
 template<>
 struct convert<cata_variant_type::mutation_category_id> :

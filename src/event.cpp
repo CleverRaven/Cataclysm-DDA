@@ -12,7 +12,7 @@ std::string enum_to_string<event_type>( event_type data )
         // *INDENT-OFF*
         case event_type::activates_artifact: return "activates_artifact";
         case event_type::activates_mininuke: return "activates_mininuke";
-        case event_type::injects_smart_purifier: return "injects_smart_purifier";
+        case event_type::administers_mutagen: return "administers_mutagen";
         case event_type::angers_amigara_horrors: return "angers_amigara_horrors";
         case event_type::avatar_enters_omt: return "avatar_enters_omt";
         case event_type::avatar_moves: return "avatar_moves";
@@ -133,6 +133,7 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 85,
     event_spec<event_type::type>::fields;
 
 DEFINE_EVENT_FIELDS( activates_artifact )
+DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_enters_omt )
 DEFINE_EVENT_FIELDS( avatar_moves )
 DEFINE_EVENT_FIELDS( broken_bone )
@@ -166,7 +167,6 @@ DEFINE_EVENT_FIELDS( game_load )
 DEFINE_EVENT_FIELDS( game_over )
 DEFINE_EVENT_FIELDS( game_save )
 DEFINE_EVENT_FIELDS( game_start )
-DEFINE_EVENT_FIELDS( injects_smart_purifier )
 DEFINE_EVENT_FIELDS( installs_cbm )
 DEFINE_EVENT_FIELDS( installs_faulty_cbm )
 DEFINE_EVENT_FIELDS( learns_martial_art )

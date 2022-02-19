@@ -1245,7 +1245,8 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
-    get_event_bus().send<event_type::injects_smart_purifier>( p->getID() );
+    get_event_bus().send<event_type::administers_mutagen>( p->getID(),
+            mutagen_technique::injected_smart_purifier );
     return it->type->charges_to_use();
 }
 

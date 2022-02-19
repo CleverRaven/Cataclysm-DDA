@@ -84,6 +84,7 @@ TEST_CASE( "memorials", "[memorial]" )
     character_id ch = player_character.getID();
     std::string u_name = player_character.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
+    mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
     efftype_id eff( "onfire" );
     itype_id it( "marloss_seed" );
@@ -96,6 +97,9 @@ TEST_CASE( "memorials", "[memorial]" )
 
     check_memorial<event_type::activates_mininuke>(
         m, b, "Activated a mininuke.", ch );
+
+    check_memorial<event_type::administers_mutagen>(
+        m, b, "Injected purifier.", ch, mutagen );
 
     check_memorial<event_type::angers_amigara_horrors>(
         m, b, "Angered a group of amigara horrors!" );
@@ -222,9 +226,6 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::game_start>(
         m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
         player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
-
-    check_memorial<event_type::injects_smart_purifier>(
-        m, b, "Injected smart purifier.", ch );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
