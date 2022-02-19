@@ -930,6 +930,13 @@ static activity_reason_info find_base_construction(
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
     }
+    //check if construction allows items at the location
+    if( build.post_flags.count( "keep_items" ) == 0 ) {
+        const map_stack stuff_there = here.i_at( loc );
+        if( !stuff_there.empty() ) {
+            return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+        }
+    }
     //only cc failed, no pre-req
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
 }
@@ -1291,7 +1298,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( part_con ) {
             part_con_idx = part_con->id;
         }
-        const map_stack stuff_there = here.i_at( src_loc );
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
@@ -1299,9 +1305,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            if( !stuff_there.empty() ) {
-                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
-            }
             std::set<construction_id> used_idx;
             const activity_reason_info act_info = find_base_construction( list_constructions, you, pre_inv,
                                                   src_loc, part_con_idx, index, used_idx );
@@ -2493,6 +2496,10 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     // prune the set to remove tiles that are never gonna work out.
     const bool pre_dark_check = src_set.empty();
     const bool MOP_ACTIVITY = act_id == ACT_MULTIPLE_MOP;
+    if( MOP_ACTIVITY ) {
+        dark_capable = true;
+    }
+
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         const tripoint set_pt = here.getlocal( *it2 );
@@ -2986,6 +2993,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
+            activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
             you.fine_detail_vision_mod( you.pos() ) > 4.0 ) {

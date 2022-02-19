@@ -28,8 +28,18 @@ static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 static void check_near( std::string subject, float actual, const float expected,
                         const float tolerance )
 {
-    THEN( string_format( "%s is about %.1f (+/- %.1f)", subject, expected, tolerance ) ) {
+    THEN( string_format( "%s is about %.1f (+/- %.2f) with val %.1f", subject, expected, tolerance,
+                         actual ) ) {
         CHECK( actual == Approx( expected ).margin( tolerance ) );
+    }
+}
+
+static void check_not_near( std::string subject, float actual, const float undesired,
+                            const float tolerance )
+{
+    THEN( string_format( "%s is not about %.1f (+/- %.1f)  with val %.1f", subject, undesired,
+                         tolerance, actual ) ) {
+        CHECK_FALSE( actual == Approx( undesired ).margin( tolerance ) );
     }
 }
 
@@ -161,5 +171,13 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
         // more variance on this test since it has a 5% chance of blocking with
         // high protection steel
         check_near( "Average damage", dmg, 12.2f, 0.4f );
+    }
+
+    SECTION( "Multi material segmented armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_multi_portion_segmented_armor" );
+        const float base_line = get_avg_melee_dmg( "test_portion_segmented_armor" );
+        // our armor should NOT be near 1 mm cloth + 80% of 1mm of steel
+        // and should be higher (so lower damage) since they can overlap
+        check_not_near( "Average damage", dmg, base_line, 0.05f );
     }
 }

@@ -7,7 +7,7 @@
     "difficulty": 3,
     "time": "2 m",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 70 ] ] ]
+    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "lc_chain_link", 70 ] ] ]
   },
   {
     "result": "superalloy_harness_dog",

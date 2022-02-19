@@ -47,6 +47,7 @@ class relic_procgen_data
             T increment = 1;
             T min_value = 0;
             T max_value = 0;
+            enchantment::has ench_has;
 
             int calc_power( T level ) const {
                 return std::round( level * static_cast<float>( power_per_increment ) /
@@ -71,6 +72,8 @@ class relic_procgen_data
             int min_level = 0;
             // max level of the spell allowed
             int max_level = 0;
+            // where artifact must be to trigger for hit_me and hit_you effects
+            enchantment::has ench_has;
 
             int calc_power( int level ) const {
                 return base_power + std::round( level *
@@ -127,6 +130,7 @@ class relic_procgen_data
 
         bool was_loaded = false;
 
+        static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );
         void deserialize( const JsonObject &jobj );
