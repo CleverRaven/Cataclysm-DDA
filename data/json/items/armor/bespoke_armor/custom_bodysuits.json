@@ -295,8 +295,8 @@
     "id": "lsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "light survivor suit" },
-    "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced fabric jumpsuit.  Protects from the elements as well as from harm.",
+    "name": { "str": "light kevlar jumpsuit" },
+    "description": "A lightweight, hand-built combination armor made from a jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
     "weight": "5100 g",
     "volume": "10500 ml",
     "price": 110000,
@@ -306,16 +306,16 @@
     "looks_like": "survivor_jumpsuit",
     "color": "green",
     "armor": [
-  		{
-  	    "material" : [
-    		 { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
-    		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
-  		 ],
-  		"covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r"  ],
-          "coverage": 100,
-          "encumbrance": [ 7, 7 ]
-  		}
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       {
@@ -342,7 +342,7 @@
   {
     "id": "xl_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL light survivor suit" },
+    "name": { "str": "XL light kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -350,9 +350,9 @@
   {
     "id": "xs_lsurvivor_jumpsuit",
     "type": "ARMOR",
+    "name": { "str": "XS light kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "looks_like": "lsurvivor_jumpsuit",
-    "name": { "str": "XS light survivor suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -360,8 +360,8 @@
     "id": "survivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "survivor suit" },
-    "description": "A hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
+    "name": { "str": "kevlar jumpsuit" },
+    "description": "A hand-built combination armor made from a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": 150000,
@@ -371,17 +371,17 @@
     "looks_like": "touring_suit",
     "color": "brown",
     "armor": [
-  		{
-  	    "material" : [
-    		 { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
-    		 { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
-         { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
-  		 ],
-  		"covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-          "coverage": 100,
-          "encumbrance": [ 12, 12 ]
-  		}
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 12, 12 ]
+      }
     ],
     "pocket_data": [
       {
@@ -409,7 +409,7 @@
   {
     "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL survivor suit" },
+    "name": { "str": "XL kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -417,7 +417,7 @@
   {
     "id": "xssurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS survivor suit" },
+    "name": { "str": "XS kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -426,7 +426,7 @@
     "id": "hsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "heavy survivor suit" },
+    "name": { "str": "steel-plated kevlar jumpsuit" },
     "description": "A heavy, hand-built combination armor made from tempered steel plates and a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
     "weight": "15500 g",
     "volume": "12 L",
@@ -439,8 +439,8 @@
     "looks_like": "survivor_suit",
     "color": "dark_gray",
     "armor": [
-  		{
-        "material" : [
+      {
+        "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
           { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 0.6 },
@@ -449,7 +449,7 @@
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 17, 17 ]
-  		}
+      }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -462,7 +462,7 @@
   {
     "id": "xl_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL heavy survivor suit" },
+    "name": { "str": "XL steel-plated kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -470,7 +470,7 @@
   {
     "id": "xs_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS heavy survivor suit" },
+    "name": { "str": "XS steel-plated kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
