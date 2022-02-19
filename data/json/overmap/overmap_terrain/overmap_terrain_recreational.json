@@ -122,6 +122,7 @@
     "id": "pavilion_1",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
+    "looks_like": "pavilion",
     "name": "pavilion",
     "sym": "A",
     "color": "i_green"
@@ -173,6 +174,7 @@
     "type": "overmap_terrain",
     "id": [ "publicgarden", "publicgarden_2" ],
     "name": "public garden",
+    "looks_like": "publicgarden",
     "sym": "g",
     "color": "light_green",
     "see_cost": 5,
@@ -415,7 +417,7 @@
     "type": "overmap_terrain",
     "id": "natural_spring",
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "Natural Spring",
+    "name": "natural spring",
     "sym": "o",
     "color": "blue"
   },

@@ -39,8 +39,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_rifle",
@@ -78,8 +78,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "bandolier_shotgun",
@@ -125,7 +125,7 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 3, "coverage": 12, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "flintlock_pouch",
@@ -147,7 +147,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "WAIST", "PALS_LARGE", "OVERSIZE" ],
     "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
@@ -187,7 +187,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -206,16 +206,23 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "stone_pouch",
     "type": "ARMOR",
     "name": { "str": "stone pouch", "str_pl": "stone pouches" },
     "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
-    "weight": "90 g",
-    "volume": "250 ml",
+    "weight": "180 g",
+    "volume": "500 ml",
     "price": 5900,
     "price_postapoc": 750,
     "material": [ "cotton", "leather" ],
@@ -225,8 +232,15 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "grenadebandolier",
@@ -274,6 +288,6 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

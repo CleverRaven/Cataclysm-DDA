@@ -21,6 +21,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
+#include "hash_utils.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
@@ -197,10 +198,10 @@ struct node_address {
 
 struct node_address_hasher {
     std::size_t operator()( const node_address &addr ) const {
-        std::int64_t val = addr.x;
+        std::uint64_t val = addr.x;
         val = ( val << 16 ) + addr.y;
         val = ( val << 16 ) + static_cast<int>( addr.facing_dir );
-        return std::hash<int64_t> {}( val );
+        return cata::hash64( val );
     }
 };
 

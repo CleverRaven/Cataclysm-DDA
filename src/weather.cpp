@@ -51,16 +51,19 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
-static const itype_id itype_water( "water" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_FEATHERS( "FEATHERS" );
+static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
-static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
-static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -432,11 +435,11 @@ void wet_character( Character &target, int amount )
         return;
     }
 
-    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
-    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
-        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
-        // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
+    // Start drenching the upper half of the body
+    body_part_set drenched_parts = target.get_drenching_body_parts( true, true, false );
+    // When the head is 50% saturated begin drenching the legs as well
+    if( target.get_part_wetness_percentage( target.get_root_body_part() ) >= 0.5f ) {
+        drenched_parts = target.get_drenching_body_parts();
     }
 
     target.drench( amount, drenched_parts, false );
@@ -830,8 +833,8 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
     int tmpwind = static_cast<int>( windpower );
     tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
-    if( is_ot_match( "forest", omter, ot_match_type::type ) ||
-        is_ot_match( "forest_water", omter, ot_match_type::type ) ) {
+    if( ( omter->get_type_id() == oter_type_forest ) ||
+        ( omter->get_type_id() == oter_type_forest_water ) ) {
         tmpwind = tmpwind / 2;
     }
     if( location.z > 0 ) {

@@ -19,6 +19,7 @@ enum eoc_type {
     SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
+    OM_MOVE,
     NUM_EOC_TYPES
 };
 struct effect_on_condition {
@@ -38,9 +39,7 @@ struct effect_on_condition {
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        //TODO duration or var these
-        time_duration recurrence_min = 1_seconds;
-        time_duration recurrence_max = 1_seconds;
+        duration_or_var recurrence;
         bool activate( dialogue &d ) const;
         bool check_deactivate() const;
         void load( const JsonObject &jo, const std::string &src );
@@ -81,6 +80,8 @@ void write_eocs_to_file( Character &you );
 void write_global_eocs_to_file();
 /** Run all avatar death eocs */
 void avatar_death();
+/** Run all OM_MOVE eocs */
+void om_move();
 } // namespace effect_on_conditions
 
 template<>

@@ -58,14 +58,16 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
+
+static const material_id material_iflesh( "iflesh" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -79,7 +81,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return !type->in_species( species_FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
+        return !made_of( material_iflesh ) || has_flag( MF_INSECTICIDEPROOF );
     }
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );
@@ -195,7 +197,8 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &get_player_character() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                !( type->size == creature_size::tiny || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ||
+                   get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) ) {
                 return false;
             }
         }
@@ -711,35 +714,12 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
-        add_msg_if_player_sees( *this,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                name() );
-        static const auto volume_per_hp = 250_ml;
-        for( item &elem : here.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    if( !spawn ) {
-                        break;
-                    }
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                }
-            }
-        }
-        here.i_clear( pos() );
-    } else if( action == "eat_crop" ) {
-        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
-        std::map<std::string, mtype_special_attack>::const_iterator attack =
-            type->special_attacks.find( action );
-        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
-            if( special_attacks.count( action ) != 0 ) {
-                reset_special( action );
-            }
+    // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+    std::map<std::string, mtype_special_attack>::const_iterator attack =
+        type->special_attacks.find( action );
+    if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+        if( special_attacks.count( action ) != 0 ) {
+            reset_special( action );
         }
     }
     // record position before moving to put the player there if we're dragging
@@ -937,7 +917,7 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS ) && !is_hallucination();
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
@@ -1002,6 +982,10 @@ void monster::move()
 
             const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
+                if( is_hallucination() != target->is_hallucination() && !target->is_avatar() ) {
+                    // Hallucinations should only be capable of targetting the player or other hallucinations.
+                    continue;
+                }
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
@@ -1555,7 +1539,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = creatures.creature_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p, is_hallucination() );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -2127,7 +2111,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                              const tripoint &nearby_destination )
 {
     map &here = get_map();
-    if( this->has_flag( MF_PUSH_VEH ) ) {
+    if( this->has_flag( MF_PUSH_VEH ) && !is_hallucination() ) {
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();

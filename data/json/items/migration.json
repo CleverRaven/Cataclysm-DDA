@@ -994,6 +994,11 @@
     "replace": "ballistic_vest_esapi"
   },
   {
+    "id": "ballistic_vest_empty",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi"
+  },
+  {
     "id": "hand_vice",
     "type": "MIGRATION",
     "replace": "clamp"

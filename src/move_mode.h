@@ -70,6 +70,7 @@ class move_mode
 
         move_mode() = default;
 
+        // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
 

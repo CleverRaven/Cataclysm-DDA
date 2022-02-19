@@ -11,6 +11,15 @@
   },
   {
     "type": "city_building",
+    "id": "used_bookstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "used_bookstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "used_bookstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "wizard_tower_1",
     "locations": [ "land" ],
     "overmaps": [

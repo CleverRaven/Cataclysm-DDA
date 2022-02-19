@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -932,9 +933,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
                    sksel < static_cast<int>( sorted_skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = *sorted_skills[skill_id];
-            const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
-            sksetmenu.w_height_setup = NUM_SKILL_LVL + 4;
+            sksetmenu.w_height_setup = MAX_SKILL + 5;
             sksetmenu.w_x_setup = [&]( int ) -> int {
                 return skmenu.w_x + skmenu.w_width + 1;
             };
@@ -944,7 +944,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = get_level( skill );
             sksetmenu.selected = skcur;
-            for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
+            for( int i = 0; i <= MAX_SKILL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();

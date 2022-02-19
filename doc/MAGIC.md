@@ -123,9 +123,10 @@ Below is a table of currently implemented effects, along with special rules for 
 | `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
 | `upgrade` | Immediately upgrades a target monster
-| `pull_to_caster` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
+| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
 | `guilt` | The target gets the guilt morale as if it killed the caster
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
+| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
 | `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
@@ -179,6 +180,7 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 

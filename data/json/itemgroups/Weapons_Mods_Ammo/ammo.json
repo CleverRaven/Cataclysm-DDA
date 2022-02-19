@@ -459,6 +459,13 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_launcher_grenade_adapter",
+    "//": "Adapters for for firing multiples of civilian legal ammo from a greneade launcher",
+    "subtype": "distribution",
+    "entries": [ { "item": "40x46mm_hornets_nest_22lr", "prob": 50 }, { "item": "40x46mm_hornets_nest_410", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_common",
     "//": "Common ammo for guns typically owned by citizens.",
     "subtype": "distribution",
@@ -518,14 +525,22 @@
     "id": "ammo_obscure",
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_obscure", "prob": 100 }, { "group": "ammo_rifle_obscure", "prob": 100 } ]
+    "entries": [
+      { "group": "ammo_pistol_obscure", "prob": 100 },
+      { "group": "ammo_rifle_obscure", "prob": 100 },
+      { "group": "ammo_launcher_grenade_adapter", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_obscure_collection",
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "collection",
-    "entries": [ { "group": "ammo_pistol_obscure_collection", "prob": 85 }, { "group": "ammo_rifle_obscure_collection", "prob": 25 } ]
+    "entries": [
+      { "group": "ammo_pistol_obscure_collection", "prob": 85 },
+      { "group": "ammo_rifle_obscure_collection", "prob": 25 },
+      { "group": "ammo_launcher_grenade_adapter", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",

@@ -267,6 +267,11 @@ class uilist // NOLINT(cata-xy)
         void color_error( bool report );
 
         void init();
+
+        // Calculate sizes, populate arrays
+        void calc_data();
+
+        // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
@@ -428,6 +433,7 @@ class uilist // NOLINT(cata-xy)
 
     private:
         report_color_error _color_error = report_color_error::yes;
+        input_context ctxt;
 
     public:
         // Iternal states

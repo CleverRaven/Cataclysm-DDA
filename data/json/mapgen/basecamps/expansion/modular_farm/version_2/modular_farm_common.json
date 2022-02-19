@@ -11,7 +11,7 @@
       "G": "t_palisade_gate",
       ";": "t_dirt"
     },
-    "furniture": {  }
+    "furniture": { ";": "f_clear" }
   },
   {
     "type": "mapgen",

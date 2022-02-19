@@ -24,6 +24,14 @@
     "components": [ [ [ "thread", 70 ] ] ]
   },
   {
+    "result": "xssocks",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 28 ] ] ]
+  },
+  {
     "result": "boxer_shorts",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -40,6 +48,14 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "xsboxer_shorts",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 30 ] ] ]
+  },
+  {
     "result": "boxer_briefs",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -54,6 +70,14 @@
     "time": "60 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
+  },
+  {
+    "result": "xsboxer_briefs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 60 ] ] ]
   },
   {
     "result": "briefs",
@@ -88,6 +112,14 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "xsboy_shorts",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 30 ] ] ]
+  },
+  {
     "result": "down_blanket",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -100,7 +132,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "lycra_patch", 1 ] ] ]
   },
   {
@@ -108,7 +140,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
   }
 ]

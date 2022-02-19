@@ -8,7 +8,6 @@
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "global_vars.h"
 #include "mission.h"
 
 class JsonObject;
@@ -31,16 +30,16 @@ const std::unordered_set<std::string> simple_string_conds = { {
 };
 const std::unordered_set<std::string> complex_conds = { {
         "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
-        "u_has_trait_flag", "npc_has_trait_flag", "npc_has_class", "u_has_mission",
+        "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
-        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item",
+        "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
         "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
-        "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
-        "u_has_cash", "u_are_owed", "u_query", "npc_query",
-        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
+        "u_at_om_location", "u_near_om_location", "npc_at_om_location", "npc_near_om_location", "npc_role_nearby", "npc_allies", "npc_service",
+        "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
+        "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
+        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -51,69 +50,22 @@ const std::unordered_set<std::string> complex_conds = { {
     }
 };
 } // namespace dialogue_data
-
-struct int_or_var {
-    cata::optional<int> int_val;
-    cata::optional<std::string> var_val;
-    cata::optional<int> default_val;
-    bool global = false;
-    int evaluate( talker *talk ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                return std::stoi( val );
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0;
-        }
-    }
-};
-
-struct duration_or_var {
-    cata::optional<time_duration> dur_val;
-    cata::optional<std::string> var_val;
-    cata::optional<time_duration> default_val;
-    bool global = false;
-    time_duration evaluate( talker *talk ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return 0_seconds;
-        }
-    }
-};
-
-std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value = true );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
+                                     int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required = true,
+        time_duration default_val = 0_seconds );
+tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
+                                var_type type, talker *var_source );
+var_info read_var_info( JsonObject jo, bool require_default );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value = false );
+std::string get_talk_varname( const JsonObject &jo, const std::string &member,
+                              bool check_value, int_or_var &default_val );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -138,19 +90,20 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_trait_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_time_since_var( const JsonObject &jo, const std::string &member,
                                          bool is_npc = false );
         void set_has_activity( bool is_npc = false );
         void set_is_riding( bool is_npc = false );
-        void set_npc_has_class( const JsonObject &jo );
+        void set_npc_has_class( const JsonObject &jo, bool is_npc );
         void set_u_has_mission( const JsonObject &jo );
         void set_has_strength( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -163,41 +116,45 @@ struct conditional_t {
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_items( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_item_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_bionics( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_need( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_near_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_move_mode( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo );
         void set_npc_allies( const JsonObject &jo );
         void set_u_has_cash( const JsonObject &jo );
         void set_u_are_owed( const JsonObject &jo );
-        void set_npc_aim_rule( const JsonObject &jo );
-        void set_npc_engagement_rule( const JsonObject &jo );
-        void set_npc_cbm_reserve_rule( const JsonObject &jo );
-        void set_npc_cbm_recharge_rule( const JsonObject &jo );
-        void set_npc_rule( const JsonObject &jo );
-        void set_npc_override( const JsonObject &jo );
+        void set_npc_aim_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_engagement_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_cbm_reserve_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_cbm_recharge_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_rule( const JsonObject &jo, bool is_npc );
+        void set_npc_override( const JsonObject &jo, bool is_npc );
         void set_days_since( const JsonObject &jo );
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
-        void set_mission_goal( const JsonObject &jo );
+        void set_mission_goal( const JsonObject &jo, bool is_npc );
+        void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
         void set_has_assigned_mission();
         void set_has_many_assigned_missions();
-        void set_no_available_mission();
-        void set_has_available_mission();
-        void set_has_many_available_missions();
-        void set_mission_complete();
-        void set_mission_incomplete();
-        void set_npc_available();
-        void set_npc_following();
-        void set_npc_friend();
-        void set_npc_hostile();
-        void set_npc_train_skills();
-        void set_npc_train_styles();
-        void set_npc_train_spells();
-        void set_at_safe_space();
+        void set_no_available_mission( bool is_npc );
+        void set_has_available_mission( bool is_npc );
+        void set_has_many_available_missions( bool is_npc );
+        void set_mission_complete( bool is_npc );
+        void set_mission_incomplete( bool is_npc );
+        void set_npc_available( bool is_npc );
+        void set_npc_following( bool is_npc );
+        void set_npc_friend( bool is_npc );
+        void set_npc_hostile( bool is_npc );
+        void set_npc_train_skills( bool is_npc );
+        void set_npc_train_styles( bool is_npc );
+        void set_npc_train_spells( bool is_npc );
+        void set_at_safe_space( bool is_npc );
         void set_can_stow_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
@@ -207,7 +164,7 @@ struct conditional_t {
         void set_is_underwater( bool is_npc = false );
         void set_is_by_radio();
         void set_u_has_camp();
-        void set_has_pickup_list();
+        void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -216,7 +173,7 @@ struct conditional_t {
         void set_can_see( bool is_npc = false );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-
+        static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

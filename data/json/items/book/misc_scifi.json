@@ -200,7 +200,7 @@
     "id": "book_fict_soft_scifi_zamwe",
     "type": "BOOK",
     "name": { "str": "We", "str_pl": "copies of We" },
-    "description": "A seminal work of dystopian fiction, Evgeny Zamiatin's \"We\" was first published in 1924 but suppresed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciouly.",
+    "description": "A seminal work of dystopian fiction, Evgeny Zamiatin's \"We\" was first published in 1924 but suppressed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciously.",
     "//isbn13": 9780140185850,
     "//": "this variant is intentional",
     "price": 1399,

@@ -31,7 +31,11 @@
 
 using efficiency_stat = statistics<int>;
 
+static const ammotype ammo_battery( "battery" );
+
 static const efftype_id effect_blind( "blind" );
+
+static const itype_id itype_battery( "battery" );
 
 static void clear_game( const ter_id &terrain )
 {
@@ -70,7 +74,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We ignore battery when setting fuel because it uses designated "tanks"
-    actually_used.erase( itype_id( "battery" ) );
+    actually_used.erase( itype_battery );
 
     // Currently only one liquid fuel supported
     REQUIRE( actually_used.size() <= 1 );
@@ -85,8 +89,6 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // Set fuel to a given percentage
     // Batteries are special cased because they aren't liquid fuel
     std::map<itype_id, int> ret;
-    const itype_id itype_battery( "battery" );
-    const ammotype ammo_battery( "battery" );
     for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
@@ -105,7 +107,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     }
 
     // We re-add battery because we want it accounted for, just not in the section above
-    actually_used.insert( itype_id( "battery" ) );
+    actually_used.insert( itype_battery );
     for( auto iter = ret.begin(); iter != ret.end(); ) {
         if( iter->second <= 0 || actually_used.count( iter->first ) == 0 ) {
             iter = ret.erase( iter );

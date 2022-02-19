@@ -258,6 +258,32 @@
     ]
   },
   {
+    "id": "makeshift_scrambler",
+    "type": "GUN",
+    "copy-from": "hm12",
+    "name": { "str": "Makeshift Scrambler Rifle" },
+    "description": "This 'energy weapon' appears to be haphazardly jury-rigged from commercially available electronics.  It has a radar dish placed where a barrel would be, and the frame of a weapon is covered in a mesh of wiring.  Despite its appearance, this weapon can temporarily stun robots if you manage to hit their sensors.",
+    "weight": "4050 g",
+    "volume": "4500 ml",
+    "price_postapoc": 2000,
+    "range": 20,
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 10,
+    "ups_charges": 0,
+    "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ]
+  },
+  {
     "id": "afs_xm34",
     "type": "GUN",
     "copy-from": "emp_gun",

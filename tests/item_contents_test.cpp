@@ -11,6 +11,10 @@
 #include "type_id.h"
 #include "units.h"
 
+static const itype_id itype_crowbar( "crowbar" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_purse( "purse" );
+
 TEST_CASE( "item_contents" )
 {
     item tool_belt( "test_tool_belt" );
@@ -72,7 +76,7 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.num_item_stacks() == 4 );
 
     tool_belt.remove_items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "crowbar" );
+        return it.typeId() == itype_crowbar;
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
@@ -83,8 +87,8 @@ TEST_CASE( "item_contents" )
 TEST_CASE( "overflow on combine", "[item]" )
 {
     tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
+    item purse( itype_purse );
+    item log( itype_log );
     item_contents overfull_contents( purse.type->pockets );
     overfull_contents.force_insert_item( log, item_pocket::pocket_type::CONTAINER );
     capture_debugmsg_during( [&purse, &overfull_contents]() {
@@ -99,8 +103,8 @@ TEST_CASE( "overflow on combine", "[item]" )
 TEST_CASE( "overflow test", "[item]" )
 {
     tripoint origin{ 60, 60, 0 };
-    item purse( itype_id( "purse" ) );
-    item log( itype_id( "log" ) );
+    item purse( itype_purse );
+    item log( itype_log );
     purse.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
     map &here = get_map();
     here.i_clear( origin );

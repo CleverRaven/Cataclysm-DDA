@@ -17,6 +17,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "BLADED_FARMING", "POLEARMS" ],
     "price": 2000,
     "price_postapoc": 500
   },
@@ -36,7 +37,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "POLEARMS" ],
+    "weapon_category": [ "POLEARMS", "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -102,7 +103,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "makeshift_halberd",
@@ -124,7 +125,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "makeshift_glaive",
@@ -208,6 +209,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS" ]
@@ -304,6 +306,7 @@
     "weight": "3890 g",
     "price_postapoc": 150,
     "color": "light_gray",
+    "looks_like": "spear_pipe",
     "symbol": "/",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],
@@ -340,22 +343,64 @@
   },
   {
     "type": "GENERIC",
-    "id": "spear_rebar",
+    "id": "pointed_rebar",
     "symbol": "/",
     "color": "dark_gray",
-    "name": { "str": "sharpened rebar" },
-    "description": "A somewhat sharpened piece of rebar.",
+    "name": { "str": "pointed rebar" },
+    "description": "A rod of rebar that's been crudely hammered into a point.",
     "price": 500,
     "price_postapoc": 50,
     "material": [ "steel" ],
     "weight": "1233 g",
     "volume": "157 ml",
     "longest_side": "80 cm",
-    "bashing": 5,
-    "cutting": 15,
+    "bashing": 9,
+    "cutting": 4,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
+    "weapon_category": [ "POLEARMS" ],
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sharp_rebar",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "sharpened rebar" },
+    "description": "A piece of rebar that's been cut and sharpened to a point.",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "weight": "1100 g",
+    "volume": "150 ml",
+    "longest_side": "80 cm",
+    "bashing": 6,
+    "cutting": 13,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "SPEAR", "FRAGILE_MELEE" ],
+    "weapon_category": [ "POLEARMS" ],
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_rebar",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "rebar spear" },
+    "description": "Two pieces of rebar welded together with a pointed tip.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "weight": "2600 g",
+    "volume": "450 ml",
+    "longest_side": "165 cm",
+    "bashing": 5,
+    "cutting": 16,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
@@ -376,6 +421,7 @@
     "cutting": 31,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 80000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -390,6 +436,7 @@
     "material": [ "wood", "steel" ],
     "ascii_picture": "halberd",
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3175 g",
     "volume": "3750 ml",
@@ -427,7 +474,7 @@
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -454,7 +501,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500,
     "category": "weapons"
@@ -502,7 +549,7 @@
     "cutting": 40,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "flags": [ "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -571,7 +618,8 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "pike_copper",
@@ -593,7 +641,8 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "pike",
@@ -614,6 +663,7 @@
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "POLEARMS" ],
     "category": "weapons"
   },
   {
@@ -662,7 +712,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "spear_dory",
@@ -682,7 +732,8 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "poleaxe",
@@ -695,6 +746,7 @@
     "material": [ "wood", "steel" ],
     "ascii_picture": "halberd",
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "2200 g",
     "volume": "3000 ml",
@@ -723,7 +775,8 @@
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
-    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "spear_stone",

@@ -271,13 +271,13 @@ float raw_noise_3d( const float x, const float y, const float z )
     float n3;
 
     // Skew the input space to determine which simplex cell we're in
-    float F3 = 1.0f / 3.0f;
+    static constexpr float F3 = 1.0f / 3.0f;
     float s = ( x + y + z ) * F3; // Very nice and simple skew factor for 3D
     int i = fastfloor( x + s );
     int j = fastfloor( y + s );
     int k = fastfloor( z + s );
 
-    float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
+    static constexpr float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
     float t = ( i + j + k ) * G3;
     float X0 = i - t; // Unskew the cell origin back to (x,y,z) space
     float Y0 = j - t;

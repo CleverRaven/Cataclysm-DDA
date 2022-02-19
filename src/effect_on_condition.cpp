@@ -22,6 +22,7 @@ namespace io
         case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
         case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
+        case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
@@ -57,16 +58,12 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
-    if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
+    if( jo.has_member( "recurrence" ) ) {
         if( type != eoc_type::NUM_EOC_TYPES && type != eoc_type::RECURRING ) {
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        mandatory( jo, was_loaded, "recurrence_min", recurrence_min );
-        mandatory( jo, was_loaded, "recurrence_max", recurrence_max );
-        if( recurrence_max < recurrence_min ) {
-            jo.throw_error( "recurrence_max cannot be smaller than recurrence_min." );
-        }
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
@@ -89,9 +86,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
     optional( jo, was_loaded, "global", global, false );
-    if( type != eoc_type::RECURRING && ( global || run_for_npcs ) ) {
-        jo.throw_error( "run_for_npcs and global should only be true for RECURRING effect_on_conditions." );
-    } else if( !global && run_for_npcs ) {
+    if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
     }
 }
@@ -111,9 +106,9 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
     }
 }
 
-static time_duration next_recurrence( const effect_on_condition_id &eoc )
+static time_duration next_recurrence( const effect_on_condition_id &eoc, talker *talk )
 {
-    return rng( eoc->recurrence_min, eoc->recurrence_max );
+    return eoc->recurrence.evaluate( talk );
 }
 
 void effect_on_conditions::load_new_character( Character &you )
@@ -126,12 +121,9 @@ void effect_on_conditions::load_new_character( Character &you )
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
-    effect_on_conditions::process_effect_on_conditions( you );
-    effect_on_conditions::clear( you );
-
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id ) };
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, get_talker_for( you ).get() )};
             if( eoc.global ) {
                 g->queued_global_effect_on_conditions.push( new_eoc );
             } else {
@@ -186,7 +178,8 @@ void effect_on_conditions::load_existing_character( Character &you )
 
     for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
         if( eoc_pair.second ) {
-            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first, you );
+            queue_effect_on_condition( next_recurrence( eoc_pair.first, get_talker_for( you ).get() ),
+                                       eoc_pair.first, you );
         }
     }
 }
@@ -214,11 +207,11 @@ static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc
         bool activated = top.eoc->activate( d );
         if( top.eoc->type == eoc_type::RECURRING ) {
             if( activated ) { // It worked so add it back
-                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc ) };
+                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d.actor( false ) ) };
                 eocs_to_queue.push_back( new_eoc );
             } else {
                 if( !top.eoc->check_deactivate() ) { // It failed but shouldn't be deactivated so add it back
-                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc ) };
+                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d.actor( false ) ) };
                     eocs_to_queue.push_back( new_eoc );
                 } else { // It failed and should be deactivated for now
                     eoc_vector.push_back( top.eoc );
@@ -246,7 +239,7 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
 static void process_reactivation( std::vector<effect_on_condition_id>
                                   &inactive_effect_on_condition_vector,
                                   std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                                  &queued_effect_on_conditions )
+                                  &queued_effect_on_conditions, talker *talk )
 {
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : inactive_effect_on_condition_vector ) {
@@ -255,7 +248,7 @@ static void process_reactivation( std::vector<effect_on_condition_id>
         }
     }
     for( const effect_on_condition_id &eoc : ids_to_reactivate ) {
-        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc ) } );
+        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc, talk ) } );
         inactive_effect_on_condition_vector.erase( std::remove(
                     inactive_effect_on_condition_vector.begin(), inactive_effect_on_condition_vector.end(),
                     eoc ), inactive_effect_on_condition_vector.end() );
@@ -264,13 +257,14 @@ static void process_reactivation( std::vector<effect_on_condition_id>
 
 void effect_on_conditions::process_reactivate( Character &you )
 {
-    process_reactivation( you.inactive_effect_on_condition_vector, you.queued_effect_on_conditions );
+    process_reactivation( you.inactive_effect_on_condition_vector, you.queued_effect_on_conditions,
+                          get_talker_for( you ).get() );
 }
 
 void effect_on_conditions::process_reactivate()
 {
     process_reactivation( g->inactive_global_effect_on_condition_vector,
-                          g->queued_global_effect_on_conditions );
+                          g->queued_global_effect_on_conditions, get_talker_for( get_avatar() ).get() );
 }
 
 
@@ -317,8 +311,6 @@ void effect_on_conditions::clear( Character &you )
         g->queued_global_effect_on_conditions.pop();
     }
     g->inactive_global_effect_on_condition_vector.clear();
-
-
 }
 
 void effect_on_conditions::write_eocs_to_file( Character &you )
@@ -388,6 +380,17 @@ void effect_on_conditions::avatar_death()
                     player_character.get_killer() ) );
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::AVATAR_DEATH ) {
+            eoc.activate( d );
+        }
+    }
+}
+
+void effect_on_conditions::om_move()
+{
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( player_character ), nullptr );
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.type == eoc_type::OM_MOVE ) {
             eoc.activate( d );
         }
     }

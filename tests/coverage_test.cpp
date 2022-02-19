@@ -1,3 +1,4 @@
+#include <memory>
 #include <string>
 
 #include "ballistics.h"
@@ -5,49 +6,65 @@
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "projectile.h"
 #include "ranged.h"
 
-static const int num_iters = 10000;
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint mon_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint badguy_pos( HALF_MAPSIZE_X - 3, HALF_MAPSIZE_Y, 0 );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_sleep( "sleep" );
 
-static void check_near( std::string subject, float prob, const float expected,
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+
+static const int num_iters = 10000;
+static constexpr tripoint dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
+
+static void check_near( std::string subject, float actual, const float expected,
                         const float tolerance )
 {
-    const float low = expected - tolerance;
-    const float high = expected + tolerance;
-    THEN( string_format( "%s is between %.1f and %.1f", subject, low, high ) ) {
-        REQUIRE( prob > low );
-        REQUIRE( prob < high );
+    THEN( string_format( "%s is about %.1f (+/- %.1f) with val %.1f", subject, expected, tolerance,
+                         actual ) ) {
+        CHECK( actual == Approx( expected ).margin( tolerance ) );
+    }
+}
+
+static void check_not_near( std::string subject, float actual, const float undesired,
+                            const float tolerance )
+{
+    THEN( string_format( "%s is not about %.1f (+/- %.1f)  with val %.1f", subject, undesired,
+                         tolerance, actual ) ) {
+        CHECK_FALSE( actual == Approx( undesired ).margin( tolerance ) );
     }
 }
 
 static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = false )
 {
-    monster zed( mtype_id( "mon_manhack" ), mon_pos );
+    monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     if( infect_risk ) {
-        cloth.set_flag( flag_id( "FILTHY" ) );
+        cloth.set_flag( json_flag_FILTHY );
     }
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
         clear_character( dude, true );
+        dude.setpos( dude_pos );
         dude.wear_item( cloth, false );
-        dude.add_effect( efftype_id( "sleep" ), 1_hours );
+        dude.add_effect( effect_sleep, 1_hours );
         if( zed.melee_attack( dude ) ) {
             num_hits++;
         }
         cloth.set_damage( cloth.min_damage() );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
-        } else if( dude.has_effect( efftype_id( "bite" ) ) ) {
+        } else if( dude.has_effect( effect_bite ) ) {
             dam_acc++;
         }
         if( dude.is_dead() ) {
@@ -64,8 +81,11 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
 
 static float get_avg_bullet_dmg( std::string clothing_id )
 {
-    standard_npc badguy( "TestBaddie", badguy_pos, {}, 0, 8, 8, 8, 8 );
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    clear_map();
+    std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie", badguy_pos,
+                                           std::vector<std::string>(), 0, 8, 8, 8, 8 );
+    std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter", dude_pos,
+                                         std::vector<std::string>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
@@ -77,24 +97,25 @@ static float get_avg_bullet_dmg( std::string clothing_id )
     int dam_acc = 0;
     int num_hits = 0;
     for( int i = 0; i < num_iters; i++ ) {
-        clear_character( dude, true );
-        dude.wear_item( cloth, false );
-        dude.add_effect( efftype_id( "sleep" ), 1_hours );
+        clear_character( *dude, true );
+        dude->setpos( dude_pos );
+        dude->wear_item( cloth, false );
+        dude->add_effect( effect_sleep, 1_hours );
         dealt_projectile_attack atk = projectile_attack( proj, badguy_pos, dude_pos, dispersion_sources(),
-                                      &badguy );
-        dude.deal_projectile_attack( &badguy, atk, false );
+                                      &*badguy );
+        dude->deal_projectile_attack( &*badguy, atk, false );
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
         cloth.set_damage( cloth.min_damage() );
-        dam_acc += dude.get_hp_max() - dude.get_hp();
-        if( dude.is_dead() ) {
+        dam_acc += dude->get_hp_max() - dude->get_hp();
+        if( dude->is_dead() ) {
             break;
         }
     }
-    CAPTURE( dude.is_dead() );
+    CAPTURE( dude->is_dead() );
     INFO( string_format( "%s landed %d hits on character, causing %d damage total.",
-                         badguy.disp_name( false, true ), num_hits, dam_acc ) );
+                         badguy->disp_name( false, true ), num_hits, dam_acc ) );
     num_hits = num_hits ? num_hits : 1;
     return static_cast<float>( dam_acc ) / num_hits;
 }
@@ -135,5 +156,29 @@ TEST_CASE( "Ranged coverage vs. bullet", "[coverage] [ranged]" )
     SECTION( "No ranged coverage vs. ranged attack" ) {
         const float dmg = get_avg_bullet_dmg( "test_hazmat_suit_noranged" );
         check_near( "Average damage", dmg, 17.2f, 0.2f );
+    }
+}
+
+TEST_CASE( "Proportional armor material resistances", "[material]" )
+{
+    SECTION( "Mostly steel armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_swat_mostly_steel" );
+        check_near( "Average damage", dmg, 3.3f, 0.2f );
+    }
+
+    SECTION( "Mostly cotton armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
+        // more variance on this test since it has a 5% chance of blocking with
+        // high protection steel
+        check_near( "Average damage", dmg, 12.2f, 0.4f );
+    }
+
+    SECTION( "Multi material segmented armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_multi_portion_segmented_armor" );
+        // our armor should NOT be near 1 mm cloth + 80% of 1mm of steel
+        // and should be higher (so lower damage) since they can overlap
+        // this is cut damage of 12 so shouldn't be near 6 with small variance
+        // if it is someone broke material rolls
+        check_not_near( "Average damage", dmg, 6.0f, 0.1f );
     }
 }

@@ -65,16 +65,9 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "rock_forge_pseudo",
-    "type": "TOOL",
-    "name": { "str": "rock forge" },
-    "copy-from": "char_forge",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "char_kiln",
@@ -125,6 +118,16 @@
     "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1750 ml",
+        "max_contains_weight": "1200 g"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -141,6 +144,16 @@
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1750 ml",
+        "max_contains_weight": "1200 g"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -221,7 +234,7 @@
       "msg": "The kiln's embers have died out; you can now disassemble it to harvest the charcoal.",
       "moves": 0,
       "type": "delayed_transform",
-      "transform_age": 3600,
+      "transform_age": 21600,
       "not_ready_msg": "The kiln is still burning."
     },
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -313,6 +326,7 @@
     "description": "These are a pair of flatjaw tongs.  They are commonly used for metalworking, fabrication or forging recipes.",
     "weight": "750 g",
     "volume": "500 ml",
+    "longest_side": "46 cm",
     "price": 1600,
     "price_postapoc": 10,
     "bashing": 6,
@@ -329,7 +343,7 @@
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
     "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
     "weight": "10 g",
-    "volume": "500 ml",
+    "volume": "50 ml",
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",
@@ -432,5 +446,25 @@
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "gas_forge",
+    "type": "TOOL",
+    "name": { "str": "gas forge" },
+    "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
+    "description": "This is a gas-fueled metalworking forge.  If combined with the right tools, you could use this for metalworking.",
+    "weight": "32205 g",
+    "volume": "8 L",
+    "price": 80000,
+    "price_postapoc": 10000,
+    "to_hit": -5,
+    "bashing": 25,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": [ "propane" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
+    "sub": "forge",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

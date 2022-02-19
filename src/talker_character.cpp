@@ -11,9 +11,10 @@
 #include "skill.h"
 #include "talker_character.h"
 #include "vehicle.h"
+#include "weather.h"
 
 class time_duration;
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 talker_character::talker_character( Character *new_me )
 {
@@ -69,6 +70,11 @@ tripoint_abs_omt talker_character_const::global_omt_location() const
 void talker_character::set_pos( tripoint new_pos )
 {
     me_chr->setpos( new_pos );
+}
+
+int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_hp( bp );
 }
 
 int talker_character_const::str_cur() const
@@ -156,9 +162,9 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character_const::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
+bool talker_character_const::has_flag( const json_character_flag &trait_flag_to_check ) const
 {
-    return me_chr_const->has_trait_flag( trait_flag_to_check );
+    return me_chr_const->has_flag( trait_flag_to_check );
 }
 
 bool talker_character_const::crossed_threshold() const
@@ -356,6 +362,11 @@ bool talker_character_const::is_mounted() const
     return me_chr_const->is_mounted();
 }
 
+int talker_character_const::get_activity_level() const
+{
+    return me_chr_const->activity_level_index();
+}
+
 int talker_character_const::get_fatigue() const
 {
     return me_chr_const->get_fatigue();
@@ -405,14 +416,19 @@ void talker_character::mod_pain( int amount )
     me_chr->mod_pain( amount );
 }
 
-bool talker_character_const::worn_with_flag( const flag_id &flag ) const
+bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
-    return me_chr_const->worn_with_flag( flag );
+    return me_chr_const->worn_with_flag( flag, bp );
 }
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->get_wielded_item().has_flag( flag );
+}
+
+bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
+{
+    return me_chr_const->has_item_with_flag( flag );
 }
 
 units::energy talker_character_const::power_cur() const
@@ -443,7 +459,7 @@ void talker_character::set_mana_cur( int value )
 bool talker_character_const::can_see() const
 {
     return !me_chr_const->is_blind() && ( !me_chr_const->in_sleep_state() ||
-                                          me_chr_const->has_trait( trait_SEESLEEP ) );
+                                          me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
 void talker_character::set_fatigue( int amount )
@@ -542,6 +558,76 @@ int talker_character_const::get_kill_xp() const
     return me_chr_const->kill_xp;
 }
 
+void talker_character::set_age( int amount )
+{
+    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+                                to_turns<int>( calendar::year_length() );
+    me_chr->set_base_age( amount + years_since_cataclysm );
+}
+
+int talker_character_const::get_age() const
+{
+    return me_chr_const->age();
+}
+
+int talker_character_const::get_bmi_permil() const
+{
+    return std::round( me_chr_const->get_bmi() * 1000.0f );
+}
+
+void talker_character::set_height( int amount )
+{
+    me_chr->set_base_height( amount );
+}
+
+int talker_character_const::get_height() const
+{
+    return me_chr_const->height();
+}
+
+const move_mode_id &talker_character_const::get_move_mode() const
+{
+    return me_chr_const->move_mode;
+}
+
+int talker_character_const::get_fine_detail_vision_mod() const
+{
+    return std::ceil( me_chr_const->fine_detail_vision_mod() );
+}
+
+int talker_character_const::get_health() const
+{
+    return me_chr_const->get_healthy();
+}
+
+static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
+{
+    bodypart_id current_bp_extreme = u->get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
+    for( const bodypart_id &bp : u->get_all_body_parts() ) {
+        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+            current_bp_extreme = bp;
+        }
+        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+            conv_bp_extreme = bp;
+        }
+    }
+    return std::make_pair( current_bp_extreme, conv_bp_extreme );
+}
+
+int talker_character_const::get_body_temp() const
+{
+    return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
+}
+
+int talker_character_const::get_body_temp_delta() const
+{
+    return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
+           me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
@@ -549,7 +635,9 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    me_chr->remove_bionic( old_bionic );
+    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+        me_chr->remove_bionic( **bio );
+    }
 }
 
 std::vector<skill_id> talker_character::skills_teacheable() const

@@ -20,6 +20,8 @@
 #include "weather_type.h"
 #include "game.h"
 
+static const itype_id itype_rock( "rock" );
+
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
 static void reset_caches( int a_zlev, int t_zlev )
@@ -217,7 +219,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
             int current_hp = you.get_hp();
             hits.add( current_hp < prev_hp );
             damage_dealt.add( prev_hp - current_hp );
-            test_monster.ammo[ itype_id( "rock" ) ]++;
+            test_monster.ammo[ itype_rock ]++;
         } while( damage_dealt.n() < 100 );
         clear_creatures();
         CAPTURE( expected_damage );

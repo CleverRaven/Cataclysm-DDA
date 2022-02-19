@@ -9,13 +9,15 @@
       [ "muzzle_brake", 20 ],
       [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
-      [ "shoulder_strap", 100 ],
+      [ "shoulder_strap", 50 ],
+      [ "single_sling", 50 ],
       [ "butt_hook", 30 ],
       [ "match_trigger", 20 ],
       [ "offset_sights", 40 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
-      [ "red_dot_sight", 70 ]
+      [ "red_dot_sight", 70 ],
+      [ "choke", 50 ]
     ]
   },
   {
@@ -54,6 +56,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
@@ -73,6 +76,7 @@
       [ "laser_sight", 15 ],
       [ "rail_laser_sight", 6 ],
       [ "acog_scope", 21 ],
+      [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ],
       [ "pistol_scope", 4 ]
     ]
@@ -108,6 +112,7 @@
       [ "rail_laser_sight", 6 ],
       [ "offset_sights", 6 ],
       [ "acog_scope", 21 ],
+      [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ]
     ]
   },

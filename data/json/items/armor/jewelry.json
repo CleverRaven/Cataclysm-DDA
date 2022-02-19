@@ -212,6 +212,14 @@
     "symbol": "[",
     "looks_like": "ring_engagement",
     "color": "yellow",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY" ]
   },
   {
@@ -231,7 +239,7 @@
     "sided": true,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "collarpin",
@@ -259,7 +267,16 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_bracelet",
-    "color": "brown"
+    "color": "brown",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "BELTED" ]
   },
   {
     "id": "copper_ear",
@@ -329,7 +346,15 @@
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "ring_purity",
-    "color": "brown"
+    "color": "brown",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "cufflinks",
@@ -778,7 +803,15 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "BELTED" ]
   },
   {
     "id": "gold_dental_grill",
@@ -877,7 +910,8 @@
     "price_postapoc": 50,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "yellow"
+    "color": "yellow",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "gold_watch",
@@ -894,7 +928,7 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "tieclip",
@@ -924,7 +958,7 @@
     "color": "light_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "silver_bracelet",
@@ -970,7 +1004,7 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "small_relic",
@@ -1058,7 +1092,7 @@
     "color": "white",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "platinum_bracelet",
@@ -1072,7 +1106,8 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "BELTED" ],
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "platinum_dental_grill",
@@ -1159,6 +1194,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1173,6 +1209,7 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1187,6 +1224,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1201,6 +1239,7 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1215,6 +1254,7 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "SUPER_FANCY" ]
   },
   {
@@ -1284,6 +1324,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -1315,7 +1356,7 @@
     "color": "dark_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "rad_badge",
@@ -1330,7 +1371,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "RAD_DETECT" ]
   },
   {
     "abstract": "badge_abstract",
@@ -1879,6 +1920,7 @@
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY" ]
   },
   {
@@ -2000,7 +2042,8 @@
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2121,7 +2164,8 @@
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_platinum_ring",
@@ -2243,7 +2287,8 @@
     "looks_like": "gold_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_gold_bracelet",
@@ -2365,7 +2410,8 @@
     "looks_like": "silver_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {
     "id": "amethyst_silver_bracelet",
@@ -2487,7 +2533,8 @@
     "looks_like": "platinum_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY", "BELTED" ],
+    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "amethyst_platinum_bracelet",

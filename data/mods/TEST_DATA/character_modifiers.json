@@ -1,0 +1,35 @@
+[
+  {
+    "type": "character_mod",
+    "id": "test_char_cost_mod",
+    "description": "Test character cost modifier",
+    "mod_type": "x",
+    "value": { "limb_score": "test", "limb_type": "tail", "max": 1000.0, "nominator": 30.0, "subtract": 30.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_add_limbscores_mod",
+    "description": "Test multi-limbscore modifier",
+    "mod_type": "+",
+    "value": { "limb_score": [ "vision", "crawl", "lift" ], "limb_score_op": "+", "max": 2.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_mult_limbscores_mod",
+    "description": "Test multi-limbscore modifier",
+    "mod_type": "x",
+    "value": { "limb_score": [ "vision", "crawl", "lift" ], "limb_score_op": "x", "min": 0.1 }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_slip_prevent_mod",
+    "description": "Slip prevention modifier",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "grip", 3.0 ], [ "lift", 2.0 ], "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "+",
+      "denominator": 6.0
+    }
+  }
+]

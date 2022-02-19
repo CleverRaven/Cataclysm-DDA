@@ -16,6 +16,32 @@
 #include "rng.h"
 #include "translations.h"
 
+static const skill_id skill_archery( "archery" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_computer( "computer" );
+static const skill_id skill_cooking( "cooking" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_driving( "driving" );
+static const skill_id skill_electronics( "electronics" );
+static const skill_id skill_firstaid( "firstaid" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_pistol( "pistol" );
+static const skill_id skill_rifle( "rifle" );
+static const skill_id skill_shotgun( "shotgun" );
+static const skill_id skill_smg( "smg" );
+static const skill_id skill_speech( "speech" );
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_tailor( "tailor" );
+static const skill_id skill_throw( "throw" );
+static const skill_id skill_traps( "traps" );
+static const skill_id skill_unarmed( "unarmed" );
+
 // TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
@@ -140,6 +166,19 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
     // TEMPORARY until 0.G: Remove "ident" support
@@ -170,13 +209,13 @@ const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayTyp
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-            skill_id::NULL_ID(), skill_id( "dodge" ), skill_id( "melee" ), skill_id( "unarmed" ),
-            skill_id( "bashing" ), skill_id( "cutting" ), skill_id( "stabbing" ), skill_id( "throw" ),
-            skill_id( "gun" ), skill_id( "pistol" ), skill_id( "shotgun" ), skill_id( "smg" ),
-            skill_id( "rifle" ), skill_id( "archery" ), skill_id( "launcher" ), skill_id( "mechanics" ),
-            skill_id( "electronics" ), skill_id( "cooking" ), skill_id( "tailor" ), skill_id::NULL_ID(),
-            skill_id( "firstaid" ), skill_id( "speech" ), skill_id( "computer" ),
-            skill_id( "survival" ), skill_id( "traps" ), skill_id( "swimming" ), skill_id( "driving" ),
+            skill_id::NULL_ID(), skill_dodge, skill_melee, skill_unarmed,
+            skill_bashing, skill_cutting, skill_stabbing, skill_throw,
+            skill_gun, skill_pistol, skill_shotgun, skill_smg,
+            skill_rifle, skill_archery, skill_launcher, skill_mechanics,
+            skill_electronics, skill_cooking, skill_tailor, skill_id::NULL_ID(),
+            skill_firstaid, skill_speech, skill_computer,
+            skill_survival, skill_traps, skill_swimming, skill_driving,
         }
     };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
@@ -321,7 +360,7 @@ bool SkillLevel::isRusty() const
            _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
-bool SkillLevel::rust( int rust_resist )
+bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 {
     if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
         // don't rust within the grace period
@@ -346,7 +385,7 @@ bool SkillLevel::rust( int rust_resist )
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
-    int rust_amount = level_multiplier * 16 / rust_slowdown;
+    int rust_amount = level_multiplier * rust_multiplier * 16 / rust_slowdown;
 
     if( rust_resist > 0 ) {
         rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
@@ -520,7 +559,7 @@ bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+    return exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec );
 }
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
