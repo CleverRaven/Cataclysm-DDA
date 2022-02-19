@@ -1,5 +1,5 @@
 [
- {
+  {
     "type": "overmap_terrain",
     "id": "overgrownlot",
     "copy-from": "generic_city_building",
@@ -8,5 +8,5 @@
     "color": "i_green",
     "spawns": { "group": "GROUP_PLANT_ZEDS", "population": [ 6, 10 ], "chance": 100 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
- }
+  }
 ]
