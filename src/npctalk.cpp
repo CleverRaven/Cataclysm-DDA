@@ -2101,7 +2101,7 @@ void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &mem
 void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var mut_cat = get_str_or_var( jo, member, true, "" );
+    str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
     function = [is_npc, mut_cat, use_vitamins]( const dialogue & d ) {
         d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d.actor(
