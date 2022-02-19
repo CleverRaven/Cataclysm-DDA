@@ -471,9 +471,12 @@ const bodypart_id &widget::only_bp() const
 
 void widget::set_default_var_range( const avatar &ava )
 {
-    _var_min = INT_MIN;
-    _var_max = INT_MAX;
-    _var_norm = std::make_pair( INT_MIN, INT_MAX );
+    cata::optional<int> min = _clause_vals.get_val_min();
+    cata::optional<int> max = _clause_vals.get_val_max();
+    std::pair<cata::optional<int>, cata::optional<int>> norm = _clause_vals.get_val_norm();
+    _var_min = min.value_or( INT_MIN );
+    _var_max = max.value_or( INT_MAX );
+    _var_norm = std::make_pair( norm.first.value_or( _var_min ), norm.second.value_or( _var_max ) );
 
     switch( _var ) {
         case widget_var::cardio_acc:

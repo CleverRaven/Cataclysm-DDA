@@ -18,11 +18,10 @@ struct clause_t {
             std::function<cata::optional<std::string>()> sym;
             std::function<cata::optional<nc_color>()> color;
             std::function<cata::optional<int>()> value;
-        } values = { nullptr, nullptr, nullptr, nullptr };
-        void load_text_func( const JsonObject &jo );
-        void load_sym_func( const JsonObject &jo );
-        void load_color_func( const JsonObject &jo );
-        void load_value_func( const JsonObject &jo );
+            std::function<cata::optional<int>()> val_min;
+            std::function<cata::optional<int>()> val_max;
+            std::pair<std::function<cata::optional<int>()>, std::function<cata::optional<int>()>> val_norm;
+        } values = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, { nullptr, nullptr } };
     public:
         clause_t() = default;
         explicit clause_t( const JsonObject &jo );
@@ -31,6 +30,9 @@ struct clause_t {
         cata::optional<std::string> get_sym() const;
         cata::optional<nc_color> get_color() const;
         cata::optional<int> get_value() const;
+        cata::optional<int> get_val_min() const;
+        cata::optional<int> get_val_max() const;
+        std::pair<cata::optional<int>, cata::optional<int>> get_val_norm() const;
 };
 
 #endif // CATA_SRC_CLAUSE_H
