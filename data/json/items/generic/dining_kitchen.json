@@ -1133,5 +1133,20 @@
     "description": "A stainless steel cheese grater with a plastic grip.  It is used to shred cheese.",
     "looks_like": "spoon",
     "copy-from": "base_silverware"
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "dutch_oven",
+    "name": { "str": "cast-iron dutch oven" },
+    "description": "A cast-iron dutch oven, suitable for boiling, broiling, roasting, baking, stewing, frying and any other method of cooking.",
+    "copy-from": "base_cookpot",
+    "material": [ "iron" ],
+    "color": "dark_gray",
+    "weight": "6210 g",
+    "volume": "12152 ml",
+    "longest_side": "31 cm",
+    "pocket_data": [ { "max_contains_volume": "6.3 L", "max_contains_weight": "6.3 kg", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   }
 ]
