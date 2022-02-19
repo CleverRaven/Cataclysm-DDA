@@ -788,7 +788,13 @@ void Item_factory::finalize_post( itype &obj )
                 // scale the value of portion covered based on how much total is covered
                 // if you proportionally only cover 5% of the arm but overall cover 50%
                 // you actually proportionally cover 10% of the armor
-                mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+
+                // in case of 0 coverage just say the mats cover it all
+                if( it.coverage == 0 ) {
+                    mat.cover = 100;
+                } else {
+                    mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+                }
             }
         }
 
