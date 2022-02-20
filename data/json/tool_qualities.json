@@ -285,6 +285,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "FINE_GRIND",
+    "name": { "str": "fine grinding" }
+  },
+  {   
+    "type": "tool_quality",
     "id": "REAM",
     "name": { "str": "reaming" }
   },
