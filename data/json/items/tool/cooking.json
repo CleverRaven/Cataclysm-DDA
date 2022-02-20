@@ -223,8 +223,7 @@
     "price_postapoc": 10,
     "material": [ "clay" ],
     "symbol": ":",
-    "color": "brown",
-    "qualities": [ [ "GRIND", 1] ]
+    "color": "brown"
   },
   {
     "id": "clay_teapot",
