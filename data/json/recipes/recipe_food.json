@@ -7905,7 +7905,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-	  "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
   {
@@ -7922,7 +7922,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-	  "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
@@ -7938,7 +7938,7 @@
     "time": "1 h 7 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 },  { "id": "FINE_GRIND", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
