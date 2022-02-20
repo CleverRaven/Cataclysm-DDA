@@ -647,7 +647,7 @@
     "price_postapoc": 5000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "nomex", "kevlar_layered", "cotton" ],
+    "material": [ "nomex", "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
@@ -668,7 +668,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "warmth": 15,
-    "environmental_protection": 10,
+    "environmental_protection": 4,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
   },
   {
