@@ -615,7 +615,7 @@
         "description": "pants pocket"
       }
     ],
-    "warmth": 15,
+    "warmth": 30,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
