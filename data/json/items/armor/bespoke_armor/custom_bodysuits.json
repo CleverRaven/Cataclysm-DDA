@@ -640,7 +640,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kevlar firesuit" },
-    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex and a jumpsuit padded with layered kevlar.  Protects from the fire as well as from harm.",
+    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layered kevlar.  Protects from the fire as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": 200000,
