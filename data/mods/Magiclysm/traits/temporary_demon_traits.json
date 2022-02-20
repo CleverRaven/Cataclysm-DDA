@@ -70,8 +70,7 @@
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
-    "types": [ "CLAWS" ],
-    "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ]
+    "types": [ "CLAWS" ]
   },
   {
     "type": "mutation",

@@ -31,7 +31,14 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_SPIDER" },
-      { "distribution": [ { "trait": "ARACHNID_ARMS" }, { "trait": "ARACHNID_ARMS_OK" } ] },
+      {
+        "distribution": [
+          { "trait": "ARM_ARACHNID_UPPER" },
+          { "trait": "ARM_ARACHNID_UPPER_ok" },
+          { "trait": "ARM_ARACHNID_LOWER" },
+          { "trait": "ARM_ARACHNID_LOWER_OK" }
+        ]
+      },
       { "trait": "CHITIN_FUR3" },
       { "trait": "CF_HAIR", "prob": 50 },
       { "trait": "POISONOUS2", "prob": 50 },
@@ -161,7 +168,7 @@
       { "trait": "GLASSJAW", "prob": 50 },
       { "trait": "BIRD_EYE", "prob": 50 },
       { "trait": "FEATHERS", "prob": 50 },
-      { "trait": "WINGS_BIRD", "prob": 50 },
+      { "trait": "ARM_WINGS_BIRD", "prob": 50 },
       { "trait": "DEX_UP_3" },
       { "trait": "HOLLOW_BONES", "prob": 50 },
       { "trait": "PER_UP_4" }
@@ -226,7 +233,7 @@
       { "trait": "THRESH_INSECT" },
       { "distribution": [ { "trait": "WINGS_BUTTERFLY", "prob": 50 }, { "trait": "WINGS_INSECT", "prob": 50 } ] },
       { "trait": "PROBOSCIS", "prob": 50 },
-      { "distribution": [ { "trait": "INSECT_ARMS", "prob": 50 }, { "trait": "INSECT_ARMS_OK", "prob": 50 } ] }
+      { "distribution": [ { "trait": "ARM_INSECT", "prob": 50 }, { "trait": "ARM_INSECT_OK", "prob": 50 } ] }
     ]
   },
   {
@@ -856,7 +863,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "LEG_TENTACLES", "prob": 50 },
-      { "distribution": [ { "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" } ], "prob": 50 },
+      { "trait": "ARM_TENTACLE_2", "prob": 50 },
       { "trait": "SHELL", "prob": 50 }
     ]
   },
@@ -868,9 +875,8 @@
       { "trait": "THRESH_CEPHALOPOD" },
       { "trait": "MOUTH_TENTACLES", "prob": 50 },
       {
-        "distribution": [ { "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" }, { "trait": "ARM_TENTACLES_8" } ]
+        "distribution": [ { "trait": "ARM_TENTACLE_4" }, { "trait": "CLAWS_TENTACLE" }, { "trait": "ARM_TENTACLE_8" } ]
       },
-      { "trait": "CLAWS_TENTACLE", "prob": 50 },
       { "trait": "LEG_TENTACLES" },
       { "trait": "LEG_TENT_BRACE", "prob": 50 },
       { "trait": "SHELL2", "prob": 50 }

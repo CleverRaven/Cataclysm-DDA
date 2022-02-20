@@ -343,7 +343,7 @@
     "main_part": "arm_spider_upper_good_l",
     "opposite_part": "arm_spider_upper_good_r",
     "secondary_types": [ "hand" ],
-    "limb_scores": [ [ "manip", 0.1, 2 ], [ "grip", 0.25 ], [ "lift", 0.25 ], [ "block", 1.2 ], [ "crawl", 0.5 ] ],
+    "limb_scores": [ [ "manip", 0.1, 2 ], [ "grip", 0.25 ], [ "lift", 0.15 ], [ "block", 1.2 ], [ "crawl", 0.5 ] ],
     "unarmed_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "flags": [ "LIMB_UPPER", "NONSTANDARD_BLOCK" ],
     "conditional_flags": [ "WALL_CLING_FOURTH" ]
@@ -356,7 +356,7 @@
     "opposite_part": "arm_spider_upper_good_l",
     "side": "right",
     "secondary_types": [ "hand" ],
-    "limb_scores": [ [ "manip", 0.1, 2 ], [ "grip", 0.25 ], [ "lift", 0.25 ], [ "block", 1.2 ], [ "crawl", 0.5 ] ],
+    "limb_scores": [ [ "manip", 0.1, 2 ], [ "grip", 0.25 ], [ "lift", 0.15 ], [ "block", 1.2 ], [ "crawl", 0.5 ] ],
     "flags": [ "LIMB_UPPER", "NONSTANDARD_BLOCK" ],
     "conditional_flags": [ "WALL_CLING_FOURTH" ]
   },

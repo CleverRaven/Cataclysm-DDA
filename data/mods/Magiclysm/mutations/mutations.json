@@ -687,7 +687,6 @@
     "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
     "types": [ "CLAWS" ],
     "prereqs": [ "SCALED_HANDS" ],
-    "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "spells_learned": [ [ "acid_claw", 1 ] ]

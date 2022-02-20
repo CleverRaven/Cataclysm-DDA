@@ -312,7 +312,7 @@
       [ "BEE", 100 ],
       [ "MANDIBLES", 100 ],
       [ "TAIL_STING", 100 ],
-      [ "INSECT_ARMS_OK", 100 ],
+      [ "ARM_INSECT_OK", 100 ],
       [ "CHITIN3", 100 ],
       [ "POISONOUS2", 100 ],
       [ "PAINRESIST", 100 ],

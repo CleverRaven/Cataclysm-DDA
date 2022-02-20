@@ -63,6 +63,7 @@
   {
     "type": "mutation",
     "id": "WINGS_BAT",
+    "//": "Deprecated by ARM_WINGS_BAT",
     "name": { "str": "Bat Wings" },
     "points": -1,
     "visibility": 9,
@@ -112,6 +113,7 @@
   {
     "type": "mutation",
     "id": "ARACHNID_ARMS",
+    "//": "Deprecated by ARM_ARACHNID_LOWER/UPPER",
     "name": { "str": "Arachnid Limbs" },
     "points": -7,
     "visibility": 10,
@@ -131,6 +133,7 @@
   {
     "type": "mutation",
     "id": "ARACHNID_ARMS_OK",
+    "//": "Deprecated by ARM_ARACHNID_LOWER_OK/UPPER_OK",
     "name": { "str": "Arachnid Arms" },
     "points": 0,
     "visibility": 6,
@@ -156,29 +159,14 @@
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
-    "leads_to": [ "CLAWS_TENTACLE" ],
+    "valid": false,
+    "purifiable": true,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },
       { "part": "hand_l", "neutral": 5 },
       { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
-      {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      }
     ],
     "passive_mods": { "dex_mod": 1 }
   },
@@ -203,22 +191,6 @@
       { "part": "hand_l", "neutral": 5 },
       { "part": "hand_r", "neutral": 5 }
     ],
-    "attacks": [
-      {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      }
-    ],
     "passive_mods": { "dex_mod": 1 }
   },
   {
@@ -236,28 +208,11 @@
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
     "prereqs": [ "ARM_TENTACLES_4" ],
-    "leads_to": [ "CLAWS_TENTACLE" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },
       { "part": "hand_l", "neutral": 5 },
       { "part": "hand_r", "neutral": 5 }
-    ],
-    "attacks": [
-      {
-        "attack_text_u": "You slap %s with your tentacle",
-        "attack_text_npc": "%1$s slaps %2$s with their tentacle",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      },
-      {
-        "attack_text_u": "You rake %s with your tentacle",
-        "attack_text_npc": "%1$s rakes %2$s with their tentacle",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
-      }
     ],
     "passive_mods": { "dex_mod": 1 }
   },

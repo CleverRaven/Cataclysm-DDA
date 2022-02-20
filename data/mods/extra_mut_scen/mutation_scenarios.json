@@ -24,9 +24,9 @@
       "ANTENNAE",
       "ANTLERS",
       "ARM_FEATHERS",
-      "ARM_TENTACLES",
-      "ARM_TENTACLES_4",
-      "ARM_TENTACLES_8",
+      "ARM_TENTACLE_2",
+      "ARM_BAT",
+      "ARM_WINGS_BAT",
       "BARBS",
       "BARK",
       "BEAK",
@@ -248,7 +248,6 @@
       "WHISKERS",
       "WHISKERS_RAT",
       "WINGS_BAT",
-      "WINGS_BIRD",
       "WINGS_INSECT",
       "WINGS_STUB",
       "XS",
@@ -361,7 +360,7 @@
     "name": "Mutant - Insect Threshold",
     "description": "Start as a post-threshold Insect Mutant",
     "forced_traits": "THRESH_INSECT",
-    "extend": { "traits": [ "ACIDBLOOD", "ACIDPROOF", "INSECT_ARMS", "INSECT_ARMS_OK", "PROBOSCIS", "WINGS_BUTTERFLY" ] }
+    "extend": { "traits": [ "ACIDBLOOD", "ACIDPROOF", "PROBOSCIS", "WINGS_BUTTERFLY" ] }
   },
   {
     "type": "scenario",
@@ -519,12 +518,13 @@
     "forced_traits": "THRESH_SPIDER",
     "extend": {
       "traits": [
-        "ARACHNID_ARMS",
-        "ARACHNID_ARMS_OK",
+        "ARM_ARACHNID_UPPER",
+        "ARM_ARACHNID_UPPER_OK",
+        "ARM_ARACHNID_LOWER",
+        "ARM_ARACHNID_LOWER_OK",
         "CF_HAIR",
         "CHITIN_FUR3",
         "FANGS_SPIDER",
-        "INSECT_ARMS",
         "POISONOUS2",
         "PRED1",
         "PRED2",

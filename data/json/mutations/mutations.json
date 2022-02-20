@@ -2983,7 +2983,11 @@
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],
+<<<<<<< HEAD
     "category": [ "RAPTOR", "BIRD", "CHIMERA", "BEAST", "RAT", "URSINE", "LIZARD", "FELINE" ]
+=======
+    "category": [ "RAPTOR" ]
+>>>>>>> af8565f760 (Mods and co)
   },
   {
     "type": "mutation",
@@ -3074,7 +3078,7 @@
     "mixed_effect": true,
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
-    "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+    "prereqs": [ "ARM_TENTACLE_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ]
   },
@@ -6882,7 +6886,7 @@
     "mixed_effect": true,
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARM_TENTACLES_4" ],
+    "prereqs": [ "ARM_TENTACLE_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ],
     "enchantments": [
