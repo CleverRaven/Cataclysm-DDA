@@ -25,7 +25,7 @@ template <typename E> struct enum_traits;
 enum class event_type : int {
     activates_artifact,
     activates_mininuke,
-    injects_smart_purifier,
+    administers_mutagen,
     angers_amigara_horrors,
     avatar_enters_omt,
     avatar_moves,
@@ -185,6 +185,15 @@ struct event_spec<event_type::activates_artifact> {
 
 template<>
 struct event_spec<event_type::activates_mininuke> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::administers_mutagen> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "technique", cata_variant_type::mutagen_technique },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::angers_amigara_horrors> : event_spec_empty {};
@@ -581,14 +590,6 @@ struct event_spec<event_type::game_start> {
             { "avatar_profession", cata_variant_type::profession_id },
             { "avatar_custom_profession", cata_variant_type::string },
             { "game_version", cata_variant_type::string },
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::injects_smart_purifier> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
-            { "character", cata_variant_type::character_id }
         }
     };
 };

@@ -88,6 +88,28 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<mutagen_technique>( mutagen_technique data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mutagen_technique::consumed_mutagen: return "consumed_mutagen";
+        case mutagen_technique::injected_mutagen: return "injected_mutagen";
+        case mutagen_technique::consumed_purifier: return "consumed_purifier";
+        case mutagen_technique::injected_purifier: return "injected_purifier";
+        case mutagen_technique::injected_smart_purifier: return "injected_smart_purifier";
+        // *INDENT-ON*
+        case mutagen_technique::num_mutagen_techniques:
+            break;
+    }
+    cata_fatal( "Invalid mutagen_technique" );
+}
+
+} // namespace io
+
 bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
