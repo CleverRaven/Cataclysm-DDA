@@ -77,6 +77,16 @@ int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
     return me_chr_const->get_hp( bp );
 }
 
+int talker_character_const::get_max_hp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_hp_max( bp );
+}
+
+int talker_character_const::get_wetness( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_part_wetness( bp );
+}
+
 int talker_character_const::str_cur() const
 {
     return me_chr_const->str_cur;
@@ -382,6 +392,16 @@ int talker_character_const::get_thirst() const
     return me_chr_const->get_thirst();
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
+int talker_character_const::get_move_cost() const
+{
+    return me_chr_const->run_cost( 100 );
+}
+
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
@@ -533,6 +553,11 @@ int talker_character_const::get_stamina() const
     return me_chr_const->get_stamina();
 }
 
+int talker_character_const::get_stamina_max() const
+{
+    return me_chr_const->get_stamina_max();
+}
+
 void talker_character::set_stamina( int amount )
 {
     me_chr->set_stamina( amount );
@@ -626,6 +651,16 @@ int talker_character_const::get_body_temp_delta() const
 {
     return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
+}
+
+int talker_character_const::get_sound_volume() const
+{
+    return me_chr_const->volume;
+}
+
+int talker_character_const::get_weariness_level() const
+{
+    return me_chr_const->weariness_level();
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

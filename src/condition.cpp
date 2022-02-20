@@ -1314,6 +1314,20 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_hp( bid );
             };
+        } else if( checked_value == "hp_max" ) {
+            cata::optional<bodypart_id> bp;
+            optional( jo, false, "bodypart", bp );
+            return [is_npc, bp]( const T & d ) {
+                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+                return d.actor( is_npc )->get_max_hp( bid );
+            };
+        } else if( checked_value == "wetness" ) {
+            cata::optional<bodypart_id> bp;
+            optional( jo, false, "bodypart", bp );
+            return [is_npc, bp]( const T & d ) {
+                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+                return d.actor( is_npc )->get_wetness( bid );
+            };
         } else if( checked_value == "effect_intensity" ) {
             const std::string &effect_id = jo.get_string( "effect" );
             cata::optional<bodypart_id> bp;
@@ -1498,6 +1512,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_stamina();
             };
+        } else if( checked_value == "stamina_max" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_stamina_max();
+            };
         } else if( checked_value == "sleep_deprivation" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_sleep_deprivation();
@@ -1547,6 +1565,26 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "body_temp_delta" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_body_temp_delta();
+            };
+        } else if( checked_value == "speed" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_speed();
+            };
+        } else if( checked_value == "sound" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_sound_volume();
+            };
+        } else if( checked_value == "move_counter" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_move_counter();
+            };
+        } else if( checked_value == "move_cost" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_move_cost();
+            };
+        } else if( checked_value == "weariness_level" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_weariness_level();
             };
         }
     } else if( jo.has_member( "moon" ) ) {

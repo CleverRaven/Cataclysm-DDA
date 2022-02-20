@@ -121,3 +121,8 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         popup( _( "%1$s gives you %2$s." ), seller_guy->get_name(), name );
     }
 }
+
+int talker_avatar::get_move_counter() const
+{
+    return static_cast<const avatar *>( me_chr_const )->movecounter;
+}

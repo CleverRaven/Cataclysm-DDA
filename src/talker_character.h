@@ -43,6 +43,8 @@ class talker_character_const: public talker
         tripoint pos() const override;
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
+        int get_max_hp( const bodypart_id &bp ) const override;
+        int get_wetness( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -99,6 +101,8 @@ class talker_character_const: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_speed() const override;
+        int get_move_cost() const override;
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
@@ -114,6 +118,7 @@ class talker_character_const: public talker
         int get_stim() const override;
         int get_pkill() const override;
         int get_stamina() const override;
+        int get_stamina_max() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
         int get_age() const override;
@@ -124,6 +129,8 @@ class talker_character_const: public talker
         int get_health() const override;
         int get_body_temp() const override;
         int get_body_temp_delta() const override;
+        int get_sound_volume() const override;
+        int get_weariness_level() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

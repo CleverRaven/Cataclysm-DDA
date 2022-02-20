@@ -117,6 +117,12 @@ class talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_max_hp( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_wetness( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -389,6 +395,9 @@ class talker
         virtual int get_stim() const {
             return 0;
         }
+        virtual int get_speed() const {
+            return 0;
+        }
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -454,6 +463,9 @@ class talker
         virtual int get_stamina() const {
             return 0;
         }
+        virtual int get_stamina_max() const {
+            return 0;
+        }
         virtual void set_stamina( int ) {}
         virtual int get_sleep_deprivation() const {
             return 0;
@@ -502,6 +514,18 @@ class talker
             return 0;
         }
         virtual int get_body_temp_delta() const {
+            return 0;
+        }
+        virtual int get_sound_volume() const {
+            return 0;
+        }
+        virtual int get_move_counter() const {
+            return 0;
+        }
+        virtual int get_move_cost() const {
+            return 0;
+        }
+        virtual int get_weariness_level() const {
             return 0;
         }
 };

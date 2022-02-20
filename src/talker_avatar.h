@@ -32,6 +32,9 @@ class talker_avatar: public talker_character
         // inventory and such
         void buy_monster( talker &seller, const mtype_id &mtype, int cost,
                           int count, bool pacified, const translation &name ) override;
+
+        // for displaying sidebar stats
+        int get_move_counter() const override;
 };
 #endif // CATA_SRC_TALKER_AVATAR_H
 
