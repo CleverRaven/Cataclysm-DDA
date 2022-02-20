@@ -1764,6 +1764,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "hsurvivor_jumpsuit",
+    "time": "23 h",
     "using": [
       [ "sewing_standard", 300 ],
       [ "blacksmithing_standard", 15 ],
