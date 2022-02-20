@@ -314,5 +314,77 @@
       [ [ "legrig", 1 ], [ "ragpouch", 6 ], [ "leather_pouch", 4 ], [ "dump_pouch", 2 ] ],
       [ [ "purse", 2 ], [ "fanny", 2 ], [ "mbag", 2 ] ]
     ]
+  },
+  {
+    "result": "fsurvivor_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 8,
+    "skills_required": [ "fabrication", 7 ],
+    "time": "12 h 20 m",
+    "autolearn": true,
+    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
+    "using": [ [ "sewing_standard", 200 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ],
+    "components": [
+      [
+        [ "nomex_suit", 1 ],
+        [ "entry_suit", 1 ],
+        [ "sheet_neoprene_patchwork", 2 ],
+        [ "neoprene", 10 ],
+        [ "sheet_neoprene", 140 ]
+      ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "xs_fsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "fsurvivor_suit",
+    "time": "12 h 20 m",
+    "using": [ [ "sewing_standard", 150 ] ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [
+        [ "nomex_suit", 1 ],
+        [ "entry_suit", 1 ],
+        [ "sheet_neoprene_patchwork", 2 ],
+        [ "neoprene", 7 ],
+        [ "sheet_neoprene", 105 ]
+      ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [ [ "duct_tape", 150 ] ],
+      [ [ "sheet_kevlar_layered", 18 ] ]
+    ]
+  },
+  {
+    "result": "xl_fsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "fsurvivor_suit",
+    "time": "13 h 50 m",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
+    "components": [
+      [
+        [ "nomex_suit", 1 ],
+        [ "entry_suit", 1 ],
+        [ "sheet_neoprene_patchwork", 3 ],
+        [ "neoprene", 15 ],
+        [ "sheet_neoprene", 210 ]
+      ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
   }
 ]

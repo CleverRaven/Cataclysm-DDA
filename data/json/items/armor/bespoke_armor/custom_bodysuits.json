@@ -654,7 +654,6 @@
     "armor": [
       {
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
