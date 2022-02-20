@@ -1770,14 +1770,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_psychopath",
-    "type": "bionic",
-    "name": { "str": "Empathy Supppressor" },
-    "description": "This chip interfaces with your frontal lobe and eliminates harmful feelings like guilt and compassion that would negatively impact your mood.",
-    "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
-  },
-  {
     "id": "bio_recoil",
     "type": "bionic",
     "name": { "str": "Recoil Compensators" },
@@ -1785,14 +1777,6 @@
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ] } ]
-  },
-  {
-    "id": "bio_faulty_depression",
-    "type": "bionic",
-    "name": { "str": "Dopamine Inhibitor" },
-    "description": "A neural implant installed into the wrong part of the brain, greatly reducing your ability to feel happiness.",
-    "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_sleep_shutdown",
