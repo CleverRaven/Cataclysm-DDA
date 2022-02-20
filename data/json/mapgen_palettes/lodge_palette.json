@@ -15,6 +15,7 @@
       "-": "t_window_bars_curtains",
       "w": "t_double_pane_glass_with_curtain_open_window_closed",
       "W": [ [ "t_double_pane_glass_with_curtain", 2 ], "t_double_pane_glass_with_curtain_open_window_closed" ],
+      "0": "t_dirt",
       "%": "t_gutter_downspout",
       "<": "t_wood_stairs_down",
       ">": "t_wood_stairs_up"
@@ -44,8 +45,8 @@
       "3": "f_cupboard",
       "4": "f_cupboard",
       "5": "f_sink",
-      "&": "f_trashcan",
       "0": "f_standing_tank",
+      "&": "f_trashcan",
       "^": "f_indoor_plant"
     },
     "liquids": { "0": { "liquid": "water_clean", "amount": [ 10, 900 ] } },
