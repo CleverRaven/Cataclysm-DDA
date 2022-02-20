@@ -207,12 +207,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "10 h",
     "autolearn": true,
-    "using": [
-      [ "sewing_standard", 200 ],
-      [ "fabric_standard_nostretch", 10 ],
-      [ "fabric_leather_hide", 4 ],
-      [ "fabric_fur_pelt", 3 ]
-    ],
+    "using": [ [ "sewing_standard", 200 ], [ "fabric_leather_hide", 2 ], [ "fabric_fur_pelt", 3 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -224,6 +219,7 @@
     ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
+      [ [ "rag", 10 ], [ "sheet_cotton_patchwork", 10 ], [ "sheet_cotton", 10 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 300 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ]
@@ -233,15 +229,13 @@
     "result": "xs_wsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "wsurvivor_jumpsuit",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "10 h",
-    "using": [
-      [ "sewing_standard", 150 ],
-      [ "fabric_standard_nostretch", 7 ],
-      [ "fabric_leather_hide", 3 ],
-      [ "fabric_fur_pelt", 2 ]
-    ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "using": [ [ "sewing_standard", 150 ], [ "fabric_leather_hide", 2 ], [ "fabric_fur_pelt", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
+      [ [ "rag", 7 ], [ "sheet_cotton_patchwork", 7 ], [ "sheet_cotton", 7 ], [ "jumpsuit", 1 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [ [ "duct_tape", 225 ] ],
       [ [ "sheet_kevlar_layered", 18 ] ]
@@ -249,21 +243,18 @@
   },
   {
     "result": "xl_wsurvivor_jumpsuit",
-    "copy-from": "wsurvivor_jumpsuit",
-    "time": "11 h 30 m",
     "type": "recipe",
-    "using": [
-      [ "sewing_standard", 300 ],
-      [ "fabric_standard_nostretch", 20 ],
-      [ "fabric_leather_hide", 6 ],
-      [ "fabric_fur_pelt", 6 ]
-    ],
+    "copy-from": "wsurvivor_jumpsuit",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 h",
+    "using": [ [ "sewing_standard", 300 ], [ "fabric_leather_hide", 3 ], [ "fabric_fur_pelt", 5 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
+    "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
+      [ [ "rag", 15 ], [ "sheet_cotton_patchwork", 15 ], [ "sheet_cotton", 15 ], [ "jumpsuit", 2 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "sheet_kevlar_layered", 48 ] ]
+      [ [ "duct_tape", 450 ] ],
+      [ [ "sheet_kevlar_layered", 36 ] ]
     ]
   },
   {
