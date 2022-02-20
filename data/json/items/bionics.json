@@ -1217,5 +1217,53 @@
     "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
     "weight": "100 g",
     "difficulty": 3
+  },
+  {
+    "id": "bio_lampoil",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Oil Generator CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A CBM that generates power out of lamp oil or motor oil. It is fairly efficient and can store up to 750ml of fuel but works somewhat slowly.",
+    "price": 120000,
+    "difficulty": 4
+  },
+  {
+    "id": "bio_faulty_grossfood",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Taste Fouler" },
+    "description": "A broken and miswired module that would cause food and drink to taste terrible.",
+    "weight": "100 g",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_radleak",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Radioactive Leak" },
+    "description": "This broken CBM had been leaking radiation into its user.  The Autodoc seems to have sealed off the leak during the removal process but you definitely shouldn't put it back.",
+    "weight": "100 g",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_targeting",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Recoil Compensators CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A CBM that contains shock absorbers and kinetic braces which greatly reduce the recoil of guns.",
+    "price": 650000,
+    "weight": "900 g",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_sleep_shutdown",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Sleep Mode Shutdown CBM" },
+    "description": "This CBM completely shuts down all communication between the user's brain and the rest of their body when they fall asleep, preventing them from waking up under any circumstance until their natural sleep cycle completes.  An inability to trigger its effects manually makes it useless as an anesthesia substitute.",
+    "weight": "100 g",
+    "difficulty": 10
   }
 ]
