@@ -2396,7 +2396,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
-                                   project_to<coords::ms>( omt_pos ).z() );
+                                   project_to<coords::ms>( omt_pos ).z() + iov_z.evaluate( d.actor( iov_z.is_npc() ) ) );
         } else if( max_radius > 0 ) {
             bool found = false;
             int min_radius = iov_min_radius.evaluate( d.actor( iov_min_radius.is_npc() ) );
