@@ -230,14 +230,12 @@ static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -1391,14 +1389,6 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
             add_msg( _( "You vault over the obstacle." ) );
             move_cost = 300; // Most common move cost for barricades pre-change.
         }
-    } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
-        add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
-        move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
-        add_msg( _( "You quickly scale the fence." ) );
-        move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         move_cost = 100;

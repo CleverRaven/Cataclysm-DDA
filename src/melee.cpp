@@ -139,9 +139,6 @@ static const skill_id skill_unarmed( "unarmed" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
 static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
@@ -2465,36 +2462,6 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         int num_hits = std::max( 1, std::min<int>( 6,
                                  u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
         return damage_instance::physical( 0, 0, num_hits * 10 );
-    }
-
-    if( id == trait_ARM_TENTACLES || id == trait_ARM_TENTACLES_4 || id == trait_ARM_TENTACLES_8 ) {
-        int num_attacks = 1;
-        if( id == trait_ARM_TENTACLES_4 ) {
-            num_attacks = 3;
-        } else if( id == trait_ARM_TENTACLES_8 ) {
-            num_attacks = 7;
-        }
-        // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.get_wielded_item().is_two_handed( u ) || !u.has_two_arms_lifting() ||
-            u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
-            num_attacks--;
-        }
-
-        if( num_attacks <= 0 ) {
-            return damage_instance();
-        }
-
-        const bool rake = u.has_trait( trait_CLAWS_TENTACLE );
-
-        /** @EFFECT_STR increases damage with ARM_TENTACLES* */
-        damage_instance ret;
-        if( rake ) {
-            ret.add_damage( damage_type::CUT, u.get_str() / 2.0f + 1.0f, 0, 1.0f, num_attacks );
-        } else {
-            ret.add_damage( damage_type::BASH, u.get_str() / 3.0f + 1.0f, 0, 1.0f, num_attacks );
-        }
-
-        return ret;
     }
 
     if( id == trait_VINES2 || id == trait_VINES3 ) {

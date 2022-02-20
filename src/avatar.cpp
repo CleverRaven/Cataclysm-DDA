@@ -134,8 +134,6 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const string_id<monfaction> monfaction_player( "player" );
 
-static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
-static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
@@ -143,8 +141,6 @@ static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
-static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -952,31 +948,8 @@ void avatar::reset_stats()
     if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
         mod_per_bonus( 2 );
     }
-    if( has_trait( trait_INSECT_ARMS ) ) {
-        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
-    }
-    if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
-            mod_dex_bonus( 1 );
-        } else {
-            mod_dex_bonus( -1 );
-            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
-        }
-    }
     if( has_trait( trait_WEBBED ) ) {
         add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
-    }
-    if( has_trait( trait_ARACHNID_ARMS ) ) {
-        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
-    }
-    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
-            mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
-                   .test( body_part_torso ) ) {
-            mod_dex_bonus( -2 );
-            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
-        }
     }
     const auto set_fake_effect_dur = [this]( const efftype_id & type, const time_duration & dur ) {
         effect &eff = get_effect( type );
