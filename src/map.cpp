@@ -4096,7 +4096,6 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 
 void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
 {
-    bool visible = false;
     tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
     if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
