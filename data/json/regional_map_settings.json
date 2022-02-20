@@ -60,6 +60,38 @@
           "t_shrub_peanut": 1
         },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2, "t_bamboo_long": 1 },
+        "t_region_tree_forest_dense": {
+          "t_tree": 18,
+          "t_tree_dead": 2,
+          "t_tree_blackjack": 10,
+          "t_tree_hickory": 18,
+          "t_tree_hickory_dead": 2,
+          "t_tree_pine": 9,
+          "t_tree_deadpine": 1,
+          "t_tree_maple": 7,
+          "t_tree_birch": 7,
+          "t_tree_beech": 7,
+          "t_tree_cottonwood": 4,
+          "t_tree_elm": 4,
+          "t_tree_cherry": 4,
+          "t_tree_plum": 2,
+          "t_region_tree_forest_other": 5
+        },
+        "t_region_tree_forest_other": {
+          "t_tree_willow": 15,
+          "t_tree_alder": 15,
+          "t_tree_chestnut": 10,
+          "t_tree_basswood": 10,
+          "t_tree_hazelnut": 10,
+          "t_tree_apple": 10,
+          "t_tree_coffee": 1,
+          "t_tree_apricot": 2,
+          "t_tree_peach": 1,
+          "t_tree_pear": 1,
+          "t_tree_elderberry": 10,
+          "t_tree_mulberry": 10,
+          "t_tree_juniper": 5
+        },
         "t_region_tree": {
           "t_tree": 128,
           "t_tree_young": 128,
@@ -426,7 +458,7 @@
         "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
-          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree": 100 } },
+          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree_forest_dense": 100 } },
           "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 130, "f_region_forest_dense": 10 } },
           "clutter": {
             "sequence": 2,
