@@ -92,6 +92,10 @@
           "t_tree_mulberry": 10,
           "t_tree_juniper": 5
         },
+        "t_region_tree_forest": {
+          "t_region_tree_forest_dense": 2,
+          "t_region_tree_forest_other": 1
+        },
         "t_region_tree": {
           "t_tree": 128,
           "t_tree_young": 128,
@@ -336,7 +340,7 @@
         "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
-          "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree": 128 } },
+          "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree_forest": 128, "t_tree_young": 32 } },
           "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 120, "f_region_forest": 10 } },
           "clutter": {
             "sequence": 2,
@@ -458,7 +462,7 @@
         "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
-          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree_forest_dense": 100 } },
+          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree_forest_dense": 100, "t_tree_young": 5 } },
           "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 130, "f_region_forest_dense": 10 } },
           "clutter": {
             "sequence": 2,
