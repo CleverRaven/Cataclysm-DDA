@@ -122,6 +122,8 @@ class talker_character_const: public talker
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
+        int get_body_temp() const override;
+        int get_body_temp_delta() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;

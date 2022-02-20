@@ -17,6 +17,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "ballistics.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -105,9 +106,16 @@ static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
 
+static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
+static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_low_steel( "low_steel" );
+static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_tempered_steel( "tempered_steel" );
 
 static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
 static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
@@ -124,7 +132,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel, material_hardsteel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -1163,6 +1171,9 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     if( do_railgun ) {
         proj_effects.insert( "LIGHTNING" );
+
+        const units::energy trigger_cost = bio_railgun->power_trigger;
+        mod_power_level( -trigger_cost );
     }
 
     if( volume > 500_ml ) {

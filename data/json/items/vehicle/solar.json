@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
-    "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
+    "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle or static power grids.",
     "weight": "14000 g",
     "to_hit": -4,
     "color": "yellow",

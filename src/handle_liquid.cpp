@@ -372,7 +372,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
-            } else if( player_character.pour_into( *target.item_loc, liquid ) ) {
+            } else if( player_character.pour_into( *target.item_loc, liquid, true ) ) {
                 if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {

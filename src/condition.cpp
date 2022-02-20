@@ -73,28 +73,75 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
         int_or_var value;
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
-        value.int_val = to_turns<int>( max_time );
+        value.min.int_val = to_turns<int>( max_time );
         default_val = value;
     }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
 }
 
-int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
-                           int default_val )
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required,
+                                     int default_val )
 {
-    int_or_var ret_val;
-    if( jo.has_int( member ) ) {
-        mandatory( jo, false, member, ret_val.int_val );
-    } else if( jo.has_object( member ) ) {
-        var_info var = read_var_info( jo.get_object( member ), true );
+    int_or_var_part ret_val;
+    if( jv.test_int() ) {
+        ret_val.int_val = jv.get_int();
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
         ret_val.type = var.type;
         ret_val.var_val = var.name;
         ret_val.default_val = stoi( var.default_val );
     } else if( required ) {
-        jo.throw_error( "No valid value for ", member );
+        jv.throw_error( "No valid value for " + member );
     } else {
         ret_val.int_val = default_val;
+    }
+    return ret_val;
+}
+
+
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
+                           int default_val )
+{
+    int_or_var ret_val;
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_int_or_var_part( ja.next(), member );
+        ret_val.max = get_int_or_var_part( ja.next(), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
+    } else if( required ) {
+        ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+    } else {
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_int_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.int_val = default_val;
+        }
+    }
+    return ret_val;
+}
+
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required, time_duration default_val )
+{
+    duration_or_var_part ret_val;
+    if( jv.test_string() ) {
+        ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+    } else if( jv.test_int() ) {
+        ret_val.dur_val = time_duration::from_turns( jv.get_int() );
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
+        ret_val.type = var.type;
+        ret_val.var_val = var.name;
+        ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.dur_val = default_val;
     }
     return ret_val;
 }
@@ -103,17 +150,42 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
                                      time_duration default_val )
 {
     duration_or_var ret_val;
-    if( jo.has_int( member ) || jo.has_string( member ) ) {
-        mandatory( jo, false, member, ret_val.dur_val );
-    } else if( jo.has_object( member ) ) {
-        var_info var = read_var_info( jo.get_object( member ), true );
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        ret_val.min = get_duration_or_var_part( ja.next(), member );
+        ret_val.max = get_duration_or_var_part( ja.next(), member );
+        ret_val.pair = true;
+        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
+            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
+            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
+        }
+    } else if( required ) {
+        ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
+    } else {
+        if( jo.has_member( member ) ) {
+            ret_val.min = get_duration_or_var_part( jo.get_member( member ), member, required, default_val );
+        } else {
+            ret_val.min.dur_val = default_val;
+        }
+    }
+    return ret_val;
+}
+
+str_or_var get_str_or_var( const JsonValue &jv, std::string member, bool required,
+                           std::string default_val )
+{
+    str_or_var ret_val;
+    if( jv.test_string() ) {
+        ret_val.str_val = jv.get_string();
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
         ret_val.type = var.type;
         ret_val.var_val = var.name;
-        ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
+        ret_val.default_val = var.default_val;
     } else if( required ) {
-        jo.throw_error( "No valid value for ", member );
+        jv.throw_error( "No valid value for " + member );
     } else {
-        ret_val.dur_val = default_val;
+        ret_val.str_val = default_val;
     }
     return ret_val;
 }
@@ -135,7 +207,9 @@ tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> targ
 var_info read_var_info( JsonObject jo, bool require_default )
 {
     std::string default_val;
-    if( jo.has_string( "default" ) ) {
+    if( jo.has_string( "default_str" ) ) {
+        default_val = jo.get_string( "default_str" );
+    } else if( jo.has_string( "default" ) ) {
         default_val = std::to_string( to_turns<int>( read_from_json_string<time_duration>
                                       ( jo.get_member( "default" ), time_duration::units ) ) );
     } else if( jo.has_int( "default" ) ) {
@@ -438,14 +512,14 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
     const std::string &need = jo.get_string( member );
     int_or_var iov;
     if( jo.has_int( "amount" ) ) {
-        iov.int_val = jo.get_int( "amount" );
+        iov.min.int_val = jo.get_int( "amount" );
     } else if( jo.has_object( "amount" ) ) {
         iov = get_int_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = fatigue_level_strs.find( level );
         if( flevel != fatigue_level_strs.end() ) {
-            iov.int_val = static_cast<int>( flevel->second );
+            iov.min.int_val = static_cast<int>( flevel->second );
         }
     }
     condition = [need, iov, is_npc]( const T & d ) {
@@ -1052,6 +1126,36 @@ static tripoint get_tripoint_from_string( std::string type, T &d )
 }
 
 template<class T>
+void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::string &member )
+{
+    str_or_var first;
+    str_or_var second;
+    JsonArray objects = jo.get_array( member );
+    if( objects.size() != 2 ) {
+        jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
+        condition = []( const T & ) {
+            return false;
+        };
+        return;
+    }
+
+    if( objects.has_object( 0 ) ) {
+        first = get_str_or_var( objects.next(), member, true );
+    } else {
+        first.str_val = objects.next_string();
+    }
+    if( objects.has_object( 1 ) ) {
+        second = get_str_or_var( objects.next(), member, true );
+    } else {
+        second.str_val = objects.next_string();
+    }
+
+    condition = [first, second]( const T & d ) {
+        return first.evaluate( d.actor( first.is_npc() ) ) == second.evaluate( d.actor( second.is_npc() ) );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
@@ -1435,6 +1539,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "health" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_health();
+            };
+        } else if( checked_value == "body_temp" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp();
+            };
+        } else if( checked_value == "body_temp_delta" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_body_temp_delta();
             };
         }
     } else if( jo.has_member( "moon" ) ) {
@@ -1877,6 +1989,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_int( jo, "compare_int" );
+    } else if( jo.has_member( "compare_string" ) ) {
+        set_compare_string( jo, "compare_string" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {

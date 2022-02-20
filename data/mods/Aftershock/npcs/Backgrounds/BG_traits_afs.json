@@ -229,18 +229,6 @@
   },
   {
     "type": "mutation",
-    "id": "BGSS_CYBERNINJA",
-    "name": { "str": "Whately Story" },
-    "points": 0,
-    "description": "This NPC could tell you about how they survived the Cataclysm",
-    "player_display": false,
-    "valid": false,
-    "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
-    "flags": [ "BG_SURVIVAL_STORY" ]
-  },
-  {
-    "type": "mutation",
     "//": "This is a unique background story trait that should not be given out randomly.",
     "id": "BGSS_Sadie",
     "name": { "str": "Sadie Story" },

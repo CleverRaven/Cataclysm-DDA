@@ -724,20 +724,30 @@ void Item_factory::finalize_post( itype &obj )
                                 for( part_material &old_mat : it.materials ) {
                                     if( old_mat.id == new_mat.id ) {
                                         mat_found = true;
-                                        // values should be averaged however I can't envision this ever being used
+                                        // values should be averaged
                                         float max_coverage_new = sub_armor.max_coverage( bp );
                                         float max_coverage_mats = it.max_coverage( bp );
 
+                                        // portion should be handled as the portion scaled by relative coverage
+                                        old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * max_coverage_new / 100.0f;
+
                                         // with the max values we can get the weight that each should have
-                                        old_mat.cover = ( max_coverage_new * new_mat.cover + max_coverage_mats * old_mat.cover ) /
-                                                        ( max_coverage_mats + max_coverage_new );
                                         old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
                                                               old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
                                     }
                                 }
                                 // if we didn't find an entry for this material
+                                // create new entry with a scaled material coverage
                                 if( !mat_found ) {
-                                    it.materials.push_back( new_mat );
+                                    float max_coverage_new = sub_armor.max_coverage( bp );
+
+                                    part_material modified_mat = new_mat;
+                                    // if for example your elbow was covered in plastic but none of the rest of the arm
+                                    // this should be represented correctly in the UI with the covers for plastic being 5%
+                                    // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
+                                    // 15% covered for the arm overall
+                                    modified_mat.cover = static_cast<float>( new_mat.cover ) * max_coverage_new / 100.0f;
+                                    it.materials.push_back( modified_mat );
                                 }
                             }
 
@@ -751,7 +761,6 @@ void Item_factory::finalize_post( itype &obj )
                     }
 
                     // if not found create a new bp entry
-
                     if( !found ) {
                         // copy values to data but only have one limb
                         armor_portion_data new_limb = sub_armor;
@@ -771,6 +780,25 @@ void Item_factory::finalize_post( itype &obj )
             }
 
         }
+
+        // need to scale amalgamized portion data based on total coverage.
+        // 3% of 48% needs to be scaled to 6% of 100%
+        for( armor_portion_data &it : obj.armor->data ) {
+            for( part_material &mat : it.materials ) {
+                // scale the value of portion covered based on how much total is covered
+                // if you proportionally only cover 5% of the arm but overall cover 50%
+                // you actually proportionally cover 10% of the armor
+
+                // in case of 0 coverage just say the mats cover it all
+                if( it.coverage == 0 ) {
+                    mat.cover = 100;
+                } else {
+                    mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+                }
+            }
+        }
+
+
         for( const armor_portion_data &armor_data : obj.armor->data ) {
             if( obj.armor->has_sub_coverage ) {
                 // if we already know it has subcoverage break from the loop
