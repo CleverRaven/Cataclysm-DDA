@@ -9668,8 +9668,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                                                crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water,
                            available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
