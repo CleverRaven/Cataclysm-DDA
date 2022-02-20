@@ -71,8 +71,8 @@
     "default": "mon_zombie_garden",
     "//": "Group for plant zeds",
     "monsters": [
-      { "monster": "mon_zombie_garden", "weight": 150, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_seedling", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_garden", "weight": 150, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_seedling", "weight": 150, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_boomer_moss", "weight": 70, "cost_multiplier": 0 },
       { "monster": "mon_swimmer_swamped", "weight": 70, "cost_multiplier": 0 },
       { "monster": "mon_shrieker_vines", "weight": 30, "cost_multiplier": 0 },
