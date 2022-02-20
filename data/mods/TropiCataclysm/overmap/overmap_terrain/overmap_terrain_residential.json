@@ -6,7 +6,7 @@
     "name": "overgrown lot",
     "sym": "O",
     "color": "i_green",
-    "spawns": { "group": "GROUP_PLANT_ZEDS", "population": [ 6, 10 ], "chance": 100 },
+    "spawns": { "group": "GROUP_TRIFFIDS_URBAN", "population": [ 8, 12 ], "chance": 100 },
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   }
 ]
