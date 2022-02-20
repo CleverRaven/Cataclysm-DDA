@@ -42,6 +42,25 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_TRIFFID_GARDENLING",
+    "default": "mon_triffid",
+    "//": "Group for triffids gardenlings to evolve",
+    "monsters": [
+      { "monster": "mon_triffid", "weight": 30 },
+      { "monster": "mon_fungal_fighter", "weight": 20 },
+      { "monster": "mon_vinebeast", "weight": 20 },
+      { "monster": "mon_triffid_biter", "weight": 20 },
+      { "monster": "mon_triffid_acid", "weight": 20 },
+      { "monster": "mon_triffid_queen", "weight": 10 },
+      { "monster": "mon_biollante", "weight": 20 },
+      { "monster": "mon_triffid_gas", "weight": 20 },
+      { "monster": "mon_triffid_lasher", "weight": 20 },
+      { "monster": "mon_triffid_lifegiver", "weight": 10 },
+      { "monster": "mon_triffid_flower", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_PLANT_ZEDS",
     "default": "mon_zombie_garden",
     "//": "Group for plant zeds",
