@@ -159,10 +159,8 @@ cata::optional<std::pair<T, std::pair<std::string, bool>>> ter_furn_transform::n
 {
     const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result.has_value() ) {
-        if( get_avatar ) {
-            return std::make_pair( result.value().pick().value(), std::make_pair( result->message,
+        return std::make_pair( result.value().pick().value(), std::make_pair( result->message,
                                    result->message_good ) );
-        }
     }
     return cata::nullopt;
 }
@@ -218,7 +216,6 @@ void ter_furn_transform::transform( const tripoint &location, bool shifted ) con
 void ter_furn_transform::transform( map &m, const tripoint &location, bool shifted ) const
 {
     avatar &you = get_avatar();
-    bool seen = false;
     const ter_id ter_at_loc = m.ter( location );
     cata::optional<std::pair<ter_str_id, std::pair<std::string, bool>>> ter_potential = next_ter(
                 ter_at_loc->id );
