@@ -133,6 +133,22 @@
   },
   {
     "type": "mutation_type",
+    "id": "HEAD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "EYES"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VISION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ARMS"
+  },
+  {
+    "type": "mutation_type",
     "id": "HANDS"
   },
   {

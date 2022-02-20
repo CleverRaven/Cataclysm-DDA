@@ -67,8 +67,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_pre_feather_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": { "u_has_trait": "ARM_PRE_FEATHERS" },
     "deactivate_condition": { "not": { "u_has_trait": "ARM_PRE_FEATHERS" } },
     "effect": [
@@ -119,8 +118,7 @@
     "type": "effect_on_condition",
     "id": "arms_feather_check",
     "//": "Active if you have feathered arms, and either bird thresh or no threshold at all, increments time-based counter and checks the rest",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": {
       "and": [
         { "u_has_trait": "ARM_FEATHERS" },
@@ -197,8 +195,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_pre_bat_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": { "u_has_trait": "ARM_PRE_BAT" },
     "deactivate_condition": { "not": { "u_has_trait": "ARM_PRE_BAT" } },
     "effect": [
@@ -238,8 +235,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_bat_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": { "u_has_trait": "ARM_BAT" },
     "deactivate_condition": { "not": { "u_has_trait": "ARM_BAT" } },
     "effect": [
@@ -310,8 +306,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_pre_spider_upper_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": { "u_has_trait": "ARM_PRE_SPIDER_UPPER" },
     "deactivate_condition": { "not": { "u_has_trait": "ARM_PRE_SPIDER_UPPER" } },
     "effect": [
@@ -357,8 +352,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_spider_upper_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": {
       "and": [
         { "u_has_trait": "ARM_SPIDER_UPPER" },
@@ -438,8 +432,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_pre_spider_lower_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": { "u_has_trait": "ARM_PRE_SPIDER_LOWER" },
     "deactivate_condition": { "not": { "u_has_trait": "ARM_PRE_SPIDER_LOWER" } },
     "effect": [
@@ -485,8 +478,7 @@
   {
     "type": "effect_on_condition",
     "id": "arms_spider_lower_check",
-    "recurrence_min": "5 s",
-    "recurrence_max": "10 s",
+    "recurrence": [ "5 s","10 s" ],
     "condition": {
       "and": [
         { "u_has_trait": "ARM_SPIDER_LOWER" },
@@ -561,312 +553,6 @@
           }
         ]
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_ceph_check",
-    "//": "Active if you have the intermediary cephalopod eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "CEPH_EYES" }, { "not": { "u_has_trait": "CEPH_VISION" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "CEPH_EYES" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_ceph_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "ceph_vision", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_ceph_progress",
-            "//": "Post-thresh, mid-length adjustment period",
-            "condition": {
-              "and": [
-                { "u_has_trait": "CEPH_EYES" },
-                { "u_compare_var": "ceph_vision", "type": "progress", "context": "mutation", "op": ">", "value": 7 },
-                { "u_has_trait": "THRESH_CEPHALOPOD" }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_ceph>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
-              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] },
-              {
-                "weighted_list_eocs": [ [ "eoc_null", 13 ], [ "eoc_vision_glare", 10 ], [ "eoc_vision_blind", 1 ], [ "eoc_vision_stun", 2 ] ]
-              }
-            ],
-            "effect": [
-              { "u_message": "Your vision fades for a moment, only to return…better!", "type": "mixed" },
-              { "u_add_effect": "blind", "duration": "5 s" },
-              { "u_lose_trait": "CEPH_EYES" },
-              { "u_add_trait": "CEPH_VISION" },
-              { "u_lose_var": "ceph_vision", "type": "progress", "context": "mutation" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 250 } ] }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_compound_check",
-    "//": "Active if you have the intermediary compund eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "COMPOUND_EYES" }, { "not": { "u_has_trait": "COMPOUND_VISION" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "COMPOUND_EYES" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_compound_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "compound_vision", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_compound_progress",
-            "//": "This type of change is threshold-only, and you need a long time to get used to it.",
-            "condition": {
-              "and": [
-                { "u_has_trait": "COMPOUND_EYES" },
-                {
-                  "u_compare_var": "compound_vision",
-                  "type": "progress",
-                  "context": "mutation",
-                  "op": ">",
-                  "value": 12
-                },
-                { "u_has_trait": "THRESH_INSECT" }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_compound>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
-              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] },
-              { "weighted_list_eocs": [ [ "eoc_null", 11 ], [ "eoc_vision_blind", 1 ], [ "eoc_vision_stun", 10 ] ] }
-            ],
-            "effect": [
-              { "u_message": "The disjointed mosaic of your sight suddenly becomes clear…er!", "type": "mixed" },
-              { "u_add_effect": "stunned", "duration": "2 s" },
-              { "u_lose_trait": "COMPOUND_EYES" },
-              { "u_add_trait": "COMPOUND_VISION" },
-              { "u_lose_var": "compund_vision", "type": "progress", "context": "mutation" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 500 } ] }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_elfa_check",
-    "//": "Active if you have the intermediary elfa eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "ELFA_NV" }, { "not": { "u_has_trait": "ELFA_FNV" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "ELFA_NV" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_elfa_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "elfa_fnv", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_elfa_progress",
-            "//": "Drastic optimization, so keeps the mid-length timer but no threshol requirement",
-            "condition": {
-              "and": [
-                { "u_has_trait": "ELFA_NV" },
-                { "u_compare_var": "elfa_fnv", "type": "progress", "context": "mutation", "op": ">", "value": 7 }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_elfa>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
-              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] },
-              { "weighted_list_eocs": [ [ "eoc_null", 11 ], [ "eoc_vision_blind", 5 ], [ "eoc_vision_hallu", 5 ] ] }
-            ],
-            "effect": [
-              { "u_message": "Your vision grows blurry, then the world snaps back into focus with dizzying speed.", "type": "mixed" },
-              { "u_add_effect": "stunned", "duration": "5 s" },
-              { "u_lose_trait": "ELFA_NV" },
-              { "u_add_trait": "ELFA_FNV" },
-              { "u_lose_var": "elfa_fnv", "type": "progress", "context": "mutation" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_feline_check",
-    "//": "Active if you have the intermediary feline eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "FEL_EYE" }, { "not": { "u_has_trait": "FEL_NV" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "FEL_EYE" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_feline_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "fel_nv", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_feline_progress",
-            "//": "Mammal eyes, so less adjustment and no threshold needed.",
-            "condition": {
-              "and": [
-                { "u_has_trait": "FEL_EYE" },
-                { "u_compare_var": "fel_nv", "type": "progress", "context": "mutation", "op": ">", "value": 4 }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_feline>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
-              { "weighted_list_eocs": [ [ "eoc_null", 10 ], [ "eoc_vision_glare", 5 ], [ "eoc_vision_stun", 5 ] ] }
-            ],
-            "effect": [
-              { "u_message": "The world suddenly grows brighter.", "type": "mixed" },
-              { "u_add_effect": "glare", "duration": "30 m" },
-              { "u_lose_trait": "FEL_EYES" },
-              { "u_add_trait": "FEL_NV" },
-              { "u_lose_var": "fel_nv", "type": "progress", "context": "mutation" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_snail_check",
-    "//": "Active if you have the intermediary snail eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "EYESTALKS1" }, { "not": { "u_has_trait": "EYESTALKS2" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "EYESTALKS1" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_snail_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "eyestalks2", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_snail_progress",
-            "//": "Big change, long adjustment and threshold req",
-            "condition": {
-              "and": [
-                { "u_has_trait": "EYESTALKS1" },
-                { "u_compare_var": "eyestalks2", "type": "progress", "context": "mutation", "op": ">", "value": 12 },
-                { "u_has_trait": "THRESH_GASTROPOD" }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_snail>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 150 } ] },
-              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
-              { "weighted_list_eocs": [ [ "eoc_null", 5 ], [ "eoc_vision_blind", 5 ], [ "eoc_vision_stun", 5 ] ] }
-            ],
-            "effect": [
-              { "u_message": "Your vision flips for the last time, and you wiggle your eyestalks.", "type": "mixed" },
-              { "u_add_effect": "stunned", "duration": "3 s" },
-              { "u_lose_trait": "EYESTALKS1" },
-              { "u_add_trait": "EYESTALKS2" },
-              { "u_lose_var": "eyestalks2", "type": "progress", "context": "mutation" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eyes_lizard_check",
-    "//": "Active if you have the intermediary lizard eyes",
-    "recurrence_min": "8 h",
-    "recurrence_max": "12 h",
-    "condition": { "and": [ "u_can_see", { "u_has_trait": "LIZ_EYE" }, { "not": { "u_has_trait": "LIZ_IR" } } ] },
-    "deactivate_condition": { "not": { "u_has_trait": "LIZ_IR" } },
-    "effect": [
-      {
-        "queue_eocs": [
-          {
-            "id": "eyes_lizard_counter",
-            "//": "Progresses a counter regardless of threshold/value etc",
-            "effect": [
-              {
-                "arithmetic": [ { "u_val": "var", "var_name": "liz_ir", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
-              }
-            ]
-          },
-          {
-            "id": "eyes_lizard_progress",
-            "//": "Mid-length adjustment, threshold required",
-            "condition": {
-              "and": [
-                { "u_has_trait": "LIZ_EYE" },
-                { "u_compare_var": "liz_ir", "type": "progress", "context": "mutation", "op": ">", "value": 7 },
-                { "or": [ { "u_has_trait": "THRESH_RAPTOR" }, { "u_has_trait": "THRESH_LIZARD" } ] }
-              ]
-            },
-            "false_effect": [
-              { "u_message": "<eyes_lizard>", "snippet": true, "type": "bad" },
-              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
-              { "weighted_list_eocs": [ [ "eoc_null", 10 ], [ "eoc_vision_blind", 5 ], [ "eoc_vision_glare", 5 ] ] }
-            ],
-            "effect": [
-              { "u_message": "Your vision fades for a moment.", "type": "mixed" },
-              { "u_add_effect": "blind", "duration": "2 s" },
-              { "u_lose_trait": "LIZ_EYE" },
-              { "u_add_trait": "LIZ_IR" },
-              { "u_lose_var": "liz_ir", "type": "progress", "context": "mutation" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_skin_shedding",
-    "recurrence_min": "36 h",
-    "recurrence_max": "72 h",
-    "condition": { "u_has_trait": "SKIN_SHEDDING" },
-    "deactivate_condition": { "not": { "u_has_trait": "SKIN_SHEDDING" } },
-    "effect": [
-      { "u_message": "Your skin starts flaking off.", "type": "bad" },
-      { "u_add_effect": "formication", "duration": "6 h", "intensity": 2, "target_part": "RANDOM" }
     ]
   },
   {
