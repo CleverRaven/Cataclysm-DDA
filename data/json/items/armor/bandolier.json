@@ -231,7 +231,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 20 }, "moves": 20 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
