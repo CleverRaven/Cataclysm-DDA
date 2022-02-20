@@ -1012,6 +1012,141 @@
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
   },
   {
+    "result": "lc_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_lc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_lc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "mc_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "hc_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "ch_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "qt_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
     "result": "roller_blades",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",

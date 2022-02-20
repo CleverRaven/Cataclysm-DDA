@@ -158,6 +158,7 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
+        void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -427,6 +428,30 @@ static std::string read_var_value( var_type type, std::string name, talker *talk
     }
     return "";
 }
+
+struct str_or_var {
+    cata::optional<std::string> str_val;
+    cata::optional<std::string> var_val;
+    cata::optional<std::string> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    std::string evaluate( talker *talk ) const {
+        if( str_val.has_value() ) {
+            return str_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                return std::string( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return "";
+        }
+    }
+};
 
 struct int_or_var_part {
     cata::optional<int> int_val;
