@@ -160,7 +160,7 @@ cata::optional<std::pair<T, std::pair<std::string, bool>>> ter_furn_transform::n
     const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result.has_value() ) {
         return std::make_pair( result.value().pick().value(), std::make_pair( result->message,
-                                   result->message_good ) );
+                               result->message_good ) );
     }
     return cata::nullopt;
 }
