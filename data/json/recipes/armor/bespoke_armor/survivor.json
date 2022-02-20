@@ -316,7 +316,7 @@
     ]
   },
   {
-    "result": "fsurvivor_suit",
+    "result": "fsurvivor_jumpsuit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -348,9 +348,9 @@
     ]
   },
   {
-    "result": "xs_fsurvivor_suit",
+    "result": "xs_fsurvivor_jumpsuit",
     "type": "recipe",
-    "copy-from": "fsurvivor_suit",
+    "copy-from": "fsurvivor_jumpsuit",
     "time": "12 h 20 m",
     "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
@@ -368,9 +368,9 @@
     ]
   },
   {
-    "result": "xl_fsurvivor_suit",
+    "result": "xl_fsurvivor_jumpsuit",
     "type": "recipe",
-    "copy-from": "fsurvivor_suit",
+    "copy-from": "fsurvivor_jumpsuit",
     "time": "13 h 50 m",
     "using": [ [ "sewing_standard", 300 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
