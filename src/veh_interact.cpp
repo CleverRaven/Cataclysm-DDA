@@ -1021,8 +1021,15 @@ void veh_interact::do_install()
                                   " Continue?" ) ) ) {
                     return;
                 }
-                const auto &shapes =
-                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                // Don't include appliances in variant list
+                for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                    if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                        shapes.erase( iter );
+                    } else {
+                        iter++;
+                    }
+                }
                 int selected_shape = -1;
                 // more than one shape available, display selection
                 size_t num_vpart_shapes = shapes.size();
@@ -2014,7 +2021,15 @@ void veh_interact::do_change_shape()
             break;
         } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
             using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
-            const v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            // Don't include appliances in variant list
+            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                    shapes.erase( iter );
+                } else {
+                    iter++;
+                }
+            }
             if( shapes.empty() ) {
                 break;
             }
