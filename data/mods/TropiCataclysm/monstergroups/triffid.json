@@ -38,7 +38,7 @@
       { "monster": "mon_triffid_lasher", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "monster": "mon_triffid_lifegiver", "weight": 100, "cost_multiplier": 4 },
       { "monster": "mon_triffid_flower", "weight": 100, "cost_multiplier": 4 },
-      { "monster": "mon_zombie_garden", "weight": 100, "cost_multiplier": 0. "pack_size": [ 1, 3 ]  },
+      { "monster": "mon_zombie_garden", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ]  },
       { "monster": "mon_zombie_seedling", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_boomer_moss", "weight": 60, "cost_multiplier": 0 },
       { "monster": "mon_swimmer_swamped", "weight": 60, "cost_multiplier": 0 },
