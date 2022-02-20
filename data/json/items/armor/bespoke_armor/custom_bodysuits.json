@@ -634,5 +634,58 @@
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "fsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "kevlar firesuit" },
+    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex and a jumpsuit padded with layered kevlar.  Protects from the fire as well as from harm.",
+    "weight": "6800 g",
+    "volume": "11500 ml",
+    "price": 200000,
+    "price_postapoc": 5000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "nomex", "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
+    "warmth": 15,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xs_fsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS kevlar firesuit" },
+    "copy-from": "fsurvivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "xl_fsurvivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar firesuit" },
+    "copy-from": "fsurvivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]
