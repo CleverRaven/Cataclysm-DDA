@@ -1847,7 +1847,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
+               "Vitamins (RDA): Calcium (9%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1864,8 +1864,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), "
-               "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-79%)\n" );
+               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), and Vitamin C (1-79%)\n" );
     }
 }
 
