@@ -2441,7 +2441,8 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
         if( future > 0_seconds ) {
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
-                                    calendar::turn + future,
+                                    calendar::turn + future + 1_seconds,
+                                    //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
@@ -2487,7 +2488,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         }
         time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
         if( future > 0_seconds ) {
-            time_point tif = calendar::turn + future;
+            time_point tif = calendar::turn + future + 1_seconds;
+            //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
             if( !revert ) {
                 for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                     get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
