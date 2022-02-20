@@ -546,7 +546,7 @@
     "name": { "str": "razor butterfly", "str_pl": "razor butterflies" },
     "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
     "description": "Some unknown species of butterfly, they have clear white wings with some orange rune pattern, and a razor-sharp part on the edge.  They are pretty big, but still in natural limits.",
-    "default_faction": "factionless",
+    "default_faction": "magical_beast",
     "volume": "12 ml",
     "weight": "13 g",
     "bodytype": "insect",
@@ -579,20 +579,20 @@
     "name": "shambling mound",
     "description": "This giant plant mess is one of the ancients magic species in the world.  They don't like to walk too much, but the number of nutrients .",
     "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
-    "default_faction": "factionless",
+    "default_faction": "magical_beast",
     "volume": "679000 ml",
     "weight": "769 kg",
-    "hp": 600,
-    "speed": 25,
+    "hp": 800,
+    "speed": 15,
     "symbol": "M",
     "color": "green",
     "aggression": 100,
     "morale": 60,
-    "melee_skill": 7,
-    "melee_dice": 5,
-    "melee_dice_sides": 9,
-    "melee_cut": 3,
-    "dodge": 5,
+    "melee_skill": 0,
+    "melee_dice": 0,
+    "melee_dice_sides": 0,
+    "melee_cut": 0,
+    "dodge": 0,
     "luminance": 0,
     "armor_bash": 20,
     "armor_cut": 20,
@@ -600,16 +600,11 @@
     "vision_day": 45,
     "vision_night": 6,
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 } },
-      { "id": "smash", "throw_strength": 55, "cooldown": 7 },
-      {
-        "id": "scratch",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 40, "armor_penetration": 5 } ],
-        "cooldown": 6
-      }
+      { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 }
     ],
     "material": [ "veggy" ],
     "death_function": { "message": "A %s dissolve.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH" ]
+    "//1": "PACIFIST because #55528",
+    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ]
   }
 ]
