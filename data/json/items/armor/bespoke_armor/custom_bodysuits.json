@@ -479,97 +479,92 @@
     "id": "wsurvivor_jumpsuit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "winter survivor suit" },
-    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "name": { "str": "fur kevlar jumpsuit" },
+    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layered kevlar and fur.  Protects from the elements as well as from harm.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered", "fur" ],
+    "material": [ "kevlar_layered", "fur", "leather" ],
     "symbol": "[",
-    "looks_like": "survivor_jumpsuit",
-    "color": "light_gray",
+    "looks_like": "survivor_suit",
+    "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 20 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
-    ],
-    "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "15 cm",
-        "description": "pants pocket"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "15 cm",
-        "description": "pants pocket"
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
       }
     ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+    ],
     "warmth": 75,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
     "id": "xl_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
+    "name": { "str": "XL fur kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_wsurvivor_jumpsuit",
     "type": "ARMOR",
+    "name": { "str": "XS fur kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
-    "looks_like": "wsurvivor_jumpsuit",
-    "name": { "str": "XS winter survivor suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "winter survivor suit" },
-    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "name": { "str": "faux fur kevlar jumpsuit" },
+    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layered kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "symbol": "[",
-    "warmth": 65,
-    "looks_like": "survivor_jumpsuit",
-    "color": "pink"
-  },
-  {
-    "id": "xl_wsurvivor_jumpsuit_nofur",
-    "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
-    "copy-from": "wsurvivor_jumpsuit",
-    "material": [ "kevlar_layered", "faux_fur" ],
-    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
-    "color": "pink",
-    "warmth": 65,
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+    "material": [ "kevlar_layered", "faux_fur", "leather" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
+      }
+    ],
+    "warmth": 65
   },
   {
     "id": "xs_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
+    "name": { "str": "XS faux fur kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
-    "looks_like": "wsurvivor_jumpsuit_nofur",
-    "name": { "str": "XS winter survivor suit" },
-    "description": "A warm, heavy and undersized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "xl_wsurvivor_jumpsuit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "XL faux fur kevlar jumpsuit" },
+    "copy-from": "wsurvivor_jumpsuit_nofur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "h20survivor_jumpsuit",
