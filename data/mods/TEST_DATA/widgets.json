@@ -739,22 +739,22 @@
     "id": "test_focus_num",
     "type": "widget",
     "label": "FOCUS",
-    "var": "focus",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "focus" } }
   },
   {
     "id": "test_mana_num",
     "type": "widget",
     "label": "MANA",
-    "var": "mana",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "mana" } }
   },
   {
     "id": "test_morale_num",
     "type": "widget",
     "label": "MORALE",
-    "var": "morale_level",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "morale" } }
   },
   {
     "id": "test_rad_badge_text",
@@ -821,46 +821,46 @@
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",
-    "var": "speed",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "speed" } }
   },
   {
     "id": "test_stamina_num",
     "type": "widget",
     "label": "STAMINA",
-    "var": "stamina",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "stamina" } }
   },
   {
     "id": "test_stamina_graph",
     "type": "widget",
     "label": "STAMINA",
-    "var": "stamina",
     "style": "graph",
     "fill": "pool",
     "width": 10,
-    "symbols": "-=#"
+    "symbols": "-=#",
+    "clause_values": { "value": { "u_val": "stamina" }, "val_min": 0, "val_max": { "u_val": "stamina_max" } }
   },
   {
     "id": "test_sound_num",
     "type": "widget",
     "label": "SOUND",
-    "var": "sound",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "sound" } }
   },
   {
     "id": "test_move_num",
     "type": "widget",
     "label": "MOVE",
-    "var": "move",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "move_counter" } }
   },
   {
     "id": "test_move_cost_num",
     "type": "widget",
     "label": "MOVE COST",
-    "var": "move_cost",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "move_cost" } }
   },
   {
     "id": "test_move_mode_text",
@@ -893,29 +893,29 @@
     "id": "test_str_num",
     "type": "widget",
     "label": "STR",
-    "var": "stat_str",
-    "copy-from": "test_stat_num"
+    "copy-from": "test_stat_num",
+    "clause_values": { "value": { "u_val": "strength" } }
   },
   {
     "id": "test_dex_num",
     "type": "widget",
     "label": "DEX",
-    "var": "stat_dex",
-    "copy-from": "test_stat_num"
+    "copy-from": "test_stat_num",
+    "clause_values": { "value": { "u_val": "dexterity" } }
   },
   {
     "id": "test_int_num",
     "type": "widget",
     "label": "INT",
-    "var": "stat_int",
-    "copy-from": "test_stat_num"
+    "copy-from": "test_stat_num",
+    "clause_values": { "value": { "u_val": "intelligence" } }
   },
   {
     "id": "test_per_num",
     "type": "widget",
     "label": "PER",
-    "var": "stat_per",
-    "copy-from": "test_stat_num"
+    "copy-from": "test_stat_num",
+    "clause_values": { "value": { "u_val": "perception" } }
   },
   {
     "id": "test_stat_color_num",
@@ -928,37 +928,57 @@
     "id": "test_str_color_num",
     "type": "widget",
     "label": "STR",
-    "var": "stat_str",
-    "copy-from": "test_stat_color_num"
+    "copy-from": "test_stat_color_num",
+    "clause_values": {
+      "value": { "u_val": "strength" },
+      "val_min": { "arithmetic": [ "", "=", { "u_val": "strength_base" }, "-", { "const": 3 } ] },
+      "val_max": { "arithmetic": [ "", "=", { "u_val": "strength_base" }, "+", { "const": 3 } ] },
+      "val_norm": [ { "u_val": "strength_base" }, { "u_val": "strength_base" } ]
+    }
   },
   {
     "id": "test_dex_color_num",
     "type": "widget",
     "label": "DEX",
-    "var": "stat_dex",
-    "copy-from": "test_stat_color_num"
+    "copy-from": "test_stat_color_num",
+    "clause_values": {
+      "value": { "u_val": "dexterity" },
+      "val_min": { "arithmetic": [ "", "=", { "u_val": "dexterity_base" }, "-", { "const": 3 } ] },
+      "val_max": { "arithmetic": [ "", "=", { "u_val": "dexterity_base" }, "+", { "const": 3 } ] },
+      "val_norm": [ { "u_val": "dexterity_base" }, { "u_val": "dexterity_base" } ]
+    }
   },
   {
     "id": "test_int_color_num",
     "type": "widget",
     "label": "INT",
-    "var": "stat_int",
-    "copy-from": "test_stat_color_num"
+    "copy-from": "test_stat_color_num",
+    "clause_values": {
+      "value": { "u_val": "intelligence" },
+      "val_min": { "arithmetic": [ "", "=", { "u_val": "intelligence_base" }, "-", { "const": 3 } ] },
+      "val_max": { "arithmetic": [ "", "=", { "u_val": "intelligence_base" }, "+", { "const": 3 } ] },
+      "val_norm": [ { "u_val": "intelligence_base" }, { "u_val": "intelligence_base" } ]
+    }
   },
   {
     "id": "test_per_color_num",
     "type": "widget",
     "label": "PER",
-    "var": "stat_per",
-    "copy-from": "test_stat_color_num"
+    "copy-from": "test_stat_color_num",
+    "clause_values": {
+      "value": { "u_val": "perception" },
+      "val_min": { "arithmetic": [ "", "=", { "u_val": "perception_base" }, "-", { "const": 3 } ] },
+      "val_max": { "arithmetic": [ "", "=", { "u_val": "perception_base" }, "+", { "const": 3 } ] },
+      "val_norm": [ { "u_val": "perception_base" }, { "u_val": "perception_base" } ]
+    }
   },
   {
     "id": "test_health_color_num",
     "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ],
     "type": "widget",
     "label": "Health",
-    "var": "health",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "health" }, "val_min": -200, "val_max": 200, "val_norm": [ -10, 10 ] }
   },
   {
     "id": "test_health_clause",
@@ -986,8 +1006,8 @@
     "id": "test_weariness_num",
     "type": "widget",
     "label": "WEARINESS",
-    "var": "weariness_level",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "weariness_level" } }
   },
   {
     "id": "test_fatigue_clause",
@@ -1000,36 +1020,36 @@
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",
-    "var": "bp_hp",
     "bodypart": "head",
     "style": "graph",
     "width": 5,
     "symbols": ",\\|",
-    "fill": "bucket"
+    "fill": "bucket",
+    "clause_values": { "value": { "u_val": "hp", "bodypart": "head" }, "val_min": 0, "val_max": { "u_val": "hp_max", "bodypart": "head" } }
   },
   {
     "id": "test_hp_head_num",
     "type": "widget",
     "label": "HEAD",
-    "var": "bp_hp",
     "bodypart": "head",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "hp", "bodypart": "head" } }
   },
   {
     "id": "test_bp_wetness_head_num",
     "type": "widget",
     "label": "HEAD WET",
-    "var": "bp_wetness",
     "bodypart": "head",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "wetness", "bodypart": "head" } }
   },
   {
     "id": "test_bp_wetness_torso_num",
     "type": "widget",
     "label": "TORSO WET",
-    "var": "bp_wetness",
     "bodypart": "torso",
-    "style": "number"
+    "style": "number",
+    "clause_values": { "value": { "u_val": "wetness", "bodypart": "torso" } }
   },
   {
     "id": "test_status_torso_text",
