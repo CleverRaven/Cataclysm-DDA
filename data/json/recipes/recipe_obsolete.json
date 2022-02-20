@@ -469,5 +469,20 @@
     "type": "recipe",
     "result": "xlhsurvivor_suit",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_fsurvivor_suit",
+    "obsolete": true
   }
 ]
