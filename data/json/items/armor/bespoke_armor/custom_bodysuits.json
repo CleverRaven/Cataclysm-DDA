@@ -499,7 +499,7 @@
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "fur", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "fur", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
         ],
@@ -543,7 +543,7 @@
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
           { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
         ],
