@@ -58,7 +58,7 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
         dude.setpos( dude_pos );
         dude.wear_item( cloth, false );
         dude.add_effect( effect_sleep, 1_hours );
-        if( zed.melee_attack( dude ) ) {
+        if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
         cloth.set_damage( cloth.min_damage() );
@@ -124,7 +124,7 @@ TEST_CASE( "Infections from filthy clothing", "[coverage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
         const float chance = get_avg_melee_dmg( "test_zentai", true );
-        check_near( "Infection chance", chance, 0.35f, 0.05f );
+        check_near( "Infection chance", chance, 0.42f, 0.05f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {
@@ -137,12 +137,12 @@ TEST_CASE( "Melee coverage vs. melee damage", "[coverage] [melee] [damage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
         const float dmg = get_avg_melee_dmg( "test_hazmat_suit" );
-        check_near( "Average damage", dmg, 7.8f, 0.2f );
+        check_near( "Average damage", dmg, 9.2f, 0.2f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {
         const float dmg = get_avg_melee_dmg( "test_hazmat_suit_nomelee" );
-        check_near( "Average damage", dmg, 14.5f, 0.2f );
+        check_near( "Average damage", dmg, 17.0f, 0.2f );
     }
 }
 
@@ -163,14 +163,14 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
 {
     SECTION( "Mostly steel armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_steel" );
-        check_near( "Average damage", dmg, 3.3f, 0.2f );
+        check_near( "Average damage", dmg, 4.0f, 0.2f );
     }
 
     SECTION( "Mostly cotton armor vs. melee" ) {
         const float dmg = get_avg_melee_dmg( "test_swat_mostly_cotton" );
         // more variance on this test since it has a 5% chance of blocking with
         // high protection steel
-        check_near( "Average damage", dmg, 12.2f, 0.4f );
+        check_near( "Average damage", dmg, 14.4f, 0.4f );
     }
 
     SECTION( "Multi material segmented armor vs. melee" ) {
