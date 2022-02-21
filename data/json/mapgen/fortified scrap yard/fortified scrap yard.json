@@ -4,23 +4,12 @@
     "object": {
       "furniture": {
         "#": "f_wreckage",
-        "$": "f_null",
         "&": "f_sink",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "7": "f_null",
         "9": "f_aut_gas_console_o",
         "B": "f_bathtub",
-        "C": "f_null",
         "D": "f_dumpster",
-        "S": "f_null",
         "V": "f_vending_o",
-        "W": "f_null",
-        "_": "f_null",
         "a": "f_counter",
-        "b": "f_null",
-        "c": "f_null",
         "d": "f_chair",
         "e": "f_bigmirror_b",
         "f": "f_washer",
@@ -30,12 +19,9 @@
         "l": "f_locker",
         "o": "f_oven",
         "r": "f_rack",
-        "s": "f_null",
-        "u": "f_null",
         "v": "f_vending_c",
         "w": "f_wreckage",
         "{": "f_vending_o",
-        "|": "f_null",
         "%": "f_makeshift_bed"
       },
       "place_items": [
@@ -131,25 +117,5 @@
     "om_terrain": "smallscrapyard_ocu",
     "type": "mapgen",
     "weight": 100
-  },
-{
-    "type": "overmap_terrain",
-    "id": [ "smallscrapyard_ocu" ],
-    "name": "scrap yard",
-    "sym": "s",
-    "color": "red"
-  },
-{
-    "type": "overmap_special",
-    "id": "Occupied Scrap Yard",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "field" ],
-    "city_distance": [ 5, 40 ],
-    "city_sizes": [ 1, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC" ]
   }
 ]
