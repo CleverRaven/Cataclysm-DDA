@@ -2643,7 +2643,6 @@
     "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "tools": [ [ [ "water", -10 ] ] ],
     "components": [ [ [ "migo_plate_overgrown", 1 ] ] ]
-
   },
   {
     "result": "suspenders_cotton",
