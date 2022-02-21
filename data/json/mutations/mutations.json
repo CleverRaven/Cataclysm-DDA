@@ -49,7 +49,7 @@
     "points": 0,
     "player_display": false,
     "category": [ "HUMAN" ],
-    "types: [ "VISION", "EYES" ],
+    "types": [ "VISION", "EYES" ],
     "description": "You have human eyes."
   },
   {
