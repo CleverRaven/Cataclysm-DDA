@@ -609,7 +609,7 @@
   {
     "id": "derelict_property",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "derelict property",
     "sym": "X",
     "color": "i_brown"
