@@ -1247,7 +1247,7 @@
     "difficulty": 9
   },
   {
-    "id": "bio_targeting",
+    "id": "bio_recoil",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Recoil Compensators CBM" },
