@@ -313,7 +313,7 @@
   {
     "id": "trade_writ",
     "type": "BOOK",
-    "name": { "str_sp": "writ of trade", "str_pl": "writ of trade" },
+    "name": { "str_sp": "writ of trade", "str_pl": "writs of trade" },
     "description": "A short writ featuring the signed agreement of establishing a trade route.",
     "weight": "1 g",
     "volume": "250 ml",
