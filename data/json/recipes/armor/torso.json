@@ -2484,5 +2484,5 @@
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
-  },
+  }
 ]
