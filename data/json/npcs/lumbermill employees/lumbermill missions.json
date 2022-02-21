@@ -77,7 +77,8 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, I suppose that's reasonable.",
       "inquire": "Do you have the nails?",
-      "success": "Thats absolutely amazing! I can't thank you enough for this!",
+      "success": "That's absolutely amazing! I can't thank you enough for this!",
+
       "success_lie": "You're fucking scammer <name_b>!",
 
       "failure": "That's unfortunate. I guess we'll have to find someone else to do it."
