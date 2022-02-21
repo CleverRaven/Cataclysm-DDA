@@ -12574,6 +12574,34 @@ bool item::is_soft() const
     } );
 }
 
+template <typename T>
+bool item::is_bp_soft( const T &bp ) const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return true;
+    }
+
+    return std::all_of( portion->materials.begin(),
+    portion->materials.end(), []( const part_material & mid ) {
+        return mid.id->soft();
+    } );
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_soft<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_soft<bodypart_id>( const bodypart_id &bp ) const;
+
 bool item::is_reloadable() const
 {
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
