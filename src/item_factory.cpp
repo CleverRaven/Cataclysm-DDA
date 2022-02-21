@@ -683,7 +683,7 @@ void Item_factory::finalize_post( itype &obj )
                             it.encumber += sub_armor.encumber;
                             it.max_encumber += sub_armor.max_encumber;
 
-                            // get the ammount of the limb that is covered with sublocations
+                            // get the amount of the limb that is covered with sublocations
                             // for overall coverage we need to scale coverage by that
                             float scale = sub_armor.max_coverage( bp ) / 100.0;
 
@@ -767,7 +767,7 @@ void Item_factory::finalize_post( itype &obj )
                         new_limb.covers->clear();
                         new_limb.covers->set( bp );
 
-                        // get the ammount of the limb that is covered with sublocations
+                        // get the amount of the limb that is covered with sublocations
                         // for overall coverage we need to scale coverage by that
                         float scale = new_limb.max_coverage( bp ) / 100.0;
 
@@ -1699,7 +1699,7 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
                     100 < portion.cover_ranged ) {
-                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                    msg += string_format( "coverage exceeds the maximum amount for the sub locations coverage can't exceed 100, item coverage: %d\n",
                                           portion.coverage );
                 }
             }
@@ -1707,7 +1707,7 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
                     100 < portion.cover_ranged ) {
-                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                    msg += string_format( "coverage exceeds the maximum amount for the sub locations coverage can't exceed 100, item coverage: %d\n",
                                           portion.coverage );
                 }
             }
