@@ -171,6 +171,25 @@ duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, b
     return ret_val;
 }
 
+str_or_var get_str_or_var( const JsonValue &jv, std::string member, bool required,
+                           std::string default_val )
+{
+    str_or_var ret_val;
+    if( jv.test_string() ) {
+        ret_val.str_val = jv.get_string();
+    } else if( jv.test_object() ) {
+        var_info var = read_var_info( jv.get_object(), true );
+        ret_val.type = var.type;
+        ret_val.var_val = var.name;
+        ret_val.default_val = var.default_val;
+    } else if( required ) {
+        jv.throw_error( "No valid value for " + member );
+    } else {
+        ret_val.str_val = default_val;
+    }
+    return ret_val;
+}
+
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type vtype, talker *var_source )
 {
@@ -188,7 +207,9 @@ tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> targ
 var_info read_var_info( JsonObject jo, bool require_default )
 {
     std::string default_val;
-    if( jo.has_string( "default" ) ) {
+    if( jo.has_string( "default_str" ) ) {
+        default_val = jo.get_string( "default_str" );
+    } else if( jo.has_string( "default" ) ) {
         default_val = std::to_string( to_turns<int>( read_from_json_string<time_duration>
                                       ( jo.get_member( "default" ), time_duration::units ) ) );
     } else if( jo.has_int( "default" ) ) {
@@ -1105,6 +1126,36 @@ static tripoint get_tripoint_from_string( std::string type, T &d )
 }
 
 template<class T>
+void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::string &member )
+{
+    str_or_var first;
+    str_or_var second;
+    JsonArray objects = jo.get_array( member );
+    if( objects.size() != 2 ) {
+        jo.throw_error( "incorrect number of values.  Expected 2 in " + jo.str() );
+        condition = []( const T & ) {
+            return false;
+        };
+        return;
+    }
+
+    if( objects.has_object( 0 ) ) {
+        first = get_str_or_var( objects.next(), member, true );
+    } else {
+        first.str_val = objects.next_string();
+    }
+    if( objects.has_object( 1 ) ) {
+        second = get_str_or_var( objects.next(), member, true );
+    } else {
+        second.str_val = objects.next_string();
+    }
+
+    condition = [first, second]( const T & d ) {
+        return first.evaluate( d.actor( first.is_npc() ) ) == second.evaluate( d.actor( second.is_npc() ) );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
@@ -1938,6 +1989,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_int( jo, "compare_int" );
+    } else if( jo.has_member( "compare_string" ) ) {
+        set_compare_string( jo, "compare_string" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
