@@ -819,7 +819,7 @@ void talk_function::basecamp_mission( npc &p )
     if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }
         tripoint src_loc;
@@ -1664,10 +1664,10 @@ bool basecamp::handle_mission( const std::string &miss_id,
         gathering_return( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 4_hours );
     }
     if( miss_id == base_camps::miss_info[base_camps::faction_mission::Trapping].miss_id ) {
-        start_mission( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 6_hours, true,
+        start_mission( base_camps::miss_info[base_camps::faction_mission::Trapping].id, 6_hours, true,
                        _( "departs to set traps for small animals…" ), false, {}, skill_traps, 0 );
-    } else if( miss_id == base_camps::miss_info[base_camps::faction_mission::Foraging].ret_miss_id ) {
-        gathering_return( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 6_hours );
+    } else if( miss_id == base_camps::miss_info[base_camps::faction_mission::Trapping].ret_miss_id ) {
+        gathering_return( base_camps::miss_info[base_camps::faction_mission::Trapping].id, 6_hours );
     }
 
     if( miss_id == base_camps::miss_info[base_camps::faction_mission::Hunting].miss_id ) {
@@ -4490,7 +4490,7 @@ bool basecamp::validate_sort_points()
 {
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
@@ -4765,7 +4765,7 @@ bool basecamp::distribute_food()
 
     map &here = get_map();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     const tripoint_abs_ms &abspos = get_dumping_spot();
@@ -4896,7 +4896,7 @@ void basecamp::place_results( const item &result )
     } else {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();

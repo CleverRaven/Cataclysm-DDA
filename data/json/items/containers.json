@@ -1299,7 +1299,7 @@
     "id": "jar_glass_sealed",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "glass jar" },
+    "name": { "str": "0.5L glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened (assuming it was sterile before sealing).",
     "weight": "150 g",
     "volume": "680 ml",

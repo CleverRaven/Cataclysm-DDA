@@ -5,7 +5,7 @@
     "name": "habitat kitchenette",
     "symbol": "#",
     "looks_like": "f_oven",
-    "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook",
+    "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook.",
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 55,
