@@ -26,7 +26,18 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ],
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -173,7 +184,17 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
     "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "santa_belt",
