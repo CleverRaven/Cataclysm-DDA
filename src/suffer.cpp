@@ -168,7 +168,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const vitamin_id vitamin_vitA( "vitA" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
@@ -807,7 +806,6 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1 );
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 

@@ -7,7 +7,7 @@
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99,
-    "allow_melee": true
+    "allow_all_weapons": true
   },
   {
     "type": "martial_art",
@@ -98,7 +98,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
   },
   {
     "type": "martial_art",
@@ -282,6 +282,7 @@
     "autolearn": [ [ "melee", 1 ] ],
     "arm_block": 1,
     "nonstandard_block": 5,
+    "allow_all_weapons": true,
     "static_buffs": [
       {
         "id": "buff_brawling_block",
@@ -293,7 +294,6 @@
         "bonus_blocks": 1
       }
     ],
-    "allow_melee": true,
     "techniques": [
       "tec_brawl_disarm_unarmed",
       "tec_brawl_feint_unarmed",
@@ -676,7 +676,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
   },
   {
     "type": "martial_art",

@@ -2387,7 +2387,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 bool Character::uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
@@ -2687,7 +2687,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     map &here = get_map();
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

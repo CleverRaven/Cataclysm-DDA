@@ -1193,7 +1193,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 14 ].text == "time_since_cataclysm in days > 3" );
     CHECK( d.responses[ 15 ].text == "Allies equals 1" );
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
-    CHECK( d.responses[ 17 ].text == "Owed ammount equals 14" );
+    CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
     // TODO: Relaibly test the random number generator.
     CHECK( d.responses[ 19 ].text == "Temperature is 21." );

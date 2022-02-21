@@ -31,6 +31,7 @@ struct bionic_data {
     bionic_data();
 
     bionic_id id;
+    std::vector<std::pair<bionic_id, mod_id>> src;
 
     translation name;
     translation description;

@@ -420,6 +420,7 @@
       { "group": "alcohol", "prob": 163 },
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 36, "charges-min": 0 },
+      { "item": "waterproof_smart_phone_case", "prob": 5 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "umbrella", "prob": 50 },

@@ -427,6 +427,7 @@ Currently the defined flags are as follows:
   can be provided by these flags, then each of these things can be removed
   either individually or together.  See the other entries below, such as
   `remove_all`.
+  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -948,7 +949,7 @@ pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can b
 | Field  | Description
 | ---    | ---
 | liquid | (required, item id) the item (a liquid)
-| amount | (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+| amount | (optional, integer/min-max array) amount of liquid to place (a value of -1 defaults to the item's default charges)
 | chance | (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
 Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows
@@ -1355,9 +1356,7 @@ other half to use `cabin_palette_abandoned`.
 # Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
-updates an existing overmap tile with a specific set of changes.  Currently, it only works within
-the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
-existing maps.
+updates an existing overmap tile with a specific set of changes.
 
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields
 to support missions, as well as ways to specify which overmap tile will be updated.

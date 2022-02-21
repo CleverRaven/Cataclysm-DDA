@@ -249,8 +249,7 @@
     "difficulty": 4,
     "time": "1 m 12 s",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "alder_bark", 6 ] ], [ [ "lye", 5 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {

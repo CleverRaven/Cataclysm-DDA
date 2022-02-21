@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
+#include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
 #include "subbodypart.h"
@@ -122,11 +123,13 @@ struct limb_score {
         }
     private:
         limb_score_id id;
+        std::vector<std::pair<limb_score_id, mod_id>> src;
         translation _name;
         bool wound_affect = true;
         bool encumb_affect = true;
         bool was_loaded = false;
         friend class generic_factory<limb_score>;
+        friend struct mod_tracker;
 };
 
 struct bp_limb_score {
@@ -169,6 +172,7 @@ struct body_part_type {
 
 
         bodypart_str_id id;
+        std::vector<std::pair<bodypart_str_id, mod_id>> src;
         bool was_loaded = false;
 
         // Those are stored untranslated
@@ -244,6 +248,11 @@ struct body_part_type {
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
         bool is_limb = false;
+
+        // Ugliness of bodypart, can be mitigated by covering them up
+        int ugliness = 0;
+        // Ugliness that can't be covered (obviously nonstandard anatomy, even under bulky armor)
+        int ugliness_mandatory = 0;
 
         // Intrinsic temperature bonus of the bodypart
         int temp_min = 0;

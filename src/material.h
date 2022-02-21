@@ -71,18 +71,19 @@ class material_type
 {
     public:
         material_id id;
+        std::vector<std::pair<material_id, mod_id>> src;
         bool was_loaded = false;
 
     private:
         translation _name;
         cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
-        int _bash_resist = 0;                         // negative integers means susceptibility
-        int _cut_resist = 0;
-        int _acid_resist = 0;
-        int _elec_resist = 0;
-        int _fire_resist = 0;
-        int _bullet_resist = 0;
+        float _bash_resist = 0.0f;                         // negative integers means susceptibility
+        float _cut_resist = 0.0f;
+        float _acid_resist = 0.0f;
+        float _elec_resist = 0.0f;
+        float _fire_resist = 0.0f;
+        float _bullet_resist = 0.0f;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
@@ -128,15 +129,15 @@ class material_type
          */
         cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
-        int bash_resist() const;
-        int cut_resist() const;
-        int bullet_resist() const;
+        float bash_resist() const;
+        float cut_resist() const;
+        float bullet_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
-        int acid_resist() const;
-        int elec_resist() const;
-        int fire_resist() const;
+        float acid_resist() const;
+        float elec_resist() const;
+        float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;

@@ -538,6 +538,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "football",
+    "name": "Football",
+    "description": "You could have gone pro if the world hadn't ended,, but at least you've gone longer than most.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "throw" }, { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "shooter",
     "name": "Target Shooting",
     "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts.  Maybe if you just imagine targets on those undead, this could help.",
