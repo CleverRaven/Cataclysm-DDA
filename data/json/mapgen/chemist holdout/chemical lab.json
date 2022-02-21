@@ -2,7 +2,6 @@
 {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "chemical_lab_ocu" ],
     "object": {
       "fill_ter": "t_floor",
