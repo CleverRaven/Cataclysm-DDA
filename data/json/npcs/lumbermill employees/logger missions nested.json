@@ -67,7 +67,8 @@
         "v                       ",
         "vvvvvvvvv      vvvvvvvvv"
       ],
-      "terrain": { "v": "t_wall_wood", "!": "t_rdoor_c" }
+      "terrain": { "v": "t_wall_wood" }
+
     }
     }, 
 {
