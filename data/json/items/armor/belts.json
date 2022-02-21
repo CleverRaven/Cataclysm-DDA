@@ -332,15 +332,6 @@
     "copy_from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "WATER_FRIENDLY", "NO_QUICKDRAW" ], 
-    "pocket_data": [
-      {
-        "holster": true,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "3000 g",
-        "max_item_length": "20 cm",
-        "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
-      }
-    ]
+    "pocket_data": [ { "holster": true, "max_contains_volume": "500 ml", "max_contains_weight": "3000 g", "max_item_length": "20 cm", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] } ]
   }
 ]
