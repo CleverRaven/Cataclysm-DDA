@@ -135,44 +135,5 @@
                 "8": { "class": "NPC_lumbermill_merchant" }
 		}
     }
-  },
-{
-    "type": "overmap_terrain",
-    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
-    "name": "lumbermill",
-    "sym": "L",
-    "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] 
-  },
-{
-    "type": "overmap_special",
-    "id": "Occupied Lumbermill",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lumbermill_0_0_ocu_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "lumbermill_1_0_ocu_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "lumbermill_0_1_ocu_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "lumbermill_1_1_ocu_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "lumbermill_0_0_roof_north" },
-      { "point": [ 1, 0, 1 ], "overmap": "lumbermill_1_0_roof_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "lumbermill_0_1_roof_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "lumbermill_1_1_roof_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 0, 2, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 1, 2, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 3, 0, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 3, 1, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 3, 2, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 0, 3, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 1, 3, 0 ], "overmap": "lumbermill_dforest_north" },
-      { "point": [ 2, 3, 0 ], "overmap": "lumbermill_dforest_north" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 5, 60 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
   }
 ]
