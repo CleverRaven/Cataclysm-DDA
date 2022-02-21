@@ -81,7 +81,7 @@
     "id": "MISSION_SCRAPPER_SET_TRADE_ROUTE",
     "type": "mission_definition",
     "name": "Establish A Trade Route",
-    "description": "Establish trade relations between the scrapper and a refugee center.",
+    "description": "Establish trade relations between the scrapper and a refugee center, and bring back a writ of the agreement.",
     "goal": "MGOAL_FIND_ITEM",
 	"item": "trade_writ",
 	"count": 1,
