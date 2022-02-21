@@ -1664,10 +1664,10 @@ bool basecamp::handle_mission( const std::string &miss_id,
         gathering_return( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 4_hours );
     }
     if( miss_id == base_camps::miss_info[base_camps::faction_mission::Trapping].miss_id ) {
-        start_mission( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 6_hours, true,
+        start_mission( base_camps::miss_info[base_camps::faction_mission::Trapping].id, 6_hours, true,
                        _( "departs to set traps for small animals…" ), false, {}, skill_traps, 0 );
-    } else if( miss_id == base_camps::miss_info[base_camps::faction_mission::Foraging].ret_miss_id ) {
-        gathering_return( base_camps::miss_info[base_camps::faction_mission::Foraging].id, 6_hours );
+    } else if( miss_id == base_camps::miss_info[base_camps::faction_mission::Trapping].ret_miss_id ) {
+        gathering_return( base_camps::miss_info[base_camps::faction_mission::Trapping].id, 6_hours );
     }
 
     if( miss_id == base_camps::miss_info[base_camps::faction_mission::Hunting].miss_id ) {
