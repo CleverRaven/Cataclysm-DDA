@@ -11,7 +11,8 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of them. Those zombies, I mean. Come on in, just don't cause any trouble.",
+    "dynamic_line": "Oh, you're not one of them. Those <zombies>, I mean. Come on in, just don't cause any trouble.",
+
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO" },
       { "text": "I'll be back later.", "topic": "TALK_DONE" }
