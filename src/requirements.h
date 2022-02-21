@@ -43,6 +43,7 @@ enum class component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
+    std::vector<std::pair<quality_id, mod_id>> src;
     translation name;
 
     std::vector<std::pair<int, std::string>> usages;

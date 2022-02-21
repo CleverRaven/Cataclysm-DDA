@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 
@@ -73,6 +74,7 @@ class node_t
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
         string_id<node_t> id;
+        std::vector<std::pair<string_id<node_t>, mod_id>> src;
         bool was_loaded = false;
     private:
         std::vector<const node_t *> children;

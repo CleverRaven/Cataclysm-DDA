@@ -597,7 +597,7 @@
     "dmg_adj": [ "scratched", "damaged", "smashed", "crushed" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "vitamins": [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
+    "vitamins": [ [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
     "burn_data": [ { "fuel": 0, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 3, "burn": 2 }, { "fuel": 1, "smoke": 5, "burn": 5 } ]
   },
   {
@@ -620,7 +620,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
@@ -846,7 +846,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
@@ -1217,7 +1217,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "vitamins": [ [ "vitB", 0.5 ], [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
+    "vitamins": [ [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
@@ -2057,7 +2057,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 1 ], [ "vitC", 0.5 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitC", 0.5 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500 ml" },
@@ -2084,7 +2084,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitA", 2 ], [ "vitC", 4 ], [ "iron", 0.1 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitC", 4 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500 ml" },
@@ -2229,7 +2229,7 @@
     "id": "blood",
     "name": "blood",
     "copy-from": "water",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ]
+    "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ]
   },
   {
     "type": "material",
@@ -2257,7 +2257,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
-    "vitamins": [ [ "vitB", 1 ], [ "iron", 0.1 ] ],
+    "vitamins": [ [ "iron", 0.1 ] ],
     "burn_data": [ { "fuel": 1, "smoke": 2, "burn": 1 }, { "fuel": 1, "smoke": 2, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
   },
   {
@@ -2402,7 +2402,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
-    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ],
+    "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
@@ -2451,7 +2451,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
-    "vitamins": [ [ "vitB", 0.5 ], [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
+    "vitamins": [ [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
