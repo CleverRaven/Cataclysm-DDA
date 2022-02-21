@@ -1682,7 +1682,7 @@
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "foot_l", "foot_l" ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -1721,7 +1721,7 @@
           { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "foot_l", "foot_l" ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -1760,7 +1760,7 @@
           { "type": "hc_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "foot_l", "foot_l" ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -1799,7 +1799,7 @@
           { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "foot_l", "foot_l" ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -1838,7 +1838,7 @@
           { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "foot_l", "foot_l" ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
