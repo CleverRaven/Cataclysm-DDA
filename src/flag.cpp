@@ -275,6 +275,7 @@ const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHRUB( "SHRUB" );
+const flag_id flag_SIMPLE_MATERIAL( "SIMPLE_MATERIAL" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );

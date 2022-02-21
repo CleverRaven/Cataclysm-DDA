@@ -176,6 +176,7 @@
     "price": 100,
     "price_postapoc": 10,
     "material": [ "rubber" ],
+    "flags": [ "SIMPLE_MATERIAL" ],
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -191,6 +192,7 @@
     "price": 500,
     "price_postapoc": 50,
     "material": [ "rubber" ],
+    "flags": [ "SIMPLE_MATERIAL" ],
     "symbol": "=",
     "color": "dark_gray"
   },

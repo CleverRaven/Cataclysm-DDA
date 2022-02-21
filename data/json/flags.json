@@ -716,6 +716,10 @@
     "type": "json_flag"
   },
   {
+    "id": "SIMPLE_MATERIAL",
+    "type": "json_flag"
+  },
+  {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag"
   },
