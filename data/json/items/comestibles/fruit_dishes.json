@@ -105,7 +105,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
