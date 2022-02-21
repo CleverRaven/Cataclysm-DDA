@@ -45,7 +45,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "handheld x-ray cannon" },
-    "description": "This is an x-ray laser stripped a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for its ability to destroy power armor.",
+    "description": "This is an x-ray laser stripped from a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for its ability to destroy power armor.",
     "weight": "5140 g",
     "volume": "1500 ml",
     "price": 400000,
