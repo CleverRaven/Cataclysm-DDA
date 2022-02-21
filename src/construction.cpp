@@ -1199,13 +1199,13 @@ bool construct::check_empty_up_OK( const tripoint &p )
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return ( get_map().get_abs_sub().z < OVERMAP_HEIGHT );
+    return ( get_map().get_abs_sub().z() < OVERMAP_HEIGHT );
 }
 
 bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return ( get_map().get_abs_sub().z > -OVERMAP_DEPTH );
+    return ( get_map().get_abs_sub().z() > -OVERMAP_DEPTH );
 }
 
 bool construct::check_no_trap( const tripoint &p )

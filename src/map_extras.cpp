@@ -377,7 +377,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
                                 madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
                                 if( one_in( 4 ) ) {
                                     m.furn_set( point( i, j ), egg_type );
-                                    m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
+                                    m.remove_field( {i, j, m.get_abs_sub().z()}, fd_web );
                                 }
                             }
                         }
@@ -947,7 +947,7 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 
 static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
 {
-    tripoint tri_target( target, m.get_abs_sub().z );
+    tripoint tri_target( target, m.get_abs_sub().z() );
     if( m.ter( tri_target ).obj().trap == tr_null ) {
         mtrap_set( &m, target, trap_type );
     }
