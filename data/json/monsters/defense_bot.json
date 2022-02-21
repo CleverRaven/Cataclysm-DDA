@@ -141,6 +141,38 @@
     ]
   },
   {
+    "id": "mon_secubot_flesh",
+    "type": "MONSTER",
+    "copy-from": "mon_secubot",
+    "name": { "str": "writhing puppeted TALON UGV" },
+    "description": "This was once a TALON unmanned ground vehicle equipped with an M16A4.  However it has been completely engulfed in missmatched flesh, as it's mechanical bits attempt to move it blood oozes from its every bit.  Though it's treads are non-functional a mass of fingers seems to slowly drag its hulking frame.",
+    "default_faction": "zombie",
+    "hp": 120,
+    "regenerates": 5,
+    "material": [ "steel", "flesh" ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "m16a4",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Hostile detected.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "speed": 30
+  },
+  {
     "id": "mon_talon_m202a1",
     "type": "MONSTER",
     "name": { "str": "M202A1 autonomous TALON UGV" },
