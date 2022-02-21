@@ -1631,7 +1631,7 @@
     "category": "container",
     "name": { "str": "waterproof smartphone case" },
     "looks_like": "smart_phone",
-    "description": "A waterproof case designed for a standard smartphone. Will protect your smartphone from water damage entirely.",
+    "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
     "weight": "50 g",
     "volume": "125 ml",
     "price": 1000,
