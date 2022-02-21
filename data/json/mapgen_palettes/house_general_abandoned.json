@@ -122,7 +122,7 @@
         "T": "f_null",
         "U": "f_null",
         "V": "f_null",
-        "W": "f_washer",
+        "W": [ [ "f_null", 30 ], [ "f_washer", 70 ] ],
         "X": [ [ "f_birdbath", 70 ], [ "f_washer", 30 ] ],
         "Y": "f_null",
         "Z": "f_dryer",
