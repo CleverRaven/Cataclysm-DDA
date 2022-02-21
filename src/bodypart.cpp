@@ -235,9 +235,14 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+body_part_type::type body_part_type::primary_limb_type() const
+{
+    return _primary_limb_type;
+}
+
 bool body_part_type::has_type( const body_part_type::type &type ) const
 {
-    return limb_type == type || secondary_types.count( type ) > 0;
+    return limbtypes.count( type ) > 0;
 }
 
 bool body_part_type::has_flag( const json_character_flag &flag ) const
@@ -314,9 +319,47 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    mandatory( jo, was_loaded, "limb_type", limb_type );
-    optional( jo, was_loaded, "secondary_types", secondary_types );
     optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
+    if( jo.has_array( "limb_types" ) ) {
+        limbtypes.clear();
+        body_part_type::type first_type = body_part_type::type::num_types;
+        bool set_first_type = true;
+        for( JsonValue jval : jo.get_array( "limb_types" ) ) {
+            float weight = 1.0f;
+            body_part_type::type limb_type;
+            if( jval.test_array() ) {
+                JsonArray jarr = jval.get_array();
+                limb_type = io::string_to_enum<body_part_type::type>( jarr.get_string( 0 ) );
+                weight = jarr.get_float( 1 );
+                set_first_type = false;
+            } else {
+                limb_type = io::string_to_enum<body_part_type::type>( jval.get_string() );
+            }
+            limbtypes.emplace( limb_type, weight );
+            if( first_type == body_part_type::type::num_types ) {
+                first_type = limb_type;
+            }
+        }
+        // set cached primary type if no weights specified
+        if( set_first_type ) {
+            _primary_limb_type = first_type;
+        }
+    } else {
+        limbtypes.clear();
+        body_part_type::type limb_type;
+        mandatory( jo, was_loaded, "limb_type", limb_type );
+        limbtypes.emplace( limb_type, 1.0f );
+    }
+
+    if( _primary_limb_type == body_part_type::type::num_types ) {
+        float high = 0.f;
+        for( auto &bp_type : limbtypes ) {
+            if( high < bp_type.second ) {
+                high = bp_type.second;
+                _primary_limb_type = bp_type.first;
+            }
+        }
+    }
 
     // tokens are actually legacy code that should be on their way out.
     if( !was_loaded ) {

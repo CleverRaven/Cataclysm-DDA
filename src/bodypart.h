@@ -212,8 +212,9 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
-        body_part_type::type limb_type = body_part_type::type::num_types;
-        cata::flat_set <body_part_type::type> secondary_types;
+        // A weighted list of limb types. The type with the highest weight is the primary type
+        std::map<body_part_type::type, float> limbtypes;
+        body_part_type::type primary_limb_type() const;
         bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
@@ -332,6 +333,7 @@ struct body_part_type {
         int bionic_slots_ = 0;
         // limb score values
         std::vector<bp_limb_score> limb_scores;
+        body_part_type::type _primary_limb_type = body_part_type::type::num_types;
         damage_instance damage;
         // Protection from various damage types
         resistances armor;

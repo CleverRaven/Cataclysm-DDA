@@ -172,9 +172,9 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
 
     GIVEN( "5 bash on arms, torso and tail / 1 cut on ALL" ) {
         for( const auto &res : trait_TEST_ARMOR_MUTATION->armor ) {
-            if( res.first->limb_type == body_part_type::type::arm ||
-                res.first->limb_type == body_part_type::type::torso ||
-                res.first->limb_type == body_part_type::type::tail ) {
+            if( res.first->primary_limb_type() == body_part_type::type::arm ||
+                res.first->primary_limb_type() == body_part_type::type::torso ||
+                res.first->primary_limb_type() == body_part_type::type::tail ) {
                 CAPTURE( res.first.c_str() );
                 CHECK( res.second.type_resist( damage_type::BASH ) == Approx( 5.0 ).epsilon( 0.001 ) );
                 CHECK( res.second.type_resist( damage_type::ACID ) == Approx( 0.0 ).epsilon( 0.001 ) );
@@ -192,9 +192,9 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_res = bp.id->limb_type == body_part_type::type::arm ||
-                                     bp.id->limb_type == body_part_type::type::torso ||
-                                     bp.id->limb_type == body_part_type::type::tail;
+                const bool has_res = bp.id->primary_limb_type() == body_part_type::type::arm ||
+                                     bp.id->primary_limb_type() == body_part_type::type::torso ||
+                                     bp.id->primary_limb_type() == body_part_type::type::tail;
                 const int res_amt = has_res ? 5 : 0;
                 damage_unit du( damage_type::BASH, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
@@ -247,9 +247,9 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_mut_res = bp.id->limb_type == body_part_type::type::arm ||
-                                         bp.id->limb_type == body_part_type::type::torso ||
-                                         bp.id->limb_type == body_part_type::type::tail;
+                const bool has_mut_res = bp.id->primary_limb_type() == body_part_type::type::arm ||
+                                         bp.id->primary_limb_type() == body_part_type::type::torso ||
+                                         bp.id->primary_limb_type() == body_part_type::type::tail;
                 const bool has_bp_res = bp.id == body_part_test_tail;
                 const int res_amt = ( has_mut_res ? 5 : 0 ) + ( has_bp_res ? 5 : 0 );
                 damage_unit du( damage_type::BASH, 10.f, 0.f );
