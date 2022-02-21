@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".%%%.....p.-....%%%.....",
+        ".%%%.....p.`....%%%.....",
         ".%###o####o*o##########.",
         ".%#hr E | RRRR       ho.",
         ".^# r E +HHH    lll  ho.",
@@ -19,35 +19,29 @@
         ".#|||||+| hfh |  Y   4#.",
         ".#g|d                Oo.",
         ".#>+          |6 31F52#.",
-        ".#||+|##[###[###o######.",
-        ".oB8 S#%-----........^=.",
-        ".#B  t#.-----.........=.",
-        ".######...............=.",
-        ".=....................=.",
-        ".=....................=.",
-        ".=....................=.",
-        ".=....................=.",
-        ".=....................=.",
-        ".=....................=.",
-        ".======================.",
+        ".#||+|##¶###¶###o######.",
+        ".oB8 S#%``````.......^Ŧ.",
+        ".#B  t#.``````........Ŧ.",
+        ".######...............Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_landscaping_palette"
+      ],
       "set": [
         { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
         { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },
         { "point": "terrain", "id": "t_tree_young", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 3, 5 ] }
       ],
-      "terrain": {
-        "#": "t_rock_wall",
-        "[": "t_door_glass_c",
-        "=": "t_fence",
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
-      },
-      "place_loot": [
-        { "group": "livingroom", "x": [ 9, 21 ], "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 10, "ammo": 90, "magazine": 100 }
-      ],
+      "place_loot": [ { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 10, "ammo": 90, "magazine": 100 } ],
       "place_nested": [
         {
           "chunks": [
