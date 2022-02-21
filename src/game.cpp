@@ -202,6 +202,8 @@ static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
 
+static const character_modifier_id character_modifier_slip_prevent_mod( "slip_prevent_mod" );
+
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
@@ -249,10 +251,6 @@ static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-
-static const limb_score_id limb_score_footing( "footing" );
-static const limb_score_id limb_score_grip( "grip" );
-static const limb_score_id limb_score_lift( "lift" );
 
 static const material_id material_glass( "glass" );
 
@@ -3414,7 +3412,14 @@ void game::draw_panels( bool force_draw )
                 if( panel.always_draw || draw_this_turn ) {
                     catacurses::window w = catacurses::newwin( h, panel.get_width(),
                                            point( sidebar_right ? TERMX - panel.get_width() : 0, y ) );
-                    panel.draw( { u, w, panel.get_widget() } );
+                    int tmp_h = panel.draw( { u, w, panel.get_widget() } );
+                    h += tmp_h;
+                    // lines skipped for rendering -> reclaim space in the sidebar
+                    if( tmp_h < 0 ) {
+                        y += h;
+                        log_height -= tmp_h;
+                        continue;
+                    }
                 }
                 if( show_panel_adm ) {
                     const std::string panel_name = panel.get_name();
@@ -5823,6 +5828,13 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     // Cover percentage from terrain and furniture next.
     fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
                     m.coverage( lp ) );
+
+    if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
+        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
+                                          _( "Can be <color_green>cut down</color> with the right tools." ) );
+        line += lines - 1;
+    }
+
     // Terrain and furniture flags next. These can be several lines for some combinations of
     // furnitures and terrains.
     lines = foldstring( m.features( lp ), max_width );
@@ -7436,7 +7448,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iInfoHeight = std::min( 25, TERMY / 2 );
         iMaxRows = TERMY - iInfoHeight - 2;
 
-        width = clamp( max_name_width, 45, TERMX / 3 );
+        width = clamp( max_name_width, 55, TERMX / 3 );
 
         const int offsetX = TERMX - width;
 
@@ -7898,7 +7910,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list )
 {
     const int iInfoHeight = 15;
-    const int width = 45;
+    const int width = 55;
     int offsetX = 0;
     int iMaxRows = 0;
 
@@ -8049,9 +8061,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     if( m != nullptr ) {
-                        trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, m->name() );
+                        trim_and_print( w_monsters, point( 1, y ), width - 32, name_color, m->name() );
                     } else {
-                        trim_and_print( w_monsters, point( 1, y ), width - 26, name_color, critter->disp_name() );
+                        trim_and_print( w_monsters, point( 1, y ), width - 32, name_color, critter->disp_name() );
                         is_npc = true;
                     }
 
@@ -8078,11 +8090,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         std::tie( sText, color ) =
                             ::get_hp_bar( critter->get_hp(), critter->get_hp_max(), false );
                     }
-                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    mvwprintz( w_monsters, point( width - 31, y ), color, sText );
                     const int bar_max_width = 5;
                     const int bar_width = utf8_width( sText );
                     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
-                        mvwprintz( w_monsters, point( width - 21 - i, y ), c_white, "." );
+                        mvwprintz( w_monsters, point( width - 27 - i, y ), c_white, "." );
                     }
 
                     if( m != nullptr ) {
@@ -8093,14 +8105,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sText = npc_attitude_name( p->get_attitude() );
                         color = p->symbol_color();
                     }
-                    mvwprintz( w_monsters, point( width - 19, y ), color, sText );
+                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
 
                     const int mon_dist = rl_dist( u.pos(), critter->pos() );
                     const int numd = mon_dist > 999 ? 4 :
                                      mon_dist > 99 ? 3 :
                                      mon_dist > 9 ? 2 : 1;
 
-                    trim_and_print( w_monsters, point( width - ( 8 + numd ), y ), 6 + numd,
+                    trim_and_print( w_monsters, point( width - ( 5 + numd ), y ), 6 + numd,
                                     selected ? c_light_green : c_light_gray,
                                     "%*d %s",
                                     numd, mon_dist,
@@ -8124,9 +8136,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
 
                     if( cCurMon && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                        wprintw( w_monster_info_border, " " );
-                        wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "fire" ) );
-                        wprintz( w_monster_info_border, c_light_gray, " %s", _( "to shoot" ) );
+                        std::string press_to_fire_text = string_format( _( "%s %s" ),
+                                                         ctxt.press_x( "fire" ),
+                                                         string_format( _( "<color_light_gray>to shoot</color>" ) ) );
+                        right_print( w_monster_info_border, 0, 3, c_light_green, press_to_fire_text );
                     }
                     wprintw( w_monster_info_border, " >" );
                 }
@@ -9395,7 +9408,9 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
                !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos() ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
-               u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
+               u.dex_cur < 78 &&
+               !( u.is_mounted() && u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) &&
+               !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
 
@@ -9727,8 +9742,11 @@ point game::place_player( const tripoint &dest_loc )
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
-            add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
-            u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
+            const int sharp_damage = rng( 1, 10 );
+            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+                add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
+                u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
+            }
         } else {
             const bodypart_id bp = u.get_random_body_part();
             if( u.deal_damage( nullptr, bp, damage_instance( damage_type::CUT, rng( 1,
@@ -11968,9 +11986,7 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 
-    slip /= ( u.get_limb_score( limb_score_grip ) * 3 + u.get_limb_score(
-                  limb_score_lift, body_part_type::type::num_types,
-                  1 ) * 2 + u.get_limb_score( limb_score_footing ) ) / 6;
+    slip /= u.get_modifier( character_modifier_slip_prevent_mod );
     add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
 
     // Being weighed down makes it easier for you to slip.

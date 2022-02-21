@@ -1208,12 +1208,17 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_chainmail_feet",
@@ -1231,6 +1236,171 @@
     "name": { "str": "pair of XS chainmail chausses", "str_pl": "pairs of XS chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+  },
+  {
+    "id": "lc_chainmail_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "name": { "str": "pair of XL mild steel chainmail chausses", "str_pl": "pairs of XL mild steel chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_lc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_feet",
+    "name": { "str": "pair of XL medium steel chainmail chausses", "str_pl": "pairs of XL medium steel chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_feet",
+    "looks_like": "chainmail_feet",
+    "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_feet",
+    "name": { "str": "pair of XL high steel chainmail chausses", "str_pl": "pairs of XL high steel chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_hc_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_feet",
+    "name": { "str": "pair of XS high steel chainmail chausses", "str_pl": "pairs of XS high steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_feet",
+    "name": { "str": "pair of XL hardened steel chainmail chausses", "str_pl": "pairs of XL hardened steel chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_ch_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_feet",
+    "name": { "str": "pair of XS hardened steel chainmail chausses", "str_pl": "pairs of XS hardened steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_feet",
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_feet",
+    "name": { "str": "pair of XL tempered steel chainmail chausses", "str_pl": "pairs of XL tempered steel chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_qt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_feet",
+    "name": { "str": "pair of XS tempered steel chainmail chausses", "str_pl": "pairs of XS tempered steel chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "nomex_socks",
@@ -1506,20 +1676,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_lc_sabaton",
@@ -1547,20 +1715,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_mc_sabaton",
@@ -1588,20 +1754,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_hc_sabaton",
@@ -1629,20 +1793,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_ch_sabaton",
@@ -1670,20 +1832,18 @@
     "sided": true,
     "environmental_protection": 1,
     "flags": [ "STURDY", "ONLY_ONE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 90, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "covers": [ "foot_l", "foot_l" ],
-          "coverage": 100,
-          "encumbrance": 20,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "foot_l", "foot_l" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_qt_sabaton",

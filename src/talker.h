@@ -371,6 +371,9 @@ class talker
             return false;
         }
         virtual void set_class( const npc_class_id & ) {}
+        virtual int get_activity_level() const {
+            return 0;
+        }
         virtual int get_fatigue() const {
             return 0;
         }
@@ -488,6 +491,18 @@ class talker
         }
         virtual const move_mode_id &get_move_mode() const {
             return move_mode_id::NULL_ID();
+        }
+        virtual int get_fine_detail_vision_mod() const {
+            return 0;
+        }
+        virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
+            return 0;
         }
 };
 #endif // CATA_SRC_TALKER_H

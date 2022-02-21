@@ -81,7 +81,7 @@ character_modifier_melee_attack_roll_mod( "melee_attack_roll_mod" );
 static const character_modifier_id
 character_modifier_melee_thrown_move_balance_mod( "melee_thrown_move_balance_mod" );
 static const character_modifier_id
-character_modifier_melee_thrown_move_manip_mod( "melee_thrown_move_manip_mod" );
+character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -132,6 +132,7 @@ static const move_mode_id move_mode_prone( "prone" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_melee( "melee" );
+static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
@@ -1079,6 +1080,11 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     return chance_triple + ma_buff_crit_chance;
 }
 
+int Character::get_spell_resist() const
+{
+    return get_skill_level( skill_spellcraft );
+}
+
 float Character::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
@@ -1171,6 +1177,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     const bool unarmed = weap.is_unarmed_weapon();
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
+    int melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
@@ -1251,6 +1258,11 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     /** @EFFECT_BASHING caps bash damage with bashing weapons */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
+
+    if( is_melee_bash_damage_cap_bonus() ) {
+        bash_cap += melee_bonus;
+    }
+
 
     if( has_trait( trait_KI_STRIKE ) && unarmed ) {
         /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
@@ -2661,7 +2673,7 @@ int Character::attack_speed( const item &weap ) const
     const float ma_mult = mabuff_attack_cost_mult();
 
     double move_cost = base_move_cost;
-    move_cost *= get_modifier( character_modifier_melee_thrown_move_manip_mod );
+    move_cost *= get_modifier( character_modifier_melee_thrown_move_lift_mod );
     move_cost *= get_modifier( character_modifier_melee_thrown_move_balance_mod );
     move_cost *= stamina_penalty;
     move_cost += skill_cost;

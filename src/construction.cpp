@@ -66,6 +66,7 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
@@ -93,6 +94,7 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
+static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
 static const vproto_id vehicle_prototype_none( "none" );
@@ -1060,7 +1062,13 @@ void complete_construction( Character *you )
     if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
-    here.partial_con_remove( terp );
+
+    //We need to keep the partial_con when building appliance to get the component items
+    //It will be removed in done_appliance()
+    if( pc->id->category != construction_category_APPLIANCE ) {
+        here.partial_con_remove( terp );
+    }
+
     // Some constructions are allowed to have items left on the tile.
     if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
@@ -1297,6 +1305,18 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
+static vpart_id vpart_appliance_from_item( const itype_id &item_id )
+{
+    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
+            return vp.get_id();
+        }
+    }
+    debugmsg( "item %s used by construction is not base item of any appliance!", item_id.c_str() );
+    return vpart_ap_standing_lamp;
+}
+
 void construct::done_vehicle( const tripoint &p )
 {
     std::string name = string_input_popup()
@@ -1332,7 +1352,6 @@ void construct::done_appliance( const tripoint &p )
         debugmsg( "error constructing vehicle" );
         return;
     }
-    const vpart_id &vpart = vpart_from_item( get_avatar().lastconsumed );
     const std::string &constrcut_id = get_avatar().activity.get_str_value( 0 );
 
     if( constrcut_id == STATIC( "app_wall_wiring" ) ) {
@@ -1340,9 +1359,23 @@ void construct::done_appliance( const tripoint &p )
         veh->name = _( "wall wiring" );
         veh->add_tag( flag_CANT_DRAG );
     } else {
-        veh->install_part( point_zero, vpart );
+        const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
+        partial_con *pc = here.partial_con_at( p );
+        if( pc ) {
+            item base;
+            for( item &obj : pc->components ) {
+                if( obj.typeId() == vpart->base_item ) {
+                    base = obj;
+                }
+            }
+            veh->install_part( point_zero, vpart, std::move( base ) );
+        } else {
+            debugmsg( "partial construction not found" );
+            veh->install_part( point_zero, vpart );
+        }
         veh->name = vpart->name();
     }
+    here.partial_con_remove( p );
 
     veh->add_tag( flag_APPLIANCE );
 

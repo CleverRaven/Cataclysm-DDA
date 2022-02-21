@@ -322,11 +322,9 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( critter.is_hallucination() ) {
+    if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
-        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
-        // the player will see them always.
-        return is_avatar();
+        return false;
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
@@ -941,7 +939,7 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const float crit_multiplier = proj.critical_multiplier;
     const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
-        ret.damage_mult *= rng_float( 0.9, 1.1 );
+        // do nothing special, no damage mults, nothing
     } else if( goodhit < accuracy_headshot &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
@@ -1871,6 +1869,13 @@ int Creature::get_armor_bullet_bonus() const
 {
     return armor_bullet_bonus;
 }
+
+int Creature::get_spell_resist() const
+{
+    // TODO: add spell resistance to monsters, then make this pure virtual
+    return 0;
+}
+
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();

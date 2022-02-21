@@ -82,7 +82,8 @@ struct ma_requirements {
 
 
     std::set<flag_id> req_flags; // any item flags required for this technique
-    cata::flat_set<json_character_flag> req_char_flags; // Character flags required
+    cata::flat_set<json_character_flag> req_char_flags; // any listed character flags required
+    cata::flat_set<json_character_flag> req_char_flags_all; // all listed character flags required
     cata::flat_set<json_character_flag> forbidden_char_flags; // Character flags disabling the technique
 
     ma_requirements() {
@@ -227,6 +228,7 @@ class ma_buff
 
         // returns various boolean flags
         bool is_throw_immune() const;
+        bool is_melee_bash_damage_cap_bonus() const;
         bool is_quiet() const;
         bool can_melee() const;
         bool is_stealthy() const;
@@ -259,6 +261,7 @@ class ma_buff
         bool quiet = false;
         bool melee_allowed = false;
         bool throw_immune = false; // are we immune to throws/grabs?
+        bool melee_bash_damage_cap_bonus = false;
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 

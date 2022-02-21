@@ -395,6 +395,12 @@
     "inherit": false
   },
   {
+    "id": "NO_CLEAN",
+    "type": "json_flag",
+    "//": "items that are impossible to clean no matter how hard you try",
+    "info": "This item is impossible to clean."
+  },
+  {
     "id": "NUTRIENT_OVERRIDE",
     "type": "json_flag",
     "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"

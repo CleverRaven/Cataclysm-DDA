@@ -649,9 +649,9 @@ void mission_start::reveal_refugee_center( mission *miss )
     t.overmap_special = overmap_special_evac_center;
     t.mission_pointer = miss;
     t.search_range = 0;
-    t.reveal_radius = 3;
+    t.reveal_radius = 1;
 
-    const cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -664,6 +664,14 @@ void mission_start::reveal_refugee_center( mission *miss )
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
+        //reset the mission target to the refugee center entrance and reveal path from the road
+        t.overmap_terrain = "evac_center_18";
+        t.reveal_radius = 3;
+        target_pos = mission_util::assign_mission_target( t );
+        const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
+                "evac_center_18", 1, false );
+        overmap_buffer.reveal_route( dest_road, dest_refugee_center, 1, false );
+
         add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
     } else {
         add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );

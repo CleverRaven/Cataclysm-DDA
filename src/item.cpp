@@ -3006,6 +3006,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                            iteminfo::show_plus, mod.handling );
     }
+    if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
     if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
         for( const ammotype &at : type->mod->ammo_modifier ) {
             info.emplace_back( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
@@ -5875,38 +5880,40 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext += string_format( " (%d%%)", percent_progress );
     } else {
         maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
+    }
 
-        /* only expand full contents name if with_contents == true */
-        if( with_contents && contents.num_item_stacks() == 1 ) {
-            const item &contents_item = contents.only_item();
-            const unsigned contents_count =
-                ( ( contents_item.made_of( phase_id::LIQUID ) ||
-                    contents_item.is_food() || contents_item.count_by_charges() ) &&
-                  contents_item.charges > 1 )
-                ? contents_item.charges
-                : 1;
+    /* only expand full contents name if with_contents == true */
+    if( with_contents && contents.num_item_stacks() == 1 ) {
+        const item &contents_item = contents.only_item();
+        const unsigned contents_count =
+            ( ( contents_item.made_of( phase_id::LIQUID ) ||
+                contents_item.is_food() || contents_item.count_by_charges() ) &&
+              contents_item.charges > 1 )
+            ? contents_item.charges
+            : 1;
 
-            // with_contents=false for nested items to prevent excessively long names
-            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
+        // with_contents=false for nested items to prevent excessively long names
+        const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
 
+        if( contents_tname != "none" ) {
             if( contents_count == 1 || !ammo_types().empty() ) {
                 // Don't append an item count for single items, or items that are ammo-exclusive
                 // (eg: quivers), as they format their own counts.
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name]
                                                       " > %1$s" ), contents_tname );
-            } else {
+            } else if( contents_count != 0 ) {
                 // Otherwise, add a contents count!
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name] (qty)
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
-        } else if( !contents.empty() ) {
-            contents_suffix_text = string_format( npgettext( "item name",
-                                                  //~ [container item name] " > [count] item"
-                                                  " > %1$zd item", " > %1$zd items",
-                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
         }
+    } else if( !contents.empty() && contents.num_item_stacks() != 0 ) {
+        contents_suffix_text = string_format( npgettext( "item name",
+                                              //~ [container item name] " > [count] item"
+                                              " > %1$zd item", " > %1$zd items",
+                                              contents.num_item_stacks() ), contents.num_item_stacks() );
     }
 
     Character &player_character = get_player_character();
@@ -7709,7 +7716,11 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bash_resist() * eff_thic;
                 }
             }
@@ -7734,7 +7745,7 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) const
+float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
     if( is_null() ) {
         return 0.0f;
@@ -7751,7 +7762,11 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) co
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bash_resist() * eff_thic;
             }
         }
@@ -7795,7 +7810,11 @@ float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->cut_resist() * eff_thic;
                 }
             }
@@ -7837,7 +7856,11 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->cut_resist() * eff_thic;
             }
         }
@@ -7896,7 +7919,11 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bullet_resist() * eff_thic;
                 }
             }
@@ -7938,7 +7965,11 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bullet_resist() * eff_thic;
             }
         }
@@ -10798,7 +10829,8 @@ int item::getlight_emit() const
 {
     float lumint = type->light_emission;
     if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ) {
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
+        has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -11472,8 +11504,20 @@ int item::processing_speed() const
     if( is_corpse() || is_comestible() ) {
         return to_turns<int>( 10_minutes );
     }
-    // Unless otherwise indicated, update every turn.
-    return 1;
+
+    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+        // Unless otherwise indicated, update every turn.
+        return 1;
+    }
+
+    // This item doesn't actually need processing.
+    // Either it contains items that need processing. Use processing speed from those.
+    // Or it is in same container with items that need processing.
+    int processing_speed = 10000;
+    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        processing_speed = std::min( processing_speed, it->processing_speed() );
+    }
+    return processing_speed;
 }
 
 void item::apply_freezerburn()

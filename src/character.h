@@ -624,6 +624,8 @@ class Character : public Creature, public visitable
         float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
+        /** in this case spell resistance is just the spellcraft skill for characters. */
+        int get_spell_resist() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
         float get_hit_base() const override;
@@ -1760,7 +1762,7 @@ class Character : public Creature, public visitable
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item &container, item &liquid );
+        bool pour_into( item &container, item &liquid, bool ignore_settings );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
@@ -2175,6 +2177,8 @@ class Character : public Creature, public visitable
         bool is_rad_immune() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
+        /** Returns true if the player's melee skill increases the bash damage weapon cap */
+        bool is_melee_bash_damage_cap_bonus() const;
 
         /**
          * Check if a given body part is immune to a given damage type
@@ -2395,7 +2399,7 @@ class Character : public Creature, public visitable
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
         std::list<item> use_amount( const itype_id &it, int quantity,
-                                    const std::function<bool( const item & )> &filter = return_true<item> );
+                                    const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
@@ -3061,12 +3065,13 @@ class Character : public Creature, public visitable
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
                                const recipe *rec = nullptr );
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
+                                       const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
+                                       const std::function<bool( const item & )> &filter = return_true<item>,
+                                       const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,
@@ -3161,7 +3166,10 @@ class Character : public Creature, public visitable
         int weary_threshold() const;
         int weariness() const;
         float activity_level() const;
+        /** Returns instantaneous activity level as a float from 0-10 (from game_constants) */
         float instantaneous_activity_level() const;
+        /** Returns instantaneous activity level as an int from 0-5 (half of instantaneous_activity_level) */
+        int activity_level_index() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         float maximum_exertion_level() const;
         std::string activity_level_str( float level ) const;

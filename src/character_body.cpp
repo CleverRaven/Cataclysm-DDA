@@ -181,11 +181,15 @@ void Character::update_body( const time_point &from, const time_point &to )
         // since a trait from an item might be provided by another item as well
         auto it = std::find( current_traits.begin(), current_traits.end(), mut );
         if( it == current_traits.end() ) {
+            const mutation_branch &mut_b = *mut;
+            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
+                                    cached_mutations.end() );
             mutation_loss_effect( mut );
             enchantment_wear_change();
         }
     }
     for( const trait_id &mut : mutations_to_add ) {
+        cached_mutations.push_back( &mut.obj() );
         mutation_effect( mut, true );
         enchantment_wear_change();
     }

@@ -39,8 +39,7 @@
   {
     "type": "effect_on_condition",
     "id": "thunder",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "condition": {
       "and": [
@@ -58,8 +57,7 @@
   {
     "type": "effect_on_condition",
     "id": "lightning",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "condition": {
       "and": [
@@ -73,14 +71,13 @@
       { "u_message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
-      { "custom_light_level": 100, "length_min": "1 seconds", "length_max": "1 seconds" }
+      { "custom_light_level": 100, "length": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "acid_drizzle",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "run_for_npcs": true,
     "condition": {
@@ -95,8 +92,7 @@
   {
     "type": "effect_on_condition",
     "id": "acid_rain",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "run_for_npcs": true,
     "condition": {
@@ -115,8 +111,7 @@
   {
     "type": "effect_on_condition",
     "id": "snow",
-    "recurrence_min": 6,
-    "recurrence_max": 6,
+    "recurrence": 6,
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
@@ -126,8 +121,7 @@
   {
     "type": "effect_on_condition",
     "id": "snowstorm",
-    "recurrence_min": 6,
-    "recurrence_max": 6,
+    "recurrence": 6,
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
@@ -137,8 +131,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_drain",
-    "recurrence_min": "30 minutes",
-    "recurrence_max": "1 hours 30 minutes",
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
@@ -160,8 +153,7 @@
   {
     "type": "effect_on_condition",
     "id": "ambient_subway",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "2 hours",
+    "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
     "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
@@ -169,8 +161,7 @@
   {
     "type": "effect_on_condition",
     "id": "ambient_lab_subway",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "2 hours",
+    "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
     "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
     "effect": [ { "u_message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
@@ -181,25 +172,14 @@
     "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
-      {
-        "u_set_spawn_monster": "mon_robofac_camspy",
-        "real_count": 1,
-        "min_radius": 15,
-        "max_radius": 40,
-        "outdoor_only": true
-      },
-      {
-        "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ],
-        "time_in_future_min": "1 days",
-        "time_in_future_max": "7 days"
-      }
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
+      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future": [ "1 days", "7 days" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "bio_trip",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_trip" },
@@ -216,8 +196,7 @@
   {
     "type": "effect_on_condition",
     "id": "mut_eyestalk",
-    "recurrence_min": "2 hours 15 minutes",
-    "recurrence_max": "10 hours 15 minutes",
+    "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_trait": "EYESTALKS1" },
@@ -234,8 +213,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_spasm",
-    "recurrence_min": "2 hours 30 minutes",
-    "recurrence_max": "7 hours 30 minutes",
+    "recurrence": [ "2 hours 30 minutes", "7 hours 30 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_spasm" },
@@ -254,8 +232,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_shakes",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "3 hours",
+    "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
       "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
     },
@@ -270,8 +247,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_glowy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_glowy" },
@@ -289,8 +265,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_sleepy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
     "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "++" ] } ]
@@ -298,8 +273,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_itchy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
@@ -310,14 +284,13 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise",
-    "recurrence_min": "30 minutes",
-    "recurrence_max": "1 hours 30 minutes",
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
     "effect": [
       { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bio_noise_hearing",
             "condition": { "not": "u_is_deaf" },
@@ -341,8 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_leaky",
-    "recurrence_min": "3 minutes",
-    "recurrence_max": "9 minutes",
+    "recurrence": [ "3 minutes", "9 minutes" ],
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
