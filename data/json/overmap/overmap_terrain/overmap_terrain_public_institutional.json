@@ -511,10 +511,10 @@
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
     "name": "town hall",
-    "sym": ".",
-    "color": "light_blue",
+    "sym": "^",
+    "color": "i_black",
     "see_cost": 2,
-    "mondensity": 2
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
