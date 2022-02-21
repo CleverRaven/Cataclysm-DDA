@@ -371,6 +371,7 @@
       "stadium_3_1",
       "stadium_0_2",
       "stadium_0_3",
+      "stadium_3_2",
       "stadium_3_3",
       "stadium_1_4",
       "stadium_2_4"
@@ -390,7 +391,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "stadium_1_2", "stadium_2_2", "stadium_3_2", "stadium_1_3", "stadium_2_3" ],
+    "id": [ "stadium_1_2", "stadium_2_2", "stadium_1_3", "stadium_2_3" ],
     "copy-from": "generic_city_building",
     "name": "stadium field",
     "sym": "X",
