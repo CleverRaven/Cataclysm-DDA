@@ -1455,6 +1455,7 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
         case jmapgen_flags::allow_terrain_under_other_data: return "ALLOW_TERRAIN_UNDER_OTHER_DATA";
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
+        case jmapgen_flags::no_underlying_rotate: return "NO_UNDERLYING_ROTATE";
         // *INDENT-ON*
         case jmapgen_flags::last:
             break;
@@ -7679,8 +7680,9 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    rotation_guard rot( md_with_params );
-
+    if( !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+        rotation_guard rot( md_with_params );
+    }
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
                                    verify );
 }

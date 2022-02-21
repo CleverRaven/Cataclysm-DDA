@@ -2376,6 +2376,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 {
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
+    int_or_var iov_z = get_int_or_var( jo, "z_offset", false, 0 );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     cata::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
@@ -2387,15 +2388,15 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     var_type type = var.type;
     std::string var_name = var.name;
     function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, target_params,
-                    is_npc, type]( const dialogue & d ) {
+                    is_npc, type, iov_z]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
-        tripoint target_pos = talker_pos;
+        tripoint target_pos = talker_pos + tripoint( 0, 0, iov_z.evaluate( d.actor( iov_z.is_npc() ) ) );
         int max_radius = iov_max_radius.evaluate( d.actor( iov_max_radius.is_npc() ) );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
-                                   project_to<coords::ms>( omt_pos ).z() );
+                                   project_to<coords::ms>( omt_pos ).z() + iov_z.evaluate( d.actor( iov_z.is_npc() ) ) );
         } else if( max_radius > 0 ) {
             bool found = false;
             int min_radius = iov_min_radius.evaluate( d.actor( iov_min_radius.is_npc() ) );
@@ -2440,7 +2441,8 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
         if( future > 0_seconds ) {
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
-                                    calendar::turn + future,
+                                    calendar::turn + future + 1_seconds,
+                                    //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
@@ -2486,7 +2488,8 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         }
         time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
         if( future > 0_seconds ) {
-            time_point tif = calendar::turn + future;
+            time_point tif = calendar::turn + future + 1_seconds;
+            //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
             if( !revert ) {
                 for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                     get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),

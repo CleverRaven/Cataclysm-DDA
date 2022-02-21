@@ -4107,7 +4107,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         const float radiX = trig_dist( p, getabs( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
-            transform->transform( t );
+            transform->transform( t, shifted );
         }
     }
     if( shifted ) {
