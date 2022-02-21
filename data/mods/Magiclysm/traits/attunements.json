@@ -50,7 +50,7 @@
     "valid": false,
     "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
-    "spells_learned": [ [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
+    "spells_learned": [ [ "alchemist_make_potion_starter", 5 ], [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
