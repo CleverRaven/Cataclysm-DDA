@@ -4,8 +4,8 @@
     "id": "NPC_evac_shelter_survivor",
     "class": "NC_SCAVENGER",
     "name_suffix": "scavenger",
-    "attitude": 0,
-    "mission": 7,
+    "attitude": 1,
+    "mission": 8,
     "chat": "TALK_NPC_EVAC_SURVIVOR",
     "faction": "no_faction",
     "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
@@ -15,8 +15,8 @@
     "id": "NPC_homeless_survivor",
     "class": "NC_SCAVENGER",
     "name_suffix": "scavenger",
-    "attitude": 0,
-    "mission": 7,
+    "attitude": 1,
+    "mission": 8,
     "chat": "TALK_NPC_HOMELESS_SURVIVOR",
     "faction": "no_faction",
     "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
