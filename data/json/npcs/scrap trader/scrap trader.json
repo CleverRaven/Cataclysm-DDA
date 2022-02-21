@@ -69,7 +69,8 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_STORY",
-    "dynamic_line": "Well, I held a modest job here as a scrap yard worker. Buisness was fair most days, but when <the_cataclysm> hit, I was on a solo shift. With all the craziness going on in the cities and whatnot, I decided to just stay here for while. I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
+    "dynamic_line": "Well, I held a modest job here as a scrap yard worker. Business was fair most days, but when <the_cataclysm> hit, I was on a solo shift. With all the craziness going on in the cities and whatnot, I decided to just stay here for while. I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
+
     "responses": [
       { "text": "Hmm.", "topic": "TALK_NONE" }
     ]
