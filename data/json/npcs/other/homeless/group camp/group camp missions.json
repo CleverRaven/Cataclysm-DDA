@@ -32,7 +32,7 @@
     "id": "MISSION_HUNT_ANTS",
     "type": "mission_definition",
     "name": "Arthropod Hunting",
-    "description": "Kill some ants and bring back their meat, in exchange for credit with some of the traders.",
+    "description": "Kill some ants and bring back ten slices of their meat in exchange for credit with some of the traders.",
     "goal": "MGOAL_FIND_ITEM",
 	"item": "mutant_meat",
 	"count": 10,
