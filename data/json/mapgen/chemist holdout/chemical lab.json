@@ -1,0 +1,106 @@
+[
+{
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "chemical_lab_ocu" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+            "........................",
+            "........................",
+            "........................",
+            "........................",
+            "......---------------...",
+            "......-~~~~~~~~~~~~~-...",
+            "......-~~~~~00~~~~~~-...",
+            "......-~~##W##W##W#~-...",
+            "......-~~#     G@ #~-...",
+            "......G~~=     CCC#~-...",
+            "......-~~#        W~-...",
+            "......-~~#####   c#~-...",
+            "......-~~#B  =   tW~-...",
+            "......-~~#B  #   c#~-...",
+            "......-~~###W##W###~-...",
+            "......-~~~~~~~~~~~~~-...",
+            "......---------------...",
+            "........................",
+            "........................",
+            "........................",
+            "........................",
+            "........................",
+            "........................",
+            "........................"
+      ],
+      "palettes": [ "cabin_palette" ],
+      "faction_owner": [
+		{ "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] }				
+      ],
+      "items": {
+      "C": [ { "item": "cabin_chemist_sell", "chance": 100, "repeat": [ 4, 5 ] } ]
+               },
+      "npcs": {
+		"@": { "class": "NPC_cabin_chemist" }
+		}
+    }
+  },
+{
+    "type": "mapgen",
+    "method": "json",
+    "weight": 100,
+    "om_terrain": [ "chemical_lab_roof_ocu" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "         ..........     ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        "
+      ],
+      "palettes": [ "roof_palette" ],      
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+{
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] 
+  },
+{
+    "type": "overmap_special",
+    "id": "Occupied Chem Lab",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "chemical_lab_roof_ocu_north" }
+    ],
+    "connections": [ { "point": [ -1, -1, 0 ], "terrain": "road" }, { "point": [ -1, 0, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  }
+]
