@@ -115,7 +115,7 @@
       },
       {
         "text": "I'll buy some antibiotics. [30$]",
-        "effect": [ { "u_buy_item": "antibiotics", "cost": 2000, "count": 10 } ],
+        "effect": [ { "u_buy_item": "antibiotics", "cost": 3000, "count": 10 } ],
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
