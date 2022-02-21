@@ -86,8 +86,6 @@ struct fire_data;
 enum class damage_type : int;
 enum clothing_mod_type : int;
 
-std::string rad_badge_color( int rad );
-
 struct light_emission {
     unsigned short luminance;
     short width;
@@ -990,6 +988,11 @@ class item : public visitable
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
         void set_item_specific_energy( float specific_energy );
 
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy() const;
+
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
 
@@ -1208,6 +1211,9 @@ class item : public visitable
         /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
+         * roll is normally set to 0 which means all materials protect for legacy
+         * giving a roll between 0-99 will influence the covered materials with a fixed roll
+         * giving a roll of -1 (< 0) will mean each material is rolled individually
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
@@ -1484,14 +1490,16 @@ class item : public visitable
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
+         * @param nested whether or not the current call is nested (used recursively).
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool nested = false ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
+                bool nested = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -1499,7 +1507,7 @@ class item : public visitable
 
         /**
          * Is it ever possible to reload this item?
-         * Only the base item is considered with any mods ignored
+         * ALso checks for reloading installed gunmods
          * @see player::can_reload()
          */
         bool is_reloadable() const;
@@ -2657,11 +2665,6 @@ class item : public visitable
          * @param time_delta time duration from previous temperature calculation
          */
         void calc_temp( int temp, float insulation, const time_duration &time_delta );
-
-        /**
-         * Get the thermal energy of the item in Joules.
-         */
-        float get_item_thermal_energy() const;
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );

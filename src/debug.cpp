@@ -506,11 +506,12 @@ void limitDebugClass( int class_bitmask )
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
-struct NullBuf : public std::streambuf {
-    NullBuf() = default;
-    int overflow( int c ) override {
-        return c;
-    }
+class NullStream : public std::ostream
+{
+    public:
+        NullStream() : std::ostream( nullptr ) {}
+        NullStream( const NullStream & ) = delete;
+        NullStream( NullStream && ) = delete;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
@@ -1345,9 +1346,8 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         return out;
     }
 
-    static NullBuf nullBuf;
-    static std::ostream nullStream( &nullBuf );
-    return nullStream;
+    static NullStream null_stream;
+    return null_stream;
 }
 
 std::string game_info::operating_system()
@@ -1560,8 +1560,17 @@ static std::string windows_version()
         }
         if( success && major_version == 10 ) {
             buffer_size = c_buffer_size;
-            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+            // present in Windows 10 version >= 20H2, aka 2009
+            success = RegQueryValueExA( handle_key, "DisplayVersion", nullptr, &value_type, &byte_buffer[0],
                                         &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+
+            if( !success ) {
+                // only accurate in Windows 10 version <= 2009
+                buffer_size = c_buffer_size;
+                success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                            &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+            }
+
             if( success ) {
                 output.append( " " );
                 output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );

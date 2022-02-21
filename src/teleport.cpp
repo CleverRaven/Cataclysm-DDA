@@ -69,7 +69,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     bool shifted = false;
     if( !here.inbounds( target ) ) {
         const tripoint_abs_ms abs_ms( here.getabs( target ) );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ) );
+        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
         shifted = true;
         target = here.getlocal( abs_ms );
     }
@@ -80,8 +80,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
-                get_avatar().set_location( avatar_pos );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         }
@@ -103,8 +102,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
-                get_avatar().set_location( avatar_pos );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
@@ -113,8 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             }
             if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ) );
-                get_avatar().set_location( avatar_pos );
+                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
         } else {
@@ -144,10 +141,10 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             poor_soul->check_dead_state();
         }
     }
-
     critter.setpos( target );
     //player and npc exclusive teleporting effects
     if( p ) {
+        g->place_player( p->pos() );
         if( add_teleglow ) {
             p->add_effect( effect_teleglow, 30_minutes );
         }

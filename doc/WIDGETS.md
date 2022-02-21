@@ -1,20 +1,30 @@
-# Sidebar Modification
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Overview](#overview)
+- [Sidebar Modification](#sidebar-modification)
 - [Widgets](#widgets)
-  - [Sidebar widgets](#sidebar-widgets)
-  - [Layout widgets](#layout-widgets)
+  - [Required fields](#required-fields)
+  - [Optional fields](#optional-fields)
+- [Styles](#styles)
+  - [Sidebar style](#sidebar-style)
+  - [Layout style](#layout-style)
   - [Variable widgets](#variable-widgets)
-    - [Number widget](#number-widget)
-    - [Graph widget](#graph-widget)
-- [Other fields](#other-fields)
+    - [Number style](#number-style)
+    - [Graph style](#graph-style)
+    - [Text style](#text-style)
+- [Fields](#fields)
+  - [label](#label)
   - [fill](#fill)
+  - [style](#style)
   - [direction](#direction)
   - [height](#height)
-  - [alignment](#text_align--label_align)
+  - [text_align and label_align](#text_align-and-label_align)
   - [colors](#colors)
-  - [phrases](#phrases)
   - [flags](#flags)
+- [Clauses and conditions](#clauses-and-conditions)
+  - [Conditions](#conditions)
+  - [Default clause](#default-clause)
 - [Variable ranges](#variable-ranges)
 - [Variables](#variables)
   - [Numeric variables](#numeric-variables)
@@ -24,34 +34,38 @@
   - [Graph widgets](#graph-widgets)
   - [Text widgets](#text-widgets)
   - [Layout widgets](#layout-widgets)
+    - [Single-line layouts](#single-line-layouts)
+    - [Multi-line layouts](#multi-line-layouts)
+      - [hitpoints_all_graphs_layout](#hitpoints_all_graphs_layout)
+      - [hitpoints_all_narrow_graphs_layout](#hitpoints_all_narrow_graphs_layout)
+      - [compass_all_layout](#compass_all_layout)
+  - [Modding the Sidebar](#modding-the-sidebar)
 
-## Overview
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-Some parts of the main CDDA sidebar are now moddable, meaning they are data-driven and can be
-customized simply by editing JSON files, without recompiling the game.
+# Sidebar Modification
 
-You can add a custom sidebar section to your regular sidebar via the Sidebar Options menu `}`
-by enabling the "Custom" section from the left-hand column for any of the regular sidebar layouts
-(classic, labels, narrow etc.)
+Most of the main CDDA sidebar is now moddable, meaning it is data-driven and can be customized
+simply by editing JSON files, without recompiling the game.
 
-You can also switch to an almost completely custom sidebar, by selecting "custom" from the
-right-hand column of the sidebar options menu. This layout is built from the "custom_sidebar" widget
-defined in `data/json/ui/sidebar.json`, with sections you can toggle or rearrange in-game according
-to your preference.
+From the in-game Sidebar Options menu `}`, select the "custom" layout to switch to a basic moddable
+theme built from the "custom_sidebar" widget defined in `data/json/ui/sidebar.json`, with sections
+you can toggle or rearrange in-game according to your preference.
 
-In both cases, you can further customize your sidebar widgets by modifying (or modding) the JSON
-that describes them. This document explains how they work.
+You can deeply customize the look of your sidebar widgets, by directly modifying the JSON that
+defines them in `data/json/ui`, or by creating your own sidebar mod in `data/mods`. This document is
+all about widgets: what they do, and how to use them.
 
 
-## Widgets
+# Widgets
 
 All "custom" sidebar UI elements are defined in objects called widgets. A widget can display a
-variety of player character attributes in numeric form, or as a bar graph of arbitrary width. A
-widget can also make a layout of other widgets.
+variety of player character attributes in numeric or text form, or as a bar graph of arbitrary
+width. A widget can also group other widgets together in a horizontal or vertical layout.
 
 Widget instances are defined by JSON data, with the main game sidebar widgets and layouts being in
 `data/json/ui/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
-adds or modifies widget definitions.
+adds or modifies widget definitions (see [Modding the sidebar](#modding-the-sidebar)).
 
 For example, here is a widget to display the player character's "Focus" attribute as a number:
 
@@ -65,27 +79,81 @@ For example, here is a widget to display the player character's "Focus" attribut
 }
 ```
 
-All widgets must have a unique "id", and "type": "widget".
+And how it may look in-game:
 
-Each widget has a "style" field that may be:
+```
+Focus: 105
+```
 
-- `number`: Show value as a plain integer number
-- `graph`: Show a bar graph of the value with colored text characters
-- `text`: Show text from a `*_text` variable
-- `layout`: Layout container for arranging other widgets in rows or columns
-- `sidebar`: Special top-level widget for defining custom sidebars
-
-Let's start at the top, with the "sidebar" widget, composed of several "layout" widgets.
+The [label](#label), [var](#variables), and [style](#style) fields define what info is shown, and
+how.  Several other fields provide more detailed customization, depending on context.
 
 
-### Sidebar widgets
+## Required fields
+
+Two fields are required for all widgets:
+
+| field | description
+| --    | --
+| id    | Unique identifier for this widget, usually like "lowercase_with_underscores"
+| type  | Must be set to "widget" for all widget objects.
+
+**NOTE** For cleanliness and readability, many JSON examples in this document omit "id" and "type",
+because they are always required. Assume they are implied in all examples, unless otherwise noted:
+
+```json
+{
+  "id": "some_unique_id",
+  "type": "widget",
+
+  "//": "...and so on"
+}
+```
+
+
+## Optional fields
+
+This table lists all other widget fields and what they do. Many are explained in more detail in the
+linked sections:
+
+| field                   | type                  | description
+| --                      | --                    | --
+| arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
+| bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
+| [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
+| [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
+| [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
+| [flags](#flags)         |                       | list of strings | Optional toggles
+| [height](#height)       | integer               | Maximum number of lines of text to take up
+| [label](#label)         | string or translation | Visible descriptor or heading
+| [clauses](#clauses-and-conditions) | list of objects | Arbitrary conditional expressions mapped to colored text, symbols, or numbers
+| [style](#style)         | string                | Sub-type or visual theme: "number", "graph", "text", "layout"
+| symbols                 | string                | For [graph style](#graph-style), text characters for ascending values
+| var                     | string                | Variable name from `widget_var`; see [Variables](#variables)
+| widgets                 | list of strings       | For "layout" and "sidebar" style, list of string IDs of child widgets.
+| width                   | integer               | Total width in characters or symbols.
+| [label_align and text_align](#text_align-and-label_align) | string | How to orient the label and value: "left", "center", or "right"
+
+See [Fields](#fields) for details.
+
+
+# Styles
+
+Two widget [styles](#style) are for high-level organization and layout: [sidebar](#sidebar-style)
+and [layout](#layout-style); three others are [variable widgets](#variable-widgets) for displaying
+specific information: [number](#number-style), [graph](#graph-style), and [text](#text-style).
+
+This section describes them in a top-down fashion.
+
+
+## Sidebar style
 
 The highest-level widget is the "sidebar", which represents the entire display region on the right
 (or left) edge of the screen. It includes a "width" in characters, a "label" displayed in the
 sidebar options menu, and a list of "widgets", shown as sections that may be rearranged or
 toggled from the sidebar options menu.
 
-These sub-widgets are typically [layout widgets](#layout-widgets), with other widgets arranged
+These sub-widgets are typically [layout widgets](#layout-style), with other widgets arranged
 inside them, but they could also be plain [variable widgets](#variable-widgets), used for showing
 character attributes or other information.
 
@@ -110,13 +178,13 @@ You may define any number of "sidebar" widgets, each with their own width, label
 sub-widgets and layouts.
 
 Sidebar widgets aside, there are two major types of widget: [variable widgets](#variable-widgets),
-showing some piece of information (with a label); and [layout widgets](#layout-widgets), used for
+showing some piece of information (with a label); and [layout widgets](#layout-style), used for
 arranging other widgets in rows or columns.
 
 We will look at layout widgets first, since they are easier to explain.
 
 
-### Layout widgets
+## Layout style
 
 Use widgets with "style": "layout" to arrange child widgets in sidebar panels, giving widget ids in
 the "widgets" list field.
@@ -165,7 +233,7 @@ Where do all these numeric widgets and their values come from? These are variabl
 next.
 
 
-### Variable widgets
+## Variable widgets
 
 Variable widgets define a "var" field, with the name of a predefined widget variable. This tells the
 widget what information it should show. Most of the time, these are attributes of the player
@@ -188,10 +256,18 @@ And a widget to show the HP of the right arm would define "var" and "bodypart" l
 }
 ```
 
+Some widgets can take advantage of multiple "bodyparts" like so:
+
+```json
+{
+  "bodyparts": [ "head", "torso", "arm_l", "arm_r" ]
+}
+```
+
 See [Variables](#variables) for a list of available "var" values.
 
 
-#### Number widget
+### Number style
 
 The simplest and usually most compact widget for displaying a value, "style": "number" appears as a
 label with an integer number.
@@ -209,10 +285,14 @@ Result:
 Focus: 100
 ```
 
-The numeric value comes from the given "var", displayed as a decimal integer.
+The numeric value comes from the given "var", displayed as a decimal integer. By default it will be
+plain gray, but providing a spectrum of [colors](#colors), will colorize the number based on the
+[variable range](#variable-ranges) of the given "var".
+
+See [Number widgets](#number-widgets) for several pre-defined numeric widgets you can use or extend.
 
 
-#### Graph widget
+### Graph style
 
 The graph shows an arrangement of symbols. It has two important parameters:
 
@@ -295,11 +375,51 @@ See the [fill](#fill) and [colors](#colors) fields for more ways to customize th
 [Variable ranges](#variable-ranges) for details on how the minimum and maximum extents of the graph
 are determined.
 
+Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or extend.
 
 
-# Other fields
+### Text style
 
-This section documents a few more widget fields with special uses.
+**TODO**
+
+See [Text widgets](#text-widgets) for a variety of predefined text widgets you can use or extend.
+
+
+# Fields
+
+## label
+
+The "label" is the word or phrase that appears in the UI to identify this widget. For "number",
+"graph", or "text" widgets, the label is shown to the left of the the value unless the
+`W_LABEL_NONE` [flag](#flags) is given. For "layout" widgets, the label may appear as the name of a
+section within the sidebar.
+
+Labels may be a plain string:
+
+```JSON
+{
+  "id": "sound_num",
+  "label": "Sound",
+  "var": "sound"
+}
+```
+
+Or it may define a translatable string object, as commonly seen in item names:
+
+```JSON
+{
+  "id": "place_name",
+  "label": { "str": "Place", "ctxt": "location" },
+  "var": "place_text"
+}
+```
+
+The English word "place" can be a verb, to put something down. Here "place" is a noun meaning a
+location. The "ctxt" part provides this context to translators so they can choose the most
+appropriate words in other languages.
+
+See the [Translatable strings section of JSON_INFO.md](JSON_INFO.md#translatable-strings)
+for more on how these work.
 
 
 ## fill
@@ -365,7 +485,22 @@ Result:
 The total number of possible graphs is the same in each case, so both have the same resolution.
 
 
-## `direction`
+
+
+## style
+
+The "style" field says what kind of info this widget shows or how it will be rendered. It may be:
+
+- `number`: Show value as a plain integer number
+- `graph`: Show a bar graph of the value with colored text characters
+- `text`: Show text from a `*_text` variable
+- `layout`: Layout container for arranging other widgets in rows or columns
+- `sidebar`: Special top-level widget for defining custom sidebars, having several layouts
+
+"style" can also be `symbol` or `legend`, which are specific to [clauses](#clauses-and-conditions).
+
+
+## direction
 
 Widgets using `compass_text` expect the additional fields `direction` and `width` to
 identify (respectively) the cardinal direction and number of creatures displayed:
@@ -389,7 +524,7 @@ function to reserve that many lines for the compass legend:
 ```
 
 
-## `height`
+## height
 
 Some widgets can make use of multiple lines by specifying the `"height"` field, which reserves
 vertical space in the sidebar. Display functions can make use of this extra space to render
@@ -411,7 +546,7 @@ Some multi-line widgets can dynamically adjust their height based on how many li
 To enable this behavior, add the `W_DYNAMIC_HEIGHT` flag to the widget (ex: see the compass legend).
 
 
-## `text_align` / `label_align`
+## text_align and label_align
 
 The widget's label and text/value can be aligned using the `label_align` and `text_align` respectively.
 This is useful for widgets in "rows"-style layouts where the labels are different lengths, as the text
@@ -432,7 +567,7 @@ Comfort: Cozy
 Values may be "left", "right", or "center". The default is "left" alignment for both labels and text.
 
 
-## `colors`
+## colors
 
 Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
 the widget's values (`var_min` to `var_max`), applying the appropriate color to each value based on
@@ -452,6 +587,9 @@ red, given in a "colors" list:
   "colors": [ "c_green", "c_white", "c_red" ]
 }
 ```
+
+Color names may be any of those described in [COLORS.md](COLORS.md). You can also see the available
+colors in-game from the "Settings" menu, under "Colors".
 
 Graphs can be colorized in the same way. For example, the classic stamina graph is a 5-character
 bar, a dark green `|||||` when full. As stamina diminishes, the bar's color goes to light green,
@@ -475,42 +613,7 @@ mapped as closely as possible to the spectrum of colors, with one exception - va
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
 
-## `phrases`
-
-Some widgets can take advantage of "phrases" - definitions for what text/values to display and
-how to display them. These take the form of a nested object containing several optional fields:
-
-```json
-{
-  "id": "bp_status_indicator_template",
-  "type": "widget",
-  "style": "phrase",
-  "phrases": [
-    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow" },
-    { "id": "infected", "text": "infected", "sym": "I", "color": "pink" },
-    { "id": "broken", "text": "broken", "sym": "%", "color": "magenta" },
-    { "id": "splinted", "text": "splinted", "sym": "=", "color": "light_gray" },
-    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white" },
-    { "id": "disinfected", "text": "disinfected", "sym": "$", "color": "light_green" },
-    { "id": "bleeding", "text": "bleeding", "value": 0, "sym": "b", "color": "light_red" },
-    { "id": "bleeding", "text": "bleeding", "value": 11, "sym": "b", "color": "red" },
-    { "id": "bleeding", "text": "bleeding", "value": 21, "sym": "b", "color": "red_red" }
-  ]
-}
-```
-
-| JSON Field | Description
-|---         |---
-| `id`       | Which "phrase" this definition should apply to.
-| `text`     | Translated text that may be interpreted and displayed in the widget.
-| `sym`      | A shortened symbol representing the text.
-| `color`    | Defines the color for the text derived from this "phrase".
-| `value`    | A numeric value for this "phrase", which may be interpreted differently based on the context of the parent widget.
-
-In the above example, the widget is simply used as a template for other widgets to `copy-from`,
-which provides text and color definitions for different bodypart status conditions.
-
-## `flags`
+## flags
 
 Widgets can use flags to specify special behaviors:
 
@@ -521,17 +624,107 @@ Widgets can use flags to specify special behaviors:
   "style": "text",
   "label": "My Widget",
   "var": "my_widget_var",
-  "flags": [ "W_LABEL_NONE", "W_DISABLED" ]
+  "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
 }
 ```
 
 Here are some flags that can be included:
 
-| Flag id            | Description
-|---                 |---
-| `W_LABEL_NONE`     | Prevents the widget's label from being displayed in the sidebar
-| `W_DISABLED`       | Makes this widget disabled by default (only applies to top-level widgets/layouts)
-| `W_DYNAMIC_HEIGHT` | Allows certain multi-line widgets to dynamically adjust their height
+| Flag id                 | Description
+|---                      |---
+| `W_LABEL_NONE`          | Prevents the widget's label from being displayed in the sidebar
+| `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
+| `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
+| `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
+
+
+# Clauses and conditions
+
+Widgets can take advantage of "clauses" - definitions for what text/values to display and
+how to display them. These take the form of a nested object containing several optional fields:
+
+```json
+{
+  "id": "bp_status_indicator_template",
+  "type": "widget",
+  "style": "text",
+  "clauses": [
+    { "id": "bitten", "text": "bitten", "sym": "B", "color": "yellow", "condition": "..." },
+    { "id": "infected", "text": "infected", "sym": "I", "color": "pink", "condition": "..." },
+    { "id": "bandaged", "text": "bandaged", "sym": "+", "color": "white", "condition": "..." }
+  ]
+}
+```
+
+In the above example, the widget is simply used as a template for other widgets to `copy-from`,
+which provides text and color definitions for different bodypart status conditions.
+
+| JSON Field  | Description
+|---          |---
+| `id`        | An optional identifier for this clause
+| `text`      | Translated text that may be interpreted and displayed in the widget.
+| `sym`       | A shortened symbol representing the text.
+| `color`     | Defines the color for the text derived from this "clause".
+| `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
+
+
+## Conditions
+
+Widget clauses and conditions can be used to define new widgets completely from JSON, using
+[dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
+widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
+`style`. The widget will evaluate each of its clauses to determine which ones to draw values from:
+
+| Widget style | Clause field used    | Details | Example
+|---           |---                   |---      |---
+| `"number"`   | `"value"`            | Lists values as comma-separated-values from all clauses that have true conditions. | `Next threshold: 30, 40, 55`
+| `"text"`     | `"text"`             | Lists text as comma-separated-values from all clauses that have true conditions. | `TORSO: bleeding, broken, infected`
+| `"symbol"`   | `"sym"`              | Lists syms sequentially from all clauses that have true conditions. | `TORSO: b%I`
+| `"legend"`   | `"sym"` and `"text"` | Lists syms and text in a paragraph format, with spaces between pairs, from all clauses that have true conditions. | `b bleeding  % broken  I infected`
+
+Widgets using the `legend` style can be multiple lines high using a `height` > 1 (and optionally, the `W_DYNAMIC_HEIGHT` flag), so that the generated list can span the given vertical space.
+
+Some conditions can be specific to certain bodyparts. In order to simplify clauses, these conditions can pull from the parent widget's `bodypart` field (or `bodyparts` field if defining multiple). This allows the same clauses to be `copy-from`'d to multiple widgets, and each widget can display the clauses depending on whether its bodypart(s) passes the condition (assuming the condition relies on a bodypart).
+
+
+## Default clause
+
+Widgets can define a default clause that will be used if none of the clauses in the `clauses`
+array pass their conditions:
+
+```json
+{
+  "id": "observ_widget",
+  "type": "widget",
+  "style": "text",
+  "label": "Observation",
+  "clauses": [
+    {
+      "text": "Good!",
+      "color": "light_green",
+      "condition": { "u_has_trait": "EAGLEEYED" }
+    },
+    {
+      "text": "Bad!",
+      "color": "light_red",
+      "condition": { "u_has_trait": "UNOBSERVANT" }
+    }
+  ],
+  "default_clause": {
+    "text": "Neutral!",
+    "color": "white"
+  }
+}
+```
+
+In the example above, the widget would print out the following text:
+
+| Player has trait | Widget text
+|---               |---
+| Scout            | `Observation: Good!`
+| Topographagnosia | `Observation: Bad!`
+| -                | `Observation: Neutral!`
 
 
 # Variable ranges
@@ -625,21 +818,12 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | var                     | description
 |--                       |--
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
-| `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
 | `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `bp_status_text`        | Status of given "bodypart" - "bitten", "bleeding", "infected", etc.
-| `bp_status_sym_text`    | Same as above, but in a more compact format using 1 character per status.
-| `bp_status_legend_text` | (_multiline_) Displays the meaning of the symbols from `bp_status_sym_text`
 | `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
 | `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
-| `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
-| `health_text`           | Hidden health - "OK", "Good", "Very good", "Bad", "Very bad", etc.
-| `hunger_text`           | Hunger level - "Engorged", "Full", "Hungry", "Famished", etc.
-| `lighting_text`         | Lighting conditions at avatar position - "bright", "cloudy", "dark" etc.
 | `mood_text`             | Avatar mood represented as an emoticon face
-| `moon_phase_text`       | Phase of the moon - "New moon", "Waxing gibbous", "Full moon" etc.
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
 | `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
@@ -647,10 +831,8 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
 | `place_text`            | Location place name
 | `power_text`            | Bionic power available
-| `rad_badge_text`        | Radiation badge color indicator, if radiation badge is available
 | `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `style_text`            | Name of current martial arts style
-| `thirst_text`           | Thirst level - "Slaked", "Thirsty", "Dehydrated", etc.
 | `time_text`             | Current time - exact if clock is available, approximate otherwise
 | `veh_azimuth_text`      | Heading of vehicle in degrees
 | `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
@@ -658,7 +840,6 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
 | `weary_malus_text`      | Percentage penalty affecting speed due to weariness
 | `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `weight_text`           | Body weight - "Emaciated", "Normal", "Overweight", etc.
 | `wielding_text`         | Name of current weapon or wielded item
 | `wind_text`             | Wind direction and intensity
 
@@ -763,7 +944,7 @@ This table gives some examples of single-line "columns" layouts:
 
 Below are examples of multi-line "rows" layouts:
 
-#### `hitpoints_all_graphs_layout`
+#### hitpoints_all_graphs_layout
 
 Combines `hitpoint_graphs_top_layout` and `hitpoint_graphs_bottom_layout` into a single layout
 showing all body part hit points:
@@ -773,7 +954,7 @@ L ARM: |||||  HEAD:  |||||  R ARM: |||||
 L LEG: |||||  TORSO: |||||  R LEG: |||||
 ```
 
-#### `hitpoints_all_narrow_graphs_layout`
+#### hitpoints_all_narrow_graphs_layout
 
 Alternative hitpoint graph, better for narrower sidebars. Combines `hitpoints_head_torso_layout`,
 `hitpoints_arms_layout`, and `hitpoints_legs_layout`
@@ -784,7 +965,7 @@ L ARM: |||||  R ARM: |||||
 L LEG: |||||  R LEG: |||||
 ```
 
-#### `compass_all_layout`
+#### compass_all_layout
 
 Full compass rose showing colored symbols for nearby monsters, along with a legend for what monster
 names belong to each symbol.
@@ -798,7 +979,7 @@ Z 6 zombies  z 2 zombie cops
 ```
 
 
-# Modding the Sidebar
+## Modding the Sidebar
 
 One great advantage of a data-driven, JSON-based sidebar is that it can be customized with mods. A
 mod may extend the main "custom" sidebar with mod-specific widgets, or define an entirely new

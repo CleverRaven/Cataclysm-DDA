@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_views.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -1729,25 +1730,24 @@ struct mutable_overmap_placement_rule_remainder {
         }
         return result;
     }
-    std::vector<mutable_overmap_piece_candidate> pieces( const tripoint_om_omt &origin,
-            om_direction::type rot ) const {
-        std::vector<mutable_overmap_piece_candidate> result;
-        for( const mutable_overmap_placement_rule_piece &piece : parent->pieces ) {
+    auto pieces( const tripoint_om_omt &origin, om_direction::type rot ) const {
+        using orig_t = mutable_overmap_placement_rule_piece;
+        using dest_t = mutable_overmap_piece_candidate;
+        return cata::views::transform < decltype( parent->pieces ), dest_t > ( parent->pieces,
+        [origin, rot]( const orig_t &piece ) -> dest_t {
             tripoint_rel_omt rotated_offset = rotate( piece.pos, rot );
-            result.push_back( { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) } );
-        }
-        return result;
+            return { piece.overmap, origin + rotated_offset, add( rot, piece.rot ) };
+        } );
     }
-    auto outward_joins( const tripoint_om_omt &origin, om_direction::type rot ) const
-    -> std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> {
-        std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> result;
-        for( const std::pair<rel_pos_dir, const mutable_overmap_terrain_join *> &p :
-             parent->outward_joins ) {
+    auto outward_joins( const tripoint_om_omt &origin, om_direction::type rot ) const {
+        using orig_t = std::pair<rel_pos_dir, const mutable_overmap_terrain_join *>;
+        using dest_t = std::pair<om_pos_dir, const mutable_overmap_terrain_join *>;
+        return cata::views::transform < decltype( parent->outward_joins ), dest_t > ( parent->outward_joins,
+        [origin, rot]( const orig_t &p ) -> dest_t {
             tripoint_rel_omt rotated_offset = rotate( p.first.p, rot );
             om_pos_dir p_d{ origin + rotated_offset, p.first.dir + rot };
-            result.emplace_back( p_d, p.second );
-        }
-        return result;
+            return { p_d, p.second };
+        } );
     }
 };
 
@@ -1779,6 +1779,10 @@ class joins_tracker
                 result.push_back( &*it );
             }
             return result;
+        }
+
+        std::size_t count_unresolved_at( const tripoint_om_omt &pos ) const {
+            return unresolved.count_at( pos );
         }
 
         bool any_postponed() const {
@@ -1999,6 +2003,16 @@ class joins_tracker
                 return result;
             }
 
+            std::size_t count_at( const tripoint_om_omt &pos ) const {
+                std::size_t result = 0;
+                for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                    if( position_index.find( { pos, dir } ) != position_index.end() ) {
+                        ++result;
+                    }
+                }
+                return result;
+            }
+
             iterator add( const om_pos_dir &p, const mutable_overmap_join *j ) {
                 return add( { p, j } );
             }
@@ -2107,10 +2121,9 @@ struct mutable_overmap_phase_remainder {
         const tripoint_om_omt &origin, om_direction::type dir,
         const joins_tracker &unresolved
     ) const {
-        std::vector<mutable_overmap_piece_candidate> pieces = rule.pieces( origin, dir );
         int context_mandatory_joins_shortfall = 0;
 
-        for( const mutable_overmap_piece_candidate &piece : pieces ) {
+        for( const mutable_overmap_piece_candidate piece : rule.pieces( origin, dir ) ) {
             if( !overmap::inbounds( piece.pos ) ) {
                 return cata::nullopt;
             }
@@ -2120,17 +2133,15 @@ struct mutable_overmap_phase_remainder {
             if( unresolved.any_postponed_at( piece.pos ) ) {
                 return cata::nullopt;
             }
-            context_mandatory_joins_shortfall -= unresolved.all_unresolved_at( piece.pos ).size();
+            context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
         }
 
         int num_my_non_available_matched = 0;
 
-        std::vector<std::pair<om_pos_dir, const mutable_overmap_terrain_join *>> remaining_joins =
-                    rule.outward_joins( origin, dir );
         std::vector<om_pos_dir> suppressed_joins;
 
-        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> &p :
-             remaining_joins ) {
+        for( const std::pair<om_pos_dir, const mutable_overmap_terrain_join *> p :
+             rule.outward_joins( origin, dir ) ) {
             const om_pos_dir &pos_d = p.first;
             const mutable_overmap_terrain_join &ter_join = *p.second;
             const mutable_overmap_join &join = *ter_join.join;
@@ -2468,8 +2479,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             if( rule ) {
                 const tripoint_om_omt &origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                std::vector<mutable_overmap_piece_candidate> pieces = rule->pieces( origin, rot );
-                for( const mutable_overmap_piece_candidate &piece : pieces ) {
+                for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     const oter_id tid = ter.terrain->get_rotated( piece.rot );
                     om.ter_set( piece.pos, tid );
@@ -6358,8 +6368,7 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
     tripoint_abs_sm global_sm_loc =
         project_to<coords::sm>( project_combine( pos(), loc ) );
 
-    // TODO: fix point types
-    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc.raw() ) != nullptr;
+    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;
 
     return is_generated;
 }

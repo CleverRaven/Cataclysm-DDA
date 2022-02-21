@@ -331,7 +331,7 @@
       { "item": "chem_peptone_broth", "prob": 10, "charges-min": 1 },
       { "item": "chem_agar", "prob": 10, "charges-min": 1 },
       { "item": "chem_acrylamide", "prob": 10, "charges-min": 1 },
-      [ "oxygen_tank", 6 ],
+      { "item": "oxygen_tank", "prob": 6, "charges": 24 },
       [ "nitrogen_tank", 7 ],
       [ "hydrogen_tank", 8 ],
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },

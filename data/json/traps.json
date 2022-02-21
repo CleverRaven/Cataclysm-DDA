@@ -250,7 +250,7 @@
     "symbol": "^",
     "visibility": 6,
     "avoidance": 4,
-    "difficulty": 3,
+    "difficulty": 0,
     "action": "tripwire",
     "drops": [ "string_36" ]
   },

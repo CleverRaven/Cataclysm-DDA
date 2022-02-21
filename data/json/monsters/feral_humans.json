@@ -164,6 +164,16 @@
     "fungalize_into": "mon_feral_human_axe_fungal_infected"
   },
   {
+    "id": "mon_feral_human_tool",
+    "type": "MONSTER",
+    "name": "feral mechanic",
+    "description": "This wild human-like creature was probably a mechanic before the cataclysm.  You can see it by his worker uniform, or by his blood-covered hammer in hand, or by his all-hating view.",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
+    "death_drops": "feral_humans_death_drops_tool"
+  },
+  {
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
@@ -650,7 +660,7 @@
     "id": "mon_feral_soldier",
     "type": "MONSTER",
     "name": { "str": "feral soldier" },
-    "description": "Wearing a military uniform with a kevlar vest, this person seems to be a highly trained military professional, now turned feral.  Tense, dirty hands grip a combat knife as their bloodshot eyes scan for threats.",
+    "description": "Wearing a military uniform with an armored vest, this person seems to be a highly trained military professional, now turned feral.  Tense, dirty hands grip a combat knife as their bloodshot eyes scan for threats.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -666,7 +676,11 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_cut": 18,
+    "melee_cut": 6,
+    "armor_bash": 4,
+    "armor_cut": 9,
+    "armor_bullet": 7,
+    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 4,
     "harvest": "human",

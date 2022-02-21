@@ -1101,13 +1101,73 @@
   },
   {
     "type": "construction_group",
+    "id": "place_minifridge",
+    "name": "Place Minifridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_minifreezer",
+    "name": "Place Minifreezer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_oven",
     "name": "Place Oven"
   },
   {
     "type": "construction_group",
+    "id": "place_electric_forge",
+    "name": "Place Electric Forge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_kiln",
+    "name": "Place Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heater_large",
+    "name": "Place Large Heater"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heater_small",
+    "name": "Place Small Heater"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_lamp",
     "name": "Place Standing Lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_solar_panel",
+    "name": "Place Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_small_battery",
+    "name": "Place Small Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_medium_battery",
+    "name": "Place Medium Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_battery",
+    "name": "Place Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_large_battery",
+    "name": "Place Large Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_standing_floodlight",
+    "name": "Place Standing Floodlight"
   },
   {
     "type": "construction_group",
@@ -1352,6 +1412,16 @@
   {
     "type": "construction_group",
     "id": "remove_glass_door",
-    "name": "Remove Glass Door"
+    "name": "Remove glass door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_training_dummy_light",
+    "name": "Install Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_training_dummy_heavy",
+    "name": "Install Armored Training Dummy"
   }
 ]

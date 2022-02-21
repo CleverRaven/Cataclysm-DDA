@@ -194,7 +194,6 @@ static const harvest_drop_type_id harvest_drop_skin( "skin" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 
@@ -208,7 +207,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_computer( "computer" );
-static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -575,9 +573,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_trait_flag( json_flag_CANNIBAL ) ||
-                       you.has_trait_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
+                       you.has_flag( json_flag_PSYCHOPATH ) ||
+                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( you.is_avatar() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -1421,7 +1419,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid );
+                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1938,7 +1936,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
@@ -3659,135 +3657,83 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
         spell_being_cast.set_level( level_override );
     }
 
-    const bool no_fail = act->get_value( 1 ) == 1;
-    const bool no_mana = act->get_value( 2 ) == 0;
+    // choose target for spell before continuing
+    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+            you ) : get_map().getlocal( act->coords.front() );
+    if( target ) {
+        // npcs check for target viability
+        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+            // no turning back now. it's all said and done.
+            bool success = act->get_value( 1 ) == 1 ||
+                           rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
+            int exp_gained = spell_being_cast.casting_exp( *you );
+            if( !success ) {
+                you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                        _( "You lose your concentration!" ) );
+                if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+                    // still get some experience for trying
+                    spell_being_cast.gain_exp( exp_gained / 5 );
+                    you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                                            spell_being_cast.xp() );
+                }
+                return;
+            }
 
-    // choose target for spell (if the spell has a range > 0)
-    tripoint target = you->pos();
-    bool target_is_valid = false;
-    if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
-        !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        if( you->is_avatar() ) {
-            do {
-                avatar &you_avatar = *you->as_avatar();
-                std::vector<tripoint> trajectory = target_handler::mode_spell( you_avatar, spell_being_cast,
-                                                   no_fail,
-                                                   no_mana );
-                if( !trajectory.empty() ) {
-                    target = trajectory.back();
-                    target_is_valid = spell_being_cast.is_valid_target( you_avatar, target );
-                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || you_avatar.sees( target ) ) ) {
-                        target_is_valid = false;
-                    }
-                } else {
-                    target_is_valid = false;
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+                sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
+                               _( "cast a spell" ),
+                               false );
+            }
+
+            you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
+
+            // this is here now so that the spell first consume its components then casts its effects, necessary to cast
+            // spells with the components in hand.
+            spell_being_cast.use_components( *you );
+
+            spell_being_cast.cast_all_effects( *you, *target );
+
+            if( act->get_value( 2 ) != 0 ) {
+                // pay the cost
+                int cost = spell_being_cast.energy_cost( *you );
+                switch( spell_being_cast.energy_source() ) {
+                    case magic_energy_type::mana:
+                        you->magic->mod_mana( *you, -cost );
+                        break;
+                    case magic_energy_type::stamina:
+                        you->mod_stamina( -cost );
+                        break;
+                    case magic_energy_type::bionic:
+                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        break;
+                    case magic_energy_type::hp:
+                        blood_magic( you, cost );
+                        break;
+                    case magic_energy_type::none:
+                    default:
+                        break;
                 }
-                if( !target_is_valid ) {
-                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                        return;
-                    }
-                }
-            } while( !target_is_valid );
-        } else {
-            if( act->coords.empty() ) {
-                debugmsg( "ERROR: npc tried to cast a spell without a target." );
-            } else {
-                const tripoint local_target = get_map().getlocal( act->coords.front() );
-                if( spell_being_cast.is_valid_target( *you, local_target ) ) {
-                    target = local_target;
-                } else {
-                    npc_attack_spell npc_spell( spell_being_cast.id() );
-                    // recalculate effectiveness because it's been a few turns since the npc started casting.
-                    const npc_attack_rating effectiveness = npc_spell.evaluate( *you->as_npc(),
-                                                            you->last_target.lock().get() );
-                    if( effectiveness < 0 ) {
-                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
-                                       you->disp_name(), spell_being_cast.name() );
-                        return;
+
+            }
+            if( level_override == -1 ) {
+                if( !spell_being_cast.is_max_level() ) {
+                    // reap the reward
+                    int old_level = spell_being_cast.get_level();
+                    if( old_level == 0 ) {
+                        spell_being_cast.gain_level();
+                        you->add_msg_if_player( m_good,
+                                                _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
-                        target = effectiveness.target();
+                        spell_being_cast.gain_exp( exp_gained );
+                        you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                                spell_being_cast.xp() );
                     }
-                }
-            }
-        }
-    } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *you, you->pos() );
-        if( !target_ ) {
-            you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                    _( "Your spell can't find a suitable target." ) );
-            return;
-        }
-        target = *target_;
-    }
-
-    // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );
-    int exp_gained = spell_being_cast.casting_exp( *you );
-    if( !success ) {
-        you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                _( "You lose your concentration!" ) );
-        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
-            // still get some experience for trying
-            spell_being_cast.gain_exp( exp_gained / 5 );
-            you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                    spell_being_cast.xp() );
-        }
-        return;
-    }
-
-    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
-                       _( "cast a spell" ),
-                       false );
-    }
-
-    you->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
-
-    // this is here now so that the spell first consume its components then casts its effects, necessary to cast
-    // spells with the components in hand.
-    spell_being_cast.use_components( *you );
-
-    spell_being_cast.cast_all_effects( *you, target );
-
-    if( !no_mana ) {
-        // pay the cost
-        int cost = spell_being_cast.energy_cost( *you );
-        switch( spell_being_cast.energy_source() ) {
-            case magic_energy_type::mana:
-                you->magic->mod_mana( *you, -cost );
-                break;
-            case magic_energy_type::stamina:
-                you->mod_stamina( -cost );
-                break;
-            case magic_energy_type::bionic:
-                you->mod_power_level( -units::from_kilojoule( cost ) );
-                break;
-            case magic_energy_type::hp:
-                blood_magic( you, cost );
-                break;
-            case magic_energy_type::none:
-            default:
-                break;
-        }
-
-    }
-    if( level_override == -1 ) {
-        if( !spell_being_cast.is_max_level() ) {
-            // reap the reward
-            int old_level = spell_being_cast.get_level();
-            if( old_level == 0 ) {
-                spell_being_cast.gain_level();
-                you->add_msg_if_player( m_good,
-                                        _( "Something about how this spell works just clicked!  You gained a level!" ) );
-            } else {
-                spell_being_cast.gain_exp( exp_gained );
-                you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                        spell_being_cast.xp() );
-            }
-            if( spell_being_cast.get_level() != old_level ) {
-                // Level 0-1 message is printed above - notify player when leveling up further
-                if( old_level > 0 ) {
-                    you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                    if( spell_being_cast.get_level() != old_level ) {
+                        // Level 0-1 message is printed above - notify player when leveling up further
+                        if( old_level > 0 ) {
+                            you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                        }
+                    }
                 }
             }
         }

@@ -237,11 +237,9 @@ void mapgen_crater( mapgendata &dat )
             if( rng( 0, dat.w_fac ) <= i && rng( 0, dat.e_fac ) <= SEEX * 2 - 1 - i &&
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
                 m->ter_set( point( i, j ), t_dirt );
-                m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true );
-                m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
+                m->make_rubble( tripoint( i,  j, m->get_abs_sub().z() ), f_rubble_rock, true );
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
-                m->set_radiation( point( i, j ), rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
             }
         }
     }
@@ -330,8 +328,8 @@ void mapgen_hive( mapgendata &dat )
                         m->ter_set( point( i + k, j + l ), t_floor_wax );
                     }
                 }
-                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z } );
-                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z } );
+                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z() } );
+                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z() } );
                 m->ter_set( point( i, j - 3 ), t_floor_wax );
                 m->ter_set( point( i, j + 3 ), t_floor_wax );
                 m->ter_set( point( i - 1, j - 2 ), t_floor_wax );
@@ -966,7 +964,7 @@ void mapgen_road( mapgendata &dat )
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z } );
+            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z() } );
         }
     }
 
@@ -3229,7 +3227,7 @@ void mapgen_ravine_edge( mapgendata &dat )
 
 void mremove_trap( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z() );
     const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
     if( type == tr_null || trap_at_loc == type ) {
         m->remove_trap( actual_location );
@@ -3238,13 +3236,13 @@ void mremove_trap( map *m, const point &p, trap_id type )
 
 void mtrap_set( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
 
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 

@@ -242,6 +242,7 @@ static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
@@ -345,6 +346,7 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
@@ -920,7 +922,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
     p->mod_healthy_mod( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
@@ -939,7 +941,7 @@ cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripo
     }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
@@ -4990,6 +4992,11 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
             blood_temp = map_it.temperature * 0.00001;
+
+            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
+                blood.convert( itype_blood_tainted );
+            }
+
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
@@ -5037,6 +5044,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
 
     blood.set_item_temperature( blood_temp );
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
 }
 
@@ -7378,7 +7386,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z >= 0 && need_store_weather ) {
+    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -8888,7 +8896,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9065,7 +9073,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9179,7 +9187,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -9660,8 +9668,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                                                crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water,
                            available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
@@ -9684,7 +9692,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
             }};
     };
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
+                                   make_raw_stats, /*allow_select_contained=*/true );
     inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );

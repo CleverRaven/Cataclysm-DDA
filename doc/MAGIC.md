@@ -26,6 +26,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
+  "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
+  "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
+  "accuracy_increment": 1.5
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
 	"max_damage": 100,                                        // maximum damage the spell can achieve
 	"damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
@@ -181,6 +184,7 @@ Spells may have any number of flags, for example:
 | `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
 | `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
+| `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 

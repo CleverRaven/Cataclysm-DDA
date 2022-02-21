@@ -1555,6 +1555,23 @@ void npc::form_opinion( const Character &you )
     for( trait_id &mut : you.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
+    for( const bodypart_id &bp : you.get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        u_ugly += bp->ugliness_mandatory;
+        int covered = 0;
+        for( const item &i : you.worn ) {
+            if( i.covers( bp ) ) {
+                if( covered >= 100 ) {
+                    covered = 100;
+                    continue;
+                }
+                covered += i.get_coverage( bp );
+            }
+        }
+        u_ugly += bp->ugliness - ( bp->ugliness * covered / 100 );
+    }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
@@ -2011,11 +2028,12 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 3_days ) ) {
+    // NPCs refresh every week, since the last time you checked in
+    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 0_days ) ) {
         return;
     }
 
-    restock = calendar::turn + 3_days;
+    restock = calendar::turn + 6_days;
     if( is_player_ally() ) {
         return;
     }
@@ -2627,7 +2645,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
-    // w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // w is also 53 characters wide - 2 characters for border = 51 characters for us
 
     // Print health bar and NPC name on the first line.
     std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
@@ -2641,10 +2659,12 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
                             iWidth - bar_max_width - 1, basic_symbol_color(), get_name() );
 
     Character &player_character = get_player_character();
-    // Hostility indicator in the second line.
+    // Hostility and current attitude indicator on the second line.
     Attitude att = attitude_to( player_character );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
     mvwprintz( w, point( column, line++ ), res.second, res.first.translated() );
+    wprintz( w, c_light_gray, ";" );
+    wprintz( w, symbol_color(), " %s", npc_attitude_name( get_attitude() ) );
 
     // Awareness indicator on the third line.
     std::string senses_str = sees( player_character ) ? _( "Aware of your presence" ) :

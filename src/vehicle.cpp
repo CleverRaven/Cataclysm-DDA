@@ -3325,23 +3325,21 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        return lhs + ( ( rhs.is_available() &&
-                         rhs.ammo_current() == ftype ) ? rhs.ammo_capacity( item::find_type(
-                                     ftype )->ammo->type ) : 0 );
+        cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
+        return lhs + ( ( rhs.is_available() && rhs.ammo_current() == ftype ) ?
+                       rhs.ammo_capacity( !!a_val ? a_val->type : ammotype::NULL_ID() ) : 0 );
     } );
 }
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0.0f;
-    float total_mass = 0.0f;
+    float total_energy = 0.0f; // J
+    float total_mass = 0.0f;  // g
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
-            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vp.base.legacy_front().specific_energy;
-            float mass = to_gram( vp.base.legacy_front().weight() );
-            total_energy += energy * mass;
-            total_mass += mass;
+            vp.base.only_item().made_of( phase_id::LIQUID ) ) {
+            total_energy += vp.base.only_item().get_item_thermal_energy();
+            total_mass += to_gram( vp.base.only_item().weight() );
         }
     }
     return total_energy / total_mass;
@@ -4995,8 +4993,10 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     // Nope. Load up its submap...
-    tripoint veh_in_sm = where;
-    tripoint veh_sm = ms_to_sm_remain( veh_in_sm );
+    point_sm_ms veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    // TODO: fix point types
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( tripoint_abs_ms( where ) );
 
     const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
     if( sm == nullptr ) {
@@ -5005,7 +5005,8 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 
     for( const auto &elem : sm->vehicles ) {
         vehicle *found_veh = elem.get();
-        if( veh_in_sm.xy() == found_veh->pos ) {
+        // TODO: fix point types
+        if( veh_in_sm.raw() == found_veh->pos ) {
             return found_veh;
         }
     }
@@ -6766,6 +6767,17 @@ std::map<itype_id, int> vehicle::fuels_left() const
     return result;
 }
 
+std::list<item *> vehicle::fuel_items_left()
+{
+    std::list<item *> result;
+    for( vehicle_part &p : parts ) {
+        if( p.is_fuel_store() && !p.ammo_current().is_null() && !p.base.is_container_empty() ) {
+            result.push_back( &p.base.only_item() );
+        }
+    }
+    return result;
+}
+
 bool vehicle::is_foldable() const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
@@ -6897,42 +6909,46 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
 
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_over_water(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
-             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
+    // TODO: fix point types
+    return ( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
+    // TODO: fix point types
+    return !( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )

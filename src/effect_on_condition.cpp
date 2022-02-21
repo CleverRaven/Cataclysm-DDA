@@ -22,6 +22,7 @@ namespace io
         case eoc_type::SCENARIO_SPECIFIC: return "SCENARIO_SPECIFIC";
         case eoc_type::AVATAR_DEATH: return "AVATAR_DEATH";
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
+        case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
@@ -57,13 +58,12 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
-    if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
+    if( jo.has_member( "recurrence" ) ) {
         if( type != eoc_type::NUM_EOC_TYPES && type != eoc_type::RECURRING ) {
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence_min = get_duration_or_var( jo, "recurrence_min", false );
-        recurrence_max = get_duration_or_var( jo, "recurrence_max", false );
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
@@ -108,7 +108,7 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
 
 static time_duration next_recurrence( const effect_on_condition_id &eoc, talker *talk )
 {
-    return rng( eoc->recurrence_min.evaluate( talk ), eoc->recurrence_max.evaluate( talk ) );
+    return eoc->recurrence.evaluate( talk );
 }
 
 void effect_on_conditions::load_new_character( Character &you )
@@ -380,6 +380,17 @@ void effect_on_conditions::avatar_death()
                     player_character.get_killer() ) );
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::AVATAR_DEATH ) {
+            eoc.activate( d );
+        }
+    }
+}
+
+void effect_on_conditions::om_move()
+{
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( player_character ), nullptr );
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.type == eoc_type::OM_MOVE ) {
             eoc.activate( d );
         }
     }

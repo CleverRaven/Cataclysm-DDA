@@ -212,6 +212,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
     optional( jo, was_loaded, "required_char_flags", req_char_flags );
+    optional( jo, was_loaded, "required_char_flags_all", req_char_flags_all );
     optional( jo, was_loaded, "forbidden_char_flags", forbidden_char_flags );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -298,6 +299,7 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
+    optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -369,7 +371,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "allow_melee", allow_melee, false );
+    optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
@@ -577,7 +579,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( weapon );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
-    bool all_weapons = u.martial_arts_data->selected_allow_melee();
+    bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -608,6 +610,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
         if( !has_flag ) {
             return false;
+        }
+    }
+
+    if( !req_char_flags_all.empty() ) {
+        for( const json_character_flag &flag : req_char_flags_all ) {
+            if( !u.has_flag( flag ) ) {
+                return false;
+            }
         }
     }
 
@@ -890,6 +900,10 @@ bool ma_buff::is_throw_immune() const
 {
     return throw_immune;
 }
+bool ma_buff::is_melee_bash_damage_cap_bonus() const
+{
+    return melee_bash_damage_cap_bonus;
+}
 bool ma_buff::is_quiet() const
 {
     return quiet;
@@ -1145,7 +1159,7 @@ bool martialart::has_weapon( const itype_id &itt ) const
 
 bool martialart::weapon_valid( const item &it ) const
 {
-    if( allow_melee ) {
+    if( allow_all_weapons ) {
         return true;
     }
 
@@ -1517,6 +1531,12 @@ bool Character::is_throw_immune() const
         return b.is_throw_immune();
     } );
 }
+bool Character::is_melee_bash_damage_cap_bonus() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_melee_bash_damage_cap_bonus();
+    } );
+}
 bool Character::is_quiet() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
@@ -1768,7 +1788,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( ma.force_unarmed ) {
             buffer += _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
             buffer += "\n";
-        } else if( ma.allow_melee ) {
+        } else if( ma.allow_all_weapons ) {
             buffer += _( "<bold>This style can be used with all weapons.</bold>" );
             buffer += "\n";
         } else if( ma.strictly_melee ) {

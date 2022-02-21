@@ -287,7 +287,7 @@
       { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential1_north" },
       { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential2_north" }
     ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 15, -1 ],
     "city_sizes": [ 0, 12 ],
@@ -5947,6 +5947,15 @@
     "occurrences": [ 0, 3 ],
     "flags": [ "MI-GO" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mi-Go Portal",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mi-go_portal_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "MI-GO", "UNIQUE" ]
   },
   {
     "type": "overmap_special",

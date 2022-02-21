@@ -1263,7 +1263,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
 {
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -1304,7 +1304,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -2003,11 +2003,15 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     const bool autopickup = who.activity.auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup );
+    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
+        if( !stash_successful && !autopickup ) {
+            add_msg( m_bad, _( "Some items were not picked up" ) );
+        }
+
         cancel_pickup( who );
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
@@ -2030,6 +2034,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "target_items", target_items );
     jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
+    jsout.member( "stash_successful", stash_successful );
 
     jsout.end_object();
 }
@@ -2043,6 +2048,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "target_items", actor.target_items );
     data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
+    data.read( "stash_successful", actor.stash_successful );
 
     return actor.clone();
 }
