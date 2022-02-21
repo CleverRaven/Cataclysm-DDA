@@ -91,7 +91,8 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER_MASSTRADE",
-    "dynamic_line": "Sure! It turned out well enough for us, and its one of the few not-canned meats we can find. I'll pay fairly for it.",
+    "dynamic_line": "Sure! It turned out well enough for us, and it's one of the few not-canned meats we can find. I'll pay fairly for it.",
+
     "repeat_responses": {
       "for_item": [
         "mutant_meat"
