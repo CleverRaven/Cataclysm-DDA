@@ -10,7 +10,7 @@
     "volume": "875000 ml",
     "weight": "200 kg",
     "hp": 500,
-    "speed": 20,
+    "speed": 30,
     "material": [ "veggy" ],
     "symbol": "T",
     "color": "red",
