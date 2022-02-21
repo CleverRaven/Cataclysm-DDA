@@ -115,7 +115,6 @@
 		}
     },
     "om_terrain": "smallscrapyard_ocu",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   }
 ]
