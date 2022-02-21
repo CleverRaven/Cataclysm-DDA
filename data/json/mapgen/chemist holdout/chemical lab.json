@@ -46,7 +46,6 @@
 {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [ "chemical_lab_roof_ocu" ],
     "object": {
       "fill_ter": "t_floor",
@@ -79,27 +78,5 @@
       "palettes": [ "roof_palette" ],      
       "terrain": { ".": "t_tar_flat_roof" }
     }
-  },
-{
-    "type": "overmap_terrain",
-    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
-    "name": "small cabin",
-    "sym": "C",
-    "color": "i_green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] 
-  },
-{
-    "type": "overmap_special",
-    "id": "Occupied Chem Lab",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "chemical_lab_roof_ocu_north" }
-    ],
-    "connections": [ { "point": [ -1, -1, 0 ], "terrain": "road" }, { "point": [ -1, 0, 0 ], "terrain": "road" } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 5, 10 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
   }
 ]
