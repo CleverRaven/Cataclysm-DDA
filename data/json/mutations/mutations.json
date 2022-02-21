@@ -1847,7 +1847,7 @@
     "name": { "str": "Feline Vision" },
     "points": 4,
     "description": "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
-    "types": [ "NIGHTVISION" ],
+    "types": [ "VISION" ],
     "prereqs": [ "FEL_EYE" ],
     "category": [ "FELINE" ],
     "active": true,
