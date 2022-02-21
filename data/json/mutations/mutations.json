@@ -1735,7 +1735,7 @@
     "name": { "str": "High Night Vision" },
     "points": 4,
     "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
-    "types": [ "NIGHTVISION" ],
+    "types": [ "VISION" ],
     "prereqs": [ "NIGHTVISION" ],
     "changes_to": [ "NIGHTVISION3" ],
     "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE" ],
