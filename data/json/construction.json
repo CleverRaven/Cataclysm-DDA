@@ -3136,6 +3136,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
@@ -3147,6 +3148,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
@@ -3156,8 +3158,9 @@
     "id": "app_solar_v2",
     "group": "place_solar_panel_v2",
     "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 2 ] ],
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
@@ -3167,8 +3170,9 @@
     "id": "app_reinfoced_solar_v2",
     "group": "place_reinforced_solar_panel_v2",
     "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 2 ] ],
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "6 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "reinforced_solar_panel_v2", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
