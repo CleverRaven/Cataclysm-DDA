@@ -132,7 +132,7 @@
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "heat", "amount": 5 },
     "range": 15,
-    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ], [ "AUTO", "3s Sequence ", 3 ] ],
+    "modes": [ [ "DEFAULT", "Pulse", 1 ], [ "BURST", "2s Sequence", 2 ], [ "AUTO", "3s Sequence", 3 ] ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "ammo_to_fire": 10,
     "ups_charges": 0,
@@ -171,7 +171,7 @@
     "volume": "750 ml",
     "ranged_damage": [ { "damage_type": "pure", "amount": 5 }, { "damage_type": "heat", "amount": 20 } ],
     "range": 20,
-    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ] ],
+    "modes": [ [ "DEFAULT", "Pulse", 1 ], [ "BURST", "2s Sequence", 2 ] ],
     "ammo_to_fire": 30,
     "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
@@ -244,7 +244,7 @@
     "ammo_to_fire": 35,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "ups_charges": 0,
-    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ] ],
+    "modes": [ [ "DEFAULT", "Pulse", 1 ], [ "BURST", "2s Sequence", 2 ] ],
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
     "pocket_data": [
       {
