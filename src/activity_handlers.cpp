@@ -1936,7 +1936,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {

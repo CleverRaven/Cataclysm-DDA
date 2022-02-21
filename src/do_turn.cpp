@@ -766,7 +766,7 @@ bool do_turn()
 
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
-    const int levz = m.get_abs_sub().z;
+    const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );

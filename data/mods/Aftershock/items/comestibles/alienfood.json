@@ -137,7 +137,7 @@
     "healthy": -5,
     "price_postapoc": 250,
     "calories": 1923,
-    "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing",
+    "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing.",
     "price": 500,
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],
