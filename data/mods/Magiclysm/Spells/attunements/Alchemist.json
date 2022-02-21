@@ -6,6 +6,7 @@
     "description": "Infuse water with your own mana, and use ethanol from the air to create the alchemic base.  Sometimes reaction is too strong, and the result can pour to the ground.",
     "effect": "spawn_item",
     "effect_str": "potion_starter",
+    "components": "spell_components_potion_starter",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
