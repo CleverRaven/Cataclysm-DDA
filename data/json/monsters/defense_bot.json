@@ -145,7 +145,7 @@
     "type": "MONSTER",
     "copy-from": "mon_secubot",
     "name": { "str": "writhing puppet TALON UGV" },
-    "description": "This was once a TALON unmanned ground vehicle equipped with an M16A4.  However, it has been completely engulfed in missmatched flesh. As its mechanical bits attempt to move, blood oozes from its sinewy frame.  Though it's treads are non-functional a mass of fingers seems to slowly drag its hulking frame.",
+    "description": "This was once a TALON unmanned ground vehicle equipped with an M16A4.  However, it has been completely engulfed in missmatched flesh.  As its mechanical bits attempt to move, blood oozes from its sinewy chassis.  Though it's treads are non-functional a mass of fingers seems to slowly drag its hulking frame.",
     "default_faction": "zombie",
     "hp": 120,
     "regenerates": 5,
