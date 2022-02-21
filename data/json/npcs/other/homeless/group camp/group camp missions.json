@@ -3,7 +3,7 @@
     "id": "MISSION_KILL_BLOBS",
     "type": "mission_definition",
     "name": "Sticky Situation",
-    "description": "Kill some blobs in exchange for credit with some of the traders.",
+    "description": "Kill some blobs in exchange for credit with some of the traders, and bring back six of their slime scraps.",
     "goal": "MGOAL_FIND_ITEM",
 	"item": "slime_scrap",
 	"count": 6,
