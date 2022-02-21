@@ -7583,6 +7583,64 @@
   },
   {
     "type": "overmap_special",
+    "id": "Occupied Chem Lab",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "chemical_lab_roof_ocu_north" }
+    ],
+    "connections": [ { "point": [ -1, -1, 0 ], "terrain": "road" }, { "point": [ -1, 0, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+},
+  {
+    "type": "overmap_special",
+    "id": "Occupied Scrap Yard",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 40 ],
+    "city_sizes": [ 1, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Lumbermill",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lumbermill_0_0_ocu_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lumbermill_1_0_ocu_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "lumbermill_0_1_ocu_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "lumbermill_1_1_ocu_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lumbermill_0_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lumbermill_1_0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "lumbermill_0_1_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "lumbermill_1_1_roof_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "lumbermill_dforest_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 5, 60 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "basement_hidden_lab_entrance",
     "overmaps": [ { "point": [ 0, 0, -1 ], "overmap": "basement_hidden_lab_stairs" } ],
     "connections": [ { "point": [ 0, 0, -1 ], "connection": "hidden_lab_basement", "terrain": "basement", "existing": true } ],
