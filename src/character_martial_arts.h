@@ -37,7 +37,7 @@ class character_martial_arts
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;
-        bool selected_allow_melee() const;
+        bool selected_allow_all_weapons() const;
         bool selected_has_weapon( const itype_id &weap ) const;
         bool selected_force_unarmed() const;
         bool selected_is_none() const;

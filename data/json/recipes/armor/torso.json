@@ -2629,5 +2629,19 @@
     "time": "5 m",
     "autolearn": true,
     "components": [ [ [ "heavy_load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "migo_plate",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "book_learn": [ [ "recipe_migo_plate", 1 ] ],
+    "time": "10 m",
+    "qualities": [ { "id": "GRIND", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "tools": [ [ [ "water", -10 ] ] ],
+    "components": [ [ [ "migo_plate_overgrown", 1 ] ] ]
   }
 ]

@@ -7320,7 +7320,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z >= 0 && need_store_weather ) {
+    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -8830,7 +8830,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9007,7 +9007,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9121,7 +9121,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -9602,8 +9602,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                                                crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water,
                            available_cleanser]( const std::vector<std::pair<item_location, int>> &locs

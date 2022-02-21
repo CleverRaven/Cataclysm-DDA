@@ -969,7 +969,29 @@
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "charges": 470,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_black_powder",
+    "id_suffix": "sulpherless",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "charges": 421,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [
+      [ [ "chem_saltpetre", 10 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "chem_ethanol", 83 ], [ "chem_methanol", 83 ], [ "ether", 83 ], [ "denat_alcohol", 83 ] ],
+      [ [ "charcoal", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

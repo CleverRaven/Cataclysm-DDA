@@ -191,7 +191,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
 
 void start_location::prepare_map( tinymap &m ) const
 {
-    const int z = m.get_abs_sub().z;
+    const int z = m.get_abs_sub().z();
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
@@ -300,8 +300,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     map &here = get_map();
     // Start us off somewhere in the center of the map
     you.move_to( midpoint( project_bounds<coords::ms>( omtstart ) ) );
-    here.invalidate_map_cache( here.get_abs_sub().z );
-    here.build_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
+    here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
@@ -365,7 +365,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
-    m.build_outside_cache( m.get_abs_sub().z );
+    m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;

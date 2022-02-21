@@ -5354,7 +5354,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
                worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
-               is_wearing( itype_rm13_armor_on );
+               is_wearing( itype_rm13_armor_on ) || is_deaf();
     } else if( eff == effect_mute ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
@@ -5561,7 +5561,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-bool Character::pour_into( item &container, item &liquid )
+bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
 {
     std::string err;
     const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
@@ -5581,7 +5581,7 @@ bool Character::pour_into( item &container, item &liquid )
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
-    liquid.charges -= container.fill_with( liquid, amount );
+    liquid.charges -= container.fill_with( liquid, amount, false, false, ignore_settings );
     inv->unsort();
 
     if( liquid.charges > 0 ) {
@@ -7174,15 +7174,16 @@ std::string Character::weapname() const
 {
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = current_mode->tname();
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( current_mode->gun_all_modes().size() > 1 ) {
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
             gunmode = current_mode.tname() + " ";
         }
 
-        if( current_mode->uses_magazine() || current_mode->magazine_integral() ) {
+        if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( " (empty)" );
             } else {
