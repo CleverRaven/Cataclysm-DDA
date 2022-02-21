@@ -6368,8 +6368,7 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
     tripoint_abs_sm global_sm_loc =
         project_to<coords::sm>( project_combine( pos(), loc ) );
 
-    // TODO: fix point types
-    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc.raw() ) != nullptr;
+    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;
 
     return is_generated;
 }

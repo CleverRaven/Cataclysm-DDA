@@ -1979,7 +1979,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     map &here = get_map();
     const tripoint_abs_ms abspos = you.get_location();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
 

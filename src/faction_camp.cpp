@@ -819,7 +819,7 @@ void talk_function::basecamp_mission( npc &p )
     if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }
         tripoint src_loc;
@@ -4490,7 +4490,7 @@ bool basecamp::validate_sort_points()
 {
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
@@ -4765,7 +4765,7 @@ bool basecamp::distribute_food()
 
     map &here = get_map();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     const tripoint_abs_ms &abspos = get_dumping_spot();
@@ -4896,7 +4896,7 @@ void basecamp::place_results( const item &result )
     } else {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();

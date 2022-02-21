@@ -116,7 +116,7 @@ void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &ty
 }
 int scent_map::get_unsafe( const tripoint &p ) const
 {
-    return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z - p.z );
+    return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z() - p.z );
 }
 
 scenttype_id scent_map::get_type() const
@@ -138,7 +138,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
-    const int levz = get_map().get_abs_sub().z;
+    const int levz = get_map().get_abs_sub().z();
     const bool scent_map_z_level_inbounds = ( p.z == levz ) ||
                                             ( std::abs( p.z - levz ) == SCENT_MAP_Z_REACH &&
                                                     get_map().valid_move( p, tripoint( p.xy(), levz ), false, true ) );
