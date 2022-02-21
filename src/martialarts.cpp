@@ -1266,7 +1266,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
     bool always_ok = av == "HEAD" || av == "TORSO";
     bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
     bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
-                    av == "SHOULDER" ) && healthy_arm;
+                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
     bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
     bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
 

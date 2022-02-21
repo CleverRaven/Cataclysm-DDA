@@ -1013,7 +1013,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "HAND_BACK" ]
   },
   {
     "type": "technique",
@@ -1729,7 +1729,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "PALM" ]
   },
   {
     "type": "technique",
@@ -1765,7 +1765,7 @@
       { "stat": "damage", "type": "cut", "scale": 2.0 },
       { "stat": "damage", "type": "stab", "scale": 2.0 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "PALM" ]
   },
   {
     "type": "technique",

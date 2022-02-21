@@ -733,6 +733,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 } else if( attack_vector == "WRIST" ) {
                     covers = worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) &&
                              worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
+                } else if( attack_vector == "PALM" ) {
+                    covers = worn_item.covers( sub_bodypart_id( "hand_palm_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "hand_palm_r" ) );
+                } else if( attack_vector == "HAND_BACK" ) {
+                    covers = worn_item.covers( sub_bodypart_id( "hand_back_l" ) ) &&
+                             worn_item.covers( sub_bodypart_id( "hand_back_r" ) );
                 } else if( attack_vector == "SHOULDER" ) {
                     covers = worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) &&
                              worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
