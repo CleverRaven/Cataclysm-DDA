@@ -188,7 +188,8 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "Our sanitation here has become problematic, as we;ve been going outside the walls to piss. Last time I did that, I nearly died. So, if you could get us a shovel, we could make a latrine for ourselves. We'll pay you fairly, as usual.",
+	  "offer": "Our sanitation here has become problematic, as we've been going outside the walls to piss. Last time I did that, I nearly died. So, if you could get us a shovel, we could make a latrine for ourselves. We'll pay you fairly, as usual.",
+
 	  "advice": "A hardware store should have one lying around.",
       "accepted": "Thank you. We'll be sure to compensate your efforts.",
       "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
