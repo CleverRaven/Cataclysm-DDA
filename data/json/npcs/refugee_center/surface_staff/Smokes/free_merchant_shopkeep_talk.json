@@ -302,7 +302,7 @@
     "type": "talk_topic",
     "dynamic_line": [ "Chemicals? I'm sure we could find some use for them, and we are in need of medical supplies. What's the offer?" ],
     "responses": [ 
-                  { "text": "Well, how about 300 merch for 10 liters of...", 
+                  { "text": "Well, how about 300 merch for 10 liters of…", 
                     "effect": { "u_spawn_item": "trade_writ" }, 
                     "topic": "TALK_DONE" 
                   }  
