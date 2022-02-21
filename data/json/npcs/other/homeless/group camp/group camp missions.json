@@ -78,7 +78,8 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "My buddies and I have decided to stay here for a while. This is about the only safe place out here, and it's kinda become our home. Anyway, we're going to build a wall, and while our old logs have provided buch of the wood, we still need quite a few planks, about 100 of them. If you could get it for us, I'd be grateful.",
+	  "offer": "My buddies and I have decided to stay here for a while. This is about the only safe place out here, and it's kinda become our home. Anyway, we're going to build a wall, and while our old logs have provided bunch of the wood, we still need quite a few planks, about 100 of them. If you could get it for us, I'd be grateful.",
+
 	  "advice": "A nearby forest should have all you need. Otherwise, try one of the old buildings in a town.",
       "accepted": "Thank you. We'll be sure to compensate your efforts.",
       "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
