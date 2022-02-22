@@ -1675,7 +1675,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
@@ -1692,29 +1692,16 @@
   {
     "id": "xl_lc_sabaton",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel sabaton" },
     "copy-from": "lc_sabaton",
+    "name": { "str": "XL mild steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "mc_sabaton",
     "type": "ARMOR",
+    "copy-from": "lc_sabaton",
     "name": { "str": "medium steel sabaton" },
-    "description": "A leather boot with jointed plates for protection.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "boots_steel",
-    "color": "light_gray",
-    "warmth": 0,
-    "sided": true,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1731,29 +1718,16 @@
   {
     "id": "xl_mc_sabaton",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel sabaton" },
     "copy-from": "mc_sabaton",
+    "name": { "str": "XL medium steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_sabaton",
     "type": "ARMOR",
+    "copy-from": "lc_sabaton",
     "name": { "str": "high steel sabaton" },
-    "description": "A leather boot with jointed plates for protection.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "boots_steel",
-    "color": "light_gray",
-    "warmth": 0,
-    "sided": true,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1770,29 +1744,16 @@
   {
     "id": "xl_hc_sabaton",
     "type": "ARMOR",
-    "name": { "str": "XL high steel sabaton" },
     "copy-from": "hc_sabaton",
+    "name": { "str": "XL high steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "ch_sabaton",
     "type": "ARMOR",
+    "copy-from": "lc_sabaton",
     "name": { "str": "hardened steel sabaton" },
-    "description": "A leather boot with jointed plates for protection.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "boots_steel",
-    "color": "light_gray",
-    "warmth": 0,
-    "sided": true,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1809,29 +1770,16 @@
   {
     "id": "xl_ch_sabaton",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel sabaton" },
     "copy-from": "ch_sabaton",
+    "name": { "str": "XL hardened steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "qt_sabaton",
     "type": "ARMOR",
+    "copy-from": "lc_sabaton",
     "name": { "str": "tempered steel sabaton" },
-    "description": "A leather boot with jointed plates for protection.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "boots_steel",
-    "color": "light_gray",
-    "warmth": 0,
-    "sided": true,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1848,8 +1796,8 @@
   {
     "id": "xl_qt_sabaton",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel sabaton" },
     "copy-from": "qt_sabaton",
+    "name": { "str": "XL tempered steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
