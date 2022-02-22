@@ -77,7 +77,7 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Well, I suppose that's reasonable.",
       "inquire": "Do you have the nails?",
-      "success": "That's absolutely amazing! I can't thank you enough for this!",
+      "success": "That's absolutely amazing!  I can't thank you enough for this!",
 
       "success_lie": "You're fucking scammer <name_b>!",
 
@@ -134,7 +134,7 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please? This is really important to us.",
       "inquire": "What did they say about it?",
-      "success": "Thank you! We're set for life on this one!",
+      "success": "Thank you!  We're set for life on this one!",
       "success_lie": "How does this help us?",
       "failure": "That's unfortunate.  I guess we'll have to find someone else to trade with."
     }
