@@ -26,9 +26,9 @@ character_martial_arts::character_martial_arts()
     };
 }
 
-bool character_martial_arts::selected_allow_melee() const
+bool character_martial_arts::selected_allow_all_weapons() const
 {
-    return style_selected->allow_melee;
+    return style_selected->allow_all_weapons;
 }
 
 bool character_martial_arts::selected_strictly_melee() const

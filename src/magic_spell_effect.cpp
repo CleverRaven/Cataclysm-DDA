@@ -1242,7 +1242,6 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     for( const tripoint &location : area ) {
         if( one_in( sp.damage() ) ) {
             transform->transform( location );
-            transform->add_all_messages( caster, location );
         }
     }
 }

@@ -125,6 +125,18 @@
   },
   {
     "type": "character_mod",
+    "id": "obstacle_climb_mod",
+    "description": "Obstacle climb modifier <color_dark_gray>(Crawl, Grip, Lift)</color>",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "crawl", 3.0 ], [ "grip", 2.0 ], "lift" ],
+      "override_encumb": true,
+      "limb_score_op": "+",
+      "denominator": 6.0
+    }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_str_mod",
     "description": "Strength modifier <color_dark_gray>(Lift)</color>",
     "mod_type": "x",

@@ -1247,7 +1247,7 @@
     "fun": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
   },
   {
     "id": "test_egg",
@@ -1271,7 +1271,7 @@
     "//": "Omitting the RAW flag so calories will be taken at face value.",
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -2033,7 +2033,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
@@ -2976,5 +2976,96 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "test_longshirt",
+    "type": "ARMOR",
+    "name": { "str": "debug long-sleeved shirt" },
+    "description": "A long-sleeved cotton shirt.",
+    "weight": "146 g",
+    "volume": "750 ml",
+    "price": 2000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress_shirt",
+    "color": "blue",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "test_jacket_jean",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "jean jacket" },
+    "description": "A jacket made from denim.",
+    "weight": "800 g",
+    "volume": "3250 ml",
+    "price": 4000,
+    "price_postapoc": 250,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jacket_windbreaker",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "test_postman_shirt",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "mail carrier shirt" },
+    "description": "A light blue button down shirt with a couple of pockets in front and the US postal service logo embroidered on it.",
+    "weight": "110 g",
+    "volume": "500 ml",
+    "price": 1500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "polo_shirt",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
   }
 ]
