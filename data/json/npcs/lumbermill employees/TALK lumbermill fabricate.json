@@ -29,7 +29,7 @@
         "topic": "TALK_LUMBERMILL_FABRICATE_END"
       },
       {
-        "text": "I'll buy some wooden pannels.  [120$]",
+        "text": "I'll buy some wooden panels.  [120$]",
         "effect": [ { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END"
       },
@@ -75,7 +75,7 @@
         "topic": "TALK_LUMBERMILL_FABRICATE_END"
       },
       {
-        "text": "I'll buy some wooden pannels.  [120$]",
+        "text": "I'll buy some wooden panels.  [120$]",
         "effect": [ { "u_buy_item": "wood_panel", "cost": 12000, "count": 10 } ],
         "topic": "TALK_LUMBERMILL_FABRICATE_END"
       },
