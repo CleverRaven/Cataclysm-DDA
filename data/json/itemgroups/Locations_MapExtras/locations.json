@@ -1660,6 +1660,7 @@
     "entries": [
       { "group": "clothing_glasses", "prob": 80 },
       { "item": "child_book", "prob": 60 },
+      { "item": "oil_lamp_clay", "prob": 20 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 4, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
