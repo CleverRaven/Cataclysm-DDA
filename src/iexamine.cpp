@@ -185,6 +185,7 @@ static const itype_id itype_water( "water" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WALL_CLING_FOURTH( "WALL_CLING_FOURTH" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 
@@ -4683,7 +4684,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
-    if( you.has_flag( json_flag_WALL_CLING ) ) {
+    if( you.has_flag( json_flag_WALL_CLING ) || you.has_flag( json_flag_WALL_CLING_FOURTH) >= 4 ) {
         cmenu.addentry( 3, true, 'C', _( "Crawl down." ) );
     }
 

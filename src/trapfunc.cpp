@@ -803,7 +803,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+        if( you->has_flag( json_flag_WINGS_2 ) >= 2 || ( one_in( 2 ) &&
                 you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -855,7 +855,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+        if( you->has_flag( json_flag_WINGS_2 ) >= 2 || ( one_in( 2 ) &&
                 you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -939,7 +939,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+        if( you->has_flag( json_flag_WINGS_2 ) >= 2 || ( one_in( 2 ) &&
                 you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -1225,7 +1225,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         you->setpos( where );
     }
-    if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+    if( you->has_flag( json_flag_WINGS_2 ) >= 2 || ( one_in( 2 ) &&
             you->has_flag( json_flag_WINGS_1 ) ) ) {
         you->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                     _( "<npcname> flaps their wings and flutters down gracefully." ) );

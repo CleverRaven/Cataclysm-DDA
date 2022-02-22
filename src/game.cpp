@@ -250,6 +250,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WALL_CLING_FOURTH( "WALL_CLING_FOURTH" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_glass( "glass" );
@@ -10821,7 +10822,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    bool wall_cling = u.has_flag( json_flag_WALL_CLING );
+    bool wall_cling = u.has_flag( json_flag_WALL_CLING ) || u.has_flag( json_flag_WALL_CLING_FOURTH) >= 4;
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) ) {
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
