@@ -349,44 +349,6 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
-static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
-        const std::string &prompt,
-        std::function<bool( const npc * )> exclude_func = nullptr )
-{
-    std::vector<int> picked;
-    if( npc_list.empty() ) {
-        return picked;
-    }
-    const int npc_count = npc_list.size();
-    do {
-        uilist nmenu;
-        nmenu.text = prompt;
-        for( int i = 0; i < npc_count; i++ ) {
-            std::string entry;
-            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
-                entry = "* ";
-            }
-            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
-            entry += npc_list[i]->name_and_activity();
-            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
-        }
-        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
-        nmenu.query();
-        if( nmenu.ret < 0 ) {
-            return std::vector<int>();
-        } else if( nmenu.ret >= npc_count ) {
-            break;
-        }
-        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
-        if( exists != picked.end() ) {
-            picked.erase( exists );
-        } else {
-            picked.push_back( nmenu.ret );
-        }
-    } while( true );
-    return picked;
-}
-
 static skill_id skill_select_menu( const Character &c, const std::string &prompt )
 {
     int i = 0;
@@ -713,7 +675,7 @@ void game::chat()
             if( !sk.is_valid() ) {
                 return;
             }
-            std::vector<int> selected = npcs_select_menu( followers,
+            std::vector<int> selected = npcs_select_menu<npc>( followers,
             _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
                 return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
             } );

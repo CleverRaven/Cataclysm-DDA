@@ -573,7 +573,8 @@
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
-    "color": "i_white"
+    "sym": "g",
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",

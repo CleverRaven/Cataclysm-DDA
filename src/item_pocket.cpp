@@ -1008,6 +1008,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
 
+    if( data->holster ) {
+        info.emplace_back( "DESCRIPTION", _( "This pocket only holds <info>one item at a time</info>." ) );
+    }
+
     if( data->extra_encumbrance > 0 ) {
         info.emplace_back( "DESCRIPTION",
                            string_format( _( "Causes %d <bad>additional encumbrance</bad> while in use." ),

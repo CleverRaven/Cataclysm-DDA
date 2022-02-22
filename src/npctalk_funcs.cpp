@@ -1046,7 +1046,6 @@ void talk_function::start_training_seminar( npc &p )
     }
     students.push_back( &get_player_character() );
 
-    const int s_count = students.size();
     std::vector<Character *> picked;
     std::function<bool( const Character * )> include_func = [&]( const Character * c ) {
         if( d.skill != skill_id() ) {
@@ -1062,36 +1061,17 @@ void talk_function::start_training_seminar( npc &p )
         }
         return false;
     };
-    do {
-        uilist nmenu;
-        nmenu.text = _( "Who should participate?" );
-        for( int i = 0; i < s_count; i++ ) {
-            std::string entry;
-            if( std::find( picked.begin(), picked.end(), students[i] ) != picked.end() ) {
-                entry = "* ";
-            }
-            bool enable = include_func( students[i] );
-            entry += students[i]->disp_name( false, true );
-            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
-        }
-        nmenu.addentry( s_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
-        nmenu.query();
-        if( nmenu.ret < 0 ) {
-            return;
-        } else if( nmenu.ret >= s_count ) {
-            break;
-        }
-        std::vector<Character *>::iterator exists = std::find( picked.begin(), picked.end(),
-                students[nmenu.ret] );
-        if( exists != picked.end() ) {
-            picked.erase( exists );
-        } else {
-            picked.emplace_back( students[nmenu.ret] );
-        }
-    } while( true );
+    std::vector<int> selected = npcs_select_menu<Character>( students, _( "Who should participate?" ),
+    [&include_func]( const Character * ch ) {
+        return !include_func( ch );
+    } );
 
-    if( picked.empty() ) {
+    if( selected.empty() ) {
         return;
+    }
+    picked.reserve( selected.size() );
+    for( int sel : selected ) {
+        picked.emplace_back( students[sel] );
     }
     start_training_gen( p, picked, d );
 }
