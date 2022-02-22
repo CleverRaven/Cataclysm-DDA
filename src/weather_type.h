@@ -87,6 +87,7 @@ struct weather_type {
         friend class generic_factory<weather_type>;
         bool was_loaded = false;
         weather_type_id id;
+        std::vector<std::pair<weather_type_id, mod_id>> src;
         // UI name of weather type.
         translation name;
         // UI color of weather type.

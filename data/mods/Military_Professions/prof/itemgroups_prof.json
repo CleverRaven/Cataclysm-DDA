@@ -33,7 +33,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_57",
-    "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20, "contents-item": [ "suppressor" ] } ]
+    "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20 } ]
   },
   {
     "type": "item_group",

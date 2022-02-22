@@ -322,11 +322,9 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( critter.is_hallucination() ) {
+    if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
-        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
-        // the player will see them always.
-        return is_avatar();
+        return false;
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
@@ -941,7 +939,7 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const float crit_multiplier = proj.critical_multiplier;
     const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
-        ret.damage_mult *= rng_float( 0.9, 1.1 );
+        // do nothing special, no damage mults, nothing
     } else if( goodhit < accuracy_headshot &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
@@ -1871,6 +1869,13 @@ int Creature::get_armor_bullet_bonus() const
 {
     return armor_bullet_bonus;
 }
+
+int Creature::get_spell_resist() const
+{
+    // TODO: add spell resistance to monsters, then make this pure virtual
+    return 0;
+}
+
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
@@ -2063,8 +2068,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }
@@ -2121,8 +2127,9 @@ void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_toler
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }

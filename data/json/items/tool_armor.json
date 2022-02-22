@@ -461,7 +461,7 @@
     "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "symbol": "[",
     "use_action": [ "FITNESS_CHECK" ],
-    "armor": [ { "coverage": 15, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "holo_cloak",
@@ -1564,6 +1564,33 @@
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
   },
   {
+    "id": "mask_lsurvivorxl",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "XL light survivor mask" },
+    "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
+    "weight": "766 g",
+    "volume": "1250 ml",
+    "price": 24000,
+    "price_postapoc": 1250,
+    "to_hit": -3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "ammo": "gasfilter_m",
+    "use_action": [ "GASMASK" ],
+    "material": [ "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 25 }
+    ],
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 15,
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
+  },
+  {
     "id": "mask_survivor",
     "type": "TOOL_ARMOR",
     "category": "armor",
@@ -2094,7 +2121,7 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
     "id": "hairpin",
@@ -2851,6 +2878,56 @@
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "powered_earplugs",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str_sp": "shooter's ear plugs" },
+    "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will block sounds over a certain decibel amount when turned on.  The earplugs are currently off.",
+    "flags": [ "DEAF", "OVERSIZE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "repairs_like": "powered_earmuffs",
+    "price": 12500,
+    "price_postapoc": 1250,
+    "material": [ "plastic" ],
+    "weight": "20 g",
+    "volume": "200 ml",
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the earplugs on.",
+      "target": "powered_earplugs_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The earplugs's batteries are dead."
+    },
+    "material_thickness": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
+    "armor": [ { "coverage": 1 } ]
+  },
+  {
+    "id": "powered_earplugs_on",
+    "type": "TOOL_ARMOR",
+    "repairs_like": "powered_earmuffs",
+    "copy-from": "powered_earplugs",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str_sp": "shooter's ear plugs (on)" },
+    "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will block sounds over a certain decibel amount when turned on.  The earplugs are currently on.",
+    "flags": [ "OVERSIZE", "PARTIAL_DEAF", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "//": "6-8 hours battery life",
+    "power_draw": 4000,
+    "revert_to": "powered_earplugs",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s flicks off.",
+      "target": "powered_earplugs"
+    }
   },
   {
     "id": "stethoscope",

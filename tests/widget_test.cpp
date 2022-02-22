@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
+#include "game_constants.h"
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -48,6 +49,7 @@ static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
+const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
@@ -72,6 +74,10 @@ static const weather_type_id weather_sunny( "sunny" );
 static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
 static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
 static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
+static const widget_id widget_test_activity_clauses( "test_activity_clauses" );
+static const widget_id widget_test_body_temp_clause( "test_body_temp_clause" );
+static const widget_id widget_test_body_temp_delta_sym( "test_body_temp_delta_sym" );
+static const widget_id widget_test_body_temp_delta_text( "test_body_temp_delta_text" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -89,13 +95,18 @@ static const widget_id widget_test_compass_legend_1( "test_compass_legend_1" );
 static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
+static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
+static const widget_id widget_test_fatigue_clause( "test_fatigue_clause" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
+static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
 static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_hunger_clause( "test_hunger_clause" );
 static const widget_id widget_test_int_color_num( "test_int_color_num" );
+static const widget_id widget_test_lighting_clause( "test_lighting_clause" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
+static const widget_id widget_test_moon_phase_clause( "test_moon_phase_clause" );
 static const widget_id widget_test_morale_num( "test_morale_num" );
 static const widget_id widget_test_move_cost_num( "test_move_cost_num" );
 static const widget_id widget_test_move_count_mode_text( "test_move_count_mode_text" );
@@ -452,23 +463,104 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
     }
 }
 
+TEST_CASE( "widget showing character fatigue status", "[widget]" )
+{
+    widget fatigue_w = widget_test_fatigue_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_fatigue( 0 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: " );
+    ava.set_fatigue( 192 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
+    ava.set_fatigue( 384 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    ava.set_fatigue( 576 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
+}
+
 TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
 {
     widget health_w = widget_test_health_color_num.obj();
+    widget health_clause_w = widget_test_health_clause.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
     ava.set_healthy( -200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_red>-200</color>" );
-    ava.set_healthy( -100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_red>Horrible</color>" );
+    ava.set_healthy( -99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_red>Very bad</color>" );
+    ava.set_healthy( -49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_yellow>Bad</color>" );
     ava.set_healthy( 0 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_white>0</color>" );
-    ava.set_healthy( 100 );
-    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>100</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_gray>OK</color>" );
+    ava.set_healthy( 49 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>49</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_white>Good</color>" );
+    ava.set_healthy( 99 );
+    CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>99</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_green>Very good</color>" );
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
+    CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
+}
+
+TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
+{
+    widget w_temp = widget_test_body_temp_clause.obj();
+    widget w_dtxt = widget_test_body_temp_delta_text.obj();
+    widget w_dsym = widget_test_body_temp_delta_sym.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_all_parts_temp_cur( 499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_blue>Freezing!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_red>(Rising!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_red>↑↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 1999 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_cyan>Very cold!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_red>↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 3499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_blue>Chilly</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_yellow>(Rising)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_yellow>↑</color>" );
+
+    ava.set_all_parts_temp_cur( 5000 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_green>Comfortable</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: " );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_green>-</color>" );
+
+    ava.set_all_parts_temp_cur( 6501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_yellow>warm</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_blue>↓</color>" );
+
+    ava.set_all_parts_temp_cur( 8001 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_red>Very hot!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_cyan>↓↓</color>" );
+
+    ava.set_all_parts_temp_cur( 9501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_red>Scorching!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
@@ -666,6 +758,41 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
     }
+}
+
+TEST_CASE( "widgets showing activity level", "[widget][activity]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    widget activity_w = widget_test_activity_clauses.obj();
+
+    ava.reset_activity_level();
+    activity_tracker &tracker = ava.activity_history;
+
+    tracker.new_turn();
+    tracker.log_activity( NO_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_gray>None</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( LIGHT_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_yellow>Light</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( MODERATE_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_yellow>Moderate</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( BRISK_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_red>Brisk</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( ACTIVE_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_light_red>Active</color>" );
+
+    tracker.new_turn();
+    tracker.log_activity( EXTRA_EXERCISE );
+    CHECK( activity_w.layout( ava ) == "Activity: <color_c_red>Extreme</color>" );
 }
 
 TEST_CASE( "widgets showing move counter and mode", "[widget][move_mode]" )
@@ -1112,6 +1239,41 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
     ava.set_rad( 241 );
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
+}
+
+TEST_CASE( "moon and lighting widgets", "[widget]" )
+{
+    // The CI tests have inconsistent lighting values for the same
+    // time/day/weather/sun azimuth/etc, so just validate extreme lighting
+    // conditions to check that the lighting widget updates properly.
+    widget w_light = widget_test_lighting_clause.obj();
+    widget w_moon = widget_test_moon_phase_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+
+    set_time( calendar::turn_zero );
+    CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_black_white>very dark</color>" );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>New moon</color>" );
+    set_time( calendar::turn_zero + 3_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waxing crescent</color>" );
+    set_time( calendar::turn_zero + 7_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Half moon</color>" );
+    set_time( calendar::turn_zero + 10_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waxing gibbous</color>" );
+    set_time( calendar::turn_zero + 15_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Full moon</color>" );
+    set_time( calendar::turn_zero + 18_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waning gibbous</color>" );
+    set_time( calendar::turn_zero + 21_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Half moon</color>" );
+    set_time( calendar::turn_zero + 24_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>Waning crescent</color>" );
+    set_time( calendar::turn_zero + 28_days );
+    CHECK( w_moon.layout( ava ) == "MOON: <color_c_white>New moon</color>" );
+    set_time( calendar::turn + 12_hours );
+    CHECK( w_light.layout( ava ) == "LIGHTING: <color_c_yellow>bright</color>" );
 }
 
 TEST_CASE( "compass widget", "[widget][compass]" )
@@ -2062,5 +2224,78 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
                "Symbol Values: <color_c_red_red><</color><color_i_yellow>-</color><color_c_yellow>=</color><color_c_white_green>+</color><color_c_light_green>></color>" );
         CHECK( w_lgd.layout( ava, sidebar_width ) ==
                "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision\n" );
+    }
+}
+
+TEST_CASE( "widget disabled when empty", "[widget]" )
+{
+    item blindfold( "blindfold" );
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    widget wgt = widget_test_disabled_when_empty.obj();
+    REQUIRE( wgt.has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) );
+
+    SECTION( "test layout results" ) {
+        // Show widget text when character is not blind
+        REQUIRE( !ava.is_blind() );
+        CHECK( wgt.layout( ava ) == "NOT EMPTY: <color_c_yellow>Text exists</color>" );
+
+        // Hide the widget when character is blind.
+        // The empty string indicates to the calling function
+        // that the widget should not be rendered
+        // (combined with the W_DISABLED_WHEN_EMPTY flag).
+        ava.wear_item( blindfold );
+        REQUIRE( ava.is_blind() );
+        CHECK( wgt.layout( ava ).empty() );
+    }
+
+    SECTION( "test widget rendering when disabled" ) {
+#if !(defined(TILES) || defined(_WIN32))
+        // Running the tests in a developer environment works fine, but
+        // the CI env has no interactive shell, so we skip the screen scraping.
+        const char *term_env = ::getenv( "TERM" );
+        // The tests don't initialize the curses window, so initialize it here...
+        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
+            cata_curses_test::initscr() != nullptr ) {
+#endif
+            const int cols = 32;
+            const int rows = 5;
+
+            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+
+            werase( w );
+            SECTION( "Not empty" ) {
+                // Show widget text when character is not blind
+                REQUIRE( !ava.is_blind() );
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == " NOT EMPTY: Text exists         " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+            werase( w );
+            SECTION( "Empty" ) {
+                // Hide the widget when character is blind.
+                ava.wear_item( blindfold );
+                REQUIRE( ava.is_blind() );
+                // Shouldn't be called (height should be decremented), but check it just in case
+                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+                CHECK( lines[0] == "                                " );
+                CHECK( lines[1] == "                                " );
+                CHECK( lines[2] == "                                " );
+                CHECK( lines[3] == "                                " );
+                CHECK( lines[4] == "                                " );
+            }
+
+#if !(defined(TILES) || defined(_WIN32))
+            // ... and free it here
+            cata_curses_test::endwin();
+        }
+#endif
     }
 }

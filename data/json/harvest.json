@@ -111,7 +111,10 @@
   {
     "id": "shrub_grape_harv",
     "type": "harvest",
-    "entries": [ { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [
+      { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+      { "drop": "grape_leaves", "base_num": [ 1, 4 ] }
+    ]
   },
   {
     "id": "shrub_raspberry_harv",
@@ -352,13 +355,13 @@
       {
         "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
         "drop": "Zomborg_CBM_harvest_power",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
         "faults": [ "fault_bionic_salvaged" ]
       },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },

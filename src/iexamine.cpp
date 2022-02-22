@@ -115,6 +115,8 @@ static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -1317,39 +1319,45 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) &&
-        you.has_proficiency( proficiency_prof_parkour ) ) {
-        add_msg( _( "You vault over the obstacle with ease." ) );
-        you.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
-        add_msg( _( "You vault over the obstacle." ) );
-        you.moves -= 300; // Most common move cost for barricades pre-change.
+    int move_cost = 400;
+    // TODO: Remove hardcoded trait checks when new arthropod bits happen
+    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
+
+        if( you.has_proficiency( proficiency_prof_parkour ) ) {
+            add_msg( _( "You vault over the obstacle with ease." ) );
+            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+        } else {
+            add_msg( _( "You vault over the obstacle." ) );
+            move_cost = 300; // Most common move cost for barricades pre-change.
+        }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
-        you.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+        move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
-        you.moves -= 90;
+        move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
-        you.moves -= 100;
+        move_cost = 100;
     } else {
-        you.moves -= 400;
-        ///\EFFECT_DEX decreases chances of slipping while climbing
-        int climb = you.dex_cur;
-        if( you.has_trait( trait_BADKNEES ) ) {
-            climb = climb / 2;
-        }
+        move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
         if( g->slip_down() ) {
+            you.moves -= move_cost;
             return;
         }
-        you.moves += climb * 10;
-        Character &player_character = get_player_character();
-        sfx::play_variant_sound( "plmove", "clear_obstacle",
-                                 sfx::get_heard_volume( player_character.pos() ) );
     }
+    Character &player_character = get_player_character();
+    sfx::play_variant_sound( "plmove", "clear_obstacle",
+                             sfx::get_heard_volume( player_character.pos() ) );
+    add_msg_debug( debugmode::DF_IEXAMINE,
+                   "Move cost to vault: %d, limb score modifier %.1f", move_cost,
+                   you.get_modifier( character_modifier_obstacle_climb_mod ) );
+    move_cost /= you.get_modifier( character_modifier_obstacle_climb_mod );
+    add_msg_debug( debugmode::DF_IEXAMINE,
+                   "Final move cost %d", move_cost );
+    you.moves -= move_cost;
     if( you.in_vehicle ) {
         here.unboard_vehicle( you.pos() );
     }
@@ -4753,6 +4761,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
                 g->vertical_move( -1, true );
+                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                    you.set_oxygen();
+                    you.set_underwater( true );
+                    g->water_affect_items( you );
+                    you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+                }
             } else {
                 return;
             }

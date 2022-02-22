@@ -96,9 +96,9 @@
     "name": "Pan up",
     "bindings": [
       { "input_method": "keyboard_any", "key": "k" },
+      { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "keyboard_any", "key": "8" },
       { "input_method": "keyboard_code", "key": "KEYPAD_8" },
-      { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "gamepad", "key": "JOY_UP" }
     ]
   },

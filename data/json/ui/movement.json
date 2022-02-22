@@ -1,19 +1,37 @@
 [
   {
+    "id": "move_mode_template",
+    "type": "widget",
+    "style": "clause",
+    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      {
+        "id": "crouch",
+        "text": "crouching",
+        "sym": "C",
+        "color": "light_blue",
+        "condition": { "u_has_move_mode": "crouch" }
+      },
+      { "id": "prone", "text": "prone", "sym": "P", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ]
+  },
+  {
     "id": "move_mode_desc",
     "type": "widget",
     "label": "Mode",
     "style": "text",
-    "var": "move_mode_text",
-    "//": "Full move mode name walking/running/crouching/prone, from display::move_mode_text_color"
+    "copy-from": "move_mode_template",
+    "//": "Full move mode name walking/running/crouching/prone"
   },
   {
     "id": "move_mode_letter",
     "type": "widget",
     "label": "Mode",
-    "style": "text",
-    "var": "move_mode_letter",
-    "//": "Single-letter W/R/C/P, from display::move_mode_letter_color"
+    "style": "symbol",
+    "copy-from": "move_mode_template",
+    "//": "Single-letter W/R/C/P"
   },
   {
     "id": "move_num",

@@ -99,6 +99,11 @@ void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &d
     }
 }
 
+bool always_yes( const inventory_entry & )
+{
+    return true;
+}
+
 } // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -956,7 +961,6 @@ void inventory_column::add_entry( const inventory_entry &entry )
         entries.emplace_back( entry );
     }
     entries_cell_cache.clear();
-    expand_to_fit( entry );
     paging_is_valid = false;
 }
 
@@ -1032,6 +1036,10 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
+    // Recalculate all the widths.
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1328,10 +1336,6 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
 {
     inventory_column::reset_width( all_columns );
 
-    const auto always_yes = []( const inventory_entry & ) {
-        return true;
-    };
-
     for( const inventory_column *const col : all_columns ) {
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
@@ -1378,7 +1382,6 @@ void selection_column::on_change( const inventory_entry &entry )
     } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
-            expand_to_fit( my_entry );
         } else {
             iter = entries.erase( iter );
         }
@@ -3059,7 +3062,9 @@ void pickup_selector::apply_selection( std::vector<drop_location> selection )
 {
     for( drop_location &loc : selection ) {
         inventory_entry *entry = find_entry_by_location( loc.first );
-        set_chosen_count( *entry, loc.second + entry->chosen_count );
+        if( entry != nullptr ) {
+            set_chosen_count( *entry, loc.second + entry->chosen_count );
+        }
     }
 }
 

@@ -32,7 +32,7 @@
     "can_only_eat": [ "junk", "sugar", "honey" ],
     "can_only_heal_with": [ "caramel_ointement" ],
     "description": "You are literally made of sugar.",
-    "vitamin_rates": [ [ "vitC", -900 ], [ "vitB", -900 ], [ "vitA", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
+    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
     "starting_trait": true,
     "healing_awake": 0.0,
     "healing_resting": -1.0,

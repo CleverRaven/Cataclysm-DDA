@@ -46,8 +46,10 @@ class weapon_category
 
     private:
         friend class generic_factory<weapon_category>;
+        friend struct mod_tracker;
 
         weapon_category_id id;
+        std::vector<std::pair<weapon_category_id, mod_id>> src;
         bool was_loaded = false;
 
         translation name_;
@@ -82,7 +84,8 @@ struct ma_requirements {
 
 
     std::set<flag_id> req_flags; // any item flags required for this technique
-    cata::flat_set<json_character_flag> req_char_flags; // Character flags required
+    cata::flat_set<json_character_flag> req_char_flags; // any listed character flags required
+    cata::flat_set<json_character_flag> req_char_flags_all; // all listed character flags required
     cata::flat_set<json_character_flag> forbidden_char_flags; // Character flags disabling the technique
 
     ma_requirements() {
@@ -125,6 +128,7 @@ class ma_technique
         void load( const JsonObject &jo, const std::string &src );
 
         matec_id id;
+        std::vector<std::pair<matec_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
 
@@ -227,6 +231,7 @@ class ma_buff
 
         // returns various boolean flags
         bool is_throw_immune() const;
+        bool is_melee_bash_damage_cap_bonus() const;
         bool is_quiet() const;
         bool can_melee() const;
         bool is_stealthy() const;
@@ -237,6 +242,7 @@ class ma_buff
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;
+        std::vector<std::pair<mabuff_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
         translation description;
@@ -259,6 +265,7 @@ class ma_buff
         bool quiet = false;
         bool melee_allowed = false;
         bool throw_immune = false; // are we immune to throws/grabs?
+        bool melee_bash_damage_cap_bonus = false;
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 
@@ -309,6 +316,7 @@ class martialart
         std::string get_initiate_npc_message() const;
 
         matype_id id;
+        std::vector<std::pair<matype_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
         translation description;
@@ -326,7 +334,7 @@ class martialart
         std::set<weapon_category_id> weapon_category; // all style weapon categories
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
-        bool allow_melee = false; // Can use unarmed or with ANY weapon
+        bool allow_all_weapons = false; // Can use unarmed or with ANY weapon
         bool force_unarmed = false; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;

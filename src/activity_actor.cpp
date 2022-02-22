@@ -1263,7 +1263,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
 {
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -1304,7 +1304,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -2008,11 +2008,11 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
-        cancel_pickup( who );
-
         if( !stash_successful && !autopickup ) {
             add_msg( m_bad, _( "Some items were not picked up" ) );
         }
+
+        cancel_pickup( who );
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );

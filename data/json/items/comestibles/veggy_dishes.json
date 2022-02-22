@@ -51,6 +51,49 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "garlic_roasted",
+    "looks_like": "garlic_clove",
+    "name": { "str_sp": "roasted garlic" },
+    "weight": "18 g",
+    "color": "white",
+    "spoils_in": "180 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
+    "healthy": 1,
+    "calories": 151,
+    "description": "Exposed cloves of garlic that have been coated in oil and then roasted.  Much better than eating them raw.",
+    "price": 300,
+    "price_postapoc": 50,
+    "material": [ "garlic" ],
+    "volume": "150 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 1,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chili_pepper_roasted",
+    "looks_like": "chili_pepper",
+    "name": { "str": "roasted chili pepper" },
+    "weight": "53 g",
+    "color": "red",
+    "spoils_in": "30 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 21,
+    "description": "Not-so-spicy chili pepper that has been roasted on high heat, with skin removed.  Much better than eating it raw, and could also be used for other cooking recipes.",
+    "price": 50,
+    "price_postapoc": 50,
+    "material": [ "veggy" ],
+    "volume": "83 ml",
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "dandelion_cooked",
     "name": { "str_sp": "cooked dandelion greens" },
     "copy-from": "raw_dandelion",
@@ -192,7 +235,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
     "spoils_in": "2 days",
     "container": "can_medium",
     "quench": 5,
@@ -213,7 +256,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
     "spoils_in": "2 days",
     "quench": -2,
     "calories": 370,
@@ -232,7 +275,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
     "spoils_in": "2 days",
     "calories": 172,
     "fun": 3,
@@ -251,7 +294,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
     "spoils_in": "2 days",
     "container": "bowl_plastic",
     "calories": 120,
@@ -272,7 +315,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 44,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "description": "This yellow cornmeal is useful for baking.",
     "price": 450,
     "price_postapoc": 25,
@@ -347,7 +390,7 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "charges": 1,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "iron", 11 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -368,7 +411,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -409,7 +452,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "vitA", 61 ] ]
+    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -430,7 +473,7 @@
     "volume": "1 L",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 19,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -471,7 +514,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -491,7 +534,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 53 ], [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -532,7 +575,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -553,7 +596,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -574,7 +617,7 @@
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 3 ] ],
     "fun": 4
   },
   {
@@ -623,7 +666,7 @@
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 73 ], [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -671,7 +714,7 @@
     "price_postapoc": 100,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 46 ], [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -835,7 +878,7 @@
     "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "volume": "255 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "fun": -10
   },
   {
@@ -893,7 +936,7 @@
     "smoking_result": "dry_corn",
     "volume": "95 ml",
     "delete": { "flags": [ "RAW" ] },
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "fun": 2
   },
   {
@@ -1032,7 +1075,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "vitA", 28 ], [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1085,7 +1128,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "500 ml",
-    "vitamins": [ [ "vitA", 27 ], [ "vitC", 27 ], [ "calcium", 48 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "vitC", 27 ], [ "calcium", 48 ], [ "iron", 9 ] ],
     "fun": 3
   },
   {
@@ -1106,7 +1149,7 @@
     "volume": "120 ml",
     "fun": 1,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1126,7 +1169,7 @@
     "volume": "240 ml",
     "fun": 5,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1139,6 +1182,6 @@
     "price": 0,
     "delete": { "flags": [ "RAW" ] },
     "fun": 1,
-    "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
   }
 ]

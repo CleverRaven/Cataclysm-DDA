@@ -125,7 +125,8 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
     "category": [ "INSECT" ],
-    "spells_learned": [ [ "spell_spit_flare", 1 ] ]
+    "active": true,
+    "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
     "type": "mutation",
@@ -592,7 +593,7 @@
     "name": { "str": "Good Memory" },
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
-    "skill_rust_multiplier": 1.33,
+    "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ],
@@ -906,6 +907,7 @@
     "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
+      "style_bojutsu",
       "style_barbaran",
       "style_eskrima",
       "style_fencing",
@@ -989,6 +991,7 @@
     "points": -1,
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
+    "cancels": [ "STRONGKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 1.25
   },
@@ -999,6 +1002,7 @@
     "points": 1,
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
     "category": [ "BATRACHIAN" ],
+    "cancels": [ "BADKNEES" ],
     "valid": false,
     "movecost_obstacle_modifier": 0.9
   },
@@ -1201,7 +1205,7 @@
     "description": "You have problems with eating meat.  It's possible for you to eat it, but you will suffer morale penalties and obtain less nutrition from it.",
     "starting_trait": true,
     "valid": false,
-    "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "flesh", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "CARNIVORE", "CANNIBAL", "EATDEAD", "STRICT_HUMANITARIAN", "SAPIOVORE" ],
     "changes_to": [ "HERBIVORE" ]
   },
@@ -1222,7 +1226,7 @@
     "description": "You have problems with eating vegetables.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
-    "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "veggy", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
@@ -1242,7 +1246,7 @@
     "description": "Eating fruits always causes your stomach to ache.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "valid": false,
     "starting_trait": true,
-    "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "fruit", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
   {
@@ -1251,7 +1255,7 @@
     "name": { "str": "Lactose Intolerance" },
     "points": -1,
     "description": "You, like 75 percent of the world, cannot tolerate milk or milk based products.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
-    "vitamins_absorb_multi": [ [ "milk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "milk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "starting_trait": true
   },
   {
@@ -1262,7 +1266,7 @@
     "description": "Something in those heavily processed foods doesn't agree with you.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "starting_trait": true,
     "cancels": [ "PROJUNK" ],
-    "vitamins_absorb_multi": [ [ "junk", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "junk", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA", "RABBIT", "GASTROPOD" ]
   },
   {
@@ -1271,7 +1275,7 @@
     "name": { "str": "Grain Intolerance" },
     "points": -2,
     "description": "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat wheat-based products, but you will suffer morale penalties and obtain less nutrition from them.",
-    "vitamins_absorb_multi": [ [ "wheat", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "wheat", [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "starting_trait": true
   },
   {
@@ -1315,7 +1319,7 @@
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
-    "skill_rust_multiplier": 0.66,
+    "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "cancels": [ "GOODMEMORY" ],
@@ -3427,7 +3431,7 @@
     "ugliness": 9,
     "description": "You prefer to sustain your nutritional needs using your roots and direct nutrient extraction/synthesis.  Your human parts still need the raw caloric bulk of 'food' to keep them going, though, and you handle it a lot easier if it's had time to… age a little.",
     "prereqs": [ "ROOTS2" ],
-    "prereqs2": [ "LEAVES" ],
+    "prereqs2": [ "LEAVES", "LEAVES2", "LEAVES3" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],
@@ -3579,7 +3583,6 @@
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
-    "valid": false,
     "active": true,
     "transform": {
       "target": "EATHEALTH_active",
@@ -3594,6 +3597,7 @@
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
     "copy-from": "EATHEALTH",
+    "valid": false,
     "cost": 1,
     "time": 1,
     "hunger": true,
@@ -6164,7 +6168,7 @@
     "points": 10,
     "visibility": 7,
     "ugliness": 1,
-    "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.",
+    "description": "Every inch of your skin is packed with chlorophyll and you have strong roots.  Sleeping on diggable soil will satisfy any hunger or thirst you might have.  Activate this mutation to force yourself to sleep until nightfall.",
     "valid": false,
     "purifiable": false,
     "types": [ "LEGS" ],
@@ -6174,7 +6178,9 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "active": true,
+    "cost": 0
   },
   {
     "type": "mutation",

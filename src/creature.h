@@ -680,6 +680,7 @@ class Creature : public viewer
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
         virtual int get_armor_bullet_bonus() const;
+        virtual int get_spell_resist() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
