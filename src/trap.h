@@ -106,6 +106,7 @@ using trap_function = std::function<bool( const tripoint &, Creature *, item * )
  */
 struct trap {
         trap_str_id id;
+        std::vector<std::pair<trap_str_id, mod_id>> src;
         trap_id loadid;
 
         bool was_loaded = false;

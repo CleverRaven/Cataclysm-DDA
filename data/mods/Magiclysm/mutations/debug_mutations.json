@@ -1,0 +1,17 @@
+[
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA",
+    "name": { "str": "Debug Mana" },
+    "points": 99,
+    "valid": false,
+    "description": "To cast bug killing spells.",
+    "debug": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_MANA", "add": 500000 }, { "value": "REGEN_MANA", "multiply": 1000 } ]
+      }
+    ]
+  }
+]

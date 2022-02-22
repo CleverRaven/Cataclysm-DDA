@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
+#include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
 #include "subbodypart.h"
@@ -122,11 +123,13 @@ struct limb_score {
         }
     private:
         limb_score_id id;
+        std::vector<std::pair<limb_score_id, mod_id>> src;
         translation _name;
         bool wound_affect = true;
         bool encumb_affect = true;
         bool was_loaded = false;
         friend class generic_factory<limb_score>;
+        friend struct mod_tracker;
 };
 
 struct bp_limb_score {
@@ -169,6 +172,7 @@ struct body_part_type {
 
 
         bodypart_str_id id;
+        std::vector<std::pair<bodypart_str_id, mod_id>> src;
         bool was_loaded = false;
 
         // Those are stored untranslated

@@ -90,25 +90,6 @@
   },
   {
     "type": "recipe_group",
-    "id": "blacksmith_recipes_2",
-    "building_type": "SMITH",
-    "recipes": [
-      { "id": "copper_knife", "description": " Craft: Knife, Copper" },
-      { "id": "sword_crude", "description": " Craft: Sword, Crude" },
-      { "id": "pot_copper", "description": " Craft: Pot, Copper" },
-      { "id": "bolt_metal", "description": " Craft: Crossbow Bolt, Steel" },
-      { "id": "armor_scrapsuit", "description": " Craft: Armor, Scrap Suit" },
-      { "id": "helmet_scrap", "description": " Craft: Armor, Scrap Helmet" },
-      { "id": "cuirass_scrap", "description": " Craft: Armor, Scrap Cuirass" },
-      { "id": "armguard_scrap", "description": " Craft: Armor, Scrap Arm Guards" },
-      { "id": "legguard_scrap", "description": " Craft: Armor, Scrap Leg Guards" },
-      { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
-      { "id": "copper_ax", "description": " Craft: Axe, Copper" },
-      { "id": "spear_copper", "description": " Craft: Spear, Copper" }
-    ]
-  },
-  {
-    "type": "recipe_group",
     "id": "fbmc_firestation_blacksmith_recipes_3",
     "building_type": "SMITH",
     "recipes": [

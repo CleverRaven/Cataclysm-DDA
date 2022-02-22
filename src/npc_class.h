@@ -77,6 +77,7 @@ class npc_class
 
     public:
         npc_class_id id;
+        std::vector<std::pair<npc_class_id, mod_id>> src;
         bool was_loaded = false;
 
         item_group_id worn_override;

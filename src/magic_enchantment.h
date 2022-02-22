@@ -187,6 +187,8 @@ class enchantment
         void activate_passive( Character &guy ) const;
 
         enchantment_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<enchantment_id, mod_id>> src;
 
         bool was_loaded = false;
 
