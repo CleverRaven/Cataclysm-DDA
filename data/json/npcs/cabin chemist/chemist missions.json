@@ -47,7 +47,7 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have the hydrochloric acid?",
-      "success": "Wonderful! I'm sure this will be quite helpful.",
+      "success": "Wonderful!  I'm sure this will be quite helpful.",
       "success_lie": "Where is it?",
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
@@ -73,7 +73,7 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have it?",
-      "success": "Wonderful! Thank you so much!",
+      "success": "Wonderful!  Thank you so much!",
       "success_lie": "Where is it?",
       "failure": "That's unfortunate.  I guess I'll have to find it myself."
     }
@@ -95,14 +95,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "Go negotiate a trade agreement.",
-	  "offer": "I was out scavenging recently, and I found one of those old evac shelters. Turns out the computer was still on, and had an address for a refugee center. I think my skills might be useful to them, for medical supplies and whatnot; so I want you to head over there and see if they're interested. I'd do it myself, but I need to look after this place.",
+	  "offer": "I was out scavenging recently, and I found one of those old evac shelters.  Turns out the computer was still on, and had an address for a refugee center.  I think my skills might be useful to them, for medical supplies and whatnot; so I want you to head over there and see if they're interested.  I'd do it myself, but I need to look after this place.",
 	  "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
-      "accepted": "I'll be here when you get back. Good luck!",
-      "rejected": "Please? This is really important to me.",
+      "accepted": "I'll be here when you get back.  Good luck!",
+      "rejected": "Please?  This is really important to me.",
       "inquire": "What did they say about it?",
       "success": "Thank you!",
       "success_lie": "How does this help me?",
-      "failure": "That's unfortunate. I guess I'll have to find other customers."
+      "failure": "That's unfortunate.  I guess I'll have to find other customers."
     }
   }
 ]
