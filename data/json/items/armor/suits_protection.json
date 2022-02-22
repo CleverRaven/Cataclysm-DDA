@@ -2424,6 +2424,7 @@
   },
   {
     "id": "mil_flight_suit",
+    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
