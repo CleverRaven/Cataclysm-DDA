@@ -2858,8 +2858,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_id )
 {
     const point dir = miss_id.dir.value();  //  Will always have a value
-    const std::string &dir_id = base_camps::all_directions.at( dir ).id;
-    farm_ops op;
+    farm_ops op = farm_ops::plow;
     if( miss_id.id == Camp_Plow ) {
         op = farm_ops::plow;
     } else if( miss_id.id == Camp_Plant ) {
@@ -2868,6 +2867,7 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_i
         op = farm_ops::harvest;
     } else {
         debugmsg( "Farm operations called with no matching operation" );
+        return;
     }
 
     std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
