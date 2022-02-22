@@ -665,7 +665,7 @@
       { "item": "tequila", "prob": 12 },
       { "item": "triple_sec", "prob": 12 },
       { "item": "brandy", "prob": 12 },
-      { "item": "single_malt_whiskey", "prob": 2 },
+      { "item": "single_malt_whiskey", "prob": 2, "container-item": "bottle_glass" },
       { "item": "single_pot_whiskey", "prob": 10 },
       { "item": "cheap_whiskey", "prob": 10 },
       { "item": "canadian_whiskey", "prob": 10 }
