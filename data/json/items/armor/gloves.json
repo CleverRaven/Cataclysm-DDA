@@ -71,7 +71,7 @@
     "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
     "copy-from": "chainmail_hands",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_hands",
@@ -80,7 +80,7 @@
     "looks_like": "chainmail_hands",
     "name": { "str": "pair of XS chainmail gloves", "str_pl": "pairs of XS chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_chainmail_hands",
@@ -1263,7 +1263,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER"	],
+    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
         "material": [
