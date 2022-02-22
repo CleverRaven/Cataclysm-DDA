@@ -1119,7 +1119,7 @@ bool talk_function::display_and_choose_opts(
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
             mission_entry dud;
-            dud.id = {No_Mission, "", cata::nullopt};
+            dud.id = { {No_Mission, "", cata::nullopt}, false};
             dud.name_display = "NONE";
             mission_key.cur_key = dud;
             break;
