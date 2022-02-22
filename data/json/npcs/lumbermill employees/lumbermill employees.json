@@ -34,7 +34,7 @@
     "type": "npc_class",
     "id": "NC_LUMBERJACK",
     "name": { "str": "Lumberjack" },
-    "job_description": "I felled trees before the apocalypse. Zombies shouldn't be as tough.",
+    "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],    
     "weapon_override": "NC_LUMBERJACK_tools",
     "bonus_str": { "rng": [ 1, 2 ] },
