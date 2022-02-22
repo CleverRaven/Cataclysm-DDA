@@ -18,14 +18,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "We've had some trouble with blobs not far away from us. It's been hard going through there with them around, so I want you to go kill them.",
+	  "offer": "We've had some trouble with blobs not far away from us.  It's been hard going through there with them around, so I want you to go kill them.",
 	  "advice": "While they can be cut, it is generally better to splatter them with something large and heavy.",
-      "accepted": "I'll be here when you get back. Just pick what you want out of our stash afterwards.",
+      "accepted": "I'll be here when you get back.  Just pick what you want out of our stash afterwards.",
       "rejected": "Someone's going to do it anyway.",
       "inquire": "Are those slimes dead yet?",
       "success": "Nice. I'll just take those off your hands, they're good for greasing the hinges around here.",
-      "success_lie": "You don't look nearly as sticky as you're supposed to. Get back to it.",
-      "failure": "Did they give you the slip? It's worse than I thought, then."
+      "success_lie": "You don't look nearly as sticky as you're supposed to.  Get back to it.",
+      "failure": "Did they give you the slip?  It's worse than I thought, then."
     }
   },
 {
@@ -50,14 +50,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "The last time we went out scouting, we found some gargantuan ants crawling around. We came up with the idea to see how they taste, if they could be cooked and whatnot. I want you to go kill one, and bring back some of their meat.",
-	  "advice": "They're simple creatures, and will follow each other around. A shotgun of some sort might work well.",
-      "accepted": "I'll be here when you get back. Just pick what you want out of our stash afterwards.",
+	  "offer": "The last time we went out scouting, we found some gargantuan ants crawling around.  We came up with the idea to see how they taste, if they could be cooked and whatnot.  I want you to go kill one, and bring back some of their meat.",
+	  "advice": "They're simple creatures, and will follow each other around.  A shotgun of some sort might work well.",
+      "accepted": "I'll be here when you get back.  Just pick what you want out of our stash afterwards.",
       "rejected": "Alright, I can understand that.",
       "inquire": "Do you have the meat?",
-      "success": "Nice. I'll get these cooked up. Who knows, we might want some more in the future.",
-      "success_lie": "You sure? I don't see my meat anywhere.",
-      "failure": "Ah well. It's no big deal."
+      "success": "Nice. I'll get these cooked up.  Who knows, we might want some more in the future.",
+      "success_lie": "You sure?  I don't see my meat anywhere.",
+      "failure": "Ah well.  It's no big deal."
     }
   },
 {
@@ -78,15 +78,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "My buddies and I have decided to stay here for a while. This is about the only safe place out here, and it's kinda become our home. Anyway, we're going to build a wall, and while our old logs have provided bunch of the wood, we still need quite a few planks, about 100 of them. If you could get it for us, I'd be grateful.",
-
-	  "advice": "A nearby forest should have all you need. Otherwise, try one of the old buildings in a town.",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+	  "offer": "My buddies and I have decided to stay here for a while.  This is about the only safe place out here, and it's kinda become our home.  Anyway, we're going to build a wall, and while our old logs have provided bunch of the wood, we still need quite a few planks, about 100 of them.  If you could get it for us, I'd be grateful.",
+	  "advice": "A nearby forest should have all you need.  Otherwise, try one of the old buildings in a town.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have my lumber?",
-      "success": "Thank you. We'll start right away.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
-      "failure": "Ah well. It's no big deal." 
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah well.  It's no big deal." 
     }
   },
 {
@@ -107,14 +106,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "Now that we've got the wall done, we decided to move out of these old tents. We still have some leftover nails, but we need more wood. So, if you could get us 150 planks, we'd be grateful.",
-	  "advice": "A nearby forest should have all you need. Otherwise, try one of the old buildings in a town.",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+	  "offer": "Now that we've got the wall done, we decided to move out of these old tents.  We still have some leftover nails, but we need more wood.  So, if you could get us 150 planks, we'd be grateful.",
+	  "advice": "A nearby forest should have all you need.  Otherwise, try one of the old buildings in a town.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have my lumber?",
-      "success": "Thank you. We'll start right away.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
-      "failure": "Ah well. It's no big deal." 
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah well.  It's no big deal." 
     }
   },
 {
@@ -135,13 +134,13 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "Our entrance is wide open, so we're building a gate over it. Problem is we don't have any ropes. If you could find some for us, we'll pay you.",
-	  "advice": "One of our books should have something on rope-making. Cattails are good for it, too.",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+	  "offer": "Our entrance is wide open, so we're building a gate over it.  Problem is we don't have any ropes.  If you could find some for us, we'll pay you.",
+	  "advice": "One of our books should have something on rope-making.  Cattails are good for it, too.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have my ropes?",
-      "success": "Thank you. We'll start right away.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
       "failure": "Ah well. It's no big deal." 
     }
   },
@@ -160,14 +159,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "We appreciate all of your help, but we can't rely on everyone else to do things for us. I will be willing to buy a wood saw from you, so we can cut it as needed.",
+	  "offer": "We appreciate all of your help, but we can't rely on everyone else to do things for us.  I will be willing to buy a wood saw from you, so we can cut it as needed.",
 	  "advice": "A hardware store or lumbermill should have one",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have my saw?",
-      "success": "Thank you. Pick what you want from our stash.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
-      "failure": "Ah well. It's no big deal." 
+      "success": "Thank you.  Pick what you want from our stash.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah well.  It's no big deal." 
     }
   },
 {
@@ -188,15 +187,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "Our sanitation here has become problematic, as we've been going outside the walls to piss. Last time I did that, I nearly died. So, if you could get us a shovel, we could make a latrine for ourselves. We'll pay you fairly, as usual.",
-
+	  "offer": "Our sanitation here has become problematic, as we've been going outside the walls to piss.  Last time I did that, I nearly died.  So, if you could get us a shovel, we could make a latrine for ourselves.  We'll pay you fairly, as usual.",
 	  "advice": "A hardware store should have one lying around.",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have the shovel?",
-      "success": "Thank you. We are eternally grateful to you.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
-      "failure": "Ah well. It's no big deal." 
+      "success": "Thank you.  We are eternally grateful to you.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "I'll do it myself, then." 
     }
   },
 {
@@ -217,15 +215,14 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need some help.",
-	  "offer": "That ant meat you got us turned out quite useful, but we have some difficulty preserving it. If you could get us some stone, about 40 rocks, we could start smoking it. Heck, you might want to buy some.",
-
-	  "advice": "One of those old mines could get you down to stone. Barring that, maybe some boulders could do.",
-      "accepted": "Thank you. We'll be sure to compensate your efforts.",
-      "rejected": "Alright, I can understand that. I guess I'll have to get it myself.",
+	  "offer": "That ant meat you got us turned out quite useful, but we have some difficulty preserving it.  If you could get us some stone, about 40 rocks, we could start smoking it.  Heck, you might want to buy some.",
+	  "advice": "One of those old mines could get you down to stone.  Barring that, maybe some boulders could do.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have the rocks?",
-      "success": "Thank you. We'll get started right away.",
-      "success_lie": "I can tell you're lying. I don't see shit.",
-      "failure": "Ah well. It's no big deal." 
+      "success": "Thank you.  We'll get started right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah well.  It's no big deal." 
     }
   }                                
 ]
