@@ -26,9 +26,9 @@ using comp_list = std::vector<npc_ptr>;
 
 //  The different missions that are supported by the code. New missions have to get a new value entered to
 //  this enum (and added as appropriate in all places the enum is used). Note that there are currently
-//  three missions that take parameters based on (ultimately) JSON data, namely Camp_Crafting, that takes
-//  a recipe from a recipe group added as a "provides" in faction camp hubs/expansions, and Camp_Upgrade
-//  and Camp_Upgrade_Expansion, that take a blueprint provided by a hub/expansion construction recipe.
+//  two missions that take parameters based on (ultimately) JSON data, namely Camp_Crafting, that takes
+//  a recipe from a recipe group added as a "provides" in faction camp hubs/expansions, and Camp_Upgrade,
+//  that take a blueprint provided by a hub/expansion construction recipe.
 //  Camp_Survey_Expansion allows base camps to expand into surrounding tiles based on JSON definitions,
 //  but this selection is done directly as part of the finalization of the mission, rather than provided
 //  as a goal at the outset, and so only counts partially.
