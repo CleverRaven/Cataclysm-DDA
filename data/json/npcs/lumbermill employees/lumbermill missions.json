@@ -14,7 +14,7 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need three makeshift drive belts.",
-	  "offer": "Some of our machinery recieved some damage before <the_cataclysm>, and we were waiting on some replacement parts.  Now that we don't have them, we need replacements.  Get us three drive belts, and I'll give you some credit with us.",
+	  "offer": "Some of our machinery received some damage before <the_cataclysm>, and we were waiting on some replacement parts.  Now that we don't have them, we need replacements.  Get us three drive belts, and I'll give you some credit with us.",
 	  "advice": "A good replacement can be made from a belt and some duct tape, nothing difficult.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
