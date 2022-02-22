@@ -739,9 +739,6 @@ class Character : public Creature, public visitable
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
         comfort_response_t base_comfort_value( const tripoint &p ) const;
 
-        /** Define blood loss (in percents) */
-        int blood_loss( const bodypart_id &bp ) const;
-
         /** Returns focus equilibrium cap due to fatigue **/
         int focus_equilibrium_fatigue_cap( int equilibrium ) const;
         /** Uses morale and other factors to return the character's focus target goto value */

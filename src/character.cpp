@@ -5213,24 +5213,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( const bodypart_id &bp ) const
-{
-    int hp_cur_sum = get_part_hp_cur( bp );
-    int hp_max_sum = get_part_hp_max( bp );
-
-    if( bp == body_part_leg_l || bp == body_part_leg_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_leg_l ) + get_part_hp_cur( body_part_leg_r );
-        hp_max_sum = get_part_hp_max( body_part_leg_l ) + get_part_hp_max( body_part_leg_r );
-    } else if( bp == body_part_arm_l || bp == body_part_arm_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_arm_l ) + get_part_hp_cur( body_part_arm_r );
-        hp_max_sum = get_part_hp_max( body_part_arm_l ) + get_part_hp_max( body_part_arm_r );
-    }
-
-    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
-    hp_max_sum = std::max( hp_max_sum, 1 );
-    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
-}
-
 float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */

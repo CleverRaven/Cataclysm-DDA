@@ -489,8 +489,6 @@ void Character::update_bodytemp()
         if( has_common_cold ) {
             mod_part_temp_conv( bp, -750 );
         }
-        // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        mod_part_temp_conv( bp, - blood_loss( bp ) * get_part_temp_conv( bp ) / 200 );
 
         temp_equalizer( bp, bp->connected_to );
         temp_equalizer( bp, bp->main_part );
