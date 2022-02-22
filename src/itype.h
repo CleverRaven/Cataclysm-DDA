@@ -1003,6 +1003,7 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+        friend struct mod_tracker;
 
         using FlagsSetType = std::set<flag_id>;
 
