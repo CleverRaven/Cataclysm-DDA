@@ -1004,7 +1004,7 @@
     "volume": "500 ml",
     "longest_side": "10 cm",
     "bashing": 8,
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {

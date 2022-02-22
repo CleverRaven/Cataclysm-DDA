@@ -46,7 +46,7 @@
     "price_postapoc": 1250,
     "bashing": 18,
     "cutting": 37,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
