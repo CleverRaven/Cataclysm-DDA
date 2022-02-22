@@ -253,10 +253,6 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         to_translation( "Patrolling the region.\n" )
     },
     {
-        "Camp_Upgrade_Expansion ",  //  Want to add the blueprint after the space
-        to_translation( "Working to upgrade your expansions!\n" )
-    },
-    {
         //  Obsolete entry
         "Camp_Chop_Shop",
         to_translation( "Working at the chop shop…\n" )
@@ -418,7 +414,7 @@ mission_id mission_id_of( std::string str )
         result.dir = base_camps::base_dir;
     } else if( st.substr( id_size - camp_upgrade_expansion_npc_string.length() ) ==
                camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
-        result.id = Camp_Upgrade_Expansion;
+        result.id = Camp_Upgrade;
         result.parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
     } else if( st == "_faction_exp_chop_shop_" ) {        // id + dir
         result.id = Camp_Chop_Shop;
@@ -1230,7 +1226,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Upgrade_Expansion:
         case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
@@ -2343,10 +2338,10 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( c_mission.position == omt_pos && is_equal( c_mission.mission_id, miss_id ) &&
+        if( c_mission.position == omt_pos && is_equal( c_mission.miss_id, miss_id ) &&
             c_mission.role_id == p.companion_mission_role_id ) { // NOLINT(bugprone-branch-clone)
             available.push_back( elem );
-        } else if( contains && c_mission.mission_id.id == miss_id.id ) {
+        } else if( contains && c_mission.miss_id.id == miss_id.id ) {
             available.push_back( elem );
         }
     }
@@ -2589,10 +2584,10 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         }
 
         if( by_mission ) {
-            if( c_mission.mission_id.id != miss_id.id || c_mission.mission_id.dir != miss_id.dir ) {
+            if( c_mission.miss_id.id != miss_id.id || c_mission.miss_id.dir != miss_id.dir ) {
                 continue;
             }
-            if( !ignore_parameters && c_mission.mission_id.parameters != miss_id.parameters ) {
+            if( !ignore_parameters && c_mission.miss_id.parameters != miss_id.parameters ) {
                 continue;
             }
         }

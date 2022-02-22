@@ -206,7 +206,7 @@ enum npc_mission : int {
 };
 
 struct npc_companion_mission {
-    mission_id mission_id;
+    mission_id miss_id;
     tripoint_abs_omt position;
     std::string role_id;
     cata::optional<tripoint_abs_omt> destination;
@@ -1392,12 +1392,12 @@ class npc : public Character
         void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const mission_id &mission_id );
+        void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                    const mission_id &mission_id );
+                                    const mission_id &miss_id );
         void set_companion_mission(
             const tripoint_abs_omt &omt_pos, const std::string &role_id,
-            const mission_id &mission_id, const tripoint_abs_omt &destination );
+            const mission_id &miss_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         cata::optional<tripoint_abs_omt> get_mission_destination() const;

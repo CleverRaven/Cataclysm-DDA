@@ -636,9 +636,9 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
     const tripoint_abs_omt omt_trg = omt_pos + dir;
 
-    if( dir != base_camps::base_dir ) {
+    {
         // return legacy workers. How old is this legacy?...
-        mission_id miss_id = { Camp_Upgrade_Expansion, "", dir };
+        mission_id miss_id = { Camp_Upgrade, "", dir };
         comp_list npc_list = get_mission_workers( miss_id ); // Don't match any blueprints
 
         if( !npc_list.empty() ) {
@@ -662,13 +662,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             if( npc_list.empty() ) {
                 entry = om_upgrade_description( upgrade.bldg );
                 mission_key.add_start( miss_id,
-                                       dir_abbr + _( " Expansion Upgrade " ) + upgrade.name, entry,
+                                       dir_abbr + _( " Upgrade Camp " ) + upgrade.name, entry,
                                        upgrade.avail );
             } else {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id,
-                                        _( base_camps::recover_ally_string ) + dir_abbr + _( base_camps::expansion_string ) +
+                                        _( base_camps::recover_ally_string ) + dir_abbr +
                                         " " + upgrade.name, entry, avail );
             }
         }
@@ -1047,7 +1047,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             add_available_recipes( mission_key, Camp_Crafting, dir, craft_recipes );
         } else {
             for( npc_ptr &comp : npc_list ) {
-                miss_id.parameters = comp.get()->get_companion_mission().mission_id.parameters;
+                miss_id.parameters = comp.get()->get_companion_mission().miss_id.parameters;
                 const std::string bldg = recipe_group::get_building_of_recipe
                                          ( miss_id.parameters );
 
@@ -1175,43 +1175,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
     reset_camp_resources();
-
-    // Handling for the central tile
-    // return legacy workers
-
-    {
-        {
-            const mission_id miss_id = { Camp_Upgrade, "", base_dir };
-            comp_list legacy_npc_list = get_mission_workers( miss_id );
-            if( !legacy_npc_list.empty() ) {
-                entry = action_of( miss_id.id );
-                bool avail = update_time_left( entry, legacy_npc_list );
-                mission_key.add_return( miss_id, _( "Recover Ally from Upgrading" ),
-                                        entry, avail );
-            }
-        }
-        std::vector<basecamp_upgrade> upgrades = available_upgrades( base_camps::base_dir );
-
-        std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
-                   const basecamp_upgrade & q )->bool {return p.name.translated_lt( q.name ); } );
-
-        for( const basecamp_upgrade &upgrade : upgrades ) {
-            const mission_id miss_id = { Camp_Upgrade, upgrade.bldg, base_dir };
-            comp_list npc_list = get_mission_workers( miss_id );
-            if( npc_list.empty() && !upgrade.in_progress ) {
-                entry = om_upgrade_description( upgrade.bldg );
-                mission_key.add_start( miss_id,
-                                       _( "Upgrade camp " ) + upgrade.name,
-                                       entry, upgrade.avail );
-            } else if( !npc_list.empty() && upgrade.in_progress ) {
-                entry = action_of( miss_id.id );
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( miss_id,
-                                        _( "Recover Ally from Upgrading " ) + upgrade.name,
-                                        entry, avail );
-            }
-        }
-    }
 
     // Missions that belong exclusively to the central tile
     {
@@ -1521,14 +1484,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 combat_mission_return( miss_id.id );
             } else {
                 start_combat_mission( miss_id.id );
-            }
-            break;
-
-        case Camp_Upgrade_Expansion:
-            if( miss_id.ret ) {
-                upgrade_return( miss_id.id );
-            } else {
-                start_upgrade( miss_id.id );
             }
             break;
 
