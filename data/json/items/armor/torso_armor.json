@@ -217,7 +217,7 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],

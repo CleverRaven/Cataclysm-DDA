@@ -142,7 +142,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -159,17 +159,16 @@
     "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
     "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "chainmail_legs",
-    "looks_like": "chainmail_legs",
     "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
     "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_chainmail_legs",

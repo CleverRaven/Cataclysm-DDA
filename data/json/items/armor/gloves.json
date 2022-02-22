@@ -55,7 +55,7 @@
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1263,7 +1263,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER"	],
     "armor": [
       {
         "material": [

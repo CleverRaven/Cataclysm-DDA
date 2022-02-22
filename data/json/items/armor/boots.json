@@ -1210,7 +1210,7 @@
     "to_hit": -1,
     "symbol": "[",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -1675,7 +1675,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [
