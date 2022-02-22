@@ -1017,6 +1017,35 @@
     "armor": [ { "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "wool_sockmitts",
+    "type": "ARMOR",
+    "copy-from": "sockmitts",
+    "name": { "str": "pair of wool sock mitts", "str_pl": "pairs of wool sock mitts" },
+    "description": "A pair of improvised gloves made from wool socks with holes poked through them.",
+    "weight": "44 g",
+    "volume": "250 ml",
+    "material": [ "wool" ],
+    "warmth": 30,
+    "material_thickness": 0.3,
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "nomex_sockmitts",
+    "type": "ARMOR",
+    "copy-from": "sockmitts",
+    "name": { "str": "pair of nomex sock mitts", "str_pl": "pairs of nomex sock mitts" },
+    "description": "A pair of improvised gloves made from nomex socks with holes poked through them.",
+    "weight": "200 g",
+    "volume": "750 ml",
+    "material": [ "nomex" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
     "id": "stockings_tent_arms",
     "type": "ARMOR",
     "name": { "str": "pair of tentacle sleeves", "str_pl": "pairs of tentacle sleeves" },
