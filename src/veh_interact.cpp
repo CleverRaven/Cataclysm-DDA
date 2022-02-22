@@ -3401,7 +3401,9 @@ void veh_interact::complete_vehicle( Character &you )
             break;
         }
 
+        case 'O': // 'O' = remove appliance
         case 'o': {
+            const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
             const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );
@@ -3481,6 +3483,17 @@ void veh_interact::complete_vehicle( Character &you )
                     // removal is half as educational as installation
                     you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) / 2 );
                 }
+            }
+
+            // Remove any leftover power cords from the appliance
+            if( appliance_removal && veh->part_count() >= 2 ) {
+                for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                    if( vpr.part().info().has_flag( "POWER_TRANSFER" ) ) {
+                        veh->remove_remote_part( vpr.part_index() );
+                        veh->remove_part( vpr.part_index() );
+                    }
+                }
+                veh->part_removal_cleanup();
             }
 
             if( veh->part_count() < 2 ) {

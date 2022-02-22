@@ -384,7 +384,7 @@ void veh_app_interact::remove()
         popup( msg );
         //~ Prompt the player if they want to remove the appliance. %s = appliance name.
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
-        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'o' ) );
+        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.get_id().str() );
         const point q = veh->coord_translate( vp.mount );
         map &here = get_map();
