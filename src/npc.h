@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "mission_companion.h"
 #include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -205,7 +206,7 @@ enum npc_mission : int {
 };
 
 struct npc_companion_mission {
-    std::string mission_id;
+    mission_id mission_id;
     tripoint_abs_omt position;
     std::string role_id;
     cata::optional<tripoint_abs_omt> destination;
@@ -1391,12 +1392,12 @@ class npc : public Character
         void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const std::string &mission_id );
+        void set_companion_mission( npc &p, const mission_id &mission_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                    const std::string &mission_id );
+                                    const mission_id &mission_id );
         void set_companion_mission(
             const tripoint_abs_omt &omt_pos, const std::string &role_id,
-            const std::string &mission_id, const tripoint_abs_omt &destination );
+            const mission_id &mission_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         cata::optional<tripoint_abs_omt> get_mission_destination() const;

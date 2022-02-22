@@ -1745,7 +1745,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->get_available_missions( mission_key );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id );
         }
     } else {
         you.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );

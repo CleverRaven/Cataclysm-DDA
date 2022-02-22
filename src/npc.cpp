@@ -3434,7 +3434,7 @@ std::string npc::get_epilogue() const
            ).value_or( translation() ).translated();
 }
 
-void npc::set_companion_mission( npc &p, const std::string &mission_id )
+void npc::set_companion_mission( npc &p, const mission_id &mission_id )
 {
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
@@ -3473,7 +3473,7 @@ std::pair<std::string, nc_color> npc::hp_description() const
     return std::make_pair( damage_info, col );
 }
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id )
+                                 const mission_id &mission_id )
 {
     comp_mission.position = omt_pos;
     comp_mission.mission_id = mission_id;
@@ -3481,7 +3481,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 }
 
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id, const tripoint_abs_omt &destination )
+                                 const mission_id &mission_id, const tripoint_abs_omt &destination )
 {
     comp_mission.position = omt_pos;
     comp_mission.mission_id = mission_id;
@@ -3492,7 +3492,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 void npc::reset_companion_mission()
 {
     comp_mission.position = tripoint_abs_omt( -999, -999, -999 );
-    comp_mission.mission_id.clear();
+    reset_miss_id( comp_mission.mission_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
         comp_mission.destination = cata::nullopt;
@@ -3510,7 +3510,7 @@ cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
 
 bool npc::has_companion_mission() const
 {
-    return !comp_mission.mission_id.empty();
+    return comp_mission.mission_id.id != No_Mission;
 }
 
 npc_companion_mission npc::get_companion_mission() const
