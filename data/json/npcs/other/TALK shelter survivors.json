@@ -2,9 +2,26 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR",
-    "dynamic_line": "Don't come any closer!",
+    {
+      "npc_has_var": "knows_u",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "<greet>.",
+      "no": "Don't come any closer!"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { "text": "What's wrong?", "topic": "TALK_NPC_EVAC_SURVIVOR_CALM" },
+      { 
+        "text": "What's wrong?", 
+        "topic": "TALK_NPC_EVAC_SURVIVOR_CALM", 
+        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } } 
+      },
+      { 
+        "text": "<greet>.", 
+        "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", 
+        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }  
+      },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
   },
