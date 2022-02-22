@@ -356,7 +356,8 @@ mission_id mission_id_of( std::string str )
     }
     //  The farm field actions do not result in npc missions
 
-    else if( str.substr( str.length() - camp_upgrade_npc_string.length() ) ==
+    else if( str.length() >= camp_upgrade_npc_string.length() &&
+             str.substr( str.length() - camp_upgrade_npc_string.length() ) ==
              camp_upgrade_npc_string ) {  //  blueprint + id
         result.id = Camp_Upgrade;
         result.parameters = str.substr( 0, str.length() - camp_upgrade_npc_string.length() );
@@ -412,7 +413,8 @@ mission_id mission_id_of( std::string str )
     } else if( str == "_faction_camp_combat_0" ) {
         result.id = Camp_Combat_Patrol;
         result.dir = base_camps::base_dir;
-    } else if( st.substr( id_size - camp_upgrade_expansion_npc_string.length() ) ==
+    } else if( id_size >= camp_upgrade_expansion_npc_string.length() &&
+               st.substr( id_size - camp_upgrade_expansion_npc_string.length() ) ==
                camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
         result.id = Camp_Upgrade;
         result.parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
