@@ -19,8 +19,8 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "yes": "Hello there. Nice to see you <name_g>.",
-      "no": "Who are you? Would you like to buy anything?"
+      "yes": "Hello there.  Nice to see you <name_g>.",
+      "no": "Who are you?  Would you like to buy anything?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -69,7 +69,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_STORY",
-    "dynamic_line": "Well, I held a modest job here as a scrap yard worker. Business was fair most days, but when <the_cataclysm> hit, I was on a solo shift. With all the craziness going on in the cities and whatnot, I decided to just stay here for while. I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
+    "dynamic_line": "Well, I held a modest job here as a scrap yard worker.  Business was fair most days, but when <the_cataclysm> hit, I was on a solo shift.  With all the craziness going on in the cities and whatnot, I decided to just stay here for while.  I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
 
     "responses": [
       { "text": "Hmm.", "topic": "TALK_NONE" }
@@ -78,7 +78,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_FORT",
-    "dynamic_line": "Like I said, I was already here when the dead got pissed of. On another note, this place had some barbed wire and plenty of stuff to make weapons out of. The walls are my own doing.",
+    "dynamic_line": "Like I said, I was already here when the dead got pissed of.  On another note, this place had some barbed wire and plenty of stuff to make weapons out of.  The walls are my own doing.",
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NONE" },
       { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }
@@ -87,7 +87,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
-    "dynamic_line": "Sure, I'm fine with it. There's a spare bed over there for anyone. Just don't hog it, someone else might come along.",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone.  Just don't hog it, someone else might come along.",
     "responses": [
       { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" }
     ]
