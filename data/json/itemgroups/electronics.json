@@ -34,6 +34,7 @@
       [ "battery_ups", 15 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 31, "charges-min": 0 },
+      { "item": "waterproof_smart_phone_case", "prob": 11 },
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },

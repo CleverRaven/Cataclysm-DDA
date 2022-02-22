@@ -23,6 +23,7 @@ using group_id = string_id<recipe_group_data>;
 
 struct recipe_group_data {
     group_id id;
+    std::vector<std::pair<group_id, mod_id>> src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;

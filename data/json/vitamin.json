@@ -20,25 +20,6 @@
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
-    "id": "vitA",
-    "type": "vitamin",
-    "vit_type": "vitamin",
-    "name": { "str": "Vitamin A" },
-    "excess": "hypervitaminosis",
-    "min": -8400,
-    "max": 3600,
-    "rate": "180 m"
-  },
-  {
-    "id": "vitB",
-    "type": "vitamin",
-    "vit_type": "vitamin",
-    "name": { "str": "Vitamin B12" },
-    "min": -5600,
-    "max": 2000,
-    "rate": "360 m"
-  },
-  {
     "id": "vitC",
     "type": "vitamin",
     "vit_type": "vitamin",

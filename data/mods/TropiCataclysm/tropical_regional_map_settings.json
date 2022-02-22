@@ -785,6 +785,7 @@
         "urban_17_house_ranch": 50,
         "urban_18_victorian": 50,
         "emptyresidentiallot": 20,
+        "overgrownlot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
         "apartments_con_new": 10,

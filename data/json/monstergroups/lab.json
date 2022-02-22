@@ -297,7 +297,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_HOSPTIAL",
+    "name": "GROUP_LAB_HOSPITAL",
     "monsters": [
       { "monster": "mon_zombie_medical", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_medical_brute", "weight": 10, "cost_multiplier": 3 },
