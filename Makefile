@@ -1205,7 +1205,7 @@ astyle-all: $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted\s+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
 astyle-check:
