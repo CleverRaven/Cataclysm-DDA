@@ -74,7 +74,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "It looks like some old shack, or a drug house someone once lived in. I found it out here while I was looking for a place to live, and I decided to stay here.",
+    "dynamic_line": "It looks like some old shack, or a drug house someone once lived in.  I found it out here while I was looking for a place to live, and I decided to stay here.",
     "responses": [
       { "text": "Hmm.", "topic": "TALK_NONE" }
     ]
@@ -84,7 +84,7 @@
     "//": "this is all the dialogue related to buying bulk chemicals.",
     "type": "talk_topic",
     "dynamic_line": [
-      "I'll see what I've got around here for you. What do you want?"
+      "I'll see what I've got around here for you.  What do you want?"
     ],
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
