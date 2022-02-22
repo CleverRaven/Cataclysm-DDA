@@ -143,7 +143,7 @@
         "text": "Are you interested in any chemical supplies?", 
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",  
         "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
-      }
+      },
       { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
     ]
   },
