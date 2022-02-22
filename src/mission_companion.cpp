@@ -422,9 +422,9 @@ mission_id mission_id_of( std::string str )
         result.parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
     } else if( st == "_faction_exp_chop_shop_" ) {        // id + dir
         result.id = Camp_Chop_Shop;
-    } else if( st == "_faction_exp_kitchen_cooking_" ) {  // id + dir
-        result.id = Camp_Crafting;
-    } else if( st == "_faction_exp_blacksmith_crafting_" ) { // id + dir
+    } else if( st == "_faction_exp_kitchen_cooking_" ||   // id + dir
+               st == "_faction_exp_blacksmith_crafting_" ||
+               st == "_faction_exp_farm_crafting_" ) {
         result.id = Camp_Crafting;
     } else if( st == "_faction_exp_plow_" ) {             // id + dir
         result.id = Camp_Plow;
@@ -432,8 +432,6 @@ mission_id mission_id_of( std::string str )
         result.id = Camp_Plant;
     } else if( st == "_faction_exp_harvest_" ) {          // id + dir
         result.id = Camp_Harvest;
-    } else if( st == "_faction_exp_farm_crafting_" ) {    // id + dir
-        result.id = Camp_Crafting;
     }
 
     if( result.id == No_Mission ) {
@@ -617,7 +615,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "you.  If the crop is something we have a demand for, we'll be "
                                "willing to liquidate it." );
         miss_id.id = Purchase_East_Field;
-        mission_key.add( { miss_id, false }, ( "Purchase East Field" ), entry );
+        mission_key.add( { miss_id, false }, _( "Purchase East Field" ), entry );
     }
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         std::string entry = _( "Cost: $5500\n\n"
@@ -1121,7 +1119,7 @@ bool talk_function::display_and_choose_opts(
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
             mission_entry dud;
-            dud.id = {No_Mission, ""};
+            dud.id = {No_Mission, "", cata::nullopt};
             dud.name_display = "NONE";
             mission_key.cur_key = dud;
             break;
@@ -2338,17 +2336,17 @@ void talk_function::companion_return( npc &comp )
     g->reload_npcs();
 }
 
-std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_id &mission_id,
+std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_id &miss_id,
         bool contains )
 {
     std::vector<npc_ptr> available;
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( c_mission.position == omt_pos && is_equal( c_mission.mission_id, mission_id ) &&
+        if( c_mission.position == omt_pos && is_equal( c_mission.mission_id, miss_id ) &&
             c_mission.role_id == p.companion_mission_role_id ) { // NOLINT(bugprone-branch-clone)
             available.push_back( elem );
-        } else if( contains && c_mission.mission_id.id == mission_id.id ) {
+        } else if( contains && c_mission.mission_id.id == miss_id.id ) {
             available.push_back( elem );
         }
     }
@@ -2567,16 +2565,16 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     return available[npc_choice];
 }
 
-npc_ptr talk_function::companion_choose_return( const npc &p, const mission_id &mission_id,
+npc_ptr talk_function::companion_choose_return( const npc &p, const mission_id &miss_id,
         const time_point &deadline, const bool ignore_parameters )
 {
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     const std::string &role_id = p.companion_mission_role_id;
-    return companion_choose_return( omt_pos, role_id, mission_id, deadline, true, ignore_parameters );
+    return companion_choose_return( omt_pos, role_id, miss_id, deadline, true, ignore_parameters );
 }
 npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         const std::string &role_id,
-        const mission_id &mission_id,
+        const mission_id &miss_id,
         const time_point &deadline,
         const bool by_mission,
         const bool ignore_parameters )
@@ -2591,10 +2589,10 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         }
 
         if( by_mission ) {
-            if( c_mission.mission_id.id != mission_id.id || c_mission.mission_id.dir != mission_id.dir ) {
+            if( c_mission.mission_id.id != miss_id.id || c_mission.mission_id.dir != miss_id.dir ) {
                 continue;
             }
-            if( !ignore_parameters && c_mission.mission_id.parameters != mission_id.parameters ) {
+            if( !ignore_parameters && c_mission.mission_id.parameters != miss_id.parameters ) {
                 continue;
             }
         }

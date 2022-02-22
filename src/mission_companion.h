@@ -95,7 +95,7 @@ std::string action_of( mission_kind kind );
 //
 struct mission_id {
     mission_kind id = No_Mission;
-    std::string parameters = "";
+    std::string parameters;
     cata::optional<point> dir;
 };
 

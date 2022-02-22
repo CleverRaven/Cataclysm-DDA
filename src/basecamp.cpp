@@ -549,7 +549,7 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     comp_list available;
     for( const auto &elem : camp_workers ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( ( is_equal( c_mission.mission_id, miss_id ) ) ||
+        if( is_equal( c_mission.mission_id, miss_id ) ||
             ( contains && c_mission.mission_id.id == miss_id.id &&
               c_mission.mission_id.dir == miss_id.dir ) ) {
             available.push_back( elem );

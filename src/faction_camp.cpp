@@ -138,7 +138,6 @@ static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_combat( "combat" );
 static const skill_id skill_construction( "construction" );
-static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_fabrication( "fabrication" );
@@ -1047,7 +1046,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( npc_list.empty() ) {
             add_available_recipes( mission_key, Camp_Crafting, dir, craft_recipes );
         } else {
-            for( npc_ptr comp : npc_list ) {
+            for( npc_ptr &comp : npc_list ) {
                 miss_id.parameters = comp.get()->get_companion_mission().mission_id.parameters;
                 const std::string bldg = recipe_group::get_building_of_recipe
                                          ( miss_id.parameters );
@@ -2857,7 +2856,6 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 
 void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_id )
 {
-    const point dir = miss_id.dir.value();  //  Will always have a value
     farm_ops op = farm_ops::plow;
     if( miss_id.id == Camp_Plow ) {
         op = farm_ops::plow;
@@ -3442,11 +3440,11 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
     return true;
 }
 
-void basecamp::recruit_return( const mission_id &task, int score )
+void basecamp::recruit_return( const mission_id &miss_id, int score )
 {
     const std::string msg = _( "returns from searching for recruits with "
                                "a bit more experience…" );
-    npc_ptr comp = mission_return( task, 4_days, true, msg, skill_recruiting.str(), 2 );
+    npc_ptr comp = mission_return( miss_id, 4_days, true, msg, skill_recruiting.str(), 2 );
     if( comp == nullptr ) {
         return;
     }
@@ -3778,7 +3776,7 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
     }
 }
 
-void basecamp::hunting_results( int skill, const mission_id &task, int attempts, int difficulty )
+void basecamp::hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty )
 {
     // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
@@ -3790,7 +3788,7 @@ void basecamp::hunting_results( int skill, const mission_id &task, int attempts,
     hunting_targets.add( mon_otter, 10 );
     hunting_targets.add( mon_duck, 10 );
     hunting_targets.add( mon_cockatrice, 1 );
-    if( task.id == Camp_Trapping ) {
+    if( miss_id.id == Camp_Trapping ) {
         hunting_targets.add( mon_black_rat, 40 );
         hunting_targets.add( mon_chipmunk, 30 );
         hunting_targets.add( mon_groundhog, 30 );
@@ -3804,7 +3802,7 @@ void basecamp::hunting_results( int skill, const mission_id &task, int attempts,
         hunting_targets.add( mon_grouse, 10 );
         hunting_targets.add( mon_pheasant, 10 );
         hunting_targets.add( mon_turkey, 20 );
-    } else if( task.id == Camp_Hunting ) {
+    } else if( miss_id.id == Camp_Hunting ) {
         hunting_targets.add( mon_chicken, 20 );
         // good luck hunting upland game birds without dogs
         hunting_targets.add( mon_grouse, 2 );
