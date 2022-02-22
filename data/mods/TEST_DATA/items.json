@@ -867,23 +867,6 @@
     "armor": [ { "coverage": 50, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "test_longshirt",
-    "type": "ARMOR",
-    "name": "TEST long-sleeved shirt",
-    "description": "A long-sleeved cotton shirt.",
-    "weight": "146 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress_shirt",
-    "color": "blue",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
     "id": "test_ear_plugs",
     "type": "ARMOR",
     "name": { "str": "TEST pair of ear plugs", "str_pl": "TEST pairs of ear plugs" },
