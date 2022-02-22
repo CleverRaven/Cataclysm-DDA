@@ -746,7 +746,7 @@
     "id": "infested_shelter_start",
     "name": "Challenge - Compromized Shelter",
     "points": -2,
-    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters. However, the people you came with began to turn, and are out for your flesh. You need to get out of here.",
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with began to turn, and are out for your flesh.  You need to get out of here.",
     "allowed_locs": [
       "sloc_shelter_infest_a",
       "sloc_shelter_infest_b"
