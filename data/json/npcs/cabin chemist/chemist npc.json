@@ -66,7 +66,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
-    "dynamic_line": "I'm just a chemist. Before <the_cataclysm>, I worked out in a factory manufacturing various chemicals, and even tried out some experimental combinations. I ran out here and found this old cabin, chock full of scientific equipment. It must've been a drug house at one point, but no one was here when I arrived, so I made it my home.",
+    "dynamic_line": "I'm just a chemist.  Before <the_cataclysm>, I worked out in a factory manufacturing various chemicals, and even tried out some experimental combinations.  I ran out here and found this old cabin, chock full of scientific equipment.  It must've been a drug house at one point, but no one was here when I arrived, so I made it my home.",
     "responses": [
       { "text": "Hmm.", "topic": "TALK_NONE" }
     ]
