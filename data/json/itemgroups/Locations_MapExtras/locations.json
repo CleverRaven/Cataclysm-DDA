@@ -1270,7 +1270,7 @@
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "glasses_safety", 40 ],
-      [ "goggles_welding", 70 ],
+      { "group": "SUS_welding_gear", "prob": 70 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 2, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
