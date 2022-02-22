@@ -128,7 +128,7 @@
     "price": 0,
     "price_postapoc": 1,
     "looks_like": "esbi_plate",
-    "material": [ "damaged_ceramic" ],
+    "material": [ "damaged_ceramic" ]
   },
   {
     "id": "ballistic_vest_heavy",
