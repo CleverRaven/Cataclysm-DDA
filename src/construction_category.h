@@ -15,6 +15,7 @@ struct construction_category {
         void load( const JsonObject &jo, const std::string &src );
 
         construction_category_id id;
+        std::vector<std::pair<construction_category_id, mod_id>> src;
         bool was_loaded = false;
 
         std::string name() const {

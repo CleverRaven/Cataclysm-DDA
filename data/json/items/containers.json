@@ -1626,6 +1626,32 @@
     ]
   },
   {
+    "id": "waterproof_smart_phone_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "waterproof smartphone case" },
+    "looks_like": "smart_phone",
+    "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+    "weight": "50 g",
+    "volume": "125 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "230 g",
+        "moves": 100,
+        "watertight": true,
+        "rigid": true,
+        "item_restriction": [ "smart_phone" ]
+      }
+    ]
+  },
+  {
     "id": "waterskin",
     "type": "GENERIC",
     "category": "container",

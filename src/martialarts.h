@@ -46,8 +46,10 @@ class weapon_category
 
     private:
         friend class generic_factory<weapon_category>;
+        friend struct mod_tracker;
 
         weapon_category_id id;
+        std::vector<std::pair<weapon_category_id, mod_id>> src;
         bool was_loaded = false;
 
         translation name_;
@@ -126,6 +128,7 @@ class ma_technique
         void load( const JsonObject &jo, const std::string &src );
 
         matec_id id;
+        std::vector<std::pair<matec_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
 
@@ -239,6 +242,7 @@ class ma_buff
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;
+        std::vector<std::pair<mabuff_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
         translation description;
@@ -312,6 +316,7 @@ class martialart
         std::string get_initiate_npc_message() const;
 
         matype_id id;
+        std::vector<std::pair<matype_id, mod_id>> src;
         bool was_loaded = false;
         translation name;
         translation description;

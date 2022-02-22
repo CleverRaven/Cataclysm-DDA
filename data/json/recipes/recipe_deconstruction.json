@@ -403,6 +403,14 @@
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
+    "result": "jacket_leather",
+    "type": "uncraft",
+    "time": "10 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 18 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
     "result": "rad_badge",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

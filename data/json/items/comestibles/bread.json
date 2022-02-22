@@ -215,7 +215,7 @@
     "charges": 14,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -245,7 +245,7 @@
     "name": { "str_sp": "buttered toast" },
     "copy-from": "toast",
     "description": "Toast with butter spread on top to make it taste better.",
-    "relative": { "calories": 101, "fun": 4, "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ] }
+    "relative": { "calories": 101, "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
@@ -253,7 +253,7 @@
     "name": { "str_sp": "wheat-free buttered toast" },
     "copy-from": "toast_wheat_free",
     "description": "Wheat-free toast with butter spread on top to make it taste better.",
-    "relative": { "calories": 101, "fun": 4, "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ] }
+    "relative": { "calories": 101, "fun": 4 }
   },
   {
     "type": "COMESTIBLE",
@@ -295,12 +295,7 @@
     "name": { "str_sp": "toad in a hole" },
     "copy-from": "toast",
     "description": "A cooked egg served inside a piece of toast.",
-    "relative": {
-      "calories": 80,
-      "fun": 4,
-      "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
-    }
+    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -308,12 +303,7 @@
     "name": { "str_sp": "wheat-free toad in a hole" },
     "copy-from": "toast_wheat_free",
     "description": "A cooked egg served inside a piece of wheat-free toast.",
-    "relative": {
-      "calories": 80,
-      "fun": 4,
-      "flags": [ "FREEZERBURN" ],
-      "vitamins": [ [ "iron", 4 ], [ "vitB", 21 ], [ "vitA", 9 ], [ "calcium", 3 ] ]
-    }
+    "relative": { "calories": 80, "fun": 4, "flags": [ "FREEZERBURN" ], "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -321,7 +311,7 @@
     "name": { "str_sp": "PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -329,7 +319,7 @@
     "name": { "str_sp": "wheat-free PBJ Toast" },
     "copy-from": "toast_wheat_free",
     "description": "A slice of wheat-free toast with peanut butter and jelly on top of it with added butter for flavor.",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitB", 3 ], [ "vitA", 7 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
   },
   {
     "type": "COMESTIBLE",
@@ -352,7 +342,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 8 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -373,7 +363,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -439,7 +429,7 @@
     "charges": 10,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 11 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
