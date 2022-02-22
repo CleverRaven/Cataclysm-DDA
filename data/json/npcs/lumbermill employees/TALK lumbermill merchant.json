@@ -8,7 +8,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "yes": "Hello there. Nice to see you again.",
+      "yes": "Hello there.  Nice to see you again.",
       "no": "Who might you be?"
     },
     "speaker_effect": { "effect": { "npc_add_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
@@ -51,7 +51,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_MERCHANT_STORY",
-    "dynamic_line": "I'm the manager here at the mill. When the apocalypse broke out, we didn't know about it till some zombies showed up. Now, we've held up here. Hopefully there's still some customers around.",
+    "dynamic_line": "I'm the manager here at the mill.  When the apocalypse broke out, we didn't know about it till some zombies showed up.  Now, we've held up here. Hopefully there's still some customers around.",
 
     "responses": [
       { "text": "Hm.", "topic": "TALK_NONE" }
