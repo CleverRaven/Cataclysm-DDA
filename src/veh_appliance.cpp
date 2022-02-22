@@ -1,9 +1,11 @@
 #include "game.h"
 #include "handle_liquid.h"
+#include "inventory.h"
 #include "itype.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
+#include "skill.h"
 #include "string_input_popup.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -18,6 +20,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const itype_id fuel_type_battery( "battery" );
 
 static const quality_id qual_HOSE( "HOSE" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -53,6 +57,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "REFILL" );
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
+    ctxt.register_action( "REMOVE" );
 }
 
 void veh_app_interact::init_ui_windows()
@@ -349,6 +354,53 @@ void veh_app_interact::rename()
     }
 }
 
+void veh_app_interact::remove()
+{
+    vehicle_part &vp = veh->part( veh->part_at( a_point ) );
+    const vpart_info &vpinfo = vp.info();
+    const requirement_data reqs = vpinfo.removal_requirements();
+    Character &you = get_player_character();
+    const inventory &inv = you.crafting_inventory();
+    std::string msg;
+    bool can_remove = reqs.can_make_with_inventory( inv, is_crafting_component );
+    if( !can_remove ) {
+        msg += _( "Insufficient components/tools!\n" );
+    }
+    for( const auto &sk : vpinfo.removal_skills ) {
+        if( you.get_knowledge_level( sk.first ) < sk.second ) {
+            can_remove = false;
+            //~ 1$ = skill name (ex: mechanics), 2$ = skill level
+            msg += string_format( _( "Removal requires %1$s %2$d!\n" ), sk.first->name(), sk.second );
+        }
+    }
+
+    int time = vpinfo.removal_time( you );
+    if( trait_DEBUG_HS ) {
+        can_remove = true;
+        time = 1;
+    }
+
+    if( !can_remove ) {
+        popup( msg );
+        //~ Prompt the player if they want to remove the appliance. %s = appliance name.
+    } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
+        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'o' ) );
+        act.str_values.push_back( vpinfo.get_id().str() );
+        const point q = veh->coord_translate( vp.mount );
+        map &here = get_map();
+        for( const tripoint &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getabs( p ) );
+        }
+        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
+        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+        act.values.push_back( a_point.x );
+        act.values.push_back( a_point.y );
+        act.values.push_back( -a_point.x );
+        act.values.push_back( -a_point.y );
+        act.values.push_back( veh->index_of_part( &vp ) );
+    }
+}
+
 void veh_app_interact::populate_app_actions()
 {
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
@@ -374,6 +426,12 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "RENAME" ).front(),
                     ctxt.get_action_name( "RENAME" ) );
+    // Remove
+    app_actions.emplace_back( [this]() {
+        remove();
+    } );
+    imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
+                    ctxt.get_action_name( "REMOVE" ) );
 
     /*************** Get part-specific actions ***************/
     std::vector<uilist_entry> tmp_opts;
