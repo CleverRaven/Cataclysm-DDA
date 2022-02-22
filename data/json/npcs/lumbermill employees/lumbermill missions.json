@@ -19,8 +19,8 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have the belts?",
-      "success": "Wonderful! Thanks <name_g>, we'll be fine for a long while from now.",
-      "success_lie": "Where are they? I don't believe you.",
+      "success": "Wonderful!  Thanks <name_g>, we'll be fine for a long while from now.",
+      "success_lie": "Where are they?  I don't believe you.",
       "failure": "That's unfortunate.  I guess we'll have to find someone else to do it."
     }
   },
@@ -45,7 +45,7 @@
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have the nails?",
       "success": "Our warehouse was about to fall apart.  These will be extremely helpful to us.",
-      "success_lie": "Where are they? I don't believe you.",
+      "success_lie": "Where are they?  I don't believe you.",
       "failure": "That's unfortunate.  I guess we'll have to find someone else to do it."
     }
   },
@@ -107,7 +107,7 @@
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
       "inquire": "Where are the blankets?",
-      "success": "Thanks! Feel free to sleep there if you want.",
+      "success": "Thanks!  Feel free to sleep there if you want.",
       "success_lie": "How does this help us?",
       "failure": "That's unfortunate.  I guess we'll have to find someone else to do it."
     }
