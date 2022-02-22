@@ -148,13 +148,6 @@
   },
   {
     "type": "profession",
-    "id": "labtech",
-    "copy-from": "labtech",
-    "name": "Lab Technician",
-    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you avoid getting experimented on in return?"
-  },
-  {
-    "type": "profession",
     "id": "national_guard",
     "copy-from": "national_guard",
     "name": "National Guard",

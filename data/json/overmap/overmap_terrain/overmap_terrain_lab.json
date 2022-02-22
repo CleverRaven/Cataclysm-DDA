@@ -653,7 +653,7 @@
     "sym": "M",
     "color": "red",
     "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB_HOSPTIAL", "population": [ 7, 15 ], "chance": 100 },
+    "spawns": { "group": "GROUP_LAB_HOSPITAL", "population": [ 7, 15 ], "chance": 100 },
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {

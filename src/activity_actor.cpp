@@ -1263,7 +1263,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
 {
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -1304,7 +1304,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
