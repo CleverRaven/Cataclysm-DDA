@@ -389,6 +389,15 @@
   },
   {
     "type": "material",
+    "id": "damaged_ceramic",
+    "name": "Compromised Ceramic",
+    "copy-from": "ceramic",
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 0.8
+  },
+  {
+    "type": "material",
     "id": "hyperweave_off",
     "//": "material for RM13 armor.  A combination of small ceramic plates, sensors and a contractable weave material",
     "name": "Innert Hyperweave",

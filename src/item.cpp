@@ -8298,6 +8298,12 @@ item::armor_status item::damage_armor_transforms( damage_unit &du )
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = damage_resist( du.type, true, bodypart_id() );
 
+    // to avoid dumb chip damage plates shouldn't ever transform if they take less than
+    // 20% of their protection in damage
+    if( du.amount / armors_own_resist < 0.2f ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
     float break_chance = 33.3f * ( du.amount / armors_own_resist );
