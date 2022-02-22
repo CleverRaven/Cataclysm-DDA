@@ -263,11 +263,14 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "30 m",
     "autolearn": true,
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
+    "using": [ [ "cordage_short", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "DRILL_ROCK", "level": 1 }
+    ],
+    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
     "type": "recipe",
