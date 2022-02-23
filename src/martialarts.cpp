@@ -1260,7 +1260,8 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1293,7 +1294,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
         }

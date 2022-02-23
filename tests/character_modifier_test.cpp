@@ -192,6 +192,18 @@ TEST_CASE( "Body part armor vs. damage", "[character]" )
     }
 }
 
+static double get_limbtype_modval( const double &val, const bodypart_id &id,
+                                   const std::set<body_part_type::type> &bp_types )
+{
+    double ret = 0.0;
+    for( const body_part_type::type &bp_type : bp_types ) {
+        if( id->has_type( bp_type ) ) {
+            ret += val * id->limbtypes.at( bp_type );
+        }
+    }
+    return ret;
+}
+
 TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
 {
     standard_npc dude( "Test NPC" );
@@ -199,13 +211,20 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
     dude.toggle_trait( trait_TEST_ARMOR_MUTATION );
     REQUIRE( dude.has_trait( trait_TEST_ARMOR_MUTATION ) );
 
+    static const std::set<body_part_type::type> affected_bptypes = {
+        body_part_type::type::arm,
+        body_part_type::type::torso,
+        body_part_type::type::tail
+    };
+
     GIVEN( "5 bash on arms, torso and tail / 1 cut on ALL" ) {
         for( const auto &res : trait_TEST_ARMOR_MUTATION->armor ) {
-            if( res.first->primary_limb_type() == body_part_type::type::arm ||
-                res.first->primary_limb_type() == body_part_type::type::torso ||
-                res.first->primary_limb_type() == body_part_type::type::tail ) {
+            if( res.first->has_type( body_part_type::type::arm ) ||
+                res.first->has_type( body_part_type::type::torso ) ||
+                res.first->has_type( body_part_type::type::tail ) ) {
                 CAPTURE( res.first.c_str() );
-                CHECK( res.second.type_resist( damage_type::BASH ) == Approx( 5.0 ).epsilon( 0.001 ) );
+                const double bash_res = get_limbtype_modval( 5.0, res.first, affected_bptypes );
+                CHECK( res.second.type_resist( damage_type::BASH ) == Approx( bash_res ).epsilon( 0.001 ) );
                 CHECK( res.second.type_resist( damage_type::ACID ) == Approx( 0.0 ).epsilon( 0.001 ) );
                 CHECK( res.second.type_resist( damage_type::CUT ) == Approx( 1.0 ).epsilon( 0.001 ) );
             } else {
@@ -221,10 +240,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_res = bp.id->primary_limb_type() == body_part_type::type::arm ||
-                                     bp.id->primary_limb_type() == body_part_type::type::torso ||
-                                     bp.id->primary_limb_type() == body_part_type::type::tail;
-                const int res_amt = has_res ? 5 : 0;
+                const bool has_res = bp.id->has_type( body_part_type::type::arm ) ||
+                                     bp.id->has_type( body_part_type::type::torso ) ||
+                                     bp.id->has_type( body_part_type::type::tail );
+                double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
+                const int res_amt = has_res ? static_cast<int>( res_val ) : 0;
                 damage_unit du( damage_type::BASH, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
@@ -276,11 +296,12 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                const bool has_mut_res = bp.id->primary_limb_type() == body_part_type::type::arm ||
-                                         bp.id->primary_limb_type() == body_part_type::type::torso ||
-                                         bp.id->primary_limb_type() == body_part_type::type::tail;
+                const bool has_mut_res = bp.id->has_type( body_part_type::type::arm ) ||
+                                         bp.id->has_type( body_part_type::type::torso ) ||
+                                         bp.id->has_type( body_part_type::type::tail );
                 const bool has_bp_res = bp.id == body_part_test_tail;
-                const int res_amt = ( has_mut_res ? 5 : 0 ) + ( has_bp_res ? 5 : 0 );
+                double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
+                const int res_amt = ( has_mut_res ? static_cast<int>( res_val ) : 0 ) + ( has_bp_res ? 5 : 0 );
                 damage_unit du( damage_type::BASH, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
@@ -340,8 +361,8 @@ TEST_CASE( "Multi-limbscore modifiers", "[character]" )
     WHEN( "Character has high eye encumbrance" ) {
         item eyecover( "test_goggles_welding" );
         dude.wear_item( eyecover );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor ).front() ) ==
-                 60 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor,
+                              get_body_part_flags::primary_type ).front() ) == 60 );
         CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 2.0 ).epsilon(
                    0.001 ) );
         CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 0.1 ).epsilon(
@@ -349,7 +370,8 @@ TEST_CASE( "Multi-limbscore modifiers", "[character]" )
     }
 
     WHEN( "Character has broken arms" ) {
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+                get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
         REQUIRE( dude.get_working_arm_count() == 0 );
@@ -362,12 +384,13 @@ TEST_CASE( "Multi-limbscore modifiers", "[character]" )
     WHEN( "Character has high eye encumbrance and broken arms" ) {
         item eyecover( "test_goggles_welding" );
         dude.wear_item( eyecover );
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+                get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
         REQUIRE( dude.get_working_arm_count() == 0 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor ).front() ) ==
-                 60 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::sensor,
+                              get_body_part_flags::primary_type ).front() ) == 60 );
         CHECK( dude.get_modifier( character_modifier_test_add_limbscores_mod ) == Approx( 0.4 ).epsilon(
                    0.001 ) );
         CHECK( dude.get_modifier( character_modifier_test_mult_limbscores_mod ) == Approx( 0.1 ).epsilon(
@@ -386,7 +409,8 @@ TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[c
     }
 
     WHEN( "Character has broken arms" ) {
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+                get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
         REQUIRE( dude.get_working_arm_count() == 0 );
@@ -397,10 +421,10 @@ TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[c
     WHEN( "Character is heavily encumbered" ) {
         item hazmat_suit( "test_hazmat_suit" );
         dude.wear_item( hazmat_suit );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot ).front() ) ==
-                 37 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand ).front() ) ==
-                 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot,
+                              get_body_part_flags::primary_type ).front() ) == 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand,
+                              get_body_part_flags::primary_type ).front() ) == 37 );
         CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.623 ).epsilon(
                    0.001 ) );
     }
@@ -408,13 +432,14 @@ TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[c
     WHEN( "Character has broken arms and is heavily encumbered" ) {
         item hazmat_suit( "test_hazmat_suit" );
         dude.wear_item( hazmat_suit );
-        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        for( const bodypart_id &bid : dude.get_all_body_parts_of_type( body_part_type::type::arm,
+                get_body_part_flags::primary_type ) ) {
             dude.set_part_hp_cur( bid, 0 );
         }
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot ).front() ) ==
-                 37 );
-        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand ).front() ) ==
-                 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::foot,
+                              get_body_part_flags::primary_type ).front() ) == 37 );
+        REQUIRE( dude.encumb( dude.get_all_body_parts_of_type( body_part_type::type::hand,
+                              get_body_part_flags::primary_type ).front() ) == 37 );
         REQUIRE( dude.get_working_arm_count() == 0 );
         CHECK( dude.get_modifier( character_modifier_test_slip_prevent_mod ) == Approx( 0.41 ).epsilon(
                    0.001 ) );
