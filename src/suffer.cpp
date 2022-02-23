@@ -684,8 +684,8 @@ void suffer::from_asthma( Character &you, const int current_stim )
                  ( you.has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
-    bool auto_use = you.has_charges( itype_inhaler, 1 ) || you.has_charges( itype_oxygen_tank, 1 ) ||
-                    you.has_charges( itype_smoxygen_tank, 1 );
+    bool auto_use = ( you.has_charges( itype_inhaler, 1 ) || you.has_charges( itype_oxygen_tank, 1 ) ||
+                    you.has_charges( itype_smoxygen_tank, 1 ) );
     bool oxygenator = you.has_bionic( bio_gills ) &&
                       you.get_power_level() >= ( bio_gills->power_trigger / 8 );
     if( you.underwater ) {
@@ -709,7 +709,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.mod_power_level( -bio_gills->power_trigger / 8 );
             you.add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
-        } else if( auto_use ) {
+        } else if( auto_use  && !u.has_bionic( bio_sleep_shutdown ) ) {
             if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
                 you.add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
@@ -718,7 +718,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                                   "and go back to sleep." ) );
             }
-        } else if( nearby_use ) {
+        } else if( nearby_use  && !u.has_bionic( bio_sleep_shutdown ) ) {
             // create new variable to resolve a reference issue
             int amount = 1;
             if( !here.use_charges( you.pos(), 2, itype_inhaler, amount ).empty() ) {
@@ -732,7 +732,9 @@ void suffer::from_asthma( Character &you, const int current_stim )
         } else {
             you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( you.has_effect( effect_sleep ) ) {
-                you.wake_up();
+                if( !u.has_bionic( bio_sleep_shutdown ) ) {
+                    you.wake_up();
+                }
             } else {
                 if( !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
