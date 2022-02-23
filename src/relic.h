@@ -120,6 +120,7 @@ class relic_procgen_data
 
     public:
         relic_procgen_id id;
+        std::vector<std::pair<relic_procgen_id, mod_id>> src;
 
         int power_level( const enchantment &ench ) const;
         // power level of the active spell
