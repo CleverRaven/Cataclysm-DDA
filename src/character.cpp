@@ -10580,8 +10580,7 @@ double Character::recoil_vehicle() const
 
 double Character::recoil_total() const
 {
-    return enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER,
-                                            ( recoil + recoil_vehicle() ) );
+    return recoil + recoil_vehicle();
 }
 
 bool Character::is_hallucination() const
