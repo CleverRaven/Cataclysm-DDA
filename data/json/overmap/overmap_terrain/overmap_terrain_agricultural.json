@@ -271,7 +271,7 @@
     "id": [ "farm_stills_4", "farm_stills_8", "farm_stills_12" ],
     "copy-from": "generic_rural_building",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
-    "name": "grape farm"
+    "name": "vineyard"
   },
   {
     "type": "overmap_terrain",

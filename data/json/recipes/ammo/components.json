@@ -24,7 +24,8 @@
     "time": "15 s",
     "charges": 10,
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
     "components": [
       [
         [ "gunpowder_shotgun", 10 ],

@@ -100,7 +100,7 @@
   },
   {
     "id": "combat_shirt",
-    "repairs_like": "jacket_army_modern",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",

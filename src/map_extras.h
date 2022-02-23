@@ -40,6 +40,7 @@ class map_extra
 {
     public:
         map_extra_id id = string_id<map_extra>::NULL_ID();
+        std::vector<std::pair<map_extra_id, mod_id>> src;
         std::string generator_id;
         map_extra_method generator_method = map_extra_method::null;
         bool autonote = false;

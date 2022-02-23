@@ -1555,6 +1555,23 @@ void npc::form_opinion( const Character &you )
     for( trait_id &mut : you.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
+    for( const bodypart_id &bp : you.get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        u_ugly += bp->ugliness_mandatory;
+        int covered = 0;
+        for( const item &i : you.worn ) {
+            if( i.covers( bp ) ) {
+                if( covered >= 100 ) {
+                    covered = 100;
+                    continue;
+                }
+                covered += i.get_coverage( bp );
+            }
+        }
+        u_ugly += bp->ugliness - ( bp->ugliness * covered / 100 );
+    }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 

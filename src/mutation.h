@@ -109,6 +109,7 @@ struct reflex_activation_data {
 
 struct mutation_branch {
         trait_id id;
+        std::vector<std::pair<trait_id, mod_id>> src;
         bool was_loaded = false;
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;

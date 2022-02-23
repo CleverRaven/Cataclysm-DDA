@@ -68,7 +68,7 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },
@@ -198,7 +198,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -249,7 +249,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -288,7 +288,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -354,7 +354,7 @@
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },

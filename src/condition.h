@@ -46,14 +46,21 @@ const std::unordered_set<std::string> complex_conds = { {
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int"
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int", "compare_string"
     }
 };
 } // namespace dialogue_data
+str_or_var get_str_or_var( const JsonValue &jv, std::string member, bool required = true,
+                           std::string default_val = "" );
 int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                            int default_val = 0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+int_or_var_part get_int_or_var_part( const JsonValue &jv, std::string member, bool required = true,
+                                     int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required = true,
                                      time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, std::string member,
+        bool required = true,
+        time_duration default_val = 0_seconds );
 tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
                                 var_type type, talker *var_source );
 var_info read_var_info( JsonObject jo, bool require_default );
@@ -166,6 +173,7 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
+        void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
         static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
