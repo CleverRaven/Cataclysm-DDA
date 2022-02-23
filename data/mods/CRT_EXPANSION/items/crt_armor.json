@@ -94,8 +94,8 @@
     "id": "crt_chestrig",
     "copy-from": "chestrig",
     "type": "ARMOR",
-    "name": "CRIT chestrig",
-    "description": "A slightly modified chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
+    "name": "CRIT chest rig",
+    "description": "A slightly modified chest rig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]

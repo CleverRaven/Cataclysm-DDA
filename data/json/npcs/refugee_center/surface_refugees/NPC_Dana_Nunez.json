@@ -8,7 +8,7 @@
     "class": "NC_REFUGEE_Dana",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_REFUGEE_Dana_1",
+    "chat": "TALK_REFUGEE_Dana_1_firstmeet",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Dana_Sourdough"
   },
@@ -83,7 +83,7 @@
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [
-      "TALK_REFUGEE_Dana_2",
+      "TALK_REFUGEE_Dana_1",
       "TALK_REFUGEE_Dana_Background",
       "TALK_REFUGEE_Dana_Background_baking",
       "TALK_REFUGEE_Dana_Background_baking_revival",
@@ -334,7 +334,7 @@
         "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
         "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
       },
-      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
     ]
   },
@@ -345,7 +345,7 @@
     "//": "see above for responses to buy bread at original price.",
     "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" } },
     "responses": [
-      { "text": "Well, I tried.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "Well, I tried.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" }
     ]
   },
@@ -355,7 +355,7 @@
     "dynamic_line": "Oh, fine.  Six cups of flour, or one merch.  I'm not going any lower, I got a business to run here.",
     "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_success", "duration": "24 h" } },
     "responses": [
-      { "text": "You know, I think I changed my mind.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "You know, I think I changed my mind.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "I guess I'm outta here then.", "topic": "TALK_DONE" }
     ]
   },
@@ -391,7 +391,7 @@
         "topic": "TALK_MISSION_LIST",
         "condition": { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } }
       },
-      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
     ]
   },

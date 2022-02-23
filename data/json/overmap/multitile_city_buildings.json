@@ -1509,6 +1509,15 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_antique_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_antique_roof_north" } ]
   },
   {
+    "type": "city_building",
+    "id": "s_dive_shop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_dive_shop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_dive_shop_roof_north" }
+    ]
+  },
+  {
     "//": "All of those overmap specials that spawn also outside of town require a second declare as city_building.",
     "type": "city_building",
     "id": "motel_city",
