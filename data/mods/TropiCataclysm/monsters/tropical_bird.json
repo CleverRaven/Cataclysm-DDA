@@ -433,7 +433,7 @@
     "upgrades": { "age_grow": 11, "into": "mon_cockatoo" }
   },
   {
-    "id": "mon_mackaw_chick",
+    "id": "mon_macaw_chick",
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
