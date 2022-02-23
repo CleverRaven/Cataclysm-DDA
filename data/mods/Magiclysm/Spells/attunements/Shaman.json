@@ -3,7 +3,7 @@
     "id": "butterfly_swarm",
     "type": "SPELL",
     "name": { "str": "Butterfly Swarm" },
-    "description": "Summon pack of butterflies with razor-sharp wings, to cut every living creature on your way.",
+    "description": "Summon a pack of butterflies with razor-sharp wings, to cut every creature in your way.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "effect": "summon",
