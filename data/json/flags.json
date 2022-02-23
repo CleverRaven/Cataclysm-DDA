@@ -864,6 +864,11 @@
     "info": "This item contains a nanofabricator recipe."
   },
   {
+    "id": "NANOFAB_TEMPLATE_SINGLE_USE",
+    "type": "json_flag",
+    "info": "This template is copy protected and will be <bad>destroyed</bad> after a single use."
+  },
+  {
     "id": "BIONIC_FAULTY",
     "type": "json_flag",
     "info": "This bionic is <bad>faulty</bad>."

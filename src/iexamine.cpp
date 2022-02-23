@@ -405,6 +405,10 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
 
     here.add_item_or_charges( spawn_point, new_item );
 
+    // if this template is single use
+    if( nanofab_template->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+        nanofab_template.remove_item();
+    }
 }
 
 /// @brief Use "gas pump."
