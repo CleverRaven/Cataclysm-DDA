@@ -349,6 +349,51 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
+std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
+                                   const std::string &prompt,
+                                   std::function<bool( const Character * )> exclude_func )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    int last_index = 0;
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            if( const npc *np = dynamic_cast<const npc *>( npc_list[i] ) ) {
+                entry += np->name_and_activity();
+            } else {
+                entry += npc_list[i]->disp_name( false, true );
+            }
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.selected = nmenu.fselected = last_index;
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+        last_index = nmenu.fselected;
+    } while( true );
+    return picked;
+}
+
 static skill_id skill_select_menu( const Character &c, const std::string &prompt )
 {
     int i = 0;
@@ -675,8 +720,9 @@ void game::chat()
             if( !sk.is_valid() ) {
                 return;
             }
-            std::vector<int> selected = npcs_select_menu<npc>( followers,
-            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+            std::vector<Character *> clist( followers.begin(), followers.end() );
+            std::vector<int> selected = npcs_select_menu( clist,
+            _( "Who should participate in the training seminar?" ), [&]( const Character * n ) {
                 return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
             } );
             if( selected.empty() ) {
