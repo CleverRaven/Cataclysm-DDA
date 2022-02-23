@@ -147,7 +147,8 @@
     "type": "recipe",
     "copy-from": "boots_fsurvivor",
     "time": "20 h",
-    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_nomex_patchwork", 6 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_nomex_patchwork", 3 ], [ "fastener_small", 1 ] ],
+	"byproducts": [ [ "scrap_kevlar", 10 ], [ "scrap_nomex", 10 ] ],
     "components": [ [ [ "duct_tape", 38 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
   },
   {
@@ -156,7 +157,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_fsurvivor",
     "time": "22 h 30 m",
-    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 11 ], [ "fastener_small", 2 ] ]
+	"byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_nomex", 20 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 6 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "boots_fur",
