@@ -2,6 +2,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR",
+    "dynamic_line": 
     {
       "npc_has_var": "knows_u",
       "type": "dialogue",
