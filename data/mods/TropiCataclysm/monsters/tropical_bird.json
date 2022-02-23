@@ -208,7 +208,7 @@
     "id": "mon_woodpecker",
     "type": "MONSTER",
     "name": { "str": "woodpecker" },
-    "description": "A small bird with with woody colors and a colored crest on its head.  These birds are well known for their hability to poke holes on trees while looking for grubs.",
+    "description": "A small bird with woody colors and a colored crest on its head.  These birds are well known for their hability to poke holes on trees while looking for grubs.",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
