@@ -353,7 +353,7 @@
     "id": "mon_macaw",
     "type": "MONSTER",
     "name": { "str": "macaw" },
-    "description": "A medium to large bird with with bright colored plumage and a short hooked beak.  These are the largesft flying parrots in the world, living usually in the thickest rainforests.",
+    "description": "A medium to large bird with with bright colored plumage and a short hooked beak.  These are the largest flying parrots in the world, living usually in the thickest rainforests.",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
