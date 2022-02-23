@@ -1116,6 +1116,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_arcade_machine",
+    "name": "Place Arcade Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_forge",
     "name": "Place Electric Forge"
   },
