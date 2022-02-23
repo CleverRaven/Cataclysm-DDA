@@ -13,5 +13,25 @@
     "purifiable": false,
     "types": [ "Equipment" ],
     "weight_capacity_modifier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "camera_hud",
+    "name": { "str": "Camera HUD" },
+    "points": 0,
+    "description": "You are wearing equipment that lets you see through the eyes of your allies.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Equipment" ]
+  },
+  {
+    "type": "mutation",
+    "id": "bodycam",
+    "name": { "str": "Wearing a camera" },
+    "points": 0,
+    "description": "You are wearing a camera.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Equipment" ]
   }
 ]
