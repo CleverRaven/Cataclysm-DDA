@@ -2378,7 +2378,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
             }
         }
         if( z_override ) {
-            target_pos = tripoint( target_pos.x, target_pos.y,
+            target_pos = tripoint( target_pos.xy(),
                                    iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
         } else {
             target_pos = target_pos + tripoint( 0, 0,
@@ -3354,7 +3354,7 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::str
 {
     std::vector<str_or_var> values;
     if( jo.has_array( member ) ) {
-        for( auto value : jo.get_array( member ) ) {
+        for( JsonValue value : jo.get_array( member ) ) {
             values.emplace_back( get_str_or_var( value, member ) );
         }
     } else {
