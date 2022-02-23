@@ -4293,6 +4293,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     mremove_trap( &m, i, trap_id( val.get() ).id() );
                 }
             }
+            break;
             case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
@@ -4342,6 +4343,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     }
                 }
             }
+            break;
             case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE: {
                 const point c( x_get(), y_get() );
                 const int cx2 = x2_get();
