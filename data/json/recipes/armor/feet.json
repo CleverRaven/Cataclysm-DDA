@@ -24,7 +24,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 12 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 22 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -36,14 +36,14 @@
     "type": "recipe",
     "copy-from": "boots",
     "time": "10 h",
-    "using": [ [ "tailoring_leather_small", 9 ], [ "fastener_shoes", 1 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ]
+    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_shoes", 1 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ]
   },
   {
     "result": "xl_boots",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots",
-    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_shoes", 3 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
+    "using": [ [ "tailoring_leather_small", 30 ], [ "fastener_shoes", 3 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
     "time": "11 h 15 m"
   },
   {
@@ -122,6 +122,7 @@
   },
   {
     "result": "boots_fsurvivor",
+	
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -131,7 +132,8 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex_patchwork", 8 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex_patchwork", 4 ], [ "fastener_small", 2 ] ],
+	"byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_nomex", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
