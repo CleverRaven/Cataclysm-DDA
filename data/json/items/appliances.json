@@ -15,7 +15,6 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "watertight": true,
         "max_contains_volume": "500 L",
         "max_contains_weight": "400 kg"
       }
