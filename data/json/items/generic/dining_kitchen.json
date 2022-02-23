@@ -1146,7 +1146,24 @@
     "weight": "6210 g",
     "volume": "12152 ml",
     "longest_side": "31 cm",
-    "pocket_data": [ { "max_contains_volume": "6.3 L", "max_contains_weight": "6.3 kg", "watertight": true, "rigid": true } ],
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "6300 ml", "max_contains_weight": "6300 g", "watertight": true, "rigid": true } ],
     "extend": { "qualities": [ [ "OVEN", 2 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "improvised_oven",
+    "name": { "str": "imrovised oven" },
+    "description": "A large pot cpnverted into an improvised oven suitable or basic baking on a hot surface.",
+    "copy-from": "base_cookpot",
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "weight": "2490 g",
+    "volume": "12800 ml",
+    "longest_side": "25 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "12 L", "max_contains_weight": "12 kg", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   }
 ]
