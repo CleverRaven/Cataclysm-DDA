@@ -33,10 +33,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "portal_cell_cleanup",
-    "object": {
-      "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
-      "flags": [ "NO_UNDERLYING_ROTATE" ]
-    }
+    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
   },
   {
     "type": "mapgen",
