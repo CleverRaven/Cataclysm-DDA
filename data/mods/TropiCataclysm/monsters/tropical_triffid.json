@@ -181,7 +181,7 @@
     "id": "mon_triffid_gas",
     "type": "MONSTER",
     "name": { "str": "rafflesia" },
-    "description": "A large walking plant with and enormous flower-like upper boddy.  Its center has what appears to be a mouth and seems to emit a really bad aroma.",
+    "description": "A large walking plant with an enormous flower-like upper body.  Its center has what appears to be a mouth and seems to emit a really bad aroma.",
     "default_faction": "triffid",
     "species": [ "PLANT" ],
     "diff": 2,
