@@ -2338,7 +2338,8 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 {
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
-    int_or_var iov_z = get_int_or_var( jo, "z_offset", false, 0 );
+    int_or_var iov_z_adjust = get_int_or_var( jo, "z_adjust", false, 0 );
+    bool z_override = jo.get_bool( "z_override", true );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     cata::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
@@ -2350,15 +2351,16 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     var_type type = var.type;
     std::string var_name = var.name;
     function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, target_params,
-                    is_npc, type, iov_z]( const dialogue & d ) {
+                    is_npc, type, iov_z_adjust, z_override]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
-        tripoint target_pos = talker_pos + tripoint( 0, 0, iov_z.evaluate( d.actor( iov_z.is_npc() ) ) );
+        tripoint target_pos = talker_pos;
+
         int max_radius = iov_max_radius.evaluate( d.actor( iov_max_radius.is_npc() ) );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
-                                   project_to<coords::ms>( omt_pos ).z() + iov_z.evaluate( d.actor( iov_z.is_npc() ) ) );
+                                   project_to<coords::ms>( omt_pos ).z() );
         } else if( max_radius > 0 ) {
             bool found = false;
             int min_radius = iov_min_radius.evaluate( d.actor( iov_min_radius.is_npc() ) );
@@ -2374,6 +2376,13 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
             if( !found ) {
                 return;
             }
+        }
+        if( z_override ) {
+            target_pos = tripoint( target_pos.x, target_pos.y,
+                                   iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
+        } else {
+            target_pos = target_pos + tripoint( 0, 0,
+                                                iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
         }
         write_var_value( type, var_name, target, target_pos.to_string() );
     };
@@ -2413,6 +2422,19 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
     };
 }
 
+void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::string &member )
+{
+    str_or_var new_place = get_str_or_var( jo.get_member( member ), member );
+    duration_or_var dov_length = get_duration_or_var( jo, "length", true );
+
+    function = [new_place, dov_length]( const dialogue & d ) {
+        get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
+                                calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) + 1_seconds,
+                                //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+                                -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d.actor( new_place.is_npc() ) ) );
+    };
+}
+
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
@@ -2433,9 +2455,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
-    bool revert = jo.get_bool( "revert", false );
-    function = [target_params, update_ids, target_var, type, dov_time_in_future,
-                   revert]( const dialogue & d ) {
+    function = [target_params, update_ids, target_var, type, dov_time_in_future]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2452,28 +2472,44 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         if( future > 0_seconds ) {
             time_point tif = calendar::turn + future + 1_seconds;
             //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-            if( !revert ) {
-                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
-                                            0, mapgen_update_id.str() );
-                }
-            } else {
-                // maptile is 4 submaps so queue up 4 submap reverts
-                for( int x = 0; x < 2; x++ ) {
-                    for( int y = 0; y < 2; y++ ) {
-                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
-                        revert_sm += point( x, y );
-                        const submap *sm = MAPBUFFER.lookup_submap( revert_sm );
-                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
-                                                sm->get_revert_submap() );
-                    }
-                }
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                        0, mapgen_update_id.str() );
             }
+
         } else {
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
             }
             get_map().invalidate_map_cache( omt_pos.z() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
+{
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
+
+    cata::optional<std::string> target_var;
+    var_info var = read_var_info( jo.get_object( member ), false );
+    var_type type = var.type;
+    target_var = var.name;
+    function = [target_var, type, dov_time_in_future]( const dialogue & d ) {
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
+                                      type, d.actor( type == var_type::npc ) ) );
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
+        time_point tif = calendar::turn + dov_time_in_future.evaluate( d.actor(
+                             dov_time_in_future.is_npc() ) ) + 1_seconds;
+        //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // maptile is 4 submaps so queue up 4 submap reverts
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                revert_sm += point( x, y );
+                const submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                        sm->get_revert_submap() );
+            }
         }
     };
 }
@@ -3316,11 +3352,19 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
 
 void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::string &member )
 {
-    str_or_var value = get_str_or_var( jo.get_member( member ), member );
+    std::vector<str_or_var> values;
+    if( jo.has_array( member ) ) {
+        for( auto value : jo.get_array( member ) ) {
+            values.emplace_back( get_str_or_var( value, member ) );
+        }
+    } else {
+        values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+    }
     var_info var = read_var_info( jo.get_member( "target_var" ), false );
-    function = [value, var]( const dialogue & d ) {
+    function = [values, var]( const dialogue & d ) {
+        int index = rng( 0, values.size() - 1 );
         write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ),
-                         value.evaluate( d.actor( value.is_npc() ) ) );
+                         values[index].evaluate( d.actor( values[index].is_npc() ) ) );
     };
 }
 
@@ -4041,6 +4085,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_member( "revert_location" ) ) {
+        subeffect_fun.set_revert_location( jo, "revert_location" );
+    } else if( jo.has_member( "place_override" ) ) {
+        subeffect_fun.set_place_override( jo, "place_override" );
     } else if( jo.has_object( "u_transform_radius" ) || jo.has_int( "u_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
     } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
@@ -4149,7 +4197,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else if( jo.has_object( "give_equipment" ) ) {
         subeffect_fun.set_give_equipment( jo, "give_equipment" );
-    } else if( jo.has_member( "set_string_var" ) ) {
+    } else if( jo.has_member( "set_string_var" ) || jo.has_array( "set_string_var" ) ) {
         subeffect_fun.set_set_string_var( jo, "set_string_var" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );

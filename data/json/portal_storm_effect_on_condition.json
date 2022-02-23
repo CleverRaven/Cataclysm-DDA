@@ -1055,22 +1055,33 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
+    "condition": { "not": "u_driving" },
     "effect": [
-      { "u_location_variable": { "global_val": "cell_loc" } },
-      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_offset": 1 },
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6 },
+      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7 },
       {
         "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
       },
       {
-        "mapgen_update": "portal_cell",
-        "target_var": { "global_val": "cell_loc" },
-        "revert": true,
+        "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       {
-        "mapgen_update": "portal_cell_roof",
-        "target_var": { "global_val": "cell_roof_loc" },
-        "revert": true,
+        "mapgen_update": "portal_cell_cleanup",
+        "target_var": { "global_val": "cell_loc" },
+        "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
+        "target_var": { "global_val": "place_name" }
+      },
+      {
+        "place_override": { "global_val": "place_name", "default": "1 minutes" },
+        "length": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "revert_location": { "global_val": "cell_roof_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       { "mapgen_update": "portal_cell_roof", "target_var": { "global_val": "cell_roof_loc" } },
@@ -1079,11 +1090,11 @@
       {
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
-          "effect": [ { "u_teleport": { "global_val": "cell_loc" } }, { "u_message": "You came back, this time at least." } ]
+          "effect": [ { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back, this time at least." } ]
         },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
-      { "u_message": "You are trapped in a warped area." }
+      { "u_message": "You are trapped in <global_val:place_name>?" }
     ]
   },
   {
@@ -1091,12 +1102,7 @@
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
       { "u_location_variable": { "global_val": "portal_dungeon" } },
-      {
-        "mapgen_update": "portal_dungeon",
-        "target_var": { "global_val": "portal_dungeon" },
-        "revert": true,
-        "time_in_future": [ "5 minutes", "5 minutes" ]
-      },
+      { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
