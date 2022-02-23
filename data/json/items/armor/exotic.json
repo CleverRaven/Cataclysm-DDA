@@ -244,5 +244,44 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "hud_helmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "combat interface helmet" },
+    "description": "A lightweight black helmet that provides excellent protection from all sorts of damage.",
+    "weight": "1180 g",
+    "volume": "1850 ml",
+    "price": 20000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "kevlar_rigid", "plastic" ],
+    "symbol": "[",
+    "looks_like": "tac_fullhelmet",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 8,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "camera_hud" ] } ] },
+    "armor": [ { "encumbrance": 16, "coverage": 95, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "worn_camera",
+    "type": "ARMOR",
+    "name": { "str": "bodycam" },
+    "description": "A nice silver necklace.  You can wear it if you like, but it won't provide any effects.",
+    "weight": "30 g",
+    "volume": "25 ml",
+    "price": 12000,
+    "price_postapoc": 25,
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "bodycam" ] } ] },
+    "flags": [ "FANCY" ]
   }
 ]
