@@ -97,7 +97,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_macaw",
-    "name": "mackaw egg",
+    "name": "macaw egg",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_MACAW",
     "rot_spawn_chance": 70
