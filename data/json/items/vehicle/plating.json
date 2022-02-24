@@ -122,7 +122,7 @@
     "type": "GENERIC",
     "id": "hard_plate",
     "name": { "str": "hard plating" },
-    "description": "A piece of very thick armor plating made of steel.",
+    "description": "A piece of very thick armor plating made of tempered steel.",
     "weight": "32640 g",
     "to_hit": -1,
     "color": "light_cyan",
