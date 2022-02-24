@@ -377,8 +377,8 @@
   {
     "type": "effect_type",
     "id": "ice_energy",
-    "name": [ "Ice grind" ],
-    "desc": [ "Ice crystals grind your body from all directions." ],
+    "name": [ "Ice erosion" ],
+    "desc": [ "Ice crystals erode your body from all directions." ],
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
     "max_intensity": 3
