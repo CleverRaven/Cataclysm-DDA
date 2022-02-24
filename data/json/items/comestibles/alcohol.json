@@ -704,7 +704,7 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1498,7 +1498,7 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": -11
   },
   {
@@ -1556,7 +1556,7 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -34,
     "fun": 25,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",

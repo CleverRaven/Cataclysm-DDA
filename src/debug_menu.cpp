@@ -1191,7 +1191,7 @@ static void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
     }
 }
 
@@ -2143,7 +2143,7 @@ static void debug_menu_game_state()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
+    tripoint_abs_sm abs_sub = here.get_abs_sub();
     std::string mfus;
     std::vector<std::pair<m_flag, int>> sorted;
     sorted.reserve( m_flag::MF_MAX );
@@ -2193,7 +2193,7 @@ static void debug_menu_game_state()
 
     popup_top(
         s.c_str(),
-        player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
+        player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
         overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
@@ -2858,7 +2858,7 @@ void debug()
                     mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
-                    here.invalidate_map_cache( here.get_abs_sub().z );
+                    here.invalidate_map_cache( here.get_abs_sub().z() );
                 }
             }
             break;
@@ -3036,7 +3036,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 } // namespace debug_menu

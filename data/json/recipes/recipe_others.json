@@ -212,7 +212,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {

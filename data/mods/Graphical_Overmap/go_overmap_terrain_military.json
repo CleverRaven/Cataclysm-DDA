@@ -57,13 +57,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "FEMA_le",
-    "copy-from": "FEMA_le",
-    "sym": "\u00C5",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "FEMA_blc",
     "copy-from": "FEMA_blc",
     "sym": "\u00C5",
