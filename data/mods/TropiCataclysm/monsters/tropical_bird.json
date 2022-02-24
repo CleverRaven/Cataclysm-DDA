@@ -237,7 +237,7 @@
     "id": "mon_toucan",
     "type": "MONSTER",
     "name": { "str": "toucan" },
-    "description": "A small bird with with dark plumage and a bright colored face and beak.  These tropical birds can be found all around the Americas feeding on fruits and seeds.",
+    "description": "A small bird with dark plumage and a bright colored face and beak.  These tropical birds can be found all around the Americas feeding on fruits and seeds.",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
