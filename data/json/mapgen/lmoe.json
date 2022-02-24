@@ -272,6 +272,7 @@
         { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 7 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 19 ], "y": 8 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 9 },
+        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 10 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 11 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 12 },
         { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 20 ], "y": 13 },
