@@ -1135,6 +1135,7 @@
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
+    "sided": true,
     "material_thickness": 4,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor": [
@@ -1288,6 +1289,7 @@
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
+    "sided": true,
     "material_thickness": 6,
     "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor": [
