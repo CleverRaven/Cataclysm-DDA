@@ -5851,12 +5851,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
-    "qualities": [
-      {
-        "id": "HAMMER",
-        "level": 1
-      }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ] ]
   },
   {
@@ -5866,12 +5861,7 @@
     "time": "10 m",
     "skill_used": "tailor",
     "difficulty": 1,
-    "qualities": [
-      {
-        "id": "CUT",
-        "level": 2
-      }
-    ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 6 ] ] ]
   }
 ]
