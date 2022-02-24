@@ -1087,7 +1087,7 @@
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  Designed to protect its wearer during extra dimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Use it to turn it on.",
     "price": 150000,
     "price_postapoc": 15000,
-    "material": [ "carbide", "hardsteel", "lvl4ballisticglass", "superalloy" ],
+    "material": [ "carbide", "qt_steel", "lvl4ballisticglass", "superalloy" ],
     "weight": "9500 g",
     "volume": "4500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
@@ -1114,7 +1114,8 @@
       "WATCH",
       "ALARMCLOCK",
       "SWIM_GOGGLES",
-      "SUN_GLASSES"
+      "SUN_GLASSES",
+      "NO_REPAIR"
     ],
     "armor": [
       {
@@ -1212,7 +1213,8 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
-      "CLIMATE_CONTROL"
+      "CLIMATE_CONTROL",
+      "NO_REPAIR"
     ]
   },
   {
