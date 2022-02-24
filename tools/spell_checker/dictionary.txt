@@ -688,6 +688,7 @@ glyceride
 goooood
 gooorge
 goops
+gorget
 gorgosaurus
 gowod
 gozu
@@ -733,6 +734,8 @@ handloading
 hangry
 haori
 hardbound
+hardpoint
+hardpoints
 harmonically
 harries
 harvestable
@@ -1456,6 +1459,7 @@ sandleather
 sapience
 sarracenia
 satirizes
+sautered
 savetest
 sawblade
 sawblades
@@ -1755,8 +1759,11 @@ uncleaned
 uncoils
 underbarrel
 undercovering
+undergrown
 underprepared
 underslung
+undersuit
+undersuits
 underwelming
 undulates
 uneasing

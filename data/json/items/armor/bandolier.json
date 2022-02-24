@@ -147,7 +147,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "WAIST", "PALS_LARGE", "OVERSIZE" ],
     "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
@@ -187,7 +187,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -221,8 +221,8 @@
     "type": "ARMOR",
     "name": { "str": "stone pouch", "str_pl": "stone pouches" },
     "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
-    "weight": "90 g",
-    "volume": "250 ml",
+    "weight": "180 g",
+    "volume": "500 ml",
     "price": 5900,
     "price_postapoc": 750,
     "material": [ "cotton", "leather" ],
@@ -231,8 +231,8 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": 4,

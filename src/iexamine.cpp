@@ -115,6 +115,8 @@ static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const character_modifier_id character_modifier_obstacle_climb_mod( "obstacle_climb_mod" );
+
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -1317,39 +1319,45 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) &&
-        you.has_proficiency( proficiency_prof_parkour ) ) {
-        add_msg( _( "You vault over the obstacle with ease." ) );
-        you.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
-        add_msg( _( "You vault over the obstacle." ) );
-        you.moves -= 300; // Most common move cost for barricades pre-change.
+    int move_cost = 400;
+    // TODO: Remove hardcoded trait checks when new arthropod bits happen
+    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
+
+        if( you.has_proficiency( proficiency_prof_parkour ) ) {
+            add_msg( _( "You vault over the obstacle with ease." ) );
+            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+        } else {
+            add_msg( _( "You vault over the obstacle." ) );
+            move_cost = 300; // Most common move cost for barricades pre-change.
+        }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
-        you.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+        move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
                !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
-        you.moves -= 90;
+        move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
-        you.moves -= 100;
+        move_cost = 100;
     } else {
-        you.moves -= 400;
-        ///\EFFECT_DEX decreases chances of slipping while climbing
-        int climb = you.dex_cur;
-        if( you.has_trait( trait_BADKNEES ) ) {
-            climb = climb / 2;
-        }
+        move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
         if( g->slip_down() ) {
+            you.moves -= move_cost;
             return;
         }
-        you.moves += climb * 10;
-        Character &player_character = get_player_character();
-        sfx::play_variant_sound( "plmove", "clear_obstacle",
-                                 sfx::get_heard_volume( player_character.pos() ) );
     }
+    Character &player_character = get_player_character();
+    sfx::play_variant_sound( "plmove", "clear_obstacle",
+                             sfx::get_heard_volume( player_character.pos() ) );
+    add_msg_debug( debugmode::DF_IEXAMINE,
+                   "Move cost to vault: %d, limb score modifier %.1f", move_cost,
+                   you.get_modifier( character_modifier_obstacle_climb_mod ) );
+    move_cost /= you.get_modifier( character_modifier_obstacle_climb_mod );
+    add_msg_debug( debugmode::DF_IEXAMINE,
+                   "Final move cost %d", move_cost );
+    you.moves -= move_cost;
     if( you.in_vehicle ) {
         here.unboard_vehicle( you.pos() );
     }
@@ -1709,7 +1717,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
-        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+        if( !query_yn( _( "Pick the lock of %1$s using your %2$s?" ),
                        here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
             return;
         }
@@ -4753,6 +4761,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
                 g->vertical_move( -1, true );
+                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                    you.set_oxygen();
+                    you.set_underwater( true );
+                    g->water_affect_items( you );
+                    you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+                }
             } else {
                 return;
             }
@@ -5569,111 +5583,44 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
 static void smoker_load_food( Character &you, const tripoint &examp,
                               const units::volume &remaining_capacity )
 {
-    std::vector<item_comp> comps;
-
     map &here = get_map();
     if( here.furn( examp ) == furn_f_smoking_rack_active ||
         here.furn( examp ) == furn_f_metal_smoking_rack_active ) {
         you.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
-    // filter SMOKABLE food
-    inventory inv = you.crafting_inventory();
-    inv.remove_items_with( []( const item & it ) {
-        return it.rotten();
-    } );
-    std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
-        return it.has_flag( flag_SMOKABLE );
-    } );
 
-    uilist smenu;
-    smenu.text = _( "Load smoking rack with what kind of food?" );
-    // count and ask for item to be placed ...
-    std::list<std::string> names;
-    std::vector<const item *> entries;
-    for( const item *smokable_item : filtered ) {
-        int count;
-        if( smokable_item->count_by_charges() ) {
-            count = inv.charges_of( smokable_item->typeId() );
+    furn_id rack = here.furn( examp );
+    units::volume total_capacity = rack == furn_f_metal_smoking_rack ?
+                                   sm_rack::MAX_FOOD_VOLUME_PORTABLE :
+                                   sm_rack::MAX_FOOD_VOLUME;
+    units::volume used_capacity = total_capacity - remaining_capacity;
+
+    drop_locations locs = game_menus::inv::smoke_food( you, total_capacity, used_capacity );
+
+    units::volume vol = remaining_capacity;
+    for( const drop_location &dloc : locs ) {
+        item_location original = dloc.first;
+        item copy( *original );
+        copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+
+        if( vol < copy.volume() ) {
+            add_msg( m_info, _( "The %s doesn't fit in the rack." ), copy.tname( copy.charges ) );
+            continue;
+        }
+
+        here.add_item( examp, copy );
+        you.mod_moves( -you.item_handling_cost( copy ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), copy.charges,
+                 copy.tname( copy.charges ) );
+
+        vol -= copy.volume();
+        if( original->charges == copy.charges ) {
+            original.remove_item();
         } else {
-            count = inv.amount_of( smokable_item->typeId() );
-        }
-        if( count != 0 ) {
-            auto on_list = std::find( names.begin(), names.end(), item::nname( smokable_item->typeId(), 1 ) );
-            if( on_list == names.end() ) {
-                smenu.addentry( item::nname( smokable_item->typeId(), 1 ) );
-                entries.push_back( smokable_item );
-            }
-            names.push_back( item::nname( smokable_item->typeId(), 1 ) );
-            comps.emplace_back( smokable_item->typeId(), count );
+            original->charges -= copy.charges;
         }
     }
-
-    if( comps.empty() ) {
-        you.add_msg_if_player( _( "You don't have any food that can be smoked." ) );
-        return;
-    }
-
-    smenu.query();
-
-    if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= entries.size() ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return;
-    }
-    int count = 0;
-    const item *what = entries[smenu.ret];
-    for( const auto &c : comps ) {
-        if( c.type == what->typeId() ) {
-            count = c.count;
-        }
-    }
-
-    const int max_count_for_capacity = remaining_capacity / what->base_volume();
-    const int max_count = std::min( count, max_count_for_capacity );
-
-    // ... then ask how many to put it
-    const std::string popupmsg = string_format( _( "Insert how many %s into the rack?" ),
-                                 item::nname( what->typeId(), count ) );
-    int amount = string_input_popup()
-                 .title( popupmsg )
-                 .width( 20 )
-                 .text( std::to_string( max_count ) )
-                 .only_digits( true )
-                 .query_int();
-
-    if( amount == 0 ) {
-        add_msg( m_info, _( "Never mind." ) );
-        return;
-    } else if( amount > count ) {
-        add_msg( m_info, _( "You don't have that many." ) );
-        return;
-    } else if( amount > max_count_for_capacity ) {
-        add_msg( m_info, _( "You can't place that many." ) );
-        return;
-    }
-
-    // reload comps with chosen items and quantity
-    comps.clear();
-    comps.emplace_back( what->typeId(), amount );
-
-    Character &player_character = get_player_character();
-    // select from where to get the items from and place them
-    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
-    inv.remove_items_with( []( const item & it ) {
-        return it.rotten();
-    } );
-
-    comp_selection<item_comp> selected = you.select_item_component( comps, 1, inv, true,
-                                         is_non_rotten_crafting_component );
-    std::list<item> moved = you.consume_items( selected, 1, is_non_rotten_crafting_component );
-
-    for( const item &m : moved ) {
-        here.add_item( examp, m );
-        you.mod_moves( -you.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), m.charges,
-                 m.tname( m.charges ) );
-    }
-    you.invalidate_crafting_inventory();
 }
 
 static void mill_load_food( Character &you, const tripoint &examp,

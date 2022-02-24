@@ -309,10 +309,16 @@ static std::vector<std::string> recipe_info(
     }
     const float time_maluses = avail.proficiency_time_maluses;
     const float fail_maluses = avail.proficiency_failure_maluses;
-    if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+    if( time_maluses != 1.0 && fail_maluses != 1.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
                                  "and be %.1fx more likely to incur failures, because you "
-                                 "lack some of the proficiencies used.\n" ), time_maluses, fail_maluses );
+                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, fail_maluses );
+    } else if( time_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), time_maluses );
+    } else if( fail_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will be %.1fx more likely to incur failures, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), fail_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
         oss << _( "<color_red>Cannot be crafted because you lack"
@@ -1694,10 +1700,12 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        // Technically not always only too sad, but must be too sad
-        right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
+        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
+                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+    } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
+        right_print( w, 0, 1, i_green, string_format( _( "crafting is fast %d%%" ),
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, 0, 1, i_green, _( "craftable" ) );

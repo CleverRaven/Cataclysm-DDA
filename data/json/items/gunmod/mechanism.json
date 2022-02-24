@@ -68,6 +68,26 @@
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
+    "id": "glocksear",
+    "type": "GUNMOD",
+    "name": { "str": "Glock auto sear plate" },
+    "description": "This is a relatively simple switch or button mechanism that replaces the back plate of a Glock slide, allowing it to function as a select-fire machine pistol.  A highly illegal modification, but the feds are zombie food anyway.  This will fit any standard Glock pistol in 9mm, .40, .45, 10mm, or .357 caliber.",
+    "weight": "55 g",
+    "volume": "20 ml",
+    "price": 9500,
+    "price_postapoc": 300,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "red",
+    "location": "mechanism",
+    "mod_targets": [ "glock_19", "glock_17", "glock_22", "glock_31", "glock_21", "glock_20", "glock_40", "glock_29" ],
+    "//": "Install time should be short as it is simply a replacement back plate, installed by slightly more than field stripping the gun.",
+    "install_time": "5 m",
+    "//durability_modifier": -1,
+    "mode_modifier": [ [ "AUTO", "auto", 5 ] ],
+    "min_skills": [ [ "pistol", 2 ] ]
+  },
+  {
     "id": "bars",
     "type": "GUNMOD",
     "name": { "str": "balanced recoil system" },
@@ -85,7 +105,7 @@
     "install_time": "15 m",
     "handling_modifier": 15,
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "waterproof_gunmod",

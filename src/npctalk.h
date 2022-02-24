@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
+#include "npc.h"
 #include "type_id.h"
-#include "character.h"
 
 class item;
 class json_talk_topic;
@@ -28,6 +28,7 @@ void clear_mission( npc & );
 void mission_reward( npc & );
 void mission_favor( npc & );
 void give_equipment( npc & );
+void give_equipment_allowance( npc &p, int allowance );
 void give_aid( npc & );
 void give_all_aid( npc & );
 void buy_horse( npc & );
@@ -135,5 +136,51 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                               const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
+
+template<class T>
+std::vector<int> npcs_select_menu( const std::vector<T *> &npc_list,
+                                   const std::string &prompt,
+                                   std::function<bool( const T * )> exclude_func )
+{
+    std::vector<int> picked;
+    if( npc_list.empty() ) {
+        return picked;
+    }
+    const int npc_count = npc_list.size();
+    int last_index = 0;
+    do {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( int i = 0; i < npc_count; i++ ) {
+            std::string entry;
+            if( std::find( picked.begin(), picked.end(), i ) != picked.end() ) {
+                entry = "* ";
+            }
+            bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
+            if( const npc *np = dynamic_cast<const npc *>( npc_list[i] ) ) {
+                entry += np->name_and_activity();
+            } else {
+                entry += npc_list[i]->disp_name( false, true );
+            }
+            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
+        }
+        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.selected = nmenu.fselected = last_index;
+        nmenu.query();
+        if( nmenu.ret < 0 ) {
+            return std::vector<int>();
+        } else if( nmenu.ret >= npc_count ) {
+            break;
+        }
+        std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
+        if( exists != picked.end() ) {
+            picked.erase( exists );
+        } else {
+            picked.push_back( nmenu.ret );
+        }
+        last_index = nmenu.fselected;
+    } while( true );
+    return picked;
+}
 
 #endif // CATA_SRC_NPCTALK_H

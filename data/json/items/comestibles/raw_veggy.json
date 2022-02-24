@@ -56,7 +56,7 @@
     "volume": "180 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -105,6 +105,26 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "grape_leaves",
+    "looks_like": "lettuce",
+    "name": { "str_sp": "grape leaves" },
+    "weight": "14 g",
+    "color": "light_green",
+    "spoils_in": "6 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 22,
+    "description": "Edible leaves of a grape vine.  Typically used in salads or as food wrapping.",
+    "price": 80,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "spinach",
     "name": { "str_sp": "spinach" },
     "weight": "139 g",
@@ -146,7 +166,7 @@
     "fun": 1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 63 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -205,7 +225,7 @@
     "volume": "190 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +245,7 @@
     "material": [ "veggy" ],
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "use_action": { "type": "transform", "target": "empty_corn_cob", "moves": 500 }
   },
   {
@@ -246,7 +266,7 @@
     "volume": "285 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_corn",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -304,7 +324,7 @@
     "volume": "250 ml",
     "charges": 3,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": -2
   },
   {
@@ -501,7 +521,7 @@
     "charges": 5,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -581,7 +601,7 @@
     "volume": "750 ml",
     "fun": -2,
     "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -626,7 +646,7 @@
     "fun": -1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 58 ], [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -646,7 +666,7 @@
     "fun": -2,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -668,7 +688,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -711,7 +731,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -804,7 +824,7 @@
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -911,7 +931,7 @@
     "cooks_like": "lentils_cooked",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_lentils",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -932,7 +952,7 @@
     "fun": -10,
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -953,7 +973,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
-    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ], [ "vitA", 8 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "vitC", 12 ] ]
   },
   {
     "type": "COMESTIBLE",

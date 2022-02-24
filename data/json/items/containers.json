@@ -641,6 +641,33 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
+    "id": "box_large_reinforced",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
+    "looks_like": "box_large",
+    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
+    "weight": "2610 g",
+    "volume": "330000 ml",
+    "longest_side": "90 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "100 cm"
+      }
+    ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_large_reinforced" }
+  },
+  {
     "id": "bucket",
     "type": "GENERIC",
     "category": "container",
@@ -1272,7 +1299,7 @@
     "id": "jar_glass_sealed",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "glass jar" },
+    "name": { "str": "0.5L glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened (assuming it was sterile before sealing).",
     "weight": "150 g",
     "volume": "680 ml",
@@ -1595,6 +1622,32 @@
         "max_contains_volume": "1500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
+      }
+    ]
+  },
+  {
+    "id": "waterproof_smart_phone_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "waterproof smartphone case" },
+    "looks_like": "smart_phone",
+    "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+    "weight": "50 g",
+    "volume": "125 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "230 g",
+        "moves": 100,
+        "watertight": true,
+        "rigid": true,
+        "item_restriction": [ "smart_phone" ]
       }
     ]
   },
@@ -2006,6 +2059,78 @@
     "color": "red"
   },
   {
+    "id": "stirling_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "description": "A small box with an image of a children building things.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "maker_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
+    "description": "A small box with an image of a children building things.  'Makerspace Learner Kit'",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "robot_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "robot kit box", "str_pl": "robot kit boxes" },
+    "description": "A small box with an image of a children building robots.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 400
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
     "id": "mre_bag_small",
     "type": "GENERIC",
     "category": "container",
@@ -2143,6 +2268,7 @@
     "id": "small_propane_tank",
     "type": "TOOL",
     "name": { "str": "small propane tank" },
+    "//": "1 gallon tank.",
     "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
     "weight": "907 g",
     "volume": "5030 ml",
@@ -2164,12 +2290,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "medium_propane_tank",
     "type": "TOOL",
     "name": { "str": "medium propane tank" },
+    "//": "5 gallon tank.",
     "description": "This is a medium tank of propane, commonly used for barbeques.",
     "weight": "4082 g",
     "volume": "13600 ml",
@@ -2191,12 +2318,13 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "large_propane_tank",
     "type": "TOOL",
     "name": { "str": "large propane tank" },
+    "//": "20 gallon tank.",
     "description": "This is a large tank of propane, commonly used for heating.",
     "weight": "8164 g",
     "volume": "44 L",
@@ -2218,6 +2346,34 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "xl_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "extra large propane tank" },
+    "//": "100 gallon tank.",
+    "description": "This is a massive tank of propane, commonly used for a home or vehicle.",
+    "weight": "132 kg",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 1510 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
   }
 ]

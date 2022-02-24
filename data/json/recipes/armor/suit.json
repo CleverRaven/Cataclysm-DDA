@@ -512,70 +512,173 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h 45 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ],
-      [ [ "gambeson_pants", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
-  },
-  {
-    "result": "kevlar_chainmail_hauberk",
-    "type": "recipe",
-    "copy-from": "chainmail_hauberk",
-    "components": [
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ],
-      [ [ "xl_k_gambeson_pants", 1 ] ]
-    ]
-  },
-  {
-    "result": "kevlar_chainmail_hauberk_xs",
-    "type": "recipe",
-    "copy-from": "kevlar_chainmail_hauberk",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "k_gambeson", 1 ] ] ]
+    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
     "time": "1h 45m",
-    "components": [
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ],
-      [ [ "xl_gambeson_pants", 1 ] ]
-    ]
+    "components": [ [ [ "xl_chainmail_vest", 1 ] ], [ [ "xl_chainmail_arms", 1 ] ], [ [ "xl_chainmail_legs", 1 ] ] ]
   },
   {
-    "result": "xl_kevlar_chainmail_hauberk",
+    "result": "lc_chainmail_hauberk",
     "type": "recipe",
-    "copy-from": "xl_chainmail_hauberk",
-    "components": [
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ],
-      [ [ "xl_k_gambeson_pants", 1 ] ]
-    ]
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h 45 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "lc_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hauberk",
+    "time": "1 h 45 m",
+    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_hauberk",
+    "time": "1h 45m",
+    "components": [ [ [ "xl_lc_chainmail_vest", 1 ] ], [ [ "xl_lc_chainmail_arms", 1 ] ], [ [ "xl_lc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_hauberk",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h 45 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hauberk",
+    "time": "1 h 45 m",
+    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_hauberk",
+    "time": "1h 45m",
+    "components": [ [ [ "xl_mc_chainmail_vest", 1 ] ], [ [ "xl_mc_chainmail_arms", 1 ] ], [ [ "xl_mc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_hauberk",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h 45 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hauberk",
+    "time": "1 h 45 m",
+    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_hauberk",
+    "time": "1h 45m",
+    "components": [ [ [ "xl_hc_chainmail_vest", 1 ] ], [ [ "xl_hc_chainmail_arms", 1 ] ], [ [ "xl_hc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_hauberk",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h 45 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hauberk",
+    "time": "1 h 45 m",
+    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_hauberk",
+    "time": "1h 45m",
+    "components": [ [ [ "xl_ch_chainmail_vest", 1 ] ], [ [ "xl_ch_chainmail_arms", 1 ] ], [ [ "xl_ch_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_hauberk",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h 45 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_hauberk_xs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hauberk",
+    "time": "1 h 45 m",
+    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_hauberk",
+    "time": "1h 45m",
+    "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -583,59 +686,21 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "1 h 50 m",
     "reversible": true,
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ],
-      [ [ "gambeson_pants", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ]
-    ]
-  },
-  {
-    "result": "kevlar_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "k_gambeson", 1 ] ],
-      [ [ "k_gambeson_pants", 1 ] ]
-    ]
-  },
-  {
-    "result": "kevlar_chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "kevlar_chainmail_suit",
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "k_gambeson", 1 ] ]
-    ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -646,22 +711,7 @@
       [ [ "xl_chainmail_hood", 1 ] ],
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ],
-      [ [ "xl_gambeson_pants", 1 ] ]
-    ]
-  },
-  {
-    "result": "xl_kevlar_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ],
-      [ [ "xl_k_gambeson_pants", 1 ] ]
+      [ [ "xl_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -671,7 +721,7 @@
     "id_suffix": "hauberk",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "5 m",
     "reversible": true,
@@ -681,13 +731,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "gambeson", 1 ] ], [ [ "gambeson_pants", 1 ] ] ]
-  },
-  {
-    "result": "kevlar_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ], [ [ "k_gambeson", 1 ] ], [ [ "k_gambeson_pants", 1 ] ] ]
+    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "xl_chainmail_suit",
@@ -696,7 +740,7 @@
     "id_suffix": "hauberk",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "5 m",
     "reversible": true,
@@ -706,23 +750,417 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
+    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "lc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 50 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
     "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_hauberk", 1 ] ],
-      [ [ "xl_gambeson", 1 ] ],
-      [ [ "xl_gambeson_pants", 1 ] ]
+      [ [ "lc_chainmail_hood", 1 ] ],
+      [ [ "lc_chainmail_vest", 1 ] ],
+      [ [ "lc_chainmail_arms", 1 ] ],
+      [ [ "lc_chainmail_legs", 1 ] ]
     ]
   },
   {
-    "result": "xl_kevlar_chainmail_suit",
+    "result": "lc_chainmail_suit_xs",
     "type": "recipe",
-    "copy-from": "chainmail_suit",
+    "copy-from": "lc_chainmail_suit",
+    "time": "1 h 50 m",
     "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_hauberk", 1 ] ],
-      [ [ "xl_k_gambeson", 1 ] ],
-      [ [ "xl_k_gambeson_pants", 1 ] ]
+      [ [ "lc_chainmail_hood", 1 ] ],
+      [ [ "lc_chainmail_vest", 1 ] ],
+      [ [ "lc_chainmail_arms", 1 ] ],
+      [ [ "lc_chainmail_legs", 1 ] ]
     ]
+  },
+  {
+    "result": "xl_lc_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_suit",
+    "time": "1h 50m",
+    "components": [
+      [ [ "xl_lc_chainmail_hood", 1 ] ],
+      [ [ "xl_lc_chainmail_vest", 1 ] ],
+      [ [ "xl_lc_chainmail_arms", 1 ] ],
+      [ [ "xl_lc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "lc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 50 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "mc_chainmail_hood", 1 ] ],
+      [ [ "mc_chainmail_vest", 1 ] ],
+      [ [ "mc_chainmail_arms", 1 ] ],
+      [ [ "mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "1 h 50 m",
+    "components": [
+      [ [ "mc_chainmail_hood", 1 ] ],
+      [ [ "mc_chainmail_vest", 1 ] ],
+      [ [ "mc_chainmail_arms", 1 ] ],
+      [ [ "mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_mc_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_suit",
+    "time": "1h 50m",
+    "components": [
+      [ [ "xl_mc_chainmail_hood", 1 ] ],
+      [ [ "xl_mc_chainmail_vest", 1 ] ],
+      [ [ "xl_mc_chainmail_arms", 1 ] ],
+      [ [ "xl_mc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "mc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 50 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "hc_chainmail_hood", 1 ] ],
+      [ [ "hc_chainmail_vest", 1 ] ],
+      [ [ "hc_chainmail_arms", 1 ] ],
+      [ [ "hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "1 h 50 m",
+    "components": [
+      [ [ "hc_chainmail_hood", 1 ] ],
+      [ [ "hc_chainmail_vest", 1 ] ],
+      [ [ "hc_chainmail_arms", 1 ] ],
+      [ [ "hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_hc_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_suit",
+    "time": "1h 50m",
+    "components": [
+      [ [ "xl_hc_chainmail_hood", 1 ] ],
+      [ [ "xl_hc_chainmail_vest", 1 ] ],
+      [ [ "xl_hc_chainmail_arms", 1 ] ],
+      [ [ "xl_hc_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "hc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_hc_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 50 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "ch_chainmail_hood", 1 ] ],
+      [ [ "ch_chainmail_vest", 1 ] ],
+      [ [ "ch_chainmail_arms", 1 ] ],
+      [ [ "ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "1 h 50 m",
+    "components": [
+      [ [ "ch_chainmail_hood", 1 ] ],
+      [ [ "ch_chainmail_vest", 1 ] ],
+      [ [ "ch_chainmail_arms", 1 ] ],
+      [ [ "ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_ch_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_suit",
+    "time": "1h 50m",
+    "components": [
+      [ [ "xl_ch_chainmail_hood", 1 ] ],
+      [ [ "xl_ch_chainmail_vest", 1 ] ],
+      [ [ "xl_ch_chainmail_arms", 1 ] ],
+      [ [ "xl_ch_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "ch_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 50 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
+    "components": [
+      [ [ "qt_chainmail_hood", 1 ] ],
+      [ [ "qt_chainmail_vest", 1 ] ],
+      [ [ "qt_chainmail_arms", 1 ] ],
+      [ [ "qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_suit_xs",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "1 h 50 m",
+    "components": [
+      [ [ "qt_chainmail_hood", 1 ] ],
+      [ [ "qt_chainmail_vest", 1 ] ],
+      [ [ "qt_chainmail_arms", 1 ] ],
+      [ [ "qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "xl_qt_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_suit",
+    "time": "1h 50m",
+    "components": [
+      [ [ "xl_qt_chainmail_hood", 1 ] ],
+      [ [ "xl_qt_chainmail_vest", 1 ] ],
+      [ [ "xl_qt_chainmail_arms", 1 ] ],
+      [ [ "xl_qt_chainmail_legs", 1 ] ]
+    ]
+  },
+  {
+    "result": "qt_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -1126,6 +1564,60 @@
     "using": [ [ "sewing_standard", 24 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_small", 1 ] ]
   },
   {
+    "result": "gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 23 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_large", 1 ] ]
+  },
+  {
+    "result": "gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "autolearn": true,
+    "byproducts": [ [ "gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "gambeson", 1 ] ] ]
+  },
+  {
+    "result": "gambeson_vest_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 17 ], [ "fabric_standard_nostretch", 13 ], [ "fastener_large", 1 ] ]
+  },
+  {
+    "result": "gambeson_vest_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "autolearn": true,
+    "byproducts": [ [ "xs_gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "gambeson_xs", 1 ] ] ]
+  },
+  {
     "result": "k_gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1164,11 +1656,94 @@
     "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
   },
   {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "6 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 23 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "autolearn": true,
+    "byproducts": [ [ "k_gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "k_gambeson", 1 ] ] ]
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 6,
+    "time": "5 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 17 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 9 ] ] ]
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "autolearn": true,
+    "byproducts": [ [ "xs_k_gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "k_gambeson_xs", 1 ] ] ]
+  },
+  {
     "result": "xl_gambeson",
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 52 ], [ "fastener_large", 2 ] ]
+  },
+  {
+    "result": "xl_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 35 ], [ "fastener_large", 2 ] ]
+  },
+  {
+    "result": "xl_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "15 m",
+    "autolearn": true,
+    "byproducts": [ [ "xl_gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "xl_gambeson", 1 ] ] ]
   },
   {
     "result": "xl_k_gambeson",
@@ -1177,6 +1752,34 @@
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": [ [ "tailor", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "sewing_standard", 33 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 24 ] ] ]
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "time": "45 m",
+    "autolearn": true,
+    "byproducts": [ [ "xl_k_gambeson_sleeve", 1 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "xl_k_gambeson", 1 ] ] ]
   },
   {
     "result": "xl_gambeson_pants",

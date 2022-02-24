@@ -197,7 +197,8 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &get_player_character() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                !( type->size == creature_size::tiny || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ||
+                   get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) ) {
                 return false;
             }
         }
@@ -1216,7 +1217,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // TODO: Remove when scentmap is 3D
-    if( std::abs( posz() - get_map().get_abs_sub().z ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - get_map().get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
     scent_map &scents = get_scent();

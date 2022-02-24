@@ -100,7 +100,7 @@ struct reflex_activation_data {
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    bool is_trigger_true( const Character &guy ) const;
+    bool is_trigger_true( Character &guy ) const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
@@ -109,6 +109,7 @@ struct reflex_activation_data {
 
 struct mutation_branch {
         trait_id id;
+        std::vector<std::pair<trait_id, mod_id>> src;
         bool was_loaded = false;
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;
@@ -280,6 +281,14 @@ struct mutation_branch {
         cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
+        // hide activation menu when activating - preferred for spell targeting activations
+        cata::optional<bool> hide_on_activated = cata::nullopt;
+        // hide activation menu when deactivating - preferred for spell targeting deactivations
+        cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        /** effect_on_conditions triggered when this mutation activates */
+        std::vector<effect_on_condition_id> activated_eocs;
+        /** effect_on_conditions triggered when this mutation deactivates */
+        std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
     private:

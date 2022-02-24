@@ -15,10 +15,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -31,8 +29,6 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_infected( "infected" );
 
-static const flag_id json_flag_RAD_DETECT( "RAD_DETECT" );
-static const flag_id json_flag_SPLINT( "SPLINT" );
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
 static const itype_id fuel_type_muscle( "muscle" );
@@ -209,7 +205,7 @@ std::string display::time_string( const Character &u )
     // Return exact time if character has a watch, or approximate time if aboveground
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -718,37 +714,6 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
-std::pair<std::string, nc_color> display::health_text_color( const Character &u )
-{
-    std::string h_string;
-    nc_color h_color = c_light_gray;
-
-    int current_health = u.get_healthy();
-    if( current_health < -100 ) {
-        h_string = "Horrible";
-        h_color = c_red;
-    } else if( current_health < -50 ) {
-        h_string = "Very bad";
-        h_color = c_light_red;
-    } else if( current_health < -10 ) {
-        h_string = "Bad";
-        h_color = c_yellow;
-    } else if( current_health < 10 ) {
-        h_string = "OK";
-        h_color = c_light_gray;
-    } else if( current_health < 50 ) {
-        h_string = "Good";
-        h_color = c_white;
-    } else if( current_health < 100 ) {
-        h_string = "Very good";
-        h_color = c_green;
-    } else {
-        h_string = "Excellent";
-        h_color = c_light_green;
-    }
-    return std::make_pair( _( h_string ), h_color );
-}
-
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
 {
     float scale = c.get_perceived_pain() / 10.f;
@@ -880,70 +845,6 @@ nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bl
     return i_color;
 }
 
-std::string display::rad_badge_color_name( const int rad )
-{
-    using pair_t = std::pair<const int, const translation>;
-
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, to_translation( "color", "green" ) },
-            pair_t { 30, to_translation( "color", "blue" )  },
-            pair_t { 60, to_translation( "color", "yellow" )},
-            pair_t {120, to_translation( "color", "orange" )},
-            pair_t {240, to_translation( "color", "red" )   },
-            pair_t {500, to_translation( "color", "black" ) },
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second.translated();
-        }
-    }
-
-    return values.back().second.translated();
-}
-
-nc_color display::rad_badge_color( const int rad )
-{
-    using pair_t = std::pair<const int, nc_color>;
-
-    // Map radiation to a displayable color, using background color if needed
-    static const std::array<pair_t, 6> values = {{
-            pair_t {  0, c_white_green },   // white on green (for green)
-            pair_t { 30, h_white },         // white on blue (for blue)
-            pair_t { 60, i_yellow },        // black on yellow (for yellow)
-            pair_t {120, c_red_yellow },    // red on brown (for orange)
-            pair_t {240, c_red_red },       // black on red (for red)
-            pair_t {500, c_pink },          // pink on black (for black)
-        }
-    };
-
-    for( const auto &i : values ) {
-        if( rad <= i.first ) {
-            return i.second;
-        }
-    }
-
-    return values.back().second;
-}
-
-std::pair<std::string, nc_color> display::rad_badge_text_color( const Character &u )
-{
-    // Default - no radiation badge
-    std::string rad_text = "Unknown";
-    nc_color rad_color = c_light_gray;
-    // Get all items that can detect radiation
-    for( const item *it : u.all_items_with_flag( json_flag_RAD_DETECT ) ) {
-        // Radiation badges only work if they're exposed (worn or wielded)
-        if( u.is_worn( *it ) || u.is_wielding( *it ) ) {
-            rad_text = string_format( " %s ", rad_badge_color_name( it->irradiation ) );
-            rad_color = rad_badge_color( it->irradiation );
-            break; // Quit after the first one
-        }
-    }
-    return std::make_pair( rad_text, rad_color );
-}
-
 std::string display::vehicle_azimuth_text( const Character &u )
 {
     vehicle *veh = display::vehicle_driven( u );
@@ -1016,172 +917,6 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-// Return status/color pairs for all statuses affecting body part (bleeding, bitten, bandaged, etc.)
-static std::map<bodypart_status, nc_color> bodypart_status_colors( const Character &u,
-        const bodypart_id &bp, const std::string &wgt_id )
-{
-    // List of active statuses and associated colors
-    std::map<bodypart_status, nc_color> ret;
-
-    // Empty if no bodypart given
-    if( bp == bodypart_str_id::NULL_ID() ) {
-        return ret;
-    }
-
-    const int bleed_intensity = u.get_effect_int( effect_bleed, bp );
-    const bool bleeding = bleed_intensity > 0;
-    const bool bitten = u.has_effect( effect_bite, bp.id() );
-    const bool infected = u.has_effect( effect_infected, bp.id() );
-    const bool broken = u.is_limb_broken( bp ) && bp->is_limb;
-    const bool splinted = u.worn_with_flag( json_flag_SPLINT,  bp );
-    const bool bandaged = u.has_effect( effect_bandaged,  bp.id() );
-    const bool disinfected = u.has_effect( effect_disinfected,  bp.id() );
-
-    auto get_clr = [&wgt_id]( const bodypart_status & stat, int val ) {
-        widget_id id( wgt_id );
-        if( id.is_valid() ) {
-            return widget_phrase::get_color_for_id( io::enum_to_string( stat ), id, val );
-        }
-        return c_white;
-    };
-
-    // Ailments
-    if( broken ) {
-        ret[bodypart_status::BROKEN] = get_clr( bodypart_status::BROKEN, INT_MIN );
-    }
-    if( bitten ) {
-        ret[bodypart_status::BITTEN] = get_clr( bodypart_status::BITTEN, INT_MIN );
-    }
-    if( bleeding ) {
-        ret[bodypart_status::BLEEDING] = get_clr( bodypart_status::BLEEDING, bleed_intensity );
-    }
-    if( infected ) {
-        ret[bodypart_status::INFECTED] = get_clr( bodypart_status::INFECTED, INT_MIN );
-    }
-    // Treatments
-    if( splinted ) {
-        ret[bodypart_status::SPLINTED] = get_clr( bodypart_status::SPLINTED, INT_MIN );
-    }
-    if( bandaged ) {
-        ret[bodypart_status::BANDAGED] = get_clr( bodypart_status::BANDAGED, INT_MIN );
-    }
-    if( disinfected ) {
-        ret[bodypart_status::DISINFECTED] = get_clr( bodypart_status::DISINFECTED, INT_MIN );
-    }
-
-    return ret;
-}
-
-std::string display::colorized_bodypart_status_text( const Character &u, const bodypart_id &bp,
-        const std::string &wgt_id )
-{
-    // Colorized strings for each status
-    std::vector<std::string> color_strings;
-    widget_id wid( wgt_id );
-    // Get all status strings and colorize them
-    for( const auto &sc : bodypart_status_colors( u, bp, wgt_id ) ) {
-        std::string txt = io::enum_to_string( sc.first );
-        if( wid.is_valid() ) {
-            // Check if there's a phrase defining this status' text
-            translation t = widget_phrase::get_text_for_id( txt, wid );
-            txt = t.empty() ? txt : t.translated();
-        }
-        color_strings.emplace_back( colorize( txt, sc.second ) );
-    }
-    // Join with commas, or return "--" if no statuses
-    return color_strings.empty() ? "--" : join( color_strings, ", " );
-}
-
-static const std::string &sym_for_bp_status( const bodypart_status &stat )
-{
-    static const std::string none = ".";
-    static const std::map<bodypart_status, std::string> symmap {
-        { bodypart_status::BITTEN, "B" },
-        { bodypart_status::INFECTED, "I" },
-        { bodypart_status::BROKEN, "%" },
-        { bodypart_status::BLEEDING, "b" },
-        { bodypart_status::SPLINTED, "=" },
-        { bodypart_status::BANDAGED, "+" },
-        { bodypart_status::DISINFECTED, "$" },
-        { bodypart_status::num_bodypart_status, none }
-    };
-    auto sym = symmap.find( stat );
-    return sym == symmap.end() ? none : sym->second;
-}
-
-std::string display::colorized_bodypart_status_sym_text( const Character &u, const bodypart_id &bp,
-        const std::string &wgt_id )
-{
-    std::string ret;
-    widget_id wid( wgt_id );
-    for( const auto &bpcol : bodypart_status_colors( u, bp, wgt_id ) ) {
-        std::string sym;
-        if( wid.is_valid() ) {
-            // Check if there's a phrase defining this status' symbol
-            sym = widget_phrase::get_sym_for_id( io::enum_to_string( bpcol.first ), wid );
-        }
-        sym = sym.empty() ? sym_for_bp_status( bpcol.first ) : sym;
-        ret += colorize( sym, bpcol.second );
-    }
-    return ret;
-}
-
-std::string display::colorized_bodypart_status_legend_text( const Character &u,
-        const std::set<bodypart_id> &bplist, const std::string &wgt_id, int width, int max_height,
-        int &height )
-{
-    std::vector<std::string> keys;
-    std::set<bodypart_status> status;
-    widget_id wid( wgt_id );
-    for( const bodypart_id &bp : bplist ) {
-        for( const auto &bpcol : bodypart_status_colors( u, bp, wgt_id ) ) {
-            if( status.find( bpcol.first ) == status.end() ) {
-                status.emplace( bpcol.first );
-                std::string key = io::enum_to_string( bpcol.first );
-                std::string sym;
-                if( wid.is_valid() ) {
-                    translation t = widget_phrase::get_text_for_id( key, wid );
-                    key = t.empty() ? key : t.translated();
-                    sym = widget_phrase::get_sym_for_id( io::enum_to_string( bpcol.first ), wid );
-                }
-                sym = sym.empty() ? sym_for_bp_status( bpcol.first ) : sym;
-                sym = colorize( sym, bpcol.second );
-                keys.emplace_back( string_format( "%s %s", sym, key ) );
-            }
-        }
-    }
-    // Split legend keys into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    height = 0;
-    const int h_max = max_height == 0 ? INT_MAX : max_height;
-    const int nsize = keys.size();
-    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( keys[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += keys[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( keys[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < h_max - 1 ) {
-            ret += "\n";
-        }
-        height++;
-    }
-    return ret;
-}
-
 std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
@@ -1197,14 +932,6 @@ std::string display::colorized_bodypart_outer_armor( const Character &u, const b
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
     const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
-    const nc_color mm_color = u.current_movement_mode()->panel_color();
-    return std::make_pair( mm_text, mm_color );
-}
-
-// Full name of move mode (walking, running, crouching, prone)
-std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
-{
-    const std::string mm_text = u.current_movement_mode()->type_name();
     const nc_color mm_color = u.current_movement_mode()->panel_color();
     return std::make_pair( mm_text, mm_color );
 }
@@ -1410,7 +1137,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
                                               mission_xyz.y() <= center_xyz.y() + bottom ) &&
                               ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
                     found_mi );
 
@@ -1586,36 +1313,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
         name = string_format( "%s %s", colorize( m.first->sym, m.first->color ), colorize( name, danger ) );
         names.emplace_back( name );
     }
-    // Split names into X lines, where X = height.
-    // Lines use the provided width.
-    // This effectively limits the text to a 'width'x'height' box.
-    std::string ret;
-    height = 0;
-    const int h_max = max_height == 0 ? INT_MAX : max_height;
-    const int nsize = names.size();
-    for( int row = 0, nidx = 0; row < h_max && nidx < nsize; row++ ) {
-        int wavail = width;
-        int nwidth = utf8_width( names[nidx], true );
-        bool startofline = true;
-        while( nidx < nsize && ( wavail > nwidth || startofline ) ) {
-            startofline = false;
-            wavail -= nwidth;
-            ret += names[nidx];
-            nidx++;
-            if( nidx < nsize ) {
-                nwidth = utf8_width( names[nidx], true );
-                if( wavail > nwidth ) {
-                    ret += "  ";
-                    wavail -= 2;
-                }
-            }
-        }
-        if( row < h_max - 1 ) {
-            ret += "\n";
-        }
-        height++;
-    }
-    return ret;
+    return format_widget_multiline( names, max_height, width, height );
 }
 
 // Print monster info to the given window

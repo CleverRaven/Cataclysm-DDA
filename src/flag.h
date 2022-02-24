@@ -99,6 +99,18 @@ extern const flag_id flag_EDIBLE_FROZEN;
 extern const flag_id flag_EFFECT_IMPEDING;
 extern const flag_id flag_ELECTRIC_IMMUNE;
 extern const flag_id flag_ETHEREAL_ITEM;
+extern const flag_id flag_EXO_ARM_PLATE;
+extern const flag_id flag_EXO_BOOT_PLATE;
+extern const flag_id flag_EXO_GLOVE_PLATE;
+extern const flag_id flag_EXO_HELMET_GADGET;
+extern const flag_id flag_EXO_HELMET_PLATE;
+extern const flag_id flag_EXO_LARGE_GADGET;
+extern const flag_id flag_EXO_LEG_PLATE;
+extern const flag_id flag_EXO_MEDIUM_GADGET;
+extern const flag_id flag_EXO_PSU;
+extern const flag_id flag_EXO_PSU_PLATE;
+extern const flag_id flag_EXO_SMALL_GADGET;
+extern const flag_id flag_EXO_TORSO_PLATE;
 extern const flag_id flag_FAKE_MILL;
 extern const flag_id flag_FAKE_SMOKE;
 extern const flag_id flag_FANCY;
@@ -177,6 +189,7 @@ extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
 extern const flag_id flag_MISSION_ITEM;
 extern const flag_id flag_MOUNTED_GUN;
+extern const flag_id flag_MUNDANE;
 extern const flag_id flag_MUSHY;
 extern const flag_id flag_MYCUS_OK;
 extern const flag_id flag_NANOFAB_TEMPLATE;
@@ -337,6 +350,7 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
+extern const flag_id flag_NO_CLEAN;
 extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
 
@@ -359,6 +373,7 @@ class json_flag
     public:
         // used by generic_factory
         flag_id id = flag_NULL;
+        std::vector<std::pair<flag_id, mod_id>> src;
         bool was_loaded = false;
 
         json_flag() = default;

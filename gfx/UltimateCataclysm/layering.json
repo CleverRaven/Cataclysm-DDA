@@ -1,8 +1,8 @@
 {
-"item_variants": [
+"variants": [
   {
     "context": "f_desk",
-    "variants": [
+    "item_variants": [
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
@@ -11,13 +11,18 @@
       {
         "item": "pen",
         "sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}],
+        "layer": 95
+      },
+      {
+        "item": "can_drink",
+        "sprite": [{"id": "desk_can_drink", "weight": 2}],
         "layer": 100
       }
     ]
   },
   {
     "context": "f_oven",
-    "variants": [
+    "item_variants": [
       {
         "item": "pan",
         "sprite": [{"id": "oven_pan_1", "weight": 1}, {"id": "oven_pan_2", "weight": 1}],
@@ -26,8 +31,48 @@
     ]
   },
   {
+    "context": "f_brazier",
+    "item_variants": [
+      {
+        "item": "2x4",
+        "sprite": [{"id": "brazier_2x4", "weight": 1}],
+        "layer": 90
+      },
+      {
+        "item": "log",
+        "sprite": [{"id": "brazier_log", "weight": 1}],
+        "layer": 100
+      }
+    ]
+  },
+  {
+    "context": "f_toilet",
+    "item_variants": [
+      {
+        "item": "water",
+        "sprite": [{"id": "toilet_water", "weight": 1}],
+        "layer": 90
+      },
+      {
+        "item": "water_clean",
+        "sprite": [{"id": "toilet_water", "weight": 1}],
+        "layer": 90
+      }
+    ]
+  },
+  {
+    "context": "f_fireplace",
+    "item_variants": [
+      {
+        "item": "log",
+        "sprite": [{"id": "fireplace_log", "weight": 1}],
+        "layer": 100
+      }
+    ]
+  },
+  {
     "context": "f_cupboard",
-    "variants": [
+    "item_variants": [
       {
         "item": "battery_charger",
         "sprite": [{"id": "cupboard_battery_charger", "weight": 1}],
@@ -52,7 +97,7 @@
   },
   {
     "context": "f_sink",
-    "variants": [
+    "item_variants": [
       {
         "item": "box_small",
         "sprite": [{"id": "sink_box_small", "weight": 1}],

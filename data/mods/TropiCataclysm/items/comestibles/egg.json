@@ -15,7 +15,7 @@
     "calories": 266,
     "volume": "125 ml",
     "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
@@ -26,7 +26,7 @@
     "calories": 300,
     "volume": "125 ml",
     "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
@@ -132,7 +132,7 @@
     "type": "COMESTIBLE",
     "id": "egg_termite",
     "name": "termite egg",
-    "copy-from": "egg_insect",
+    "copy-from": "ant_egg",
     "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
     "rot_spawn": "GROUP_EGG_TERMITE"
   },
@@ -143,6 +143,14 @@
     "copy-from": "egg_insect",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
     "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "rot_spawn": "GROUP_EGG_CICADA"
   },
   {
     "type": "COMESTIBLE",

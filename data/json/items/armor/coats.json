@@ -876,6 +876,7 @@
   },
   {
     "id": "jacket_army_modern",
+    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str_sp": "combat blouse" },
     "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
@@ -2288,7 +2289,7 @@
     ],
     "warmth": 30,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY", "OUTER" ]
   },
   {
     "id": "waistcoat",

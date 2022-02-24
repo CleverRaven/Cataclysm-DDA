@@ -557,11 +557,16 @@ void talk_function::bionic_remove( npc &p )
 
 void talk_function::give_equipment( npc &p )
 {
+    give_equipment_allowance( p, 0 );
+}
+
+void talk_function::give_equipment_allowance( npc &p, int allowance )
+{
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
+        if( giving[index].price < p.op_of_u.owed + allowance ) {
             chosen = index;
         } else {
             giving.erase( giving.begin() + index );
@@ -581,7 +586,10 @@ void talk_function::give_equipment( npc &p )
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
-    p.op_of_u.owed -= giving[chosen].price;
+    allowance -= giving[chosen].price;
+    if( allowance < 0 ) {
+        p.op_of_u.owed += allowance;
+    }
     p.add_effect( effect_asked_for_item, 3_hours );
 }
 
@@ -1038,7 +1046,6 @@ void talk_function::start_training_seminar( npc &p )
     }
     students.push_back( &get_player_character() );
 
-    const int s_count = students.size();
     std::vector<Character *> picked;
     std::function<bool( const Character * )> include_func = [&]( const Character * c ) {
         if( d.skill != skill_id() ) {
@@ -1054,36 +1061,17 @@ void talk_function::start_training_seminar( npc &p )
         }
         return false;
     };
-    do {
-        uilist nmenu;
-        nmenu.text = _( "Who should participate?" );
-        for( int i = 0; i < s_count; i++ ) {
-            std::string entry;
-            if( std::find( picked.begin(), picked.end(), students[i] ) != picked.end() ) {
-                entry = "* ";
-            }
-            bool enable = include_func( students[i] );
-            entry += students[i]->disp_name( false, true );
-            nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
-        }
-        nmenu.addentry( s_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
-        nmenu.query();
-        if( nmenu.ret < 0 ) {
-            return;
-        } else if( nmenu.ret >= s_count ) {
-            break;
-        }
-        std::vector<Character *>::iterator exists = std::find( picked.begin(), picked.end(),
-                students[nmenu.ret] );
-        if( exists != picked.end() ) {
-            picked.erase( exists );
-        } else {
-            picked.emplace_back( students[nmenu.ret] );
-        }
-    } while( true );
+    std::vector<int> selected = npcs_select_menu<Character>( students, _( "Who should participate?" ),
+    [&include_func]( const Character * ch ) {
+        return !include_func( ch );
+    } );
 
-    if( picked.empty() ) {
+    if( selected.empty() ) {
         return;
+    }
+    picked.reserve( selected.size() );
+    for( int sel : selected ) {
+        picked.emplace_back( students[sel] );
     }
     start_training_gen( p, picked, d );
 }

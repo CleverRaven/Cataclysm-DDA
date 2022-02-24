@@ -519,10 +519,34 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
 
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr );
+        const int spell_accuracy = sp.accuracy();
+        double damage_mitigation_multiplier = 1.0;
+        if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 ) {
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
+        }
+
+        if( const int spell_dodge = cr->get_dodge() - spell_accuracy > 0 ) {
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
+        }
+
+        if( const int spell_resist = cr->get_spell_resist() - spell_accuracy > 0 &&
+                                     !sp.has_flag( spell_flag::NON_MAGICAL ) ) {
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
+        }
+
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
+            for( damage_unit &val : atk.proj.impact.damage_units ) {
+                val.amount *= damage_mitigation_multiplier;
+            }
             cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
@@ -1218,7 +1242,6 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     for( const tripoint &location : area ) {
         if( one_in( sp.damage() ) ) {
             transform->transform( location );
-            transform->add_all_messages( caster, location );
         }
     }
 }
@@ -1400,7 +1423,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
-            guy.has_trait_flag( json_flag_PRED3 ) || guy.has_trait_flag( json_flag_PRED4 ) ) {
+            guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
             return;
         }
@@ -1413,8 +1436,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
                                     "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
-        } else if( guy.has_trait_flag( json_flag_PRED1 ) ||
-                   guy.has_trait_flag( json_flag_PRED2 ) ) {
+        } else if( guy.has_flag( json_flag_PRED1 ) ||
+                   guy.has_flag( json_flag_PRED2 ) ) {
             msg = _( "Culling the weak is distasteful, but necessary." );
             msgtype = m_neutral;
         } else {
@@ -1452,11 +1475,11 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             moraleMalus *= 5;
         }
         // cullers feel less bad about killing
-        else if( guy.has_trait_flag( json_flag_PRED1 ) ) {
+        else if( guy.has_flag( json_flag_PRED1 ) ) {
             moraleMalus /= 4;
         }
         // hunters feel less bad about killing
-        else if( guy.has_trait_flag( json_flag_PRED2 ) ) {
+        else if( guy.has_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
         guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
