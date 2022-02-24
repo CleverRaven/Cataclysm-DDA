@@ -104,6 +104,46 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_tinamou",
+    "name": "tinamou egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_TINAMOU",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_seriema",
+    "name": "seriema egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_SERIEMA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chachalaca",
+    "name": "chachalaca egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CHACHALACA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_guan",
+    "name": "guan egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GUAN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_curassow",
+    "name": "curassow egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CURASSOW",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_toad",
     "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
     "copy-from": "egg_chicken",
