@@ -172,6 +172,7 @@ static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_nanomaterial( "nanomaterial" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
@@ -365,35 +366,49 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     if( !table_exists ) {
         return;
     }
+
+    item new_item;
+    requirement_data reqs;
+
     // If there is something on the table that can be repaired suggest to repair that instead of printing something new
     if( !on_table.empty() ) {
+        new_item = item( on_table.front()->typeId(), calendar::turn );
+        int qty = std::max( 1, new_item.volume() / 250_ml );
+        std::vector<std::vector<item_comp>> requirement_comp_vector;
+        std::vector<std::vector<quality_requirement>> quality_comp_vector;
+        std::vector<std::vector<tool_comp>> tool_comp_vector;
+        std::vector<item_comp> nano_req = { item_comp( itype_nanomaterial, 5 * qty ) };
+        requirement_comp_vector.push_back( nano_req );
+        std::vector<item_comp> item_req = { item_comp( on_table.front()->typeId(), 1 ) };
+        requirement_comp_vector.push_back( item_req );
+        reqs = requirement_data( tool_comp_vector, quality_comp_vector, requirement_comp_vector );
+    } else {
+        //Create a list of the names of all acceptable templates.
+        std::set<std::string> templatenames;
+        for( const itype_id &id : allowed_template ) {
+            templatenames.insert( id->nname( 1 ) );
+        }
+        std::string name_list = enumerate_as_string( templatenames );
 
+        //Template selection
+        item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+            return  std::any_of( allowed_template.begin(), allowed_template.end(),
+            [&e]( const itype_id itid ) {
+                return e.typeId() == itid;
+            } );
+        }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+        _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
+
+        if( !nanofab_template ) {
+            return;
+        }
+
+        new_item = item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
+        int qty = std::max( 1, new_item.volume() / 250_ml );
+        reqs = *nanofab_template->type->template_requirements * qty;
     }
 
-    //Create a list of the names of all acceptable templates.
-    std::set<std::string> templatenames;
-    for( const itype_id &id : allowed_template ) {
-        templatenames.insert( id->nname( 1 ) );
-    }
-    std::string name_list =  enumerate_as_string( templatenames );
 
-    //Template selection
-    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
-        return  std::any_of( allowed_template.begin(), allowed_template.end(),
-        [&e]( const itype_id itid ) {
-            return e.typeId() == itid;
-        } );
-    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
-    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
-
-    if( !nanofab_template ) {
-        return;
-    }
-
-    item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
-
-    int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
