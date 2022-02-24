@@ -3769,6 +3769,11 @@ std::string npc::name_and_activity() const
     }
 }
 
+std::string npc::name_and_maybe_activity() const
+{
+    return name_and_activity();
+}
+
 std::string npc::get_current_activity() const
 {
     if( current_activity_id ) {
