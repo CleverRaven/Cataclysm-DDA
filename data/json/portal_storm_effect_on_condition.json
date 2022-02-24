@@ -1058,8 +1058,8 @@
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "global_val": "original_loc" } },
-      { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6 },
-      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7 },
+      { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
       {
         "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
       },

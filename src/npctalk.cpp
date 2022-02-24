@@ -2339,7 +2339,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
     int_or_var iov_z_adjust = get_int_or_var( jo, "z_adjust", false, 0 );
-    bool z_override = jo.get_bool( "z_override", true );
+    bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     cata::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {

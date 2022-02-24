@@ -7659,7 +7659,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
                 : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( rotation, true );
                 }
             }
@@ -7667,7 +7667,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             ~rotation_guard() {
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( 4 - rotation, true );
                 }
             }
@@ -7675,9 +7675,8 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    if( !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-        rotation_guard rot( md_with_params );
-    }
+    rotation_guard rot( md_with_params );
+
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
                                    verify );
 }
