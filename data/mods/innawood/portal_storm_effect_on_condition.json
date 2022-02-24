@@ -5,7 +5,7 @@
     "recurrence": 1,
     "condition": {
       "and": [
-        { "not":{ "u_has_trait": "PORTAL_DEPENDENT" } },
+        { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
         { "compare_int": [ { "global_val": "var", "var_name": "ps_min_woc" }, "<", { "time": "45 days" } ] }
       ]
     },
@@ -14,7 +14,7 @@
         { "u_has_trait": "PORTAL_DEPENDENT" },
         { "compare_int": [ { "global_val": "var", "var_name": "ps_min_woc" }, ">=", { "time": "45 days" } ] }
       ]
-     },
+    },
     "effect": [
       { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "45 days" } ] },
       { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "90 days" } ] },
@@ -25,7 +25,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 3 ], [ "EOC_PORTAL_LENGTHEN", 3 ], [ "EOC_PORTAL_WEAKEN", 1 ], [ "EOC_PORTAL_SHORTEN", 1 ] ] }
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_STRENGTHEN", 3 ],
+        [ "EOC_PORTAL_LENGTHEN", 3 ],
+        [ "EOC_PORTAL_WEAKEN", 1 ],
+        [ "EOC_PORTAL_SHORTEN", 1 ]
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
