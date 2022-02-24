@@ -1270,11 +1270,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user, std::
     bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
     bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
 
-    if( always_ok || weapon_ok || arm_ok || arms_ok || legs_ok ) {
-        return true;
-    }
-
-    return false;
+    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const
