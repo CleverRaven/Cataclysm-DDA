@@ -348,6 +348,7 @@ void iexamine::change_appearance( Character &you, const tripoint & )
 void iexamine::nanofab( Character &you, const tripoint &examp )
 {
     bool table_exists = false;
+    std::list<item_location> on_table;
     tripoint spawn_point;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
@@ -355,12 +356,20 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
+            on_table = here.items_with( valid_location, [&]( const item & it ) {
+                return it.has_flag( flag_NANOFAB_REPAIR );
+            } );
             break;
         }
     }
     if( !table_exists ) {
         return;
     }
+    // If there is something on the table that can be repaired suggest to repair that instead of printing something new
+    if( !on_table.empty() ) {
+
+    }
+
     //Create a list of the names of all acceptable templates.
     std::set<std::string> templatenames;
     for( const itype_id &id : allowed_template ) {

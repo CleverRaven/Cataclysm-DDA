@@ -1114,7 +1114,8 @@
       "WATCH",
       "ALARMCLOCK",
       "SWIM_GOGGLES",
-      "SUN_GLASSES"
+      "SUN_GLASSES",
+      "NO_REPAIR"
     ],
     "armor": [
       {
@@ -1212,7 +1213,8 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
-      "CLIMATE_CONTROL"
+      "CLIMATE_CONTROL",
+      "NO_REPAIR"
     ]
   },
   {

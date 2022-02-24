@@ -859,6 +859,11 @@
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
+    "id": "NANOFAB_REPAIR",
+    "type": "json_flag",
+    "info": "This item was constructed in a nanofabricator and can be repaired in one."
+  },
+  {
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "info": "This item contains a nanofabricator recipe."
