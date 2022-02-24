@@ -64,7 +64,7 @@
     "price_postapoc": 10000,
     "to_hit": -4,
     "bashing": 18,
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
