@@ -84,6 +84,36 @@
     "monsters": [ { "monster": "mon_macaw_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_TINAMOU",
+    "type": "monstergroup",
+    "default": "mon_tinamou_chick",
+    "monsters": [ { "monster": "mon_tinamou_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SERIEMA",
+    "type": "monstergroup",
+    "default": "mon_seriema_chick",
+    "monsters": [ { "monster": "mon_seriema_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CHACHALACA",
+    "type": "monstergroup",
+    "default": "mon_chachalaca_chick",
+    "monsters": [ { "monster": "mon_chachalaca_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_GUAN",
+    "type": "monstergroup",
+    "default": "mon_guan_chick",
+    "monsters": [ { "monster": "mon_guan_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CURASSOW",
+    "type": "monstergroup",
+    "default": "mon_curassow_chick",
+    "monsters": [ { "monster": "mon_curassow_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_TOAD",
     "type": "monstergroup",
     "default": "mon_tadpole_brown",
