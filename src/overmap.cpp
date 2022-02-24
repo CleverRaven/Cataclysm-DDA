@@ -6368,8 +6368,7 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
     tripoint_abs_sm global_sm_loc =
         project_to<coords::sm>( project_combine( pos(), loc ) );
 
-    // TODO: fix point types
-    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc.raw() ) != nullptr;
+    const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc ) != nullptr;
 
     return is_generated;
 }
@@ -6384,6 +6383,7 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
 
     overmap_special_id new_id( "FakeSpecial_" + base.str() );
     overmap_special new_special( new_id, ter );
+    mod_tracker::assign_src( new_special, base->src.back().second.str() );
 
     return specials.insert( new_special ).id;
 }

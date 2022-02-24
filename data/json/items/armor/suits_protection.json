@@ -301,8 +301,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.0 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -311,8 +311,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -321,8 +321,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -348,8 +348,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.0 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -358,8 +358,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -368,8 +368,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -395,8 +395,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.0 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -405,8 +405,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -415,8 +415,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -442,8 +442,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.0 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -452,8 +452,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -462,8 +462,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -489,8 +489,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.0 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -499,8 +499,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -509,8 +509,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.25 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -549,8 +549,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 3.0 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -559,8 +559,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -569,8 +569,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -596,8 +596,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 3.0 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -606,8 +606,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -616,8 +616,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -643,8 +643,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 3.0 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -653,8 +653,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -663,8 +663,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -690,8 +690,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 3.0 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -700,8 +700,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -710,8 +710,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -737,8 +737,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 3.0 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -747,8 +747,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -757,8 +757,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 0.75 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -797,8 +797,8 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 5.0 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -807,8 +807,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -817,8 +817,8 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -844,8 +844,8 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 5.0 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -854,8 +854,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -864,8 +864,8 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -891,8 +891,8 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 5.0 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -901,8 +901,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -911,8 +911,8 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -938,8 +938,8 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 5.0 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -948,8 +948,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -958,8 +958,8 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -985,8 +985,8 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 5.0 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
@@ -995,8 +995,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -1005,8 +1005,8 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 95, "thickness": 1.25 },
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -1275,28 +1275,25 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "14430 g",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
-    "warmth": 50,
-    "material_thickness": 6,
+    "warmth": 0,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "kevlar_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_hauberk",
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_chainmail_hauberk",
@@ -1316,52 +1313,195 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
   },
   {
-    "id": "xl_kevlar_chainmail_hauberk",
+    "id": "lc_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar chainmail hauberk" },
-    "copy-from": "kevlar_chainmail_hauberk",
+    "category": "armor",
+    "name": { "str": "low steel chainmail hauberk" },
+    "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14430 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL low steel chainmail hauberk" },
+    "copy-from": "lc_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "kevlar_chainmail_hauberk_xs",
+    "id": "lc_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "kevlar_chainmail_hauberk",
-    "looks_like": "kevlar_chainmail_hauberk",
-    "name": { "str": "XS kevlar chainmail hauberk" },
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "XS low steel chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "medium steel chainmail hauberk" },
+    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel chainmail hauberk" },
+    "copy-from": "mc_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_hauberk",
+    "looks_like": "mc_chainmail_hauberk",
+    "name": { "str": "XS medium steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "high steel chainmail hauberk" },
+    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel chainmail hauberk" },
+    "copy-from": "hc_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_hauberk",
+    "name": { "str": "XS high steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "hardened steel chainmail hauberk" },
+    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel chainmail hauberk" },
+    "copy-from": "ch_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_hauberk",
+    "name": { "str": "XS hardened steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "name": { "str": "tempered steel chainmail hauberk" },
+    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel chainmail hauberk" },
+    "copy-from": "qt_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_hauberk",
+    "name": { "str": "XS tempered steel chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail armor" },
-    "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "16436 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "steel", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "warmth": 50,
-    "material_thickness": 5,
+    "warmth": 0,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "kevlar_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar chainmail armor" },
-    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
-    "copy-from": "chainmail_suit",
-    "material_thickness": 6,
-    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "xl_chainmail_suit",
@@ -1381,43 +1521,182 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
   },
   {
-    "id": "xl_kevlar_chainmail_suit",
+    "id": "lc_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL kevlar chainmail armor" },
-    "copy-from": "kevlar_chainmail_suit",
+    "category": "armor",
+    "name": { "str": "low steel chainmail armor" },
+    "description": "A fully customized low steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "16436 g",
+    "volume": "3250 ml",
+    "price": 45000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL low steel chainmail armor" },
+    "copy-from": "lc_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "kevlar_chainmail_suit_xs",
+    "id": "lc_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "kevlar_chainmail_suit",
-    "looks_like": "kevlar_chainmail_suit",
-    "name": { "str": "XS kevlar chainmail armor" },
+    "copy-from": "lc_chainmail_suit",
+    "name": { "str": "XS low steel chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_suit",
+    "name": { "str": "medium steel chainmail armor" },
+    "description": "A fully customized medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mc_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL medium steel chainmail armor" },
+    "copy-from": "mc_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mc_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_suit",
+    "name": { "str": "XS medium steel chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_suit",
+    "name": { "str": "high steel chainmail armor" },
+    "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_hc_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL high steel chainmail armor" },
+    "copy-from": "hc_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "hc_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_suit",
+    "name": { "str": "XS high steel chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_suit",
+    "name": { "str": "hardened steel chainmail armor" },
+    "description": "A fully customized hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL hardened steel chainmail armor" },
+    "copy-from": "ch_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "ch_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_suit",
+    "name": { "str": "XS hardened steel chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_suit",
+    "name": { "str": "tempered steel chainmail armor" },
+    "description": "A fully customized tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL tempered steel chainmail armor" },
+    "copy-from": "qt_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "qt_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_suit",
+    "name": { "str": "XS tempered steel chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
     "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
-    "weight": "23335 g",
-    "volume": "3500 ml",
-    "price": 35000,
-    "price_postapoc": 9000,
-    "to_hit": -1,
-    "material": [ "steel", "cotton" ],
-    "symbol": "[",
-    "color": "light_red",
-    "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
     "armor": [
       {
-        "encumbrance": 30,
+        "material": [ { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "coverage": 100,
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
+        "encumbrance": 30
       }
     ]
   },
@@ -2145,6 +2424,7 @@
   },
   {
     "id": "mil_flight_suit",
+    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
@@ -2209,6 +2489,7 @@
   },
   {
     "id": "mil_flight_suit",
+    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",

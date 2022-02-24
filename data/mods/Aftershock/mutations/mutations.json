@@ -597,7 +597,7 @@
     "visibility": 3,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your hands have fused into three fingered paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
+    "description": "Your hands have fused into three-fingered paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
     "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],

@@ -12972,7 +12972,7 @@ units::volume item::check_for_free_space() const
 
 int item::get_pocket_size() const
 {
-    // set the ammount of space that will be used on the vest based on the size of the item
+    // set the amount of space that will be used on the vest based on the size of the item
     if( has_flag( flag_PALS_SMALL ) ) {
         return 1;
     } else if( has_flag( flag_PALS_MEDIUM ) ) {

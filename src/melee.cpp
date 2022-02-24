@@ -132,6 +132,7 @@ static const move_mode_id move_mode_prone( "prone" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_melee( "melee" );
+static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
@@ -1127,6 +1128,11 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     melee::melee_stats.crit_count += 1;
     melee::melee_stats.crit_chance += chance_triple + ma_buff_crit_chance;
     return chance_triple + ma_buff_crit_chance;
+}
+
+int Character::get_spell_resist() const
+{
+    return get_skill_level( skill_spellcraft );
 }
 
 float Character::get_dodge() const

@@ -146,7 +146,6 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [
       [ [ "exodii_wire_kit", 1 ] ],
-      [ [ "exodii_ac_kit", 1 ] ],
       [ [ "flashlight", 1 ], [ "heavy_flashlight", 1 ] ],
       [ [ "plastic_sheet", 2 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ], [ "light_load_bearing_vest", 1 ], [ "load_bearing_vest", 1 ] ],

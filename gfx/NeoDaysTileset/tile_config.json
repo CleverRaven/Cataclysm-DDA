@@ -1356,6 +1356,7 @@
           "rotates": false
         },
         { "id": "1st_aid", "fg": 1966, "rotates": false },
+        { "id": "1st_aid_box", "fg": 1966, "rotates": false },
         {
           "id": [
             "20x66_10_mag",

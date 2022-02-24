@@ -336,6 +336,16 @@
   },
   {
     "type": "terrain",
+    "id": "t_warped_roof",
+    "name": "warped roof",
+    "description": "A section of flat stone like roof.  It's pattern of grooves and lines is constantly shifting.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "flags": [ "FLAT" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_roof_paper",
     "name": "flat roof",
     "description": "A flat surface made of pulpy mass, covered in sticky wasp saliva.",

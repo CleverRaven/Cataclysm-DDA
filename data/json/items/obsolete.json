@@ -273,6 +273,23 @@
     "price": 1000
   },
   {
+    "id": "inj_vitb",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "injectable vitamin B" },
+    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 500,
+    "charges": 2,
+    "stack_size": 10,
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You inject some vitamin B.", "tools_needed": { "syringe": -1 } }
+  },
+  {
     "id": "aep_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -531,5 +548,58 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_hauberk",
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ]
+  },
+  {
+    "id": "xl_kevlar_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar chainmail hauberk" },
+    "copy-from": "kevlar_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "kevlar_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "kevlar_chainmail_hauberk",
+    "looks_like": "kevlar_chainmail_hauberk",
+    "name": { "str": "XS kevlar chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "UNDERSIZE" ]
+  },
+  {
+    "id": "kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar chainmail armor" },
+    "description": "A fully customized chainmail suit.  The shirt, arms, and leggings have been modified with straps and combined with a kevlar gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "copy-from": "chainmail_suit",
+    "material_thickness": 6,
+    "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "xl_kevlar_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL kevlar chainmail armor" },
+    "copy-from": "kevlar_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "kevlar_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "kevlar_chainmail_suit",
+    "looks_like": "kevlar_chainmail_suit",
+    "name": { "str": "XS kevlar chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
   }
 ]

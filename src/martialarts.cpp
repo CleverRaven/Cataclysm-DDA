@@ -374,7 +374,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "allow_melee", allow_melee, false );
+    optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
@@ -582,7 +582,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( weapon );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
-    bool all_weapons = u.martial_arts_data->selected_allow_melee();
+    bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -1162,7 +1162,7 @@ bool martialart::has_weapon( const itype_id &itt ) const
 
 bool martialart::weapon_valid( const item &it ) const
 {
-    if( allow_melee ) {
+    if( allow_all_weapons ) {
         return true;
     }
 
@@ -1829,7 +1829,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( ma.force_unarmed ) {
             buffer += _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
             buffer += "\n";
-        } else if( ma.allow_melee ) {
+        } else if( ma.allow_all_weapons ) {
             buffer += _( "<bold>This style can be used with all weapons.</bold>" );
             buffer += "\n";
         } else if( ma.strictly_melee ) {

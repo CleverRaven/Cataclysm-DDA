@@ -1654,6 +1654,7 @@
       { "item": "portable_game", "prob": 65, "charges": 100 },
       { "item": "cell_phone", "prob": 11, "charges": 150 },
       { "item": "smart_phone", "prob": 85, "charges": 120 },
+      { "item": "waterproof_smart_phone_case", "prob": 40 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
       { "group": "toy_makerspace_kit", "prob": 25 },
