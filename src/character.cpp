@@ -338,11 +338,6 @@ static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
-static const material_id material_lc_steel( "lc_steel" );
-static const material_id material_mc_steel( "mc_steel" );
-static const material_id material_hc_steel( "hc_steel" );
-static const material_id material_ch_steel( "ch_steel" );
-static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_wool( "wool" );
 
 static const morale_type morale_nightmare( "morale_nightmare" );
@@ -483,7 +478,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
 {
