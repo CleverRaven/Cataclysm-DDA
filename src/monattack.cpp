@@ -905,7 +905,6 @@ bool mattack::pull_metal_weapon( monster *z )
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
         const int metal_portion = weapon.made_of( material_iron ) +
-                                  weapon.made_of( material_hardsteel ) +
                                   weapon.made_of( material_steel ) +
                                   weapon.made_of( material_lc_steel ) +
                                   weapon.made_of( material_mc_steel ) +
