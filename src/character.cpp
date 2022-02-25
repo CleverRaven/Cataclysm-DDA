@@ -6954,6 +6954,18 @@ void Character::drench_mut_calc()
     }
 }
 
+/// Returns a weighted list of all mutation categories with current blood vitamin levels
+weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
+{
+    weighted_int_list<mutation_category_id> weighted_output;
+    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+        mutation_category_trait::get_all();
+    for( const auto &elem : mutation_categories ) {
+        weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
+    }
+    return weighted_output;
+}
+
 /// Returns the mutation category with the highest strength
 mutation_category_id Character::get_highest_category() const
 {

@@ -100,6 +100,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );

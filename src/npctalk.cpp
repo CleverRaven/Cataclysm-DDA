@@ -2050,6 +2050,27 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
+void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &member,
+                                    bool is_npc )
+{
+    int_or_var highest_cat = get_int_or_var( jo, member, true, 0 );
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+    function = [is_npc, highest_cat, use_vitamins]( const dialogue & d ) {
+        d.actor( is_npc )->mutate( highest_cat.evaluate( d.actor( highest_cat.is_npc() ) ), use_vitamins );
+    };
+}
+
+void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+    function = [is_npc, mut_cat, use_vitamins]( const dialogue & d ) {
+        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d.actor(
+                                                mut_cat.is_npc() ) ) ), use_vitamins );
+    };
+}
+
 void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
@@ -3535,24 +3556,31 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
-    weighted_int_list<effect_on_condition_id> eocs;
-    for( JsonArray pair : jo.get_array( member ) ) {
-        effect_on_condition_id eoc;
-        int weight = 1;
-        for( JsonValue jv : pair ) {
-            if( jv.test_int() ) {
-                weight = jv.get_int();
-            } else {
-                eoc = effect_on_conditions::load_inline_eoc( jv, "" );
-            }
-        }
-        eocs.add( eoc, weight );
+    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
+    for( JsonArray ja : jo.get_array( member ) ) {
+        JsonValue eoc = ja.next_value();
+        JsonObject weight = ja.next_object();
+        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                conditional_t< dialogue >::get_get_int( weight ) );
     }
-    function = [eocs]( const dialogue & ) {
-        dialogue d( get_talker_for( get_avatar() ), nullptr );
-
-        effect_on_condition_id eoc = *eocs.pick();
-        eoc->activate( d );
+    function = [eoc_pairs]( const dialogue & d ) {
+        weighted_int_list<effect_on_condition_id> eocs;
+        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
+             eoc_pairs ) {
+            eocs.add( eoc_pair.first, eoc_pair.second( d ) );
+        }
+        effect_on_condition_id picked_eoc = *eocs.pick();
+        Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+        item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+        Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+        item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+        dialogue newDialog(
+            creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
+                item_alpha ) : nullptr,
+            creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
+                item_beta ) : nullptr
+        );
+        picked_eoc->activate( newDialog );
     };
 }
 
@@ -3926,6 +3954,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_string( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
+    } else if( jo.has_member( "u_mutate" ) ) {
+        subeffect_fun.set_mutate( jo, "u_mutate" );
+    } else if( jo.has_member( "npc_mutate" ) ) {
+        subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
+    } else if( jo.has_member( "u_mutate_category" ) ) {
+        subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
+    } else if( jo.has_member( "npc_mutate_category" ) ) {
+        subeffect_fun.set_mutate_category( jo, "npc_mutate_category", is_npc );
     } else if( jo.has_int( "u_spend_cash" ) ) {
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
