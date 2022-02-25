@@ -416,7 +416,7 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
             return dir_abbr + _( " Harvest Fields" );
 
         case Camp_Chop_Shop:  //  Obsolete removed during 0.E
-            return _(" Chop Shop.  Obsolete.  Can only be recalled");
+            return _( " Chop Shop.  Obsolete.  Can only be recalled" );
 
         //  Actions that won't be used here
         case No_Mission:
