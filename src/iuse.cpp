@@ -119,7 +119,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -2766,7 +2765,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
+        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
         p->activity.placement = here.getabs( pnt );
         return it->type->charges_to_use();
     } else {
