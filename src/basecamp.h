@@ -317,8 +317,8 @@ class basecamp
         // mission return functions
         /// called to select a companion to return to the base
         npc_ptr companion_choose_return( const mission_id &miss_id, time_duration min_duration );
-        npc_ptr companion_crafting_choose_return(const mission_id& miss_id);
-            /// called with a companion @ref comp who is not the camp manager, finishes updating their
+        npc_ptr companion_crafting_choose_return( const mission_id &miss_id );
+        /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
                             const std::string &skill, int difficulty, bool cancel = false );
@@ -326,9 +326,9 @@ class basecamp
         npc_ptr mission_return( const mission_id &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
                                 const std::string &skill, int difficulty );
-        npc_ptr crafting_mission_return(const mission_id& miss_id, const std::string& return_msg,
-            const std::string& skill, int difficulty);
-            /// select a companion for any mission to return to base
+        npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
+                                         const std::string &skill, int difficulty );
+        /// select a companion for any mission to return to base
         npc_ptr emergency_recall( const mission_id miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
