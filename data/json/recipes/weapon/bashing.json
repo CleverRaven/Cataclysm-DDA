@@ -556,7 +556,7 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5 } ],
     "components": [
-      [ [ "2x4", 1 ] ],
+      [ [ "stick_long", 1 ], ["q_staff", 1] ],
       [
         [ "any_tallow", 2, "LIST" ],
         [ "cooking_oil", 16 ],
