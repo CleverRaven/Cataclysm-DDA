@@ -861,7 +861,7 @@
   {
     "id": "NANOFAB_REPAIR",
     "type": "json_flag",
-    "info": "This item was constructed in a nanofabricator and can be <info>repaired in one</info>."
+    "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
   },
   {
     "id": "NANOFAB_TEMPLATE",

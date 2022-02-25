@@ -380,6 +380,12 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
             return;
         }
 
+        if( !on_table.front()->empty() ) {
+            popup( _( "ITEM %s DETECTED, CONTENTS OF ITEM WILL BE DESTROYED BY FABRICATOR PLEASE EMPTY ITEM AND RETURN" ),
+                   new_item.display_name() );
+            return;
+        }
+
         if( !query_yn( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?" ),
                        new_item.display_name() ) ) {
             return;
