@@ -338,7 +338,11 @@ static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
 static const material_id material_med_steel( "med_steel" );
 static const material_id material_steel( "steel" );
-static const material_id material_tempered_steel( "tempered_steel" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_wool( "wool" );
 
 static const morale_type morale_nightmare( "morale_nightmare" );
