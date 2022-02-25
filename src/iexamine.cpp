@@ -388,8 +388,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         // multiplier for the item being not completely destroyed
         float dam_mult = .05f * damage;
 
-        on_table.front()->damage_level();
-        int qty = std::max( 1, std::ceil( dam_mult * new_item.volume() / 250_ml ) );
+        int qty = std::max( 1, static_cast<int>( dam_mult * new_item.volume() / 250_ml ) );
         std::vector<std::vector<item_comp>> requirement_comp_vector;
         std::vector<std::vector<quality_requirement>> quality_comp_vector;
         std::vector<std::vector<tool_comp>> tool_comp_vector;
@@ -424,6 +423,10 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         reqs = *nanofab_template->type->template_requirements * qty;
     }
 
+    // either way the new item should have the nanofabricator flag
+    if( !new_item.has_flag( flag_NANOFAB_REPAIR ) ) {
+        new_item.set_flag( flag_NANOFAB_REPAIR );
+    }
 
     if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
