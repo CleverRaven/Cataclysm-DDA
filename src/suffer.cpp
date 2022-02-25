@@ -685,8 +685,8 @@ void suffer::from_asthma( Character &you, const int current_stim )
                  ( you.has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
-    bool auto_use = ( you.has_charges( itype_inhaler, 1 ) || you.has_charges( itype_oxygen_tank, 1 ) ||
-                    you.has_charges( itype_smoxygen_tank, 1 ) );
+    bool auto_use = you.has_charges( itype_inhaler, 1 ) || you.has_charges( itype_oxygen_tank, 1 ) ||
+                    you.has_charges( itype_smoxygen_tank, 1 );
     bool oxygenator = you.has_bionic( bio_gills ) &&
                       you.get_power_level() >= ( bio_gills->power_trigger / 8 );
     if( you.underwater ) {
