@@ -340,6 +340,7 @@ class martialart
         bool strictly_melee = false; // Must have a weapon.
         bool allow_all_weapons = false; // Can use unarmed or with ANY weapon
         bool force_unarmed = false; // Don't use ANY weapon - punch or kick if needed
+        bool prevent_weapon_blocking = false; // Cannot block with weapons
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onpause_buffs;
