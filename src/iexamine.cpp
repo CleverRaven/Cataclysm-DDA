@@ -373,7 +373,23 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     // If there is something on the table that can be repaired suggest to repair that instead of printing something new
     if( !on_table.empty() ) {
         new_item = item( on_table.front()->typeId(), calendar::turn );
-        int qty = std::max( 1, new_item.volume() / 250_ml );
+        int damage = on_table.front()->damage_level();
+        if( damage <= 0 ) {
+            popup( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, BUT NOT DAMAGED REMOVE WORKING ITEM FROM FABRICATOR" ),
+                   new_item.display_name() );
+            return;
+        }
+
+        if( !query_yn( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?" ),
+                       new_item.display_name() ) ) {
+            return;
+        }
+
+        // multiplier for the item being not completely destroyed
+        float dam_mult = .05f * damage;
+
+        on_table.front()->damage_level();
+        int qty = std::max( 1, std::ceil( dam_mult * new_item.volume() / 250_ml ) );
         std::vector<std::vector<item_comp>> requirement_comp_vector;
         std::vector<std::vector<quality_requirement>> quality_comp_vector;
         std::vector<std::vector<tool_comp>> tool_comp_vector;
