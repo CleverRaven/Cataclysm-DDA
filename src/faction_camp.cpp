@@ -3629,6 +3629,7 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
         op = farm_ops::harvest;
     } else {
         debugmsg( "Farm operations called with no matching operation" );
+        return false;
     }
 
     const std::string msg = _( "returns from working your fields…" );
