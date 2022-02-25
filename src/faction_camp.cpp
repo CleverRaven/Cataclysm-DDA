@@ -1477,6 +1477,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 start_mission( miss_id.id, 4_days, true,
                                _( "departs to search for recruits…" ), false, {}, skill_gun, 0 );
             }
+            break;
 
         case Camp_Scouting:
         case Camp_Combat_Patrol:
