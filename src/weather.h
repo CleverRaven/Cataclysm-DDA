@@ -40,6 +40,9 @@ static constexpr int BODYTEMP_HOT = 6500;
 static constexpr int BODYTEMP_VERY_HOT = 8000;
 //!< Level 3 hotness.
 static constexpr int BODYTEMP_SCORCHING = 9500;
+
+//!< Additional Threshold before speed is impacted by heat.
+static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 #include <cstdint>

@@ -13,7 +13,6 @@
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
-static const mutation_category_id mutation_category_ANY( "ANY" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
@@ -56,9 +55,8 @@ static void give_all_mutations( Character &you, const mutation_category_trait &c
             while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
                 INFO( "Current mutations: " << get_mutations_as_string( you ) );
                 INFO( "Mutating towards " << mut.c_str() );
-                if( !you.mutate_towards( mut ) ) {
-                    --mutation_attempts;
-                }
+                you.mutate_towards( mut );
+                --mutation_attempts;
             }
         }
     }
@@ -223,7 +221,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
          mutation_category_trait::get_all() ) {
         const mutation_category_trait &cur_cat = cat.second;
         const mutation_category_id &cat_id = cur_cat.id;
-        if( cat_id == mutation_category_ANY ) {
+        if( cur_cat.threshold_mut.is_empty() ) {
             continue;
         }
         // Unfinished mutation category.

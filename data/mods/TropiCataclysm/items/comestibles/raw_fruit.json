@@ -37,7 +37,7 @@
     "name": { "str": "lulo" },
     "copy-from": "orange",
     "color": "light_red",
-    "description": "An acidic fruit found on South America and the Caribbean, it looks like a hairy tomato and is used mainly for juice and desserts.",
+    "description": "An acidic fruit found in South America and the Caribbean, it looks like a hairy tomato and is used mainly for juice and desserts.",
     "price": 90,
     "price_postapoc": 50,
     "fun": -2
