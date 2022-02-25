@@ -706,16 +706,6 @@
   },
   {
     "type": "item_action",
-    "id": "mutagen",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "mutagen_iv",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "MYCUS",
     "name": { "str": "Consume" }
   },
@@ -788,16 +778,6 @@
     "type": "item_action",
     "id": "ELECTRICSTORAGE",
     "name": { "str": "Manage external storage" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFIER",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFY_IV",
-    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",

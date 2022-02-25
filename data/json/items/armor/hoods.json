@@ -37,7 +37,7 @@
     "looks_like": "balclava",
     "color": "light_red",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],

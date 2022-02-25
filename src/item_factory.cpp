@@ -988,6 +988,35 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
         }
+
+        // calculate each body part breathability of the armor
+        // breathability is the worst breathability of any material on that portion
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            std::vector<part_material> sorted_mats = armor_data.materials;
+            std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
+            const part_material & rhs ) {
+                return lhs.id->breathability() < rhs.id->breathability();
+            } );
+
+            // now that mats are sorted least breathable to most
+            int coverage_counted = 0;
+            int combined_breathability = 0;
+            for( const part_material &mat : sorted_mats ) {
+                // this isn't perfect since its impossible to know the positions of each material relatively
+                // so some guessing is done
+                // specifically count the worst breathability then then next best with additional coverage
+                // and repeat until out of matts or fully covering.
+                combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
+                coverage_counted = std::max( mat.cover, coverage_counted );
+
+                // this covers the whole piece of armor so we can stop counting better breathability
+                if( coverage_counted == 100 ) {
+                    break;
+                }
+            }
+            // whatever isn't covered is as good as skin so 100%
+            armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
+        }
     }
 
     if( obj.comestible ) {
@@ -1465,8 +1494,6 @@ void Item_factory::init()
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
-    add_iuse( "PURIFIER", &iuse::purifier );
-    add_iuse( "PURIFY_IV", &iuse::purify_iv );
     add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
@@ -1553,8 +1580,6 @@ void Item_factory::init()
     add_actor( std::make_unique<molle_detach_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
-    add_actor( std::make_unique<mutagen_actor>() );
-    add_actor( std::make_unique<mutagen_iv_actor>() );
     add_actor( std::make_unique<deploy_tent_actor>() );
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );
@@ -3807,6 +3832,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_string( "abstract" ) ) {
         m_abstracts[ def.id ] = def;
     } else {
+        if( m_templates.count( def.id ) != 0 ) {
+            mod_tracker::check_duplicate_entries( m_templates[def.id], def );
+        }
         m_templates[ def.id ] = def;
     }
 }

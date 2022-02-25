@@ -1205,14 +1205,14 @@ astyle-all: $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
 astyle-check:
 ifdef ASTYLE_CHECK
 	$(info $(ASTYLE_BINARY) -V: $(shell $(ASTYLE_BINARY) -V))
-	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
-        else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
+	@if [ "$(findstring Needs formatting:,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+        else printf "astyle regressions found.\n$(ASTYLE_CHECK)" && false; fi
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif

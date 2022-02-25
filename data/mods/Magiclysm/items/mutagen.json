@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "manatouched_serum",
-    "name": "concentrated mana serum",
+    "name": "concentrated mana mutagenic primer",
     "weight": "250 g",
     "color": "light_blue",
     "addiction_type": "mutagen",
@@ -13,12 +13,17 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 26,
-    "description": "A very concentrated form of mana potion.  You aren't quite sure of the effects this will have…",
+    "description": "A very concentrated form of mana potion.  You need a syringe to inject it and prime your body for mutation.",
     "price": 1000,
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "MANATOUCHED" },
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the concentrated mana mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
+    },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -30,
     "fun": -15
@@ -30,7 +35,7 @@
     "color": "black",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str": "black dragon mutagen" },
-    "use_action": { "type": "mutagen", "mutation_category": "DRAGON_BLACK" }
+    "vitamins": [ [ "mutagen_black_dragon", 175 ], [ "mutagen", 125 ] ]
   },
   {
     "id": "iv_black_dragon",
@@ -39,6 +44,11 @@
     "name": "black dragon serum",
     "description": "A super-concentrated mutagen that seems swirl with the anger of a black dragon.  Do you dare leave you humanity behind and inject it?",
     "color": "black",
-    "use_action": { "type": "mutagen_iv", "mutation_category": "DRAGON_BLACK" }
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the concentrated mana mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
+    }
   }
 ]

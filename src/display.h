@@ -139,6 +139,8 @@ std::string colorized_overmap_text( const avatar &u, const int width, const int 
 // Current overmap position (coordinates)
 std::string overmap_position_text( const tripoint_abs_omt &loc );
 
+std::string current_position_text( const tripoint_abs_omt &loc );
+
 // Functions returning colorized string
 // gets the string that describes your weight
 std::string weight_string( const Character &u );

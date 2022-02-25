@@ -43,6 +43,7 @@
         ";;;;;;;;;;;;;;;;;;;;    ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbml_2_common_palette" ]
     }
   },

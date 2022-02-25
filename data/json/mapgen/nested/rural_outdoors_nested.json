@@ -126,7 +126,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -151,7 +152,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -176,7 +178,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -201,7 +204,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -229,7 +233,8 @@
         { "chance": 50, "item": "ammo_rifle_common", "x": 3, "y": 3, "repeat": [ 2, 4 ] },
         { "chance": 40, "item": "mags_rifle_common", "x": 3, "y": 3, "repeat": [ 1, 2 ] }
       ],
-      "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -253,7 +258,8 @@
         { "chance": 20, "item": "snacks", "x": 0, "y": 3, "repeat": [ 1, 3 ] },
         { "chance": 30, "item": "stash_wood", "x": 3, "y": [ 0, 3 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ]
+      "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

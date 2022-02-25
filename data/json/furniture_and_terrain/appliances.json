@@ -197,6 +197,39 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_reinforced_solar_panel",
+    "name": { "str": "reinforced solar panel" },
+    "symbol": "#",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A reinforced solar panel mounted on a frame and ready to power other appliances.",
+    "copy-from": "reinforced_solar_panel"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_solar_panel_v2",
+    "name": { "str": "upgraded solar panel" },
+    "symbol": "#",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "An upgraded solar panel mounted on a frame and ready to power other appliances.",
+    "copy-from": "solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_reinforced_solar_panel_v2",
+    "name": { "str": "upgraded reinforced solar panel" },
+    "symbol": "#",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "An upgraded reinforced solar panel mounted on a frame and ready to power other appliances.",
+    "copy-from": "reinforced_solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_battery_small",
     "name": { "str": "small grid battery" },
     "symbol": "b",
