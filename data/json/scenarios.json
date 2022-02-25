@@ -225,7 +225,7 @@
   {
     "type": "scenario",
     "name": "(un)living History",
-    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard scream and a gunshot noises",
+    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard a scream and gunshot noises.",
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",
