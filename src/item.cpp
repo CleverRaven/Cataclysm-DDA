@@ -543,7 +543,7 @@ bool item::activate_thrown( const tripoint &pos )
 
 units::energy item::set_energy( const units::energy &qty )
 {
-    if( !is_battery() ) {
+    if( !is_vehicle_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
         return 0_J;
     }
@@ -4040,7 +4040,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/,
                          int /*batch*/, bool /*debug*/ ) const
 {
-    if( !is_battery() ) {
+    if( !is_vehicle_battery() ) {
         return;
     }
 
@@ -6152,7 +6152,7 @@ std::string item::display_name( unsigned int quantity ) const
         } else if( !ammo_default().is_null() ) {
             max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
         }
-    } else if( is_battery() ) {
+    } else if( is_vehicle_battery() ) {
         show_amt = true;
         amount = to_joule( energy_remaining() );
         max_amount = to_joule( type->battery->max_capacity );
@@ -8794,6 +8794,11 @@ bool item::is_magazine() const
 
 bool item::is_battery() const
 {
+    return is_magazine() && ammo_capacity( ammo_battery );
+}
+
+bool item::is_vehicle_battery() const
+{
     return !!type->battery;
 }
 
@@ -9824,7 +9829,7 @@ int item::gun_range( const Character *p ) const
 
 units::energy item::energy_remaining() const
 {
-    if( is_battery() ) {
+    if( is_vehicle_battery() ) {
         return energy;
     }
 

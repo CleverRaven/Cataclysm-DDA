@@ -1413,6 +1413,7 @@ class item : public visitable
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
+        bool is_vehicle_battery() const;
         bool is_ammo_belt() const;
         bool is_holster() const;
         bool is_ammo() const;
