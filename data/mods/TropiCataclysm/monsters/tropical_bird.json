@@ -582,7 +582,7 @@
     "harvest": "bird_large",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_flaming", "baby_count": 1, "baby_timer": 10 },
+    "reproduction": { "baby_egg": "egg_flamingo", "baby_count": 1, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS" ]
   },
