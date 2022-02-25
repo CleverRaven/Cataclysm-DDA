@@ -46,6 +46,7 @@
         "g": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "q": "t_thconc_floor",
         "N": "t_thconc_floor",
         "Y": "t_linoleum_gray"
