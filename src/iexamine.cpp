@@ -350,7 +350,9 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
 {
     bool table_exists = false;
     std::list<item_location> on_table;
+    item_location nanofab_template;
     tripoint spawn_point;
+    bool single_use = false;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
@@ -412,7 +414,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         std::string name_list = enumerate_as_string( templatenames );
 
         //Template selection
-        item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+        nanofab_template = g->inv_map_splice( [&]( const item & e ) {
             return  std::any_of( allowed_template.begin(), allowed_template.end(),
             [&e]( const itype_id itid ) {
                 return e.typeId() == itid;
@@ -455,7 +457,8 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     here.add_item_or_charges( spawn_point, new_item );
 
     // if this template is single use
-    if( nanofab_template->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+    // also check if the template exists at all
+    if( nanofab_template && nanofab_template->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
         nanofab_template.remove_item();
     }
 }
