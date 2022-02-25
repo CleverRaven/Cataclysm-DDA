@@ -52,6 +52,7 @@ static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_scissors( "scissors" );
+static const itype_id itype_kevlar_shears("kevlar_shears");
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_water( "water" );
 
@@ -782,7 +783,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 }
 
 static std::map<quality_id, itype_id> quality_to_tool = {{
-        { qual_CUT, itype_pockknife }, { qual_SEW, itype_needle_bone }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_scissors }
+        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
     }
 };
 
