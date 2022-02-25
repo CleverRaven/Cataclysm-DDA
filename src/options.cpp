@@ -1801,14 +1801,24 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "ENABLE_ASCII_TITLE", "graphics",
+         to_translation( "Enable ASCII art on the title screen" ),
+         to_translation( "If true, shows an ASCII graphic on the title screen. If false, shows a text-only title screen." ),
+         true
+       );
+
     add( "SEASONAL_TITLE", "graphics", to_translation( "Use seasonal title screen" ),
          to_translation( "If true, the title screen will use the art appropriate for the season." ),
          true
        );
 
+    get_option( "SEASONAL_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
+
     add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
          to_translation( "Set the probability of the alternate title screen appearing." ), 0, 100, 10
        );
+
+    get_option( "ALT_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
 
     add_empty_line();
 
