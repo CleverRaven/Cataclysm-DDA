@@ -584,6 +584,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_WEAR_EFFECT",
+    "type": "json_flag",
+    "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
