@@ -144,6 +144,46 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_flamingo",
+    "name": "flamingo egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_FLAMINGO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coot",
+    "name": "coot egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_COOT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cormorant",
+    "name": "cormorant egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CORMORANT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moorhen",
+    "name": "moorhen egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_MOORHEN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grebe",
+    "name": "grebe egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GREBE",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_toad",
     "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
     "copy-from": "egg_chicken",
