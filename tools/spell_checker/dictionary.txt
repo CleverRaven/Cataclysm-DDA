@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+aberrance
 aboveground
 abso
 acausal
@@ -291,6 +292,8 @@ chasin
 chausses
 cheapshot
 cheescutter
+chelator
+chelators
 chestpiece
 chestrig
 chestwrap
@@ -688,6 +691,7 @@ glyceride
 goooood
 gooorge
 goops
+gorget
 gorgosaurus
 gowod
 gozu
@@ -1758,6 +1762,7 @@ uncleaned
 uncoils
 underbarrel
 undercovering
+undergrown
 underprepared
 underslung
 undersuit

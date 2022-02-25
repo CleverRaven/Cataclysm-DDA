@@ -624,6 +624,8 @@ class Character : public Creature, public visitable
         float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
+        /** in this case spell resistance is just the spellcraft skill for characters. */
+        int get_spell_resist() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
         float get_hit_base() const override;
@@ -736,9 +738,6 @@ class Character : public Creature, public visitable
         };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
         comfort_response_t base_comfort_value( const tripoint &p ) const;
-
-        /** Define blood loss (in percents) */
-        int blood_loss( const bodypart_id &bp ) const;
 
         /** Returns focus equilibrium cap due to fatigue **/
         int focus_equilibrium_fatigue_cap( int equilibrium ) const;
@@ -964,18 +963,23 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              std::string attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               std::string attack_vector,
                                float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                              std::string attack_vector,
                               float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                               std::string attack_vector,
                                float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
+                                std::string attack_vector,
                                 float crit_mod ) const;
 
         /** Returns true if the player should be dead */
@@ -1309,14 +1313,20 @@ class Character : public Creature, public visitable
         void mod_cost_timer( const trait_id &mut, int mod );
 
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
-        void mutate();
+        void mutate( const int &highest_category_chance, const bool use_vitamins );
+        void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+                          const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
+        void mutate_category( const mutation_category_id &mut_cat, const bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
+        bool mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+                             int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
+        bool mutate_towards( const trait_id &mut, const vitamin_id &mut_vit );
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
@@ -1324,8 +1334,12 @@ class Character : public Creature, public visitable
         bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const trait_id &flag );
+        /** Try to cross The Threshold */
+        void test_crossing_threshold( const mutation_category_id &mutation_category );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
+        /** Returns a weighted list of mutation categories based on blood vitamin levels */
+        weighted_int_list<mutation_category_id> get_vitamin_weighted_categories() const;
         /** Returns the highest mutation category */
         mutation_category_id get_highest_category() const;
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
@@ -1760,7 +1774,7 @@ class Character : public Creature, public visitable
          * possible at all. `true` indicates at least some of the liquid has been moved.
          */
         /**@{*/
-        bool pour_into( item &container, item &liquid );
+        bool pour_into( item &container, item &liquid, bool ignore_settings );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
 
@@ -2755,7 +2769,7 @@ class Character : public Creature, public visitable
          * @details Accesses level of a given vitamin.  If the vitamin_id specified does not
          * exist then this function simply returns 0.
          *
-         * @param vit ID of vitamin to check level for (ie "vitA", "vitB").
+         * @param vit ID of vitamin to check level for (ie "vitC", "iron").
          * @returns character's current level for specified vitamin
          */
         int vitamin_get( const vitamin_id &vit ) const;

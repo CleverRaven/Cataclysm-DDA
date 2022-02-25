@@ -196,6 +196,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
+        case debug_menu::debug_menu_index::EDIT_GLOBAL_VARS: return "SET_GLOBAL_VARS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -214,7 +215,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
-        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";        
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -316,7 +317,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
-            { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global vars(s) to var_list.output" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'e', _( "Edit global var(s)" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -1189,7 +1191,7 @@ static void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
     }
 }
 
@@ -1634,7 +1636,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1662,11 +1664,15 @@ static void character_edit_menu()
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprat[U]re" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
                     _( "[w]rite effect_on_condition(s) to eocs.output." ) );
+    nmenu.addentry( D_EDIT_VARS, true, 'v', "%s",
+                    _( "Edit [v]ars" ) );
+
     if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
@@ -1874,6 +1880,13 @@ static void character_edit_menu()
             wisheffect( you );
             break;
         }
+        case D_CHECK_TEMP: {
+            for( const bodypart_id &bp : you.get_all_body_parts() ) {
+                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
+                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+            }
+            break;
+        }
         case D_ASTHMA: {
             you.set_mutation( trait_ASTHMA );
             you.add_effect( effect_asthma, 10_minutes );
@@ -1896,8 +1909,24 @@ static void character_edit_menu()
         case D_WRITE_EOCS: {
             effect_on_conditions::write_eocs_to_file( you );
             popup( _( "effect_on_condition list written to eocs.output" ) );
+            break;
         }
-        break;
+        case D_EDIT_VARS: {
+            std::string key;
+            std::string value;
+            string_input_popup popup_key;
+            string_input_popup popup_val;
+            popup_key
+            .title( _( "Key" ) )
+            .width( 85 )
+            .edit( key );
+            popup_val
+            .title( _( "Value" ) )
+            .width( 85 )
+            .edit( value );
+            you.set_value( "npctalk_var_" + key, value );
+            break;
+        }
     }
 }
 
@@ -2122,7 +2151,7 @@ static void debug_menu_game_state()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
+    tripoint_abs_sm abs_sub = here.get_abs_sub();
     std::string mfus;
     std::vector<std::pair<m_flag, int>> sorted;
     sorted.reserve( m_flag::MF_MAX );
@@ -2172,7 +2201,7 @@ static void debug_menu_game_state()
 
     popup_top(
         s.c_str(),
-        player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
+        player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
         overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
@@ -2837,7 +2866,7 @@ void debug()
                     mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
-                    here.invalidate_map_cache( here.get_abs_sub().z );
+                    here.invalidate_map_cache( here.get_abs_sub().z() );
                 }
             }
             break;
@@ -2912,6 +2941,24 @@ void debug()
             }, "var_list" );
 
             popup( _( "Var list written to var_list.output" ) );
+        }
+        break;
+
+        case debug_menu_index::EDIT_GLOBAL_VARS: {
+            std::string key;
+            std::string value;
+            string_input_popup popup_key;
+            string_input_popup popup_val;
+            popup_key
+            .title( _( "Key" ) )
+            .width( 85 )
+            .edit( key );
+            popup_val
+            .title( _( "Value" ) )
+            .width( 85 )
+            .edit( value );
+            global_variables &globvars = get_globals();
+            globvars.set_global_value( "npctalk_var_" + key, value );
         }
         break;
 
@@ -2997,7 +3044,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 } // namespace debug_menu

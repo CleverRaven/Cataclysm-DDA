@@ -427,6 +427,7 @@ Currently the defined flags are as follows:
   can be provided by these flags, then each of these things can be removed
   either individually or together.  See the other entries below, such as
   `remove_all`.
+  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -460,8 +461,8 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
-| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"` `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" or "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -481,7 +482,7 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
@@ -505,8 +506,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" and "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
@@ -872,18 +873,6 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 },
 "place_item": [
     { "x": 10, "y": 1, "item": "rock" }
-]
-```
-
-### Remove items by type
-
-| Field    | Description
-| ---      | ---
-| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
-
-```json 
-"remove_items": [ 
-    { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
 ]
 ```
 
@@ -1355,9 +1344,7 @@ other half to use `cabin_palette_abandoned`.
 # Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
-updates an existing overmap tile with a specific set of changes.  Currently, it only works within
-the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
-existing maps.
+updates an existing overmap tile with a specific set of changes.
 
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields
 to support missions, as well as ways to specify which overmap tile will be updated.

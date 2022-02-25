@@ -3062,7 +3062,9 @@ void pickup_selector::apply_selection( std::vector<drop_location> selection )
 {
     for( drop_location &loc : selection ) {
         inventory_entry *entry = find_entry_by_location( loc.first );
-        set_chosen_count( *entry, loc.second + entry->chosen_count );
+        if( entry != nullptr ) {
+            set_chosen_count( *entry, loc.second + entry->chosen_count );
+        }
     }
 }
 

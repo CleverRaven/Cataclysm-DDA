@@ -231,7 +231,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
             // omp is the current overmap point, at the current z-level
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
             // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
@@ -569,7 +569,7 @@ static void draw_time( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -867,14 +867,13 @@ static void draw_loc_labels( const draw_args &args, bool minimap )
     const catacurses::window &w = args._win;
 
     werase( w );
-    // display location
-    const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
-    wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    wprintz( w, c_white, utf8_truncate( display::current_position_text( u.global_omt_location() ),
+                                        getmaxx( w ) - 13 ) );
     map &here = get_map();
     // display weather
-    if( here.get_abs_sub().z < 0 ) {
+    if( here.get_abs_sub().z() < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
@@ -1092,10 +1091,10 @@ static void draw_env_compact( const draw_args &args )
     mvwprintz( w, point( text_left, 1 ), c_light_gray, "%s",
                u.martial_arts_data->selected_style_name( u ) );
     // location
-    mvwprintz( w, point( text_left, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, point( text_left, 2 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 8 ) );
     // weather
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
@@ -1454,8 +1453,8 @@ static void draw_location_classic( const draw_args &args )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
-    mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
+    mvwprintz( w, point( 10, 0 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 13 ) );
 
     wnoutrefresh( w );
 }
@@ -1466,7 +1465,7 @@ static void draw_weather_classic( const draw_args &args )
 
     werase( w );
 
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
@@ -1535,7 +1534,7 @@ static void draw_time_classic( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {

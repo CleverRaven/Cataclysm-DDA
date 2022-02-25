@@ -109,7 +109,6 @@ static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -295,7 +294,6 @@ activity_handlers::finish_functions = {
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
@@ -1419,7 +1417,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid );
+                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1936,7 +1934,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
@@ -3110,17 +3108,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     }
     you->remove_effect( effect_under_operation );
     act->set_to_null();
-}
-
-void activity_handlers::churn_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    you->add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act->placement ), t_dirtmound );
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
-    act->set_to_null();
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::plant_seed_finish( player_activity *act, Character *you )

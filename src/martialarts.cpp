@@ -263,6 +263,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
+    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
+    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
+
     reqs.load( jo, src );
     bonuses.load( jo );
 }
@@ -371,7 +374,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "allow_melee", allow_melee, false );
+    optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
@@ -579,7 +582,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( weapon );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
-    bool all_weapons = u.martial_arts_data->selected_allow_melee();
+    bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -1159,7 +1162,7 @@ bool martialart::has_weapon( const itype_id &itt ) const
 
 bool martialart::weapon_valid( const item &it ) const
 {
-    if( allow_melee ) {
+    if( allow_all_weapons ) {
         return true;
     }
 
@@ -1236,6 +1239,40 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
+
+std::string character_martial_arts::get_valid_attack_vector( const Character &user,
+        std::vector<std::string> attack_vectors ) const
+{
+    for( auto av : attack_vectors ) {
+        if( can_use_attack_vector( user, av ) ) {
+            return av;
+        }
+    }
+
+    return "NONE";
+}
+
+bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+{
+    martialart ma = style_selected.obj();
+    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
+    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
+    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
+    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
+    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
+    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
+    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
+    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool always_ok = av == "HEAD" || av == "TORSO";
+    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
+    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
+    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
+    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
+
+    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+}
+
 bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
@@ -1260,7 +1297,8 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1293,7 +1331,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1788,7 +1827,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( ma.force_unarmed ) {
             buffer += _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
             buffer += "\n";
-        } else if( ma.allow_melee ) {
+        } else if( ma.allow_all_weapons ) {
             buffer += _( "<bold>This style can be used with all weapons.</bold>" );
             buffer += "\n";
         } else if( ma.strictly_melee ) {

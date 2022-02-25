@@ -1817,9 +1817,10 @@ std::set<matec_id> Character::get_limb_techs() const
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+    body_part_type::type arm_type = body_part_type::type::arm;
+    for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) >= 0.1 &&
+        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
             !get_part( part )->is_limb_overencumbered() ) {
             limb_count++;
         }
@@ -3691,7 +3692,8 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 {
     float limb_encumb = 0.0f;
     int num_limbs = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( part_type ) ) {
+    for( const bodypart_id &part : get_all_body_parts_of_type( part_type,
+            get_body_part_flags::primary_type ) ) {
         limb_encumb += encumb( part );
         num_limbs++;
     }
@@ -5213,24 +5215,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( const bodypart_id &bp ) const
-{
-    int hp_cur_sum = get_part_hp_cur( bp );
-    int hp_max_sum = get_part_hp_max( bp );
-
-    if( bp == body_part_leg_l || bp == body_part_leg_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_leg_l ) + get_part_hp_cur( body_part_leg_r );
-        hp_max_sum = get_part_hp_max( body_part_leg_l ) + get_part_hp_max( body_part_leg_r );
-    } else if( bp == body_part_arm_l || bp == body_part_arm_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_arm_l ) + get_part_hp_cur( body_part_arm_r );
-        hp_max_sum = get_part_hp_max( body_part_arm_l ) + get_part_hp_max( body_part_arm_r );
-    }
-
-    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
-    hp_max_sum = std::max( hp_max_sum, 1 );
-    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
-}
-
 float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
@@ -5354,7 +5338,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
                worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
-               is_wearing( itype_rm13_armor_on );
+               is_wearing( itype_rm13_armor_on ) || is_deaf();
     } else if( eff == effect_mute ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
@@ -5561,7 +5545,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
-bool Character::pour_into( item &container, item &liquid )
+bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
 {
     std::string err;
     const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
@@ -5581,7 +5565,7 @@ bool Character::pour_into( item &container, item &liquid )
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
-    liquid.charges -= container.fill_with( liquid, amount );
+    liquid.charges -= container.fill_with( liquid, amount, false, false, ignore_settings );
     inv->unsort();
 
     if( liquid.charges > 0 ) {
@@ -6954,6 +6938,18 @@ void Character::drench_mut_calc()
     }
 }
 
+/// Returns a weighted list of all mutation categories with current blood vitamin levels
+weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
+{
+    weighted_int_list<mutation_category_id> weighted_output;
+    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+        mutation_category_trait::get_all();
+    for( const auto &elem : mutation_categories ) {
+        weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
+    }
+    return weighted_output;
+}
+
 /// Returns the mutation category with the highest strength
 mutation_category_id Character::get_highest_category() const
 {
@@ -7162,15 +7158,16 @@ std::string Character::weapname() const
 {
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = current_mode->tname();
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( current_mode->gun_all_modes().size() > 1 ) {
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
             gunmode = current_mode.tname() + " ";
         }
 
-        if( current_mode->uses_magazine() || current_mode->magazine_integral() ) {
+        if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( " (empty)" );
             } else {
@@ -9391,6 +9388,19 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "THIRST", val, reduced, mod ) ) {
             mod_thirst( bound_mod_to_vals( get_thirst(), val, it.get_max_val( "THIRST", reduced ),
                                            it.get_min_val( "THIRST", reduced ) ) );
+        }
+    }
+
+    // Handle perspiration
+    val = get_effect( "PERSPIRATION", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
+            // multiplier to balance values aroud drench capacity of different body parts
+            int mult = get_part_drench_capacity( bp ) / 100;
+            mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
+                              it.get_max_val( "PERSPIRATION", reduced ) * mult,
+                              it.get_min_val( "PERSPIRATION", reduced ) * mult ) );
         }
     }
 

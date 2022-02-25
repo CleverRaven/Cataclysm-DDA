@@ -193,6 +193,7 @@ extern const flag_id flag_MUNDANE;
 extern const flag_id flag_MUSHY;
 extern const flag_id flag_MYCUS_OK;
 extern const flag_id flag_NANOFAB_TEMPLATE;
+extern const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE;
 extern const flag_id flag_NEEDS_NO_LUBE;
 extern const flag_id flag_NEEDS_UNFOLD;
 extern const flag_id flag_NEGATIVE_MONOTONY_OK;
@@ -350,6 +351,7 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
+extern const flag_id flag_NO_CLEAN;
 extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
 
@@ -372,6 +374,7 @@ class json_flag
     public:
         // used by generic_factory
         flag_id id = flag_NULL;
+        std::vector<std::pair<flag_id, mod_id>> src;
         bool was_loaded = false;
 
         json_flag() = default;

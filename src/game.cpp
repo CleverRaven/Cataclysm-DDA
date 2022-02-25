@@ -813,7 +813,7 @@ bool game::start_game()
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
     load_map( lev, /*pump_events=*/true );
 
-    int level = m.get_abs_sub().z;
+    int level = m.get_abs_sub().z();
     u.setpos( m.getlocal( project_to<coords::ms>( omtstart ) ) );
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
@@ -2117,7 +2117,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( &oThisItem );
+                        get_auto_pickup().add_rule( &oThisItem, true );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ) );
                     }
@@ -2753,7 +2753,7 @@ bool game::load( const save_t &name )
 
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
-    m.build_map_cache( m.get_abs_sub().z );
+    m.build_map_cache( m.get_abs_sub().z() );
 
     return true;
 }
@@ -3563,7 +3563,7 @@ void game::draw_minimap()
     const tripoint_abs_omt targ = u.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
 
-    const int levz = m.get_abs_sub().z;
+    const int levz = m.get_abs_sub().z();
     for( int i = -2; i <= 2; i++ ) {
         for( int j = -2; j <= 2; j++ ) {
             const point_abs_omt om( curs2 + point( i, j ) );
@@ -6601,7 +6601,7 @@ void game::zones_manager()
                 //show zone position on overmap;
                 tripoint_abs_omt player_overmap_position = u.global_omt_location();
                 tripoint_abs_omt zone_overmap =
-                    coords::project_to<coords::omt>( zones[active_index].get().get_center_point() );
+                    project_to<coords::omt>( zones[active_index].get().get_center_point() );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
             } else if( action == "ENABLE_ZONE" ) {
@@ -6797,7 +6797,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "zoom_in" );
     ctxt.register_action( "toggle_pixel_minimap" );
 
-    const int old_levz = m.get_abs_sub().z;
+    const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
     const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
 
@@ -6829,13 +6829,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-            std::string pixel_minimap_text = string_format( _( "%s - %s" ),
-                                             ctxt.get_desc( "toggle_pixel_minimap" ),
-                                             ctxt.get_action_name( "toggle_pixel_minimap" ) );
             mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
-            right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
-                         pixel_minimap_text );
+
+            if( !ctxt.keys_bound_to( "toggle_pixel_minimap" ).empty() ) {
+                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
+                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
+                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
+                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
+                             pixel_minimap_text );
+            }
 
             int first_line = 1;
             const int last_line = getmaxy( w_info ) - 2;
@@ -6912,7 +6915,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
-                           get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
+                           get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
             if( select_zone && has_first_point ) { // is blinking
@@ -9835,7 +9838,7 @@ point game::place_player( const tripoint &dest_loc )
     // Move the player
     // Start with z-level, to make it less likely that old functions (2D ones) freak out
     bool z_level_changed = false;
-    if( dest_loc.z != m.get_abs_sub().z ) {
+    if( dest_loc.z != m.get_abs_sub().z() ) {
         z_level_changed = vertical_shift( dest_loc.z );
     }
 
@@ -10077,7 +10080,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
         m.clear_vehicle_list( z );
     }
     m.rebuild_vehicle_level_caches();
-    m.access_cache( m.get_abs_sub().z ).map_memory_seen_cache.reset();
+    m.access_cache( m.get_abs_sub().z() ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =
@@ -10873,7 +10876,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     // TODO: Use u.posz() instead of m.abs_sub
-    const int z_after = m.get_abs_sub().z + movez;
+    const int z_after = m.get_abs_sub().z() + movez;
     if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to move outside allowed range of z-levels" );
         return;
@@ -11014,7 +11017,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         start_hauling( adjusted_pos );
     }
 
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
     if( !wall_cling )  {
         here.creature_on_trap( u, !force );
@@ -11059,7 +11062,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     // Try to find the stairs.
     cata::optional<tripoint> stairs;
     int best = INT_MAX;
-    const int movez = z_after - m.get_abs_sub().z;
+    const int movez = z_after - m.get_abs_sub().z();
     const bool going_down_1 = movez == -1;
     const bool going_up_1 = movez == 1;
     // If there are stairs on the same x and y as we currently are, use those
@@ -11290,7 +11293,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
 
     if( shift == point_zero ) {
         // adjust player position
-        u.setpos( tripoint( x, y, m.get_abs_sub().z ) );
+        u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
         if( z_level_changed ) {
             // Update what parts of the world map we can see
             // We may be able to see farther now that the z-level has changed.
@@ -11333,7 +11336,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
     // Also ensure the player is on current z-level
     // m.get_abs_sub().z should later be removed, when there is no longer such a thing
     // as "current z-level"
-    u.setpos( tripoint( x, y, m.get_abs_sub().z ) );
+    u.setpos( tripoint( x, y, m.get_abs_sub().z() ) );
 
     // Only do the loading after all coordinates have been shifted.
 
@@ -11345,7 +11348,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
     for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
         m.invalidate_map_cache( zlev );
     }
-    m.build_map_cache( m.get_abs_sub().z );
+    m.build_map_cache( m.get_abs_sub().z() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading
@@ -11791,10 +11794,9 @@ void game::start_calendar()
 overmap &game::get_cur_om() const
 {
     // The player is located in the middle submap of the map.
-    const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
-    const tripoint pos_om = sm_to_om_copy( sm );
-    // TODO: fix point types
-    return overmap_buffer.get( point_abs_om( pos_om.xy() ) );
+    const tripoint_abs_sm sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
+    const tripoint_abs_om pos_om = project_to<coords::om>( sm );
+    return overmap_buffer.get( pos_om.xy() );
 }
 
 std::vector<npc *> game::allies()
@@ -11955,7 +11957,8 @@ bool game::slip_down( bool check_for_traps )
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
@@ -11964,7 +11967,8 @@ bool game::slip_down( bool check_for_traps )
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );

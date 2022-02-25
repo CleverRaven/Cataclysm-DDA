@@ -41,7 +41,12 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
+      "assign_mission_target": {
+        "//": "om_special does nothing because we are at the evac_center. I added this to make the linter happy.",
+        "om_special": "evac_center",
+        "om_terrain": "evac_center_9",
+        "reveal_radius": 1
+      },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
@@ -245,7 +250,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
     "name": { "str": "In a Pickle" },
-    "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
+    "description": "Deliver 100 0.5L glass jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,

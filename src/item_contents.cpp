@@ -165,7 +165,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             listed_names.emplace_back( id, id->nname( 1 ) );
         }
         for( const itype_id &id : nearby_itypes ) {
-            if( !listed_itypes.count( id ) ) {
+            if( !listed_itypes.count( id ) && selected_pocket->is_compatible( item( id ) ).success() ) {
                 nearby_names.emplace_back( id, id->nname( 1 ) );
             }
         }
@@ -182,7 +182,11 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         for( const std::pair<itype_id, std::string> &it : nearby_names ) {
             selector_menu.addentry( add_prefix + it.second );
         }
-        selector_menu.query();
+        if( selector_menu.entries.empty() ) {
+            popup( std::string( _( "No nearby items would fit here." ) ), PF_GET_KEY );
+        } else {
+            selector_menu.query();
+        }
 
         const int selected = selector_menu.ret;
         itype_id selected_id = itype_id::NULL_ID();

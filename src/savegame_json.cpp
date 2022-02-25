@@ -132,11 +132,7 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const efftype_id effect_hypocalcemia( "hypocalcemia" );
-static const efftype_id effect_hypovitA( "hypovitA" );
-static const efftype_id effect_hypovitB( "hypovitB" );
 static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_scurvy( "scurvy" );
 
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
@@ -2168,7 +2164,7 @@ void npc::load( const JsonObject &data )
     }
 
     if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.mission_id = comp_miss_id;
+        comp_mission.miss_id = mission_id_of( comp_miss_id );
     }
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
@@ -2284,7 +2280,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", comp_mission.mission_id );
+    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );
@@ -3752,18 +3748,6 @@ void Creature::load( const JsonObject &jsin )
         }
     } else {
         jsin.read( "effects", *effects );
-    }
-
-    // Remove legacy vitamin effects - they don't do anything, and can't be removed
-    // Remove this code whenever they actually do anything (0.F or later)
-    std::set<efftype_id> blacklisted = {
-        effect_hypocalcemia,
-        effect_hypovitA,
-        effect_hypovitB,
-        effect_scurvy
-    };
-    for( const efftype_id &remove : blacklisted ) {
-        remove_effect( remove );
     }
 
     jsin.read( "values", values );

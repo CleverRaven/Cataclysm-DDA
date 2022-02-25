@@ -99,6 +99,7 @@ effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &j
     } else if( jv.test_object() ) {
         effect_on_condition inline_eoc;
         inline_eoc.load( jv.get_object(), src );
+        mod_tracker::assign_src( inline_eoc, src );
         effect_on_condition_factory.insert( inline_eoc );
         return inline_eoc.id;
     } else {

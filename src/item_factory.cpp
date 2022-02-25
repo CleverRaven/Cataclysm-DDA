@@ -686,7 +686,7 @@ void Item_factory::finalize_post( itype &obj )
                             it.encumber += sub_armor.encumber;
                             it.max_encumber += sub_armor.max_encumber;
 
-                            // get the ammount of the limb that is covered with sublocations
+                            // get the amount of the limb that is covered with sublocations
                             // for overall coverage we need to scale coverage by that
                             float scale = sub_armor.max_coverage( bp ) / 100.0;
 
@@ -770,7 +770,7 @@ void Item_factory::finalize_post( itype &obj )
                         new_limb.covers->clear();
                         new_limb.covers->set( bp );
 
-                        // get the ammount of the limb that is covered with sublocations
+                        // get the amount of the limb that is covered with sublocations
                         // for overall coverage we need to scale coverage by that
                         float scale = new_limb.max_coverage( bp ) / 100.0;
 
@@ -791,7 +791,13 @@ void Item_factory::finalize_post( itype &obj )
                 // scale the value of portion covered based on how much total is covered
                 // if you proportionally only cover 5% of the arm but overall cover 50%
                 // you actually proportionally cover 10% of the armor
-                mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+
+                // in case of 0 coverage just say the mats cover it all
+                if( it.coverage == 0 ) {
+                    mat.cover = 100;
+                } else {
+                    mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+                }
             }
         }
 
@@ -984,6 +990,35 @@ void Item_factory::finalize_post( itype &obj )
                     obj.mat_portion_total += mat.thickness * 100;
                 }
             }
+        }
+
+        // calculate each body part breathability of the armor
+        // breathability is the worst breathability of any material on that portion
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            std::vector<part_material> sorted_mats = armor_data.materials;
+            std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
+            const part_material & rhs ) {
+                return lhs.id->breathability() < rhs.id->breathability();
+            } );
+
+            // now that mats are sorted least breathable to most
+            int coverage_counted = 0;
+            int combined_breathability = 0;
+            for( const part_material &mat : sorted_mats ) {
+                // this isn't perfect since its impossible to know the positions of each material relatively
+                // so some guessing is done
+                // specifically count the worst breathability then then next best with additional coverage
+                // and repeat until out of matts or fully covering.
+                combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
+                coverage_counted = std::max( mat.cover, coverage_counted );
+
+                // this covers the whole piece of armor so we can stop counting better breathability
+                if( coverage_counted == 100 ) {
+                    break;
+                }
+            }
+            // whatever isn't covered is as good as skin so 100%
+            armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
         }
     }
 
@@ -1462,8 +1497,6 @@ void Item_factory::init()
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
     add_iuse( "PORTAL", &iuse::portal );
     add_iuse( "PROZAC", &iuse::prozac );
-    add_iuse( "PURIFIER", &iuse::purifier );
-    add_iuse( "PURIFY_IV", &iuse::purify_iv );
     add_iuse( "PURIFY_SMART", &iuse::purify_smart );
     add_iuse( "RADGLOVE", &iuse::radglove );
     add_iuse( "RADIOCAR", &iuse::radiocar );
@@ -1551,8 +1584,6 @@ void Item_factory::init()
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<modify_gunmods_actor>() );
-    add_actor( std::make_unique<mutagen_actor>() );
-    add_actor( std::make_unique<mutagen_iv_actor>() );
     add_actor( std::make_unique<deploy_tent_actor>() );
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );
@@ -1697,7 +1728,7 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
                     100 < portion.cover_ranged ) {
-                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                    msg += string_format( "coverage exceeds the maximum amount for the sub locations coverage can't exceed 100, item coverage: %d\n",
                                           portion.coverage );
                 }
             }
@@ -1705,7 +1736,7 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
                     100 < portion.cover_ranged ) {
-                    msg += string_format( "coverage exceeds the maximum ammount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                    msg += string_format( "coverage exceeds the maximum amount for the sub locations coverage can't exceed 100, item coverage: %d\n",
                                           portion.coverage );
                 }
             }
@@ -3805,6 +3836,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_string( "abstract" ) ) {
         m_abstracts[ def.id ] = def;
     } else {
+        if( m_templates.count( def.id ) != 0 ) {
+            mod_tracker::check_duplicate_entries( m_templates[def.id], def );
+        }
         m_templates[ def.id ] = def;
     }
 }
