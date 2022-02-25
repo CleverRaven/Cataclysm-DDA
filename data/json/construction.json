@@ -3236,7 +3236,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "0 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ] ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
     "pre_flags": "WIRED_WALL",
     "post_special": "done_appliance"
   },
