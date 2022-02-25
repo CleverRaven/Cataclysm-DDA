@@ -850,6 +850,16 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
+void options_manager::cOpt::setValue( bool bSetIn )
+{
+    if( sType != "bool" ) {
+        debugmsg( "tried to set a bool value to a %s option", sType );
+        return;
+    }
+    bSet = bSetIn;
+}
+
+//set value
 void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
