@@ -114,6 +114,36 @@
     "monsters": [ { "monster": "mon_curassow_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_FLAMINGO",
+    "type": "monstergroup",
+    "default": "mon_flamingo_chick",
+    "monsters": [ { "monster": "mon_flamingo_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_COOT",
+    "type": "monstergroup",
+    "default": "mon_coot_chick",
+    "monsters": [ { "monster": "mon_coot_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CORMORANT",
+    "type": "monstergroup",
+    "default": "mon_cormorant_chick",
+    "monsters": [ { "monster": "mon_cormorant_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_MOORHEN",
+    "type": "monstergroup",
+    "default": "mon_moorhen_chick",
+    "monsters": [ { "monster": "mon_moorhen_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_GREBE",
+    "type": "monstergroup",
+    "default": "mon_grebe_chick",
+    "monsters": [ { "monster": "mon_grebe_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_TOAD",
     "type": "monstergroup",
     "default": "mon_tadpole_brown",
