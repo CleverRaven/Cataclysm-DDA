@@ -27,10 +27,10 @@
     "id": "EOC_WORSEN_PORTAL_STORM",
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_STRENGTHEN", 3 ],
-        [ "EOC_PORTAL_LENGTHEN", 3 ],
-        [ "EOC_PORTAL_WEAKEN", 1 ],
-        [ "EOC_PORTAL_SHORTEN", 1 ]
+        [ "EOC_PORTAL_STRENGTHEN", { "const": 3 } ],
+        [ "EOC_PORTAL_LENGTHEN", { "const": 3 } ],
+        [ "EOC_PORTAL_WEAKEN", { "const": 3 } ],
+        [ "EOC_PORTAL_SHORTEN", { "const": 3 } ]
       ]
     }
   },
