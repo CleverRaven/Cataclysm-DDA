@@ -621,6 +621,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
 | `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
+| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
 | `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.

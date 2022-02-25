@@ -301,6 +301,15 @@ resistances &resistances::operator+=( const resistances &other )
     return *this;
 }
 
+resistances resistances::operator*( float mod ) const
+{
+    resistances ret;
+    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
+        ret.resist_vals[ i ] = this->resist_vals[ i ] * mod;
+    }
+    return ret;
+}
+
 static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "pure" ), damage_type::PURE },
     { translate_marker_context( "damage type", "biological" ), damage_type::BIOLOGICAL },

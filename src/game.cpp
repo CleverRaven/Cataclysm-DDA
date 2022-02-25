@@ -11957,7 +11957,8 @@ bool game::slip_down( bool check_for_traps )
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
@@ -11966,7 +11967,8 @@ bool game::slip_down( bool check_for_traps )
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );

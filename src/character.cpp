@@ -1817,9 +1817,10 @@ std::set<matec_id> Character::get_limb_techs() const
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+    body_part_type::type arm_type = body_part_type::type::arm;
+    for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) >= 0.1 &&
+        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
             !get_part( part )->is_limb_overencumbered() ) {
             limb_count++;
         }
@@ -3691,7 +3692,8 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 {
     float limb_encumb = 0.0f;
     int num_limbs = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( part_type ) ) {
+    for( const bodypart_id &part : get_all_body_parts_of_type( part_type,
+            get_body_part_flags::primary_type ) ) {
         limb_encumb += encumb( part );
         num_limbs++;
     }
