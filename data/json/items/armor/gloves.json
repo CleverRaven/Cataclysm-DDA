@@ -55,7 +55,7 @@
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
@@ -71,7 +71,7 @@
     "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
     "copy-from": "chainmail_hands",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_hands",
@@ -80,7 +80,7 @@
     "looks_like": "chainmail_hands",
     "name": { "str": "pair of XS chainmail gloves", "str_pl": "pairs of XS chainmail gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_chainmail_hands",
@@ -1119,7 +1119,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
@@ -1136,29 +1136,17 @@
   {
     "id": "xl_lc_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL mild steel demi-gauntlet" },
     "copy-from": "lc_demi_gaunt",
+    "name": { "str_sp": "XL mild steel demi-gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "mc_demi_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_demi_gaunt",
     "name": { "str_sp": "medium steel demi-gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
+    "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
@@ -1175,29 +1163,16 @@
   {
     "id": "xl_mc_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL medium steel demi-gauntlet" },
     "copy-from": "mc_demi_gaunt",
+    "name": { "str_sp": "XL medium steel demi-gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_demi_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_demi_gaunt",
     "name": { "str_sp": "high steel demi-gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1222,21 +1197,8 @@
   {
     "id": "ch_demi_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_demi_gaunt",
     "name": { "str_sp": "hardened steel demi-gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1261,21 +1223,8 @@
   {
     "id": "qt_demi_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_demi_gaunt",
     "name": { "str_sp": "tempered steel demi-gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
-    "weight": "750 g",
-    "volume": "750 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE" ],
     "armor": [
       {
         "material": [
@@ -1314,7 +1263,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -1331,29 +1280,16 @@
   {
     "id": "xl_lc_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL mild steel mitten gauntlet" },
     "copy-from": "lc_mitten_gaunt",
+    "name": { "str_sp": "XL mild steel mitten gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "mc_mitten_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mitten_gaunt",
     "name": { "str_sp": "medium steel mitten gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
-    "weight": "1250 g",
-    "volume": "1250 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1370,29 +1306,16 @@
   {
     "id": "xl_mc_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL medium steel mitten gauntlet" },
     "copy-from": "mc_mitten_gaunt",
+    "name": { "str_sp": "XL medium steel mitten gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "hc_mitten_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mitten_gaunt",
     "name": { "str_sp": "high steel mitten gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
-    "weight": "1250 g",
-    "volume": "1250 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1409,29 +1332,16 @@
   {
     "id": "xl_hc_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL high steel mitten gauntlet" },
     "copy-from": "hc_mitten_gaunt",
+    "name": { "str_sp": "XL high steel mitten gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "ch_mitten_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mitten_gaunt",
     "name": { "str_sp": "hardened mitten gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
-    "weight": "1250 g",
-    "volume": "1250 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1448,29 +1358,16 @@
   {
     "id": "xl_ch_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL hardened steel mitten gauntlet" },
     "copy-from": "ch_mitten_gaunt",
+    "name": { "str_sp": "XL hardened steel mitten gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "qt_mitten_gaunt",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "lc_mitten_gaunt",
     "name": { "str_sp": "tempered steel mitten gauntlet" },
-    "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
-    "weight": "1250 g",
-    "volume": "1250 ml",
-    "price": 40000,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "bashing": 7,
-    "symbol": "[",
-    "looks_like": "fire_gauntlets",
-    "color": "light_gray",
-    "warmth": 15,
-    "environmental_protection": 1,
-    "flags": [ "STURDY", "ONLY_ONE", "UNARMED_WEAPON", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [
@@ -1487,8 +1384,8 @@
   {
     "id": "xl_qt_mitten_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL tempered steel mitten gauntlet" },
     "copy-from": "qt_mitten_gaunt",
+    "name": { "str_sp": "XL tempered steel mitten gauntlet" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
