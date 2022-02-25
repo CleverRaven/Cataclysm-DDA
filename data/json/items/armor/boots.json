@@ -865,7 +865,7 @@
     "name": { "str": "pair of leather sandals", "str_pl": "pairs of leather sandals" },
     "description": "Sturdy leather hiking sandals with a heel strap.  Offers little in the way of protection, but keeps you cool during warmer months.",
     "weight": "675 g",
-	"//": "weight is based on an average of between 1 and 2 lbs for various hiking sandals IRL.",
+    "//": "weight is based on an average of between 1 and 2 lbs for various hiking sandals IRL.",
     "volume": "250 ml",
     "price": 4000,
     "price_postapoc": 250,
