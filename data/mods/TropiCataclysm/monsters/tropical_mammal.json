@@ -548,7 +548,7 @@
   {
     "id": "mon_kangaroo_wallaby",
     "type": "MONSTER",
-    "name": { "str": "wallaby" },
+    "name": { "str": "wallaby", "str_pl": "wallabies" },
     "description": "A small to large hopping marsupial originated from Australia and New Guinea.  Even before the Cataclysm there were many feral populations of them around the world.",
     "default_faction": "herbivore",
     "bodytype": "kangaroo",
