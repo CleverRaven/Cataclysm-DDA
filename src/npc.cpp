@@ -1762,7 +1762,7 @@ void npc::on_attacked( const Creature &attacker )
     if( is_hallucination() ) {
         die( nullptr );
     }
-    if( attacker.is_avatar() && !is_enemy() ) {
+    if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
         make_angry();
         hit_by_player = true;
     }
