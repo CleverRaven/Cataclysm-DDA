@@ -2911,7 +2911,7 @@ npc_ptr basecamp::companion_crafting_choose_return( const mission_id &miss_id )
     std::map<std::string, comp_list> lists = companion_per_recipe_building_type( preliminary_npc_list );
     const std::string bldg = recipe_group::get_building_of_recipe( miss_id.parameters );
 
-    for( const npc_ptr comp : lists[bldg] ) {
+    for( const npc_ptr &comp : lists[bldg] ) {
         if( comp->companion_mission_time_ret < calendar::turn ) {
             npc_list.emplace_back( comp );
         }
