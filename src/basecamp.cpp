@@ -286,7 +286,7 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
 
 bool basecamp::can_expand()
 {
-    return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
+    return has_provides( "bed", base_camps::base_dir, directions.size());
 }
 
 bool basecamp::has_water()
