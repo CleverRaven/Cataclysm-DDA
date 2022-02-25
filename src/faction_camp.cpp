@@ -337,7 +337,7 @@ static std::map<std::string, comp_list> companion_per_recipe_building_type( comp
 {
     std::map<std::string, comp_list> result;
 
-    for( const npc_ptr comp : npc_list ) {
+    for( const npc_ptr &comp : npc_list ) {
         const mission_id miss_id = comp->get_companion_mission().miss_id;
         const std::string bldg = recipe_group::get_building_of_recipe( miss_id.parameters );
 
@@ -2911,7 +2911,7 @@ npc_ptr basecamp::companion_crafting_choose_return( const mission_id &miss_id )
     std::map<std::string, comp_list> lists = companion_per_recipe_building_type( preliminary_npc_list );
     const std::string bldg = recipe_group::get_building_of_recipe( miss_id.parameters );
 
-    for( npc_ptr comp : lists[bldg] ) {
+    for( const npc_ptr comp : lists[bldg] ) {
         if( comp->companion_mission_time_ret < calendar::turn ) {
             npc_list.emplace_back( comp );
         }
