@@ -6005,7 +6005,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        if( has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
+            tagtext += string_format( _( " (SINGLE USE %s)" ),
+                                      nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        } else {
+            tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        }
     }
 
     if( has_flag( flag_RADIO_MOD ) ) {
