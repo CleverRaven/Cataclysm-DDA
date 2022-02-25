@@ -3939,6 +3939,33 @@
   },
   {
     "type": "construction",
+    "id": "constr_firering_underground",
+    "group": "build_fire_ring",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "15 m",
+    "qualities": [ { "id": "DIG", "level": 1 } ],
+    "components": [ [ [ "rock", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "dark_craftable": true,
+    "pre_terrain": "t_dirt_underground",
+    "post_terrain": "f_firering"
+  },
+  {
+    "type": "construction",
+    "id": "constr_firering_on_rock",
+    "group": "build_fire_ring",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "10 m",
+    "components": [ [ [ "rock", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "dark_craftable": true,
+    "pre_terrain": "t_rock_floor",
+    "post_terrain": "f_firering"
+  },
+  {
+    "type": "construction",
     "id": "constr_wall_rammed_earth",
     "group": "build_rammed_earth_wall",
     "category": "CONSTRUCT",
