@@ -1843,7 +1843,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, &mon, bp );
+        guy.roll_all_damage( crit, base_damage, true, *this, "WEAPON", &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
@@ -1868,7 +1868,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, &mon, bp );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, "WEAPON", &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -4768,9 +4768,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, nullptr, bp );
+        player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, nullptr, bp );
+        player_character.roll_all_damage( true, crit, true, *this, "WEAPON", nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {

@@ -263,6 +263,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
+    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
+    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
+
     reqs.load( jo, src );
     bonuses.load( jo );
 }
@@ -1234,6 +1237,40 @@ ma_technique character_martial_arts::get_grab_break( const Character &owner ) co
 ma_technique character_martial_arts::get_miss_recovery( const Character &owner ) const
 {
     return get_valid_technique( owner, &ma_technique::miss_recovery );
+}
+
+
+std::string character_martial_arts::get_valid_attack_vector( const Character &user,
+        std::vector<std::string> attack_vectors ) const
+{
+    for( auto av : attack_vectors ) {
+        if( can_use_attack_vector( user, av ) ) {
+            return av;
+        }
+    }
+
+    return "NONE";
+}
+
+bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+{
+    martialart ma = style_selected.obj();
+    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
+    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
+    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
+    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
+    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
+    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
+    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
+    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool always_ok = av == "HEAD" || av == "TORSO";
+    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
+    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
+    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
+    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
+
+    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const
