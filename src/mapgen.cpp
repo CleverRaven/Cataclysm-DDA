@@ -871,6 +871,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
+    setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
@@ -923,7 +924,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -2956,51 +2957,6 @@ class jmapgen_zone : public jmapgen_piece
 };
 
 /**
- * Removes items
- */
-class jmapgen_remove_items : public jmapgen_piece
-{
-    public:
-        std::vector<itype_id> items_to_remove;
-        jmapgen_remove_items( const JsonObject &jo, const std::string &/*context*/ ) {
-            for( std::string item_id : jo.get_string_array( "items" ) ) {
-                items_to_remove.emplace_back( itype_id( item_id ) );
-            }
-        }
-        mapgen_phase phase() const override {
-            return mapgen_phase::removal;
-        }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const std::string &/*context*/ ) const override {
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            std::vector<itype_id> items_to_remove_local = items_to_remove;
-            auto item_filter = [items_to_remove_local]( const item & it ) {
-                if( items_to_remove_local.empty() ) {
-                    return true;
-                }
-                for( const itype_id &item_id : items_to_remove_local ) {
-                    if( it.typeId() == item_id ) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            if( start == end ) {
-                map_selector( get_map().getlocal( start ) ).remove_items_with( item_filter );
-            } else {
-                tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
-                                                 get_map().getlocal( end ) );
-                for( const tripoint &p : range ) {
-                    map_selector( p ).remove_items_with( item_filter );
-                }
-            }
-        };
-
-};
-
-/**
  * Removes vehicles
  */
 class jmapgen_remove_vehicles : public jmapgen_piece
@@ -3797,7 +3753,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
     // with the items entry with refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
@@ -4068,7 +4023,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
     objects.load_objects<jmapgen_spawn_item>( jo, "place_item", context_ );
-    objects.load_objects<jmapgen_remove_items>( jo, "remove_items", context_ );
     objects.load_objects<jmapgen_field>( jo, "place_fields", context_ );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs", context_ );
     objects.load_objects<jmapgen_sign>( jo, "place_signs", context_ );
@@ -4231,10 +4185,13 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_ITEM_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4292,6 +4249,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.set_radiation( point( x_get(), y_get() ), val.get() );
             }
             break;
+            case JMAPGEN_SETMAP_TRAP_REMOVE: {
+                mremove_trap( &m, point( x_get(), y_get() ), trap_id( val.get() ).id() );
+            }
+            break;
+            case JMAPGEN_SETMAP_ITEM_REMOVE: {
+                m.i_clear( point( x_get(), y_get() ) );
+            }
+            break;
             case JMAPGEN_SETMAP_BASH: {
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
             }
@@ -4326,6 +4291,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mremove_trap( &m, i, trap_id( val.get() ).id() );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    m.i_clear( i );
                 }
             }
             break;
@@ -4371,6 +4344,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 }
             }
             break;
+            case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        m.i_clear( point( tx, ty ) );
+                    }
+                }
+            }
+            break;
             case JMAPGEN_SETMAP_SQUARE_RADIATION: {
                 const point c2( x_get(), y_get() );
                 const int cx2 = x2_get();
@@ -4412,10 +4396,12 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
         case JMAPGEN_SETMAP_LINE_FURN:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TER:
         case JMAPGEN_SETMAP_SQUARE_FURN:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
             end.x = x2_get();
             end.y = y2_get();
             break;
@@ -7673,7 +7659,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
                 : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( rotation, true );
                 }
             }
@@ -7681,7 +7667,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             ~rotation_guard() {
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( 4 - rotation, true );
                 }
             }
@@ -7689,9 +7675,8 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    if( !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-        rotation_guard rot( md_with_params );
-    }
+    rotation_guard rot( md_with_params );
+
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
                                    verify );
 }

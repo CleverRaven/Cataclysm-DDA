@@ -881,6 +881,20 @@
     "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
+    "result": "wool_sockmitts",
+    "type": "recipe",
+    "copy-from": "sockmitts",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "socks_wool", 1 ] ] ]
+  },
+  {
+    "result": "nomex_sockmitts",
+    "type": "recipe",
+    "copy-from": "sockmitts",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "nomex_socks", 1 ] ] ]
+  },
+  {
     "result": "thermal_gloves",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

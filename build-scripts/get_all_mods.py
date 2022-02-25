@@ -41,7 +41,7 @@ all_mod_dependencies = {}
 total_conversions = set()
 
 for info in glob.glob('data/mods/*/modinfo.json'):
-    mod_info = json.load(open(info))
+    mod_info = json.load(open(info, encoding='utf-8'))
     for e in mod_info:
         if(e["type"] == "MOD_INFO" and
                 ("obsolete" not in e or not e["obsolete"])):

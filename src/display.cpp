@@ -11,6 +11,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "timed_event.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -1165,6 +1166,14 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
     point_om_omt omt;
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
+std::string display::current_position_text( const tripoint_abs_omt &loc )
+{
+    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return _( e->string_id );
+    }
+    return overmap_buffer.ter( loc )->get_name();
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

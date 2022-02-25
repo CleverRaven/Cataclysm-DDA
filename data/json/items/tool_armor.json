@@ -1087,7 +1087,7 @@
     "description": "Covered in interlocking plates of reflective metal, this advanced suit resembles both plate armor and an astronaut's spacesuit.  Designed to protect its wearer during extra dimensional excursions, it offers unparalleled environmental protection, both in this Earth and beyond.  Use it to turn it on.",
     "price": 150000,
     "price_postapoc": 15000,
-    "material": [ "carbide", "hardsteel", "lvl4ballisticglass", "superalloy" ],
+    "material": [ "carbide", "qt_steel", "lvl4ballisticglass", "superalloy" ],
     "weight": "9500 g",
     "volume": "4500 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
@@ -1129,7 +1129,7 @@
       {
         "material": [
           { "type": "carbide", "covered_by_mat": 60, "thickness": 1.0 },
-          { "type": "hardsteel", "covered_by_mat": 30, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 30, "thickness": 1.0 },
           { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "//": "no weight is directly on your head",
@@ -1141,7 +1141,7 @@
       {
         "material": [
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "hardsteel", "covered_by_mat": 80, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 }
         ],
@@ -1152,7 +1152,7 @@
       {
         "material": [
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "hardsteel", "covered_by_mat": 60, "thickness": 1.0 }
+          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.0 }
         ],
         "//": "hands are lighter armored",
         "encumbrance": 5,
@@ -1162,7 +1162,7 @@
       {
         "material": [
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "hardsteel", "covered_by_mat": 80, "thickness": 3.0 }
+          { "type": "qt_steel", "covered_by_mat": 80, "thickness": 3.0 }
         ],
         "//": "feet are heavier armored",
         "encumbrance": 10,
@@ -1173,7 +1173,7 @@
       {
         "material": [
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "hardsteel", "covered_by_mat": 75, "thickness": 0.5 },
+          { "type": "qt_steel", "covered_by_mat": 75, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.5 }
         ],

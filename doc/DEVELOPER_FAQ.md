@@ -51,13 +51,21 @@ The comments given in source code to structure `struct overmap_special` explain 
 
 ## How armor protection is calculated
 
-1. When the player is hit at a specific body part, armor coverage determines whether the armor is hit, or an uncovered part of the player is hit (roll `1d100` against coverage).
-2. If the above roll fails (ie roll value is above coverage), then the armor does not absorb any damage from the blow, neither does it become damaged.
-3. If the above roll succeeds, the armor is hit, possibly absorbing some damage and possibly getting damaged in the process.
-4. The above steps are repeated for each layer of armor on the body part.
-5. Armor protects against bash and cut damage.  These are determined by multiplying the armor thickness by the material bash/cut resistance factor respectively, given in `materials.json`.
-6. If the armor is made from 2 materials types, then it takes a weighted average of the primary material (`66%`) and secondary material (`33%`).
-7. Materials resistance factors are given relative to `PAPER` as a material (this probably needs some fine-tuning for balance).
+1. When the player is hit at a specific body part, first a sublocation on the limb is generated from the weighted list of sublimbs
+2. For the torso location an additional secondary sublimb is chosen for items hanging off the player (like backpacks)
+3. Armor coverage determines whether any armor is hit, or an uncovered part of the player is hit (roll a single `1d100` against coverage).
+4. Go through all worn armor from the most outward clothing piece inwards. Reducing the total damage as you apply the defense of each item.
+5. If the armor doesn't cover the chosen sub body part skip it.
+6. Depending on the attack the armors melee, ranged or general coverage (which is not scaled to the overall body part and instead just how much of the sublimb it covers) is compared to the roll from above.
+7. In the future Vitals Coverage will be used to scale incoming critical damage, reducing crit multipliers but it is not implemented yet.
+8. If the above roll fails (ie roll value is above coverage), then the armor does not absorb any damage from the blow, neither does it become damaged.
+9. If the above roll succeeds, the armor is hit, possibly absorbing some damage and possibly getting damaged in the process.
+10. If the armor has ABLATIVE pockets (like ballistic vests) at this point the coverage of those plates is rolled to see if they possibly absorb some damage and possibly get damaged in the process. At most one ablative pocket on an item can apply to an attack and the coverage of the plates is scaled based on the coverage of the armor they are in. This is because if a plate covers 45% of the torso but the clothing its in only covers 50% of the torso, you already know the attack hit the jacket and the jacket is 90% (45/50) plate.
+11. Armor protects against damage.  The values are determined by multiplying the armor thickness by the materials individual damage type resistance factor respectively, given in `materials.json`.
+12. For simple definition armors: If the armor is made from more than 1 material types, then it divides the armors overall thickness based on proportions each is (assumes equal proportions by default). Giving a single protection value per type of damage.
+13. For complex definition armors: Each material on each limb/sublimb can have a specific thickness and also an amount of the overall armored portion that it covers (proportional_coverage). Each individual material is rolled against its proportional_coverage vs `1d100` to see if it applies to any given attack. That is why some armors have a red (worst case) percent, green (best case) percent and a median protection value now because an armor itself can have variable protection for any given attack. This is to simulate armor with padding or plating that don't fully cover it.
+
+Specifically to ablative plates, some transform when damaged instead of damaging normally. The chance of transforming scales based on damage taken.
 
 ## Adding an iuse function.
 
