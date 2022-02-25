@@ -26,6 +26,7 @@ AMMO_TYPE_WHITELIST = {
     'm235',  # Rocket
     'metal_rail',
     'nail',
+	'screw',
     'paintball',
     'pebble',
     'plasma',
