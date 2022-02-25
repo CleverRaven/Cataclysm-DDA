@@ -3832,6 +3832,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_string( "abstract" ) ) {
         m_abstracts[ def.id ] = def;
     } else {
+        if( m_templates.count( def.id ) != 0 ) {
+            mod_tracker::check_duplicate_entries( m_templates[def.id], def );
+        }
         m_templates[ def.id ] = def;
     }
 }
