@@ -35,5 +35,27 @@
     "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
     "dispersion": 180,
     "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
+  },
+  {
+    "id": "screw",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "screw" },
+    "description": "A twisted pin-shaped piece of iron, can be used to construct various things with a screwdriver.",
+    "weight": "4 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "cyan",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "screw",
+    "loudness": 0,
+    "range": 3,
+    "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
+    "dispersion": 180,
+    "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
   }
 ]
