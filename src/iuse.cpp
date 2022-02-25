@@ -3516,7 +3516,7 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         if( here.bash_resistance( pnt ) > max_mining_ability ) {
             p->add_msg_if_player( m_info,
-                                  _( "The material is so hard that you hardly can make even a dent." ) );
+                                  _( "The material is too hard for you to even make a dent." ) );
         }
         return cata::nullopt;
     }
@@ -3632,7 +3632,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         if( here.bash_resistance( pnt ) > max_mining_ability ) {
             p->add_msg_if_player( m_info,
-                                  _( "The material is so hard that you can't even make a dent." ) );
+                                  _( The material is too hard for you to even make a dent." ) );
         }
         return cata::nullopt;
     }
