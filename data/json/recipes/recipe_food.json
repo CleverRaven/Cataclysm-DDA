@@ -1893,7 +1893,7 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 20, 1 ],
+    "batch_time_factors": [ 90, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
