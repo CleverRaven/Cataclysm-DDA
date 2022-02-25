@@ -9395,6 +9395,19 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle perspiration
+    val = get_effect( "PERSPIRATION", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
+            // multiplier to balance values aroud drench capacity of different body parts
+            int mult = get_part_drench_capacity( bp ) / 100;
+            mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
+                              it.get_max_val( "PERSPIRATION", reduced ) * mult,
+                              it.get_min_val( "PERSPIRATION", reduced ) * mult ) );
+        }
+    }
+
     // Handle fatigue
     val = get_effect( "FATIGUE", reduced );
     // Prevent ongoing fatigue effects while asleep.

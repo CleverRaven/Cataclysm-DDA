@@ -1509,14 +1509,27 @@
   },
   {
     "type": "effect_type",
+    "id": "wet",
+    "name": [ "Damp", "Wet", "Soaked" ],
+    "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
+    "max_intensity": 3,
+    "part_descs": true
+  },
+  {
+    "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
-    "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
+    "desc": [ "Your %s feels warm.", "Your %s is hot.", "Your %s is burning up!" ],
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "thirst_tick": [ 2400 ],
-      "thirst_chance": [ 2 ],
+      "//": "thirst is ml / 5 someone doing exercise in the sun burns between 500mL to 1000mL extra an hour as sweat so 1.5 thirst a minute split between 10 body parts",
+      "thirst_min": [ 1 ],
+      "thirst_tick": [ 60 ],
+      "thirst_chance": [ 6 ],
+      "perspiration_min": [ 2 ],
+      "perspiration_tick": [ 60 ],
+      "perspiration_chance": [ 1 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
       "pain_max_val": [ -1 ],
@@ -1524,7 +1537,14 @@
       "hurt_chance": [ -300 ],
       "stamina_chance": [ 2 ]
     },
-    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
+    "scaling_mods": {
+      "thirst_min": [ 1 ],
+      "perspiration_min": [ 5 ],
+      "perspiration_tick": [ -15 ],
+      "pain_max_val": [ 10 ],
+      "hurt_chance": [ 200 ],
+      "stamina_min": [ -1 ]
+    }
   },
   {
     "type": "effect_type",

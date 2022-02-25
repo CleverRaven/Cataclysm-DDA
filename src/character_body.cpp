@@ -43,6 +43,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
@@ -81,71 +82,102 @@ void Character::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
-    constexpr time_duration average_drying = 2_hours;
+    constexpr time_duration average_drying = 30_minutes;
 
-    // A modifier on drying time
-    double delay = 1.0;
-    // Weather slows down drying
-    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
-    delay = std::max( 0.1, delay );
     // Fur/slime retains moisture
+    float trait_mult = 1.0;
     if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
         has_trait( trait_LUPINE_FUR ) || has_trait( trait_CHITIN_FUR ) || has_trait( trait_CHITIN_FUR2 ) ||
         has_trait( trait_CHITIN_FUR3 ) ) {
-        delay = delay * 6 / 5;
+        trait_mult = 2.0;
     }
     if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
-        delay *= 1.5;
+        trait_mult = 4.0;
     }
 
-    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
-        // No drying this turn
-        return;
-    }
-
-    // Now per-body-part stuff
-    // To make drying uniform, make just one roll and reuse it
-    const int drying_roll = rng( 1, 80 );
+    // Weather slows down drying
+    float weather_mult = 1.0;
+    weather_mult += ( ( weather.humidity - 66.0f ) - ( weather.temperature - 65.0f ) ) / 100.0f;
+    weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_wetness( bp ) == 0 ) {
+        const int wetness = get_part_wetness( bp );
+        if( wetness == 0 ) {
+            remove_effect( effect_wet, bp );
             continue;
         }
-        // This is to normalize drying times
-        int drying_chance = bp->drying_chance;
-        const int temp_conv = get_part_temp_conv( bp );
+
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
+        const int temp_conv = get_part_temp_conv( bp );
+        float temp_mult = 1.0;
         if( temp_conv >= BODYTEMP_SCORCHING ) {
-            drying_chance *= 2;
+            temp_mult = 0.5;
         } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
-            drying_chance = drying_chance * 3 / 2;
+            temp_mult = 0.67;
         } else if( temp_conv >= BODYTEMP_HOT ) {
-            drying_chance = drying_chance * 4 / 3;
+            temp_mult = 0.75;
         } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
-            drying_chance = drying_chance * 3 / 4;
+            temp_mult = 1.2;
         }
 
-        if( drying_chance < 1 ) {
-            drying_chance = 1;
-        }
+        // Make clothing slow down drying
+        float clothing_mult = 1.0;
+        for( const item &i : worn ) {
+            if( i.covers( bp ) ) {
+                const float item_coverage = static_cast<float>( i.get_coverage( bp ) ) / 100;
+                const float item_breathability = static_cast<float>( i.breathability( bp ) ) / 100;
 
-        // TODO: Make evaporation reduce body heat
-        if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, bp->drying_increment * -1 );
-            if( get_part_wetness( bp ) < 0 ) {
-                set_part_wetness( bp, 0 );
+                // breathability of naked skin + breathability of item
+                const float breathability = ( 1.0 - item_coverage ) + item_coverage * item_breathability;
+
+                clothing_mult = std::min( clothing_mult, breathability );
             }
         }
+
+        // always some evaporation even if completely covered
+        // doesn't handle things that would be "air tight"
+        clothing_mult = std::max( clothing_mult, .1f );
+
+        const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+                                     temp_mult / clothing_mult;
+        const float turns_to_dry = to_turns<float>( drying );
+
+        const int drench_cap = get_part_drench_capacity( bp );
+        const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
+        mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
+
+
+        // Make evaporation reduce body heat
+        // if under 50 in the menu or 7500 temp_conv you should be able to regulate temperature by sweating
+        // with current calcs a character moving towards 7500 heat will at most move 5 temperature points
+        // down to not having a slowdown
+        if( !bp->has_flag( json_flag_IGNORE_TEMP ) ) {
+            mod_part_temp_cur( bp, roll_remainder( 4 * clothing_mult ) * -1 );
+        }
+
         // Safety measure to keep wetness within bounds
+        if( get_part_wetness( bp ) < 0 ) {
+            set_part_wetness( bp, 0 );
+        }
         if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
             set_part_wetness( bp, get_part_drench_capacity( bp ) );
         }
+
+        // Add effects to track wetness
+        const int updatedWetness = get_part_wetness( bp );
+        const int wetnessCapacity = get_part_drench_capacity( bp );
+        if( updatedWetness < wetnessCapacity * .3 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 1 );
+        } else if( updatedWetness < wetnessCapacity * .6 ) {
+            add_effect( effect_wet, 1_turns, bp, true, 2 );
+        } else if( updatedWetness < wetnessCapacity ) {
+            add_effect( effect_wet, 1_turns, bp, true, 3 );
+        }
     }
-    // TODO: Make clothing slow down drying
 }
 
 void Character::update_body()
@@ -567,6 +599,7 @@ void Character::update_bodytemp()
             set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + cur_temp_conv +
                                rounding_error ) );
         }
+
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
@@ -594,18 +627,27 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 1 );
         } else if( temp_after > BODYTEMP_SCORCHING && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_SCORCHING + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
         } else if( temp_after > BODYTEMP_VERY_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_VERY_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
+            } else {
+                add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
             }
         } else if( temp_after > BODYTEMP_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
-            if( bp->main_part == bp.id() ) {
+            // if a main part and past the additional threshold for heat tolerance
+            if( bp->main_part == bp.id() && temp_after > BODYTEMP_HOT + BODYTEMP_THRESHOLD ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
+            } else {
+                remove_effect( effect_hot_speed, bp );
             }
         } else {
             remove_effect( effect_cold, bp );
