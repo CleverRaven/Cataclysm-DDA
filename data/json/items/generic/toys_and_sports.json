@@ -196,7 +196,7 @@
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
-    "longest_side": "75 mm",
+    "longest_side": "75 cm",
     "bashing": 6,
     "to_hit": -1
   },
@@ -213,7 +213,7 @@
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
-    "longest_side": "26 mm",
+    "longest_side": "26 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -230,7 +230,7 @@
     "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
-    "longest_side": "27 mm",
+    "longest_side": "27 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -281,7 +281,7 @@
     "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
-    "longest_side": "180 mm",
+    "longest_side": "180 cm",
     "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],
