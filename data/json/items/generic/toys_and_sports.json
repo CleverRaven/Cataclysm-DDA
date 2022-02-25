@@ -176,7 +176,7 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
     "longest_side": "29 cm",
@@ -196,7 +196,7 @@
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
-    "longest_side": "75 cm",
+    "longest_side": "239 mm",
     "bashing": 6,
     "to_hit": -1
   },

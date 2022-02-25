@@ -83,7 +83,7 @@
     "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
     "weight": "2940 g",
     "volume": "750 ml",
-    "longest_side": "43 cm",
+    "longest_side": "44 cm",
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -3,
