@@ -352,7 +352,6 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     std::list<item_location> on_table;
     item_location nanofab_template;
     tripoint spawn_point;
-    bool single_use = false;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
