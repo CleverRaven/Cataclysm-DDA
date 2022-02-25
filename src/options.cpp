@@ -1813,7 +1813,7 @@ void options_manager::add_options_graphics()
 
     add( "ENABLE_ASCII_TITLE", "graphics",
          to_translation( "Enable ASCII art on the title screen" ),
-         to_translation( "If true, shows an ASCII graphic on the title screen. If false, shows a text-only title screen." ),
+         to_translation( "If true, shows an ASCII graphic on the title screen.  If false, shows a text-only title screen." ),
          true
        );
 
