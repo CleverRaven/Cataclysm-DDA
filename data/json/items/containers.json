@@ -2392,5 +2392,31 @@
     ],
     "charges_per_use": 1,
     "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "blocked_funnel",
+    "name": { "str": "blocked funnel", "str_pl": "blocked funnels" },
+    "description": "A funnel blocked with a piece of clay so it can hold liquid.",
+    "type": "GENERIC",
+    "category": "container",
+    "symbol": ":",
+    "color": "yellow",
+    "weight": "680 g",
+    "volume": "620 ml",
+    "price": 500,
+    "price_postapoc": 25,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": [ "plastic", "clay" ],
+    "pocket_data": [
+      {
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   }
 ]
