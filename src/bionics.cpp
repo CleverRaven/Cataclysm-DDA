@@ -170,7 +170,6 @@ static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_hardsteel( "hardsteel" );
 static const material_id material_iron( "iron" );
 static const material_id material_steel( "steel" );
 
@@ -995,7 +994,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
         static const std::set<material_id> affected_materials =
-        { material_iron, material_steel, material_hardsteel, material_budget_steel };
+        { material_iron, material_steel, material_lc_steel, material_mc_steel, material_hc_steel, material_ch_steel, material_qt_steel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;

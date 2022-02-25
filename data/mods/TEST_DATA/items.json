@@ -1109,7 +1109,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "hardsteel", "covered_by_mat": 5, "thickness": 1 }
+          { "type": "qt_steel", "covered_by_mat": 5, "thickness": 1 }
         ],
         "encumbrance": 7
       }

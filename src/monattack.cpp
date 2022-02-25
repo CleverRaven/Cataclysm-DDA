@@ -166,7 +166,6 @@ static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_flesh( "flesh" );
-static const material_id material_hardsteel( "hardsteel" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_iron( "iron" );
@@ -908,6 +907,11 @@ bool mattack::pull_metal_weapon( monster *z )
         const int metal_portion = weapon.made_of( material_iron ) +
                                   weapon.made_of( material_hardsteel ) +
                                   weapon.made_of( material_steel ) +
+                                  weapon.made_of( material_lc_steel ) +
+                                  weapon.made_of( material_mc_steel ) +
+                                  weapon.made_of( material_hc_steel ) +
+                                  weapon.made_of( material_ch_steel ) +
+                                  weapon.made_of( material_qt_steel ) + 
                                   weapon.made_of( material_budget_steel );
         // Take the total portion of metal in the item into account
         const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
