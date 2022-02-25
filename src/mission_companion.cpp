@@ -2602,25 +2602,29 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         }
     }
 
-    if( available.empty() ) {
-        popup( _( "You don't have any companions ready to return…" ) );
+    return companion_choose_return(available);
+}
+
+npc_ptr talk_function::companion_choose_return(comp_list& npc_list) {
+    if (npc_list.empty()) {
+        popup(_("You don't have any companions ready to return…"));
         return nullptr;
     }
 
-    if( available.size() == 1 ) {
-        return available[0];
+    if (npc_list.size() == 1) {
+        return npc_list[0];
     }
 
     std::vector<std::string> npcs;
-    npcs.reserve( available.size() );
-    for( auto &elem : available ) {
-        npcs.push_back( elem->get_name() );
+    npcs.reserve(npc_list.size());
+    for (auto& elem : npc_list) {
+        npcs.push_back(elem->get_name());
     }
-    const size_t npc_choice = uilist( _( "Who should return?" ), npcs );
-    if( npc_choice < available.size() ) {
-        return available[npc_choice];
+    const size_t npc_choice = uilist(_("Who should return?"), npcs);
+    if (npc_choice < npc_list.size()) {
+        return npc_list[npc_choice];
     }
-    popup( _( "No one returns to your party…" ) );
+    popup(_("No one returns to your party…"));
     return nullptr;
 }
 

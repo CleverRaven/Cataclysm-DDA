@@ -225,6 +225,7 @@ npc_ptr companion_choose_return( const npc &p, const mission_id &miss_id,
 npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const mission_id &miss_id, const time_point &deadline,
                                  const bool by_mission = true, const bool ignore_parameters = false );
+npc_ptr companion_choose_return(comp_list &npc_list);
 
 //Return NPC to your party
 void companion_return( npc &comp );
