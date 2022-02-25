@@ -1,0 +1,340 @@
+[
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU",
+    "//": "Overall menu for all Robofac projects",
+    "type": "talk_topic",
+    "dynamic_line": "Sure, what project would you like to know about?",
+    "responses": [
+      {
+        "text": "How goes work on the armor disk?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "The armor disk should be complete by now right?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
+      },
+      {
+        "text": "[6 HGC] I'd like to buy the rest of the armor set",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
+            { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 6 },
+          { "u_spawn_item": "robofac_military_skirt" },
+          { "u_spawn_item": "robofac_military_vambraces" },
+          { "u_spawn_item": "robofac_military_greaves" },
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "no" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'd like to request a Hybrid Weapons Platform.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST"
+      },
+      {
+        "text": "How goes work on the HWP?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": "<", "time": "7 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "The HWP should be complete by now right?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "op": ">", "time": "7 d" },
+            {
+              "not": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH"
+      },
+      {
+        "text": "Can I get some HWP mags?",
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_MAG_BUY"
+      },
+      {
+        "text": "My phase immersion suit has taken a serious beating.  Could someone repair it for me?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "phase_immersion_suit", "count": 1 } },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR"
+      },
+      {
+        "text": "How are my armor repairs coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            {
+              "u_has_var": "u_current_project",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "phase_immersion_suit"
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "How are my armor repairs coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            {
+              "u_has_var": "u_current_project",
+              "type": "dialogue",
+              "context": "hub_rnd",
+              "value": "phase_immersion_suit"
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING",
+    "//": "default response to any project that isn't completed",
+    "type": "talk_topic",
+    "dynamic_line": "Sorry progress on that is still ongoing.",
+    "responses": [
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_NO",
+    "//": "default response to any project that isn't allowed",
+    "type": "talk_topic",
+    "dynamic_line": "Equipment production is restricted to trusted field agents.  Prove your worth, or get someone from the organization to vouch for your competency.",
+    "responses": [ { "text": "I see.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_GUN_YES",
+    "//": "quick access to prototype menu through the merc vouching",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, your performance has been noted.  We will allow access to our prototype services for agents in the field.  This includes the Hybrid Weapons Platform.",
+    "speaker_effect": { "effect": [ { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } ] },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH",
+    "//": "armor reward blurb after waiting",
+    "type": "talk_topic",
+    "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuverability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
+    "speaker_effect": { "effect": { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" } },
+    "responses": [
+      {
+        "text": "[6 HGC] I'll take it now.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
+        "effect": [
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_sell_item": "RobofacCoin", "count": 6 },
+          { "u_spawn_item": "robofac_military_skirt" },
+          { "u_spawn_item": "robofac_military_vambraces" },
+          { "u_spawn_item": "robofac_military_greaves" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "What about another project?",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
+      },
+      {
+        "text": "I want to talk about something else.",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "I'll check in later.",
+        "effect": [
+          { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "robofac_military_mantle" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RIFLE_REQUEST",
+    "//": "buying an HWP",
+    "type": "talk_topic",
+    "dynamic_line": "Very well the Hybrid Weapons Platform will be printed with a 5.56 NATO, 7.62 NATO, 9mm, and shot-shell barrel with additional adaptors, two magazines for each caliber and a convenient tool bag.  Materials will require you to provide 8 coins up front and it will take 7 days to manufacture.",
+    "responses": [
+      {
+        "text": "[8 HGC] A week is fine.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_add_faction_trust": 2 },
+          { "u_add_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH",
+    "//": "getting an HWP",
+    "type": "talk_topic",
+    "dynamic_line": "The weapon is complete.  I have been instructed to remind all operatives that they must install a barrel in the HWP for it to work as a gun.  Here are the requested items.  If you require more magazines of any caliber we can sell those directly at 1 coin for 2 mags.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_spawn_item": "robofac_gun" },
+          { "u_spawn_item": "robofac_gun_ar" },
+          { "u_spawn_item": "robofac_gun_smg" },
+          { "u_spawn_item": "robofac_gun_dmr" },
+          { "u_spawn_item": "robofac_gun_shotgun" },
+          { "u_spawn_item": "robofac_gun_kit" },
+          { "u_spawn_item": "robofac40", "count": 2 },
+          { "u_spawn_item": "robofac60", "count": 2 },
+          { "u_spawn_item": "robofac20", "count": 2 },
+          { "u_spawn_item": "robofac10", "count": 2 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR",
+    "//": "repairing Phase Immersion Suit",
+    "type": "talk_topic",
+    "dynamic_line": "Certainly, for 1 coin someone can get repairs and adjustments completed by tomorrow.  We'll also pull suit metrics and haptic data to better understand the situation on the ground.",
+    "responses": [
+      {
+        "text": "[1 HGC] See you tomorrow.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "u_sell_item": "phase_immersion_suit", "count": 1 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          {
+            "u_add_var": "u_current_project",
+            "type": "dialogue",
+            "context": "hub_rnd",
+            "value": "phase_immersion_suit"
+          }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE",
+    "//": "repairing Phase Immersion Suit",
+    "type": "talk_topic",
+    "dynamic_line": "The repairs and tuneup is complete.  Should be good as new or better.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_spawn_item": "phase_immersion_suit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
+    "//": "Buying HWP Magazines",
+    "type": "talk_topic",
+    "dynamic_line": "Certainly we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
+    "responses": [
+      {
+        "text": "[1 HGC] I'll take a 5.56 NATO mag.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac40", "count": 1 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[1 HGC] I'll take a 7.62 NATO mag.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac20", "count": 1 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[1 HGC] I'll take a 9mm Parabellum mag.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac60", "count": 1 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[1 HGC] I'll take a pair of shotgun mags.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac10", "count": 2 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  }
+]
