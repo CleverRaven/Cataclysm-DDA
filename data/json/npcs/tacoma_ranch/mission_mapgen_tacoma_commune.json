@@ -35,8 +35,9 @@
         "##",
         "  "
       ],
-      "terrain": { "#": "t_dirt" },
-      "furniture": { "#": "f_makeshift_bed" }
+      "terrain": { "#": "t_dirtfloor" },
+      "furniture": { "#": "f_makeshift_bed" },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
