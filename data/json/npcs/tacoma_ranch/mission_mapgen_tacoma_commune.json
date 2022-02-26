@@ -99,7 +99,7 @@
         "   .........w       ",
         "   wwww00wwww       "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirt", "0": "t_window_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "0": "t_window_empty" }
     }
   },
   {
@@ -233,7 +233,7 @@
         "+": "t_door_c",
         ",": "t_dirt",
         "q": "t_wall_half",
-        "0": "t_window_frame"
+        "0": "t_window_empty"
       },
       "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
     }
@@ -661,7 +661,7 @@
         "       wwwwwww  ",
         "                "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty" }
     }
   },
   {
