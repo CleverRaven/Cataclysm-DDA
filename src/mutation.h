@@ -233,6 +233,8 @@ struct mutation_branch {
         cata::optional<float> stomach_size_multiplier = cata::nullopt;
         // the modifier for the vomit chance
         cata::optional<float> vomit_multiplier = cata::nullopt;
+        // the modifier for sweat ammount
+        cata::optional<float> sweat_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         cata::optional<float> overmap_sight = cata::nullopt;
