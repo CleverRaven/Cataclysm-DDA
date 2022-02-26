@@ -806,7 +806,8 @@ void Item_factory::finalize_post( itype &obj )
                 if( it.coverage == 0 ) {
                     mat.cover = 100;
                 } else {
-                    mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+                    mat.cover = std::round( static_cast<float>( mat.cover ) / ( static_cast<float>
+                                            ( it.coverage ) / 100.0f ) );
                 }
             }
         }
