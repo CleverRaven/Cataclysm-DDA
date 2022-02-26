@@ -2473,7 +2473,7 @@
     "epower": 1,
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
-    "description": "A long orange extension chord for connecting appliances.  Currently plugged in.",
+    "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
     "item": "extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],

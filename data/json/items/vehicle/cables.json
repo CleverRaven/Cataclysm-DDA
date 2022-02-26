@@ -22,9 +22,10 @@
   {
     "type": "TOOL",
     "id": "extension_cable",
-    "name": { "str": "extension chord" },
-    "description": "A long orange extension chord for connecting appliances.  Could be used on vehicles and other electrical systems.",
-    "copy-from": "jumper_cable"
+    "name": { "str": "extension cord" },
+    "description": "A long orange extension cord for connecting appliances.  Could be used on vehicles and other electrical systems.",
+    "copy-from": "jumper_cable",
+    "use_action": [ "CORD_ATTACH" ]
   },
   {
     "type": "TOOL",
