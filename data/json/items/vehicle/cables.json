@@ -21,6 +21,13 @@
   },
   {
     "type": "TOOL",
+    "id": "extension_cable",
+    "name": { "str": "extension chord" },
+    "description": "A long orange extension chord for connecting appliances.  Could be used on vehicles and other electrical systems.",
+    "copy-from": "jumper_cable"
+  },
+  {
+    "type": "TOOL",
     "id": "hd_tow_cable",
     "name": { "str": "heavy duty tow cable" },
     "description": "An extremely heavy duty tow cable made from thick steel wire.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
