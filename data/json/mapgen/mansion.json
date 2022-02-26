@@ -1008,7 +1008,7 @@
         "         -h&&h-         ",
         "|||||  | -h&&-- |  |||||",
         "<  |R  R -h&&h- R  R|  >",
-        "<  ŦR  R -h&&h- R  RŦ  >",
+        "<  зR  R -h&&h- R  Rз  >",
         "####R  R ------ R  R####",
         "%%%#####yT    Ty#####%%%",
         "%%..%%%##oooooo##%%%..%%",
@@ -1025,7 +1025,7 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "-": "t_carpet_green", "?": "t_carpet_green", "&": "t_carpet_green", "h": "t_carpet_green", "Ŧ": "t_door_locked" },
+      "terrain": { "-": "t_carpet_green", "?": "t_carpet_green", "&": "t_carpet_green", "h": "t_carpet_green", "з": "t_door_locked" },
       "furniture": { "&": "f_table" },
       "place_loot": [
         { "item": "laptop", "x": 19, "y": 0, "chance": 100 },
@@ -1795,9 +1795,9 @@
         "#      |+|==|+|=||     |",
         "#      |9|??|t|===   & |",
         "#|    ||||||||||||     |",
-        "#                :i  Ŧ |",
+        "#                :i  з |",
         "#i  `-```}```-`  :i    |",
-        "#i  `-```````-`  :i  Ŧ |",
+        "#i  `-```````-`  :i  з |",
         "#i  `-```````-`  :     |",
         "#i  `-```-```-`  #:):::|",
         "#   ``-`````-``        |",
@@ -1828,7 +1828,7 @@
         ")": "t_door_glass_c"
       },
       "furniture": {
-        "Ŧ": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "з": [ "f_treadmill", "f_treadmill_mechanical" ],
         "&": "f_exercise",
         "?": "f_locker",
         "‡": [ "f_ergometer", "f_ergometer_mechanical" ]
@@ -2284,7 +2284,7 @@
         ".....###xxx|++|H       #",
         ".......#||||  |lHH   cT#",
         ".[.....#bbb|  |||||+|||#",
-        "....%%.#Ŧ  +           +",
+        "....%%.#з  +           +",
         "....%%.o   |           +",
         ".......o‡  ||+|||  ||||#",
         "...[...o   |===Y|  |LLL#",
@@ -2295,7 +2295,7 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "terrain": { "-": "t_carpet_red", "e": "t_carpet_red", "=": "t_linoleum_gray", "Y": "t_linoleum_gray" },
       "furniture": {
-        "Ŧ": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "з": [ "f_treadmill", "f_treadmill_mechanical" ],
         "&": "f_exercise",
         "‡": [ "f_ergometer", "f_ergometer_mechanical" ],
         ")": "f_speaker_cabinet"

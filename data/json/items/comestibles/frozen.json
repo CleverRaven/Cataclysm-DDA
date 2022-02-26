@@ -21,7 +21,7 @@
     "material": [ "milk" ],
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "calcium", 12 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -78,7 +78,9 @@
     "description": "An all-natural cold beverage made with lemonade and sweeteners.  Tastes great when frozen.",
     "color": "white",
     "calories": 220,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 6 ] ]
+    "material": [ "water", "fruit" ],
+    "primary_material": "water",
+    "vitamins": [ [ "vitC", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -102,7 +104,7 @@
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
+    "vitamins": [ [ "calcium", 9 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -152,7 +154,7 @@
     "price_postapoc": 300,
     "calories": 330,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -167,7 +169,7 @@
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -181,7 +183,7 @@
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
+    "vitamins": [ [ "calcium", 8 ] ],
     "material": [ "milk", "egg" ]
   },
   {

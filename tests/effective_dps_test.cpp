@@ -270,12 +270,12 @@ static void make_experienced_tester( avatar &test_guy )
 static void check_staves( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "staves" ) { // typical value around 18
-        CHECK( calc_expected_dps( "i_staff" ) == 22.75 );
+        CHECK( calc_expected_dps( "i_staff" ) == 20.62 );
         CHECK( calc_expected_dps( "staff_sling" ) == 15 );
-        CHECK( calc_expected_dps( "q_staff" ) == 20.75 );
+        CHECK( calc_expected_dps( "q_staff" ) == 18.75 );
         CHECK( calc_expected_dps( "l-stick_on" ) == 17.5 );
         CHECK( calc_expected_dps( "l-stick" ) == 17.5 );
-        CHECK( calc_expected_dps( "shock_staff" ) == 21.75 );
+        CHECK( calc_expected_dps( "shock_staff" ) == 19.61 );
         CHECK( calc_expected_dps( "hockey_stick" ) == 13.75 );
         CHECK( calc_expected_dps( "pool_cue" ) == 10.0 );
         CHECK( calc_expected_dps( "broom" ) == 3.25 );
@@ -375,10 +375,6 @@ static void check_fist_weapons( const std::function<Approx( const std::string & 
         CHECK( calc_expected_dps( "bagh_nakha" ) == 14.0 );
         CHECK( calc_expected_dps( "punch_dagger" ) == 11.0 );
         CHECK( calc_expected_dps( "knuckle_katar" ) == 10.5 );
-        CHECK( calc_expected_dps( "knuckle_steel" ) == 4.0 );
-        CHECK( calc_expected_dps( "knuckle_brass" ) == 4.0 );
-        CHECK( calc_expected_dps( "knuckle_nail" ) == 4.0 );
-        CHECK( calc_expected_dps( "cestus" ) == 3.0 );
     }
 }
 

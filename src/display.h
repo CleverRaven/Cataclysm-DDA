@@ -87,7 +87,6 @@ std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
-std::pair<std::string, nc_color> health_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
@@ -139,6 +138,8 @@ point mission_arrow_offset( const avatar &you, int width, int height );
 std::string colorized_overmap_text( const avatar &u, const int width, const int height );
 // Current overmap position (coordinates)
 std::string overmap_position_text( const tripoint_abs_omt &loc );
+
+std::string current_position_text( const tripoint_abs_omt &loc );
 
 // Functions returning colorized string
 // gets the string that describes your weight

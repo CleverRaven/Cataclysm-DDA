@@ -119,7 +119,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -242,6 +241,7 @@ static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
@@ -345,6 +345,7 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
@@ -920,7 +921,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
     p->mod_healthy_mod( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
@@ -939,7 +940,7 @@ cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripo
     }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
+    p->i_add_or_drop( syringe );
     return it->type->charges_to_use();
 }
 
@@ -1199,75 +1200,8 @@ static void do_purify( Character &p )
     }
 }
 
-cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    do_purify( *p );
-    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
-        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
-    }
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    std::vector<trait_id> valid; // Which flags the player has
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.id );
-        }
-    }
-    if( valid.empty() ) {
-        p->add_msg_if_player( _( "You feel cleansed." ) );
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng( 4,
-                         valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    if( num_cured > 8 ) {
-        num_cured = 8;
-    }
-    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
-        const trait_id id = random_entry_removed( valid );
-        if( p->purifiable( id ) ) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
-        }
-        if( !p->has_trait( trait_NOPAIN ) ) {
-            p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
-            p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
-        }
-        p->mod_stored_nutr( 2 * num_cured );
-        p->mod_thirst( 2 * num_cured );
-        p->mod_fatigue( 2 * num_cured );
-    }
-
-    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
-        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
-    }
-    return it->type->charges_to_use();
-}
-
 cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
@@ -1310,6 +1244,8 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    get_event_bus().send<event_type::administers_mutagen>( p->getID(),
+            mutagen_technique::injected_smart_purifier );
     return it->type->charges_to_use();
 }
 
@@ -1371,9 +1307,9 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
      * 1 - Mutate
      * 2 - Mutate
      * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
+     * 4 - Painkiller
+     * 5 - Painkiller
+     * 6 - Cleanse radiation + Painkiller
      * 7 - Fully satiate
      * 8 - Vomit
      * 9-12 - Give Marloss mutation
@@ -1390,7 +1326,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
-        iuse::purifier( &p, &it, false, p.pos() );
+        p.mod_pain( -40 );
         if( effect == 6 ) {
             p.set_rad( 0 );
         }
@@ -1524,7 +1460,7 @@ cata::optional<int> iuse::marloss_gel( Character *p, item *it, bool, const tripo
     return it->type->charges_to_use();
 }
 
-cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint &pos )
+cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         return it->type->charges_to_use();
@@ -1541,7 +1477,6 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
-        iuse::purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
@@ -2830,7 +2765,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
+        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
         p->activity.placement = here.getabs( pnt );
         return it->type->charges_to_use();
     } else {
@@ -4990,6 +4925,11 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
             blood_temp = map_it.temperature * 0.00001;
+
+            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
+                blood.convert( itype_blood_tainted );
+            }
+
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
@@ -5037,6 +4977,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
 
     blood.set_item_temperature( blood_temp );
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
+    p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
 }
 
@@ -7378,7 +7319,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z >= 0 && need_store_weather ) {
+    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -8888,7 +8829,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9065,7 +9006,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9179,7 +9120,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -9660,8 +9601,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                                                crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water,
                            available_cleanser]( const std::vector<std::pair<item_location, int>> &locs

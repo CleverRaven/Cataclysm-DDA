@@ -1054,34 +1054,6 @@ class detach_gunmods_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
-class mutagen_actor : public iuse_actor
-{
-    public:
-        mutation_category_id mutation_category;
-        bool is_weak = false;
-        bool is_strong = false;
-
-        mutagen_actor() : iuse_actor( "mutagen" ) {}
-
-        ~mutagen_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-class mutagen_iv_actor : public iuse_actor
-{
-    public:
-        mutation_category_id mutation_category;
-
-        mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
-
-        ~mutagen_iv_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
 class deploy_tent_actor : public iuse_actor
 {
     public:

@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
+#include "npc.h"
 #include "type_id.h"
-#include "character.h"
 
 class item;
 class json_talk_topic;
@@ -136,5 +136,9 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
                               const spell_id &id );
 
 const json_talk_topic *get_talk_topic( const std::string &id );
+
+std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
+                                   const std::string &prompt,
+                                   std::function<bool( const Character * )> exclude_func );
 
 #endif // CATA_SRC_NPCTALK_H

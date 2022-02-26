@@ -1558,15 +1558,46 @@ static std::string windows_version()
                 output.append( std::to_string( minor_version ) );
             }
         }
-        if( success && major_version == 10 ) {
+        if( success ) {
             buffer_size = c_buffer_size;
-            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+            success = RegQueryValueExA( handle_key, "CurrentBuildNumber", nullptr, &value_type, &byte_buffer[0],
                                         &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
             if( success ) {
-                output.append( " " );
-                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+                output.append( "." );
+                output.append( std::string( reinterpret_cast<char *>( &byte_buffer[0] ) ) );
+            }
+            if( success ) {
+                buffer_size = c_buffer_size;
+                success = RegQueryValueExA( handle_key, "UBR", nullptr, &value_type, &byte_buffer[0],
+                                            &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+                if( success ) {
+                    output.append( "." );
+                    output.append( std::to_string( *reinterpret_cast<const DWORD *>( &byte_buffer[0] ) ) );
+                }
+            }
+
+            // Applies to both Windows 10 and Windows 11
+            if( major_version == 10 ) {
+                buffer_size = c_buffer_size;
+                // present in Windows 10 version >= 20H2 (aka 2009) and Windows 11
+                success = RegQueryValueExA( handle_key, "DisplayVersion", nullptr, &value_type, &byte_buffer[0],
+                                            &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+
+                if( !success ) {
+                    // only accurate in Windows 10 version <= 2009
+                    buffer_size = c_buffer_size;
+                    success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                                &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+                }
+
+                if( success ) {
+                    output.append( " (" );
+                    output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+                    output.append( ")" );
+                }
             }
         }
+
 
         RegCloseKey( handle_key );
     }

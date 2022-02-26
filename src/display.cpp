@@ -11,6 +11,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "timed_event.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -205,7 +206,7 @@ std::string display::time_string( const Character &u )
     // Return exact time if character has a watch, or approximate time if aboveground
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -714,37 +715,6 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
-std::pair<std::string, nc_color> display::health_text_color( const Character &u )
-{
-    std::string h_string;
-    nc_color h_color = c_light_gray;
-
-    int current_health = u.get_healthy();
-    if( current_health < -100 ) {
-        h_string = "Horrible";
-        h_color = c_red;
-    } else if( current_health < -50 ) {
-        h_string = "Very bad";
-        h_color = c_light_red;
-    } else if( current_health < -10 ) {
-        h_string = "Bad";
-        h_color = c_yellow;
-    } else if( current_health < 10 ) {
-        h_string = "OK";
-        h_color = c_light_gray;
-    } else if( current_health < 50 ) {
-        h_string = "Good";
-        h_color = c_white;
-    } else if( current_health < 100 ) {
-        h_string = "Very good";
-        h_color = c_green;
-    } else {
-        h_string = "Excellent";
-        h_color = c_light_green;
-    }
-    return std::make_pair( _( h_string ), h_color );
-}
-
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
 {
     float scale = c.get_perceived_pain() / 10.f;
@@ -1168,7 +1138,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
                                               mission_xyz.y() <= center_xyz.y() + bottom ) &&
                               ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
                     found_mi );
 
@@ -1196,6 +1166,14 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
     point_om_omt omt;
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
+std::string display::current_position_text( const tripoint_abs_omt &loc )
+{
+    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return _( e->string_id );
+    }
+    return overmap_buffer.ter( loc )->get_name();
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

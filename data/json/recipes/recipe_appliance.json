@@ -19,6 +19,9 @@
       [ [ "sheet_metal", 20 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
       [ [ "thermostat", 1 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
@@ -42,7 +45,7 @@
     "components": [
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ] ],
-      [ [ "light_bulb", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "steel_lump", 1 ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]

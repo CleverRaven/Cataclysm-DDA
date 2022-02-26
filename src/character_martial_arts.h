@@ -37,7 +37,7 @@ class character_martial_arts
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;
-        bool selected_allow_melee() const;
+        bool selected_allow_all_weapons() const;
         bool selected_has_weapon( const itype_id &weap ) const;
         bool selected_force_unarmed() const;
         bool selected_is_none() const;
@@ -78,6 +78,11 @@ class character_martial_arts
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
 
+        /** Returns an attack vector that the player can use */
+        std::string get_valid_attack_vector( const Character &user,
+                                             std::vector<std::string> attack_vectors ) const;
+        /** Returns true if the player is able to use the given attack vector */
+        bool can_use_attack_vector( const Character &user, std::string av ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */

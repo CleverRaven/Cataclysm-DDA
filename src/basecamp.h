@@ -15,6 +15,7 @@
 #include "craft_command.h"
 #include "inventory.h"
 #include "memory_fast.h"
+#include "mission_companion.h"
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
@@ -242,7 +243,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
+        void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
@@ -253,7 +254,7 @@ class basecamp
         void place_results( const item &result );
 
         // mission description functions
-        void add_available_recipes( mission_data &mission_key, const point &dir,
+        void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
         std::string recruit_description( int npc_count );
@@ -273,88 +274,84 @@ class basecamp
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         // available companion list manipulation
         void reset_camp_workers();
-        comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
+        comp_list get_mission_workers( const mission_id &miss_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, const cata::optional<point> &opt_miss_dir );
+        bool handle_mission( const ui_mission_id &miss_id );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const skill_id &skill_tested, int skill_level );
-        npc_ptr start_mission( const std::string &miss_id, time_duration duration,
+        npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
-        void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
+        void start_upgrade( const mission_id &miss_id );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &cur_id, const point &cur_dir,
-                             const std::string &type, const std::string &miss_id );
+        void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs();
-        void start_clearcut();
-        void start_setup_hide_site();
-        void start_relay_hide_site();
+        void start_cut_logs( const mission_id miss_id );
+        void start_clearcut( const mission_id miss_id );
+        void start_setup_hide_site( const mission_id miss_id );
+        void start_relay_hide_site( const mission_id miss_id );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( std::string &bldg_exp );
+        void start_fortifications( const mission_id miss_id );
         /// Called when a companion is sent to start digging down salt water pipes
-        bool common_salt_water_pipe_construction( const point &dir, const std::string &bldg_exp,
-                const std::string &key, expansion_salt_water_pipe *pipe,
+        bool common_salt_water_pipe_construction( const mission_id &miss_id,
+                expansion_salt_water_pipe *pipe,
                 int segment_number ); //  Code factored out from the two following operation, not intended to be used elsewhere.
-        void start_salt_water_pipe( const point &dir, const std::string &bldg_exp, const std::string &key );
-        void continue_salt_water_pipe( const point &dir, const std::string &bldg_exp,
-                                       const std::string &key );
-        void start_combat_mission( const std::string &miss );
-        void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
+        void start_salt_water_pipe( const mission_id &miss_id );
+        void continue_salt_water_pipe( const mission_id &miss_id );
+        void start_combat_mission( const mission_id &miss_id );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id miss_id );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
 
         // mission return functions
         /// called to select a companion to return to the base
-        npc_ptr companion_choose_return( const std::string &miss_id, time_duration min_duration );
+        npc_ptr companion_choose_return( const mission_id &miss_id, time_duration min_duration );
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
                             const std::string &skill, int difficulty, bool cancel = false );
         /// a wrapper function for @ref companion_choose_return and @ref finish_return
-        npc_ptr mission_return( const std::string &miss_id, time_duration min_duration,
+        npc_ptr mission_return( const mission_id &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
                                 const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall();
+        npc_ptr emergency_recall( const mission_id miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
-        bool upgrade_return( const point &dir, const std::string &miss );
-        /// As above, but with an explicit blueprint recipe to upgrade
-        bool upgrade_return( const point &dir, const std::string &miss, const std::string &bldg );
+        bool upgrade_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return();
-        bool menial_return();
+        bool survey_return( const mission_id miss_id );
+        bool menial_return( const mission_id miss_id );
         /// Called when a companion completes a gathering @ref task mission
-        bool gathering_return( const std::string &task, time_duration min_time );
-        void recruit_return( const std::string &task, int score );
+        bool gathering_return( const mission_id &miss_id, time_duration min_time );
+        void recruit_return( const mission_id &miss_id, int score );
         /**
         * Perform any mix of the three farm tasks.
         * @param task
         * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op );
-        void fortifications_return();
-        bool salt_water_pipe_swamp_return( const point &dir, const std::string &miss,
-                                           const std::string &bldg, const time_duration work_days );
-        bool salt_water_pipe_return( const point &dir, const std::string &miss, const std::string &bldg,
+        bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
+        void fortifications_return( const mission_id miss_id );
+        bool salt_water_pipe_swamp_return( const mission_id &miss_id,
+                                           const time_duration work_days );
+        bool salt_water_pipe_return( const mission_id &miss_id,
                                      const time_duration work_days );
 
-        void combat_mission_return( const std::string &miss );
+        void combat_mission_return( const mission_id &miss_id );
         void validate_assignees();
         void add_assignee( character_id id );
         void remove_assignee( character_id id );

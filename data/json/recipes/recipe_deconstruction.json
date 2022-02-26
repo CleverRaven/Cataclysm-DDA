@@ -403,6 +403,14 @@
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
+    "result": "jacket_leather",
+    "type": "uncraft",
+    "time": "10 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 18 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
     "result": "rad_badge",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5826,5 +5834,23 @@
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 2 ] ] ]
+  },
+  {
+    "result": "office_letter_opener",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ] ]
   }
 ]

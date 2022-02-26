@@ -1104,7 +1104,7 @@
         "condition": { "compare_int": [ { "u_val": "cash" }, "=", { "const": 13 } ] }
       },
       {
-        "text": "Owed ammount equals 14",
+        "text": "Owed amount equals 14",
         "topic": "TALK_DONE",
         "condition": { "compare_int": [ { "u_val": "owed" }, "=", { "const": 14 } ] }
       },

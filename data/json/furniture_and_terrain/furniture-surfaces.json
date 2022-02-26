@@ -141,14 +141,8 @@
     "required_str": 10,
     "looks_like": "f_lab_bench",
     "crafting_pseudo_item": "large_surface_pseudo",
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": [ 6, 8 ] },
-        { "item": "sheet_metal", "count": 2 },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
-      ]
-    },
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "workbench", "count": 1 } ] },
     "bash": {
       "str_min": 35,
       "str_max": 80,

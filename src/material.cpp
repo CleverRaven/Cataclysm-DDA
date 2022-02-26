@@ -33,6 +33,29 @@ const material_type &string_id<material_type>::obj() const
     return material_data.obj( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<breathability_rating>( breathability_rating data )
+{
+    switch( data ) {
+        case breathability_rating::IMPERMEABLE:
+            return "IMPERMEABLE";
+        case breathability_rating::SOMEWHAT:
+            return "SOMEWHAT";
+        case breathability_rating::BREATHABLE:
+            return "BREATHABLE";
+        case breathability_rating::MOISTURE_WICKING:
+            return "MOISTURE_WICKING";
+        case breathability_rating::SECOND_SKIN:
+            return "SECOND_SKIN";
+        case breathability_rating::last:
+            break;
+    }
+    cata_fatal( "Invalid breathability" );
+}
+} // namespace io
+
 material_type::material_type() :
     id( material_id::NULL_ID() ),
     _bash_dmg_verb( to_translation( "damages" ) ),
@@ -70,6 +93,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
     optional( jsobj, was_loaded, "freezing_point", _freeze_point );
+
+    optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
@@ -147,17 +172,17 @@ itype_id material_type::repaired_with() const
     return _repaired_with;
 }
 
-int material_type::bash_resist() const
+float material_type::bash_resist() const
 {
     return _bash_resist;
 }
 
-int material_type::cut_resist() const
+float material_type::cut_resist() const
 {
     return _cut_resist;
 }
 
-int material_type::bullet_resist() const
+float material_type::bullet_resist() const
 {
     return _bullet_resist;
 }
@@ -183,17 +208,17 @@ std::string material_type::dmg_adj( int damage ) const
     return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
 }
 
-int material_type::acid_resist() const
+float material_type::acid_resist() const
 {
     return _acid_resist;
 }
 
-int material_type::elec_resist() const
+float material_type::elec_resist() const
 {
     return _elec_resist;
 }
 
-int material_type::fire_resist() const
+float material_type::fire_resist() const
 {
     return _fire_resist;
 }
@@ -226,6 +251,26 @@ float material_type::freeze_point() const
 int material_type::density() const
 {
     return _density;
+}
+
+int material_type::breathability() const
+{
+    // this is where the values for each of these exist
+    switch( _breathability ) {
+        case breathability_rating::IMPERMEABLE:
+            return 0;
+        case breathability_rating::SOMEWHAT:
+            return 30;
+        case breathability_rating::BREATHABLE:
+            return 50;
+        case breathability_rating::MOISTURE_WICKING:
+            return 80;
+        case breathability_rating::SECOND_SKIN:
+            return 100;
+        case breathability_rating::last:
+            break;
+    }
+    return 0;
 }
 
 cata::optional<int> material_type::wind_resist() const

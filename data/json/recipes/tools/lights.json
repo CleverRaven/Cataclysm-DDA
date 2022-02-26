@@ -260,9 +260,28 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "rag", 1 ], [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "oil_lamp_clay",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "earthenware_firing", 70 ] ],
+    "proficiencies": [ { "proficiency": "prof_pottery" } ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "clay_lump", 3 ] ],
+      [ [ "rag", 1 ], [ "cordage_superior_short", 1, "LIST" ] ]
     ]
   },
   {
@@ -278,7 +297,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "rag", 1 ], [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]

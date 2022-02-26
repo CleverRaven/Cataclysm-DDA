@@ -1555,6 +1555,23 @@ void npc::form_opinion( const Character &you )
     for( trait_id &mut : you.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
+    for( const bodypart_id &bp : you.get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        u_ugly += bp->ugliness_mandatory;
+        int covered = 0;
+        for( const item &i : you.worn ) {
+            if( i.covers( bp ) ) {
+                if( covered >= 100 ) {
+                    covered = 100;
+                    continue;
+                }
+                covered += i.get_coverage( bp );
+            }
+        }
+        u_ugly += bp->ugliness - ( bp->ugliness * covered / 100 );
+    }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
@@ -2628,7 +2645,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
-    // w is also 48 characters wide - 2 characters for border = 46 characters for us
+    // w is also 53 characters wide - 2 characters for border = 51 characters for us
 
     // Print health bar and NPC name on the first line.
     std::pair<std::string, nc_color> bar = get_hp_bar( hp_percentage(), 100 );
@@ -2642,10 +2659,12 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
                             iWidth - bar_max_width - 1, basic_symbol_color(), get_name() );
 
     Character &player_character = get_player_character();
-    // Hostility indicator in the second line.
+    // Hostility and current attitude indicator on the second line.
     Attitude att = attitude_to( player_character );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
     mvwprintz( w, point( column, line++ ), res.second, res.first.translated() );
+    wprintz( w, c_light_gray, ";" );
+    wprintz( w, symbol_color(), " %s", npc_attitude_name( get_attitude() ) );
 
     // Awareness indicator on the third line.
     std::string senses_str = sees( player_character ) ? _( "Aware of your presence" ) :
@@ -3415,10 +3434,10 @@ std::string npc::get_epilogue() const
            ).value_or( translation() ).translated();
 }
 
-void npc::set_companion_mission( npc &p, const std::string &mission_id )
+void npc::set_companion_mission( npc &p, const mission_id &miss_id )
 {
     const tripoint_abs_omt omt_pos = p.global_omt_location();
-    set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
+    set_companion_mission( omt_pos, p.companion_mission_role_id, miss_id );
 }
 
 std::pair<std::string, nc_color> npc::hp_description() const
@@ -3454,18 +3473,18 @@ std::pair<std::string, nc_color> npc::hp_description() const
     return std::make_pair( damage_info, col );
 }
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id )
+                                 const mission_id &miss_id )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id = mission_id;
+    comp_mission.miss_id = miss_id;
     comp_mission.role_id = role_id;
 }
 
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id, const tripoint_abs_omt &destination )
+                                 const mission_id &miss_id, const tripoint_abs_omt &destination )
 {
     comp_mission.position = omt_pos;
-    comp_mission.mission_id = mission_id;
+    comp_mission.miss_id = miss_id;
     comp_mission.role_id = role_id;
     comp_mission.destination = destination;
 }
@@ -3473,7 +3492,7 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 void npc::reset_companion_mission()
 {
     comp_mission.position = tripoint_abs_omt( -999, -999, -999 );
-    comp_mission.mission_id.clear();
+    reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
         comp_mission.destination = cata::nullopt;
@@ -3491,7 +3510,7 @@ cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
 
 bool npc::has_companion_mission() const
 {
-    return !comp_mission.mission_id.empty();
+    return comp_mission.miss_id.id != No_Mission;
 }
 
 npc_companion_mission npc::get_companion_mission() const

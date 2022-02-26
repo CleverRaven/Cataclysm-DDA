@@ -509,10 +509,11 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
 
     // if we hit the specific location then we should continue with absorption as normal
-    // create a roll for random chance of materials protecting the armor
-    int material_roll = rng( 0, 99 );
+
+
     // reduce the damage
-    armor.mitigate_damage( du, sbp, material_roll );
+    // -1 is passed as roll so that each material is rolled individually
+    armor.mitigate_damage( du, sbp, -1 );
 
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
@@ -532,10 +533,9 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         return false;
     }
 
-    // create a roll for random chance of materials protecting the armor
-    int material_roll = rng( 0, 99 );
     // reduce the damage
-    armor.mitigate_damage( du, bp, material_roll );
+    // -1 is passed as roll so that each material is rolled individually
+    armor.mitigate_damage( du, bp, -1 );
 
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );

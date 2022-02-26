@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
+#include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
 #include "subbodypart.h"
@@ -122,11 +123,13 @@ struct limb_score {
         }
     private:
         limb_score_id id;
+        std::vector<std::pair<limb_score_id, mod_id>> src;
         translation _name;
         bool wound_affect = true;
         bool encumb_affect = true;
         bool was_loaded = false;
         friend class generic_factory<limb_score>;
+        friend struct mod_tracker;
 };
 
 struct bp_limb_score {
@@ -167,9 +170,37 @@ struct body_part_type {
             num_types
         };
 
+        std::vector<std::pair<bodypart_str_id, mod_id>> src;
 
+        /** Sub-location of the body part used for encumberance, coverage and determining protection
+         */
+        std::vector<sub_bodypart_str_id> sub_parts;
+
+        cata::flat_set<json_character_flag> flags;
+        cata::flat_set<json_character_flag> conditional_flags;
+
+    private:
+        // limb score values
+        std::vector<bp_limb_score> limb_scores;
+        damage_instance damage;
+
+    public:
         bodypart_str_id id;
-        bool was_loaded = false;
+        // Legacy "string id"
+        std::string legacy_id;
+        // "Parent" of this part for damage purposes - main parts are their own "parents"
+        bodypart_str_id main_part;
+        // "Parent" of this part for connectedness - should be next part towards head.
+        // Head connects to itself.
+        bodypart_str_id connected_to;
+        // A part that has no opposite is its own opposite (that's pretty Zen)
+        bodypart_str_id opposite_part;
+
+        // A weighted list of limb types. The type with the highest weight is the primary type
+        std::map<body_part_type::type, float> limbtypes;
+
+        // Limb-specific attacks
+        std::set<matec_id> techniques;
 
         // Those are stored untranslated
         translation name;
@@ -181,17 +212,10 @@ struct body_part_type {
         translation smash_message;
         translation hp_bar_ui_text;
         translation encumb_text;
-        // Legacy "string id"
-        std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
         /** Size of the body part for melee targeting. */
         float hit_size = 0.0f;
-
-        /** Sub-location of the body part used for encumberance, coverage and determining protection
-         */
-        std::vector<sub_bodypart_str_id> sub_parts;
-
         /**
          * How hard is it to hit a given body part, assuming "owner" is hit.
          * Higher number means good hits will veer towards this part,
@@ -199,18 +223,9 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
-        // "Parent" of this part for damage purposes - main parts are their own "parents"
-        bodypart_str_id main_part;
-        // "Parent" of this part for connectedness - should be next part towards head.
-        // Head connects to itself.
-        bodypart_str_id connected_to;
-        // A part that has no opposite is its own opposite (that's pretty Zen)
-        bodypart_str_id opposite_part;
+
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
-        body_part_type::type limb_type = body_part_type::type::num_types;
-        cata::flat_set <body_part_type::type> secondary_types;
-        bool has_type( const body_part_type::type &type ) const;
 
         // Threshold to start encumbrance scaling
         int encumbrance_threshold = 0;
@@ -218,9 +233,6 @@ struct body_part_type {
         int encumbrance_limit = 0;
         // Health at which the limb stops contributing its conditional flags / techs
         int health_limit = 0;
-
-        // If true, extra encumbrance on this limb affects dodge effectiveness
-        bool encumb_impacts_dodge = false;
 
         float smash_efficiency = 0.5f;
 
@@ -236,14 +248,14 @@ struct body_part_type {
         int env_protection = 0;
 
         int base_hp = 60;
-        stat_hp_mods hp_mods;
         // Innate healing rate of the bodypart
         int heal_bonus = 0;
         float mend_rate = 1.0f;
 
-        // if a limb is vital and at 0 hp, you die.
-        bool is_vital = false;
-        bool is_limb = false;
+        // Ugliness of bodypart, can be mitigated by covering them up
+        int ugliness = 0;
+        // Ugliness that can't be covered (obviously nonstandard anatomy, even under bulky armor)
+        int ugliness_mandatory = 0;
 
         // Intrinsic temperature bonus of the bodypart
         int temp_min = 0;
@@ -255,15 +267,28 @@ struct body_part_type {
         int drying_increment = 1;
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
-        cata::flat_set<json_character_flag> flags;
-        cata::flat_set<json_character_flag> conditional_flags;
-        bool has_flag( const json_character_flag &flag ) const;
-
-        // Limb-specific attacks
-        std::set<matec_id> techniques;
         int technique_enc_limit = 50;
-        bool unarmed_bonus = false;
 
+    private:
+        int bionic_slots_ = 0;
+        body_part_type::type _primary_limb_type = body_part_type::type::num_types;
+        // Protection from various damage types
+        resistances armor;
+
+    public:
+        stat_hp_mods hp_mods;
+        bool unarmed_bonus = false;
+        // if a limb is vital and at 0 hp, you die.
+        bool is_vital = false;
+        bool is_limb = false;
+        // If true, extra encumbrance on this limb affects dodge effectiveness
+        bool encumb_impacts_dodge = false;
+
+        bool was_loaded = false;
+
+        bool has_flag( const json_character_flag &flag ) const;
+        body_part_type::type primary_limb_type() const;
+        bool has_type( const body_part_type::type &type ) const;
 
         // return a random sub part from the weighted list of subparts
         // if secondary is true instead returns a part from only the secondary sublocations
@@ -319,13 +344,6 @@ struct body_part_type {
 
         float damage_resistance( const damage_type &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
-    private:
-        int bionic_slots_ = 0;
-        // limb score values
-        std::vector<bp_limb_score> limb_scores;
-        damage_instance damage;
-        // Protection from various damage types
-        resistances armor;
 };
 
 

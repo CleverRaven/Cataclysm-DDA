@@ -492,8 +492,8 @@
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
-      [ "oxygen_tank", 10 ],
-      [ "smoxygen_tank", 5 ],
+      { "item": "oxygen_tank", "prob": 10, "charges": 24 },
+      { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
       [ "clogs", 1 ],
       [ "speargun", 8 ],
       [ "minispeargun", 6 ],
@@ -985,7 +985,7 @@
       { "item": "mayonnaise", "prob": 3 },
       { "group": "ketchup_sealed_rng", "prob": 3 },
       { "group": "mustard_sealed_rng", "prob": 3 },
-      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "cheeseburger", "prob": 10 },
       { "item": "hamburger", "prob": 8 },
       { "item": "sloppyjoe", "prob": 6 },
@@ -1654,6 +1654,7 @@
       { "item": "portable_game", "prob": 65, "charges": 100 },
       { "item": "cell_phone", "prob": 11, "charges": 150 },
       { "item": "smart_phone", "prob": 85, "charges": 120 },
+      { "item": "waterproof_smart_phone_case", "prob": 40 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
       { "group": "toy_makerspace_kit", "prob": 25 },
@@ -1987,6 +1988,10 @@
   {
     "type": "item_group",
     "id": "gunshop_accessories",
-    "items": [ { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] }, [ "ear_plugs", 80 ] ]
+    "items": [
+      { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
+      [ "ear_plugs", 80 ],
+      { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
+    ]
   }
 ]

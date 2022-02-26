@@ -1236,29 +1236,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mine Entrance",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
-      { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
-      { "point": [ 0, 1, -2 ], "overmap": "mine_shaft_lower_north" },
-      { "point": [ 1, 1, -2 ], "overmap": "mine_shaft_lower_east_north" }
-    ],
-    "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
-    ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 10, 40 ],
-    "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "Spider Pit",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "spider_pit_north" },
@@ -5947,6 +5924,15 @@
     "occurrences": [ 0, 3 ],
     "flags": [ "MI-GO" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mi-Go Portal",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mi-go_portal_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "MI-GO", "UNIQUE" ]
   },
   {
     "type": "overmap_special",

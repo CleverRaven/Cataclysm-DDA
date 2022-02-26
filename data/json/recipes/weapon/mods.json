@@ -995,6 +995,34 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "glocksear",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "pistol", 3 ] ],
+    "difficulty": 5,
+    "time": "5 h 25 m",
+    "book_learn": [ [ "manual_pistol", 5 ], [ "textbook_anarch", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "tools": [
+      [
+        [ "glock_19", -1 ],
+        [ "glock_17", -1 ],
+        [ "glock_22", -1 ],
+        [ "glock_31", -1 ],
+        [ "glock_21", -1 ],
+        [ "glock_20", -1 ],
+        [ "glock_40", -1 ],
+        [ "glock_29", -1 ]
+      ],
+      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
+    ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bow_sight",
     "category": "CC_WEAPON",
