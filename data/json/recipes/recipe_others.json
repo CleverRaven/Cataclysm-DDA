@@ -1504,7 +1504,7 @@
       [ [ "plant_cordage", 12, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ] ]
     ]
-  },  
+  },
   {
     "type": "recipe",
     "activity_level": "fake",
