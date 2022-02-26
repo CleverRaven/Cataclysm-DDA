@@ -1489,16 +1489,22 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "tailor",
-    "skills_required": [ [ "survival", 3 ] ],
+    "skills_required": [
+      [ "survival", 3 ]
+    ],
     "difficulty": 3,
     "time": "10 h",
-    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ 
+    "proficiencies": [
+      { "proficiency": "prof_basketweaving" }
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
       [ [ "plant_cordage", 12, "LIST" ] ],
-      [ [ "cordage", 2, "LIST" ] ] 
+      [ [ "cordage", 2, "LIST" ] ]
     ]
-  },
+  },  
   {
     "type": "recipe",
     "activity_level": "fake",
