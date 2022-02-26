@@ -56,8 +56,6 @@ cata::optional<int> petfood( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> plantblech( Character *, item *, bool, const tripoint & );
 cata::optional<int> poison( Character *, item *, bool, const tripoint & );
 cata::optional<int> prozac( Character *, item *, bool, const tripoint & );
-cata::optional<int> purifier( Character *, item *, bool, const tripoint & );
-cata::optional<int> purify_iv( Character *, item *, bool, const tripoint & );
 cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
