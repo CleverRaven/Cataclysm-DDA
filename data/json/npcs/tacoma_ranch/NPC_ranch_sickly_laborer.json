@@ -24,7 +24,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_JOB",
-    "dynamic_line": "I was just a laborer 'til they could find me something a bit more permanent, but being constantly sick has prevented me from doing much of anything.",
+    "dynamic_line": "I was just a laborer till they could find me something a bit more permanent, but being constantly sick has prevented me from doing much of anything.",
     "responses": [ { "text": "That's sad.", "topic": "TALK_RANCH_ILL_1" } ]
   },
   {
