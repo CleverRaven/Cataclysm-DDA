@@ -500,6 +500,8 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
+    "extras": "build",
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
@@ -552,7 +554,6 @@
       "s_apt_2_roof",
       "s_apt_upper_roof"
     ],
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
     "copy-from": "apartments_tower_any"
   },
   {

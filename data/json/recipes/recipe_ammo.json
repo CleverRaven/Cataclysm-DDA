@@ -238,7 +238,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,

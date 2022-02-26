@@ -867,11 +867,10 @@ static void draw_loc_labels( const draw_args &args, bool minimap )
     const catacurses::window &w = args._win;
 
     werase( w );
-    // display location
-    const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
-    wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    wprintz( w, c_white, utf8_truncate( display::current_position_text( u.global_omt_location() ),
+                                        getmaxx( w ) - 13 ) );
     map &here = get_map();
     // display weather
     if( here.get_abs_sub().z() < 0 ) {
@@ -1092,8 +1091,8 @@ static void draw_env_compact( const draw_args &args )
     mvwprintz( w, point( text_left, 1 ), c_light_gray, "%s",
                u.martial_arts_data->selected_style_name( u ) );
     // location
-    mvwprintz( w, point( text_left, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, point( text_left, 2 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 8 ) );
     // weather
     if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
@@ -1454,8 +1453,8 @@ static void draw_location_classic( const draw_args &args )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
-    mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
+    mvwprintz( w, point( 10, 0 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 13 ) );
 
     wnoutrefresh( w );
 }
