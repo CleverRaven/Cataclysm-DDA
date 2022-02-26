@@ -304,7 +304,7 @@
       { "monster": "mon_hummingbird", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_woodpecker", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_parrot", "weight": 35, "cost_multiplier": 0 },
-      { "monster": "mon_cockatoo", "weight": 35 "cost_multiplier": 0 },
+      { "monster": "mon_cockatoo", "weight": 35, "cost_multiplier": 0 },
       { "monster": "mon_budgerigar", "weight": 50, "cost_multiplier": 0 }
     ]
   }
