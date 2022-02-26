@@ -9171,7 +9171,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
     std::string initial_state = it->get_var( "state", "attach_first" );
 
     item_location loc;
-    avatar *you = p->as_avatar();
 
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         const std::string prev_state = it->get_var( "state" );
@@ -9193,7 +9192,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        auto ter = here.ter( posp );
         if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return cata::nullopt;
