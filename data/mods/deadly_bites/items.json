@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "antivirals" },
-    "description": "An anti-viral medication that inhibits the development of certain viruses.  One dose lasts 24 hours.  Could this, by some miracle, work against whatever the zombies are carrying?",
+    "description": "An anti-viral medication that inhibits the development of certain viruses.  One dose lasts 16 hours.  Could this, by some miracle, work against whatever the zombies are carrying?",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 9000,

@@ -24,8 +24,9 @@
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a deadly necrotic virus.",
     "remove_memorial_log": "Cured the deadly necrotic virus.",
-    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 50 ] ],
-    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 200 ] ],
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 1000 ] ],
+    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 20000 ] ],
+    "death_event": "dies_of_infection",
     "resist_effects": [ "antivirals" ],
     "max_intensity": 4,
     "int_add_val": 1,
@@ -34,7 +35,7 @@
     "rating": "bad",
     "show_intensity": false,
     "harmful_cough": true,
-    "base_mods": { "cough_chance": [ -10, -10 ], "pain_chance": [ -10, -10 ], "pain_min": [ 1, 0 ], "pain_max": [ 5, 1 ] },
-    "scaling_mods": { "cough_chance": [ 8, 5 ], "pain_chance": [ 8, 5 ] }
+    "base_mods": { "cough_chance": [ -10, -10 ], "cough_chance_bot": [ 1000, 10000 ], "pain_chance": [ -10, -10 ], "pain_chance_bot": [ 1000, 10000 ], "pain_min": [ 1, 0 ], "pain_max": [ 5, 1 ] },
+    "scaling_mods": { "cough_chance": [ 5.5, 3.5 ], "cough_chance_bot": [ 1, 5 ], "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
   }
 ]
