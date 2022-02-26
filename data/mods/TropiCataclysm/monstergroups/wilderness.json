@@ -254,8 +254,8 @@
       { "monster": "mon_parrot", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_cockatoo", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 },
-      { "monster": "mon_guinea_gowl", "weight": 10 },
-      { "monster": "mon_macaw", "weight": 10 },
+      { "monster": "mon_guinea_gowl", "weight": 10, "cost_multiplier": 0 }, },
+      { "monster": "mon_macaw", "weight": 10, "cost_multiplier": 0 } },
       {
         "monster": "mon_coati",
         "weight": 25,
