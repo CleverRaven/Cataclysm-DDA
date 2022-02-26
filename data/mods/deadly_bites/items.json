@@ -15,9 +15,9 @@
     "color": "white",
     "container": "bottle_plastic_pill_prescription",
     "use_action": {
-        "type": "effect_on_conditions",
-        "description": "Reduces the effect of certain viral infections.",
-        "effect_on_conditions": [ "EOC_CONSUMED_ANTIVIRAL" ]
+      "type": "effect_on_conditions",
+      "description": "Reduces the effect of certain viral infections.",
+      "effect_on_conditions": [ "EOC_CONSUMED_ANTIVIRAL" ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   }

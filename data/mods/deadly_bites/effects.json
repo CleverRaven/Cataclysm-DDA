@@ -35,7 +35,14 @@
     "rating": "bad",
     "show_intensity": false,
     "harmful_cough": true,
-    "base_mods": { "cough_chance": [ -10, -10 ], "cough_chance_bot": [ 1000, 10000 ], "pain_chance": [ -10, -10 ], "pain_chance_bot": [ 1000, 10000 ], "pain_min": [ 1, 0 ], "pain_max": [ 5, 1 ] },
+    "base_mods": {
+      "cough_chance": [ -10, -10 ],
+      "cough_chance_bot": [ 1000, 10000 ],
+      "pain_chance": [ -10, -10 ],
+      "pain_chance_bot": [ 1000, 10000 ],
+      "pain_min": [ 1, 0 ],
+      "pain_max": [ 5, 1 ]
+    },
     "scaling_mods": { "cough_chance": [ 5.5, 3.5 ], "cough_chance_bot": [ 1, 5 ], "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
   }
 ]
