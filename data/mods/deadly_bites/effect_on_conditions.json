@@ -1,0 +1,30 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_ANTIVIRAL",
+    "condition": { "u_has_effect": "antivirals" },
+    "effect": { "u_add_effect": "antivirals", "duration": "16 hours" },
+    "false_effect": [
+      { "u_add_effect": "antivirals", "duration": "16 hours" },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_REDUCE_ZVIRUS1",
+            "condition": { "u_has_effect": "zombie_virus", "intensity": 2 },
+            "effect": { "u_add_effect": "zombie_virus", "intensity": 1 }
+          },
+          {
+            "id": "EOC_REDUCE_ZVIRUS2",
+            "condition": { "u_has_effect": "zombie_virus", "intensity": 3 },
+            "effect": { "u_add_effect": "zombie_virus", "intensity": 2 }
+          },
+          {
+            "id": "EOC_REDUCE_ZVIRUS2",
+            "condition": { "u_has_effect": "zombie_virus", "intensity": 4 },
+            "effect": { "u_add_effect": "zombie_virus", "intensity": 3 }
+          }
+        ]
+      }
+    ]
+  }
+]

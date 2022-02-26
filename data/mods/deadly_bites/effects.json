@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "antivirals",
     "rating": "good",
-    "blocks_effects": [ "zombie_virus" ],
+    "blocks_effects": [ "zombie_virus", "flu", "common_cold" ],
     "blood_analysis_description": "Antivirals",
     "max_duration": 86400,
     "dur_add_perc": 25
