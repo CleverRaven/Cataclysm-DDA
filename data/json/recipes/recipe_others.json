@@ -1494,10 +1494,7 @@
     "time": "10 h",
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "plant_cordage", 12, "LIST" ] ],
-      [ [ "cordage", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "plant_cordage", 12, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
