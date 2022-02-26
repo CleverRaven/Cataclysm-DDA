@@ -508,7 +508,7 @@
     "copy-from": "mon_pheasant",
     "name": { "str": "guan" },
     "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on forested areas.",
-    "reproduction": { "baby_egg": "egg_tinamou", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_egg": "egg_guan", "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
