@@ -142,38 +142,70 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. There are two ways to go about this, and both will be detailed below. You can blacklist entire monster groups, blacklist monsters by their specified species, or you can blacklist individual monsters. In order to do any of those things, you need that monster's ID or SPECIES data. These can be found in the relevant data files. For the core game, these are in the `data/json/monsters` directory.
-The example below is from the `No Ants` mod, and will stop any kind of ant from spawning in-game.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifers; look for a monster's `id` and `species` where they're defined in `data/json/monsters/`, and group `name`s can be found in `data/json/monstergroups/` for the core game.
+
+Below is an excerpt from the `No Fungal Monsters` mod that shows how to blacklist groups and individual monsters. This will prevent any kind of fungaloid from spawning in-game.
 ````json
 [
   {
     "type": "MONSTER_BLACKLIST",
-    "categories": [ "GROUP_ANT", "GROUP_ANT_ACID" ]
+    "categories": [ "GROUP_FUNGI", "GROUP_FUNGI_TOWER", "GROUP_FUNGI_FLOWERS" ]
   },
   {
     "type": "MONSTER_BLACKLIST",
     "monsters": [
-      "mon_ant_acid_larva",
-      "mon_ant_acid_soldier",
-      "mon_ant_acid_queen",
-      "mon_ant_larva",
-      "mon_ant_soldier",
-      "mon_ant_queen",
-      "mon_ant_acid",
-      "mon_ant"
+      "mon_spore",
+      "mon_fungaloid",
+      "mon_fungaloid_young",
+      "mon_zombie_fungus",
+      "mon_boomer_fungus",
+      "mon_zombie_child_fungus",
+      "mon_fungal_wall",
+      "mon_fungaloid_queen",
+      "mon_fungal_tendril",
+      "mon_fungal_hedgerow",
+      "mon_fungaloid_tower",
+      "mon_fungal_blossom",
+      "mon_fungaloid_seeder"
     ]
   }
 ]
 ````
-The following is an example of how to blacklist monsters by species. In this case, it would remove all fungaloids from the game.
+The following is an example of how to blacklist monsters by species. In this case, it will remove all mi-go variants from the game.
 ````json
 [
   {
     "type": "MONSTER_BLACKLIST",
-    "species": [ "FUNGUS" ]
+    "species": [ "MIGO" ]
   }
 ]
 ````
+You can also define exclusions to a blacklist by combining it with a whitelist. Expanding on the previous example, this will remove all mi-go variants except the basic one.
+````json
+[
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "MIGO" ]
+  },
+  {
+    "type": "MONSTER_WHITELIST",
+    "monsters": [
+      "mon_mi_go"
+    ]
+  }
+]
+````
+Alternatively, if you only want specific monsters or species to appear, you can define an exclusive whitelist. Note that this will override any defined blacklists. The example below is from the `No Monsters` mod, which prevents all monsters except wildlife from spawning.
+````json
+[
+  {
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "WILDLIFE" ]
+  }
+]
+````
+
 ### Preventing locations from spawning
 <!--I'm not especially happy with this section. Blacklisting things on the map works differently depending on what you're blacklisting. Overmap specials are different from overmap extras, city buildings, and building groups.-->
 Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Ants` mod, and stops all anthills from spawning.
