@@ -917,7 +917,7 @@ bool mattack::pull_metal_weapon( monster *z )
                                   weapon.made_of( material_mc_steel ) +
                                   weapon.made_of( material_qt_steel ) +
                                   weapon.made_of( material_steel );
-                                  
+
         // Take the total portion of metal in the item into account
         const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
         if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
