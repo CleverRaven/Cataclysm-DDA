@@ -51,7 +51,6 @@ static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
 static const itype_id itype_pockknife( "pockknife" );
-static const itype_id itype_scissors( "scissors" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_water( "water" );
 
