@@ -30,7 +30,12 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_ZVIRUS1",
-            "condition": { "u_has_effect": "zombie_virus", "intensity": 2 },
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 2 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 2 } ] }
+              ]
+            },
             "effect": [
               { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
               {
@@ -41,7 +46,12 @@
           },
           {
             "id": "EOC_REDUCE_ZVIRUS2",
-            "condition": { "u_has_effect": "zombie_virus", "intensity": 3 },
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 3 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 3 } ] }
+              ]
+            },
             "effect": [
               { "u_add_effect": "zombie_virus", "intensity": 2, "duration": "PERMANENT" },
               {
@@ -52,7 +62,12 @@
           },
           {
             "id": "EOC_REDUCE_ZVIRUS3",
-            "condition": { "u_has_effect": "zombie_virus", "intensity": 4 },
+            "condition": {
+              "and": [
+                { "u_has_effect": "zombie_virus", "intensity": 4 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 4 } ] }
+              ]
+            },
             "effect": [
               { "u_add_effect": "zombie_virus", "intensity": 3, "duration": "PERMANENT" },
               {
