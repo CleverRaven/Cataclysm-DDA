@@ -41,7 +41,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `rebalance` - A mod designed to rebalance the game in some way (eg: Safe autodocs).
  - `magical` - A mod that adds something magic-related to the game (eg: Necromancy)
  - `item_exclude` - A mod that stops items from spawning in the world (eg: No survivor armor, No drugs)
- - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No ants)
+ - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No monsters)
  - `graphical` - A mod that adjusts game graphics in some way (eg: Graphical overmap)
 
 The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
@@ -208,13 +208,13 @@ Alternatively, if you only want specific monsters or species to appear, you can 
 
 ### Preventing locations from spawning
 <!--I'm not especially happy with this section. Blacklisting things on the map works differently depending on what you're blacklisting. Overmap specials are different from overmap extras, city buildings, and building groups.-->
-Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Ants` mod, and stops all anthills from spawning.
+Preventing certain types of locations from spawning in-game is a little trickier depending on the type of thing you want to target. An overmap building can either be a standard building, or an overmap special. If you want to block things with a specific flag from spawning, you can blacklist those in a very similar manner to monsters. The example below is also from the `No Fungal Monsters` mod, and stops all fungal regions from spawning.
 ````json
 [
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "overmap_feature_flag_settings": { "blacklist": [ "ANT" ] }
+    "overmap_feature_flag_settings": { "blacklist": [ "FUNGAL" ] }
   }
 ]
 ````
