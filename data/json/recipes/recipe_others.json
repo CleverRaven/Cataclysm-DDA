@@ -1491,10 +1491,10 @@
     "skill_used": "tailor",
     "skills_required": [ [ "survival", 3 ] ],
     "difficulty": 3,
-    "time": "10 h",
+    "time": "8 h",
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plant_cordage", 12, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
