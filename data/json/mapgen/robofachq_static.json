@@ -295,7 +295,8 @@
         "%": "f_canvas_door",
         "E": [ "f_ergometer", "f_ergometer_mechanical" ],
         "T": [ "f_treadmill", "f_treadmill_mechanical" ],
-        "X": "f_exercise"
+        "X": "f_exercise",
+        "&": "f_machinery_electronic"
       },
       "sealed_item": {
         "P": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_mature" },
@@ -404,6 +405,7 @@
         "9": "t_conveyor"
       },
       "furniture": {
+        ":": "f_server",  
         "6": "f_console",
         "K": "f_counter",
         "S": "f_table",
@@ -609,7 +611,7 @@
         "Y": "t_thconc_floor_olight",
         "#": "t_rock"
       },
-      "furniture": { "6": "f_console" },
+      "furniture": { "6": "f_console", ":": "f_server" },
       "items": {
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
