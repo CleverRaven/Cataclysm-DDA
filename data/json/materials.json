@@ -400,7 +400,7 @@
     "type": "material",
     "id": "hyperweave_off",
     "//": "material for RM13 armor.  A combination of small ceramic plates, sensors and a contractable weave material",
-    "name": "Innert Hyperweave",
+    "name": "Inert Hyperweave",
     "density": 8,
     "breathability": "MOISTURE_WICKING",
     "specific_heat_liquid": 1,
