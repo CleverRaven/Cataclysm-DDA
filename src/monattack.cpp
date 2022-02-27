@@ -165,15 +165,15 @@ static const limb_score_id limb_score_reaction( "reaction" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_iron( "iron" );
-static const material_id material_steel( "steel" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
-static const material_id material_hc_steel( "hc_steel" );
-static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_steel( "steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_veggy( "veggy" );
 
