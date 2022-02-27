@@ -661,7 +661,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( bio_cqb ) ) {
+        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), *cur_weapon );
         }
 
@@ -817,10 +817,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             std::string specialmsg;
             // Handles speed penalties to monster & us, etc
-            if( technique.attack_override ) {
-                specialmsg = melee_special_effects( t, d, null_item_reference() );
-            } else {
-                specialmsg = melee_special_effects( t, d, *cur_weapon );
+            if( !t.is_hallucination() ) {
+                if( technique.attack_override ) {
+                    specialmsg = melee_special_effects( t, d, null_item_reference() );
+                } else {
+                    specialmsg = melee_special_effects( t, d, *cur_weapon );
+                }
             }
 
             // gets overwritten with the dealt damage values
@@ -884,7 +886,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
+            if( !has_active_bionic( bio_cqb ) && cur_weapon && !t.is_hallucination() ) {
                 if( technique.attack_override ) {
                     melee_train( *this, 5, std::min( 10, skill_training_cap ), null_item_reference() );
                 } else {
