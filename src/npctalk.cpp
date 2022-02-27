@@ -3635,7 +3635,14 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
                                            dov_time_in_future.is_npc() ) );
         for( const effect_on_condition_id &eoc : eocs ) {
             if( eoc->type == eoc_type::ACTIVATION ) {
-                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                if( alpha ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha );
+                } else if( eoc->global ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                }
+                // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+                // this is so monster attacks against other monsters won't give error messages.
             } else {
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }
