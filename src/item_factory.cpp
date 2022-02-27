@@ -728,8 +728,11 @@ void Item_factory::finalize_post( itype &obj )
                                         float max_coverage_new = sub_armor.max_coverage( bp );
                                         float max_coverage_mats = it.max_coverage( bp );
 
+                                        // the percent of the coverable bits that this armor does cover
+                                        float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
+
                                         // portion should be handled as the portion scaled by relative coverage
-                                        old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * max_coverage_new / 100.0f;
+                                        old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
 
                                         // with the max values we can get the weight that each should have
                                         old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
@@ -741,12 +744,15 @@ void Item_factory::finalize_post( itype &obj )
                                 if( !mat_found ) {
                                     float max_coverage_new = sub_armor.max_coverage( bp );
 
+                                    // the percent of the coverable bits that this armor does cover
+                                    float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
+
                                     part_material modified_mat = new_mat;
                                     // if for example your elbow was covered in plastic but none of the rest of the arm
                                     // this should be represented correctly in the UI with the covers for plastic being 5%
                                     // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
                                     // 15% covered for the arm overall
-                                    modified_mat.cover = static_cast<float>( new_mat.cover ) * max_coverage_new / 100.0f;
+                                    modified_mat.cover = static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
                                     it.materials.push_back( modified_mat );
                                 }
                             }
@@ -774,6 +780,13 @@ void Item_factory::finalize_post( itype &obj )
                         new_limb.coverage = new_limb.coverage * scale;
                         new_limb.cover_melee = new_limb.cover_melee * scale;
                         new_limb.cover_ranged = new_limb.cover_ranged * scale;
+
+                        // need to scale each material coverage the same way since they will after this be
+                        // scaled back up at the end of the amalgamation
+                        for( part_material &mat : new_limb.materials ) {
+                            mat.cover = static_cast<float>( mat.cover ) * new_limb.coverage / 100.0f;
+                        }
+
                         obj.armor->data.push_back( new_limb );
                     }
                 }
@@ -793,10 +806,12 @@ void Item_factory::finalize_post( itype &obj )
                 if( it.coverage == 0 ) {
                     mat.cover = 100;
                 } else {
-                    mat.cover = static_cast<float>( mat.cover ) / ( static_cast<float>( it.coverage ) / 100.0f );
+                    mat.cover = std::round( static_cast<float>( mat.cover ) / ( static_cast<float>
+                                            ( it.coverage ) / 100.0f ) );
                 }
             }
         }
+
 
 
         for( const armor_portion_data &armor_data : obj.armor->data ) {
@@ -1016,6 +1031,15 @@ void Item_factory::finalize_post( itype &obj )
             }
             // whatever isn't covered is as good as skin so 100%
             armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
+        }
+
+        for( const armor_portion_data &armor_data : obj.armor->data ) {
+            for( const part_material &mat : armor_data.materials ) {
+                if( mat.cover > 100 || mat.cover < 0 ) {
+                    debugmsg( "item %s has coverage %d for material %s.",
+                              obj.id.str(), mat.cover, mat.id.str() );
+                }
+            }
         }
     }
 
