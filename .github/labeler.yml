@@ -1,0 +1,50 @@
+"C++":
+  - src/**/*
+
+"Json":
+  - "data/**/*.json"
+
+"Python":
+  - "**/*.py"
+
+"Documentation":
+  - "**/*.md"
+  - doc/**/*
+
+"Code: Tooling":
+  - tools/**/*
+
+"Code: Test":
+  - tests/**/*
+
+"SDL: Tiles / Sound":
+  - sound/**/*
+  - gfx/**/*
+
+"Translation":
+  - lang/**/*
+
+"Mods: Aftershock":
+  - data/mods/Aftershock/**/*
+  - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Dark Days of the Dead":
+  - data/mods/classic_zombies/**/*
+
+"Mods: Dark Skies":
+  - data/mods/Dark-Skies-Above/**/*
+
+"Mods: Dinoclysm":
+  - data/mods/DinoMod/**/*
+
+"Mods: Generic Guns":
+  - data/mods/Generic_Guns/**/*
+
+"Mods: MMA":
+  - data/mods/MMA/**/*
+
+"Mods: Magiclysm":
+  - data/mods/Magiclysm/**/*
+
+"Mods: No Hope":
+  - data/mods/No_Hope/**/*
