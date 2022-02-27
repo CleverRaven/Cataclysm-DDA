@@ -7216,6 +7216,10 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    if( is_npc() ) {
+        as_npc()->on_attacked( *source );
+    }
+
     bool u_see = get_player_view().sees( *this );
     const units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
