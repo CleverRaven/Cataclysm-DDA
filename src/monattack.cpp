@@ -173,8 +173,8 @@ static const material_id material_iflesh( "iflesh" );
 static const material_id material_iron( "iron" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
-static const material_id material_steel( "steel" );
 static const material_id material_qt_steel( "qt_steel" );
+static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
