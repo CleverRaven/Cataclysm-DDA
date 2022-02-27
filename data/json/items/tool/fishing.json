@@ -22,7 +22,7 @@
     "name": { "str": "basket fish trap" },
     "description": "This is a long, wicker fish trap made from bark, reeds, cordage or other natural materials.  It's a staple fishing tool in many pre-industrial societies.  The principle of action: the fish swims inside for bait, but can't get out.",
     "weight": "1150 g",
-    "volume": "16 L",
+    "volume": "12 L",
     "longest_side": "50 cm",
     "price": 500,
     "price_postapoc": 50,
