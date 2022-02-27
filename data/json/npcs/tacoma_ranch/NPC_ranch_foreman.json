@@ -497,7 +497,6 @@
             { "square": "terrain", "id": "t_palisade_gate", "x": 16, "y": 15, "x2": 16, "y2": 16 },
             { "point": "terrain", "id": "t_palisade_pulley", "x": 15, "y": 14 },
             { "point": "terrain", "id": "t_palisade_pulley", "x": 17, "y": 17 }
-
           ]
         },
         {
@@ -558,9 +557,7 @@
             { "chunks": [ "tacoma_commune_toolshed_9_done" ], "x": 13, "y": 17 },
             { "chunks": [ "tacoma_commune_clinic_9" ], "x": 2, "y": 0 }
           ],
-          "set": [
-            { "square": "terrain", "id": "t_dirt", "x": 10, "y": 23, "x2": 12, "y2": 23 }
-          ]
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 10, "y": 23, "x2": 12, "y2": 23 } ]
         },
         {
           "om_terrain": "ranch_camp_68",

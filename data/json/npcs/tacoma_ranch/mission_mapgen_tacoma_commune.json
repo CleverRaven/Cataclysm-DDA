@@ -785,6 +785,37 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tacoma_commune_junk_shop_shed_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "wfww",
+        "w  w",
+        "w  w",
+        "wwww"
+      ],
+      "terrain": { "w": "t_wall_half", "f": "t_door_frame" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_junk_shop_shed_2",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "wdww",
+        "w..w",
+        "w.sw",
+        "wwww"
+      ],
+      "terrain": { "w": "t_wall_wood", "d": "t_door_locked", ".": "t_dirtfloor", "s": "t_dirtfloor" },
+      "furniture": { "s": "f_woodstove" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_4",
     "object": {
       "mapgensize": [ 12, 12 ],

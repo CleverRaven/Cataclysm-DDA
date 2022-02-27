@@ -119,9 +119,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12" ], "x": 17, "y": 7 } ] }
-      ]
+      "update_mapgen": [ { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12" ], "x": 17, "y": 7 } ] } ]
     }
   },
   {
@@ -226,7 +224,10 @@
     "end": {
       "update_mapgen": [
         { "om_terrain": "ranch_camp_50", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13a" ], "x": 2, "y": 5 } ] },
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13b" ], "x": 4, "y": 0 } ] }
+        {
+          "om_terrain": "ranch_camp_59",
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13b" ], "x": 4, "y": 0 } ]
+        }
       ]
     }
   },
@@ -264,7 +265,8 @@
             { "point": "terrain", "id": "t_window_empty", "x": 11, "y": 17 }
           ]
         },
-        { "om_terrain": "ranch_camp_59",
+        {
+          "om_terrain": "ranch_camp_59",
           "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ]
         }
       ]
@@ -306,7 +308,8 @@
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
           ]
         },
-        { "om_terrain": "ranch_camp_59",
+        {
+          "om_terrain": "ranch_camp_59",
           "translate_ter": [ { "from": "t_door_frame", "to": "t_door_c", "x": 0, "y": 0 } ],
           "set": [
             { "square": "terrain", "id": "t_dirtfloor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
@@ -349,7 +352,8 @@
             { "square": "terrain", "id": "t_floor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
           ]
         },
-        { "om_terrain": "ranch_camp_59",
+        {
+          "om_terrain": "ranch_camp_59",
           "set": [
             { "square": "terrain", "id": "t_floor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
             { "square": "terrain", "id": "t_floor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
@@ -442,16 +446,12 @@
             { "point": "furniture", "id": "f_dresser", "x": 14, "y": 17 },
             { "point": "furniture", "id": "f_dresser", "x": 19, "y": 17 }
           ],
-          "translate_ter": [
-            { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 }
-          ],
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ],
           "place_npcs": [ { "class": "ranch_doctor", "x": 16, "y": 19 } ]
         },
         {
           "om_terrain": "ranch_camp_59",
-          "translate_ter": [
-            { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 }
-          ]
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ]
         }
       ]
     }
