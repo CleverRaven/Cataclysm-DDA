@@ -75,12 +75,25 @@
   {
     "type": "mutation",
     "id": "HUMAN_LEGS",
-    "name": { "str": "Human Legs" },
+    "name": {
+      "str": "Human Legs"
+    },
     "points": 0,
     "player_display": false,
-    "category": [ "HUMAN" ],
-    "types": [ "LEGS", "RUNNING", "FEET" ],
-    "cancels": [ "BENDY1", "BENDY2", "BENDY3" ],
+    "category": [
+      "HUMAN"
+    ],
+    "types": [
+      "LEGS",
+      "RUNNING",
+      "FEET",
+      "SOLES"
+    ],
+    "cancels": [
+      "BENDY1",
+      "BENDY2",
+      "BENDY3"
+    ],
     "description": "You have human legs."
   },
   {
@@ -574,11 +587,18 @@
   {
     "type": "mutation",
     "id": "TOUGH_FEET",
-    "name": { "str": "Tough Feet" },
+    "name": {
+      "str": "Tough Feet"
+    },
     "points": 1,
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
-    "category": [ "GASTROPOD" ]
+    "types": [
+      "SOLES"
+    ],
+    "category": [
+      "GASTROPOD"
+    ]
   },
   {
     "type": "mutation",
@@ -3385,12 +3405,23 @@
   {
     "type": "mutation",
     "id": "PADDED_FEET",
-    "name": { "str": "Padded Feet" },
+    "name": {
+      "str": "Padded Feet"
+    },
     "points": 1,
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
-    "types": [ "FEET" ],
-    "category": [ "BATRACHIAN", "BEAST", "RABBIT", "URSINE", "FELINE", "LUPINE" ]
+    "types": [
+      "SOLES"
+    ],
+    "category": [
+      "BATRACHIAN",
+      "BEAST",
+      "RABBIT",
+      "URSINE",
+      "FELINE",
+      "LUPINE"
+    ]
   },
   {
     "type": "mutation",
@@ -3468,18 +3499,34 @@
   {
     "type": "mutation",
     "id": "HOOVES",
-    "name": { "str": "Hooves" },
+    "name": {
+      "str": "Hooves"
+    },
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear shoes of any kind.  Reduces wet effects.",
-    "types": [ "FEET" ],
-    "category": [ "CATTLE", "CHIMERA" ],
-    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "types": [
+      "FEET",
+      "SOLES"
+    ],
+    "category": [
+      "CATTLE",
+      "CHIMERA"
+    ],
+    "wet_protection": [
+      { "part": "foot_l", "neutral": 10 },
+      { "part": "foot_r", "neutral": 10 }
+    ],
+    "restricts_gear": [
+      "foot_l",
+      "foot_r"
+    ],
     "destroys_gear": true,
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
+    "armor": [
+      { "parts": [ "foot_l", "foot_r" ], "bash": 1 }
+    ],
     "attacks": {
       "attack_text_u": "You kick %s with your hooves",
       "attack_text_npc": "%1$s kicks %2$s with their hooves",
@@ -6698,23 +6745,36 @@
   {
     "type": "mutation",
     "id": "LEG_TENTACLES",
-    "name": { "str": "Leg Tentacles" },
+    "name": {
+      "str": "Leg Tentacles"
+    },
     "points": -4,
     "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
     "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
-    "types": [ "LEGS", "FEET" ],
-    "leads_to": [ "LEG_TENT_BRACE" ],
+    "types": [
+      "LEGS",
+      "FEET",
+      "SOLES"
+    ],
+    "leads_to": [
+      "LEG_TENT_BRACE"
+    ],
     "movecost_swim_modifier": 0.85,
-    "category": [ "CEPHALOPOD" ],
+    "category": [
+      "CEPHALOPOD"
+    ],
     "wet_protection": [
       { "part": "leg_l", "neutral": 21 },
       { "part": "leg_r", "neutral": 21 },
       { "part": "foot_l", "neutral": 6 },
       { "part": "foot_r", "neutral": 6 }
     ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "restricts_gear": [
+      "foot_l",
+      "foot_r"
+    ],
     "movecost_modifier": 1.2,
     "noise_modifier": 0.0
   },
@@ -7689,19 +7749,36 @@
   {
     "type": "mutation",
     "id": "RABBIT_FEET",
-    "name": { "str": "Rabbit Feet" },
+    "name": {
+      "str": "Rabbit Feet"
+    },
     "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
-    "types": [ "LEGS" ],
-    "category": [ "RABBIT" ],
-    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "types": [
+      "FEET"
+    ],
+    "category": [
+      "RABBIT"
+    ],
+    "wet_protection": [
+      { "part": "foot_l", "neutral": 10 },
+      { "part": "foot_r", "neutral": 10 }
+    ],
+    "restricts_gear": [
+      "foot_l",
+      "foot_r"
+    ],
     "destroys_gear": true,
-    "bodytemp_modifiers": [ 25, 50 ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
+    "bodytemp_modifiers": [
+      25,
+      50
+    ],
+    "armor": [
+      { "parts": [ "foot_l", "foot_r" ], "bash": 1 }
+    ],
     "attacks": {
       "attack_text_u": "You kick %s with your large feet",
       "attack_text_npc": "%1$s kicks %2$s with their large feet",
