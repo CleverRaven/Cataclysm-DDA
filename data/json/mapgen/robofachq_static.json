@@ -405,7 +405,7 @@
         "9": "t_conveyor"
       },
       "furniture": {
-        ":": "f_server",  
+        ":": "f_server",
         "6": "f_console",
         "K": "f_counter",
         "S": "f_table",
