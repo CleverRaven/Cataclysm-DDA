@@ -225,7 +225,6 @@ void butcher_finish( player_activity *act, Character *you );
 void chop_logs_finish( player_activity *act, Character *you );
 void chop_planks_finish( player_activity *act, Character *you );
 void chop_tree_finish( player_activity *act, Character *you );
-void churn_finish( player_activity *act, Character *you );
 void clear_rubble_finish( player_activity *act, Character *you );
 void cracking_finish( player_activity *act, Character *guy );
 void eat_menu_finish( player_activity *act, Character *you );

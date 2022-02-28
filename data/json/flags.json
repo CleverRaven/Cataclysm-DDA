@@ -584,6 +584,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_WEAR_EFFECT",
+    "type": "json_flag",
+    "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
@@ -862,6 +867,11 @@
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "info": "This item contains a nanofabricator recipe."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE_SINGLE_USE",
+    "type": "json_flag",
+    "info": "This template is copy protected and will be <bad>destroyed</bad> after a single use."
   },
   {
     "id": "BIONIC_FAULTY",

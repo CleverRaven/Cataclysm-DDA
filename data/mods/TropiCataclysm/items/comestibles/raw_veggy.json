@@ -10,7 +10,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 34,
-    "description": "A chunk of underground fungus.  Its slightly toxic but seems nutritious enough.",
+    "description": "A chunk of underground fungus.  It's slightly toxic but seems nutritious enough.",
     "price": 600,
     "price_postapoc": 50,
     "material": [ "veggy" ],

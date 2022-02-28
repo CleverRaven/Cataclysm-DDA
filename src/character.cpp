@@ -1820,9 +1820,10 @@ std::set<matec_id> Character::get_limb_techs() const
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+    body_part_type::type arm_type = body_part_type::type::arm;
+    for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) >= 0.1 &&
+        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
             !get_part( part )->is_limb_overencumbered() ) {
             limb_count++;
         }
@@ -3694,7 +3695,8 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 {
     float limb_encumb = 0.0f;
     int num_limbs = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( part_type ) ) {
+    for( const bodypart_id &part : get_all_body_parts_of_type( part_type,
+            get_body_part_flags::primary_type ) ) {
         limb_encumb += encumb( part );
         num_limbs++;
     }
@@ -5216,24 +5218,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( const bodypart_id &bp ) const
-{
-    int hp_cur_sum = get_part_hp_cur( bp );
-    int hp_max_sum = get_part_hp_max( bp );
-
-    if( bp == body_part_leg_l || bp == body_part_leg_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_leg_l ) + get_part_hp_cur( body_part_leg_r );
-        hp_max_sum = get_part_hp_max( body_part_leg_l ) + get_part_hp_max( body_part_leg_r );
-    } else if( bp == body_part_arm_l || bp == body_part_arm_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_arm_l ) + get_part_hp_cur( body_part_arm_r );
-        hp_max_sum = get_part_hp_max( body_part_arm_l ) + get_part_hp_max( body_part_arm_r );
-    }
-
-    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
-    hp_max_sum = std::max( hp_max_sum, 1 );
-    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
-}
-
 float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
@@ -5767,7 +5751,8 @@ mutation_value_map = {
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
-    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
+    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> },
+    { "sweat_multiplier", calc_mutation_value_multiplicative<&mutation_branch::sweat_multiplier> },
 };
 
 float Character::mutation_value( const std::string &val ) const
@@ -6955,6 +6940,18 @@ void Character::drench_mut_calc()
         set_part_mut_drench( bp, { WT_NEUTRAL, neutral } );
         set_part_mut_drench( bp, { WT_IGNORED, ignored } );
     }
+}
+
+/// Returns a weighted list of all mutation categories with current blood vitamin levels
+weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
+{
+    weighted_int_list<mutation_category_id> weighted_output;
+    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+        mutation_category_trait::get_all();
+    for( const auto &elem : mutation_categories ) {
+        weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
+    }
+    return weighted_output;
 }
 
 /// Returns the mutation category with the highest strength
@@ -9398,6 +9395,19 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "THIRST", val, reduced, mod ) ) {
             mod_thirst( bound_mod_to_vals( get_thirst(), val, it.get_max_val( "THIRST", reduced ),
                                            it.get_min_val( "THIRST", reduced ) ) );
+        }
+    }
+
+    // Handle perspiration
+    val = get_effect( "PERSPIRATION", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
+            // multiplier to balance values aroud drench capacity of different body parts
+            int mult = mutation_value( "sweat_multiplier" ) * get_part_drench_capacity( bp ) / 100;
+            mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
+                              it.get_max_val( "PERSPIRATION", reduced ) * mult,
+                              it.get_min_val( "PERSPIRATION", reduced ) * mult ) );
         }
     }
 

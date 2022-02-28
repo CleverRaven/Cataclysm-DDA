@@ -18,7 +18,7 @@
     "id": "aim_speed_mod",
     "description": "Gun aim speed modifier <color_dark_gray>(Manipulation)</color>",
     "mod_type": "x",
-    "value": { "limb_score": "manip" }
+    "value": { "limb_score": "manip", "limb_type": "hand" }
   },
   {
     "type": "character_mod",
@@ -46,21 +46,21 @@
     "id": "reloading_move_mod",
     "description": "Reloading movement point cost <color_dark_gray>(Manipulation)</color>",
     "mod_type": "x",
-    "value": { "limb_score": "manip", "max": "max_move_cost", "nominator": 1.0 }
+    "value": { "limb_score": "manip", "limb_type": "hand", "max": "max_move_cost", "nominator": 1.0 }
   },
   {
     "type": "character_mod",
     "id": "thrown_dex_mod",
     "description": "Dexterity when throwing items <color_dark_gray>(Manipulation)</color>",
     "mod_type": "x",
-    "value": { "limb_score": "manip" }
+    "value": { "limb_score": "manip", "limb_type": "hand" }
   },
   {
     "type": "character_mod",
     "id": "ranged_dispersion_manip_mod",
     "description": "Hand dispersion when using ranged attacks <color_dark_gray>(Manipulation)</color>",
     "mod_type": "+",
-    "value": { "limb_score": "manip", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
+    "value": { "limb_score": "manip", "limb_type": "hand", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
   },
   {
     "type": "character_mod",
