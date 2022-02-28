@@ -74,7 +74,7 @@
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
@@ -90,7 +90,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[200 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[200 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 200 } },
@@ -106,7 +106,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[300 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[300 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 300 } },
