@@ -280,7 +280,7 @@ void worldfactory::init()
 
     all_worlds.clear();
 
-    // The validity of a world is determined by the existance of any
+    // The validity of a world is determined by the existence of any
     // option files or the master save file.
     static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
         return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
