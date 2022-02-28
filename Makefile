@@ -731,14 +731,7 @@ ifeq ($(TILES), 1)
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(LOCALIZE),1)
-    NCURSES_PREFIX = ncursesw
-  else
-    NCURSES_PREFIX = ncurses
-  endif
-  ifdef OSXCROSS
-    NCURSES_PREFIX = ncurses
-  endif
+  NCURSES_PREFIX = ncursesw
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
