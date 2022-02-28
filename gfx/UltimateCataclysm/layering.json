@@ -43,7 +43,13 @@
         "sprite": [{"id": "brazier_log", "weight": 1}],
         "layer": 100
       }
-    ]
+    ],
+    "field_variants": [
+      {
+        "field": "fd_smoke",
+        "sprite": [{"id": "fd_smoke_overlay", "weight":2}]
+      }
+    ]    
   },
   {
     "context": "f_toilet",
@@ -119,6 +125,32 @@
         "layer": 90
       }
     ]
-  }
+  },
+  {
+    "context": "f_30gal_firebarrel",
+    "field_variants": [
+      {
+        "field": "fd_fire",
+        "sprite": [{"id": "f_30gal_firebarrel_fd_fire", "weight": 2}]
+      },
+      {
+        "field": "fd_smoke",
+        "sprite": [{"id": "fd_smoke_overlay", "weight":2}]
+      }
+    ]
+  },
+  {
+    "context": "f_55gal_firebarrel",
+    "field_variants": [
+      {
+        "field": "fd_fire",
+        "sprite": [{"id": "f_55gal_firebarrel_fd_fire", "weight": 2}]
+      },
+      {
+        "field": "fd_smoke",
+        "sprite": [{"id": "fd_smoke_overlay", "weight":2}]
+      }
+    ]
+  }  
 ]
 }
