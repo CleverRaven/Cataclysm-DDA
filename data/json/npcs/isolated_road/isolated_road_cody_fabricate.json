@@ -18,19 +18,19 @@
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 merch 2 mm] I like to stay light.",
+        "text": "[100 merch, 2 mm] I like to stay light.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[200 merch 4 mm] A middle ground would be good.",
+        "text": "[200 merch, 4 mm] A middle ground would be good.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[300 merch 6 mm] Never skimp on protection.",
+        "text": "[300 merch, 6 mm] Never skimp on protection.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
