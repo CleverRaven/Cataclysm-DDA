@@ -284,3 +284,6 @@ To that end, here's a list of containers with non-one volume.  If you have somet
 Diamond weapons should be uniform in their CVD machine requirements.
 Coal requirements are `floor((weapon_volume+1)/2)*25`.
 Hydrogen requirements are `coal_requirements/2.5`.
+
+# MUTATIONS
+Mutations are given completely subjective point values.  The most important factor is that mutations that adversely affect a character are given a negative point value, or positive for beneficial mutations.  The chance of obtaining a positive or negative mutation varies based on Instability (a counter that increases by a default of 100 when a mutation is gained or lost).  0 point mutations will always have a 10% chance of appearing.  There is a 90% chance to obtain a good mutation until approximately 800 Instability.  There is an equal chance (45% each) of obtaining a good or bad mutation at approximately 2800 Instability.  There is an approximately 70% chance of obtaining a bad mutation at 10000 Instability, which will be the cap after a current test phase where it is capped at 8000.

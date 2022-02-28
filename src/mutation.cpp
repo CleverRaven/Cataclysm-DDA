@@ -86,7 +86,7 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const vitamin_id vitamin_INSTABILITY( "instability" );
+static const vitamin_id vitamin_instability( "instability" );
 
 namespace io
 {
@@ -895,7 +895,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
     // Determine the highest mutation category
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
-    const float instability = vitamin_get( vitamin_INSTABILITY );
+    const float instability = vitamin_get( vitamin_instability );
     const bool terminal = instability >= 9500;
     const int flaw = rng( 0, ( cat_list.size() == 1 ? 0 : 10 ) + sqrt( instability ) ) +
                      ( instability / 900 );
@@ -1050,7 +1050,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    const float instability = vitamin_get( vitamin_INSTABILITY );
+    const float instability = vitamin_get( vitamin_instability );
     const bool terminal = instability >= 9500;
     const int flaw = rng( 0, sqrt( instability ) ) + ( instability / 900 );
     bool force_good = flaw < 10;
@@ -1238,7 +1238,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
             vitamin_mod( mut_vit, -mdata.vitamin_cost );
-            vitamin_mod( vitamin_INSTABILITY, mdata.vitamin_cost );
+            vitamin_mod( vitamin_instability, mdata.vitamin_cost );
         } else {
             return false;
         }
