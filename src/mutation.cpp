@@ -62,7 +62,6 @@ static const mutation_category_id mutation_category_URSINE( "URSINE" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -78,7 +77,6 @@ static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
-static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
@@ -87,6 +85,8 @@ static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const vitamin_id vitamin_INSTABILITY( "instability" );
 
 namespace io
 {
@@ -839,10 +839,13 @@ trait_id Character::trait_by_invlet( const int ch ) const
 }
 
 bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
-                             const vitamin_id &mut_vit ) const
+                             const vitamin_id &mut_vit, const bool &terminal ) const
 {
     if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) < mutation->vitamin_cost ) {
         // We don't have the required mutagen vitamins
+        return false;
+    }
+    if( !terminal && mutation->terminus ) {
         return false;
     }
     return mutation_ok( mutation, force_good, force_bad );
@@ -889,35 +892,25 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
 
 void Character::mutate( const int &highest_category_chance, const bool use_vitamins )
 {
-    bool force_bad = one_in( 3 );
-    bool force_good = false;
-    if( has_trait( trait_ROBUST ) && force_bad ) {
-        // Robust Genetics gives you a 33% chance for a good mutation,
-        // instead of the 33% chance of a bad one.
-        force_bad = false;
-        force_good = true;
-    }
-    if( has_trait( trait_CHAOTIC_BAD ) ) {
-        force_bad = true;
-        force_good = false;
-    }
-
     // Determine the highest mutation category
     mutation_category_id cat;
-    weighted_int_list<mutation_category_id> cat_list;
+    weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
+    const float instability = vitamin_get( vitamin_INSTABILITY );
+    const bool terminal = instability >= 9500;
+    const int flaw = rng( 0, ( cat_list.size() == 1 ? 0 : 10 ) + sqrt( instability ) ) +
+                     ( instability / 900 );
+    bool force_good = flaw < 10;
+    bool force_bad = flaw >= 30;
 
     if( highest_category_chance > 0 && one_in( highest_category_chance ) ) {
         cat = get_highest_category();
+    } else if( cat_list.get_weight() > 0 ) {
+        cat = *cat_list.pick();
+        cat_list.add_or_replace( cat, 0 );
     } else {
-        cat_list = get_vitamin_weighted_categories();
-        if( cat_list.get_weight() > 0 ) {
-            cat = *cat_list.pick();
-            cat_list.add_or_replace( cat, 0 );
-        } else {
-            add_msg_if_player( m_bad,
-                               _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
-            return;
-        }
+        add_msg_if_player( m_bad,
+                           _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
+        return;
     }
 
     std::vector<trait_id> valid; // Valid mutations
@@ -937,6 +930,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             const trait_id &base_mutation = traits_iter;
             const mutation_branch &base_mdata = traits_iter.obj();
             bool thresh_save = base_mdata.threshold;
+            bool terminus_save = base_mdata.terminus;
             bool prof_save = base_mdata.profession;
             // are we unpurifiable? (saved from mutating away)
             bool purify_save = !base_mdata.purifiable;
@@ -950,20 +944,14 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
             if( has_trait( base_mutation ) ) {
                 // ...consider the mutations that replace it.
                 for( const trait_id &mutation : base_mdata.replacements ) {
-                    bool valid_ok = mutation->valid;
-
-                    if( mutation_ok( mutation, force_good, force_bad, mut_vit ) &&
-                        valid_ok ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
 
                 // ...consider the mutations that add to it.
                 for( const trait_id &mutation : base_mdata.additions ) {
-                    bool valid_ok = mutation->valid;
-
-                    if( mutation_ok( mutation, force_good, force_bad, mut_vit ) &&
-                        valid_ok ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
@@ -983,7 +971,8 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
                     // mark for removal
                     // no removing Thresholds/Professions this way!
                     // unpurifiable traits also cannot be purified
-                    if( !in_cat && !thresh_save && !prof_save && !purify_save ) {
+                    // removing a Terminus trait is a definite no
+                    if( !in_cat && !thresh_save && !terminus_save && !prof_save && !purify_save ) {
                         if( one_in( 4 ) ) {
                             downgrades.push_back( base_mutation );
                         }
@@ -1017,7 +1006,7 @@ void Character::mutate( const int &highest_category_chance, const bool use_vitam
         // Remove anything we already have, that we have a child of, that
         // goes against our intention of a good/bad mutation, or that we lack resources for
         for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], force_good, force_bad, mut_vit ) ) ||
+            if( ( !mutation_ok( valid[i], force_good, force_bad, mut_vit, terminal ) ) ||
                 ( !valid[i]->valid ) ) {
                 valid.erase( valid.begin() + i );
                 i--;
@@ -1061,14 +1050,12 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool force_bad = one_in( 3 );
-    bool force_good = false;
-    if( has_trait( trait_ROBUST ) && force_bad ) {
-        // Robust Genetics gives you a 33% chance for a good mutation,
-        // instead of the 33% chance of a bad one.
-        force_bad = false;
-        force_good = true;
-    }
+    const float instability = vitamin_get( vitamin_INSTABILITY );
+    const bool terminal = instability >= 9500;
+    const int flaw = rng( 0, sqrt( instability ) ) + ( instability / 900 );
+    bool force_good = flaw < 10;
+    bool force_bad = flaw >= 30;
+
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
 
@@ -1078,7 +1065,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for( size_t i = 0; i < valid.size(); i++ ) {
-        if( !mutation_ok( valid[i], force_good, force_bad, mut_vit ) ) {
+        if( !mutation_ok( valid[i], force_good, force_bad, mut_vit, terminal ) ) {
             valid.erase( valid.begin() + i );
             i--;
         }
@@ -1251,6 +1238,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
             vitamin_mod( mut_vit, -mdata.vitamin_cost );
+            vitamin_mod( vitamin_INSTABILITY, mdata.vitamin_cost );
         } else {
             return false;
         }
