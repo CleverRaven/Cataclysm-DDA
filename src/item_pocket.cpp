@@ -1843,6 +1843,11 @@ bool item_pocket::is_ablative() const
     return get_pocket_data()->ablative;
 }
 
+bool item_pocket::is_holster() const
+{
+    return get_pocket_data()->holster;
+}
+
 const translation &item_pocket::get_description() const
 {
     return get_pocket_data()->description;
