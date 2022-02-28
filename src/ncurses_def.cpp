@@ -245,7 +245,7 @@ void catacurses::init_interface()
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
-    // behave exactly like the wrapper, therefor:
+    // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
