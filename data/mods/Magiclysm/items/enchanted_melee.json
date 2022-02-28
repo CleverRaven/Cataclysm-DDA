@@ -905,7 +905,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "weapon_category":[ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },

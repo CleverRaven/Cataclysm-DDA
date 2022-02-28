@@ -231,7 +231,7 @@
       "zweihander_inferior",
       "zweihander_fake"
     ],
-    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS"]
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
   },
   {
     "type": "martial_art",
