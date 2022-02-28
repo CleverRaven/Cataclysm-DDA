@@ -27,7 +27,7 @@ class dialogue_window
         void resize( ui_adaptor &ui );
         void draw( const std::string &npc_name, const std::vector<talk_data> &responses );
 
-        void handle_scrolling( const std::string &action );
+        void handle_scrolling( const std::string &action, int num_responses );
 
         void refresh_response_display();
         /** Adds a message to the conversation history. */
@@ -41,6 +41,7 @@ class dialogue_window
         /** Unhighlights all messages. */
         void clear_history_highlights();
         bool is_computer = false;
+        int sel_response = 0;
     private:
         catacurses::window d_win;
 

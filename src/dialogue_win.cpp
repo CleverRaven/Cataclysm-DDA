@@ -52,17 +52,27 @@ void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_
     wnoutrefresh( d_win );
 }
 
-void dialogue_window::handle_scrolling( const std::string &action )
+void dialogue_window::handle_scrolling( const std::string &action, int num_responses )
 {
     // Scroll the responses section
     const int displayable_lines = RESPONSES_LINES - 2;
-    if( action == "DOWN" || action == "PAGE_DOWN" ) {
+    if( action == "PAGE_DOWN" ) {
         if( can_scroll_down ) {
             scroll_yoffset += displayable_lines;
         }
-    } else if( action == "UP" || action == "PAGE_UP" ) {
+    } else if( action == "PAGE_UP" ) {
         if( can_scroll_up ) {
             scroll_yoffset = std::max( 0, scroll_yoffset - displayable_lines );
+        }
+    } else if( action == "UP" ) {
+        sel_response--;
+        if( sel_response < 0 ) {
+            sel_response = num_responses - 1;
+        }
+    } else if( action == "DOWN" ) {
+        sel_response++;
+        if( sel_response >= num_responses ) {
+            sel_response = 0;
         }
     }
 }
@@ -72,6 +82,7 @@ void dialogue_window::refresh_response_display()
     scroll_yoffset = 0;
     can_scroll_down = false;
     can_scroll_up = false;
+    sel_response = 0;
 }
 
 void dialogue_window::add_to_history( const std::string &text, const std::string &speaker_name,
@@ -201,7 +212,10 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
         const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
-        const nc_color &color = is_computer ? default_color() : responses[i].color;
+        nc_color color = is_computer ? default_color() : responses[i].color;
+        if( i == static_cast<size_t>( sel_response ) ) {
+            color = hilite( color );
+        }
         for( size_t j = 0; j < folded.size(); j++, ycurrent++ ) {
             if( ycurrent < yoffset ) {
                 // Off screen (above)
