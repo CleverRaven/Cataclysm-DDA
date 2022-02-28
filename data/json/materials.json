@@ -399,7 +399,7 @@
   {
     "type": "material",
     "id": "hyperweave_off",
-    "//": "material for RM13 armor.  A combination of small ceramic plates, sensors and a contractable weave material",
+    "//": "material for RM13 armor.  A combination of small ceramic plates, sensors and a contractible weave material",
     "name": "Innert Hyperweave",
     "density": 8,
     "breathability": "MOISTURE_WICKING",
@@ -420,7 +420,7 @@
   {
     "type": "material",
     "id": "hyperweave_on",
-    "//": "material for RM13 armor when it's powered.  A combination of small ceramic plates, sensors and a contractable weave material. As attacks strike the surface the plates bunch together providing amazing protection",
+    "//": "material for RM13 armor when it's powered.  A combination of small ceramic plates, sensors and a contractible weave material. As attacks strike the surface the plates bunch together providing amazing protection",
     "name": "Charged Hyperweave",
     "density": 20,
     "breathability": "MOISTURE_WICKING",
