@@ -2155,7 +2155,7 @@ void mapgen_forest( mapgendata &dat )
     * biome to forests so that forests don't fade out as they transition to roads).
     *
     * @param ot The type of terrain to determine the sparseness of.
-    * @return A discrete scale of the density of natural features occuring in \p ot.
+    * @return A discrete scale of the density of natural features occurring in \p ot.
     */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
