@@ -29,7 +29,7 @@
     },
     "items": {
       " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
-      "t": { "item": "moonshine_brew", "chance": 50 }
+      "t": { "item": "moonshine_brew", "chance": 70 }
     }
   },
   {
