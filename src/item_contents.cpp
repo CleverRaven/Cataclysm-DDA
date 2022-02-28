@@ -1654,7 +1654,6 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            const pocket_data *p_data = pocket.get_pocket_data();
             // if the pocket has default volume or is a holster that has an
             // item in it or is a pocket that has normal pickup disabled
             // instead of returning the volume return the volume of things contained
