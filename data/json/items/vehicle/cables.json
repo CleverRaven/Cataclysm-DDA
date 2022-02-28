@@ -23,8 +23,20 @@
     "type": "TOOL",
     "id": "extension_cable",
     "name": { "str": "extension cord" },
-    "description": "A long orange extension cord for connecting appliances.  Could be used on vehicles and other electrical systems.",
+    "description": "A long 10m orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
     "copy-from": "jumper_cable",
+    "max_charges": 10,
+    "initial_charges": 10,
+    "use_action": [ "CORD_ATTACH" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "long_extension_cable",
+    "name": { "str": "outdoor extension cord" },
+    "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Could be used on any appliance or other household electrical system.",
+    "copy-from": "jumper_cable",
+    "max_charges": 30,
+    "initial_charges": 30,
     "use_action": [ "CORD_ATTACH" ]
   },
   {

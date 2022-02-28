@@ -122,6 +122,7 @@
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75, "charges-min": 10 },
       { "item": "extension_cable", "prob": 45 },
+      { "item": "long_extension_cable", "prob": 20 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       {
