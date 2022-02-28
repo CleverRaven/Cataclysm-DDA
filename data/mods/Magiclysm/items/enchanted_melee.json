@@ -674,6 +674,7 @@
   {
     "id": "rune_biomancer_weapon",
     "type": "GENERIC",
+    "copy-from": "spear_knife",
     "name": { "str": "Biomancer spear" },
     "//": "Effectively a durable knife spear +1 with IMPALE tech.  based off Wicked Bonespear.  Lorewise, it would make sense for novice Biomancers to be developing their skills in spears so they can adequately use the Bonespear once they're proficient enough to summon one.  Should be weaker than other school weapons DPSwise due to reach.",
     "description": "A grotesque bone spearhead on a stout wooden pole.  There is a Biomancer rune embedded at the base of the head.",
@@ -694,6 +695,7 @@
   {
     "id": "rune_biomancer_weapon_adept",
     "type": "GENERIC",
+    "copy-from": "spear_knife",
     "name": { "str": "Biomancer shifting spear" },
     "//": "Effectively a durable knife spear +2 and a barb laucher that shoots sharpened bone, will have less dps because it has reach and is capable of morphing into a gun",
     "description": "A grotesque bone spearhead on a hardened flesh pole.  There is a Biomancer rune embedded in the middle.  You feel this spear squirming in your hand as if alive.",
@@ -768,6 +770,7 @@
   {
     "id": "rune_magus_weapon",
     "type": "GENERIC",
+    "copy-from": "q_staff",
     "name": { "str": "Magus staff", "str_pl": "Magus staves" },
     "//": "The classical vision of the wizard gets a classic weapon.  DPS Stats are between the regular and ironshod versions.  Stats are slightly worse than the QS+1 due to the glass weight slowing attack speed.",
     "description": "A quarterstaff with runes carved into it and two glass jars, heat-tempered and infused with mana for durability, to act as mana receptacles.  There are two Magi runes embedded at the tips.",
@@ -786,6 +789,7 @@
   {
     "id": "rune_magus_weapon_adept",
     "type": "GENERIC",
+    "copy-from": "q_staff",
     "name": { "str": "Magus battle staff", "str_pl": "Magus battle staves" },
     "//": "It will be based on the Q +2 weapon but sightly worse, sightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
     "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magi runes carved into the wood.",
@@ -808,6 +812,7 @@
     "id": "rune_kelvinist_weapon",
     "looks_like": "longsword",
     "type": "GENERIC",
+    "copy-from": "longsword",
     "name": { "str": "Kelvinist flamberge" },
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
@@ -830,6 +835,7 @@
     "id": "rune_kelvinist_ice_adept_weapon",
     "looks_like": "scimitar",
     "type": "TOOL",
+    "copy-from": "scimitar",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Kelvinist Frostbind" },
@@ -862,8 +868,9 @@
   {
     "id": "rune_stormshaper_weapon",
     "type": "GENERIC",
+    "copy-from": "copper_ax",
     "name": { "str": "Stormshaper axe" },
-    "//": "Equivalent to copper ax +1.  Metals chosen for being two most conductive metals + balancing reasons",
+    "//": "Equivalent to copper axe +1.  Metals chosen for being two most conductive metals + balancing reasons",
     "description": "A forged copper axe with silver trimmings and a wooden handle.  There is a Stormshaper rune embedded in the eye.",
     "weight": "3330 g",
     "volume": "3500 ml",
@@ -898,6 +905,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "weapon_category":[ "HOOKING_WEAPONRY" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
@@ -925,6 +933,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "weapon_category": [ "KNIVES" ],
     "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
   },
   {
@@ -943,6 +952,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
+    "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
