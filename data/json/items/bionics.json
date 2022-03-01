@@ -862,7 +862,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Autonomous Surgical Scalpels CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system of surgical grade scalpels that are designed to be implanted in the user's forearms.  They allow for automated precise cuts in aiding dissections, but are also passable for use as a butchering tool if nothing better is avaliable.",
+    "description": "A system of surgical grade scalpels that are designed to be implanted in the user's forearms.  They allow for automated precise cuts in aiding dissections, but are also passable for use as a butchering tool if nothing better is available.",
     "price": 220000,
     "weight": "20 g",
     "difficulty": 4

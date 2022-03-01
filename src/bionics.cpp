@@ -3176,7 +3176,7 @@ void bionic::toggle_safe_fuel_mod()
 {
     if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
         uilist tmenu;
-        tmenu.text = _( "Chose Safe Fuel Level Threshold" );
+        tmenu.text = _( "Choose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
         if( get_auto_start_thresh() < 0.80 ) {
             tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
@@ -3218,7 +3218,7 @@ void bionic::toggle_auto_start_mod()
     }
     if( !is_auto_start_on() ) {
         uilist tmenu;
-        tmenu.text = _( "Chose Start Power Level Threshold" );
+        tmenu.text = _( "Choose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
         if( get_safe_fuel_thresh() > 0.25 ) {
             tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
