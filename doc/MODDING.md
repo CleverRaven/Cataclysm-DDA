@@ -205,6 +205,22 @@ Alternatively, if you only want specific monsters or species to appear, you can 
   }
 ]
 ````
+You can define a non-exclusive whitelist by itself, but they have no notable effect unless they're combined with blacklists or exclusive whitelists as shown above. This can still be useful because these lists are combined across all active mods, so you might include one to ensure certain monster types are present for your mod. For example, `Crazy Cataclysm` uses the list below to enable some monsters that the core game blacklists by default, allowing them to spawn regardless of any other mods that might try to disable them.
+````json
+[
+  {
+    "type": "MONSTER_WHITELIST",
+    "monsters": [
+      "mon_zombie_dancer",
+      "mon_zombie_jackson",
+      "mon_shia",
+      "mon_bear_smoky",
+      "mon_zombie_skeltal",
+      "mon_zombie_skeltal_minion"
+    ]
+  }
+]
+````
 
 ### Preventing locations from spawning
 <!--I'm not especially happy with this section. Blacklisting things on the map works differently depending on what you're blacklisting. Overmap specials are different from overmap extras, city buildings, and building groups.-->
