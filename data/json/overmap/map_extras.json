@@ -5,7 +5,7 @@
     "name": { "str": "Crater" },
     "description": "There is a crater here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_crater" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ 0, 5 ],
     "sym": "o",
     "color": "red",
     "autonote": true
@@ -104,7 +104,7 @@
     "name": { "str": "Military", "ctxt": "Map Extra" },
     "description": "Several corpses of soldiers are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
-    "min_max_zlevel": [ -4, 0 ],
+    "min_max_zlevel": [ -4, 5 ],
     "sym": "m",
     "color": "light_red",
     "autonote": true
@@ -137,7 +137,7 @@
     "name": { "str": "Portal" },
     "description": "Portal is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal" },
-    "min_max_zlevel": [ -5, 0 ],
+    "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -148,7 +148,7 @@
     "name": { "str": "Portal In" },
     "description": "Another portal is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal_in" },
-    "min_max_zlevel": [ -5, 0 ],
+    "min_max_zlevel": [ -5, 5 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -244,7 +244,7 @@
     "name": { "str": "Jabberwock" },
     "description": "Jabberwock is nearby.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
-    "min_max_zlevel": [ -2, 0 ],
+    "min_max_zlevel": [ -2, 5 ],
     "sym": "J",
     "color": "red",
     "autonote": true
@@ -414,7 +414,7 @@
     "name": { "str": "Burned Ground (Point)" },
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ 0, 5 ],
     "sym": ".",
     "color": "light_gray",
     "autonote": true
@@ -436,7 +436,7 @@
     "name": { "str": "Casings" },
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
-    "min_max_zlevel": [ -5, 0 ],
+    "min_max_zlevel": [ -5, 5 ],
     "sym": "c",
     "color": "dark_gray",
     "autonote": true
