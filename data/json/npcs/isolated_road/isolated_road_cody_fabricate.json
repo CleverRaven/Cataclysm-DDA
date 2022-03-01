@@ -68,13 +68,13 @@
       "context": "artisans",
       "op": "==",
       "value": 3,
-      "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
-      "no": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+      "yes": "Alright so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
+      "no": "Alright so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
     },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good see you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
@@ -106,7 +106,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[300 merch] Sounds good see you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[300 merch] Sounds good see you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 300 } },
