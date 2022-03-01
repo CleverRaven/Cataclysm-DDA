@@ -16,7 +16,7 @@
     "name": { "str": "College Kids" },
     "description": "Several corpses of college kids are here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_collegekids" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -1, 0 ],
     "sym": "c",
     "color": "light_red",
     "autonote": true
@@ -27,7 +27,7 @@
     "name": { "str": "Drug Deal" },
     "description": "Several corpses of drug dealers are here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_drugdeal" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -2, 0 ],
     "sym": "d",
     "color": "light_red",
     "autonote": true
@@ -104,7 +104,7 @@
     "name": { "str": "Military", "ctxt": "Map Extra" },
     "description": "Several corpses of soldiers are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_military" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -4, 0 ],
     "sym": "m",
     "color": "light_red",
     "autonote": true
@@ -126,7 +126,7 @@
     "name": { "str": "Scientists" },
     "description": "Several corpses of scientists are here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_science" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -5, 0 ],
     "sym": "s",
     "color": "light_red",
     "autonote": true
@@ -137,7 +137,7 @@
     "name": { "str": "Portal" },
     "description": "Portal is here.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -5, 0 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -148,7 +148,7 @@
     "name": { "str": "Portal In" },
     "description": "Another portal is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_portal_in" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -5, 0 ],
     "sym": "P",
     "color": "magenta",
     "autonote": true
@@ -192,7 +192,7 @@
     "name": { "str": "Spider Nest" },
     "description": "Spider nest is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_spider" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
     "autonote": true
@@ -203,7 +203,7 @@
     "name": { "str": "Wasp Nest" },
     "description": "Wasp nest is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_wasp" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ 0, 3 ],
     "sym": "W",
     "color": "yellow",
     "autonote": true
@@ -214,7 +214,7 @@
     "name": { "str": "Spiders" },
     "description": "This area is covered with webs.  Probably spiders are nearby",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_spider" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -2, 0 ],
     "sym": "S",
     "color": "yellow",
     "autonote": true
@@ -225,7 +225,7 @@
     "name": { "str": "Trapdoor Spiders" },
     "description": "Several trapdoor spider nests.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_Trapdoor_spider_den" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ -2, 0 ]
   },
   {
     "id": "mx_shia",
@@ -244,7 +244,7 @@
     "name": { "str": "Jabberwock" },
     "description": "Jabberwock is nearby.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -2, 0 ],
     "sym": "J",
     "color": "red",
     "autonote": true
@@ -436,7 +436,7 @@
     "name": { "str": "Casings" },
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ -5, 0 ],
     "sym": "c",
     "color": "dark_gray",
     "autonote": true
@@ -447,7 +447,7 @@
     "name": { "str": "Looters" },
     "description": "Some looters gathering everything not nailed down.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_looters" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ -2, 0 ]
   },
   {
     "id": "mx_corpses",
@@ -455,7 +455,7 @@
     "name": { "str": "Corpses" },
     "description": "Some unfortunates from the billions lost in the Cataclysm.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ -5, 0 ]
   },
   {
     "id": "mx_nest_wasp",
@@ -463,7 +463,7 @@
     "name": { "str": "Wasp Nest" },
     "description": "A wasp nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_wasp" },
-    "min_max_zlevel": [ 0, 0 ],
+    "min_max_zlevel": [ 0, 9 ],
     "sym": "W",
     "color": "yellow",
     "autonote": true
