@@ -138,7 +138,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Monomolecular Blade CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A deadly foot-long blade made of advanced material that is installed inside the forearm, capable of being extended through the back of the user's wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent the user from holding anything else while extended.",
+    "description": "A deadly foot-long blade made of advanced material that is designed to be installed inside the user's right forearm, capable of being extended through the back of the user's wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent the user from holding anything else while extended.",
     "price": 8000,
     "weight": "250 g",
     "difficulty": 8
@@ -149,7 +149,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Shotgun Arm CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A concealed, single shot 12 gauge shotgun that is implanted inside the left forearm.  Perfect in a pinch.",
+    "description": "A concealed, single shot 12 gauge shotgun that is designed to be implanted inside the user's left forearm.  Perfect in a pinch.",
     "price": 220000,
     "difficulty": 3,
     "installation_data": "AID_bio_shotgun"
@@ -269,7 +269,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Expanded Digestive System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food.  Installing this CBM will correct any abnormalities in the patient's digestive system",
+    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also greatly increases the user's resistance to foodborne illness, and additionally enables the digestion of rotten food.  Installing this CBM will correct any abnormalities in the patient's digestive system.",
     "price": 550000,
     "difficulty": 6
   },
@@ -279,7 +279,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Enhanced Hearing CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "While this bionic is active, the user's hearing will be drastically improved, allowing them to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage their hearing.",
+    "description": "While this bionic is active, the user's hearing will be drastically improved, allowing them to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage their hearing.  The user will additionally gain the ability to, at will, completely block incoming sounds.",
     "price": 500000,
     "weight": "500 g",
     "difficulty": 6
@@ -290,7 +290,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Directional EMP CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
+    "description": "A small parabolic EMP field generator that is designed to be mounted in the user's left arm and lead down to the palm of the hand.  It can be used to instantly fire a wide, but short-ranged blast to heavily damage electronics and robots.",
     "price": 720000,
     "difficulty": 5
   },
@@ -363,7 +363,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dielectric Capacitance System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A network of miniature piezoelectric capacitors, implanted throughout the body to protect from external electrical discharge.",
+    "description": "A network of miniature piezoelectric capacitors, implanted throughout the body to protect from external electrical discharge and against shock from direct contact with high voltage.",
     "price": 5000,
     "weight": "500 g",
     "difficulty": 5
@@ -374,7 +374,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingerhack CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A miniature electrohack, surgically embedded in a finger of the right hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
+    "description": "A miniature electrohack, designed to be embedded into a finger of the user's left hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause harm to the user.",
     "price": 350000,
     "weight": "100 g",
     "difficulty": 2
@@ -529,7 +529,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Finger Lighter CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Powerful fire starters which extend from the tip of both hands' index fingers.",
+    "description": "A powerful firestarter which is designed to be installed into the index finger of the user's left hand.",
     "price": 130000,
     "weight": "500 g",
     "difficulty": 4
@@ -862,7 +862,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Autonomous Surgical Scalpels CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system of surgical grade scalpels that is implanted in the user's fingers.  They allow for automated precise cuts and can be used as a high-quality butchering tool.",
+    "description": "A system of surgical grade scalpels that are designed to be implanted in the user's forearms.  They allow for automated precise cuts in aiding dissections, but are also passable for use as a butchering tool if nothing better is avaliable.",
     "price": 220000,
     "weight": "20 g",
     "difficulty": 4
@@ -895,7 +895,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Teleportation Unit CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This highly experimental unit folds space over short distances, instantly transporting the user's body up to 25 feet in a random duration at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
+    "description": "This highly experimental unit folds space over short distances, instantly transporting the user's body up to 25 feet in a random direction at the cost of much power.  Note that prolonged or frequent use may have dangerous side effects.",
     "price": 700000,
     "difficulty": 7
   },
@@ -915,7 +915,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Integrated Multitool CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A surgically implanted set of compact tools and a welder which runs off the user's power banks.  Includes screwdriving heads, a multi-purpose knife, a low-power impact wrench and a nail prying tool.",
+    "description": "A set of compact tools which are designed to be implanted in the user's hands and forearms. They can be used for a myriad of things and allows some actions of which requires power, that can draw from the user's power reserves.",
     "price": 800000,
     "difficulty": 6
   },
