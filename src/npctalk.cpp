@@ -4343,8 +4343,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_shave ),
             WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
-            WRAP( buy_10_logs ),
-            WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( drop_items_in_place ),

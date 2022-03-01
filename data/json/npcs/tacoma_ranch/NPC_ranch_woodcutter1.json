@@ -38,13 +38,23 @@
       {
         "text": "[$2000, 1d] 10 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_10_logs", { "u_spend_cash": 200000 } ],
+        "effect": [
+          { "u_spend_cash": 200000 },
+          { "mapgen_update": "tacoma_commune_woodcutter_10_logs", "om_terrain": "ranch_camp_67" },
+          { "u_message": "[NPC NAME] drops the logs off in the garage…", "type": "good" },
+          { "npc_add_effect": "currently_busy", "duration": "24 h" }
+        ],
         "condition": { "npc_service": true }
       },
       {
         "text": "[$12000, 7d] 100 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_100_logs", { "u_spend_cash": 1200000 } ],
+        "effect": [
+          { "u_spend_cash": 1200000 },
+          { "mapgen_update": "tacoma_commune_woodcutter_100_logs", "om_terrain": "ranch_camp_67" },
+          { "u_message": "[NPC NAME] drops the logs off in the garage…", "type": "good" },
+          { "npc_add_effect": "currently_busy", "duration": "168 h" }
+        ],
         "condition": { "npc_service": true }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },

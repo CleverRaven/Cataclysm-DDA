@@ -168,11 +168,7 @@
         "               ",
         "               "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_dirt",
-        "q": "t_wall_half"
-      }
+      "terrain": { "w": "t_wall", ".": "t_dirt", "q": "t_wall_half" }
     }
   },
   {
@@ -203,13 +199,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": {
-        "w": "t_wall",
-        "+": "t_door_c",
-        ".": "t_dirt",
-        "q": "t_wall_half",
-        "0": "t_window_empty"
-      },
+      "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirt", "q": "t_wall_half", "0": "t_window_empty" },
       "furniture": { "k": "f_wood_keg" }
     }
   },
@@ -241,11 +231,7 @@
         "                    ",
         "                    "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_floor",
-        "]": "t_window_boarded_noglass"
-      }
+      "terrain": { "w": "t_wall", ".": "t_floor", "]": "t_window_boarded_noglass" }
     }
   },
   {
@@ -272,13 +258,7 @@
         "                ",
         "                "
       ],
-      "furniture": {
-        "C": "f_chair",
-        "t": "f_table",
-        "k": "f_wood_keg",
-        "v": "f_fvat_empty",
-        "s": "f_standing_tank"
-      }
+      "furniture": { "C": "f_chair", "t": "f_table", "k": "f_wood_keg", "v": "f_fvat_empty", "s": "f_standing_tank" }
     }
   },
   {
@@ -882,7 +862,7 @@
         { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
         { "item": "log", "x": 3, "y": 2 }
       ],
-      "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 7 } ]
+      "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }
   },
   {
@@ -952,5 +932,17 @@
       "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor", ".": "t_dirtfloor" },
       "furniture": { "c": "f_counter" }
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_woodcutter_10_logs",
+    "method": "json",
+    "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_woodcutter_100_logs",
+    "method": "json",
+    "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 100 } ] }
   }
 ]

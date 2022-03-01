@@ -658,8 +658,6 @@ Effect | Description
 Effect | Description
 ---|---
 `start_trade` | Opens the trade screen and allows trading with the NPC.
-`buy_10_logs` | Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
-`buy_100_logs` | Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
@@ -1023,8 +1021,6 @@ Example | Description
   "topic": "TALK_EVAC_MERCHANT_NO",
   "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
 },
-{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition":
-{ "npc_service": 2000 } },
 { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
 {
   "text": "[$8] I'll take a beer",
