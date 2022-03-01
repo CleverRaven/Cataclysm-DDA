@@ -142,55 +142,51 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
 ````
 
 ### Preventing monsters from spawning
-This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifers; look for a monster's `id` and `species` where they're defined in `data/json/monsters/`, and group `name`s can be found in `data/json/monstergroups/` for the core game.
+This kind of mod is relatively simple, but very useful. If you don't want to deal with certain types of monsters in your world, this is how you do it. You can create blacklists and whitelists to define the allowed monsters individually, by species, or by category. In order to create these you'll need the relevant identifers; look for a monster's `id`, `species`, and any `categories` in its JSON definition, which can be found in `data/json/monsters/` for the core game.
 
-Below is an excerpt from the `No Fungal Monsters` mod that shows how to blacklist groups and individual monsters. This will prevent any kind of fungaloid from spawning in-game.
+Below is an excerpt from the `Mythos` mod that shows how to blacklist monsters individually and by species. This will prevent all zombies, cyborgs, and robots from spawning in-game, with fungal zombies specified by `id`.
 ````json
 [
-  {
-    "type": "MONSTER_BLACKLIST",
-    "categories": [ "GROUP_FUNGI", "GROUP_FUNGI_TOWER", "GROUP_FUNGI_FLOWERS" ]
-  },
   {
     "type": "MONSTER_BLACKLIST",
     "monsters": [
-      "mon_spore",
-      "mon_fungaloid",
-      "mon_fungaloid_young",
       "mon_zombie_fungus",
       "mon_boomer_fungus",
       "mon_zombie_child_fungus",
-      "mon_fungal_wall",
-      "mon_fungaloid_queen",
-      "mon_fungal_tendril",
-      "mon_fungal_hedgerow",
-      "mon_fungaloid_tower",
-      "mon_fungal_blossom",
-      "mon_fungaloid_seeder"
+      "mon_zombie_gasbag_fungus",
+      "mon_zombie_smoker_fungus",
+      "mon_skeleton_fungus",
+      "mon_skeleton_brute_fungus",
+      "mon_skeleton_hulk_fungus",
+      "mon_chud"
     ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "species": [ "ZOMBIE", "ROBOT", "CYBORG" ]
   }
 ]
 ````
-The following is an example of how to blacklist monsters by species. In this case, it will remove all mi-go variants from the game.
+The following is an example of how to blacklist monsters by category. In this case, it will remove all classic zombie types from the game.
 ````json
 [
   {
     "type": "MONSTER_BLACKLIST",
-    "species": [ "MIGO" ]
+    "categories": [ "CLASSIC" ]
   }
 ]
 ````
-You can also define exclusions to a blacklist by combining it with a whitelist. Expanding on the previous example, this will remove all mi-go variants except the basic one.
+You can also define exclusions to a blacklist by combining it with a whitelist. Expanding on the previous example, this will remove all classic zombie types except zombie horses.
 ````json
 [
   {
     "type": "MONSTER_BLACKLIST",
-    "species": [ "MIGO" ]
+    "categories": [ "CLASSIC" ]
   },
   {
     "type": "MONSTER_WHITELIST",
     "monsters": [
-      "mon_mi_go"
+      "mon_zombie_horse"
     ]
   }
 ]
