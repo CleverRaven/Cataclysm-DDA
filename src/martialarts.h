@@ -176,7 +176,7 @@ class ma_technique
         bool dodge_counter = false; // counter move activated on a dodge
         bool block_counter = false; // counter move activated on a block
 
-        bool miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier, like tec_feint
+        bool miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
         bool grab_break = false;    // allows grab_breaks, like tec_break
 
         int weighting = 0; //how often this technique is used
