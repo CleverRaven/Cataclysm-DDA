@@ -2404,7 +2404,9 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ] ] ]
+    "components": [
+      [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ]
+    ]
   },
   {
     "type": "recipe",

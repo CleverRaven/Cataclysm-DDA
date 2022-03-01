@@ -63,6 +63,20 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "plantain_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "plantain", 1 ], [ "irradiated_plantain", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "grain_boiled",
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
