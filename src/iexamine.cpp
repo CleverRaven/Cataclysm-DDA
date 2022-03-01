@@ -378,15 +378,21 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         if( damage <= 0 ) {
             popup( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, BUT NOT DAMAGED REMOVE WORKING ITEM FROM FABRICATOR" ),
                    new_item.display_name() );
+            sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                           _( "REMOVE WORKING ITEM FROM FABRICATOR." ), true );
             return;
         }
 
         if( !on_table.front()->empty() ) {
             popup( _( "ITEM %s DETECTED, CONTENTS OF ITEM WILL BE DESTROYED BY FABRICATOR PLEASE EMPTY ITEM AND RETURN" ),
                    new_item.display_name() );
+            sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                           _( "PLEASE EMPTY ITEM AND RETURN." ), true );
             return;
         }
 
+        sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                       _( "REPAIR INTEGRITY DAMAGE?" ), true );
         if( !query_yn( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?" ),
                        new_item.display_name() ) ) {
             return;
