@@ -1960,7 +1960,7 @@ const item &outfit::i_at( int position ) const
 
 std::string outfit::get_armor_display( bodypart_id bp, unsigned int truncate ) const
 {
-    for( const auto it = worn.rbegin(); it != worn.rend(); ) {
+    for( auto it = worn.rbegin(); it != worn.rend(); ++it ) {
         if( it->covers( bp ) ) {
             return it->tname( 1, true, truncate );
         }
