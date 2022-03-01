@@ -29,7 +29,7 @@
     "to_hit": -2,
     "material": [ "dry_plant" ],
     "symbol": ";",
-    "color": "brown",
+    "color": "green",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
     "use_action": [ "FISH_TRAP" ]
