@@ -722,7 +722,7 @@
     "followup": "MISSION_RANCH_FOREMAN_14",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Check with the nurse when you get a chance; I know she will need help setting up our clinic.  On the construction front, we are going to need to get dedicated scavenger teams setup to bring in the miscellaneous supplies that we use in small quantities.  We are going to start setting up a junk shop for them in the North end of the outpost, so we could use your help with that.  Communication is the biggest obstacle for the teams… could you bring in a pair of two-way radios?",
+      "offer": "Check with the nurse when you get a chance; I know she will need help setting up our clinic.  On the construction front, we are going to need to get dedicated scavenger teams setup to bring in the miscellaneous supplies that we use in small quantities.  We are going to start setting up a junk shop for them behind the sawmill, so we could use your help with that.  Communication is the biggest obstacle for the teams… could you bring in a pair of two-way radios?",
       "accepted": "Organizing the scavenging missions is difficult enough without communication.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "You should be able to find them in electronics stores or at a police station.",
