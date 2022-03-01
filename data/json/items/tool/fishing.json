@@ -28,7 +28,7 @@
     "price_postapoc": 50,
     "to_hit": -2,
     "material": [ "dry_plant" ],
-    "symbol": "I",
+    "symbol": ";",
     "color": "brown",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
