@@ -807,7 +807,7 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
-    miss_recovery = false; // allows free recovery from misses, like tec_feint
+    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
@@ -1757,7 +1757,7 @@ std::string ma_technique::get_description() const
     }
 
     if( miss_recovery ) {
-        dump += _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) +
+        dump += _( "* Reduces the time of a <info>miss</info> by <info>half</info>" ) +
                 std::string( "\n" );
     }
 
