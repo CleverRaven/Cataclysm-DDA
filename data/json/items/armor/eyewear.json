@@ -209,7 +209,7 @@
     "id": "glass_goggles",
     "type": "ARMOR",
     "name": { "str": "pair of glass goggles", "str_pl": "pairs of glass goggles" },
-    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Wouldn't protect your eyes from physical harm, but they could keep hazardous chemicals out.",
+    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
     "weight": "90 g",
     "volume": "250 ml",
     "price": 1000,
