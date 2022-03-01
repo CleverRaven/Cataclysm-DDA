@@ -193,19 +193,7 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "ceramic", "covered_by_mat": 50, "thickness": 1.5 }
-        ],
-        "encumbrance": [ 0, 0 ],
-        "coverage": 100,
-        "cover_vitals": 90,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
       },
       {
         "encumbrance": [ 4, 4 ],
