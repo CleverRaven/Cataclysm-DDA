@@ -1,8 +1,9 @@
 "C++":
-  - src/**/*
+  - "**/*.cpp"
+  - "**/*.h"
 
 "Json":
-  - "data/**/*.json"
+  - "**/*.json"
 
 "Python":
   - "**/*.py"
@@ -18,8 +19,8 @@
   - tests/**/*
 
 "SDL: Tiles / Sound":
-  - sound/**/*
   - gfx/**/*
+  - sound/**/*
 
 "Translation":
   - lang/**/*
