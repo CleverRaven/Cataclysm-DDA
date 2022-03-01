@@ -56,13 +56,16 @@ void dialogue_window::handle_scrolling( const std::string &action, int num_respo
 {
     // Scroll the responses section
     const int displayable_lines = RESPONSES_LINES - 2;
+    const bool offscreen_lines = displayable_lines < num_responses;
     if( action == "PAGE_DOWN" ) {
         if( can_scroll_down ) {
             scroll_yoffset += displayable_lines;
+            sel_response = scroll_yoffset;
         }
     } else if( action == "PAGE_UP" ) {
         if( can_scroll_up ) {
             scroll_yoffset = std::max( 0, scroll_yoffset - displayable_lines );
+            sel_response = scroll_yoffset;
         }
     } else if( action == "UP" ) {
         sel_response--;
@@ -73,6 +76,18 @@ void dialogue_window::handle_scrolling( const std::string &action, int num_respo
         sel_response++;
         if( sel_response >= num_responses ) {
             sel_response = 0;
+        }
+    }
+    if( offscreen_lines ) {
+        if( sel_response < scroll_yoffset ) {
+            scroll_yoffset = sel_response;
+        } else if( sel_response >= scroll_yoffset + displayable_lines ) {
+            scroll_yoffset = sel_response - ( displayable_lines - 1 );
+        }
+        if( scroll_yoffset < 0 ) {
+            scroll_yoffset = 0;
+        } else if( scroll_yoffset >= num_responses ) {
+            scroll_yoffset = sel_response;
         }
     }
 }
