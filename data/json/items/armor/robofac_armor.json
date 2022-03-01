@@ -98,6 +98,8 @@
     "copy-from": "robofac_armor_rig",
     "name": { "str": "Hub 01 modular defense anchor" },
     "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explore.  Striped in brown and blue with a hardened skeleton of ceramic plates running up over the shoulders.  The white seal of Hub 01 is proudly displayed on a raised portion on the front.  Integrating quick access pouches attached to a waist drawstring and two waterproof internal dry bags it touts plenty of storage.  This poncho also has notable clips and velcro just below the waist and around the shoulders, perhaps something attaches there.",
+    "weight": "2000 g",
+    "volume": "4250 ml",
     "material": [ "nylon", "kevlar", "ceramic" ],
     "pocket_data": [
       {
@@ -182,13 +184,17 @@
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "ceramic", "covered_by_mat": 50, "thickness": 1.5 }
         ],
-        "encumbrance": [ 8, 12 ],
+        "encumbrance": [ 6, 10 ],
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
         "layers": [ "OUTER", "BELTED" ]
       },
       {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
         "encumbrance": [ 4, 4 ],
         "coverage": 100,
         "cover_vitals": 90,
@@ -196,6 +202,10 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
       },
       {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
         "encumbrance": [ 4, 4 ],
         "coverage": 100,
         "cover_vitals": 90,

@@ -135,7 +135,8 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
-            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+            { "not": { "u_has_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1"
@@ -162,7 +163,12 @@
       },
       {
         "text": "I would like you to upgrade my modular defense system.",
-        "condition": { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+            { "u_has_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+          ]
+        },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2"
       },
       {
@@ -322,7 +328,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_sell_item": "phase_immersion_suit", "count": 1 },
+          { "u_consume_item": "phase_immersion_suit", "count": 1 },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -373,7 +379,7 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
-          { "u_sell_item": "dimensional_anchor", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1 },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -390,13 +396,15 @@
     "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_COMPLETE",
     "//": "creating better MDS",
     "type": "talk_topic",
-    "dynamic_line": "We've made some notable progress.  We believe that we can integrate this into our current modular armor system leading to extradimensional protection, however it will make it heavier.",
+    "dynamic_line": "We've made some notable progress.  We believe that we can integrate this into our current modular armor system leading to extradimensional protection, however it will make it heavier and it will no longer fold up conveniently for travel.",
     "responses": [
       {
         "text": "Interesting.",
         "effect": [
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
-          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" }
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_add_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_spawn_item": "dimensional_anchor" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }
@@ -419,8 +427,8 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_sell_item": "dimensional_anchor", "count": 1 },
-          { "u_sell_item": "robofac_armor_rig", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1 },
+          { "u_consume_item": "robofac_armor_rig", "count": 1 },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
