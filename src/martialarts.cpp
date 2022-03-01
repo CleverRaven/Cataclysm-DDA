@@ -807,7 +807,7 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
-    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier, like tec_feint
+    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
