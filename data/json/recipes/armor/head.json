@@ -1346,9 +1346,9 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 9 ], [ "fabric_standard_nostretch", 12 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
+    "byproducts": [ [ "cotton_patchwork", 4 ] ]
   },
   {
     "result": "mask_filter",
@@ -1372,7 +1372,7 @@
     ],
     "components": [
       [ [ "bag_plastic", 2 ], [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ],
-      [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
+      [ [ "cotton_patchwork", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
       [ [ "charcoal", 10 ] ]
     ],
     "//": "Airtight takes some skills.",
