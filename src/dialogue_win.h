@@ -70,6 +70,8 @@ class dialogue_window
         std::vector<history_message> history_folded;  // Cache of folded history text
         /** Number of folded history messages to highlight. */
         int num_folded_lines_highlighted;
+        /** Stored responses (hotkey, num_lines, lines) */
+        std::vector<std::tuple<std::string, int, std::vector<std::string>>> folded_txt;
 
         // yoffset of the current response window
         int scroll_yoffset = 0;
