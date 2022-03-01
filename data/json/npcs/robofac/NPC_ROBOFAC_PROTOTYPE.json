@@ -136,7 +136,9 @@
           "and": [
             { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
-            { "not": { "u_has_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+            {
+              "not": { "u_has_var": "u_completed_anchor_pt_1", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1"
