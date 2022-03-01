@@ -1784,6 +1784,7 @@ static projectile make_gun_projectile( const item &gun )
         if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            drop.set_favorite( gun.get_contents().first_ammo().is_favorite );
             proj.set_drop( drop );
         }
 
@@ -3460,8 +3461,10 @@ void target_ui::panel_gun_info( int &text_y )
     if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
-        str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
+        bool is_favorite = relevant->get_contents().first_ammo().is_favorite;
+        str = string_format( m->ammo_remaining() ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ),
+                             colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining(),
                              m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {

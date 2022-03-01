@@ -969,8 +969,7 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "charges": 470,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
   },
   {
@@ -985,8 +984,7 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "charges": 421,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [
       [ [ "chem_saltpetre", 10 ] ],
       [ [ "water_clean", 1 ] ],
@@ -1623,10 +1621,10 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "20 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "autolearn": true,
     "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
-    "tools": [ [ [ "mortar_pestle", -1 ], [ "funnel", -1 ] ] ],
+    "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {

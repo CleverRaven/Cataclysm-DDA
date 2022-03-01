@@ -703,6 +703,7 @@
     "name": { "str": "cooked liver" },
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
+    "fun": 0,
     "price_postapoc": 50,
     "healthy": 2
   },
@@ -1251,7 +1252,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "vitamins": [ [ "mutagen_beast", 250 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {
@@ -1271,7 +1272,7 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "vitamins": [ [ "mutagen_beast", 300 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {

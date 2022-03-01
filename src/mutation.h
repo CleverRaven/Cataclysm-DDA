@@ -141,6 +141,8 @@ struct mutation_branch {
         bool thirst        = false;
         // How many points it costs in character creation
         int points     = 0;
+        // How many mutagen vitamins are consumed to gain this trait
+        int vitamin_cost = 100;
         int visibility = 0;
         int ugliness   = 0;
         int cost       = 0;
@@ -231,6 +233,8 @@ struct mutation_branch {
         cata::optional<float> stomach_size_multiplier = cata::nullopt;
         // the modifier for the vomit chance
         cata::optional<float> vomit_multiplier = cata::nullopt;
+        // the modifier for sweat ammount
+        cata::optional<float> sweat_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         cata::optional<float> overmap_sight = cata::nullopt;
@@ -472,59 +476,23 @@ struct mutation_category_trait {
         translation raw_name;
         // Message when you consume mutagen
         translation raw_mutagen_message;
-        // Message when you inject an iv
-        translation raw_iv_message;
-        translation raw_iv_sound_message = no_translation( "NULL" );
-        std::string raw_iv_sound_id = "shout";
-        std::string raw_iv_sound_variant = "default";
-        translation raw_iv_sleep_message = no_translation( "NULL" );
-        translation raw_junkie_message;
         // Memorial message when you cross a threshold
         std::string raw_memorial_message;
 
     public:
         std::string name() const;
         std::string mutagen_message() const;
-        std::string iv_message() const;
-        std::string iv_sound_message() const;
-        std::string iv_sound_id() const;
-        std::string iv_sound_variant() const;
-        std::string iv_sleep_message() const;
-        std::string junkie_message() const;
         std::string memorial_message_male() const;
         std::string memorial_message_female() const;
 
+        // Meta-label indicating that the category isn't finished yet.
+        bool wip = false;
         // Mutation category i.e "BIRD", "CHIMERA"
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
-
-        // These are defaults
-        int mutagen_hunger  = 10;
-        int mutagen_thirst  = 10;
-        int mutagen_pain    = 2;
-        int mutagen_fatigue = 5;
-        int mutagen_morale  = 0;
-        // The minimum mutations an injection provides
-        int iv_min_mutations    = 1;
-        int iv_additional_mutations = 2;
-        // Chance of additional mutations
-        int iv_additional_mutations_chance = 3;
-        int iv_hunger   = 10;
-        int iv_thirst   = 10;
-        int iv_pain     = 2;
-        int iv_fatigue  = 5;
-        int iv_morale   = 0;
-        int iv_morale_max = 0;
-        // Meta-label indicating that the category isn't finished yet.
-        bool wip = false;
-        // Determines if you make a sound when you inject mutagen
-        bool iv_sound = false;
-        // The amount of noise produced by the sound
-        int iv_noise = 0;
-        // Whether the iv has a chance of knocking you out.
-        bool iv_sleep = false;
-        int iv_sleep_dur = 0;
+        // Mutation vitamin
+        vitamin_id vitamin;
 
         static const std::map<mutation_category_id, mutation_category_trait> &get_all();
         static const mutation_category_trait &get_category(
@@ -563,21 +531,6 @@ template<>
 struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
-
-enum class mutagen_rejection : int {
-    accepted,
-    rejected,
-    destroyed
-};
-
-struct mutagen_attempt {
-    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
-    bool allowed;
-    int charges_used;
-};
-
-mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
-                                       mutagen_technique technique );
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 

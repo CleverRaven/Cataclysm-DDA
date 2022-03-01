@@ -165,7 +165,7 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_14,              //Need 5 backpacks for scavengers
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
-    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
+    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st greenhouse
     MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
