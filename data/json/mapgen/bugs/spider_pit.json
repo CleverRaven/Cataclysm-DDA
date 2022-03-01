@@ -34,6 +34,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_region_groundcover_forest", ">": "t_slope_down" },
+      "traps": { ".": [ [ "tr_null", 20 ], "tr_sinkhole" ] },
       "place_fields": [
         { "field": "fd_web", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": 60 },
         { "field": "fd_web", "x": [ 8, 15 ], "y": [ 8, 15 ], "repeat": 60 }
