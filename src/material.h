@@ -29,7 +29,7 @@ using material_id_list = std::vector<material_id>;
 enum class breathability_rating : int {
     IMPERMEABLE = 0,
     POOR,
-    ALRIGHT,
+    AVERAGE,
     GOOD,
     MOISTURE_WICKING,
     SECOND_SKIN,
