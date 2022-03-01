@@ -104,7 +104,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -119,7 +119,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "u_compare_time_since_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
               "u_has_var": "u_current_project",
               "type": "dialogue",
@@ -129,6 +129,61 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
+      },
+      {
+        "text": "I've found this piece of XEDRA tech?  Some sort of defense against monsters.  I'm curious what you all can make of it.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1"
+      },
+      {
+        "text": "Any progress on the anchor?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "5 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Any progress on the anchor?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "5 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_COMPLETE"
+      },
+      {
+        "text": "I would like you to upgrade my modular defense system.",
+        "condition": { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+        "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2"
+      },
+      {
+        "text": "Any progress on the hub anchor?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "2 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Any progress on the hub anchor?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "2 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -260,16 +315,16 @@
     "id": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR",
     "//": "repairing Phase Immersion Suit",
     "type": "talk_topic",
-    "dynamic_line": "Certainly, for 1 coin someone can get repairs and adjustments completed by tomorrow.  We'll also pull suit metrics and haptic data to better understand the situation on the ground.",
+    "dynamic_line": "Certainly, for 1 coin someone can get repairs and adjustments completed by tomorrow.  We'll also pull suit metrics and haptic data to better understand the situation on the ground.  I'd ask you to make sure everything has been removed from the suit before giving it to us as well.",
     "responses": [
       {
-        "text": "[1 HGC] See you tomorrow.",
+        "text": "[1 HGC, suit] See you tomorrow.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
           { "u_sell_item": "phase_immersion_suit", "count": 1 },
           { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_repair", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           {
             "u_add_var": "u_current_project",
@@ -297,6 +352,99 @@
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_spawn_item": "phase_immersion_suit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1",
+    "//": "creating better MDS",
+    "type": "talk_topic",
+    "dynamic_line": "Interesting, if you provide the item we can direct someone to focus on this research for 2 coins for a standard work week, after that we'll let you know if any progress has been made and return the item.  Please remove everything from the item before handing it over.",
+    "responses": [
+      {
+        "text": "[2 HGC, anchor] See you in 5 days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_sell_item": "dimensional_anchor", "count": 1 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_1" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_COMPLETE",
+    "//": "creating better MDS",
+    "type": "talk_topic",
+    "dynamic_line": "We've made some notable progress.  We believe that we can integrate this into our current modular armor system leading to extradimensional protection, however it will make it heavier.",
+    "responses": [
+      {
+        "text": "Interesting.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2",
+    "//": "creating better MDS",
+    "type": "talk_topic",
+    "dynamic_line": "Very well, we will need 1 coin for materials as well as the anchor and a modular defense system.  As usual, I encourage you to remove everything from the pockets before handing them over for processing.  We'll need one day for construction and one day to verify efficacy.",
+    "responses": [
+      {
+        "text": "[1 HGC, anchor, MDS] See you in 2 days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+            { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
+            { "u_has_items": { "item": "robofac_armor_rig", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "u_sell_item": "dimensional_anchor", "count": 1 },
+          { "u_sell_item": "robofac_armor_rig", "count": 1 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE",
+    "//": "creating better MDS",
+    "type": "talk_topic",
+    "dynamic_line": "The anchor has been integrated into the harness.  Thank you as always for your contributions to research and tech.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_spawn_item": "robofac_armor_anchor" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }
