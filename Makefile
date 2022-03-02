@@ -74,6 +74,8 @@
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
+# Astyle all source files as fast as possible.
+#  make astyle-fast
 # Check if source files are styled properly.
 #  make astyle-check
 # Style the whitelisted json files (maintain the current level of styling).
@@ -1198,6 +1200,9 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 	mkdir -p $(@D) && touch $@
 
 endif
+
+astyle-fast: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
