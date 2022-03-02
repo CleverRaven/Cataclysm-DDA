@@ -8,7 +8,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "FFF.......pppppppp...........................FFF",
-        "FTFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
         "FFG.W4ddw.pppppppp...........................GFF",
         ".F..W-c?w.pppppppp...|||||||||||||||||||||||..F.",
         ".F..WmWWW.pppppppp...|%_____________C__B___|..F.",
@@ -53,7 +53,7 @@
         ".F..==========o==================o==========..F.",
         ".F..==========o==================o==========..F.",
         "FFG..........................................GFF",
-        "FTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
         "FFF..........................................FFF"
       ],
       "palettes": [ "helipad_palette" ],
@@ -117,7 +117,6 @@
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
-      "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_vehicles": [
         { "vehicle": "forklift", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
