@@ -522,7 +522,7 @@
   {
     "type": "item_action",
     "id": "FISH_ROD",
-    "name": { "str": "Fish" }
+    "name": { "ctxt": "FISH_ROD", "str": "Fish" }
   },
   {
     "type": "item_action",
