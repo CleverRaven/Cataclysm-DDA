@@ -1322,7 +1322,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
                "  Environmental: <color_c_yellow>10</color>\n"
-               "  Breathability: <color_c_yellow>30</color>\n"
+               "  Breathability: <color_c_yellow>50</color>\n"
              );
     }
 }
