@@ -103,6 +103,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "HEATED_TANK", VPFLAG_HEATED_TANK, },
     { "COOLER", VPFLAG_COOLER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },

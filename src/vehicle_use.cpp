@@ -311,6 +311,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_FREEZER" ), "FREEZER" );
     add_toggle( pgettext( "electronics menu option", "space heater" ),
                 keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( pgettext( "electronics menu option", "heated tank" ),
+                keybind( "TOGGLE_HEATED_TANK" ), "HEATED_TANK" );
     add_toggle( pgettext( "electronics menu option", "cooler" ),
                 keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( pgettext( "electronics menu option", "recharger" ),

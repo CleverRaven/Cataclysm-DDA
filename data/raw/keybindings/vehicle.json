@@ -126,6 +126,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
+    "id": "TOGGLE_HEATED_TANK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle heated tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "j" } ]
+  },
+  {
     "id": "TOGGLE_COOLER",
     "type": "keybinding",
     "category": "VEHICLE",

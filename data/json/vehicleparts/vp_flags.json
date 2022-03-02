@@ -381,6 +381,10 @@
     "type": "json_flag"
   },
   {
+    "id": "HEATED_TANK",
+    "type": "json_flag"
+  },
+  {
     "id": "HORN",
     "type": "json_flag"
   },
