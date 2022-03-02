@@ -2431,14 +2431,14 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
     "result": "sheet",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "8 s",
-    "components": [ [ [ "sheet_cotton_patchwork", 8 ] ] ],
+    "components": [ [ [ "sheet_cotton_patchwork", 12 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -2455,8 +2455,15 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "scrap_cotton", 2 ] ] ],
-    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
+    "components": [ [ [ "scrap_cotton", 4 ] ] ]
+  },
+  {
+    "result": "scrap_cotton",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread", 10 ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -2464,15 +2471,32 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
+    "components": [ [ [ "neoprene", 8 ] ] ]
   },
   {
     "result": "sheet_nomex_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nomex", 8 ] ] ]
+  },
+  {
+    "result": "nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nomex", 1 ] ], [ [ "scrap_nomex", 20 ] ] ]
+    "components": [ [ [ "scrap_nomex", 4 ] ] ]
+  },
+  {
+    "result": "scrap_nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "35 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread_nomex", 40 ] ] ],
+    "//": "Thread is odd so we're just kind of giving you some whole pieces of thread, when it shouldn't be near that, but we need a source."
   },
   {
     "result": "tanned_hide",
@@ -2480,7 +2504,7 @@
     "time": "2 m",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "leather", 6 ] ] ]
+    "components": [ [ [ "leather", 8 ] ] ]
   },
   {
     "result": "tanned_pelt",
@@ -2488,7 +2512,7 @@
     "time": "2 m",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "fur", 6 ] ] ]
+    "components": [ [ [ "fur", 8 ] ] ]
   },
   {
     "result": "eink_tablet_pc",
@@ -3678,7 +3702,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 80 ] ] ]
+    "components": [ [ [ "scrap_cotton", 4 ] ] ]
   },
   {
     "result": "stick_fiber",
@@ -5006,7 +5030,7 @@
     "skill_used": "fabrication",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "flashlight", 1 ] ], [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "flashlight", 1 ] ], [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "miner_hat",
@@ -5018,7 +5042,13 @@
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
       [ [ "flashlight", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "cotton_patchwork", 2 ],
+        [ "leather", 2 ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
@@ -5843,8 +5873,26 @@
     "time": "10 m",
     "skill_used": "tailor",
     "difficulty": 3,
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 2 ] ] ]
+    "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 40 ] ] ],
+    "//": "Realistically, this may be out of the question (though I have not found info to the contrary), and a full sheet would give way more thread, but this is to keep the time down"
+  },
+  {
+    "result": "scrap_kevlar",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_kevlar", 10 ] ] ]
+  },
+  {
+    "result": "sheet_kevlar_layered",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_kevlar", 16 ] ] ],
+    "//": "just ripping the seams to separate the 16 layers"
   },
   {
     "result": "office_letter_opener",

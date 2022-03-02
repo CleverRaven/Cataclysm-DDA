@@ -494,7 +494,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -506,7 +506,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -514,7 +514,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
@@ -528,7 +528,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -540,7 +540,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -548,7 +548,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_lc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
@@ -562,7 +562,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -574,7 +574,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -582,7 +582,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_mc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
@@ -596,7 +596,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -608,7 +608,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -616,7 +616,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_hc_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
@@ -630,7 +630,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -642,7 +642,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -650,7 +650,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_ch_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
@@ -664,7 +664,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "840 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 66 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 66 ] ],
     "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
@@ -676,7 +676,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_arms",
     "time": "840 m",
-    "byproducts": [ [ "rag", 1 ], [ "scrap_cotton", 49 ] ],
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "scrap_cotton", 49 ] ],
     "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -684,7 +684,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_arms",
     "time": "945 m",
-    "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {

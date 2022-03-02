@@ -609,7 +609,7 @@
     "type": "ARMOR",
     "name": { "str": "turban" },
     "description": "Rags worn around the head.",
-    "weight": "110 g",
+    "weight": "105 g",
     "volume": "250 ml",
     "price": 85,
     "price_postapoc": 10,

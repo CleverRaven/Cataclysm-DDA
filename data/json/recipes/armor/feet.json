@@ -170,7 +170,6 @@
     "skills_required": [ "survival", 1 ],
     "time": "12 h",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
     "using": [
       [ "sewing_standard", 13 ],
