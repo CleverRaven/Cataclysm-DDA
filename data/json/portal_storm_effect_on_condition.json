@@ -749,7 +749,13 @@
       {
         "result": [ "t_door_curtain_o" ],
         "valid_terrain": [ "t_door_curtain_c" ],
-        "message": " A door flies open!",
+        "message": " A curtain flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_o" ],
+        "valid_terrain": [ "t_door_grass_curtain_c" ],
+        "message": " A curtain flies open!",
         "message_good": false
       },
       {
@@ -906,7 +912,13 @@
       {
         "result": [ "t_door_curtain_c" ],
         "valid_terrain": [ "t_door_curtain_o" ],
-        "message": " A door slams shut!",
+        "message": " A curtain suddenly shuts!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_c" ],
+        "valid_terrain": [ "t_door_grass_curtain_o" ],
+        "message": " A curtain suddenly shuts!",
         "message_good": false
       },
       {
