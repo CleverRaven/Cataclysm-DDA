@@ -79,7 +79,7 @@
   },
   {
     "type": "item_group",
-    "id": "ant_food",
+    "id": "kraken_food",
     "subtype": "distribution",
     "entries": [
       { "item": "meat", "prob": 50 },

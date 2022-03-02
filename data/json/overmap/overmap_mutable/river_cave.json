@@ -4,9 +4,8 @@
     "id": "river_cave",
     "subtype": "mutable",
     "locations": [ "water", "subterranean_empty" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "RIVER" ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "RIVER" ],
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "water" ] ],

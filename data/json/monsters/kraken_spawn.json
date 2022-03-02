@@ -105,7 +105,7 @@
     "id": "mon_kraken_queen",
     "type": "MONSTER",
     "name": { "str_sp": "scylla" },
-    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic grey, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
+    "description": "The water froths as a great bulk of tentacles breach the surface.  A great bulk swiftly rises until the beak rises above the water and a shriek erupts from the beast.",
     "symbol": "A",
     "color": "red",
     "copy-from": "mon_kraken_guard",
