@@ -862,7 +862,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Autonomous Surgical Scalpels CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system of surgical grade scalpels that are designed to be implanted in the user's forearms.  They allow for automated precise cuts in aiding dissections, but are also passable for use as a butchering tool if nothing better is available.",
+    "description": "A system of surgical grade scalpels that is designed to be implanted in the user's forearms.  It allows for automated precise cuts in aiding dissections, but is also passable for use as a butchering tool if nothing better is available.",
     "price": 220000,
     "weight": "20 g",
     "difficulty": 4
@@ -915,7 +915,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Integrated Multitool CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of compact tools which are designed to be implanted in the user's hands and forearms. They can be used for a myriad of things and allows some actions of which requires power, that can draw from the user's power reserves.",
+    "description": "A set of compact tools which is designed to be implanted in the user's hands and forearms.  It can be used for a myriad of things and will run off your internal power banks when needed.",
     "price": 800000,
     "difficulty": 6
   },

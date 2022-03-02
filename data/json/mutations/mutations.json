@@ -6104,7 +6104,7 @@
     "id": "CARNIVORE",
     "name": { "str": "Carnivore" },
     "points": -4,
-    "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat, though, your body has begun its own production of vitamin C.",
+    "description": "Your body's ability to digest fruits, vegetables, grains and nuts is severely hampered.  You cannot eat anything besides meat, though your body has begun its own production of vitamin C.",
     "types": [ "DIET" ],
     "leads_to": [ "SAPROVORE" ],
     "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "FELINE", "BATRACHIAN" ],
