@@ -1,0 +1,156 @@
+[
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways it doesn't matter anymore since, well it doesn't matter."
+    ],
+    "responses": [
+      {
+        "text": "Are you and Jay close?",
+        "condition": { "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "I'm sure we'll fix things soon!",
+        "condition": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  If you wanted to help source parts and do some testing we could definitely work on some of this stuff."
+    ],
+    "responses": [
+      {
+        "text": "Alright.",
+        "effect": [ { "u_add_var": "blacksmith_can_prototype", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sure what would you like to know more about."
+    ],
+    "responses": [
+      {
+        "text": "[motion to the pictured mace gun] what's the 'OBREZ'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafted_obrez", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_OBREZ"
+      },
+      {
+        "text": "[motion to the pictured switch blade] what's the 'PRESSIN'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafted_pressin", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_PRESSIN"
+      },
+      {
+        "text": "[motion to the mace] what's the 'LOUVERTURE'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafted_louverture", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_LOUVERTURE"
+      },
+      {
+        "text": "[motion to the sledgehammer] what's the 'PULVERIZER'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafted_pulverizer", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_PULVERIZER"
+      },
+      { "text": "Nevermind.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+   "id": "TALK_BLACKSMITH_OBREZ",
+   "//": "Obrez Mace",
+   "type": "talk_topic",
+   "dynamic_line": "The Obrez is a classic Mozin-Nagant that someone has cut down and removed the stock of.  The idea was in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin, any variant will do, and give me a week and I can get this one working.",
+   "responses": [
+     {
+       "text": "[Mosin-Nagant M44] See you in a week.",
+       "condition": { "u_has_items": { "item": "mosin44", "count": 1 } },
+       "effect": [
+         { "u_consume_item": "mosin44", "count": 1 },
+         { "u_add_faction_trust": 1 },
+         { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+         { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+         {
+           "u_add_var": "u_current_project",
+           "type": "dialogue",
+           "context": "artisans",
+           "value": "obrez"
+         }
+       ],
+       "topic": "TALK_BLACKSMITH_SERVICES"
+     },
+     {
+       "text": "[Mosin-Nagant 1891/30] See you in a week.",
+       "condition": { "u_has_items": { "item": "mosin91_30", "count": 1 } },
+       "effect": [
+         { "u_consume_item": "mosin91_30", "count": 1 },
+         { "u_add_faction_trust": 1 },
+         { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+         { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+         {
+           "u_add_var": "u_current_project",
+           "type": "dialogue",
+           "context": "artisans",
+           "value": "obrez"
+         }
+       ],
+       "topic": "TALK_BLACKSMITH_SERVICES"
+     },
+     { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+     { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+     { "text": "I'll check in later.", "topic": "TALK_DONE" }
+   ]
+ },
+ {
+  "id": "TALK_BLACKSMITH_PRESSIN",
+  "//": "Pressin Pistol Knife",
+  "type": "talk_topic",
+  "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.",
+  "responses": [
+    {
+      "text": "[Mosin-Nagant M44] See you in a week.",
+      "condition": { "u_has_items": { "item": "mosin44", "count": 1 } },
+      "effect": [
+        { "u_consume_item": "mosin44", "count": 1 },
+        { "u_add_faction_trust": 1 },
+        { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+        { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+        {
+          "u_add_var": "u_current_project",
+          "type": "dialogue",
+          "context": "artisans",
+          "value": "obrez"
+        }
+      ],
+      "topic": "TALK_BLACKSMITH_SERVICES"
+    },
+    {
+      "text": "[Mosin-Nagant 1891/30] See you in a week.",
+      "condition": { "u_has_items": { "item": "mosin91_30", "count": 1 } },
+      "effect": [
+        { "u_consume_item": "mosin91_30", "count": 1 },
+        { "u_add_faction_trust": 1 },
+        { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+        { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+        {
+          "u_add_var": "u_current_project",
+          "type": "dialogue",
+          "context": "artisans",
+          "value": "obrez"
+        }
+      ],
+      "topic": "TALK_BLACKSMITH_SERVICES"
+    },
+    { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+    { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+    { "text": "I'll check in later.", "topic": "TALK_DONE" }
+  ]
+}
+]
