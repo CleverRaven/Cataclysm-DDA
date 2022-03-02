@@ -770,7 +770,7 @@
     "id": "bio_emp",
     "type": "bionic",
     "name": { "str": "Directional EMP" },
-    "description": "Surgically mounted in your left arm and the palm of your left hand are small parabolic EMP field generators.  You may use bionic power to fire a wide but short-ranged blast that will not penetrate walls, but heavily damages electronics and robots.",
+    "description": "Surgically mounted in your left arm and the palm of your left hand is a small parabolic EMP field generator.  You may use bionic power to fire a wide but short-ranged blast that will not penetrate walls, but can heavily damage electronics and robots.",
     "occupied_bodyparts": [ [ "arm_l", 6 ], [ "hand_l", 1 ] ],
     "act_cost": "50 kJ"
   },
