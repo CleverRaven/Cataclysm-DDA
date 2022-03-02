@@ -363,7 +363,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dielectric Capacitance System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A network of miniature piezoelectric capacitors, implanted throughout the body to protect from external electrical discharge and against shock from direct contact with high voltage.",
+    "description": "A network of miniature piezoelectric capacitors, implanted throughout the body to protect from external electrical discharge.",
     "price": 5000,
     "weight": "500 g",
     "difficulty": 5
