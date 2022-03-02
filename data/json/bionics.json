@@ -1091,7 +1091,7 @@
     "id": "bio_lockpick",
     "type": "bionic",
     "name": { "str": "Fingerpick" },
-    "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
+    "description": "One of your fingers in your left hand has an electronic lockpick surgically embedded in the tip.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "hand_l", 2 ] ],
     "act_cost": "50 J"
   },
@@ -1555,7 +1555,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": { "str": "Integrated Multitool" },
-    "description": "Surgically implanted in your hands and forearms is a set of compact tools, for those of which need power, will run off your internal power banks. It includes screwdriving heads, a multi-purpose knife, a low-power impact wrench, a nail prying tool and a hotplate, along with a prying tool and soldering iron if the toolset is extended.",
+    "description": "Surgically implanted in your hands and forearms is a set of compact tools, for those of which need power, will run off your internal power banks.  It includes screwdriving heads, a multi-purpose knife, a low-power impact wrench, a nail prying tool and a hotplate, along with a prying tool and soldering iron if the toolset is extended.",
     "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],

@@ -374,7 +374,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingerhack CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A miniature electrohack, designed to be embedded into a finger of the user's left hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause harm to the user.",
+    "description": "A miniature electrohack, designed to be embedded into a finger of the user's left hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Effective usage of this module still requires the user to be proficient in computers, otherwise they may suffer harm upon an unsuccessful attempt.",
     "price": 350000,
     "weight": "100 g",
     "difficulty": 2
@@ -540,7 +540,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingerpick CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An electronic lockpick that is embedded in a fingertip.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
+    "description": "An electronic lockpick that designed to be embedded in a fingertip of the left hand.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "price": 350000,
     "weight": "200 g",
     "difficulty": 2
