@@ -368,11 +368,7 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                 entry = "* ";
             }
             bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
-            if( const npc *np = dynamic_cast<const npc *>( npc_list[i] ) ) {
-                entry += np->name_and_activity();
-            } else {
-                entry += npc_list[i]->disp_name( false, true );
-            }
+            entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
         nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
