@@ -698,7 +698,7 @@
     "id": "bio_digestion",
     "type": "bionic",
     "name": { "str": "Expanded Digestive System" },
-    "description": "Your digestive system has been replaced by three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and you may safely consume and digest rotten food.",
+    "description": "Your digestive system has been replaced by three synthetic stomachs and industrial-grade intestines.  Not only will this module extract much more nutrition from food, it will make you immune to foodborne pathogens, as well as allow you to safely consume rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
