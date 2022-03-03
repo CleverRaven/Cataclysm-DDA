@@ -380,7 +380,7 @@ void veh_app_interact::populate_app_actions()
     std::vector<std::function<void()>> tmp_acts;
     veh->set_electronics_menu_options( tmp_opts, tmp_acts );
     for( size_t i = 0; i < tmp_opts.size() && i < ctxt_letters.size(); i++ ) {
-        imenu.addentry( -1, true, ctxt_letters[i], tmp_opts[i].txt );
+        imenu.addentry( -1, tmp_opts[i].enabled, ctxt_letters[i], tmp_opts[i].txt );
         app_actions.emplace_back( tmp_acts[i] );
     }
     imenu.setup();
