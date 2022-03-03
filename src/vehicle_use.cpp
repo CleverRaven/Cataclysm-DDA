@@ -364,18 +364,19 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
 }
 
 
-    if( has_part( "ARCADE" ) ) {
-        item *arc_itm = nullptr;
-        for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
-            if( arc_vp.part().enabled ) {
-                arc_itm = &arc_vp.part().base;
-                break;
-            }
+if( has_part( "ARCADE" ) )
+{
+    item *arc_itm = nullptr;
+    for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
+        if( arc_vp.part().enabled ) {
+            arc_itm = &arc_vp.part().base;
+            break;
         }
-        options.emplace_back( -1, !!arc_itm, keybind( "ARCADE" ), _( "Play arcade machine" ) );
-        actions.emplace_back( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint() ); } );
     }
-    
+    options.emplace_back( -1, !!arc_itm, keybind( "ARCADE" ), _( "Play arcade machine" ) );
+    actions.emplace_back( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint() ); } );
+}
+
 }
 
 void vehicle::control_electronics()
