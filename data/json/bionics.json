@@ -1785,5 +1785,27 @@
     "description": "For better or worse, this CBM suppresses all stimuli while asleep, preventing you from waking up until the end of your natural sleep cycle.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_FAULTY" ]
+  },
+  {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Fusion Blaster Arm CBM",
+    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
+    "id": "bio_blaster",
+    "type": "bionic",
+    "name": "Fusion Blaster Arm",
+    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "occupied_bodyparts": [ [ "hand_l", 2 ] ],
+    "act_cost": ,
+    "fake_item": "",
+    "flags": [ "BIONIC_GUN" ],
+    "act_cost": "90 kJ",
+    "fake_weapon": "bio_blaster_gun",
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   }
 ]
