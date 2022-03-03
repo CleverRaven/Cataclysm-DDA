@@ -26,7 +26,7 @@
     "skills": [
       { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "swimming", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "social", "bonus": { "rng": [ 3, 6 ] } }
+      { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } }
     ],
     "bonus_per": 2,
     "bonus_dex": 4,
