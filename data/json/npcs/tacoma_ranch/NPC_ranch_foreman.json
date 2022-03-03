@@ -846,7 +846,7 @@
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Although we are an agricultural outpost, we are restricted to growing plants that are compatible with the New England climate during the warmer months.  The easiest way to work around that is to build green houses to supplement our external fields.  There isn't going to be an easy way to build these, we are going to need a massive number of glass sheets to enclose the frames.  The first house will need 30 sheets of glass if you are still interested.",
+      "offer": "Although we are an agricultural outpost, we are restricted to growing plants that are compatible with the New England climate during the warmer months.  The easiest way to work around that is to build greenhouses to supplement our external fields.  There isn't going to be an easy way to build these, we are going to need a massive number of glass sheets to enclose the frames.  The first house will need 30 sheets of glass if you are still interested.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Deconstructing existing windows is the only way I know of to keep the sheets intact.",

@@ -183,6 +183,7 @@ const flag_id flag_MUNDANE( "MUNDANE" );
 const flag_id flag_MUSHY( "MUSHY" );
 const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_MYCUS_OK( "MYCUS_OK" );
+const flag_id flag_NANOFAB_REPAIR( "NANOFAB_REPAIR" );
 const flag_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE( "NANOFAB_TEMPLATE_SINGLE_USE" );
 const flag_id flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
