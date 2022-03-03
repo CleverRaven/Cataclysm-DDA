@@ -3642,7 +3642,6 @@ void target_ui::on_target_accepted( bool harmful )
                 // TODO: get rid of this. Or combine it with effect_hit_by_player
                 guy->hit_by_player = true; // used for morale penalty
             }
-            guy->make_angry();
         }
     } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
         mon->add_effect( effect_hit_by_player, 10_minutes );

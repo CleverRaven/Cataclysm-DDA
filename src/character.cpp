@@ -778,6 +778,11 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
+std::string Character::name_and_maybe_activity() const
+{
+    return disp_name( false, true );
+}
+
 std::string Character::skin_name() const
 {
     // TODO: Return actual deflecting layer name
@@ -5748,7 +5753,8 @@ mutation_value_map = {
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
-    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
+    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> },
+    { "sweat_multiplier", calc_mutation_value_multiplicative<&mutation_branch::sweat_multiplier> },
 };
 
 float Character::mutation_value( const std::string &val ) const
@@ -9397,7 +9403,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
             // multiplier to balance values aroud drench capacity of different body parts
-            int mult = get_part_drench_capacity( bp ) / 100;
+            int mult = mutation_value( "sweat_multiplier" ) * get_part_drench_capacity( bp ) / 100;
             mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
                               it.get_max_val( "PERSPIRATION", reduced ) * mult,
                               it.get_min_val( "PERSPIRATION", reduced ) * mult ) );

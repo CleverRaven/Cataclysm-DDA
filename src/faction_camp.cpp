@@ -1165,13 +1165,18 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
     {
         mission_id miss_id = { Camp_Crafting, "", dir };
         comp_list npc_list = get_mission_workers( miss_id, true );
-        if( npc_list.empty() ) {
+        if( npc_list.size() < 3 ) {
             add_available_recipes( mission_key, Camp_Crafting, dir, craft_recipes );
-        } else {
-            for( npc_ptr &comp : npc_list ) {
-                miss_id.parameters = comp.get()->get_companion_mission().miss_id.parameters;
-                const std::string bldg = recipe_group::get_building_of_recipe
-                                         ( miss_id.parameters );
+        }
+
+        if( !npc_list.empty() ) {
+            std::map<std::string, comp_list> lists = companion_per_recipe_building_type( npc_list );
+
+            for( std::pair<std::string, comp_list> npcs : lists ) {
+                const std::string bldg = npcs.first;
+                miss_id.parameters = npcs.second.at( 0 )->get_companion_mission().miss_id.parameters;
+                bool avail = false;
+                entry.clear();
 
                 //  Room for moving the match of recipe group 'building_type' to return string into JSON
                 std::string return_craft;
@@ -1193,13 +1198,19 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     return_craft = _( " (Finish) Crafting" );
                 }
 
-                bool avail = comp->companion_mission_time_ret < calendar::turn;
-                entry = comp->get_name() + " ";
-                if( avail ) {
-                    entry += _( "[DONE]" );
-                } else {
-                    entry +=  action_of( miss_id.id );
+                for( npc_ptr &comp : npcs.second ) {
+                    const bool done = comp->companion_mission_time_ret < calendar::turn;
+                    avail |= done;
+                    entry += comp->get_name() + " ";
+                    if( done ) {
+                        entry += _( "[DONE]\n" );
+                    } else {
+                        entry += " [" +
+                                 to_string( comp->companion_mission_time_ret - calendar::turn ) +
+                                 _( " left] " ) + action_of( miss_id.id );
+                    }
                 }
+
                 mission_key.add_return( miss_id,
                                         dir_abbr + return_craft, entry, avail );
             }
@@ -1473,9 +1484,9 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                     msg = _( "returns to you with something…" );
                 }
 
-                mission_return( miss_id.id,
-                                1_minutes, true, msg,
-                                skill_construction.str(), 2 );
+                crafting_mission_return( miss_id.id,
+                                         msg,
+                                         skill_construction.str(), 2 );
             } else {
                 start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id );
             }
@@ -1599,6 +1610,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 start_mission( miss_id.id, 4_days, true,
                                _( "departs to search for recruits…" ), false, {}, skill_gun, 0 );
             }
+            break;
 
         case Camp_Scouting:
         case Camp_Combat_Patrol:
@@ -2997,6 +3009,24 @@ npc_ptr basecamp::companion_choose_return( const mission_id &miss_id,
     return talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
             calendar::turn - min_duration );
 }
+
+npc_ptr basecamp::companion_crafting_choose_return( const mission_id &miss_id )
+{
+    comp_list preliminary_npc_list = get_mission_workers( miss_id, true );
+    comp_list npc_list;
+    std::map<std::string, comp_list> lists = companion_per_recipe_building_type( preliminary_npc_list );
+    const std::string bldg = recipe_group::get_building_of_recipe( miss_id.parameters );
+
+    for( const npc_ptr &comp : lists[bldg] ) {
+        if( comp->companion_mission_time_ret < calendar::turn ) {
+            npc_list.emplace_back( comp );
+        }
+    }
+
+    return talk_function::companion_choose_return( npc_list );
+}
+
+
 void basecamp::finish_return( npc &comp, const bool fixed_time, const std::string &return_msg,
                               const std::string &skill, int difficulty, const bool cancel )
 {
@@ -3058,6 +3088,17 @@ npc_ptr basecamp::mission_return( const mission_id &miss_id, time_duration min_d
     }
     return comp;
 }
+
+npc_ptr basecamp::crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
+        const std::string &skill, int difficulty )
+{
+    npc_ptr comp = companion_crafting_choose_return( miss_id );
+    if( comp != nullptr ) {
+        finish_return( *comp, false, return_msg, skill, difficulty );
+    }
+    return comp;
+}
+
 
 npc_ptr basecamp::emergency_recall( const mission_id miss_id )
 {
@@ -3750,6 +3791,7 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
         op = farm_ops::harvest;
     } else {
         debugmsg( "Farm operations called with no matching operation" );
+        return false;
     }
 
     const std::string msg = _( "returns from working your fields…" );

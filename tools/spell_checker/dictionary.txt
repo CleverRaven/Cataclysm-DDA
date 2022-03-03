@@ -587,6 +587,7 @@ firemask
 firepit
 firestarters
 firesuit
+firesuits
 fireweed
 fishfolk
 fishily
