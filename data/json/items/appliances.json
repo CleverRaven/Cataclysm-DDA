@@ -45,7 +45,7 @@
     "color": "red",
     "name": { "str": "disconnected arcade machine" },
     "material": [ "budget_steel" ],
-    "longest_side": "2 m",
+    "longest_side": "200 cm",
     "volume": "290 L",
     "weight": "77 kg"
   },

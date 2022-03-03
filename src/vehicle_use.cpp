@@ -309,6 +309,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
     add_toggle( pgettext( "electronics menu option", "freezer" ),
                 keybind( "TOGGLE_FREEZER" ), "FREEZER" );
+    add_toggle( pgettext( "electronics menu option", "arcade" ),
+                keybind( "TOGGLE_ARCADE" ), "ARCADE" );
     add_toggle( pgettext( "electronics menu option", "space heater" ),
                 keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
     add_toggle( pgettext( "electronics menu option", "cooler" ),
@@ -359,6 +361,24 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
             refresh();
         } );
     }
+}
+
+item *arc_itm = nullptr;
+if( has_part( "ARCADE" ) )
+{
+    for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
+        if( arc_vp.part().enabled ) {
+            arc_itm = &arc_vp.part().base;
+            break;
+        }
+    }
+}
+
+if( !!arc_itm )
+{
+    options.emplace_back( _( "Play arcade machine" ), keybind( "ARCADE" ) );
+    actions.emplace_back( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint() ); } );
+}
 }
 
 void vehicle::control_electronics()

@@ -260,6 +260,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ARCADE",
+    "type": "json_flag"
+  },
+  {
     "id": "BEEPER",
     "type": "json_flag"
   },

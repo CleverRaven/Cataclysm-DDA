@@ -94,8 +94,8 @@
     "damage_reduction": { "all": 10 },
     "durability": 80,
     "flags": [ "OBSTACLE", "COVERED", "APPLIANCE" ],
-    "examine_action": "fireplace",
-    "epower": 150,
+    "flags": [ "OBSTACLE", "COVERED", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
+    "epower": -150,
     "item": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "breaks_into": [
