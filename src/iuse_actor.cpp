@@ -4321,7 +4321,7 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    const bool modifiables = std::all_of( mods.begin(), mods.end(),
+    const bool modifiables = std::any_of( mods.begin(), mods.end(),
                                           std::bind( &item::is_transformable, std::placeholders::_1 ) );
 
     if( !modifiables ) {
