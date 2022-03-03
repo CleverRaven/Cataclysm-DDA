@@ -437,6 +437,23 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
     }
 }
 
+static std::map<std::string, comp_list> companion_per_recipe_building_type( comp_list &npc_list )
+{
+    std::map<std::string, comp_list> result;
+
+    for( const npc_ptr &comp : npc_list ) {
+        const mission_id miss_id = comp->get_companion_mission().miss_id;
+        const std::string bldg = recipe_group::get_building_of_recipe( miss_id.parameters );
+
+        if( result[bldg].empty() ) {
+            comp_list temp;
+            result.insert( std::pair<std::string, comp_list>( bldg, temp ) );
+        }
+        result[bldg].emplace_back( comp );
+    }
+    return result;
+}
+
 static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
