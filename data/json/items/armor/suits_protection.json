@@ -2497,8 +2497,8 @@
     "armor": [
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
@@ -2507,8 +2507,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -2517,8 +2517,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -2563,8 +2563,8 @@
     "armor": [
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
@@ -2573,8 +2573,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -2583,8 +2583,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -2629,8 +2629,8 @@
     "armor": [
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
@@ -2639,8 +2639,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -2649,8 +2649,8 @@
       },
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
