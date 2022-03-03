@@ -756,7 +756,7 @@
     "//": "Motorcycle armor previously had 28 encumbrance. Realistically, it's not hard to move around in, it's just not the most breathable. -RB",
     "description": "An armored jacket used by dirt bikers and motorcyclists.",
     "weight": "2125 g",
-    "volume": "2.75 L",
+    "volume": "2 L",
     "price": 15000,
     "price_postapoc": 1000,
     "bashing": 8,
@@ -774,7 +774,7 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 100,
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 18
+        "encumbrance": 20
       },
       {
         "material": [
@@ -810,7 +810,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 18
+        "encumbrance": 20
       }
     ],
     "pocket_data": [
