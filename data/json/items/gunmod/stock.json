@@ -50,7 +50,7 @@
   {
     "id": "folding_stock_folded",
     "type": "GUNMOD",
-    "name": { "str": "folding stock (folded)" },
+    "name": { "str": "folding stock (folded)", "str_pl": "folding stocks (folded)" },
     "description": "A folding stock which reduces length.  Currently folded making shooting this gun difficult.",
     "copy-from": "folding_stock",
     "use_action": {
@@ -96,7 +96,7 @@
   {
     "id": "high_end_folding_stock_folded",
     "type": "GUNMOD",
-    "name": { "str": "modular folding stock (folded)" },
+    "name": { "str": "modular folding stock (folded)", "str_pl": "modular folding stocks (folded)" },
     "description": "A multi position, high-end, folding stock which reduces length when folded.  Currently folded making shooting this gun hard.",
     "copy-from": "high_end_folding_stock",
     "use_action": {
@@ -142,7 +142,7 @@
   {
     "id": "wire_stock_folded",
     "type": "GUNMOD",
-    "name": { "str": "collapsing wire stock (collapsed)" },
+    "name": { "str": "collapsing wire stock (collapsed)", "str_pl": "collapsing wire stocks (collapsed)" },
     "description": "A collapsing wire stock which collapses into the body of the gun very compactly reducing length and volume.  Currently collapsed making shooting difficult.",
     "copy-from": "wire_stock",
     "use_action": {

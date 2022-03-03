@@ -99,7 +99,7 @@
     "id": "stock_mount",
     "type": "GUNMOD",
     "name": { "str": "replaceable stock kit" },
-    "description": "This is a kit consisting of various steel parts; when installed, it would remove the weapon's original fixed stock, install a new stock mount on its place, modify original stock to fit it and then reattach it to the gun, or simply attach a stock mount if gun had no stock to start with. This allows easy installation of any kind of more advanced stocks.",
+    "description": "This is a kit consisting of various steel parts; when installed, it would remove the weapon's original fixed stock, install a new stock mount on its place, modify original stock to fit it and then reattach it to the gun, or simply attach a stock mount if gun had no stock to start with.  This allows easy installation of any kind of more advanced stocks.",
     "weight": "80 g",
     "volume": "50 ml",
     "integral_volume": "0 ml",
