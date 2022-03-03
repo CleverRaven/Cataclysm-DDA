@@ -87,6 +87,27 @@
     "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
+    "id": "bio_blaster_gun",
+    "type": "GUN",
+    "name": "fusion blaster",
+    "description": "this a pseudo item",
+    "volume": 12 L,
+    "price": 0,
+    "material": [ "superalloy", "platinum" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 40,
+    "ranged_damage": { "damage_type": "heat", "amount": 60, "armor_penetration": 25 },
+    "dispersion": 40,
+    "durability": 10,
+    "loudness": 150,
+    "skill": "rifle",
+    "built_in_mods": [ "bio_powershot" ],
+    "ammo_effects": [ "PLASMA", "INCENDIARY" ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "BIONIC_WEAPON", "FIRESTARTER", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "mut_quills",
     "type": "GUN",
     "name": { "str_sp": "Assault barbs" },
