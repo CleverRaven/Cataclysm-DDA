@@ -5989,6 +5989,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
+    if( is_gun() && ( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) ) {
+        tagtext += _( " (folded)" );
+    }
     if( is_broken() ) {
         tagtext += _( " (broken)" );
     }
@@ -6437,13 +6440,29 @@ units::length item::length() const
         // only the longest thing sticking off the gun matters for length adjustment
         // TODO: Differentiate from back end mods like stocks vs front end like bayonets and muzzle devices
         units::length max_length = 0_mm;
+        units::length stock_length = 0_mm;
+        units::length stock_accessory_length = 0_mm;
         for( const item *mod : mods ) {
-            units::length l = mod->integral_length();
-            if( l > max_length ) {
-                max_length = l;
+            // stocks and accessories for stocks are added with whatever the longest thing on the front is
+            if( mod->type->gunmod->location.str() == "stock" ) {
+                stock_length = mod->integral_length();
+                if( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) {
+                    // stock is folded so need to reduce length
+
+                    // folded stock length is estimated at about 20 cm, LOP for guns should be about
+                    // 13.5 inches and a folding stock folds past the trigger and isn't perfectly efficient
+                    stock_length = stock_length - 20_cm;
+                }
+            } else if( mod->type->gunmod->location.str() == "stock accessory" ) {
+                stock_accessory_length = mod->integral_length();
+            } else {
+                units::length l = mod->integral_length();
+                if( l > max_length ) {
+                    max_length = l;
+                }
             }
         }
-        return length_adjusted + max_length;
+        return length_adjusted + max_length + stock_length + stock_accessory_length;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
@@ -6460,8 +6479,9 @@ units::volume item::collapsed_volume_delta() const
 {
     units::volume delta_volume = 0_ml;
 
-    // TODO: implement stock_length property for guns
-    if( is_gun() && has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+    // COLLAPSIBLE_STOCK is the legacy version of this just here for mod support
+    // TODO Remove at some point
+    if( is_gun() && ( has_flag( flag_COLLAPSIBLE_STOCK ) || has_flag( flag_COLLAPSED_STOCK ) ) ) {
         // consider only the base size of the gun (without mods)
         int tmpvol = get_var( "volume",
                               ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );

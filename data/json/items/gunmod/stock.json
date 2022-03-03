@@ -25,7 +25,7 @@
     "id": "folding_stock",
     "type": "GUNMOD",
     "name": { "str": "folding stock" },
-    "description": "A folding stock which reduces volume but needs unfolding before use.  Increases the time needed to wield the weapon.",
+    "description": "A folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
     "volume": "500 ml",
     "integral_volume": "0 ml",
@@ -38,14 +38,84 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "min_skills": [ [ "weapon", 3 ] ],
-    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold the stock for transport.",
+      "menu_text": "Fold",
+      "target": "folding_stock_folded",
+      "moves": 120
+    },
+    "min_skills": [ [ "weapon", 3 ] ]
+  },
+  {
+    "id": "folding_stock_folded",
+    "type": "GUNMOD",
+    "name": { "str": "folding stock (folded)" },
+    "description": "A folding stock which reduces length.  Currently folded making shooting this gun difficult.",
+    "copy-from": "folding_stock",
+    "use_action": {
+      "type": "transform",
+      "msg": "You unfold the stock for combat.",
+      "menu_text": "Unfold",
+      "target": "folding_stock",
+      "moves": 120
+    },
+    "//": "10 is the modifier that stocked weapons normally get",
+    "handling_modifier": -10,
+    "flags": [ "FOLDED_STOCK" ]
+  },
+  {
+    "id": "high_end_folding_stock",
+    "type": "GUNMOD",
+    "name": { "str": "modular folding stock" },
+    "description": "A multi position, high-end, folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 42000,
+    "price_postapoc": 250,
+    "install_time": "5 m",
+    "material": [ "plastic", "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold the stock for transport.",
+      "menu_text": "Fold",
+      "target": "high_end_folding_stock_folded",
+      "moves": 120
+    },
+    "//": "benefits of a recoil stock and adjustable stock",
+    "dispersion_modifier": -1,
+    "handling_modifier": 5,
+    "min_skills": [ [ "weapon", 3 ] ]
+  },
+  {
+    "id": "high_end_folding_stock_folded",
+    "type": "GUNMOD",
+    "name": { "str": "modular folding stock (folded)" },
+    "description": "A multi position, high-end, folding stock which reduces length when folded.  Currently folded making shooting this gun hard.",
+    "copy-from": "high_end_folding_stock",
+    "use_action": {
+      "type": "transform",
+      "msg": "You unfold the stock for combat.",
+      "menu_text": "Unfold",
+      "target": "high_end_folding_stock",
+      "moves": 120
+    },
+    "//": "10 is the modifier that stocked weapons normally get",
+    "dispersion_modifier": 0,
+    "handling_modifier": -10,
+    "flags": [ "FOLDED_STOCK" ]
   },
   {
     "id": "wire_stock",
     "type": "GUNMOD",
-    "name": { "str": "folding wire stock" },
-    "description": "A folding wire stock which folds up very compactly but needs unfolding before use.  It's somewhat wobbly but is better than nothing at all.  Increases the time needed to wield the weapon.",
+    "name": { "str": "collapsing wire stock" },
+    "description": "A collapsing wire stock which collapses into the body of the gun very compactly reducing length and volume.",
     "weight": "170 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -59,8 +129,32 @@
     "location": "stock",
     "handling_modifier": 2,
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You push the stock in for storage.",
+      "menu_text": "Fold",
+      "target": "wire_stock_folded",
+      "moves": 120
+    },
     "min_skills": [ [ "weapon", 3 ] ],
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "IRREMOVABLE" ]
+  },
+  {
+    "id": "wire_stock_folded",
+    "type": "GUNMOD",
+    "name": { "str": "collapsing wire stock (collapsed)" },
+    "description": "A collapsing wire stock which collapses into the body of the gun very compactly reducing length and volume.  Currently collapsed making shooting difficult.",
+    "copy-from": "wire_stock",
+    "use_action": {
+      "type": "transform",
+      "msg": "You pull the stock out for combat.",
+      "menu_text": "Unfold",
+      "target": "wire_stock",
+      "moves": 120
+    },
+    "//": "10 is the modifier that stocked weapons normally get",
+    "handling_modifier": -10,
+    "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
   },
   {
     "id": "pistol_stock",
@@ -69,6 +163,9 @@
     "description": "An add-on stock for handguns considerably improving control of recoil.",
     "weight": "350 g",
     "volume": "500 ml",
+    "integral_longest_side": "30 cm",
+    "integral_volume": "500 ml",
+    "integral_weight": "350 g",
     "price": 38000,
     "price_postapoc": 500,
     "install_time": "5 m",
@@ -110,6 +207,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
+    "integral_weight": "300 g",
     "price": 4500,
     "price_postapoc": 500,
     "install_time": "3 m",
@@ -118,7 +216,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": "stock",
+    "location": "stock accessory",
     "mod_targets": [ "rifle" ],
     "dispersion_modifier": -1,
     "handling_modifier": 2,
@@ -131,37 +229,19 @@
     "description": "An attachment to the butt of the gun that is put under the armpit allowing for greater stability.",
     "weight": "100 g",
     "volume": "100 ml",
+    "integral_longest_side": "4 cm",
+    "integral_volume": "100 ml",
+    "integral_weight": "100 g",
     "price": 4750,
     "price_postapoc": 50,
     "material": [ "aluminum" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": "stock",
+    "location": "stock accessory",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "install_time": "10 m",
     "dispersion_modifier": -15,
     "min_skills": [ [ "weapon", 1 ] ]
-  },
-  {
-    "id": "bthk_stock",
-    "type": "GUNMOD",
-    "name": { "str": "butt hook stock" },
-    "description": "A replacement stock that partially encloses arm allowing for greater stability.  Good fit and padding also helps with recoil control.",
-    "weight": "300 g",
-    "volume": "300 ml",
-    "integral_volume": "0 L",
-    "integral_weight": "0 g",
-    "price": 8000,
-    "price_postapoc": 300,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "install_time": "5 m",
-    "dispersion_modifier": -20,
-    "handling_modifier": 2,
-    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "tail_hook_stock",
@@ -183,6 +263,7 @@
     "dispersion_modifier": -20,
     "handling_modifier": 4,
     "min_skills": [ [ "weapon", 3 ] ],
+    "//2": "this seems to be for hooking the gun on your arm not actually folding it up for storage",
     "flags": [ "NEEDS_UNFOLD" ]
   }
 ]

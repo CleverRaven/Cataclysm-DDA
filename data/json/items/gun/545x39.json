@@ -34,6 +34,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
@@ -62,7 +63,7 @@
     "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
-    "default_mods": [ "bars" ],
+    "default_mods": [ "bars", "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
