@@ -41,9 +41,14 @@
     "id": "TALK_BLACKSMITH_FABRICATE_TYPE",
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
-    ],
+    "dynamic_line": {
+      "u_has_var": "blacksmith_crafting_EXODII",
+      "type": "dialogue",
+      "context": "artisans",
+      "value": "yes",
+      "yes": "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four.  For five I could I think create a suit of that Nomad armor.  It would incorporate climate control, help you support more weight, and it'll have a jumpsuit built in but you will not be able to wear normal clothes with it.",
+      "no": "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
+    },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
@@ -54,6 +59,11 @@
       {
         "text": "[4 weeks exceptional protection] I'll wait for the best you can do.",
         "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
+      },
+      {
+        "text": "[5 weeks nomad armor] I want this wanderer armor.",
+        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       }
     ]
@@ -69,7 +79,15 @@
       "op": "==",
       "value": 3,
       "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
-      "no": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+      "no": {
+        "u_compare_var": "blacksmith_wait",
+        "type": "number",
+        "context": "artisans",
+        "op": "==",
+        "value": 4,
+        "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
+        "no": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen as well as some help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+      }
     },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
@@ -161,6 +179,20 @@
         "text": "Thanks.",
         "condition": {
           "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
             { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
           ]
@@ -181,6 +213,20 @@
         },
         "effect": [
           { "u_spawn_item": "armor_qt_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_plate" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
@@ -212,6 +258,20 @@
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
       }
     ]
   },
@@ -223,6 +283,36 @@
     "responses": [
       { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "See you when it's done.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII",
+    "//": "this is dialogue for sharing EXODII secrets",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh wow, this is really interesting huh.  The way they balance weight for travel is genius.  If you wanted a real suit of armor for a traveling warrior, I think I could do it with this.  I'm gonna need one of their AC kits and wiring kits though."
+    ],
+    "responses": [
+      {
+        "text": "[AC kit, Wire kit] Alright.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "exodii_ac_kit", "count": 1 } },
+            { "u_has_items": { "item": "exodii_wire_kit", "count": 1 } }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_consume_item": "exodii_ac_kit", "count": 1 },
+          { "u_consume_item": "exodii_wire_kit", "count": 1 }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "I'll try and find some.",
+        "effect": [ { "u_add_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
     ]
   }
 ]

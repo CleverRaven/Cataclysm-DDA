@@ -193,6 +193,37 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_COMPLETE"
       },
+      {
+        "text": "I found this odd caliber rifle with these robots I didn't recognize.  Could you make an HWP adaptor for it?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+            { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            { "u_has_items": { "item": "pamd68", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII"
+      },
+      {
+        "text": "Any progress on the exotic barrel?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": "<", "time": "3 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Any progress on the exotic barrel?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "3 d" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
@@ -455,6 +486,54 @@
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
           { "u_spawn_item": "robofac_armor_anchor" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII",
+    "//": "creating EXODII barrel",
+    "type": "talk_topic",
+    "dynamic_line": "Yes the 'EXODII' we have yet to make contact but are monitoring them.  If you provide us with 5 rounds, a magazine and the rifle we should be able to easily fabricate the parts. Should take 3 days.",
+    "responses": [
+      {
+        "text": "[5 12.3ln, PA Md. 68 magazine, PA md. 68] See you in 3 days.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "pamd68", "count": 1 } },
+            { "u_has_items": { "item": "exodiiBRmag", "count": 1 } },
+            { "u_has_items": { "item": "123ln", "count": 5 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "pamd68", "count": 1 },
+          { "u_consume_item": "exodiiBRmag", "count": 1 },
+          { "u_consume_item": "123ln", "count": 5 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE",
+    "//": "creating EXODII barrel",
+    "type": "talk_topic",
+    "dynamic_line": "The project was a success.  The ammo is fairly rudimentary but some of our operatives are excited by the prospect of a modular LMG using their giant magazines.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "none" },
+          { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+          { "u_spawn_item": "robofac_gun_exodii" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }

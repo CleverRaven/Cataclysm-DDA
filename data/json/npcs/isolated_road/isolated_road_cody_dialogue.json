@@ -38,6 +38,11 @@
         "topic": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT"
       },
       {
+        "text": "[Show Nomad Blueprints] Hey I met this group with some interesting ideas for armor design.  Is any of this of use to you?",
+        "condition": { "u_has_items": { "item": "bp_nomad_bodyglove", "count": 1 } },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII"
+      },
+      {
         "text": "[100 merch] I'd like to become a member of the co-op.",
         "condition": {
           "and": [
@@ -146,6 +151,28 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
             { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
         },
