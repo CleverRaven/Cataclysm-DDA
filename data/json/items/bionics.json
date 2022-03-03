@@ -290,7 +290,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Directional EMP CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A small parabolic EMP field generator that is designed to be mounted in the user's left arm and lead down to the palm of the hand.  It can be used to instantly fire a wide, but short-ranged blast to heavily damage electronics and robots.",
+    "description": "A small parabolic EMP field generator that is designed to be mounted in the user's left arm and leads down to the palm of the hand.  It can be used to instantly fire a wide, but short-ranged blast to heavily damage electronics and robots.",
     "price": 720000,
     "difficulty": 5
   },
@@ -363,7 +363,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dielectric Capacitance System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system consisting of miniature piezoelectric capacitors, designed to be implanted interconnected throughout the body and will protect from external electrical discharge when powered.",
+    "description": "A system consisting of miniature piezoelectric capacitors, designed to be interconnectedly implanted throughout the body and protect from external electrical discharge when powered.",
     "price": 5000,
     "weight": "500 g",
     "difficulty": 5
