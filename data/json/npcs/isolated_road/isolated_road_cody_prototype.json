@@ -159,26 +159,17 @@
     "dynamic_line": "Oh that's one of my sillier ideas.  Jay is convinced it will never work but I really want to give it a shot.  A traditional mace with gas venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many fantasy RPGs but it seems worth a shot.  To get this one working I'm gonna need a real deal mace, something that can handle the pressure and additional parts as well as a military grade flamethrower to salvage all the boring bits.  Fabrication will definitely take 2 weeks on this one.",
     "responses": [
       {
-        "text": "[Mosin-Nagant M44] See you in a week.",
-        "condition": { "u_has_items": { "item": "mosin44", "count": 1 } },
+        "text": "[Mace, Flamethrower] See you in 2 weeks.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "flamethrower", "count": 1 } }, { "u_has_items": { "item": "mace", "count": 1 } } ]
+        },
         "effect": [
-          { "u_consume_item": "mosin44", "count": 1 },
+          { "u_consume_item": "flamethrower", "count": 1 },
+          { "u_consume_item": "mace", "count": 1 },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
-      {
-        "text": "[Mosin-Nagant 1891/30] See you in a week.",
-        "condition": { "u_has_items": { "item": "mosin91_30", "count": 1 } },
-        "effect": [
-          { "u_consume_item": "mosin91_30", "count": 1 },
-          { "u_add_faction_trust": 1 },
-          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -187,4 +178,31 @@
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
+  {
+    "id": "TALK_BLACKSMITH_PULVERIZER",
+    "//": "Pulverizer Sledgehammer",
+    "type": "talk_topic",
+    "dynamic_line": "The Pulverizer is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledgehammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a monster with that sweet spot... BOOM.  I'll need a sledgehammer, 12 pipes and at least 20 .22 LR rounds.  Fabrication will definitely take 2 weeks on this one.",
+    "responses": [
+      {
+        "text": "[Sledgehammer, 12 Pipes, 20 .22 LR] See you in 2 weeks.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "sledgehammer", "count": 1 } }, { "u_has_items": { "item": "pipe", "count": 12 } }, { "u_has_items": { "item": "22_lr", "count": 20 } } ]
+        },
+        "effect": [
+          { "u_consume_item": "sledgehammer", "count": 1 },
+          { "u_consume_item": "pipe", "count": 12 },
+          { "u_consume_item": "22_lr", "count": 20 },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  }
 ]
