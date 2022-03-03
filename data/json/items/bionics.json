@@ -1265,5 +1265,14 @@
     "description": "This CBM completely shuts down all communication between the user's brain and the rest of their body when they fall asleep, preventing them from waking up under any circumstance until their natural sleep cycle completes.  An inability to trigger its effects manually makes it useless as an anesthesia substitute.",
     "weight": "100 g",
     "difficulty": 10
+  },
+  {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Fusion Blaster Arm CBM",
+    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "price": 220000,
+    "difficulty": 3
   }
 ]
