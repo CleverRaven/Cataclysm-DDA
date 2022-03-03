@@ -93,6 +93,141 @@
     ]
   },
   {
+    "id": "robofac_armor_anchor",
+    "type": "TOOL_ARMOR",
+    "copy-from": "robofac_armor_rig",
+    "name": { "str": "Hub 01 modular defense anchor" },
+    "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explore.  Striped in brown and blue with a hardened skeleton of ceramic plates running up over the shoulders.  The white seal of Hub 01 is proudly displayed on a raised portion on the front.  Integrating quick access pouches attached to a waist drawstring and two waterproof internal dry bags it touts plenty of storage.  This poncho also has notable clips and velcro just below the waist and around the shoulders, perhaps something attaches there.",
+    "weight": "2000 g",
+    "volume": "4250 ml",
+    "material": [ "nylon", "kevlar", "ceramic" ],
+    "pocket_data": [
+      {
+        "description": "Watertight internal reservoir",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "watertight": true,
+        "spoil_multiplier": 0.8,
+        "max_contains_weight": "4 kg",
+        "moves": 120
+      },
+      {
+        "description": "Watertight internal reservoir",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "watertight": true,
+        "spoil_multiplier": 0.8,
+        "max_contains_weight": "4 kg",
+        "moves": 120
+      },
+      {
+        "description": "Quick access pouches",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "270 mm",
+        "moves": 80
+      },
+      {
+        "description": "Quick access pouches",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "270 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored mantle",
+        "flag_restriction": [ "ABLATIVE_MANTLE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Hooks for an armored skirt",
+        "flag_restriction": [ "ABLATIVE_SKIRT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1100 g",
+        "max_item_length": "70 cm",
+        "moves": 200,
+        "holster": true,
+        "description": "Strap for a gun barrel",
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
+      },
+      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
+    ],
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "The Hub logo on your front begins to glow an otherworldly hue.",
+      "target": "robofac_armor_anchor_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "It seems like this device needs power."
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "ceramic", "covered_by_mat": 50, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 6, 10 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "layers": [ "OUTER", "BELTED" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": [ 4, 4 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "robofac_armor_anchor_on",
+    "copy-from": "robofac_armor_anchor",
+    "repairs_like": "robofac_armor_anchor",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Hub 01 modular defense anchor (on)", "str_pl": "Hub 01 modular defense anchors (on)" },
+    "looks_like": "robofac_armor_anchor",
+    "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explore.  The logo of Hub 01 emblazoned on the chest glows with an otherworldly hue.",
+    "turns_per_charge": 100,
+    "revert_to": "robofac_armor_anchor",
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The light recedes.", "target": "robofac_armor_anchor" },
+    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD" ]
+  },
+  {
     "abstract": "robofac_mantle",
     "type": "ARMOR",
     "category": "armor",

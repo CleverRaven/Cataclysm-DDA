@@ -454,5 +454,35 @@
     "type": "recipe",
     "result": "xl_chainmail_arms",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xshsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xlhsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_fsurvivor_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_fsurvivor_suit",
+    "obsolete": true
   }
 ]

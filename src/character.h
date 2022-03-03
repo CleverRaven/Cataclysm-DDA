@@ -552,6 +552,7 @@ class Character : public Creature, public visitable
             possessive "your" and "you"
         **/
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        virtual std::string name_and_maybe_activity() const;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
