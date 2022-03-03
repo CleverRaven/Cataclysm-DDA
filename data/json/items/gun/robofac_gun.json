@@ -25,7 +25,7 @@
     "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight" ],
     "//": "Forward ejection port would require a different brass catcher design",
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "grip", 1 ], [ "bore", 1 ], [ "sights", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40", "robofac20", "robofac10", "robofac60" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40", "robofac20", "robofac10", "robofac60", "exodiiBRmag" ] } ]
   },
   {
     "id": "robofac_gun_ar",
