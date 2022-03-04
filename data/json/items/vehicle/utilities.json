@@ -215,6 +215,13 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "fridgetank",
+    "id": "heattank",
+    "name": { "str": "heated tank" },
+    "description": "A 60L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
+  },
+  {
+    "type": "GENERIC",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
