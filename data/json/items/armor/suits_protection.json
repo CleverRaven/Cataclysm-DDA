@@ -2493,7 +2493,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayer suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
     "armor": [
       {
         "material": [
@@ -2560,7 +2560,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayer light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
     "armor": [
       {
         "material": [
@@ -2627,7 +2627,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayer heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
     "armor": [
       {
         "material": [
