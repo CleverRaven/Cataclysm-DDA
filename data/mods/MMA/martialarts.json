@@ -230,7 +230,8 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
-    ]
+    ],
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -436,7 +437,8 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-    ]
+    ],
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -516,7 +518,8 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-    ]
+    ],
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -621,7 +624,8 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
-    ]
+    ],
+    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -713,6 +717,7 @@
       "hatchet",
       "kukri",
       "makeshift_axe"
-    ]
+    ],
+    "weapon_category": [ "GREAT_AXES" ]
   }
 ]
