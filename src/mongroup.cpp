@@ -370,9 +370,10 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
     if( monster_blacklist.count( m.str() ) > 0 ) {
         return true;
     }
-    // Return true if the whitelist mode is exclusive and either whitelist is populated.
+    // Return true if the whitelist mode is exclusive and any whitelist is populated.
     return monster_whitelist_is_exclusive &&
-           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() );
+           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() ||
+             !monster_species_whitelist.empty() );
 }
 
 void MonsterGroupManager::FinalizeMonsterGroups()
@@ -532,6 +533,8 @@ void MonsterGroupManager::ClearMonsterGroups()
     monster_whitelist_is_exclusive = false;
     monster_categories_blacklist.clear();
     monster_categories_whitelist.clear();
+    monster_species_blacklist.clear();
+    monster_species_whitelist.clear();
 }
 
 static void check_group_def( const mongroup_id &g )
