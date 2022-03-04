@@ -10,12 +10,21 @@
     "longest_side": "40 cm",
     "price": 23000,
     "price_postapoc": 3000,
-    "//": "should be very innacurate and hard to aim by comparison",
+    "//": "should be very innacurate and hard to aim by comparison setting handling to that of pistols",
+    "handling": 10,
     "relative": {
       "range": -30,
       "ranged_damage": { "damage_type": "bullet", "amount": -6 },
-      "dispersion": 300,
+      "dispersion": 180,
       "barrel_volume": "-500 ml"
-    }
+    },
+    "valid_mod_locations": [
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "sling", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "stock" 1 ]
+    ],
+    "default_mods": [ "obrez_mace" ]
   },
 ]
