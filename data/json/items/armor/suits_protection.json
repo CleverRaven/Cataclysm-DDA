@@ -2493,17 +2493,18 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayer suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps and breathable lycra.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 22
       },
       {
         "material": [
@@ -2559,17 +2560,18 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayer light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps and breathable lycra.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 17
       },
       {
         "material": [
@@ -2625,17 +2627,18 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayer heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps and breathable lycra.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
+    "description": "A full body multilayer heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection over a full body layered suit of weight distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spalding layer of arahmid pannels.  Electronics run below the surface and circulate cool air to skin drawing power from your internal CBM reservior.",
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 25
+        "encumbrance": 27
       },
       {
         "material": [
