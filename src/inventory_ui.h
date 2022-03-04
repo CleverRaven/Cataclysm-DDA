@@ -608,7 +608,7 @@ class inventory_selector
 
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 2>;
+        using stats = std::array<stat, 3>;
 
     protected:
         Character &u;
@@ -668,7 +668,8 @@ class inventory_selector
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume );
+            const units::length &longest_length, const units::volume &largest_free_volume,
+            const units::volume &holster_volume, const int used_holsters, const int total_holsters );
 
         /** Get stats to display in top right.
          *

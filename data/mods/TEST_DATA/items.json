@@ -1092,7 +1092,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "hardsteel", "covered_by_mat": 5, "thickness": 1 }
+          { "type": "qt_steel", "covered_by_mat": 5, "thickness": 1 }
         ],
         "encumbrance": 7
       }
@@ -2154,7 +2154,7 @@
     "price_postapoc": 30000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
+    "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",

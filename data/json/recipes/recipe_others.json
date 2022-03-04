@@ -470,7 +470,15 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ], [ "aluminum_foil", 6 ] ] ]
+    "components": [
+      [
+        [ "jug_plastic", 1 ],
+        [ "bottle_plastic", 3 ],
+        [ "bottle_bathroom", 3 ],
+        [ "bottle_plastic_small", 6 ],
+        [ "aluminum_foil", 6 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -762,7 +770,7 @@
     "flags": [ "BLIND_EASY" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glass_goggles", 1 ] ],
       [ [ "hose", 3 ], [ "makeshift_hose", 3 ] ],
       [ [ "flask_glass", 4 ], [ "jar_glass_sealed", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
@@ -873,7 +881,7 @@
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
+    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1484,12 +1492,28 @@
     "skill_used": "survival",
     "difficulty": 2,
     "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_plastic_small", 20 ] ],
+      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_bathroom", 10 ], [ "bottle_plastic_small", 20 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fish_trap_basket",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ [ "tailor", 3 ] ],
+    "difficulty": 4,
+    "time": "7 h",
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
