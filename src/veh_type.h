@@ -34,6 +34,7 @@ class vehicle;
 enum vpart_bitflags : int {
     VPFLAG_ARMOR,
     VPFLAG_APPLIANCE,
+    VPFLAG_ARCADE,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
