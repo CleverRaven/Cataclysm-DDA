@@ -1233,7 +1233,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str_sp": "Taste Fouler" },
-    "description": "A broken and miswired module that would cause food and drink to taste terrible.",
+    "description": "A broken and mis-wired module that would cause food and drink to taste terrible.",
     "weight": "100 g",
     "difficulty": 7
   },
@@ -1265,5 +1265,14 @@
     "description": "This CBM completely shuts down all communication between the user's brain and the rest of their body when they fall asleep, preventing them from waking up under any circumstance until their natural sleep cycle completes.  An inability to trigger its effects manually makes it useless as an anesthesia substitute.",
     "weight": "100 g",
     "difficulty": 10
+  },
+  {
+    "id": "bio_trickle",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Trickle Charger CBM" },
+    "description": "A low-power, long-lasting bioelectric charger.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
+    "weight": "500 g",
+    "difficulty": 3
   }
 ]
