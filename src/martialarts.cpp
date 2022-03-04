@@ -810,6 +810,8 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
+    needs_ammo = false;       // technique only works if the item is loaded with ammo
+
     miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break
 }
