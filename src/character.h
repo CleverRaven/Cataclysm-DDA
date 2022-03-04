@@ -1017,7 +1017,7 @@ class Character : public Creature, public visitable
         std::string weapname() const;
 
         // any side effects that might happen when the Character is hit
-        /** Handles special defenses from an attack that hit us (source can be null) */
+        /** Handles special defenses from melee attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
