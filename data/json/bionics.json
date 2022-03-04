@@ -1792,11 +1792,8 @@
     "name": { "str": "Trickle Charger" },
     "description": "You have been equipped with a CBM that slowly recharges your power reserves at all times.  Provides extremely low power but has no cost and will last several years.",
     "occupied_bodyparts": [ [ "torso", 7 ] ],
-    "fuel_options": [ "always" ],
     "dupes_allowed": true,
-    "fuel_efficiency": 0.002,
-    "fuel_capacity": 0,
-    "time": 1,
+    "fuel_trickle": 0.002,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   }
 ]
