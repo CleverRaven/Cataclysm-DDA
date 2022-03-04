@@ -23,6 +23,7 @@
     "calories": 280,
     "spoils_in": "5 days",
     "description": "A roasted root from a cattail plant.  Its fibrous outer core is charred black, you can remove it and chew on the dry inside.",
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 },
     "fun": -1,
     "delete": { "flags": [ "RAW" ] },
     "//": "The flag below implies that part of root got burned and has to be removed",
