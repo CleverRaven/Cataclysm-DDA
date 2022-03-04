@@ -976,6 +976,7 @@ double Character::aim_factor_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
     double wielded_volume = gun.volume() / 1_ml;
+    // this is only here for mod support
     if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
         // use the unfolded volume
         wielded_volume += gun.collapsed_volume_delta() / 1_ml;
