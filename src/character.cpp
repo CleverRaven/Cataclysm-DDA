@@ -3253,7 +3253,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
-    is_dead = true;
+    set_all_parts_hp_cur( 0 );
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
