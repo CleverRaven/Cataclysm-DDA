@@ -172,6 +172,7 @@ static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_nanomaterial( "nanomaterial" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
@@ -348,6 +349,8 @@ void iexamine::change_appearance( Character &you, const tripoint & )
 void iexamine::nanofab( Character &you, const tripoint &examp )
 {
     bool table_exists = false;
+    std::list<item_location> on_table;
+    item_location nanofab_template;
     tripoint spawn_point;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
@@ -355,36 +358,89 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
+            on_table = here.items_with( valid_location, [&]( const item & it ) {
+                return it.has_flag( flag_NANOFAB_REPAIR );
+            } );
             break;
         }
     }
     if( !table_exists ) {
         return;
     }
-    //Create a list of the names of all acceptable templates.
-    std::set<std::string> templatenames;
-    for( const itype_id &id : allowed_template ) {
-        templatenames.insert( id->nname( 1 ) );
+
+    item new_item;
+    requirement_data reqs;
+
+    // If there is something on the table that can be repaired suggest to repair that instead of printing something new
+    if( !on_table.empty() ) {
+        new_item = item( on_table.front()->typeId(), calendar::turn );
+        int damage = on_table.front()->damage_level();
+        if( damage <= 0 ) {
+            popup( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, BUT NOT DAMAGED REMOVE WORKING ITEM FROM FABRICATOR" ),
+                   new_item.display_name() );
+            sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                           _( "REMOVE WORKING ITEM FROM FABRICATOR." ), true );
+            return;
+        }
+
+        if( !on_table.front()->empty() ) {
+            popup( _( "ITEM %s DETECTED, CONTENTS OF ITEM WILL BE DESTROYED BY FABRICATOR PLEASE EMPTY ITEM AND RETURN" ),
+                   new_item.display_name() );
+            sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                           _( "PLEASE EMPTY ITEM AND RETURN." ), true );
+            return;
+        }
+
+        sounds::sound( spawn_point, 10, sounds::sound_t::speech,
+                       _( "REPAIR INTEGRITY DAMAGE?" ), true );
+        if( !query_yn( _( "FABRICATOR COMPLIANT ITEM %s DETECTED, REPAIR INTEGRITY DAMAGE?" ),
+                       new_item.display_name() ) ) {
+            return;
+        }
+
+        // multiplier for the item being not completely destroyed
+        float dam_mult = .05f * damage;
+
+        int qty = std::max( 1, static_cast<int>( dam_mult * new_item.volume() / 250_ml ) );
+        std::vector<std::vector<item_comp>> requirement_comp_vector;
+        std::vector<std::vector<quality_requirement>> quality_comp_vector;
+        std::vector<std::vector<tool_comp>> tool_comp_vector;
+        std::vector<item_comp> nano_req = { item_comp( itype_nanomaterial, 5 * qty ) };
+        requirement_comp_vector.push_back( nano_req );
+        std::vector<item_comp> item_req = { item_comp( on_table.front()->typeId(), 1 ) };
+        requirement_comp_vector.push_back( item_req );
+        reqs = requirement_data( tool_comp_vector, quality_comp_vector, requirement_comp_vector );
+    } else {
+        //Create a list of the names of all acceptable templates.
+        std::set<std::string> templatenames;
+        for( const itype_id &id : allowed_template ) {
+            templatenames.insert( id->nname( 1 ) );
+        }
+        std::string name_list = enumerate_as_string( templatenames );
+
+        //Template selection
+        nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+            return  std::any_of( allowed_template.begin(), allowed_template.end(),
+            [&e]( const itype_id itid ) {
+                return e.typeId() == itid;
+            } );
+        }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+        _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
+
+        if( !nanofab_template ) {
+            return;
+        }
+
+        new_item = item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
+        int qty = std::max( 1, new_item.volume() / 250_ml );
+        reqs = *nanofab_template->type->template_requirements * qty;
     }
-    std::string name_list =  enumerate_as_string( templatenames );
 
-    //Template selection
-    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
-        return  std::any_of( allowed_template.begin(), allowed_template.end(),
-        [&e]( const itype_id itid ) {
-            return e.typeId() == itid;
-        } );
-    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
-    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
-
-    if( !nanofab_template ) {
-        return;
+    // either way the new item should have the nanofabricator flag
+    if( !new_item.has_flag( flag_NANOFAB_REPAIR ) ) {
+        new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
-
-    int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
@@ -405,6 +461,11 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
 
     here.add_item_or_charges( spawn_point, new_item );
 
+    // if this template is single use
+    // also check if the template exists at all
+    if( nanofab_template && nanofab_template->has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+        nanofab_template.remove_item();
+    }
 }
 
 /// @brief Use "gas pump."
@@ -1753,7 +1814,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->get_available_missions( mission_key );
         if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
                 "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
+            temp_camp->handle_mission( mission_key.cur_key.id );
         }
     } else {
         you.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );

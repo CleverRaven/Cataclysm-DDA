@@ -1014,7 +1014,6 @@ void Character::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
-    data.read( "is_dead", is_dead );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
@@ -1305,7 +1304,6 @@ void Character::store( JsonOut &json ) const
 
     // gender
     json.member( "male", male );
-    json.member( "is_dead", is_dead );
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
@@ -2164,7 +2162,7 @@ void npc::load( const JsonObject &data )
     }
 
     if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.mission_id = comp_miss_id;
+        comp_mission.miss_id = mission_id_of( comp_miss_id );
     }
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
@@ -2280,7 +2278,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", comp_mission.mission_id );
+    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );

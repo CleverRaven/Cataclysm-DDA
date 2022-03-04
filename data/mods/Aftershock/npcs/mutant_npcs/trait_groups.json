@@ -48,6 +48,153 @@
   },
   {
     "type": "trait_group",
+    "id": "trait_group_snail",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "LIGHTEATER", "prob": 50 },
+      { "trait": "EASYSLEEPER", "prob": 50 },
+      { "trait": "BADHEARING", "prob": 50 },
+      { "trait": "INFRESIST", "prob": 50 },
+      { "trait": "THICKSKIN", "prob": 50 },
+      { "trait": "THIRST", "prob": 50 },
+      { "trait": "DEFORMED2", "prob": 50 },
+      { "trait": "SLIMY" },
+      { "trait": "COLDBLOOD", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_snail_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THICKSKIN", "prob": 50 },
+      { "trait": "SLIME_SPRAY", "prob": 50 },
+      { "trait": "SHELL", "prob": 50 },
+      { "distribution": [ { "trait": "EYESTALKS1" }, { "trait": "EYESTALKS2" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_snail_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_GASTROPOD" },
+      {
+        "distribution": [ { "trait": "GASTROPOD_EXTREMITY1" }, { "trait": "GASTROPOD_EXTREMITY2" }, { "trait": "GASTROPOD_EXTREMITY2" } ]
+      },
+      { "trait": "GASTROPOD_FOOT" },
+      { "trait": "GASTROPOD_BALANCE", "prob": 50 },
+      { "distribution": [ { "trait": "MUCUS_SECRETION" }, { "trait": "MUCUS_SECRETION2" } ] },
+      { "trait": "VISCOUS", "prob": 50 },
+      { "distribution": [ { "trait": "SHELL2" }, { "trait": "SHELL3" } ] },
+      { "trait": "TOXICFLESH", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_rabbit",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FLEET", "prob": 50 },
+      { "trait": "QUICK", "prob": 50 },
+      { "trait": "GOODHEARING", "prob": 50 },
+      { "trait": "EASYSLEEPER", "prob": 50 },
+      { "trait": "DEFT", "prob": 50 },
+      { "trait": "SLEEPY", "prob": 50 },
+      { "trait": "PRETTY", "prob": 50 },
+      { "trait": "FORGETFUL" },
+      { "trait": "ADDICTIVE", "prob": 50 },
+      { "trait": "RABBIT_EARS", "prob": 50 },
+      { "trait": "TAIL_RABBIT", "prob": 50 },
+      { "trait": "RABBIT_FEET", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_rabbit_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "ANIMALDISCORD2", "prob": 50 },
+      { "trait": "JITTERY", "prob": 50 },
+      { "trait": "ALBINO", "prob": 50 },
+      { "trait": "STRONG_LEGS", "prob": 50 },
+      { "trait": "DEX_UP_2", "prob": 50 },
+      { "distribution": [ { "trait": "LIGHT_BONES" }, { "trait": "LIGHTFUR" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_rabbit_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_RABBIT" },
+      {
+        "distribution": [ { "trait": "GASTROPOD_EXTREMITY1" }, { "trait": "GASTROPOD_EXTREMITY2" }, { "trait": "GASTROPOD_EXTREMITY2" } ]
+      },
+      { "trait": "GOODCARDIO2" },
+      { "trait": "LEAPING_LEGS", "prob": 50 },
+      { "distribution": [ { "trait": "BURROW" }, { "trait": "SMALL" } ] },
+      { "trait": "EASYSLEEPER2", "prob": 50 },
+      { "distribution": [ { "trait": "FLIMSY" }, { "trait": "MET_RAT" } ] },
+      { "trait": "GRAZER", "prob": 50 },
+      { "trait": "RABBIT_FUR", "prob": 50 },
+      { "trait": "INCISORS", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_frog",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "NIGHTVISION", "prob": 50 },
+      { "trait": "NONADDICTIVE", "prob": 50 },
+      { "trait": "STRONGKNEES", "prob": 50 },
+      { "trait": "FASTHEALER2", "prob": 50 },
+      { "trait": "DEFT", "prob": 50 },
+      { "trait": "SPOTS", "prob": 50 },
+      { "trait": "EYEBULGE", "prob": 50 },
+      { "trait": "WIDE_MOUTH" },
+      { "trait": "SMELLY2", "prob": 50 },
+      { "trait": "VOMITOUS", "prob": 50 },
+      { "trait": "THIRST3", "prob": 50 },
+      { "trait": "WEBBED", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_frog_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "DIRTSLEEPER", "prob": 50 },
+      { "trait": "LEAPING_LEGS", "prob": 50 },
+      { "trait": "HYPEROPIC", "prob": 50 },
+      { "trait": "STRONG_LEGS", "prob": 50 },
+      { "trait": "DEX_UP_2", "prob": 50 },
+      { "trait": "COLDBLOOD3", "prob": 50 },
+      { "distribution": [ { "trait": "URSINE_EYE" }, { "trait": "UGLY" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_frog_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_BATRACHIAN" },
+      { "distribution": [ { "trait": "MEMBRANE" }, { "trait": "GILLS" }, { "trait": "PHEROMONE_AMPHIBIAN" } ] },
+      { "trait": "WATERSLEEPER" },
+      { "trait": "VOMITSTOMACH", "prob": 50 },
+      { "distribution": [ { "trait": "PRED1" }, { "trait": "PER_UP_2" } ] },
+      { "trait": "WAKEFUL2", "prob": 50 },
+      { "distribution": [ { "trait": "LONG_TONGUE" }, { "trait": "LONG_TONGUE2" } ] },
+      { "trait": "LEAPING_LEGS2", "prob": 50 },
+      { "trait": "EATPOISON", "prob": 50 },
+      { "trait": "COLDBLOOD4", "prob": 50 },
+      { "trait": "SEESLEEP", "prob": 50 },
+      { "trait": "MUT_TOUGH", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
     "id": "trait_group_alpha",
     "subtype": "collection",
     "traits": [

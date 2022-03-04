@@ -50,7 +50,10 @@
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ], [ [ "oxy_powder", 100 ] ] ]
+    "components": [
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -65,7 +68,10 @@
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ], [ [ "oxy_powder", 100 ] ] ]
+    "components": [
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -80,7 +86,10 @@
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ], [ [ "oxy_powder", 100 ] ] ]
+    "components": [
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -95,7 +104,10 @@
     "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ], [ [ "oxy_powder", 100 ] ] ]
+    "components": [
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -110,7 +122,10 @@
     "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ], [ [ "oxy_powder", 100 ] ] ]
+    "components": [
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

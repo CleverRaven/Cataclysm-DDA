@@ -1061,7 +1061,7 @@ void talk_function::start_training_seminar( npc &p )
         }
         return false;
     };
-    std::vector<int> selected = npcs_select_menu<Character>( students, _( "Who should participate?" ),
+    std::vector<int> selected = npcs_select_menu( students, _( "Who should participate?" ),
     [&include_func]( const Character * ch ) {
         return !include_func( ch );
     } );

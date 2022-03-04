@@ -231,6 +231,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_door_grass_curtain",
+    "name": "Build Door Curtain from Grass"
+  },
+  {
+    "type": "construction_group",
     "id": "build_double_glazed_glass_window",
     "name": "Build Double Glazed Glass Window"
   },
@@ -1116,6 +1121,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_arcade_machine",
+    "name": "Place Arcade Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electric_forge",
     "name": "Place Electric Forge"
   },
@@ -1143,6 +1153,21 @@
     "type": "construction_group",
     "id": "place_solar_panel",
     "name": "Place Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_reinforced_solar_panel",
+    "name": "Place Reinforced Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_solar_panel_v2",
+    "name": "Place Upgraded Solar Panel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_reinforced_solar_panel_v2",
+    "name": "Place Upgraded Reinforced Solar Panel"
   },
   {
     "type": "construction_group",

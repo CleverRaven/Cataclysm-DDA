@@ -602,11 +602,16 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
 bool npc_attack_throw::can_use( const npc &source ) const
 {
+    // Don't throw anything if we're hallucination
+    // TODO: make an analogue of pretend_fire function
+    if( source.is_hallucination() ) {
+        return false;
+    }
+
     item single_item( thrown_item );
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-
 
     // Always allow throwing items that are flagged as throw now to
     // get rid of dangerous items ASAP, even if ranged attacks aren't allowed

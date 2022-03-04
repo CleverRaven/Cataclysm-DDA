@@ -4818,7 +4818,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         const int missing = cur_veh.discharge_battery( 1, false );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_battery() ) {
+                            if( n.is_vehicle_battery() ) {
                                 n.set_energy( 1_kJ );
                             } else {
                                 n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
@@ -5011,6 +5011,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
             } else if( pt.enabled && pti.has_flag( VPFLAG_FREEZER ) ) {
                 it_insulation = 1; // ignore freezer insulation if on
                 flag = temperature_flag::FREEZER;
+            } else if( pt.enabled && pti.has_flag( VPFLAG_HEATED_TANK ) ) {
+                it_insulation = 1; // ignore tank insulation if on
+                flag = temperature_flag::HEATER;
             }
         }
         if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag, 1.0f ) ) {

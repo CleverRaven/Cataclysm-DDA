@@ -47,7 +47,7 @@
     "type": "scenario",
     "id": "largebuilding",
     "name": "Large Building",
-    "points": -2,
+    "points": -1,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [
       "sloc_mall_loading_area",
@@ -55,10 +55,12 @@
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
       "sloc_hospital",
-      "sloc_school"
+      "sloc_school",
+      "sloc_hotel_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_cathedral_rooftop"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -225,7 +227,7 @@
   {
     "type": "scenario",
     "name": "(un)living History",
-    "description": "",
+    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard a scream and gunshot noises.",
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",

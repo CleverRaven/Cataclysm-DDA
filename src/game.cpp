@@ -790,8 +790,7 @@ bool game::start_game()
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
-                    _( "Try again?  Warning: all savegames in current world will be deleted!\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
-                world_generator->delete_world( world_generator->active_world->world_name, false );
+                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
@@ -2117,7 +2116,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( &oThisItem );
+                        get_auto_pickup().add_rule( &oThisItem, true );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ) );
                     }
@@ -11957,7 +11956,8 @@ bool game::slip_down( bool check_for_traps )
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
@@ -11966,7 +11966,8 @@ bool game::slip_down( bool check_for_traps )
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );

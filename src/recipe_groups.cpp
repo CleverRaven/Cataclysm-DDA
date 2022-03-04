@@ -106,6 +106,19 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     return group.recipes;
 }
 
+std::string recipe_group::get_building_of_recipe( const std::string &recipe )
+{
+    for( const auto &group : recipe_groups_data.get_all() ) {
+        for( const auto &rec : group.recipes ) {
+            if( rec.first.str() == recipe ) {
+                return group.building_type;
+            }
+        }
+    }
+
+    return "";
+}
+
 void recipe_group::load( const JsonObject &jo, const std::string &src )
 {
     recipe_groups_data.load( jo, src );

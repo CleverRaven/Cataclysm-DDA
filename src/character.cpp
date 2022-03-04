@@ -330,16 +330,15 @@ static const limb_score_id limb_score_vision( "vision" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_case_hardened_steel( "case_hardened_steel" );
+static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_hflesh( "hflesh" );
-static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
-static const material_id material_low_steel( "low_steel" );
-static const material_id material_med_steel( "med_steel" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
-static const material_id material_tempered_steel( "tempered_steel" );
 static const material_id material_wool( "wool" );
 
 static const morale_type morale_nightmare( "morale_nightmare" );
@@ -480,7 +479,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel, material_hardsteel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
 {
@@ -778,6 +777,11 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
+std::string Character::name_and_maybe_activity() const
+{
+    return disp_name( false, true );
+}
+
 std::string Character::skin_name() const
 {
     // TODO: Return actual deflecting layer name
@@ -971,6 +975,7 @@ double Character::aim_factor_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
     double wielded_volume = gun.volume() / 1_ml;
+    // this is only here for mod support
     if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
         // use the unfolded volume
         wielded_volume += gun.collapsed_volume_delta() / 1_ml;
@@ -1817,9 +1822,10 @@ std::set<matec_id> Character::get_limb_techs() const
 int Character::get_working_arm_count() const
 {
     int limb_count = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+    body_part_type::type arm_type = body_part_type::type::arm;
+    for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( limb_score_lift ) >= 0.1 &&
+        if( get_part( part )->get_limb_score( limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
             !get_part( part )->is_limb_overencumbered() ) {
             limb_count++;
         }
@@ -3247,7 +3253,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
-    is_dead = true;
+    set_all_parts_hp_cur( 0 );
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
@@ -3691,7 +3697,8 @@ int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
 {
     float limb_encumb = 0.0f;
     int num_limbs = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( part_type ) ) {
+    for( const bodypart_id &part : get_all_body_parts_of_type( part_type,
+            get_body_part_flags::primary_type ) ) {
         limb_encumb += encumb( part );
         num_limbs++;
     }
@@ -5213,24 +5220,6 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     return comfort_response;
 }
 
-int Character::blood_loss( const bodypart_id &bp ) const
-{
-    int hp_cur_sum = get_part_hp_cur( bp );
-    int hp_max_sum = get_part_hp_max( bp );
-
-    if( bp == body_part_leg_l || bp == body_part_leg_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_leg_l ) + get_part_hp_cur( body_part_leg_r );
-        hp_max_sum = get_part_hp_max( body_part_leg_l ) + get_part_hp_max( body_part_leg_r );
-    } else if( bp == body_part_arm_l || bp == body_part_arm_r ) {
-        hp_cur_sum = get_part_hp_cur( body_part_arm_l ) + get_part_hp_cur( body_part_arm_r );
-        hp_max_sum = get_part_hp_max( body_part_arm_l ) + get_part_hp_max( body_part_arm_r );
-    }
-
-    hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
-    hp_max_sum = std::max( hp_max_sum, 1 );
-    return 100 - ( 100 * hp_cur_sum ) / hp_max_sum;
-}
-
 float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
@@ -5764,7 +5753,8 @@ mutation_value_map = {
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
-    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
+    { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> },
+    { "sweat_multiplier", calc_mutation_value_multiplicative<&mutation_branch::sweat_multiplier> },
 };
 
 float Character::mutation_value( const std::string &val ) const
@@ -6954,6 +6944,18 @@ void Character::drench_mut_calc()
     }
 }
 
+/// Returns a weighted list of all mutation categories with current blood vitamin levels
+weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
+{
+    weighted_int_list<mutation_category_id> weighted_output;
+    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+        mutation_category_trait::get_all();
+    for( const auto &elem : mutation_categories ) {
+        weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
+    }
+    return weighted_output;
+}
+
 /// Returns the mutation category with the highest strength
 mutation_category_id Character::get_highest_category() const
 {
@@ -7217,6 +7219,10 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
         return;
+    }
+
+    if( is_npc() ) {
+        as_npc()->on_attacked( *source );
     }
 
     bool u_see = get_player_view().sees( *this );
@@ -7907,6 +7913,36 @@ int Character::empty_holsters() const
         }
     }
     return e_holsters;
+}
+
+int Character::used_holsters() const
+{
+    int e_holsters = 0;
+    e_holsters += weapon.get_used_holsters();
+    for( const item &w : worn ) {
+        e_holsters += w.get_used_holsters();
+    }
+    return e_holsters;
+}
+
+int Character::total_holsters() const
+{
+    int e_holsters = 0;
+    e_holsters += weapon.get_total_holsters();
+    for( const item &w : worn ) {
+        e_holsters += w.get_total_holsters();
+    }
+    return e_holsters;
+}
+
+units::volume Character::free_holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    holster_volume += weapon.get_total_holster_volume() - weapon.get_used_holster_volume();
+    for( const item &w : worn ) {
+        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
+    }
+    return holster_volume;
 }
 
 units::volume Character::small_pocket_volume( const units::volume &threshold ) const
@@ -9392,6 +9428,19 @@ void Character::process_one_effect( effect &it, bool is_new )
         if( is_new || it.activated( calendar::turn, "THIRST", val, reduced, mod ) ) {
             mod_thirst( bound_mod_to_vals( get_thirst(), val, it.get_max_val( "THIRST", reduced ),
                                            it.get_min_val( "THIRST", reduced ) ) );
+        }
+    }
+
+    // Handle perspiration
+    val = get_effect( "PERSPIRATION", reduced );
+    if( val != 0 ) {
+        mod = 1;
+        if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
+            // multiplier to balance values aroud drench capacity of different body parts
+            int mult = mutation_value( "sweat_multiplier" ) * get_part_drench_capacity( bp ) / 100;
+            mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
+                              it.get_max_val( "PERSPIRATION", reduced ) * mult,
+                              it.get_min_val( "PERSPIRATION", reduced ) * mult ) );
         }
     }
 

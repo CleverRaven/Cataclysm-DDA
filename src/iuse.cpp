@@ -119,7 +119,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -238,6 +237,7 @@ static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
+static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
@@ -1201,75 +1201,8 @@ static void do_purify( Character &p )
     }
 }
 
-cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    do_purify( *p );
-    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
-        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
-    }
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    std::vector<trait_id> valid; // Which flags the player has
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.id );
-        }
-    }
-    if( valid.empty() ) {
-        p->add_msg_if_player( _( "You feel cleansed." ) );
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng( 4,
-                         valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    if( num_cured > 8 ) {
-        num_cured = 8;
-    }
-    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
-        const trait_id id = random_entry_removed( valid );
-        if( p->purifiable( id ) ) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
-        }
-        if( !p->has_trait( trait_NOPAIN ) ) {
-            p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
-            p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
-        }
-        p->mod_stored_nutr( 2 * num_cured );
-        p->mod_thirst( 2 * num_cured );
-        p->mod_fatigue( 2 * num_cured );
-    }
-
-    if( it->is_comestible() && !it->get_comestible()->default_nutrition.vitamins.empty() ) {
-        p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
-    }
-    return it->type->charges_to_use();
-}
-
 cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
@@ -1312,6 +1245,8 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    get_event_bus().send<event_type::administers_mutagen>( p->getID(),
+            mutagen_technique::injected_smart_purifier );
     return it->type->charges_to_use();
 }
 
@@ -1373,9 +1308,9 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
      * 1 - Mutate
      * 2 - Mutate
      * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
+     * 4 - Painkiller
+     * 5 - Painkiller
+     * 6 - Cleanse radiation + Painkiller
      * 7 - Fully satiate
      * 8 - Vomit
      * 9-12 - Give Marloss mutation
@@ -1392,7 +1327,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
-        iuse::purifier( &p, &it, false, p.pos() );
+        p.mod_pain( -40 );
         if( effect == 6 ) {
             p.set_rad( 0 );
         }
@@ -1526,7 +1461,7 @@ cata::optional<int> iuse::marloss_gel( Character *p, item *it, bool, const tripo
     return it->type->charges_to_use();
 }
 
-cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint &pos )
+cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         return it->type->charges_to_use();
@@ -1543,7 +1478,6 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
-        iuse::purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
@@ -2832,7 +2766,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
+        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
         p->activity.placement = here.getabs( pnt );
         return it->type->charges_to_use();
     } else {
@@ -4615,7 +4549,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return cata::nullopt;
-    } else if( !it->ammo_sufficient( p ) ) {
+    } else if( it->typeId() != itype_arcade_machine && !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     } else {
@@ -9191,6 +9125,138 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
+        } else {
+            vehicle *const target_veh = &target_vp->vehicle();
+            if( source_veh == target_veh ) {
+                if( p != nullptr && p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                                          source_veh->name );
+                }
+                return 0;
+            }
+
+            tripoint target_global = here.getabs( vpos );
+            // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+            // a iuse_actor class, or add a check in item_factory.
+            const vpart_id vpid( it->typeId().str() );
+
+            point vcoords = source_vp->mount();
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            source_part.target.first = target_global;
+            source_part.target.second = target_veh->global_square_location().raw();
+            source_veh->install_part( vcoords, source_part );
+
+            vcoords = target_vp->mount();
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            target_part.target.first = source_global;
+            target_part.target.second = source_veh->global_square_location().raw();
+            target_veh->install_part( vcoords, target_part );
+
+            if( p != nullptr && p->has_item( *it ) ) {
+                p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
+                                      source_veh->name, target_veh->name );
+            }
+
+            return 1; // Let the cable be destroyed.
+        }
+    }
+
+    return 0;
+}
+
+cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoint & )
+{
+    std::string initial_state = it->get_var( "state", "attach_first" );
+
+    item_location loc;
+
+    const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
+        const std::string prev_state = it->get_var( "state" );
+        it->set_var( "state", state );
+        it->active = true;
+        it->process( p, p->pos() );
+        p->moves -= 15;
+
+        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+            p->find_remote_fuel();
+        }
+    };
+    map &here = get_map();
+    if( initial_state == "attach_first" ) {
+        const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+        if( !posp_ ) {
+            return cata::nullopt;
+        }
+        const tripoint posp = *posp_;
+        const optional_vpart_position vp = here.veh_at( posp );
+        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            p->add_msg_if_player( _( "There's no appliance here." ) );
+            return cata::nullopt;
+        } else {
+            const tripoint abspos = here.getabs( posp );
+            it->set_var( "source_x", abspos.x );
+            it->set_var( "source_y", abspos.y );
+            it->set_var( "source_z", here.get_abs_sub().z() );
+            set_cable_active( p, it, "pay_out_cable" );
+        }
+    } else {
+        const auto confirm_source_vehicle = [&here]( Character * p, item * it,
+        const bool detach_if_missing ) {
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = here.getlocal( source_global );
+            const optional_vpart_position source_vp = here.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
+            if( detach_if_missing && source_veh == nullptr ) {
+                if( p != nullptr && p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                it->reset_cable( p );
+            }
+            return source_vp;
+        };
+
+        const bool paying_out = initial_state == "pay_out_cable";
+        bool is_power_cord = it->has_flag( json_flag_POWER_CORD );
+        uilist kmenu;
+        kmenu.text = _( "Using cable:" );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
+        kmenu.addentry( 1, true, -1, _( "Attach loose end to appliance" ) );
+
+        kmenu.query();
+        int choice = kmenu.ret;
+
+        if( choice < 0 ) {
+            return cata::nullopt; // we did nothing.
+        } else if( choice == 0 ) { // unconnect & respool
+            p->reset_remote_fuel();
+            it->reset_cable( p );
+            return 0;
+        }
+        // connecting self to vehicle
+        const optional_vpart_position source_vp = confirm_source_vehicle( p, it, paying_out );
+        vehicle *const source_veh = veh_pointer_or_null( source_vp );
+        if( source_veh == nullptr && paying_out ) {
+            return 0;
+        }
+
+        const cata::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+        if( !vpos_ ) {
+            return cata::nullopt;
+        }
+        const tripoint vpos = *vpos_;
+
+        const optional_vpart_position target_vp = here.veh_at( vpos );
+        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            p->add_msg_if_player( _( "There's no appliance there." ) );
+            return cata::nullopt;
         } else {
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {

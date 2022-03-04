@@ -109,7 +109,6 @@ static const itype_id itype_metal_rail( "metal_rail" );
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
 static const material_id material_glass( "glass" );
-static const material_id material_hardsteel( "hardsteel" );
 static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
 static const material_id material_low_steel( "low_steel" );
@@ -132,7 +131,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel, material_hardsteel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
@@ -1785,6 +1784,7 @@ static projectile make_gun_projectile( const item &gun )
         if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            drop.set_favorite( gun.get_contents().first_ammo().is_favorite );
             proj.set_drop( drop );
         }
 
@@ -3461,8 +3461,10 @@ void target_ui::panel_gun_info( int &text_y )
     if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
-        str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
-                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ), m->ammo_remaining(),
+        bool is_favorite = relevant->get_contents().first_ammo().is_favorite;
+        str = string_format( m->ammo_remaining() ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ),
+                             colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining(),
                              m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
@@ -3639,7 +3641,6 @@ void target_ui::on_target_accepted( bool harmful )
                 // TODO: get rid of this. Or combine it with effect_hit_by_player
                 guy->hit_by_player = true; // used for morale penalty
             }
-            guy->make_angry();
         }
     } else if( monster *const mon = dynamic_cast<monster *>( lt_ptr.get() ) ) {
         mon->add_effect( effect_hit_by_player, 10_minutes );
