@@ -362,8 +362,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         } );
     }
 
-    if( has_part( "ARCADE" ) )
-    {
+    if( has_part( "ARCADE" ) ) {
         item *arc_itm = nullptr;
         for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
             if( arc_vp.part().enabled ) {
