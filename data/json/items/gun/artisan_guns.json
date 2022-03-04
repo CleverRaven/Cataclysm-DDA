@@ -3,14 +3,14 @@
     "id": "obrez",
     "copy-from": "mosin91_30",
     "type": "GUN",
-    "name": { "str_sp": "The Obrez" },
-    "description": "A cut down modified Mozin-Nagant.  It has a short barrel and the stock has been cut down and fitted with a mace head.  The sides of the firearm as well have been reinforced with metal.",
-    "weight": "4100 g",
+    "name": { "str_sp": "the Obrez" },
+    "description": "A cut down modified Mozin-Nagant.  It has a short barrel and the stock has been cut down and fitted with a mace head.  The sides of the firearm as well have been reinforced with metal to withstand a beating.",
+    "weight": "3000 g",
     "volume": "2220 ml",
     "longest_side": "40 cm",
     "price": 23000,
     "price_postapoc": 3000,
-    "//": "should be very innacurate and hard to aim by comparison setting handling to that of pistols",
+    "//": "should be very innacurate and hard to aim by comparison.  Setting handling to that of pistols",
     "handling": 10,
     "relative": {
       "range": -30,
@@ -22,9 +22,18 @@
       [ "grip mount", 1 ],
       [ "mechanism", 4 ],
       [ "sling", 1 ],
-      [ "underbarrel mount", 1 ],
-      [ "stock" 1 ]
+      [ "underbarrel mount", 1 ]
     ],
-    "default_mods": [ "obrez_mace" ]
+    "bashing": 40,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "extend": { "flags": [ "DURABLE_MELEE" ] },
+    "weapon_category": [ "MACES" ]
   },
+  {
+    "id": "pulverizer",
+    "copy-from": "hammer_sledge",
+    "name": { "str": "the Pulverizer" },
+    "description": "A large, heavy hammer converted for use as a weapon.  Has a notable safety on the side and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off the blanks are engaged sending a moving piston forward causing massive damage.",
+  }
 ]
