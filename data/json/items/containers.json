@@ -2019,7 +2019,7 @@
         "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -2044,7 +2044,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3200 ml",
         "max_contains_weight": "4000 g",
-        "moves": 400,
+        "moves": 100,
         "rigid": false
       }
     ],
@@ -2069,7 +2069,7 @@
         "max_contains_volume": "2900 ml",
         "max_contains_weight": "4 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -2093,7 +2093,7 @@
         "max_contains_volume": "2900 ml",
         "max_contains_weight": "4 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -2117,7 +2117,7 @@
         "max_contains_volume": "2900 ml",
         "max_contains_weight": "4 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -2141,7 +2141,7 @@
         "max_contains_volume": "2900 ml",
         "max_contains_weight": "4 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -2165,7 +2165,7 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
@@ -2192,7 +2192,7 @@
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
@@ -2219,7 +2219,7 @@
         "max_contains_volume": "2749 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }

@@ -195,7 +195,7 @@
     "dynamic_line": "Sure, I can give you a haircut.  It'll be six merch for a haircut, or three for a shave, okay?",
     "responses": [
       {
-        "text": "Please give me a haircut.",
+        "text": "[6 merch] Please give me a haircut.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [
@@ -206,7 +206,7 @@
         ]
       },
       {
-        "text": "Please give me a shave.",
+        "text": "[3 merch] Please give me a shave.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [

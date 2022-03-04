@@ -141,6 +141,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "SOLES"
+  },
+  {
+    "type": "mutation_type",
     "id": "CLAWS"
   },
   {
