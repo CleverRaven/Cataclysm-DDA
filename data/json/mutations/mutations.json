@@ -917,10 +917,11 @@
     "id": "ROBUST",
     "name": { "str": "Robust Genetics" },
     "points": 3,
-    "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
+    "description": "Your genetics have rapidly adapted to the chaos of the Cataclysm, and the genetic damage caused by mutations will fade much quicker.",
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ]
+    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ],
+    "vitamin_rates": [ [ "instability", 3600 ] ]
   },
   {
     "type": "mutation",
@@ -1710,12 +1711,13 @@
     "type": "mutation",
     "id": "CHAOTIC_BAD",
     "name": { "str": "Genetic Downward Spiral" },
-    "points": -12,
+    "points": -8,
     "purifiable": false,
-    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
+    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and your genetic instability is rapidly climbing.",
     "starting_trait": true,
     "cancels": [ "ROBUST" ],
-    "valid": false
+    "valid": false,
+    "vitamin_rates": [ [ "instability", -60 ] ]
   },
   {
     "type": "mutation",
