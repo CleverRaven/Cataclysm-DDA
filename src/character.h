@@ -1942,7 +1942,17 @@ class Character : public Creature, public visitable
          * Returns the total volume of all worn holsters.
         */
         units::volume holster_volume() const;
+
+        /**
+         * Used and total holsters
+        */
+        int used_holsters() const;
+        int total_holsters() const;
+        units::volume free_holster_volume() const;
+
+        // this is just used for pack rat maybe should be moved to the above more robust functions
         int empty_holsters() const;
+
         /**
          * Returns the total volume of all pockets less than or equal to the volume passed in
          * @param volume threshold for pockets to be considered
