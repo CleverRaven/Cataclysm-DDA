@@ -349,6 +349,26 @@
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
+    "result": "glass_goggles",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_leather_small", 1 ] ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "sheet_metal_small", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
+    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_leatherworking_basic" } ]
+  },
+  {
     "result": "goggles_swim",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
