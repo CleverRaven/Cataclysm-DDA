@@ -39,7 +39,14 @@
       },
       {
         "text": "[Show Nomad Blueprints] Hey I met this group with some interesting ideas for armor design.  Is any of this of use to you?",
-        "condition": { "u_has_items": { "item": "bp_nomad_bodyglove", "count": 1 } },
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "bp_nomad_jumpsuit", "count": 1 } },
+            {
+              "not": { "u_has_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII"
       },
       {

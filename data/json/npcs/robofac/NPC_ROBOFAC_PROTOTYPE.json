@@ -219,7 +219,7 @@
         "condition": {
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "3 d" },
-            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "anchor_pt_2" }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "hwp_exodii" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE"
