@@ -31,8 +31,10 @@ class speed_description
 
     private:
         friend class generic_factory<speed_description>;
+        friend struct mod_tracker;
 
         speed_description_id id;
+        std::vector<std::pair<speed_description_id, mod_id>> src;
         bool was_loaded = false;
 
         // Always sorted with highest value first
@@ -51,13 +53,13 @@ class speed_description_value
             return value_;
         }
 
-        const std::vector<std::string> &descriptions() const {
+        const std::vector<translation> &descriptions() const {
             return descriptions_;
         }
 
     private:
         double value_ = 0.00;
-        std::vector<std::string> descriptions_;
+        std::vector<translation> descriptions_;
 };
 
 #endif // CATA_SRC_SPEED_DESCRIPTION_H

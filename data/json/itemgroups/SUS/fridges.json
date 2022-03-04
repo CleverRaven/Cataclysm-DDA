@@ -246,6 +246,7 @@
           { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
           { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
           { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
           { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
           { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
@@ -260,6 +261,7 @@
           { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
           { "item": "pale_ale", "charges-min": 1, "prob": 25 },
           { "item": "india_pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "drink_hard_seltzer", "charges-min": 1, "prob": 25 },
           { "item": "stout", "charges-min": 1, "prob": 15 },
           { "item": "belgian_ale", "charges-min": 1, "prob": 10 },
           { "item": "imperial_stout", "charges-min": 1, "prob": 4 },
@@ -471,6 +473,7 @@
           { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
           { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
           { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
           { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
           { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
@@ -485,6 +488,7 @@
           { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
           { "item": "pale_ale", "charges-min": 1, "prob": 25 },
           { "item": "india_pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "drink_hard_seltzer", "charges-min": 1, "prob": 25 },
           { "item": "stout", "charges-min": 1, "prob": 15 },
           { "item": "belgian_ale", "charges-min": 1, "prob": 10 },
           { "item": "imperial_stout", "charges-min": 1, "prob": 4 },
@@ -577,6 +581,7 @@
           { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
           { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
           { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
           { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
           { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 }
@@ -591,6 +596,7 @@
           { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
           { "item": "pale_ale", "charges-min": 1, "prob": 25 },
           { "item": "india_pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "drink_hard_seltzer", "charges-min": 1, "prob": 25 },
           { "item": "stout", "charges-min": 1, "prob": 15 },
           { "item": "belgian_ale", "charges-min": 1, "prob": 10 },
           { "item": "imperial_stout", "charges-min": 1, "prob": 4 },
@@ -604,7 +610,7 @@
     "id": "SUS_fridge_partial_empty",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for a partially-emptied refrigerator. It's basically the SUS_fridge item group, just with lower chances to spawn for all items and item groups.",
+    "//2": "This group is for a partially-emptied refrigerator. It's basically the SUS_fridge_stocked item group, just with lower chances to spawn for all items and item groups.",
     "subtype": "collection",
     "entries": [
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 20 },
@@ -832,6 +838,7 @@
         "distribution": [
           { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
           { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
+          { "item": "drink_hard_seltzer", "count": [ 1, 6 ], "prob": 25 },
           { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
           { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
@@ -848,6 +855,7 @@
           { "item": "european_pilsner", "charges-min": 1, "prob": 25 },
           { "item": "pale_ale", "charges-min": 1, "prob": 25 },
           { "item": "india_pale_ale", "charges-min": 1, "prob": 25 },
+          { "item": "drink_hard_seltzer", "charges-min": 1, "prob": 25 },
           { "item": "stout", "charges-min": 1, "prob": 15 },
           { "item": "belgian_ale", "charges-min": 1, "prob": 10 },
           { "item": "imperial_stout", "charges-min": 1, "prob": 4 },
@@ -903,6 +911,23 @@
       { "group": "softdrinks_canned", "count": [ 1, 5 ], "prob": 75 },
       { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 1, 3 ], "sealed": false },
       { "item": "water_mineral", "container-item": "bottle_plastic", "prob": 35, "count": [ 1, 2 ], "sealed": false }
+    ]
+  },
+  {
+    "id": "SUS_fridge_survivor",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a refrigerator which can be found in survivor/bandits locations.",
+    "//3": "It contains mostly canned foods.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "big_canned_food", "count": [ 3, 6 ], "prob": 40 },
+      { "group": "foodintincan", "count": [ 4, 8 ], "prob": 80 },
+      { "group": "condiments", "count": [ 1, 2 ], "prob": 25 },
+      { "group": "preserved_food", "count": [ 3, 6 ], "prob": 40 },
+      { "group": "softdrinks_canned", "count": [ 3, 7 ], "prob": 75 },
+      { "group": "alcohol_bottled_canned", "count": [ 2, 4 ], "prob": 30 },
+      { "item": "water_clean", "container-item": "bottle_plastic", "prob": 65, "count": [ 2, 6 ], "sealed": false }
     ]
   }
 ]

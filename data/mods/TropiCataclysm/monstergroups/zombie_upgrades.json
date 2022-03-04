@@ -1,0 +1,26 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MOSSY_BOOMER_UPGRADE",
+    "default": "mon_boomer_moss",
+    "//": "Upgrades for the Thorny Boomer.",
+    "monsters": [
+      { "monster": "mon_boomer_moss" },
+      { "monster": "mon_boomer_sap", "weight": 250 },
+      { "monster": "mon_boomer_pollen", "weight": 250 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GARDEN_ZOMBIE_UPGRADE",
+    "default": "mon_zombie_garden",
+    "//": "Upgrades for the Thorny Shambler.",
+    "monsters": [
+      { "monster": "mon_zombie_garden" },
+      { "monster": "mon_brute_thorns", "weight": 15 },
+      { "monster": "mon_swimmer_swamped", "weight": 30 },
+      { "monster": "mon_shrieker_vines", "weight": 15 },
+      { "monster": "mon_boomer_moss", "weight": 30 }
+    ]
+  }
+]

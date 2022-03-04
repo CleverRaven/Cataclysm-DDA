@@ -8,6 +8,7 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -74,15 +75,17 @@ void sleep_schedule::setup( avatar &guy ) const
 
 void sleep_schedule::do_turn( avatar &guy ) const
 {
-    if( !guy.has_effect( efftype_id( "sleep" ) ) ) {
+    if( !guy.has_effect( STATIC( efftype_id( "sleep" ) ) ) ) {
         debugmsg( "Woke up!" );
     }
 }
 
-weariness_events do_activity( tasklist tasks )
+weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
 {
     // Clear stuff, ensure we're in the right place
-    clear_avatar();
+    if( do_clear_avatar ) {
+        clear_avatar();
+    }
     clear_map();
 
     avatar &guy = get_avatar();
@@ -123,8 +126,10 @@ weariness_events do_activity( tasklist tasks )
         if( new_weariness != weariness_lvl ) {
             int new_weary = guy.weariness();
             int new_thresh = guy.weary_threshold();
+            int intake = guy.activity_history.intake;
+            int tracker = guy.activity_history.tracker;
             activity_log.log( weariness_lvl, new_weariness, spent,
-                              new_weary, new_thresh );
+                              new_weary, new_thresh, intake, tracker );
             weariness_lvl = new_weariness;
         }
     }
@@ -180,7 +185,8 @@ time_duration tasklist::duration()
 }
 
 void weariness_events::log( const int old_level, const int new_level, const time_duration &when,
-                            const int new_weariness, const int new_threshold )
+                            const int new_weariness, const int new_threshold,
+                            const int intake, const int tracker )
 {
     weary_transition added;
     added.from = old_level;
@@ -188,6 +194,8 @@ void weariness_events::log( const int old_level, const int new_level, const time
     added.minutes = to_minutes<int>( when );
     added.new_weariness = new_weariness;
     added.new_threshold = new_threshold;
+    added.intake = intake;
+    added.tracker = tracker;
 
     transitions.insert( transitions.end(), added );
 }
@@ -222,9 +230,11 @@ std::string weariness_events::summarize() const
 {
     std::string buffer;
     for( const weary_transition &change : transitions ) {
-        buffer += string_format( "Transition: Weariness lvl from %d to %d at %d min (W %d Th %d)\n",
+        buffer += string_format( "Change: Weary lvl from %d to %d at %d min (W %d Th %d In %d Tr %d)\n",
                                  change.from, change.to, change.minutes,
-                                 change.new_weariness, change.new_threshold );
+                                 change.new_weariness, change.new_threshold,
+                                 static_cast<int>( change.intake / 1000 ),
+                                 static_cast<int>( change.tracker / 1000 ) );
     }
     return buffer;
 }

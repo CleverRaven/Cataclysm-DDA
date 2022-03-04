@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "mission_companion.h"
 #include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -205,7 +206,7 @@ enum npc_mission : int {
 };
 
 struct npc_companion_mission {
-    std::string mission_id;
+    mission_id miss_id;
     tripoint_abs_omt position;
     std::string role_id;
     cata::optional<tripoint_abs_omt> destination;
@@ -591,6 +592,11 @@ struct npc_short_term_cache {
     cata::optional<int> closest_enemy_to_friendly_distance() const;
 };
 
+struct npc_need_goal_cache {
+    tripoint_abs_omt goal;
+    tripoint_abs_omt omt_loc;
+};
+
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
 // TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
 // the new string values (used to load old saves).
@@ -790,6 +796,7 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
         void apply_ownership_to_inv();
+        void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
@@ -834,6 +841,11 @@ class npc : public Character
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
         std::string name_and_activity() const;
+        std::string name_and_maybe_activity() const override;
+        /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
+        std::string get_current_status() const;
+        /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
+        std::string get_current_activity() const;
 
         // Interaction with the player
         void form_opinion( const Character &you );
@@ -882,6 +894,13 @@ class npc : public Character
         // true if the NPC isn't actually real
         bool is_hallucination() const override {
             return hallucination;
+        }
+
+        // true if the NPC produces electrical radiation
+        // TODO: make this way less hard coded
+        bool is_electrical() const override {
+            // only beep on Rubik for now
+            return has_trait( trait_id( "EXODII_BODY_1" ) );
         }
 
         // Ally of or traveling with p
@@ -1022,6 +1041,22 @@ class npc : public Character
         // check if an NPC has a bionic weapon and activate it if possible
         void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
+        /*
+         * Item management functions. These are meant for during and after combat/danger.
+         */
+        void activate_combat_items();
+        void deactivate_combat_items();
+
+        /*
+         * Prepare for combat, such as enabling combat items or CBMs.
+         */
+        void prepare_for_combat();
+
+        /*
+         * Perform any cleanup upon no more present danger, such as disabling combat CBMs or items.
+         */
+        void cleanup_on_no_danger();
+
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
         // @param dur time duration between complaints
@@ -1034,6 +1069,9 @@ class npc : public Character
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+        // return snippet strings by given range
+        std::string distance_string( int range );
+
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1108,7 +1146,9 @@ class npc : public Character
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
-        void aim();
+        void update_cardio_acc() override {};
+
+        void aim( Target_attributes target_attributes );
         void do_reload( const item &it );
 
         // Physical movement from one tile to the next
@@ -1275,6 +1315,8 @@ class npc : public Character
         std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
+
+        std::map<npc_need, npc_need_goal_cache> goal_cache;
     public:
         const std::shared_ptr<npc_attack> &get_current_attack() const {
             return ai_cache.current_attack;
@@ -1351,12 +1393,12 @@ class npc : public Character
         void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
-        void set_companion_mission( npc &p, const std::string &mission_id );
+        void set_companion_mission( npc &p, const mission_id &miss_id );
         void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
-                                    const std::string &mission_id );
+                                    const mission_id &miss_id );
         void set_companion_mission(
             const tripoint_abs_omt &omt_pos, const std::string &role_id,
-            const std::string &mission_id, const tripoint_abs_omt &destination );
+            const mission_id &miss_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
         cata::optional<tripoint_abs_omt> get_mission_destination() const;

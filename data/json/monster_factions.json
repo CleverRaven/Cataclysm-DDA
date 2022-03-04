@@ -15,7 +15,7 @@
     "type": "MONSTER_FACTION",
     "name": "human",
     "neutral": [ "mech_bot" ],
-    "by_mood": "exodii"
+    "by_mood": [ "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -28,7 +28,7 @@
     "name": "zombie",
     "friendly": [ "slime" ],
     "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator" ],
-    "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
+    "by_mood": [ "ant", "acid_ant", "bee", "wasp", "stag_beetle" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -60,14 +60,14 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal",
-    "neutral": [ "zombie", "fish", "exodii", "nether", "animal" ],
+    "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal" ],
     "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -121,7 +121,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "rat",
-    "base_faction": "vermin"
+    "base_faction": "vermin",
+    "neutral": "ratkin"
   },
   {
     "type": "MONSTER_FACTION",
@@ -129,7 +130,20 @@
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
     "by_mood": [ "bear", "big_cat" ],
-    "neutral": [ "zombie", "bot", "animal", "small_animal", "exodii", "plant", "nether", "jabberwock", "insect", "mutant", "fungus" ]
+    "neutral": [
+      "zombie",
+      "bot",
+      "animal",
+      "small_animal",
+      "exodii",
+      "isolated_artisans",
+      "plant",
+      "nether",
+      "jabberwock",
+      "insect",
+      "mutant",
+      "fungus"
+    ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -226,6 +240,12 @@
     "type": "MONSTER_FACTION",
     "name": "corvid",
     "base_faction": "mutant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ratkin",
+    "base_faction": "mutant",
+    "neutral": "rat"
   },
   {
     "type": "MONSTER_FACTION",
@@ -376,26 +396,38 @@
     "name": "ant",
     "base_faction": "insect",
     "by_mood": [ "zombie", "fungus" ],
-    "neutral": [ "aphid" ]
+    "neutral": [ "aphid", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
     "by_mood": [ "zombie", "fungus" ],
-    "neutral": [ "aphid" ]
+    "neutral": [ "aphid", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "aphid",
     "base_faction": "insect",
-    "neutral": [ "ant", "acid_ant" ]
+    "neutral": [ "ant", "acid_ant", "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
     "base_faction": "insect",
     "hate": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stag_beetle",
+    "base_faction": "insect",
+    "by_mood": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stag_beetle_larva",
+    "base_faction": "stag_beetle",
+    "neutral": [ "ant", "acid_ant", "aphid" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -466,11 +498,19 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "isolated_artisans",
+    "base_faction": "human",
+    "neutral": [ "fish", "small_animal", "herbivore" ],
+    "by_mood": [ "animal", "nether", "human" ],
+    "hate": [ "zombie", "fungus", "triffid", "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "mi-go",
     "base_faction": "nether",
     "neutral": [ "fish", "small_animal", "slime" ],
     "by_mood": [ "nether" ],
-    "hate": [ "zombie", "triffid", "fungus", "exodii" ]
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
   },
   {
     "type": "MONSTER_FACTION",

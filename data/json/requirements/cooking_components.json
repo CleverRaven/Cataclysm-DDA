@@ -5,7 +5,7 @@
     "//": "Bread type food usable as batter for frying.",
     "components": [
       [
-        [ "flour", 1 ],
+        [ "flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
@@ -26,14 +26,20 @@
       [
         [ "flatbread", 1 ],
         [ "bread", 1 ],
-        [ "cornbread", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
         [ "biscuit", 1 ],
         [ "brioche", 1 ],
-        [ "crackers", 1 ]
+        [ "crackers", 1 ],
+        [ "brown_bread", 1 ]
       ]
     ]
+  },
+  {
+    "id": "bread_sandwich_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for sandwiches.",
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -74,6 +80,7 @@
         [ "ant_egg", 1 ],
         [ "spider_egg", 4 ],
         [ "egg_roach", 4 ],
+        [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
@@ -84,9 +91,16 @@
         [ "egg_grasshopper", 4 ],
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ]
+        [ "egg_mantis", 4 ],
+        [ "egg_stag_beetle", 1 ]
       ]
     ]
+  },
+  {
+    "id": "eggs_any_shape",
+    "type": "requirement",
+    "//": "When we only need the nutrition of eggs and don't care about their shape. About 0.05L ",
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "rehydrated_eggs", 1 ], [ "egg_reptile", 1 ] ] ]
   },
   {
     "id": "milk_standard",
@@ -119,41 +133,69 @@
     "components": [ [ [ "milk", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
   },
   {
+    "id": "sugar_powdered",
+    "type": "requirement",
+    "//": "  Only powdered sugar",
+    "components": [ [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ] ]
+  },
+  {
     "id": "sugar_standard",
     "type": "requirement",
-    "//": "One unit provides ~260kcal; chosen to match one unit of molasses",
+    "//": "One unit provides ~200kcal; chosen to match one unit of molasses",
     "components": [
       [
-        [ "sugar", 14 ],
-        [ "syrup", 5 ],
-        [ "beet_syrup", 6 ],
+        [ "sugar", 10 ],
+        [ "syrup", 4 ],
+        [ "beet_syrup", 5 ],
         [ "molasses", 1 ],
-        [ "honey_bottled", 4 ],
+        [ "honey_bottled", 3 ],
         [ "honey_glassed", 1 ],
-        [ "honeydew", 4 ]
+        [ "sweet_water", 1 ],
+        [ "honeydew", 3 ],
+        [ "artificial_sweetener", 10 ]
+      ]
+    ]
+  },
+  {
+    "id": "sugar_standard_half",
+    "type": "requirement",
+    "//": "About a little more than half of standard",
+    "components": [
+      [
+        [ "sugar", 6 ],
+        [ "syrup", 2 ],
+        [ "beet_syrup", 3 ],
+        [ "honey_bottled", 2 ],
+        [ "honeydew", 2 ],
+        [ "artificial_sweetener", 6 ]
+      ]
+    ]
+  },
+  {
+    "id": "hard_liquor_unmixed",
+    "type": "requirement",
+    "//": "Technical artifact to support mixed alcohol recipe. See comment on `hard_liquor` below for semantics.",
+    "components": [
+      [
+        [ "brandy", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "gin", 1 ],
+        [ "moonshine", 1 ],
+        [ "rum", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "tequila", 1 ],
+        [ "vodka", 1 ],
+        [ "whiskey", 1 ]
       ]
     ]
   },
   {
     "id": "hard_liquor",
     "type": "requirement",
-    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
-    "components": [
-      [
-        [ "moonshine", 1 ],
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "cheap_whiskey", 1 ],
-        [ "canadian_whiskey", 1 ],
-        [ "single_pot_whiskey", 1 ],
-        [ "brandy", 1 ],
-        [ "rum", 1 ],
-        [ "gin", 1 ],
-        [ "tequila", 1 ],
-        [ "mixed_alcohol_strong", 1 ]
-      ]
-    ]
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality. 7 portions per 250ml",
+    "components": [ [ [ "hard_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_strong", 1 ] ] ]
   },
   {
     "id": "cheap_wine",
@@ -161,12 +203,12 @@
     "//": "Cheap and improvised wines.",
     "components": [
       [
-        [ "fruit_wine", 1 ],
         [ "bum_wine", 1 ],
-        [ "dandelion_wine", 1 ],
         [ "burdock_wine", 1 ],
+        [ "dandelion_wine", 1 ],
+        [ "fruit_wine", 1 ],
         [ "pine_wine", 1 ],
-        [ "bum_wine", 1 ]
+        [ "wine_barley", 1 ]
       ]
     ]
   },
@@ -176,15 +218,15 @@
     "//": "More expensive wines.",
     "components": [
       [
-        [ "wine_riesling", 1 ],
-        [ "wine_chardonnay", 1 ],
-        [ "wine_cabernet", 1 ],
-        [ "wine_noir", 1 ],
-        [ "wine_vermouth", 1 ],
-        [ "wine_marsala", 1 ],
-        [ "sherry", 1 ],
         [ "bristol_sherry", 1 ],
-        [ "madeira", 1 ]
+        [ "madeira", 1 ],
+        [ "sherry", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_marsala", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_riesling", 1 ],
+        [ "wine_vermouth", 1 ]
       ]
     ]
   },
@@ -295,28 +337,25 @@
     "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ] ]
   },
   {
+    "id": "any_cracklins",
+    "type": "requirement",
+    "//": "multifarious cracklins",
+    "components": [
+      [
+        [ "cracklins", 1 ],
+        [ "human_cracklins", 1 ],
+        [ "mutant_cracklins", 1 ],
+        [ "mutant_human_cracklins", 1 ],
+        [ "demihuman_cracklins", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [
-        [ "meat_red", 1, "LIST" ],
-        [ "meat_liver", 5, "LIST" ],
-        [ "meat_kidney", 5, "LIST" ],
-        [ "meat_lung", 5, "LIST" ],
-        [ "sweetbread", 5 ],
-        [ "bacon", 4 ],
-        [ "lunchmeat", 5 ],
-        [ "bologna", 5 ],
-        [ "can_spam", 2 ],
-        [ "can_chicken", 1 ],
-        [ "meat_pickled", 1 ],
-        [ "dry_meat", 1 ],
-        [ "jerky", 1 ],
-        [ "meat_smoked", 1 ],
-        [ "meat_salted", 1 ],
-        [ "meat_fried", 1 ]
-      ]
+      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ] ]
     ]
   },
   {
@@ -325,6 +364,7 @@
     "//": "meat you'd put on a sandwich",
     "components": [
       [
+        [ "any_cracklins", 2, "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
@@ -339,9 +379,9 @@
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
         [ "jerky", 1 ],
-        [ "bacon", 1 ],
+        [ "bacon", 2 ],
         [ "lunchmeat", 2 ],
-        [ "bologna", 5 ],
+        [ "bologna", 2 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
@@ -352,11 +392,14 @@
         [ "can_tuna", 1 ],
         [ "can_sardine", 1 ],
         [ "can_clams", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 1 ],
         [ "fish_pickled", 1 ],
-        [ "cracklins", 1 ],
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
         [ "bratwurst_sausage", 1 ],
         [ "meat_fried", 1 ]
       ]
@@ -471,6 +514,14 @@
       [ [ "broth", 2 ], [ "broth_bone", 2 ], [ "pine_tea", 2 ] ],
       [
         [ "meat_nofish", 1, "LIST" ],
+        [ "bacon", 4 ],
+        [ "bologna", 5 ],
+        [ "meat_pickled", 1 ],
+        [ "dry_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ],
+        [ "meat_fried", 1 ],
         [ "fish", 1 ],
         [ "fish_smoked", 1 ],
         [ "dry_fish", 1 ],
@@ -580,6 +631,20 @@
     "type": "requirement",
     "//": "Any type of edible rendered fat.",
     "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "edible_lard", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "edible_blood",
+    "type": "requirement",
+    "//": "Any type of edible blood.",
+    "components": [
+      [ [ "animal_blood", 1 ], [ "mutant_blood", 1 ], [ "blood", 1 ], [ "mutant_human_blood", 1 ], [ "demihuman_blood", 1 ] ]
+    ]
+  },
+  {
+    "id": "any_blood",
+    "type": "requirement",
+    "//": "Any type of blood.",
+    "components": [ [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ] ]
   },
   {
     "id": "any_butter_or_oil",
@@ -909,24 +974,33 @@
     "components": [ [ [ "wash_vodka", 1 ], [ "wash_whiskey", 1 ], [ "wash_rum", 1 ], [ "wash_moonshine", 1 ] ] ]
   },
   {
-    "id": "weak_liquor",
+    "id": "weak_liquor_unmixed",
     "type": "requirement",
-    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality",
+    "//": "Technical artifact to support mixed alcohol recipe. See `weak_liquor` comment below for semantics.",
     "components": [
       [
+        [ "cheap_wine", 5, "LIST" ],
+        [ "worthy_wine", 5, "LIST" ],
         [ "beer", 1 ],
         [ "belgian_ale", 1 ],
-        [ "drink_beeknees", 1 ],
+        [ "bristol_sherry", 1 ],
+        [ "drink_hard_seltzer", 1 ],
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
-        [ "india_pale_ale", 1 ],
-        [ "wine_barley", 1 ],
-        [ "pale_ale", 1 ],
-        [ "stout", 1 ],
+        [ "hb_seltzer", 1 ],
         [ "imperial_stout", 1 ],
-        [ "mixed_alcohol_weak", 1 ]
+        [ "india_pale_ale", 1 ],
+        [ "mead", 1 ],
+        [ "pale_ale", 1 ],
+        [ "stout", 1 ]
       ]
     ]
+  },
+  {
+    "id": "weak_liquor",
+    "type": "requirement",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality. 250ml",
+    "components": [ [ [ "weak_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_weak", 1 ] ] ]
   },
   {
     "id": "soda_pop",
@@ -960,5 +1034,17 @@
         [ "kompot", 1 ]
       ]
     ]
+  },
+  {
+    "id": "small_cans",
+    "type": "requirement",
+    "//": "Small can, 250ml.",
+    "components": [ [ [ "canister_empty", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "flour_any",
+    "type": "requirement",
+    "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
+    "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
   }
 ]

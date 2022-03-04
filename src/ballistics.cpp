@@ -24,6 +24,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "point.h"
@@ -39,6 +40,8 @@
 #include "weakpoint.h"
 
 static const efftype_id effect_bounced( "bounced" );
+
+static const itype_id itype_glass_shard( "glass_shard" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
@@ -65,7 +68,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
 
-        const units::mass shard_mass = itype_id( "glass_shard" )->weight;
+        const units::mass shard_mass = itype_glass_shard->weight;
         const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
         //between half and max_nb_of_shards-1 will be usable
         const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
@@ -196,10 +199,10 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin, const vehicle *in_veh, const weakpoint_attack &wp_attack )
+        const tripoint &target_arg, const dispersion_sources &dispersion, Creature *origin,
+        const vehicle *in_veh, const weakpoint_attack &wp_attack, bool first )
 {
-    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
+    const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -212,7 +215,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
-        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+        target_critter->as_character()->has_flag( json_flag_HARDTOHIT ) ) {
 
         projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
         // if the target's lucky they're more likely to be missed
@@ -285,8 +288,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
-                                 sfx::get_heard_angle( target ) );
+        if( first ) {
+            sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
+                                     sfx::get_heard_angle( target ) );
+        }
         // TODO: Z dispersion
         // If we missed, just draw a straight line.
         trajectory = line_to( source, target );
@@ -337,14 +342,26 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         prev_point = tp;
         tp = trajectory[i];
 
-        if( ( tp.z > prev_point.z && here.has_floor( tp ) ) ||
-            ( tp.z < prev_point.z && here.has_floor( prev_point ) ) ) {
-            // Currently strictly no shooting through floor
-            // TODO: Bash the floor
-            tp = prev_point;
-            traj_len = --i;
-            break;
+        if( tp.z != prev_point.z ) {
+            tripoint floor1 = prev_point;
+            tripoint floor2 = tp;
+
+            if( floor1.z < floor2.z ) {
+                floor1.z++;
+            } else {
+                floor2.z++;
+            }
+            // We only stop the bullet if there are two floors in a row
+            // this allow the shooter to shoot adjacent enemies from rooftops.
+            if( here.has_floor( floor1 ) && here.has_floor( floor2 ) ) {
+                // Currently strictly no shooting through floor
+                // TODO: Bash the floor
+                tp = prev_point;
+                traj_len = --i;
+                break;
+            }
         }
+
         // Drawing the bullet uses player g->u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
@@ -408,7 +425,20 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 continue;
             }
             attack.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : origin, attack, true, wp_attack );
+            bool print_messages = true;
+            // If the attack is shot, once we're past point-blank,
+            // overwrite the default damage with shot damage.
+            if( proj.count > 1 && rl_dist( source, tp ) > 1 ) {
+                attack.proj.impact = attack.proj.shot_impact;
+                print_messages = false;
+            }
+            critter->deal_projectile_attack( null_source ? nullptr : origin, attack, print_messages,
+                                             wp_attack );
+
+            if( critter->is_npc() ) {
+                critter->as_npc()->on_attacked( *origin );
+            }
+
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {

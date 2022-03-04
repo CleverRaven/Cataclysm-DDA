@@ -40,7 +40,7 @@
       "items": {
         "#": { "item": "butcher_tools", "chance": 40 },
         ".": { "item": "butcher_tools", "chance": 5 },
-        "d": { "item": "office", "chance": 30 },
+        "d": { "item": "office_DinoLab", "chance": 30 },
         "l": { "item": "jackets", "chance": 60 },
         "o": { "item": "butcher_tools", "chance": 40 }
       },

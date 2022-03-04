@@ -85,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_TALK2",
-    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though…  I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse to kick me out eventually.",
+    "dynamic_line": "It's safer than making my own home.  I head out and forage when I have to.  As long as we keep it clean and do our part when a zombie comes, they let us squat here as an extra defense.  They don't like that I've been bringing food for the other squatters though… I think they are trying to slowly starve us out, and even though I can't keep everyone's bellies full, I've been able to bring back enough to keep these folk in better shape.  I suspect they'll find an excuse to kick me out eventually.",
     "responses": [
       { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
       {

@@ -15,6 +15,7 @@
 #include "cursesdef.h"
 #include "event_statistics.h"
 #include "input.h"
+#include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"
 #include "point.h"

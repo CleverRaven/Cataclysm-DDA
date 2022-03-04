@@ -1003,6 +1003,33 @@ class saw_barrel_actor : public iuse_actor
         ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
+// this adds a pocket to a molle item
+class molle_attach_actor : public iuse_actor
+{
+    public:
+        explicit molle_attach_actor( const std::string &type = "attach_molle" ) : iuse_actor( type ) {}
+
+        int size;
+        int moves;
+
+        void load( const JsonObject &jo ) override;
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+// this removes a pocket from a molle item
+class molle_detach_actor : public iuse_actor
+{
+    public:
+        explicit molle_detach_actor( const std::string &type = "detach_molle" ) : iuse_actor( type ) {}
+
+        int moves;
+
+        void load( const JsonObject &jo ) override;
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
 class install_bionic_actor : public iuse_actor
 {
     public:
@@ -1027,32 +1054,16 @@ class detach_gunmods_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
-class mutagen_actor : public iuse_actor
+class modify_gunmods_actor : public iuse_actor
 {
     public:
-        mutation_category_id mutation_category;
-        bool is_weak = false;
-        bool is_strong = false;
+        explicit modify_gunmods_actor( const std::string &type = "modify_gunmods" ) : iuse_actor( type ) {}
 
-        mutagen_actor() : iuse_actor( "mutagen" ) {}
-
-        ~mutagen_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        void load( const JsonObject & ) override {}
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-};
-
-class mutagen_iv_actor : public iuse_actor
-{
-    public:
-        mutation_category_id mutation_category;
-
-        mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
-
-        ~mutagen_iv_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
 };
 
 class deploy_tent_actor : public iuse_actor

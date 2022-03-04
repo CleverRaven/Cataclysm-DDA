@@ -152,6 +152,7 @@
     "copy-from": "quilt",
     "name": { "str": "patchwork quilt" },
     "description": "A huge, patchwork wool quilt.  Very, very warm.",
+    "material": [ "wool" ],
     "warmth": 70,
     "armor": [
       {
@@ -190,6 +191,81 @@
         "encumbrance": 80,
         "coverage": 100,
         "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "sleeping_bag_improvised",
+    "type": "ARMOR",
+    "name": { "str": "improvised sleeping bag" },
+    "description": "You might think it is bizarre to sleep in a body bag stuffed with dead plants.  However, the thought of sleeping in the cold is far more uncomfortable.",
+    "weight": "4700 g",
+    "volume": "30 L",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "plastic", "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "light_red",
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 80,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "grass_sheet",
+    "type": "ARMOR",
+    "name": { "str": "grass sheet" },
+    "description": "Some grass yarn woven into a crude sheet.",
+    "weight": "500 g",
+    "volume": "700 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "grass_blanket",
+    "type": "ARMOR",
+    "name": { "str": "grass blanket" },
+    "description": "Some grass sheets sewn together.  Itchy, but more comfortable than the cold.",
+    "weight": "1020 g",
+    "volume": "1400 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "blanket",
+    "color": "white",
+    "warmth": 20,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
   }

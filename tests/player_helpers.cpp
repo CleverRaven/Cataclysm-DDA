@@ -27,6 +27,10 @@
 #include "stomach.h"
 #include "type_id.h"
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
+static const move_mode_id move_mode_walk( "walk" );
+
 int get_remaining_charges( const std::string &tool_id )
 {
     const inventory crafting_inv = get_player_character().crafting_inventory();
@@ -51,7 +55,16 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( Character &dummy )
+// Return true if character has an item with get_var( var ) set to the given value
+bool character_has_item_with_var_val( const Character &they, const std::string var,
+                                      const std::string val )
+{
+    return they.has_item_with( [var, val]( const item & cand ) {
+        return cand.get_var( var ) == val;
+    } );
+}
+
+void clear_character( Character &dummy, bool skip_nutrition )
 {
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
@@ -68,8 +81,10 @@ void clear_character( Character &dummy )
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
-    item food( "debug_nutrition" );
-    dummy.consume( food );
+    if( !skip_nutrition ) {
+        item food( "debug_nutrition" );
+        dummy.consume( food );
+    }
 
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
@@ -92,9 +107,11 @@ void clear_character( Character &dummy )
         dummy.lose_proficiency( prof, true );
     }
 
+    // Reset cardio_acc to baseline
+    dummy.reset_cardio_acc();
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( move_mode_id( "walk" ) );
+    dummy.set_movement_mode( move_mode_walk );
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.
@@ -122,7 +139,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
     // XL so arrows can fit.
-    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+    if( !shooter.is_wearing( itype_debug_backpack ) ) {
         shooter.worn.emplace_back( "debug_backpack" );
     }
 
@@ -143,16 +160,16 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
     const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
     if( gun.magazine_integral() ) {
         item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( gun, ammo_id ) );
+        REQUIRE( gun.can_reload_with( ammo, true ) );
+        REQUIRE( shooter.can_reload( gun, &ammo ) );
         gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
     } else {
         const itype_id magazine_id = gun.magazine_default();
         item &magazine = shooter.i_add( item( magazine_id ) );
         item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                           magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
+        REQUIRE( magazine.can_reload_with( ammo,  true ) );
+        REQUIRE( shooter.can_reload( magazine, &ammo ) );
         magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
     }
@@ -166,6 +183,16 @@ void clear_avatar()
 {
     clear_character( get_avatar() );
     get_avatar().clear_identified();
+}
+
+void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
+{
+    CHECK( !shooter.in_vehicle );
+    shooter.worn.clear();
+    shooter.inv->clear();
+    for( const std::string &article : apparel ) {
+        shooter.wear_item( item( article ) );
+    }
 }
 
 void process_activity( Character &dummy )
@@ -190,6 +217,14 @@ npc &spawn_npc( const point &p, const std::string &npc_class )
     return *guy;
 }
 
+// Clear player traits and give them a single trait by name
+void set_single_trait( Character &dummy, const std::string &trait_name )
+{
+    dummy.clear_mutations();
+    dummy.toggle_trait( trait_id( trait_name ) );
+    REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
+}
+
 void give_and_activate_bionic( Character &you, bionic_id const &bioid )
 {
     INFO( "bionic " + bioid.str() + " is valid" );
@@ -209,7 +244,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     }
     REQUIRE( bioindex != -1 );
 
-    const bionic &bio = you.bionic_at_index( bioindex );
+    bionic &bio = you.bionic_at_index( bioindex );
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
@@ -218,7 +253,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );
         }
-        you.activate_bionic( bioindex );
+        you.activate_bionic( bio );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( you.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {

@@ -29,7 +29,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
@@ -69,7 +69,8 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "pipe", 2 ], [ "rebar", 2 ] ], [ [ "nail", 1 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "pipe", 2 ], [ "rebar", 2 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "steel_lump", 1 ], [ "steel_chunk", 3 ] ]
   },
   {
     "type": "recipe",
@@ -90,7 +91,9 @@
       [ "textbook_armeast", 5 ],
       [ "textbook_armwest", 5 ]
     ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -271,7 +274,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
   },
   {
@@ -284,7 +287,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ], [ "mop", 1 ] ] ]
   },
   {
@@ -481,7 +484,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "2x4", 2 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -534,7 +537,7 @@
     "time": "2 m",
     "byproducts": [ [ "splinter", 1 ] ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "hammer_sledge", 1 ] ] ]
   },
   {
@@ -733,7 +736,7 @@
     "activity_level": "BRISK_EXERCISE",
     "result": "knife_butcher",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "4 h",
@@ -980,6 +983,26 @@
     "tools": [ [ [ "tongs", -1 ] ] ]
   },
   {
+    "result": "heavy_crowbar",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "380 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fireman", 8 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
+  },
+  {
     "result": "halligan",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -1088,10 +1111,9 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h",
-    "reversible": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "using": [ [ "plastic_molding", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
@@ -1125,9 +1147,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h",
-    "reversible": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "using": [ [ "plastic_molding", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
@@ -1143,7 +1164,7 @@
     "time": "25 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {

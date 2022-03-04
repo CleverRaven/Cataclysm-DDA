@@ -5,8 +5,8 @@
     "category": "tools",
     "name": { "str": "barometer" },
     "description": "A plastic barometer that can read the atmospheric pressure.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "50 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -3,
@@ -22,7 +22,7 @@
     "name": { "str": "goo canister" },
     "description": "There is a label on this canister: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
     "weight": "1596 g",
-    "volume": "500 ml",
+    "volume": "270 ml",
     "price": 35000,
     "price_postapoc": 1000,
     "to_hit": 1,
@@ -95,12 +95,113 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "200 kg",
         "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
         "item_restriction": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       }
+    ]
+  },
+  {
+    "id": "engineering_makerspace_kit",
+    "type": "TOOL",
+    "name": { "str": "makerspace kit for STEM", "str_pl": "makerspace kits for STEM" },
+    "description": "With hundreds of pieces and dozens of blueprints for small engineering projects designed for beginner learners.  Explore mechanics and hydraulics!",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "^",
+    "color": "dark_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "toy_makerspace_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "maker_kit_box",
+    "items": [
+      { "item": "engineering_makerspace_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_makerspace" },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
+    "id": "engineering_robotics_kit",
+    "type": "TOOL",
+    "name": { "str": "robotics kit for young learners", "str_pl": "robotics kits for young learners" },
+    "description": "Build and program robots with this complete robotics engineering system.  Using sensors, motors, a core controller, and hundreds of snap-together building pieces, you can follow the instructions to assemble 12 different robots.  The versatile parts also allow you to make robots according to your own designs.",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "toy_robot_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "robot_kit_box",
+    "items": [
+      { "item": "engineering_robotics_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_robotics_kit" },
+      { "item": "screwdriver" }
+    ]
+  },
+  {
+    "id": "engineering_engine_kit",
+    "type": "TOOL",
+    "name": { "str": "stirling engine kit" },
+    "description": "Stirling engine kit demonstrates principles behind the generation of electricity through the use of hot air.",
+    "weight": "3200 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "steel", "glass" ],
+    "symbol": "^",
+    "color": "light_green",
+    "ammo": [ "conc_alcohol" ],
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "conc_alcohol": 750 } } ]
+  },
+  {
+    "id": "toy_engine_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "stirling_kit_box",
+    "items": [
+      { "item": "engineering_engine_kit" },
+      { "item": "bubblewrap", "count": 2 },
+      { "item": "manual_engine_kit" },
+      { "item": "screwdriver" }
     ]
   },
   {
@@ -123,10 +224,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -159,10 +257,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -198,10 +293,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -226,10 +318,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [ "large_storage_battery", "storage_battery" ]
       }
     ]
@@ -265,10 +354,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -317,10 +403,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -368,10 +451,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -420,10 +500,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "5 L",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -466,7 +543,7 @@
     "color": "dark_gray",
     "looks_like": "paper",
     "weight": "20 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 100,
     "to_hit": -1,
     "cutting": 1,
@@ -482,7 +559,7 @@
     "color": "dark_gray",
     "looks_like": "paper",
     "weight": "20 g",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 100,
     "to_hit": -1,
     "cutting": 1,
@@ -518,10 +595,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "500 ml",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -570,10 +644,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "magazine_well": "500 ml",
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "400 kg",
         "item_restriction": [
           "medium_battery_cell",
           "medium_plus_battery_cell",
@@ -664,8 +735,8 @@
     "category": "tools",
     "name": { "str": "hygrometer" },
     "description": "A plastic hygrometer that can read the relative humidity in the air.",
-    "weight": "1 g",
-    "volume": "250 ml",
+    "weight": "10 g",
+    "volume": "50 ml",
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -3,
@@ -792,7 +863,7 @@
     "category": "tools",
     "name": { "str": "Doppler Radar Turbo 2000" },
     "description": "A briefcase with built-in laptop that looks like it's from the 80s.  Its vintage monochrome monitor displays a plethora of meteorological data.  No sign of the FLDSMDFR, however.",
-    "weight": "10 g",
+    "weight": "1000 g",
     "volume": "2500 ml",
     "price": 200,
     "price_postapoc": 500,
@@ -928,7 +999,7 @@
     "category": "tools",
     "name": { "str": "voltmeter" },
     "description": "This device has two probes that let you measure the electrical potential between two points.",
-    "weight": "3000 g",
+    "weight": "500 g",
     "volume": "1500 ml",
     "price": 6000,
     "price_postapoc": 250,
@@ -952,7 +1023,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "multimeter" },
-    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuty.",
+    "description": "This gadget is a little bigger than a handheld calculator, with a digital display and two pointed probes connected by wires.  It can measure not just voltage, but current in amps, and resistance in ohms, as well as test for electrical continuity.",
     "//": "Dimensions from a sampling of consumer digital multimeter models online.",
     "weight": "500 g",
     "volume": "650 ml",
@@ -1020,8 +1091,8 @@
     "category": "spare_parts",
     "name": { "str": "light detector" },
     "description": "This is a photodiode on a chip, designed to convert incoming light to electrical energy for quantification.",
-    "weight": "50 g",
-    "volume": "250 ml",
+    "weight": "5 g",
+    "volume": "20 ml",
     "price": 400,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1038,7 +1109,7 @@
     "name": { "str": "glass prism" },
     "description": "This is a high quality crystal glass prism for separating and redirecting light.",
     "weight": "50 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 50,
     "price_postapoc": 50,
     "to_hit": -5,
@@ -1085,7 +1156,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "dissecting microscope" },
-    "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3d image of the surface.  It was typically used for doing dissections and other fine detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
+    "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3D image of the surface.  It was typically used for doing dissections and other fine detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
     "weight": "2200 g",
     "volume": "4000ml",
     "price": 3000,
@@ -1216,7 +1287,7 @@
     "category": "spare_parts",
     "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
-    "weight": "5 g",
+    "weight": "1 g",
     "volume": "1ml",
     "price": 5,
     "price_postapoc": 10,
@@ -1364,7 +1435,7 @@
       "description": "Touch the opening.",
       "effect_on_conditions": [
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_SLIGHT",
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
             { "u_message": "You have a slight feeling of being watched." },
@@ -1372,7 +1443,7 @@
           ]
         },
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_INTENSE",
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },

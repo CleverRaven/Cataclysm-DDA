@@ -66,7 +66,7 @@
     "color": "light_red",
     "name": { "str": "alien biotech" },
     "category": "spare_parts",
-    "description": "A fistfull of gently squirming parts that secrete viscous gel.  Useful in crafting, but not fun to hold.",
+    "description": "A fistful of gently squirming parts that secrete viscous gel.  Useful in crafting, but not fun to hold.",
     "price": 0,
     "material": [ "dks_biopoly_mat", "dks_biogel_mat" ],
     "weight": "26 g",

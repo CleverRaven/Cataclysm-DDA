@@ -43,7 +43,6 @@ void mapgen_forest_trail_curved( mapgendata &dat );
 void mapgen_forest_trail_tee( mapgendata &dat );
 void mapgen_forest_trail_four_way( mapgendata &dat );
 void mapgen_hive( mapgendata &dat );
-void mapgen_spider_pit( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
 void mapgen_road( mapgendata &dat );
 //void mapgen_bridge( mapgendata &dat );
@@ -55,7 +54,6 @@ void mapgen_river_straight( mapgendata &dat );
 void mapgen_river_curved( mapgendata &dat );
 void mapgen_cave( mapgendata &dat );
 void mapgen_cave_rat( mapgendata &dat );
-void mapgen_cavern( mapgendata &dat );
 void mapgen_rock( mapgendata &dat );
 void mapgen_rock_partial( mapgendata &dat );
 void mapgen_open_air( mapgendata &dat );
@@ -70,7 +68,7 @@ void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers
-void mremove_trap( map *m, const point & );
+void mremove_trap( map *m, const point &, trap_id type );
 void mtrap_set( map *m, const point &, trap_id type );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 

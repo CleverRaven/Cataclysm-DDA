@@ -129,7 +129,7 @@
     "name": { "str": "radioisotope thermoelectric generator" },
     "symbol": "=",
     "color": "green",
-    "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
+    "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of cerium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
     "material": [ "steel", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "500 ml",
@@ -155,6 +155,7 @@
     "type": "AMMO",
     "id": "money",
     "price": 1,
+    "price_postapoc": 0,
     "//": "= one cent, gives correct prices for cash cards",
     "name": { "str": "cent" },
     "symbol": "=",
@@ -374,6 +375,26 @@
     "phase": "liquid",
     "container": "metal_tank_little",
     "count": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "wire_barbed_baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "barbed wire baseball" },
+    "description": "A baseball wrapped with barbed wire, for when the game turns serious.",
+    "material": [ "leather", "steel" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN", "HURT_WHEN_WIELDED" ],
+    "weight": "300 g",
+    "volume": "300 ml",
+    "cutting": 9,
+    "damage": { "damage_type": "stab", "amount": 9 },
+    "range": 12,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -2,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
   },
   {
     "type": "AMMO",
@@ -864,6 +885,21 @@
   },
   {
     "type": "AMMO",
+    "id": "carbon_electrode",
+    "category": "spare_parts",
+    "name": { "str": "Carbon electrode rod" },
+    "description": "This carbon electrode is basically made from wood and sugar, and it actually works.",
+    "price_postapoc": 50,
+    "material": [ "charcoal" ],
+    "ammo_type": "charcoal",
+    "symbol": "=",
+    "color": "dark_gray",
+    "phase": "solid",
+    "volume": "30 ml",
+    "weight": "50 g"
+  },
+  {
+    "type": "AMMO",
     "id": "cac2powder",
     "category": "spare_parts",
     "price": 200,
@@ -1141,6 +1177,50 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "lc_chain_link",
+    "category": "spare_parts",
+    "price": 150,
+    "price_postapoc": 50,
+    "name": { "str": "mild steel chain link" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "Small metal rings, suitable for constructing chainmail.",
+    "material": [ "lc_steel" ],
+    "volume": "250 ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 150
+  },
+  {
+    "type": "AMMO",
+    "id": "mc_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "medium steel chain link" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "hc_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "high steel chain link" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "ch_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "hardened steel chain link" },
+    "material": [ "ch_steel" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "qt_chain_link",
+    "copy-from": "lc_chain_link",
+    "name": { "str": "tempered steel chain link" },
+    "material": [ "qt_steel" ]
   },
   {
     "type": "AMMO",

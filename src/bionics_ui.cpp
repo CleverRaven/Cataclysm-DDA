@@ -19,6 +19,7 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
+#include "localized_comparator.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
@@ -30,6 +31,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+
+static const material_id material_sunlight( "sunlight" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -204,7 +207,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         for( const material_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             if( fuel->get_fuel_data().is_perpetual_fuel ) {
-                if( fuel == material_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
+                if( fuel == material_sunlight && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
                 fuel_string += colorize( fuel->name(), c_green ) + " ";
@@ -230,10 +233,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         fuel_string.clear();
     }
     std::string power_string;
-    const int curr_power = units::to_millijoule( p->get_power_level() );
-    const int kilo = curr_power / units::to_millijoule( 1_kJ );
-    const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
-    const int milli = curr_power % units::to_millijoule( 1_J );
+    const units::energy curr_power = p->get_power_level();
+    const int kilo = units::to_kilojoule( curr_power );
+    const int joule = units::to_joule( curr_power ) % units::to_joule( 1_kJ );
+    const int milli = kilo > 0 ? units::to_millijoule( curr_power ) % units::to_millijoule( 1_J ) : 0;
     if( kilo > 0 ) {
         power_string = std::to_string( kilo );
         if( joule > 0 ) {
@@ -396,8 +399,13 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + num_of_bp + 1 < getmaxy( win );
-        fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
-                        _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
+        ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
+                                _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
+    }
+
+    if( bio.has_weapon() ) {
+        fold_and_print( win, point( 0, ypos ), width, c_light_gray,
+                        _( "Installed weapon: %s" ), bio.get_weapon().tname() );
     }
     wnoutrefresh( win );
 }
@@ -646,7 +654,7 @@ void avatar::power_bionics()
             return;
         }
 
-        sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
 
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
@@ -725,7 +733,7 @@ void avatar::power_bionics()
         ui_manager::redraw();
 
         //track which list we are looking at
-        ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        ::sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
         scroll_position = clamp( scroll_position, 0, max_scroll_position );
         cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
@@ -893,16 +901,86 @@ void avatar::power_bionics()
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &( *my_bionics )[0];
+                    bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();
                     if( tmp->powered ) {
-                        deactivate_bionic( b );
-                    } else {
-                        bool close_ui = false;
-                        activate_bionic( b, false, &close_ui );
-                        // Exit this ui if we are firing a complex bionic
-                        if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                        deactivate_bionic( bio );
+                        if( bio_data.deactivated_close_ui ) {
+                            ui.reset();
                             break;
+                        }
+                    } else {
+                        bool activate = true;
+
+                        if( bio.can_install_weapon() ) {
+                            const bool has_weapon = bio.has_weapon();
+                            activate = false;
+
+                            uilist activate_action_menu;
+                            activate_action_menu.title = _( "Select action" );
+                            activate_action_menu.addentry( 0, has_weapon, 'a', _( "Activate" ) );
+                            activate_action_menu.addentry( 1, has_weapon, 'u', _( "Uninstall weapon" ) );
+                            activate_action_menu.addentry( 2, !has_weapon, 'i', _( "Install weapon" ) );
+
+                            activate_action_menu.query();
+
+                            switch( activate_action_menu.ret ) {
+                                case 0:
+                                    activate = true;
+                                    break;
+                                case 1:
+                                    // TODO: Move to function, create activity and add tool requirements
+                                    if( cata::optional<item> weapon = bio.uninstall_weapon() ) {
+                                        i_add_or_drop( *weapon );
+                                    }
+                                    break;
+                                case 2: {
+                                    // TODO: Move to activity, create activity, add tool requirements, improve UI
+                                    uilist install_weapon_menu;
+                                    install_weapon_menu.title = _( "Select weapon to install" );
+                                    // TODO: Choose from items around, obtain items before installing
+                                    std::vector<item *> valid_weapons = items_with( [&bio]( const item & it ) {
+                                        return it.has_any_flag( bio.id->installable_weapon_flags );
+                                    } );
+                                    for( size_t i = 0; i < valid_weapons.size(); i++ ) {
+                                        install_weapon_menu.addentry( i, true, MENU_AUTOASSIGN, valid_weapons[i]->tname() );
+                                    }
+                                    if( install_weapon_menu.entries.empty() ) {
+                                        popup( _( "You don't have any items you can install in this bionic" ) );
+                                    } else {
+                                        install_weapon_menu.query();
+                                        if( install_weapon_menu.ret >= 0 &&
+                                            static_cast<size_t>( install_weapon_menu.ret ) < valid_weapons.size() ) {
+                                            item &new_weapon = *valid_weapons[install_weapon_menu.ret];
+                                            if( bio.can_install_weapon( new_weapon ) && bio.install_weapon( new_weapon ) ) {
+                                                item_location loc( *this, &new_weapon );
+                                                loc.remove_item();
+                                            } else {
+                                                popup( _( "Unable to install %s" ), new_weapon.tname() );
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if( activate ) {
+                            bool close_ui = false;
+                            if( bio_data.activated_close_ui ) {
+                                ui.reset();
+                                activate_bionic( bio, false, &close_ui );
+                                break;
+                            } else {
+                                activate_bionic( bio, false, &close_ui );
+                                // Exit this ui if we are firing a complex bionic
+                                if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                                    break;
+                                }
+                            }
                         }
                     }
                     hide = false;

@@ -68,7 +68,7 @@
     "type": "martial_art",
     "id": "style_mma_diamond_mind",
     "name": { "str": "Diamond Mind" },
-    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical percision, they are able to move so fast that their opponents are unable react.  Marked by unparrelled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
+    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical precision, they are able to move so fast that their opponents are unable react.  Marked by unparalleled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
     "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -230,7 +230,8 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
-    ]
+    ],
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -281,7 +282,7 @@
       {
         "id": "mma_buff_panzer_static1",
         "name": "Schatten Folgen",
-        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attemps, Dodging Skill increased by 15%% of Perception.",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attempts, Dodging Skill increased by 15%% of Perception.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
@@ -386,12 +387,16 @@
       {
         "id": "mma_buff_setting_sun_onblock",
         "name": "Fool's Strike",
-        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% bash damage.\nLasts 2 turns.",
+        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% damage.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.15 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "ondodge_buffs": [
@@ -432,7 +437,8 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-    ]
+    ],
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -512,7 +518,8 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-    ]
+    ],
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -526,7 +533,7 @@
       {
         "id": "mma_buff_stone_dragon_static",
         "name": "Stonefoot Stance",
-        "description": "You maintain a steady stance that improves your combat prowless.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "description": "You maintain a steady stance that improves your combat prowess.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "flat_bonuses": [
@@ -617,7 +624,8 @@
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
-    ]
+    ],
+    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -709,6 +717,7 @@
       "hatchet",
       "kukri",
       "makeshift_axe"
-    ]
+    ],
+    "weapon_category": [ "GREAT_AXES" ]
   }
 ]

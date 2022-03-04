@@ -1,0 +1,35 @@
+[
+  {
+    "id": "nomad_bodyglove_1",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodyglove" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from both impact and electricity.",
+    "weight": "125 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "cotton", "lycra", "rubber" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 98, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 98, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "cover_melee": 90, "encumbrance": 1 },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "cover_melee": 90, "encumbrance": 1 }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY" ]
+  },
+  {
+    "id": "nomad_bodyglove_2",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodymesh", "str_pl": "nomad bodymeshes" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from both impact and electricity, and has been reinforced with a loose mesh of advanced polymer threads.",
+    "copy-from": "nomad_bodyglove_1",
+    "extend": { "material": [ "kevlar" ] },
+    "material_thickness": 3
+  }
+]

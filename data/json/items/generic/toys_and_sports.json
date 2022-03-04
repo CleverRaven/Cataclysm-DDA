@@ -61,6 +61,7 @@
     "description": "A high-drag projectile used in the sport of badminton.",
     "weight": "5 g",
     "volume": "600 ml",
+    "longest_side": "90 mm",
     "price": 200,
     "price_postapoc": 0,
     "material": [ "rubber", "plastic" ],
@@ -76,6 +77,7 @@
     "description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
     "weight": "3 g",
     "volume": "250 ml",
+    "longest_side": "70 mm",
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -88,7 +90,8 @@
     "category": "other",
     "name": { "str": "golf ball" },
     "description": "A small ball with round indentations on it.",
-    "weight": "50 g",
+    "weight": "46 g",
+    "longest_side": "43 mm",
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 0,
@@ -99,7 +102,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "pool_ball",
     "symbol": "*",
     "color": "blue",
@@ -109,10 +112,18 @@
     "price": 3000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "170 g",
     "volume": "250 ml",
+    "longest_side": "57 mm",
     "bashing": 8,
-    "to_hit": -3
+    "damage": { "damage_type": "bash", "amount": 8 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
     "type": "GENERIC",
@@ -132,7 +143,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "baseball",
     "symbol": "*",
     "color": "white",
@@ -142,10 +153,18 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "leather" ],
+    "ammo_type": "rock",
+    "flags": [ "NPC_THROWN" ],
     "weight": "150 g",
     "volume": "250 ml",
+    "longest_side": "75 mm",
     "bashing": 6,
-    "to_hit": 3
+    "damage": { "damage_type": "bash", "amount": 6 },
+    "range": 12,
+    "dispersion": 12,
+    "loudness": 0,
+    "to_hit": 3,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
   },
   {
     "type": "GENERIC",
@@ -157,9 +176,10 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "leather" ],
+    "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
+    "longest_side": "29 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -170,12 +190,13 @@
     "color": "brown",
     "name": { "str": "basketball" },
     "category": "other",
-    "description": "A high-quality indoor basketball.  You may throw it at zombies.",
+    "description": "A high-quality, size 7 indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "price_postapoc": 10,
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
+    "longest_side": "239 mm",
     "bashing": 6,
     "to_hit": -1
   },
@@ -192,6 +213,7 @@
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
+    "longest_side": "26 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -208,6 +230,7 @@
     "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
+    "longest_side": "27 cm",
     "bashing": 4,
     "to_hit": -1
   },
@@ -224,6 +247,7 @@
     "material": [ "rubber" ],
     "weight": "170 g",
     "volume": "250 ml",
+    "longest_side": "76 mm",
     "bashing": 7,
     "to_hit": 2
   },
@@ -240,6 +264,7 @@
     "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
+    "longest_side": "180 cm",
     "bashing": 18,
     "to_hit": -2
   },
@@ -256,6 +281,7 @@
     "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
+    "longest_side": "180 cm",
     "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],

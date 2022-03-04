@@ -65,16 +65,17 @@ static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
+static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
+static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
-static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
-static const activity_id ACT_TRAIN( "ACT_TRAIN" );
-static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -90,6 +91,11 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
+
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
@@ -134,6 +140,7 @@ void talk_function::mission_success( npc &p )
         int fac_val = std::min( 1 + miss_val / 10, 10 );
         p_fac->likes_u += fac_val;
         p_fac->respects_u += fac_val;
+        p_fac->trusts_u += fac_val;
         p_fac->power += fac_val;
     }
     miss->wrap_up();
@@ -505,6 +512,7 @@ void talk_function::bionic_remove( npc &p )
 
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
+    std::vector<const bionic *> bionics;
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
@@ -515,6 +523,7 @@ void talk_function::bionic_remove( npc &p )
             } else {
                 bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
+            bionics.push_back( &bio );
         }
     }
     // Choose bionic if applicable
@@ -537,22 +546,27 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p,
+    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
             false ) ) {
         player_character.amount_of(
             bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        player_character.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false );
     }
 
 }
 
 void talk_function::give_equipment( npc &p )
 {
+    give_equipment_allowance( p, 0 );
+}
+
+void talk_function::give_equipment_allowance( npc &p, int allowance )
+{
     std::vector<item_pricing> giving = npc_trading::init_selling( p );
     int chosen = -1;
     while( chosen == -1 && !giving.empty() ) {
         int index = rng( 0, giving.size() - 1 );
-        if( giving[index].price < p.op_of_u.owed ) {
+        if( giving[index].price < p.op_of_u.owed + allowance ) {
             chosen = index;
         } else {
             giving.erase( giving.begin() + index );
@@ -572,7 +586,10 @@ void talk_function::give_equipment( npc &p )
     Character &player_character = get_player_character();
     it.set_owner( player_character );
     player_character.i_add( it );
-    p.op_of_u.owed -= giving[chosen].price;
+    allowance -= giving[chosen].price;
+    if( allowance < 0 ) {
+        p.op_of_u.owed += allowance;
+    }
     p.add_effect( effect_asked_for_item, 3_hours );
 }
 
@@ -786,7 +803,7 @@ void talk_function::follow( npc &p )
 {
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
-    p.set_fac( faction_id( "your_followers" ) );
+    p.set_fac( faction_your_followers );
     get_player_character().cash += p.cash;
     p.cash = 0;
 }
@@ -850,8 +867,8 @@ void talk_function::leave( npc &p )
     p.job.clear_all_priorities();
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
-                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
-    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+                            faction_id( new_fac_id ), faction_no_faction );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
@@ -970,7 +987,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
                                      character_id() );
     reach_safety__mission->assign( get_avatar() );
     p.goal = reach_safety__mission->get_target();
@@ -987,71 +1004,152 @@ bool npc_trading::pay_npc( npc &np, int cost )
     return npc_trading::trade( np, cost, _( "Pay:" ) );
 }
 
+void talk_function::start_training_npc( npc &p )
+{
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    std::vector<Character *> students;
+    students.push_back( &p );
+    start_training_gen( get_player_character(), students, d );
+}
+
 void talk_function::start_training( npc &p )
 {
-    int cost;
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    std::vector<Character *> students;
+    students.push_back( &get_player_character() );
+    start_training_gen( p, students, d );
+}
+
+void talk_function::start_training_seminar( npc &p )
+{
+    teach_domain d;
+    d.skill = p.chatbin.skill;
+    d.style = p.chatbin.style;
+    d.spell = p.chatbin.dialogue_spell;
+    d.prof = p.chatbin.proficiency;
+    std::vector<npc *> followers = g->get_npcs_if( [&p]( const npc & n ) {
+        return n.is_player_ally() && n.is_following() && n.can_hear( p.pos(), p.get_shout_volume() );
+    } );
+    std::vector<Character *> students;
+    for( npc *n : followers ) {
+        if( n && p.getID() != n->getID() ) {
+            students.push_back( n );
+        }
+    }
+    students.push_back( &get_player_character() );
+
+    std::vector<Character *> picked;
+    std::function<bool( const Character * )> include_func = [&]( const Character * c ) {
+        if( d.skill != skill_id() ) {
+            return c->get_knowledge_level( d.skill ) < p.get_knowledge_level( d.skill );
+        } else if( d.style != matype_id() ) {
+            return !c->martial_arts_data->has_martialart( d.style );
+        } else if( d.prof != proficiency_id() ) {
+            return !c->has_proficiency( d.prof );
+        } else if( d.spell != spell_id() ) {
+            const bool knows = c->magic->knows_spell( d.spell );
+            return !knows || c->magic->get_spell( d.spell ).get_level() <
+                   p.magic->get_spell( d.spell ).get_level();
+        }
+        return false;
+    };
+    std::vector<int> selected = npcs_select_menu( students, _( "Who should participate?" ),
+    [&include_func]( const Character * ch ) {
+        return !include_func( ch );
+    } );
+
+    if( selected.empty() ) {
+        return;
+    }
+    picked.reserve( selected.size() );
+    for( int sel : selected ) {
+        picked.emplace_back( students[sel] );
+    }
+    start_training_gen( p, picked, d );
+}
+
+void talk_function::start_training_gen( Character &teacher, std::vector<Character *> &students,
+                                        teach_domain &d )
+{
+    int cost = 0;
     time_duration time = 0_turns;
     std::string name;
-    const skill_id &skill = p.chatbin.skill;
-    const matype_id &style = p.chatbin.style;
-    const spell_id &sp_id = p.chatbin.dialogue_spell;
-    const proficiency_id &proficiency = p.chatbin.proficiency;
+    const skill_id &skill = d.skill;
+    const matype_id &style = d.style;
+    const spell_id &sp_id = d.spell;
+    const proficiency_id &proficiency = d.prof;
     int expert_multiplier = 1;
-    Character &you = get_player_character();
-    if( skill != skill_id() &&
-        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
-        cost = calc_skill_training_cost( p, skill );
-        time = calc_skill_training_time( p, skill );
-        name = skill.str();
-    } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data->has_martialart( style ) ) {
-        cost = calc_ma_style_training_cost( p, style );
-        time = calc_ma_style_training_time( p, style );
-        name = p.chatbin.style.str();
-        // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.dialogue_spell != spell_id() ) {
-        const spell &temp_spell = p.magic->get_spell( sp_id );
-        const bool knows = you.magic->knows_spell( sp_id );
-        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
-                                           temp_spell.get_level() );
-        name = temp_spell.id().str();
-        expert_multiplier = knows ? temp_spell.get_level() -
-                            you.magic->get_spell( sp_id ).get_level() : 1;
-        // quicker to learn with instruction as opposed to books.
-        // if this is a known spell, then there is a set time to gain some exp.
-        // if player doesn't know this spell, then the NPC will teach all of it
-        // which takes max 6 hours, min 3 hours.
-        // TODO: a system for NPCs to train new stuff in bits and pieces
-        // and remember the progress.
-        if( knows ) {
-            time = 1_hours;
-        } else {
-            const int time_int = you.magic->time_to_learn_spell( you, sp_id ) / 50;
-            time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+    bool player_is_student = false;
+
+    for( Character *student : students ) {
+        if( student->is_avatar() ) {
+            player_is_student = true;
         }
-
-    } else if( proficiency != proficiency_id() ) {
-        name = proficiency.str();
-        cost = calc_proficiency_training_cost( p, proficiency );
-        time = calc_proficiency_training_time( p, proficiency );
-    } else {
-        debugmsg( "start_training with no valid skill or style set" );
-        return;
+        int tmp_cost = 0;
+        time_duration tmp_time = 0_turns;
+        if( skill != skill_id() &&
+            student->get_knowledge_level( skill ) < teacher.get_knowledge_level( skill ) ) {
+            tmp_cost = calc_skill_training_cost_char( teacher, *student, skill );
+            tmp_time = calc_skill_training_time_char( teacher, *student, skill );
+            name = skill.str();
+        } else if( style != matype_id() &&
+                   !student->martial_arts_data->has_martialart( style ) ) {
+            tmp_cost = calc_ma_style_training_cost( teacher, *student, style );
+            tmp_time = calc_ma_style_training_time( teacher, *student, style );
+            name = style.str();
+        } else if( sp_id != spell_id() ) {
+            // already checked if can learn this spell in npctalk.cpp
+            tmp_cost = calc_spell_training_cost( teacher, *student, sp_id );
+            tmp_time = calc_spell_training_time( teacher, *student, sp_id );
+            name = sp_id.str();
+            const spell &temp_spell = teacher.magic->get_spell( sp_id );
+            const bool knows = student->magic->knows_spell( sp_id );
+            expert_multiplier = knows ? temp_spell.get_level() -
+                                student->magic->get_spell( sp_id ).get_level() : 1;
+        } else if( proficiency != proficiency_id() ) {
+            tmp_cost = calc_proficiency_training_cost( teacher, *student, proficiency );
+            tmp_time = calc_proficiency_training_time( teacher, *student, proficiency );
+            name = proficiency.str();
+        } else {
+            debugmsg( "start_training with no valid skill or style set" );
+            return;
+        }
+        // use the slowest common denominator and combine cost
+        cost += tmp_cost;
+        time = std::max( time, tmp_time );
     }
 
-    mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == you.getID() &&
-        miss->is_complete( you.getID() ) ) {
-        clear_mission( p );
-    } else if( !npc_trading::pay_npc( p, cost ) ) {
-        return;
+    if( !teacher.is_avatar() ) {
+        npc &p = static_cast<npc &>( teacher );
+        mission *miss = p.chatbin.mission_selected;
+        const character_id &pid = get_player_character().getID();
+        if( player_is_student && miss != nullptr &&
+            miss->get_assigned_player_id() == pid && miss->is_complete( pid ) ) {
+            clear_mission( p );
+        } else if( !npc_trading::pay_npc( p, cost ) ) {
+            return;
+        }
     }
-    player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
-                                           p.getID().get_value(), 0, name );
-    act.values.push_back( expert_multiplier );
-    you.assign_activity( act );
+    player_activity tact = player_activity( ACT_TRAIN_TEACHER, to_moves<int>( time ),
+                                            teacher.getID().get_value(), 0, name );
+    for( Character *student : students ) {
+        player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
+                                               teacher.getID().get_value(), 0, name );
+        act.values.push_back( expert_multiplier );
+        student->assign_activity( act );
+        tact.values.push_back( student->getID().get_value() );
+    }
+    teacher.assign_activity( tact );
 
-    p.add_effect( effect_asked_to_train, 6_hours );
+    teacher.add_effect( effect_asked_to_train, 6_hours );
 }
 
 npc *pick_follower()

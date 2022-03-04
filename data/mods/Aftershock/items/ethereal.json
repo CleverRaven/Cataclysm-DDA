@@ -10,6 +10,7 @@
     "symbol": "o",
     "warmth": 150,
     "color": "green",
+    "material": [ "oil" ],
     "flags": [
       "AURA",
       "SEMITANGIBLE",
@@ -38,6 +39,7 @@
     "symbol": "o",
     "warmth": 150,
     "color": "green",
+    "material": [ "oil" ],
     "flags": [
       "AURA",
       "SEMITANGIBLE",

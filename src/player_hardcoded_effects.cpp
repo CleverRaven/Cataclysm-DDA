@@ -43,8 +43,8 @@ static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
-static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_anemia( "anemia" );
+static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
@@ -88,20 +88,28 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_tindrift( "tindrift" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
-static const vitamin_id vitamin_blood( "blood" );
-static const vitamin_id vitamin_redcells( "redcells" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+
+static const mutation_category_id mutation_category_MYCUS( "MYCUS" );
+static const mutation_category_id mutation_category_RAT( "RAT" );
+static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
+
+static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
+static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -111,12 +119,14 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -238,10 +248,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_id( "RAT" ) );
+            u.mutate_category( mutation_category_RAT );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
+            u.mutate_category( mutation_category_TROGLOBITE );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -261,8 +271,12 @@ static void eff_fun_bleed( Character &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
+    // proficiency improves that factor to 3/4 and 4/5 respectively
     bool tourniquet = u.worn_with_flag( STATIC( flag_id( "TOURNIQUET" ) ),  it.get_bp() );
-    if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
+    int prof_bonus = 3;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
+    prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 1 : prof_bonus;
+    if( !( tourniquet && one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
         u.vitamin_mod( vitamin_blood, -intense );
@@ -628,7 +642,7 @@ static void eff_fun_datura( Character &u, effect &it )
     }
     if( dur > 600_minutes && one_in( 768 ) ) {
         u.mod_pain( rng( -3, -24 ) );
-        if( dur > 800_minutes && one_in( 16 ) ) {
+        if( dur > 800_minutes && one_in( 16 ) && !u.is_on_ground() ) {
             u.add_msg_if_player( m_bad,
                                  _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
             u.add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
@@ -767,7 +781,7 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     u.mod_stamina( -500 * intense );
                     break;
                 case 6:
-                    if( one_in( 2 ) ) {
+                    if( one_in( 2 ) && !u.is_on_ground() ) {
                         warning = _( "You drop to the ground, fighting to keep yourself conscious." );
                         u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
                         break;
@@ -895,8 +909,10 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                     u.add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
                     break;
                 case 6:
-                    u.add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
-                    u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                    if( !u.is_on_ground() ) {
+                        u.add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
+                        u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                    }
                     break;
                 case 7: // 7-9 empty for variability, as messages stack on higher intensity
                 case 8:
@@ -950,15 +966,21 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( g->natural_light_level( u.posz() ) >= 12 &&
                 get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
+                    u.set_fatigue( 25 );
+                }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
                     u.mod_stored_nutr( -5 );
                 }
-                if( u.get_thirst() >= -30 ) {
-                    u.mod_thirst( -5 );
-                }
             }
+            if( u.get_thirst() >= -40 ) {
+                u.mod_thirst( -5 );
+            }
+            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+            u.vitamin_mod( vitamin_iron, 2 );
+            u.vitamin_mod( vitamin_calcium, 2 );
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
@@ -1004,7 +1026,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_id( "MYCUS" ) );
+                    u.mutate_category( mutation_category_MYCUS );
                     u.mod_stored_nutr( 10 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
@@ -1015,9 +1037,10 @@ static void eff_fun_sleep( Character &u, effect &it )
 
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
-    if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
+    if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
+        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
         // People who can see while sleeping are acclimated to the light.
-        if( !u.has_trait( trait_SEESLEEP ) ) {
+        if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
@@ -1043,7 +1066,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 it.set_duration( 0_turns );
                 woke_up = true;
             }
-        } else if( u.has_active_mutation( trait_SEESLEEP ) ) {
+        } else if( u.has_flag( json_flag_SEESLEEP ) ) {
             Creature *hostile_critter = g->is_hostile_very_close();
             if( hostile_critter != nullptr ) {
                 u.add_msg_if_player( _( "You see %s approaching!" ),
@@ -1086,7 +1109,8 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && u.is_avatar() ) {
+        if( u.has_trait( trait_SCHIZOPHRENIC ) && !u.has_effect( effect_took_thorazine ) &&
+            one_in( 43200 ) && u.is_avatar() ) {
             if( one_in( 2 ) ) {
                 u.sound_hallu();
             } else {
@@ -1167,7 +1191,7 @@ void Character::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp );
+            schedule_effect( effect_formication, 60_minutes, bp );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -1190,7 +1214,7 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
             get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            schedule_effect_removal( effect_formication, bp );
             moves -= 600;
             triggered = true;
         }
@@ -1208,13 +1232,13 @@ void Character::hardcoded_effects( effect &it )
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ),
                          body_part_name_accusative( bp ) );
-                player_character.cancel_activity();
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
+            mod_pain( 1 );
             apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
@@ -1264,7 +1288,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
                 const bodypart_id &itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, itch );
+                schedule_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -1305,7 +1329,7 @@ void Character::hardcoded_effects( effect &it )
             apply_damage( nullptr, bodypart_id( "head" ), rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
-                add_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
+                schedule_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
             }
         }
         if( one_in( 24576 ) ) {
@@ -1313,7 +1337,7 @@ void Character::hardcoded_effects( effect &it )
             apply_damage( nullptr, bodypart_id( "head" ), rng( 1, 2 ) );
             if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
-                add_effect( effect_blind, rng( 5_turns, 20_turns ) );
+                schedule_effect( effect_blind, rng( 5_turns, 20_turns ) );
             }
         }
     } else if( id == effect_tapeworm ) {
@@ -1336,8 +1360,10 @@ void Character::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
-                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
+                if( !is_on_ground() ) {
+                    schedule_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
+                }
+                schedule_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
                 }
@@ -1359,7 +1385,8 @@ void Character::hardcoded_effects( effect &it )
         }
         if( zed_number > 0 ) {
             //If intensity isn't pass the cap, average it with # of zeds
-            add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, ( intense + zed_number ) / 2 );
+            schedule_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false,
+                             ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -1417,7 +1444,7 @@ void Character::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 6_hours ) {
-                add_effect( effect_infected, 1_turns, bp, true );
+                schedule_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1461,7 +1488,7 @@ void Character::hardcoded_effects( effect &it )
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ) );
-                add_effect( effect_recover, 4 * dur );
+                schedule_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -1526,7 +1553,7 @@ void Character::hardcoded_effects( effect &it )
                         }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1_turns, true );
+                            schedule_effect( effect_slept_through_alarm, 1_turns, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 10_minutes );
@@ -1535,7 +1562,7 @@ void Character::hardcoded_effects( effect &it )
             } else {
                 if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1_turns, true );
+                        schedule_effect( effect_slept_through_alarm, 1_turns, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );
@@ -1583,9 +1610,11 @@ void Character::hardcoded_effects( effect &it )
                 if( one_turn_in( 3_days ) && !has_effect( effect_valium ) ) {
                     add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
                     time_duration td = rng( 30_seconds, 4_minutes );
-                    add_effect( effect_motor_seizure, td );
-                    add_effect( effect_downed, td );
-                    add_effect( effect_stunned, td );
+                    schedule_effect( effect_motor_seizure, td );
+                    if( !is_on_ground() ) {
+                        schedule_effect( effect_downed, td );
+                    }
+                    schedule_effect( effect_stunned, td );
                     if( one_in( 3 ) ) {
                         add_msg_if_player( m_bad, _( "You lose consciousness!" ) );
                         fall_asleep( td );
@@ -1614,8 +1643,8 @@ void Character::hardcoded_effects( effect &it )
                             }
                         }
                     } else if( limb == "leg" ) {
-                        if( dice( 4, 4 ) > get_dex() ) {
-                            add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                        if( dice( 4, 4 ) > get_dex() && !is_on_ground() ) {
+                            schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
                         } else {
                             add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
                         }
@@ -1625,8 +1654,10 @@ void Character::hardcoded_effects( effect &it )
                 if( one_turn_in( 2_days / mod ) && !has_effect( effect_valium ) ) {
                     add_msg_if_player( m_bad,
                                        _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
-                    add_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
-                    add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                    schedule_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
+                    if( !is_on_ground() ) {
+                        schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                    }
                 }
                 mod *= 2;
             /* fallthrough */

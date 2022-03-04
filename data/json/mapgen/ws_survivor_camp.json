@@ -2,13 +2,12 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SURVIVOR_CAMP",
-    "default": "mon_zombie_survivor",
     "monsters": [
-      { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_survivor", "weight": 550, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_cop", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {

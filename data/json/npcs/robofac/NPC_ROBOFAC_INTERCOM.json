@@ -30,7 +30,10 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ] } ]
+    "entries": [
+      { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 },
+      { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
@@ -380,10 +383,7 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
-        "effect": [
-          { "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ] },
-          { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
-        ]
+        "effect": [ { "run_eocs": "eoc_robofac_surveillance" }, { "u_add_effect": "robofac_surveillance", "duration": "14 days" } ]
       },
       {
         "text": "…",
@@ -410,7 +410,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
     "type": "talk_topic",
-    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with  proper compensation from now on.",
+    "dynamic_line": "Your handling of our 'rogue robot' situation was impressive, and its become clear that we greatly underestimated your usefulness.  If you are interested, we are willing to offer you extra contracts, all of them with proper compensation from now on.",
     "speaker_effect": {
       "effect": { "npc_add_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "intercom_1_jobs"
@@ -432,7 +432,7 @@
       "Make it quick.",
       "Don't loiter.",
       "Don't do anything stupid.",
-      "Ugh I hate intercom duty…  Wait is the speaker still on?",
+      "Ugh I hate intercom duty… wait is the speaker still on?",
       "Please don't bother us senselessly.",
       "What's up with the interference in this thing?",
       "Speak slowly and clearly.  Please.",
@@ -488,6 +488,57 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
       },
       {
+        "text": "What was your person wearing?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK"
+      },
+      {
+        "text": "I found this in the facility with the other data is it of any value to your people?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_items": { "item": "template_armor", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK"
+      },
+      {
+        "text": "I'm here to check on a prototype.",
+        "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
+      },
+      {
+        "text": "I saw your mercs have specialty rifles.  Would I be able to get one of those?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "not": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_NO"
+      },
+      {
+        "text": "I think one of your operatives has vouched for my competency.  I'd like one of those rifles.",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            { "not": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_GUN_YES"
+      },
+      {
         "text": "So, about that protective gear?",
         "condition": {
           "and": [
@@ -536,9 +587,77 @@
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "We'll need at least a day to verify what is on the disk.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_faction_trust": 2 },
+        { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
+        { "u_add_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+        { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_sell_item": "template_armor", "count": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll see you then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "Oh that, we have been working on specialized gear for our agents in the field….  It seems we still have some work to do.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_armor"
+    },
+    "responses": [
+      { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
+      {
+        "text": "[INT 10] The armor seemed warped.  Whatever you are using to reinforce the core of the pieces isn't strong enough.",
+        "condition": { "u_has_intelligence": 10 },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL",
+    "type": "talk_topic",
+    "dynamic_line": "[You hear a short, muffled conversation from across the intercom] understood.  [The microphone squeals as the voice gets close again] As an additional reward for helping us please keep the modular defense system.  Recently we have been developing some additional pieces and would be happy to trade for some.  Please let us know how they perform in the field.",
+    "responses": [
+      { "text": "Thanks!", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I've always wanted to be a lab rat.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
+    "type": "talk_topic",
+    "dynamic_line": "We've solved that issue with our more recent proto - types… [there is a brief pause] To gather additional field data here are the additional pieces to complete that prototype set.  The core armor platform is solid and we have been iterating on additional pieces we would be happy to trade for.  Any feedback on performance would be appreciated.",
+    "responses": [
+      {
+        "text": "Thanks!",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "Hope it serves me better than the last guy.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "…",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      }
+    ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
     "type": "talk_topic",
-    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went…  Shame about what happened, with the evisceration and all…",
+    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went….  Shame about what happened, with the evisceration and all…",
     "speaker_effect": {
       "effect": { "npc_add_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" },
       "sentinel": "told_about_prototype"
@@ -551,7 +670,7 @@
     "dynamic_line": "Given the current context, we are willing to sell you a set of our protective gear: gas mask, suit and gear, at a considerable discount.  We will sell it for two of our coins.\n\nthe intercom: Hmm wait, we might not have your size…",
     "responses": [
       {
-        "text": "[ 2 HGC ] Deal!",
+        "text": "[2 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
@@ -571,7 +690,7 @@
     "dynamic_line": "To assist your operations we are willing to sell you a map of the local area, as surveyed by our cam-spy drones.  Its standing price is 1 HGC.",
     "responses": [
       {
-        "text": "[ 1 HGC ] Deal!",
+        "text": "[1 HGC] Deal!",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },

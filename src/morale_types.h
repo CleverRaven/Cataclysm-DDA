@@ -3,6 +3,7 @@
 #define CATA_SRC_MORALE_TYPES_H
 
 #include <iosfwd>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
@@ -18,6 +19,7 @@ class morale_type_data
         translation text;
     public:
         morale_type id;
+        std::vector<std::pair<morale_type, mod_id>> src;
         bool was_loaded = false;
 
         /** Describes this morale type, with item type to replace wildcard with. */

@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <queue>
 
 #include "bodypart.h"
 #include "compatibility.h"
@@ -213,11 +214,27 @@ enum class get_body_part_flags : int {
     none = 0,
     only_main = 1 << 0,
     sorted = 1 << 1,
+    primary_type = 1 << 2,
 };
 
 template<>
 struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
+};
+
+using scheduled_effect = struct scheduled_effect_t {
+    efftype_id eff_id;
+    time_duration dur;
+    bodypart_id bp;
+    bool permanent = false;
+    int intensity = 0;
+    bool force = false;
+    bool deferred = false;
+};
+
+using terminating_effect = struct terminating_effect_t {
+    efftype_id eff_id;
+    bodypart_id bp;
 };
 
 class Creature : public viewer
@@ -308,6 +325,7 @@ class Creature : public viewer
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
+        virtual bool can_attack_high() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -463,6 +481,13 @@ class Creature : public viewer
         virtual void heal_bp( bodypart_id bp, int dam );
 
         /**
+         * Attempts to pull the target at point p towards this creature.
+         * @param name Name of the implement used to pull the target.
+         * @param p Position of the target creature.
+        */
+        void longpull( const std::string name, const tripoint &p );
+
+        /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
@@ -488,6 +513,10 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+
+        // returns true if the creature has an electric field
+        virtual bool is_electrical() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
@@ -551,6 +580,15 @@ class Creature : public viewer
                          bool deferred = false );
         void add_effect( const effect_source &source, const efftype_id &eff_id, const time_duration &dur,
                          bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+        /** Schedules a new effect to be applied. Used during effect processing to avoid invalidating
+            current effects map. */
+        void schedule_effect( const effect &eff, bool force = false,
+                              bool deferred = false );
+        void schedule_effect( const efftype_id &eff_id, const time_duration &dur,
+                              bodypart_id bp, bool permanent = false, int intensity = 0, bool force = false,
+                              bool deferred = false );
+        void schedule_effect( const efftype_id &eff_id, const time_duration &dur,
+                              bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
@@ -562,6 +600,9 @@ class Creature : public viewer
          * removed. */
         bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
         bool remove_effect( const efftype_id &eff_id );
+        /** Schedule effect removal */
+        void schedule_effect_removal( const efftype_id &eff_id, const bodypart_id &bp );
+        void schedule_effect_removal( const efftype_id &eff_id );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
@@ -640,6 +681,7 @@ class Creature : public viewer
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
         virtual int get_armor_bullet_bonus() const;
+        virtual int get_spell_resist() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
@@ -701,6 +743,11 @@ class Creature : public viewer
             body_part_type::type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
         bodypart_id get_root_body_part() const;
+        /* Returns all body parts with the given flag */
+        std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
+        /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
+        body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
+                                                bool lower = true ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1144,6 +1191,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
+        static std::queue<scheduled_effect> scheduled_effects;
+        static std::queue<terminating_effect> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
@@ -1171,6 +1220,7 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
+
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;
         bool melee_quiet = false;
@@ -1196,7 +1246,9 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
-        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        // Select a bodypart depending on the attack's hitsize/limb restrictions
+        bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
+        bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );

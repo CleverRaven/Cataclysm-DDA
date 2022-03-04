@@ -25,7 +25,7 @@
       {
         "text": "I don't know what kind of heresy you are spreading, but I'm putting an end to it!",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "not": { "u_has_trait_flag": "mycus" } } ] },
+        "condition": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "not": { "u_has_flag": "mycus" } } ] },
         "effect": "hostile"
       },
       {
@@ -45,7 +45,7 @@
     "responses": [
       { "text": "Well, sure.", "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY" },
       { "text": "I'd… rather not.", "topic": "TALK_MARLOSS_VOICE" },
-      { "text": "I'm sorry…  I have places to be.", "topic": "TALK_DONE" }
+      { "text": "I'm sorry… I have places to be.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -54,15 +54,11 @@
     "dynamic_line": "I'm a priest or guide of a sort.  I sing the hymns along my companions so that we may learn to live in unity, both with each other and with our ailing world.",
     "responses": [
       { "text": "Alright.", "topic": "TALK_MARLOSS_VOICE" },
-      {
-        "text": "Can I join you?",
-        "topic": "TALK_MARLOSS_VOICE_WITH_US",
-        "condition": { "u_has_trait_flag": "mycus" }
-      },
+      { "text": "Can I join you?", "topic": "TALK_MARLOSS_VOICE_WITH_US", "condition": { "u_has_flag": "mycus" } },
       {
         "text": "Understood.  Can I join you?",
         "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY",
-        "condition": { "and": [ { "not": { "u_has_trait_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
+        "condition": { "and": [ { "not": { "u_has_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
       },
       { "text": "Well, I gotta go.", "topic": "TALK_DONE" }
     ]
@@ -87,7 +83,7 @@
       {
         "text": "I'm joining no stinking cult!  Take your berry and shove it!",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_trait_flag": "mycus" } },
+        "condition": { "not": { "u_has_flag": "mycus" } },
         "effect": "hostile"
       }
     ]

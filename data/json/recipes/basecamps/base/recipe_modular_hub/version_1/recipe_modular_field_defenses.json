@@ -12,16 +12,7 @@
     "blueprint_name": "north trench",
     "blueprint_provides": [ { "id": "fbmh_trench_north" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
-    "blueprint_needs": {
-      "time": "3 d 18 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 126000 ], [ "jackhammer", 2520 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" } ]
   },
   {
     "type": "recipe",
@@ -36,16 +27,7 @@
     "blueprint_name": "south trench",
     "blueprint_provides": [ { "id": "fbmh_trench_south" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
-    "blueprint_needs": {
-      "time": "3 d 18 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 126000 ], [ "jackhammer", 2520 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" } ]
   },
   {
     "type": "recipe",
@@ -60,16 +42,7 @@
     "blueprint_name": "northeast trench",
     "blueprint_provides": [ { "id": "fbmh_trench_northeast" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northeast" }, { "id": "fbmh_trench_east" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northeast" }, { "id": "fbmh_trench_east" } ]
   },
   {
     "type": "recipe",
@@ -84,16 +57,7 @@
     "blueprint_name": "northwest trench",
     "blueprint_provides": [ { "id": "fbmh_trench_northwest" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northwest" }, { "id": "fbmh_trench_west" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northwest" }, { "id": "fbmh_trench_west" } ]
   },
   {
     "type": "recipe",
@@ -108,16 +72,7 @@
     "blueprint_name": "southeast trench",
     "blueprint_provides": [ { "id": "fbmh_trench_southeast" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_east" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_east" } ]
   },
   {
     "type": "recipe",
@@ -132,16 +87,7 @@
     "blueprint_name": "southwest trench",
     "blueprint_provides": [ { "id": "fbmh_trench_southwest" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_west" } ],
-    "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_west" } ]
   },
   {
     "type": "recipe",
@@ -156,16 +102,7 @@
     "blueprint_name": "east trench",
     "blueprint_provides": [ { "id": "fbmh_trench_east" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_northeast" } ],
-    "blueprint_needs": {
-      "time": "5 d 20 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 196000 ], [ "jackhammer", 3920 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_northeast" } ]
   },
   {
     "type": "recipe",
@@ -180,15 +117,6 @@
     "blueprint_name": "west trench",
     "blueprint_provides": [ { "id": "fbmh_trench_west" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_northwest" } ],
-    "blueprint_needs": {
-      "time": "5 d 20 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 196000 ], [ "jackhammer", 3920 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_northwest" } ]
   }
 ]

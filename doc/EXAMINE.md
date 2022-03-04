@@ -16,10 +16,12 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```controls_gate``` Controls the attached gate.
 - ```dirtmound``` Plant seeds and plants.
 - ```elevator``` Use the elevator to change floors.
+- ```finite_water_source``` Drink or get water from a water source. Unlike ordinary `water_source`, terrain with this examine action will get liquid from a finite source (liquid is placed on that tile as an item during the mapgen) and will stop functioning if said liquid if exhausted on that tile.
 - ```flower_poppy``` Pick the mutated poppy.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
+- ```harvest_plant_ex``` Harvest a harvestable plant. Works on field crops and planters. (corn, wheat, etc.)
 - ```locked_object``` Locked, but can be pried open. Adding 'PICKABLE' flag allows opening with a lockpick as well. Prying/lockpicking results are hardcoded.
 - ```locked_object_pickable``` Locked, but can be opened with a lockpick. Requires 'PICKABLE' flag, lockpicking results are hardcoded.
 - ```none``` None
@@ -50,7 +52,7 @@ List of item flags that, when on an item, mean that the item can be used as card
 #### `consume_card`
 Optional, defaults to true.
 Boolean (true/false).
-Whether or not to consume the item used to activite this cardreader.
+Whether or not to consume the item used to activate this cardreader.
 
 #### `allow_hacking`
 Optional, defaults to true.
@@ -106,7 +108,7 @@ What message to display when querying the player on whether or not to activate t
 #### `success_msg`
 Mandatory.
 String.
-What message to print to the log when this is sucessfully activated.
+What message to print to the log when this is successfully activated.
 
 #### `redundant_msg`
 Mandatory.

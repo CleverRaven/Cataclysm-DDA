@@ -11,6 +11,56 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_black_dragon",
+    "name": [ "Black Dragon Mutation", "Black Dragon Transformation", "Black Dragon Metamorphosis" ],
+    "desc": [
+      "You consumed black dragon mutagen.",
+      "You consumed a large amount of black dragon mutagen.",
+      "You consumed a life-changing amount of black dragon mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Black Dragon Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_manatouched",
+    "name": [ "Mana Mutation", "Mana Transformation", "Mana Metamorphosis" ],
+    "desc": [
+      "You consumed concentrated mana.",
+      "You consumed a large amount of concentrated mana.",
+      "You consumed a life-changing amount of concentrated mana."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Concentrated Mana Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
@@ -352,5 +402,26 @@
       "per_mod": [ -4 ],
       "dex_mod": [ 8 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "alkahest",
+    "name": [ "Stepped on alkahest" ],
+    "desc": [ "You're standing in alkahest!" ],
+    "base_mods": { "speed_mod": [ -20 ], "hurt_amount": [ 10 ] },
+    "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 5 ] },
+    "max_intensity": 5
+  },
+  {
+    "type": "effect_type",
+    "id": "biomechanic",
+    "name": [ "Biomechanism" ],
+    "desc": [ "Hunt.  Let them feel." ],
+    "remove_message": "Your body returns to normal state.",
+    "rating": "good",
+    "max_intensity": 25,
+    "int_add_val": 1,
+    "base_mods": { "per_mod": [ 1 ], "dex_mod": [ 1 ], "str_mod": [ 1 ], "int_mod": [ 1 ], "stamina_min": [ 5 ] },
+    "scaling_mods": { "per_mod": [ 0.4 ], "dex_mod": [ 0.4 ], "str_mod": [ 0.4 ], "int_mod": [ 0.4 ], "stamina_min": [ 5 ] }
   }
 ]

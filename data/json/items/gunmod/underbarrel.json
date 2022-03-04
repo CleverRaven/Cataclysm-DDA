@@ -102,6 +102,7 @@
     "weight": "1 g",
     "volume": "92 ml",
     "longest_side": "22 cm",
+    "integral_longest_side": "22 cm",
     "price": 4000,
     "price_postapoc": 500,
     "install_time": "0 s",
@@ -110,11 +111,37 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
+    "use_action": {
+      "type": "transform",
+      "msg": "You fold in the bayonet.  It can no longer be used.",
+      "menu_text": "Fold",
+      "target": "inter_bayonet_folded",
+      "moves": 120
+    },
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "inter_bayonet_folded",
+    "type": "GUNMOD",
+    "name": { "str": "integrated bayonet (folded)", "str_pl": "integrated bayonets (folded)" },
+    "copy-from": "inter_bayonet",
+    "description": "This bayonet has been folded for storage.",
+    "longest_side": "22 cm",
+    "cutting": 0,
+    "integral_longest_side": "0 cm",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Unfold",
+      "msg": "You fold out the bayonet.  It can be used.",
+      "target": "inter_bayonet",
+      "moves": 120
+    },
+    "mode_modifier": [  ],
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "ksg_aux_shotgun",
@@ -233,8 +260,8 @@
     "type": "GUNMOD",
     "name": { "str": "underbarrel laser sight" },
     "description": "A visible-light laser that mounts under a firearm's barrel to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
-    "weight": "120 g",
-    "volume": "250 ml",
+    "weight": "70 g",
+    "volume": "40 ml",
     "integral_volume": "0 ml",
     "price": 10000,
     "price_postapoc": 500,
@@ -243,11 +270,12 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "lemat_revolver_shotgun",
@@ -371,6 +399,8 @@
     "type": "GENERIC",
     "name": { "str": "makeshift bayonet" },
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
+    "longest_side": "12 cm",
+    "integral_longest_side": "12 cm",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "launcher", "crossbow" ],
@@ -475,15 +505,7 @@
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "20x66_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
   },
   {
     "id": "rm121aux_mod",

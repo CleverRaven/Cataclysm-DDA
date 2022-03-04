@@ -64,7 +64,7 @@
   {
     "type": "ammunition_type",
     "id": "ammo_rocket",
-    "//": "any rocket, missile, or rocket-like ordinance, like recoilless ammo",
+    "//": "any rocket, missile, or rocket-like ordnance, like recoilless ammo",
     "name": "rocket ammo",
     "default": "rocket_hedp"
   },

@@ -8,6 +8,7 @@
 #include "units_fwd.h"
 #include <list>
 
+class computer;
 class faction;
 class item;
 class item_location;
@@ -60,6 +61,12 @@ class talker
         virtual const Creature *get_creature() const {
             return nullptr;
         }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual const computer *get_computer() const {
+            return nullptr;
+        }
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -107,6 +114,9 @@ class talker
         virtual int trial_chance_mod( const std::string & ) const {
             return 0;
         }
+        virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -144,10 +154,12 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual void mutate( const int &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
-        virtual bool has_trait_flag( const json_character_flag & ) const {
+        virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
         virtual bool crossed_threshold() const {
@@ -169,6 +181,12 @@ class talker
             return false;
         }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
@@ -355,6 +373,9 @@ class talker
             return false;
         }
         virtual void set_class( const npc_class_id & ) {}
+        virtual int get_activity_level() const {
+            return 0;
+        }
         virtual int get_fatigue() const {
             return 0;
         }
@@ -397,10 +418,13 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual bool worn_with_flag( const flag_id & ) const {
+        virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }
         virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
         virtual units::energy power_cur() const {
@@ -454,6 +478,32 @@ class talker
         virtual void remove_morale( const morale_type & ) {}
         virtual void set_kill_xp( int ) {}
         virtual int get_kill_xp() const {
+            return 0;
+        }
+        virtual void set_age( int ) {}
+        virtual int get_age() const {
+            return 0;
+        }
+        virtual void set_height( int ) {}
+        virtual int get_height() const {
+            return 0;
+        }
+        virtual int get_bmi_permil() const {
+            return 0;
+        }
+        virtual const move_mode_id &get_move_mode() const {
+            return move_mode_id::NULL_ID();
+        }
+        virtual int get_fine_detail_vision_mod() const {
+            return 0;
+        }
+        virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
             return 0;
         }
 };

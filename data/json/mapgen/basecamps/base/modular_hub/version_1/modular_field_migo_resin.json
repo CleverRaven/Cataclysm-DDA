@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "fbmh_migo_resin_palette",
     "terrain": { ";": "t_dirt", ".": "t_floor_resin", "+": "t_resin_hole_c", "v": "t_wall_resin_cage", "w": "t_wall_resin" },
-    "furniture": {  }
+    "furniture": { ";": "f_clear", ".": "f_clear", "+": "f_clear", "v": "f_clear", "w": "f_clear" }
   },
   {
     "type": "mapgen",

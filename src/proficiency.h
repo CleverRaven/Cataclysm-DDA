@@ -3,6 +3,7 @@
 #define CATA_SRC_PROFICIENCY_H
 
 #include <iosfwd>
+#include <map>
 #include <set>
 #include <vector>
 #include <string>
@@ -13,6 +14,8 @@
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
+
+#include "mod_tracker.h"
 
 class JsonArray;
 class JsonObject;
@@ -46,8 +49,10 @@ struct proficiency_bonus {
 class proficiency
 {
         friend class generic_factory<proficiency>;
+        friend struct mod_tracker;
 
         proficiency_id id;
+        std::vector<std::pair<proficiency_id, mod_id>> src;
         bool was_loaded = false;
 
         bool _can_learn = false;

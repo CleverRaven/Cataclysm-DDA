@@ -33,6 +33,7 @@ template <typename E> struct enum_traits;
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class JsonObject;
 class JsonValue;
+class overmap;
 class overmap_connection;
 class overmap_special;
 class overmap_special_batch;
@@ -64,7 +65,7 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+constexpr size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Get Human readable name of a direction */
 std::string name( type dir );
@@ -116,6 +117,7 @@ class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::pair<overmap_land_use_code_id, mod_id>> src;
 
         int land_use_code = 0;
         translation name;
@@ -170,6 +172,7 @@ enum class oter_flags : int {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
+    should_not_spawn,
     river_tile,
     has_sidewalk,
     ignore_rotation_for_adjacency,
@@ -219,6 +222,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
+        std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
@@ -282,6 +286,7 @@ struct oter_t {
 
     public:
         oter_str_id id;         // definitive identifier.
+        std::vector < std::pair < oter_str_id, mod_id>> src;
 
         oter_t();
         explicit oter_t( const oter_type_t &type );
@@ -400,10 +405,6 @@ struct oter_t {
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// TODO: Deprecate these operators
-bool operator==( const oter_id &lhs, const char *rhs );
-bool operator!=( const oter_id &lhs, const char *rhs );
-
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
 // (thus, LINE_OXXX looks like 'T'). LINE_ is defined in output.h.  The ACS_
@@ -494,12 +495,8 @@ struct enum_traits<overmap_special_subtype> {
     static constexpr overmap_special_subtype last = overmap_special_subtype::last;
 };
 
-struct fixed_overmap_special_data {
-    std::vector<overmap_special_terrain> terrains;
-    std::vector<overmap_special_connection> connections;
-};
-
-struct mutable_overmap_special_data;
+struct overmap_special_data;
+struct special_placement_result;
 
 class overmap_special
 {
@@ -529,8 +526,11 @@ class overmap_special
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
-        const fixed_overmap_special_data &get_fixed_data() const;
-        const mutable_overmap_special_data &get_mutable_data() const;
+        int score_rotation_at( const overmap &om, const tripoint_om_omt &p,
+                               om_direction::type r ) const;
+        special_placement_result place(
+            overmap &om, const tripoint_om_omt &origin, om_direction::type dir,
+            const city &cit, bool must_be_unexplored ) const;
         const overmap_special_spawns &get_monster_spawns() const {
             return monster_spawns_;
         }
@@ -543,6 +543,11 @@ class overmap_special
         mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;
+        // TODO: fix how this works with fake specials
+        // Due to fake specials being created after data loading, if any mod has a region settings
+        // which has a fake special defined in DDA, it will count as from the same src, and thus
+        // a duplicate.
+        //std::vector<std::pair<overmap_special_id, mod_id>> src;
 
         // Used by generic_factory
         bool was_loaded = false;
@@ -553,8 +558,7 @@ class overmap_special
     private:
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
-        fixed_overmap_special_data fixed_data_;
-        shared_ptr_fast<const mutable_overmap_special_data> mutable_data_;
+        shared_ptr_fast<const overmap_special_data> data_;
 
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
@@ -563,6 +567,27 @@ class overmap_special
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<string_id<overmap_location>> default_locations_;
         mapgen_parameters mapgen_params_;
+};
+
+struct overmap_special_migration {
+    public:
+        static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static void check();
+        // Check if the given overmap special should be migrated
+        static bool migrated( const overmap_special_id &os_id );
+        // Get the migrated id. Returns null id if the special was removed,
+        // or the same id if no migration is necessary
+        static overmap_special_id migrate( const overmap_special_id &old_id );
+
+    private:
+        bool was_loaded = false;
+        overmap_special_migration_id id;
+        std::vector<std::pair<overmap_special_migration_id, mod_id>> src;
+        overmap_special_id new_id;
+        friend generic_factory<overmap_special_migration>;
+        friend struct mod_tracker;
 };
 
 namespace overmap_terrains

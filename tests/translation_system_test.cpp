@@ -3,7 +3,7 @@
 #include "filesystem.h"
 #include "string_formatter.h"
 #include "translation_document.h"
-#include "translation_manager.h"
+#include "translation_manager_impl.h"
 
 #if defined(LOCALIZE)
 
@@ -79,7 +79,7 @@ TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]
     BENCHMARK( "Load Russian" ) {
         TranslationManager manager;
         manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
-        return manager;
+        return manager.Translate( "battery" );
     };
 }
 
@@ -193,9 +193,9 @@ TEST_CASE( "TranslationPluralRulesEvaluator", "[translations]" )
     }
     SECTION( "Russian" ) {
         auto russian_ground_truth = []( std::size_t n ) {
-            return ( n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && ( n % 100 < 12 ||
-                     n % 100 > 14 ) ? 1 : n % 10 == 0 || ( n % 10 >= 5 && n % 10 <= 9 ) || ( n % 100 >= 11 &&
-                             n % 100 <= 14 ) ? 2 : 3 );
+            return n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && ( n % 100 < 12 ||
+                    n % 100 > 14 ) ? 1 : n % 10 == 0 || ( n % 10 >= 5 && n % 10 <= 9 ) || ( n % 100 >= 11 &&
+                            n % 100 <= 14 ) ? 2 : 3;
         };
         const std::string russian_rules =
             // NOLINTNEXTLINE(cata-text-style)

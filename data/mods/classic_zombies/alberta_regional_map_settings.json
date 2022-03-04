@@ -748,7 +748,7 @@
         "s_lot": 400,
         "s_arcade": 200,
         "s_games": 200,
-        "s_jewelry": 200,
+        "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
         "museum": 100,
@@ -851,7 +851,7 @@
     "weather": {
       "base_temperature": 5.5,
       "base_humidity": 50.0,
-      "base_pressure": 815.0,
+      "base_pressure": 1000,
       "base_wind": 4.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,

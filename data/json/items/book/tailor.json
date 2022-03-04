@@ -14,6 +14,7 @@
   {
     "id": "mag_beauty",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Beauty Magazine" },
     "description": "This is a full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
     "weight": "180 g",
@@ -32,6 +33,7 @@
   {
     "id": "mag_tailor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Sew Awesome Monthly", "str_pl": "Sew Awesome Monthlies" },
     "description": "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
     "weight": "75 g",
@@ -54,6 +56,7 @@
   {
     "id": "manual_tailor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Sew What? Clothing!", "str_pl": "copies of Sew What? Clothing!" },
     "description": "A colorful book about tailoring.",
     "weight": "454 g",
@@ -75,6 +78,7 @@
   {
     "id": "tailor_portfolio",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "clothing designer's portfolio" },
     "description": "A leather bound portfolio that once belonged to a clothing designer.  Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
     "weight": "2063 g",
@@ -95,6 +99,7 @@
   {
     "id": "tailor_japanese",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Traditional Japanese Kimono", "str_pl": "copies of Traditional Japanese Kimono" },
     "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
     "weight": "2400 g",
@@ -114,6 +119,7 @@
   {
     "id": "recipe_fauxfur",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Friendly, Humane Fashion", "str_pl": "copies of Friendly, Humane Fashion" },
     "description": "An educational book detailing the uses of fake fur, as well as its benefits and disadvantages.  The prose is rather passionate, and a disclaimer on the cover proudly states that the book is printed and distributed by the Gryphon Animal Rights Organization.",
     "weight": "2267 g",
@@ -135,6 +141,7 @@
   {
     "id": "textbook_tailor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Sewing Techniques for Designers", "str_pl": "copies of Sewing Techniques for Designers" },
     "description": "A massive, hardbound book full of a wealth of information for the professional clothing designer.",
     "weight": "2600 g",
@@ -159,6 +166,7 @@
   {
     "id": "scots_tailor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Ye Scots Beuk o Tailorin'", "str_pl": "copies of Ye Scots Beuk o Tailorin'" },
     "description": "A translated Gaelic book from Scotland.  While boring to read due to its technical tone, it provides insights into Scottish culture and information about tailoring.",
     "weight": "2600 g",
@@ -180,6 +188,7 @@
   {
     "id": "dieselpunk_tailor",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Dieselpunk Designs", "str_pl": "copies of Dieselpunk Designs" },
     "description": "A large, leatherbound book containing a number of leather and rubber pieces for the fashionable dieselpunk.",
     "weight": "2600 g",
@@ -200,5 +209,57 @@
     "max_level": 5,
     "intelligence": 8,
     "time": "30 m"
+  },
+  {
+    "abstract": "exodii_blueprint",
+    "name": "exodii blueprint abstract",
+    "type": "BOOK",
+    "category": "manuals",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": 6000,
+    "price_postapoc": 6000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "paper",
+    "required_level": 4,
+    "intelligence": 8,
+    "time": "30 m"
+  },
+  {
+    "id": "bp_nomad_cowl",
+    "type": "BOOK",
+    "name": { "str": "nomad cowl blueprint" },
+    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a well-designed and comfortable cowl offering protection from the elements and physical injury.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
+    "copy-from": "exodii_blueprint",
+    "color": "dark_gray",
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
+    ]
+  },
+  {
+    "id": "bp_nomad_bodyglove",
+    "type": "BOOK",
+    "name": { "str": "nomad bodyglove blueprint" },
+    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a tight-fitting but protective bodysuit, with options to reinforce it with kevlar threads.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.",
+    "copy-from": "exodii_blueprint",
+    "color": "blue",
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
+    ]
+  },
+  {
+    "id": "bp_nomad_jumpsuit",
+    "type": "BOOK",
+    "name": { "str": "nomad jumpsuit blueprint" },
+    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland, with a lot of storage capacity.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.  There seems to be room within the directions to make a simpler, lighter version, or a leather-reinforced version.",
+    "copy-from": "exodii_blueprint",
+    "color": "green",
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
+    ]
   }
 ]

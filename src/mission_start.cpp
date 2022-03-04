@@ -30,10 +30,20 @@
 #include "translations.h"
 #include "units.h"
 
+static const furn_str_id furn_f_arcade_machine( "f_arcade_machine" );
+
+static const item_group_id Item_spawn_data_cleaning( "cleaning" );
+static const item_group_id Item_spawn_data_mechanics( "mechanics" );
+static const item_group_id Item_spawn_data_mischw( "mischw" );
+static const item_group_id Item_spawn_data_surgery( "surgery" );
+
 static const itype_id itype_software_hacking( "software_hacking" );
 static const itype_id itype_software_math( "software_math" );
 static const itype_id itype_software_medical( "software_medical" );
 static const itype_id itype_software_useless( "software_useless" );
+
+static const mission_type_id
+mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
 static const mtype_id mon_dog( "mon_dog" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -42,6 +52,14 @@ static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+
+static const overmap_special_id overmap_special_evac_center( "evac_center" );
+
+static const string_id<class npc_template> npc_template_ranch_doctor( "ranch_doctor" );
+
+static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
+
+static const vproto_id vehicle_prototype_car_chassis( "car_chassis" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -192,7 +210,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     }
     // if there's no possible location, then we have to overwrite an existing console...
     const tripoint fallback( rng( rng_x_min, rng_x_max ), rng( rng_y_min, rng_y_max ),
-                             compmap.get_abs_sub().z );
+                             compmap.get_abs_sub().z() );
     return random_entry( *used, fallback );
 }
 
@@ -214,7 +232,7 @@ void mission_start::place_npc_software( mission *miss )
         miss->item_id = itype_software_medical;
         static const std::set<std::string> pharmacies = { "s_pharm", "s_pharm_1" };
         type = random_entry( pharmacies );
-        miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
+        miss->follow_up = mission_MISSION_GET_ZOMBIE_BLOOD_ANAL;
     } else if( dev->myclass == NC_SCIENTIST ) {
         miss->item_id = itype_software_math;
     } else {
@@ -236,7 +254,7 @@ void mission_start::place_npc_software( mission *miss )
 
     oter_id oter = overmap_buffer.ter( place );
     if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
-        is_ot_match( "s_pharm", oter, ot_match_type::prefix ) || oter == "" ) {
+        is_ot_match( "s_pharm", oter, ot_match_type::prefix ) || oter.id().is_empty() ) {
         comppoint = find_potential_computer_point( compmap );
     }
 
@@ -521,9 +539,9 @@ void mission_start::ranch_nurse_8( mission *miss )
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_dirtfloor, t_floor );
-    bay.place_items( item_group_id( "cleaning" ), 75, point( 17, 0 ), point( 17, 2 ), true,
+    bay.place_items( Item_spawn_data_cleaning, 75, point( 17, 0 ), point( 17, 2 ), true,
                      calendar::start_of_cataclysm );
-    bay.place_items( item_group_id( "surgery" ), 75, point( 15, 4 ), point( 18, 4 ), true,
+    bay.place_items( Item_spawn_data_surgery, 75, point( 15, 4 ), point( 18, 4 ), true,
                      calendar::start_of_cataclysm );
     bay.save();
 }
@@ -543,7 +561,7 @@ void mission_start::ranch_nurse_9( mission *miss )
     bay.furn_set( point( 8, 17 ), f_dresser );
     bay.furn_set( point( 14, 17 ), f_dresser );
     bay.furn_set( point( 19, 17 ), f_dresser );
-    bay.place_npc( point( 16, 19 ), string_id<npc_template>( "ranch_doctor" ) );
+    bay.place_npc( point( 16, 19 ), npc_template_ranch_doctor );
     bay.save();
 
     mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
@@ -562,7 +580,7 @@ void mission_start::ranch_scavenger_1( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( item_group_id( "mechanics" ), 65, point( 9, 13 ), point( 10, 16 ), true,
+    bay.place_items( Item_spawn_data_mechanics, 65, point( 9, 13 ), point( 10, 16 ), true,
                      calendar::turn_zero );
     bay.draw_square_ter( t_chainfence, point( 0, 22 ), point( 7, 22 ) );
     bay.draw_square_ter( t_dirt, point( 2, 22 ), point( 3, 22 ) );
@@ -576,7 +594,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
                                 "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
-    bay.add_vehicle( vproto_id( "car_chassis" ), point( 20, 15 ), 0_degrees );
+    bay.add_vehicle( vehicle_prototype_car_chassis, point( 20, 15 ), 0_degrees );
     bay.draw_square_ter( t_wall_half, point( 18, 19 ), point( 21, 22 ) );
     bay.draw_square_ter( t_dirt, point( 19, 20 ), point( 20, 21 ) );
     bay.ter_set( point( 19, 19 ), t_door_frame );
@@ -584,7 +602,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( item_group_id( "mischw" ), 65, point( 12, 13 ), point( 13, 16 ), true,
+    bay.place_items( Item_spawn_data_mischw, 65, point( 12, 13 ), point( 13, 16 ), true,
                      calendar::start_of_cataclysm );
     bay.draw_square_ter( t_chaingate_l, point( 2, 22 ), point( 3, 22 ) );
     bay.spawn_item( point( 7, 20 ), "30gal_drum" );
@@ -603,16 +621,16 @@ void mission_start::ranch_scavenger_3( mission *miss )
     bay.spawn_item( point( 16, 21 ), "wheel_wide" );
     bay.spawn_item( point( 17, 21 ), "wheel_wide" );
     bay.spawn_item( point( 23, 18 ), "v8_combustion" );
-    bay.furn_set( point( 23, 17 ), furn_str_id( "f_arcade_machine" ) );
-    bay.ter_set( point( 23, 16 ), ter_str_id( "t_machinery_light" ) );
+    bay.furn_set( point( 23, 17 ), furn_f_arcade_machine );
+    bay.ter_set( point( 23, 16 ), ter_t_machinery_light );
     bay.furn_set( point( 20, 21 ), f_woodstove );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( item_group_id( "mischw" ), 65, point( 2, 10 ), point( 4, 10 ), true,
+    bay.place_items( Item_spawn_data_mischw, 65, point( 2, 10 ), point( 4, 10 ), true,
                      calendar::start_of_cataclysm );
-    bay.place_items( item_group_id( "mischw" ), 65, point( 2, 13 ), point( 4, 13 ), true,
+    bay.place_items( Item_spawn_data_mischw, 65, point( 2, 13 ), point( 4, 13 ), true,
                      calendar::start_of_cataclysm );
     bay.furn_set( point( 1, 15 ), f_fridge );
     bay.spawn_item( point( 2, 15 ), "hdframe" );
@@ -628,12 +646,12 @@ void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
     t.overmap_terrain = "refctr_S3e";
-    t.overmap_special = overmap_special_id( "evac_center" );
+    t.overmap_special = overmap_special_evac_center;
     t.mission_pointer = miss;
     t.search_range = 0;
-    t.reveal_radius = 3;
+    t.reveal_radius = 1;
 
-    const cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -646,6 +664,14 @@ void mission_start::reveal_refugee_center( mission *miss )
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
+        //reset the mission target to the refugee center entrance and reveal path from the road
+        t.overmap_terrain = "evac_center_18";
+        t.reveal_radius = 3;
+        target_pos = mission_util::assign_mission_target( t );
+        const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
+                "evac_center_18", 1, false );
+        overmap_buffer.reveal_route( dest_road, dest_refugee_center, 1, false );
+
         add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
     } else {
         add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );

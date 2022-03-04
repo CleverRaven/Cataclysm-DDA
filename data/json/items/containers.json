@@ -25,8 +25,18 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -158,8 +168,24 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
+  },
+  {
+    "id": "bag_garbage",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "garbage bag" },
+    "looks_like": "bag_canvas",
+    "description": "A HEFTY plastic bag.  Literally trash.",
+    "weight": "30 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray"
   },
   {
     "id": "bag_paper_powder",
@@ -184,8 +210,7 @@
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -210,8 +235,28 @@
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
+  },
+  {
+    "id": "bag_zipper_gallon",
+    "copy-from": "bag_zipper",
+    "type": "GENERIC",
+    "name": { "str": "gallon-sized zipper bag" },
+    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than it's more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "weight": "20 g",
+    "volume": "75 ml",
+    "price_postapoc": 13,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "4500 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "29 cm",
+        "spoil_multiplier": 0.8,
+        "moves": 600
+      }
+    ]
   },
   {
     "id": "bag_body_bag",
@@ -237,8 +282,7 @@
         "moves": 400
       }
     ],
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "dark_gray"
   },
   {
     "id": "bag_iv",
@@ -263,8 +307,7 @@
         "max_contains_weight": "3 kg",
         "moves": 400
       }
-    ],
-    "flags": [ "TRADER_AVOID" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -274,7 +317,7 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "weight": "450 g",
-    "volume": "1318 ml",
+    "volume": "953 ml",
     "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 10,
@@ -304,7 +347,7 @@
     "name": { "str": "plastic bottle" },
     "description": "A watertight plastic bottle, holds 500 ml of liquid.  Some may be factory-sealed to increase shelf life.",
     "weight": "13 g",
-    "volume": "502 ml",
+    "volume": "510 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -363,7 +406,7 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 250 ml of liquid.",
     "weight": "7 g",
-    "volume": "251 ml",
+    "volume": "255 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -383,6 +426,51 @@
     "color": "white"
   },
   {
+    "id": "bottle_plastic_pill_prescription",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic prescription bottle" },
+    "looks_like": "antibiotics",
+    "description": "A small orange pill bottle with a white screw top.",
+    "weight": "7 g",
+    "volume": "251 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "bottle_plastic_pill_painkiller",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic painkiller bottle" },
+    "looks_like": "aspirin",
+    "description": "A small white pill bottle with a screw top.",
+    "color": "white"
+  },
+  {
+    "id": "bottle_plastic_pill_supplement",
+    "type": "GENERIC",
+    "copy-from": "bottle_plastic_pill_prescription",
+    "name": { "str": "plastic supplement bottle" },
+    "looks_like": "vitamins",
+    "description": "A small green pill bottle with a screw top.",
+    "color": "green"
+  },
+  {
     "id": "bottle_twoliter",
     "type": "GENERIC",
     "category": "container",
@@ -390,7 +478,7 @@
     "looks_like": "bottle_plastic",
     "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
     "weight": "13 g",
-    "volume": "2003 ml",
+    "volume": "2040 ml",
     "price": 25,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -416,7 +504,7 @@
     "looks_like": "bowl_plastic",
     "description": "A clay bowl with a waterproofed hide lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
     "weight": "60 g",
-    "volume": "255 ml",
+    "volume": "295 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -570,6 +658,33 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
+    "id": "box_large_reinforced",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
+    "looks_like": "box_large",
+    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
+    "weight": "2610 g",
+    "volume": "330000 ml",
+    "longest_side": "90 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "100 cm"
+      }
+    ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_large_reinforced" }
+  },
+  {
     "id": "bucket",
     "type": "GENERIC",
     "category": "container",
@@ -621,7 +736,19 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "material_thickness": 1, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "coverage": 30,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "flags": [ "BELTED" ]
   },
   {
@@ -631,7 +758,7 @@
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
     "weight": "13 g",
-    "volume": "253 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
@@ -765,7 +892,7 @@
     "description": "A small tin can, like what tuna comes in.",
     "//": "Represents a 4 cm radius x 5 cm height steel can.",
     "weight": "40 g",
-    "volume": "253 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "steel" ],
@@ -805,7 +932,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "503 ml"
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -815,7 +942,7 @@
     "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": "155 g",
-    "volume": "1503 ml",
+    "volume": "1575 ml",
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
@@ -834,10 +961,17 @@
     ],
     "armor_data": {
       "sided": true,
-      "material_thickness": 2,
-      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+      "armor": [
+        {
+          "encumbrance": 2,
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ],
+          "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 } ]
+        }
+      ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -872,7 +1006,7 @@
     "looks_like": "bowl_clay",
     "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
     "weight": "268 g",
-    "volume": "253 ml",
+    "volume": "295 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -898,7 +1032,7 @@
     "looks_like": "bowl_clay",
     "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
     "weight": "1955 g",
-    "volume": "15003 ml",
+    "volume": "17700 ml",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -925,7 +1059,7 @@
     "looks_like": "bowl_clay",
     "description": "A bulky and heavy clay pot with a waterproofed hide lid, meant to store water, but can carry other liquids in a pinch.",
     "weight": "4887 g",
-    "volume": "37500 ml",
+    "volume": "44250 ml",
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
@@ -937,7 +1071,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "37490 ml",
+        "max_contains_volume": "37500 ml",
         "max_contains_weight": "50 kg"
       }
     ],
@@ -1117,7 +1251,7 @@
     "looks_like": "2lcanteen",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": "120 g",
-    "volume": "251 ml",
+    "volume": "262 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -1135,9 +1269,19 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "coverage": 2, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "iron", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "coverage": 2,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1172,7 +1316,7 @@
     "id": "jar_glass_sealed",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "glass jar" },
+    "name": { "str": "0.5L glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened (assuming it was sterile before sealing).",
     "weight": "150 g",
     "volume": "680 ml",
@@ -1201,7 +1345,7 @@
     "name": { "str": "plastic jerrycan" },
     "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "1587 g",
-    "volume": "10003 ml",
+    "volume": "10500 ml",
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
@@ -1227,7 +1371,7 @@
     "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "4815 g",
-    "volume": "20002 ml",
+    "volume": "21000 ml",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -1255,7 +1399,7 @@
     "looks_like": "bowl_clay",
     "description": "A clay container with a lid, used to hold and pour liquids.",
     "weight": "400 g",
-    "volume": "1002 ml",
+    "volume": "1180 ml",
     "price": 100,
     "price_postapoc": 10,
     "bashing": 1,
@@ -1281,7 +1425,7 @@
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "weight": "190 g",
-    "volume": "3752 ml",
+    "volume": "3825 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -1336,7 +1480,7 @@
     "looks_like": "keg",
     "description": "A reusable heavy steel keg, used for shipping beer.  It has a capacity of 50 liters.",
     "weight": "12600 g",
-    "volume": "50050 ml",
+    "volume": "52500 ml",
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1460,8 +1604,18 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 5, "coverage": 5, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 5,
+          "coverage": 5,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "stomach_sealed",
@@ -1485,6 +1639,32 @@
         "max_contains_volume": "1500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
+      }
+    ]
+  },
+  {
+    "id": "waterproof_smart_phone_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "waterproof smartphone case" },
+    "looks_like": "smart_phone",
+    "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+    "weight": "50 g",
+    "volume": "125 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "230 g",
+        "moves": 100,
+        "watertight": true,
+        "rigid": true,
+        "item_restriction": [ "smart_phone" ]
       }
     ]
   },
@@ -1513,8 +1693,18 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "sided": true, "material_thickness": 2, "armor": [ { "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "sided": true,
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 5,
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin2",
@@ -1541,8 +1731,17 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 10, "covers": [ "torso" ] } ] },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "waterskin3",
@@ -1569,7 +1768,16 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "material_thickness": 2, "armor": [ { "coverage": 15, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "coverage": 40,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1613,8 +1821,7 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "TRADER_AVOID" ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
   },
   {
     "id": "wrapper_pr",
@@ -1689,7 +1896,15 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "26 cm"
+      }
+    ],
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
@@ -1733,7 +1948,7 @@
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
-    "description": "An aluminum box that used to contain a small survival kit.",
+    "description": "An aluminum box designed to contain a small survival kit.",
     "weight": "800 g",
     "volume": "2300 ml",
     "price": 0,
@@ -1790,9 +2005,9 @@
     "category": "container",
     "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "ifak_pouch",
-    "description": "A plastic box that used to contain a first aid kit.",
+    "description": "A plastic box designed to contain a first aid kit.",
     "weight": "50 g",
-    "volume": "2650 ml",
+    "volume": "2900 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
@@ -1801,10 +2016,10 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2450 ml",
+        "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
@@ -1816,20 +2031,20 @@
     "category": "container",
     "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid_box",
-    "description": "A fabric pouch that used to contain an IFAK.",
+    "description": "A fabric pouch designed to contain a personalized trauma kit.  These supplies are used to address immediate life-threatening conditions.",
     "weight": "5 g",
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
+    "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3200 ml",
         "max_contains_weight": "4000 g",
-        "moves": 400,
+        "moves": 100,
         "rigid": false
       }
     ],
@@ -1841,7 +2056,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "radio car box", "str_pl": "radio car boxes" },
-    "description": "An RC car, with radio-control and batteries included!  Unpack and enjoy.",
+    "description": "A small box with an image of a toy car printed on the front.  The text written on the side says it comes with remote control and batteries included.",
     "weight": "400 g",
     "volume": "3200 ml",
     "price": 0,
@@ -1854,11 +2069,83 @@
         "max_contains_volume": "2900 ml",
         "max_contains_weight": "4 kg",
         "rigid": true,
-        "moves": 400
+        "moves": 100
       }
     ],
     "symbol": ")",
     "color": "red"
+  },
+  {
+    "id": "stirling_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "description": "A small box with an image of a children building things.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 100
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "maker_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "maker kit box", "str_pl": "maker kit boxes" },
+    "description": "A small box with an image of a children building things.  'Makerspace Learner Kit'",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 100
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
+  },
+  {
+    "id": "robot_kit_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "robot kit box", "str_pl": "robot kit boxes" },
+    "description": "A small box with an image of a children building robots.",
+    "weight": "400 g",
+    "volume": "3200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cardboard" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2900 ml",
+        "max_contains_weight": "4 kg",
+        "rigid": true,
+        "moves": 100
+      }
+    ],
+    "symbol": ")",
+    "color": "white_cyan"
   },
   {
     "id": "mre_bag_small",
@@ -1878,7 +2165,7 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1500 g",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
@@ -1905,7 +2192,7 @@
         "max_contains_volume": "510 ml",
         "max_contains_weight": "3 kg",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
@@ -1929,10 +2216,10 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2831 ml",
+        "max_contains_volume": "2749 ml",
         "max_contains_weight": "4 kg",
         "airtight": true,
-        "moves": 200,
+        "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
@@ -1993,5 +2280,117 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "small_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "small propane tank" },
+    "//": "1 gallon tank.",
+    "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
+    "weight": "907 g",
+    "volume": "5030 ml",
+    "longest_side": "21 cm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 30 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "medium_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "medium propane tank" },
+    "//": "5 gallon tank.",
+    "description": "This is a medium tank of propane, commonly used for barbeques.",
+    "weight": "4082 g",
+    "volume": "13600 ml",
+    "longest_side": "381 mm",
+    "price": 2000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 5,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 75 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "large_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "large propane tank" },
+    "//": "20 gallon tank.",
+    "description": "This is a large tank of propane, commonly used for heating.",
+    "weight": "8164 g",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 302 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
+  },
+  {
+    "id": "xl_propane_tank",
+    "type": "TOOL",
+    "name": { "str": "extra large propane tank" },
+    "//": "100 gallon tank.",
+    "description": "This is a massive tank of propane, commonly used for a home or vehicle.",
+    "weight": "132 kg",
+    "volume": "44 L",
+    "longest_side": "46 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "propane": 1510 }
+      }
+    ],
+    "charges_per_use": 1,
+    "flags": [ "GAS_TANK" ]
   }
 ]

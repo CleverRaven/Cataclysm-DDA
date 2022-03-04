@@ -12,5 +12,13 @@
     "field": "fd_safe_shoppers",
     "intensity": 1,
     "chance": 100
+  },
+  {
+    "id": "emit_everfrost",
+    "type": "emit",
+    "field": "fd_cold_air2",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
   }
 ]

@@ -11,7 +11,7 @@
       "G": "t_palisade_gate",
       ";": "t_dirt"
     },
-    "furniture": {  }
+    "furniture": { ";": "f_clear" }
   },
   {
     "type": "mapgen",
@@ -45,6 +45,7 @@
         ";;;;;;;;;;;;;;;;;;;;    ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmf_2_common_palette" ]
     }
   },

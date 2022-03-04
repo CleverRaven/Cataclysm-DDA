@@ -74,12 +74,16 @@
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
+# Astyle all source files as fast as possible.
+#  make astyle-fast
 # Check if source files are styled properly.
 #  make astyle-check
 # Style the whitelisted json files (maintain the current level of styling).
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
+# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
+#  make style-all-json-parallel
 # Disable astyle of source files.
 # make ASTYLE=0
 # Disable format check of whitelisted json files.
@@ -179,6 +183,14 @@ ifndef PCH
   PCH = 1
 endif
 
+ifndef GOLD
+ifeq ($(LTO), 1)
+  GOLD = 1
+else
+  GOLD = 0
+endif
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
@@ -261,7 +273,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 ifeq ($(PCH), 1)
-	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros,include_file_ctime,include_file_mtime ccache
 else
 	CCACHEBIN = ccache
 endif
@@ -289,10 +301,6 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
-  else
-    # clang with glibc 2.31+ will cause linking error on math functions
-    # this is a workaround (see https://github.com/google/filament/issues/2146)
-    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -371,7 +379,9 @@ ifeq ($(RELEASE), 1)
         LTOFLAGS += -flto=full
       endif
     else
-      LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+      ifeq ($(GOLD), 1)
+        LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
+      endif
     endif
 
     ifneq ($(CLANG), 0)
@@ -428,11 +438,11 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch
+  PCHFLAGS = -Winvalid-pch
   PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCHFLAGS += -include pch/main-pch.hpp
     PCH_P = $(PCH_H).gch
   else
     PCH_P = $(PCH_H).pch
@@ -484,7 +494,7 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
-  ifdef GOLD
+  ifeq ($(GOLD), 1)
     CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
@@ -494,7 +504,7 @@ else
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
-    ifdef GOLD
+    ifeq ($(GOLD), 1)
       CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
@@ -723,14 +733,7 @@ ifeq ($(TILES), 1)
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(LOCALIZE),1)
-    NCURSES_PREFIX = ncursesw
-  else
-    NCURSES_PREFIX = ncurses
-  endif
-  ifdef OSXCROSS
-    NCURSES_PREFIX = ncurses
-  endif
+  NCURSES_PREFIX = ncursesw
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
@@ -956,7 +959,7 @@ $(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
 
 MO_DEPS := \
   $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
-  $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
+  $(shell find data/raw data/json data/mods data/core data/help -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
 	$(MAKE) -C lang
@@ -1191,20 +1194,23 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 
 endif
 
+astyle-fast: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 	mkdir -p $(ODIR) && touch $(ODIR)/.astyle-check-stamp
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
 astyle-check:
 ifdef ASTYLE_CHECK
 	$(info $(ASTYLE_BINARY) -V: $(shell $(ASTYLE_BINARY) -V))
-	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
-        else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
+	@if [ "$(findstring Needs formatting:,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+        else printf "astyle regressions found.\n$(ASTYLE_CHECK)" && false; fi
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
@@ -1221,6 +1227,9 @@ endif
 
 style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
+
+style-all-json-parallel: $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \

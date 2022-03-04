@@ -185,6 +185,44 @@
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" }, { "text": "Bye.", "topic": "TALK_DONE" } ]
   },
   {
+    "id": "TALK_TRAIN_NPC_START",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, show me how it's done.",
+    "responses": [
+      {
+        "text": "Okay, let's begin.",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "start_training_npc",
+        "switch": true
+      },
+      {
+        "text": "Okay.  Lead the way.",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "default": true,
+        "effect": "lead_to_safety"
+      },
+      { "text": "No, we'll be okay here.", "topic": "TALK_TRAIN_NPC_FORCE", "switch": true, "default": true },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_TRAIN_SEMINAR_START",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, who should participate?",
+    "responses": [
+      {
+        "text": "Let's see…",
+        "topic": "TALK_DONE",
+        "condition": "at_safe_space",
+        "effect": "start_training_seminar",
+        "switch": true
+      },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
     "id": "TALK_TRAIN_START",
     "type": "talk_topic",
     "dynamic_line": "Alright, let's begin.",
@@ -239,6 +277,46 @@
     "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
   },
   {
+    "id": "TALK_DENY_TRAIN_SEMINAR",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_driving": "We'll talk about a training seminar after you're done operating that vehicle.",
+      "no": {
+        "npc_driving": "I can't host a seminar while I'm operating a vehicle!",
+        "no": {
+          "npc_need": "thirst",
+          "amount": 80,
+          "no": {
+            "npc_need": "hunger",
+            "amount": 160,
+            "no": {
+              "npc_need": "fatigue",
+              "level": "TIRED",
+              "no": {
+                "npc_has_effect": "asked_to_train",
+                "no": "I have some reason to refuse hosting a training seminar.",
+                "yes": "Give it some time, we'll talk about a training seminar later…"
+              },
+              "yes": "I'm too tired, let me rest first."
+            },
+            "yes": "I'm too hungry, give me something to eat."
+          },
+          "yes": "I'm too thirsty, give me something to drink."
+        }
+      }
+    },
+    "responses": [ { "text": "Ah, okay.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_TRAIN_NPC_FORCE",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, show me how it's done.",
+    "responses": [
+      { "text": "Okay, let's begin.", "topic": "TALK_DONE", "effect": "start_training_npc" },
+      { "text": "On second thought, never mind.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
     "id": "TALK_TRAIN_FORCE",
     "type": "talk_topic",
     "dynamic_line": "Alright, let's begin.",
@@ -290,7 +368,7 @@
         "switch": true,
         "default": true,
         "condition": { "u_has_item": "mininuke" },
-        "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+        "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
         "opinion": { "value": -1 }
       },
       {
@@ -300,7 +378,7 @@
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+          "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
@@ -325,7 +403,7 @@
         "trial": { "type": "LIE", "difficulty": 0, "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ] ] },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+          "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -1, "value": -1 } }
@@ -337,10 +415,9 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 40 },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [
-            { "add_debt": [ [ "U_INTIMIDATE", 1 ], [ "NPC_INTIMIDATE", -1 ], [ "FEAR", 1 ], [ "BRAVERY", -1 ], [ "TOTAL", 500 ] ] },
-            "give_equipment"
-          ],
+          "effect": {
+            "give_equipment": { "allowance": [ [ "U_INTIMIDATE", 1 ], [ "NPC_INTIMIDATE", -1 ], [ "FEAR", 1 ], [ "BRAVERY", -1 ], [ "TOTAL", 500 ] ] }
+          },
           "opinion": { "trust": -3, "fear": 2, "value": -2, "anger": 2 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -3, "fear": 1, "value": -3, "anger": 5 } }

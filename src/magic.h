@@ -74,6 +74,8 @@ enum class spell_flag : int {
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NON_MAGICAL, // ignores spell resistance
     LAST
 };
 
@@ -190,6 +192,8 @@ class spell_type
         bool was_loaded = false;
 
         spell_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<spell_id, mod_id>> src;
         // spell name
         translation name;
         // spell description
@@ -232,6 +236,14 @@ class spell_type
         int max_field_intensity = 0;
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
         float field_intensity_variance = 0.0f;
+
+        // accuracy is a bonus against dodge, block, and spellcraft
+        // which allows the target to mitigate up to 33% damage for each type of resistance
+        // this could theoretically add up to 100%
+
+        int min_accuracy = 20;
+        float accuracy_increment = 0.0f;
+        int max_accuracy = 20;
 
         // minimum damage this spell can cause
         int min_damage = 0;
@@ -354,6 +366,9 @@ class spell_type
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
         static const float field_intensity_variance_default;
+        static const int min_accuracy_default;
+        static const float accuracy_increment_default;
+        static const int max_accuracy_default;
         static const int min_damage_default;
         static const float damage_increment_default;
         static const int max_damage_default;
@@ -413,6 +428,7 @@ class spell
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
+        int min_leveled_accuracy() const;
 
     public:
         spell() = default;
@@ -450,6 +466,7 @@ class spell
         int field_intensity() const;
         // how much damage does the spell do
         int damage() const;
+        int accuracy() const;
         int damage_dot() const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
@@ -458,6 +475,8 @@ class spell
         damage_instance get_damage_instance() const;
         // calculate damage per second against a target
         float dps( const Character &caster, const Creature &target ) const;
+        // select a target for the spell
+        cata::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
         int aoe() const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
@@ -690,6 +709,8 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+// intended to be a spell version of Character::longpull
+void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
@@ -708,8 +729,10 @@ void guilt( const spell &sp, Creature &caster, const tripoint &target );
 void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
 void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void remove_field( const spell &sp, Creature &caster, const tripoint &center );
 void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
@@ -737,6 +760,7 @@ effect_map{
     { "ter_transform", spell_effect::transform_blast },
     { "noise", spell_effect::noise },
     { "vomit", spell_effect::vomit },
+    { "pull_target", spell_effect::pull_to_caster },
     { "explosion", spell_effect::explosion },
     { "flashbang", spell_effect::flashbang },
     { "mod_moves", spell_effect::mod_moves },
@@ -753,7 +777,9 @@ effect_map{
     { "remove_effect", spell_effect::remove_effect },
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
+    { "remove_field", spell_effect::remove_field },
     { "effect_on_condition", spell_effect::effect_on_condition },
+    { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

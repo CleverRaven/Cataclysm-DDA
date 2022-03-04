@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
@@ -24,6 +25,8 @@
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+
+static const faction_id faction_your_followers( "your_followers" );
 
 // Remove all vehicles from the map
 void clear_vehicles()
@@ -112,7 +115,7 @@ void clear_items( const int zlevel )
 void clear_zones()
 {
     zone_manager &zm = zone_manager::get_manager();
-    for( auto zone_ref : zm.get_zones( faction_id( "your_followers" ) ) ) {
+    for( auto zone_ref : zm.get_zones( faction_your_followers ) ) {
         if( !zone_ref.get().get_is_vehicle() ) {
             // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
             // Don't need it right now and the errors spam up the test output, so skip.
@@ -177,4 +180,16 @@ void player_add_headlamp()
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
     get_player_character().worn.push_back( headlamp );
+}
+
+// Set current time of day, and refresh map and caches for the new light level
+void set_time( const time_point &time )
+{
+    calendar::turn = time;
+    g->reset_light_level();
+    int z = get_player_character().posz();
+    map &here = get_map();
+    here.update_visibility_cache( z );
+    here.invalidate_map_cache( z );
+    here.build_map_cache( z );
 }

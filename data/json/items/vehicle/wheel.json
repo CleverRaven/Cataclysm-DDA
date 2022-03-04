@@ -245,7 +245,7 @@
     "id": "tire_bicycle_or",
     "copy-from": "tire_bicycle",
     "type": "GENERIC",
-    "name": { "str": "27\" off-road bicycle" },
+    "name": { "str": "27\" off-road bicycle tire" },
     "description": "A wide, studded, bicycle tire intended to be fitted to a bicycle rim for off-road biking."
   },
   {
@@ -408,7 +408,7 @@
     "price_postapoc": 750,
     "bashing": 17,
     "to_hit": -1,
-    "material": [ "hardsteel", "ceramic" ],
+    "material": [ "qt_steel", "ceramic" ],
     "symbol": "]",
     "color": "green",
     "diameter": 32,

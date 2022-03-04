@@ -33,6 +33,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
+#include "get_version.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
@@ -42,6 +43,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
+#include "system_language.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -193,6 +195,34 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
     }
 }
 
+
+/**
+ * Displays current application version and compile options values
+ */
+void printVersionMessage()
+{
+#if defined(TILES)
+    const bool hasTiles = true;
+#else
+    const bool hasTiles = false;
+#endif
+
+#if defined(SDL_SOUND)
+    const bool hasSound = true;
+#else
+    const bool hasSound = false;
+#endif
+
+    printf( "Cataclysm Dark Days Ahead: %s\n\n"
+            "%ctiles, %csound\n\n"
+            "data dir: %s\nuser dir: %s\n",
+            getVersionString(),
+            hasTiles ? '+' : '-',
+            hasSound ? '+' : '-',
+            PATH_INFO::datadir().c_str(),
+            PATH_INFO::user_dir().c_str() );
+}
+
 template<typename ArgHandlerContainer>
 void process_args( const char **argv, int argc, const ArgHandlerContainer &arg_handlers )
 {
@@ -234,6 +264,7 @@ struct cli_opts {
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
+    bool disable_ascii_art = false;
 };
 
 cli_opts parse_commandline( int argc, const char **argv )
@@ -243,7 +274,8 @@ cli_opts parse_commandline( int argc, const char **argv )
     const char *section_default = nullptr;
     const char *section_map_sharing = "Map sharing";
     const char *section_user_directory = "User directories";
-    const std::array<arg_handler, 12> first_pass_arguments = {{
+    const char *section_accessibility = "Accessibility";
+    const std::array<arg_handler, 13> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -393,6 +425,16 @@ cli_opts parse_commandline( int argc, const char **argv )
                     PATH_INFO::set_standard_filenames();
                     return 1;
                 }
+            },
+            {
+                "--disable-ascii-art", nullptr,
+                "Disable aesthetic ascii art in menus and descriptions.",
+                section_accessibility,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.disable_ascii_art = true;
+                    return 0;
+                }
             }
         }
     };
@@ -498,6 +540,11 @@ cli_opts parse_commandline( int argc, const char **argv )
         std::exit( 0 );
     }
 
+    if( std::count( argv, argv + argc, std::string( "--version" ) ) ) {
+        printVersionMessage();
+        std::exit( 0 );
+    }
+
     // skip program name
     --argc;
     ++argv;
@@ -511,8 +558,8 @@ cli_opts parse_commandline( int argc, const char **argv )
 }  // namespace
 
 #if defined(USE_WINMAIN)
-int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
-                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
+int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
+                      _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
@@ -668,6 +715,12 @@ int main( int argc, const char *argv[] )
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
+    }
+
+    // Override existing settings from cli  options
+    if( cli.disable_ascii_art ) {
+        get_options().get_option( "ENABLE_ASCII_ART" ).setValue( "false" );
+        get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
     }
 
     // Now we do the actual game.

@@ -64,7 +64,11 @@
         { "item": "judo_belts", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 1, 2 ] },
         { "item": "dojo_manuals", "x": [ 17, 19 ], "y": [ 19, 19 ], "chance": 80, "repeat": [ 1, 2 ] }
       ],
-      "place_item": [ { "item": "judo_belt_black", "x": 17, "y": 18 } ]
+      "place_item": [ { "item": "judo_belt_black", "x": 17, "y": 18 } ],
+      "place_monster": [
+        { "monster": "mon_zombie_tough", "x": [ 9, 12 ], "y": [ 16, 19 ], "repeat": [ 1, 2 ] },
+        { "monster": "mon_zombie", "x": [ 5, 12 ], "y": [ 8, 16 ], "repeat": [ 2, 3 ] }
+      ]
     }
   },
   {
@@ -210,6 +214,7 @@
         "C": "t_floor",
         "D": "t_floor",
         "d": "t_floor",
+        "b": "t_floor",
         "c": "t_linoleum_white",
         "E": "t_linoleum_white",
         "e": "t_linoleum_white",
@@ -259,7 +264,11 @@
         "E": { "item": "oven", "chance": 75, "repeat": [ 1, 2 ] },
         "@": { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] },
         "c": { "item": "cannedfood", "chance": 40, "repeat": [ 1, 2 ] }
-      }
+      },
+      "place_monster": [
+        { "monster": "mon_zombie_tough", "x": [ 6, 12 ], "y": [ 7, 12 ], "repeat": [ 1, 2 ] },
+        { "monster": "mon_zombie", "x": [ 5, 14 ], "y": [ 5, 14 ], "repeat": [ 2, 3 ] }
+      ]
     }
   },
   {

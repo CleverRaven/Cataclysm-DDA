@@ -6,8 +6,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
-    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
@@ -70,7 +70,7 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_W", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
@@ -94,7 +94,7 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_W", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
@@ -165,6 +165,25 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "sickle_stone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "primitive_adze",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -173,7 +192,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -247,7 +266,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
@@ -259,7 +278,7 @@
     "skill_used": "fabrication",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
@@ -272,7 +291,9 @@
     "skill_used": "fabrication",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "As of writing, a stick/plank is 130 cm, a splinter is 30 cm, this is intentionally 'generous' because this is rounded up and material tends to be uneven anyways",
+    "byproducts": [ [ "splinter", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -294,8 +315,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
-    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
@@ -313,7 +334,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "survival", 3 ],
+    "skills_required": [ "survival", 2 ],
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
@@ -350,7 +371,7 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_W", "level": 1 },
-      { "id": "CUT", "level": 1 },
+      { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],

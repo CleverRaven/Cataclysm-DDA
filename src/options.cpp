@@ -480,7 +480,7 @@ bool options_manager::cOpt::checkPrerequisite() const
 bool options_manager::cOpt::is_hidden() const
 {
     switch( hide ) {
-        case COPT_NO_HIDE:
+        case COPT_NO_HIDE: // NOLINT(bugprone-branch-clone)
             return false;
 
         case COPT_SDL_HIDE:
@@ -1167,19 +1167,26 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_PICKUP_ADJACENT" ).setPrerequisite( "AUTO_PICKUP" );
 
+    add( "AUTO_PICKUP_OWNED", "general", to_translation( "Auto pickup owned items" ),
+         to_translation( "If false, items that belong to your faction will be excluded from auto pickup." ),
+         false
+       );
+
+    get_option( "AUTO_PICKUP_OWNED" ).setPrerequisite( "AUTO_PICKUP" );
+
     add( "AUTO_PICKUP_WEIGHT_LIMIT", "general", to_translation( "Auto pickup weight limit" ),
          to_translation( "Auto pickup items with weight less than or equal to [option] * 50 grams.  You must also set the small items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
     get_option( "AUTO_PICKUP_WEIGHT_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
-    add( "AUTO_PICKUP_VOL_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
+    add( "AUTO_PICKUP_VOLUME_LIMIT", "general", to_translation( "Auto pickup volume limit" ),
          to_translation( "Auto pickup items with volume less than or equal to [option] * 50 milliliters.  You must also set the light items option.  '0' disables this option" ),
-         0, 20, 0
+         0, 100, 0
        );
 
-    get_option( "AUTO_PICKUP_VOL_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
+    get_option( "AUTO_PICKUP_VOLUME_LIMIT" ).setPrerequisite( "AUTO_PICKUP" );
 
     add( "AUTO_PICKUP_SAFEMODE", "general", to_translation( "Auto pickup safe mode" ),
          to_translation( "Auto pickup is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
@@ -1219,7 +1226,7 @@ void options_manager::add_options_general()
     get_option( "AUTO_MINING" ).setPrerequisite( "AUTO_FEATURES" );
 
     add( "AUTO_MOPPING", "general", to_translation( "Auto mopping" ),
-         to_translation( "If true, enables automatic use of wielded mops to clean surronding terrain." ),
+         to_translation( "If true, enables automatic use of wielded mops to clean surrounding terrain." ),
          false
        );
 
@@ -1347,6 +1354,11 @@ void options_manager::add_options_general()
     "ask"
        );
 
+    add( "EVENT_SPAWNS", "general", to_translation( "Special event spawns" ),
+         to_translation( "If enabled, unique items and/or monsters can spawn during special events (Christmas, Halloween, etc.)" ),
+    { { "off", to_translation( "Disabled" ) }, { "items", to_translation( "Items" ) }, { "monsters", to_translation( "Monsters" ) }, { "both", to_translation( "Both" ) } },
+    "off" );
+
     add_empty_line();
 
     add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
@@ -1435,12 +1447,20 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add( "SHOW_GUN_VARIANTS", "interface", to_translation( "Show gun brand names" ),
-         to_translation( "Show brand names for guns, intead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
+         to_translation( "Show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
          false );
     add( "AMMO_IN_NAMES", "interface", to_translation( "Add ammo to weapon/magazine names" ),
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+         to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
+    {
+        { "ALL", to_translation( "All" ) },
+        { "WORN", to_translation( "Worn" ) },
+        { "NONE", to_translation( "None" ) }
+    },
+    "WORN" );
 
     add_empty_line();
 
@@ -1553,8 +1573,17 @@ void options_manager::add_options_interface()
          * `Shift` + `Cursor Right` -> `9` = `Move Northeast`;
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
+         # Mode 4: Diagonal Lock
+
+         * Holding Ctrl or Shift locks movement to diagonal only
+         * This ensures that pressing ↑ + → will results in ↗ and not ↑ or →
+         * Reject input if it doesn't make sense
+         * Example 1: Press → while holding Shift and ↑ results in ↗
+         * Example 2: Press → while holding Shift, ↑ and ← results in input rejection
+         * Example 3: Press → while holding Shift and ← results in input rejection
+
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
+    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -1635,12 +1664,6 @@ void options_manager::add_options_interface()
          to_translation( "Switch between look around panel being left or right." ),
     { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
-       );
-
-    add( "PICKUP_POSITION", "interface", to_translation( "Pickup position" ),
-         to_translation( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
-    "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", to_translation( "Aim window display style" ),
@@ -1785,14 +1808,24 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
+    add( "ENABLE_ASCII_TITLE", "graphics",
+         to_translation( "Enable ASCII art on the title screen" ),
+         to_translation( "If true, shows an ASCII graphic on the title screen.  If false, shows a text-only title screen." ),
+         true
+       );
+
     add( "SEASONAL_TITLE", "graphics", to_translation( "Use seasonal title screen" ),
          to_translation( "If true, the title screen will use the art appropriate for the season." ),
          true
        );
 
+    get_option( "SEASONAL_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
+
     add( "ALT_TITLE", "graphics", to_translation( "Alternative title screen frequency" ),
          to_translation( "Set the probability of the alternate title screen appearing." ), 0, 100, 10
        );
+
+    get_option( "ALT_TITLE" ).setPrerequisite( "ENABLE_ASCII_TITLE" );
 
     add_empty_line();
 
@@ -1900,6 +1933,11 @@ void options_manager::add_options_graphics()
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
 
     add_empty_line();
+
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+         to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
+         true, COPT_CURSES_HIDE
+       );
 
     add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map overlay preset" ),
     to_translation( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
@@ -2189,12 +2227,12 @@ void options_manager::add_options_world_default()
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
-         to_translation( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         to_translation( "How many days into the year the Cataclysm ended.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
          -1, 999, 60
        );
 
     add( "SPAWN_DELAY", "world_default", to_translation( "Spawn delay" ),
-         to_translation( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         to_translation( "How many days after the end of the Cataclysm the player spawns.  Day 0 is immediately after the end of the Cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
          0, 9999, 0
        );
 
@@ -2211,6 +2249,14 @@ void options_manager::add_options_world_default()
     add( "ETERNAL_SEASON", "world_default", to_translation( "Eternal season" ),
          to_translation( "Keep the initial season for ever." ),
          false
+       );
+
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
        );
 
     add_empty_line();
@@ -2326,6 +2372,13 @@ void options_manager::add_options_android()
          to_translation( "If true, the back button will NOT back out of the app and will be passed to the application as SDL_SCANCODE_AC_BACK.  Requires restart." ),
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
+       );
+
+
+    add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
+         to_translation( "If true, native Android dialogs are used for some in-game menus, "
+                         "such as popup messages and yes/no dialogs." ),
+         android_get_default_setting( "Native Android UI", true )
        );
 
     add( "ANDROID_AUTO_KEYBOARD", "android", to_translation( "Auto-manage virtual keyboard" ),
@@ -2808,8 +2861,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                        value );
         }
 
-        draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+        scrollbar()
+        .offset_x( 0 )
+        .offset_y( iTooltipHeight + 2 + iWorldOffset )
+        .content_size( page_items.size() )
+        .viewport_pos( iStartPos )
+        .viewport_size( iContentHeight )
+        .apply( w_options_border );
+
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
@@ -3081,6 +3140,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {

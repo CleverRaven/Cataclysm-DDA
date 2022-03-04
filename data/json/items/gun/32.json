@@ -36,16 +36,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "sigp230mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ]
   },
   {
     "id": "skorpion_61",
@@ -87,15 +78,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "skorpion61mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ]
   },
   {
     "id": "walther_ppk",
@@ -135,16 +118,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ppkmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
   },
   {
     "id": "kp32",
@@ -167,15 +141,6 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,
-    "pocket_data": [
-      {
-        "magazine_well": "41 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "kp32mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
   }
 ]

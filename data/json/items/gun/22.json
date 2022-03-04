@@ -36,17 +36,12 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ] }
     ]
   },
   {
@@ -86,11 +81,19 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 }, "allowed_speedloaders": [ "marlin_tubeloader" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "22": 19 },
+        "allowed_speedloaders": [ "marlin_tubeloader" ]
+      }
+    ]
   },
   {
     "id": "moss_brownie",
@@ -207,18 +210,12 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ]
-      }
+      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
     ]
   },
   {
@@ -234,7 +231,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "22": 8 },
         "allowed_speedloaders": [ "22_speedloader8" ]
@@ -280,16 +276,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mosquitomag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ]
   },
   {
     "id": "sw_22",
@@ -313,16 +300,7 @@
     "durability": 7,
     "min_cycle_recoil": 39,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "sw22mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sw22mag" ] } ]
   },
   {
     "id": "j22",
@@ -345,16 +323,7 @@
     "durability": 5,
     "min_cycle_recoil": 39,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "magazine_well": "27 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "j22mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ]
   },
   {
     "id": "walther_p22",
@@ -376,15 +345,6 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "pocket_data": [
-      {
-        "magazine_well": "126 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "wp22mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
   }
 ]

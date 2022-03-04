@@ -21,7 +21,10 @@
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ] ] ]
+    "components": [
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ], [ "liquid_soap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -49,31 +52,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "chem_sulphuric_acid",
-    "id_suffix": "from batteries",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 2,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [
-        [ "light_minus_battery_cell", 20 ],
-        [ "light_battery_cell", 10 ],
-        [ "light_plus_battery_cell", 5 ],
-        [ "medium_battery_cell", 2 ],
-        [ "medium_plus_battery_cell", 2 ],
-        [ "heavy_battery_cell", 1 ],
-        [ "heavy_plus_battery_cell", 1 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "tallow_tainted",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -81,7 +59,7 @@
     "difficulty": 2,
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "fat_tainted", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -124,20 +102,6 @@
     "reversible": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "rolling_paper", 1 ] ], [ [ "weed", 1 ], [ "joint_roach", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "meth",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_DRUGS",
-    "skill_used": "chemistry",
-    "difficulty": 5,
-    "time": "20 m",
-    "book_learn": [ [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ], [ "recipe_labchem", 5 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "dayquil", 2 ] ], [ [ "aspirin", 40 ] ], [ [ "caffeine", 20 ], [ "adderall", 5 ], [ "energy_drink", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -406,14 +370,13 @@
     "subcategory": "CSC_CHEM_DRUGS",
     "skill_used": "chemistry",
     "difficulty": 6,
-    "time": "2 m",
+    "batch_time_factors": [ 40, 6 ],
+    "charges": 3,
+    "time": "2 h",
     "book_learn": [ [ "textbook_chemistry", 7 ], [ "adv_chemistry", 7 ], [ "atomic_survival", 6 ], [ "recipe_labchem", 6 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "salt_water", 1 ], [ "salt", 10 ], [ "saline", 5 ] ],
-      [ [ "codeine", 25 ], [ "morphine", 3 ], [ "oxycodone", 2 ] ]
-    ]
+    "components": [ [ [ "acetic_anhydride", 1 ] ], [ [ "morphine", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -686,7 +649,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ] ]
     ]
@@ -927,7 +890,8 @@
     "charges": 100,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
   },
   {
@@ -1005,8 +969,28 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "charges": 470,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_black_powder",
+    "id_suffix": "sulpherless",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "charges": 421,
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [
+      [ [ "chem_saltpetre", 10 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "chem_ethanol", 83 ], [ "chem_methanol", 83 ], [ "ether", 83 ], [ "denat_alcohol", 83 ] ],
+      [ [ "charcoal", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1034,13 +1018,16 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "chem_match_head_powder",
+    "result": "red_phosphorous",
+    "charges": 5,
+    "batch_time_factors": [ 60, 5 ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "fabrication",
-    "time": "8 m",
+    "time": "10 m",
     "autolearn": true,
-    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "matches", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1114,7 +1101,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "denat_alcohol", 1000 ] ] ]
+    "components": [ [ [ "methed_alcohol", 1000 ] ] ]
   },
   {
     "type": "recipe",
@@ -1634,10 +1621,10 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "20 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "autolearn": true,
     "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
-    "tools": [ [ [ "mortar_pestle", -1 ], [ "funnel", -1 ] ] ],
+    "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
@@ -1649,8 +1636,7 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "3 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "spurge", 20 ] ] ]
   },
   {

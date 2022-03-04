@@ -33,8 +33,8 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         case 'm':
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                [&filter]( const material_id & mat ) {
-                    return lcmatch( mat->name(), filter );
+                [&filter]( const std::pair<material_id, int> &mat ) {
+                    return lcmatch( mat.first->name(), filter );
                 } );
             };
         // qualities
@@ -80,7 +80,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // by name
         default:
             return [filter]( const item & a ) {
-                return lcmatch( a.tname(), filter );
+                return lcmatch( remove_color_tags( a.tname() ), filter );
             };
     }
 }

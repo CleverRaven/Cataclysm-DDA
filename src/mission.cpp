@@ -40,6 +40,10 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const itype_id itype_null( "null" );
+
+static const mission_type_id mission_NULL( "NULL" );
+
 mission mission_type::create( const character_id &npc_id ) const
 {
     mission ret;
@@ -369,7 +373,7 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_null, specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
                 comps.emplace_back( cnt.first, cnt.second );
@@ -430,12 +434,12 @@ bool mission::is_complete( const character_id &_npc_id ) const
     switch( type->goal ) {
         case MGOAL_GO_TO: {
             const tripoint_abs_omt cur_pos = player_character.global_omt_location();
-            return ( rl_dist( cur_pos, target ) <= 1 );
+            return rl_dist( cur_pos, target ) <= 1;
         }
 
         case MGOAL_GO_TO_TYPE: {
             const auto cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
-            return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
+            return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
@@ -449,7 +453,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_null, specific_container_required );
 
             int total_match = std::accumulate( matches.begin(), matches.end(), 0,
             []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
@@ -625,7 +629,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
             get_all_item_group_matches(
                 content, grp_type, matches,
-                required_container, ( itm->typeId() ), specific_container_required );
+                required_container, itm->typeId(), specific_container_required );
         }
     }
 }
@@ -759,7 +763,7 @@ std::string mission::name() const
 mission_type_id mission::mission_id() const
 {
     if( type == nullptr ) {
-        return mission_type_id( "NULL" );
+        return mission_NULL;
     }
     return type->id;
 }
@@ -789,8 +793,9 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
         return response->second.translated();
     }
 
-    return string_format( "Someone forgot to code this message id is %s, topic is %s!",
-                          type->id.c_str(), topic.c_str() );
+    debugmsg( "Someone forgot to code this message id is %s, topic is %s!",
+              type->id.c_str(), topic.c_str() );
+    return "";
 }
 
 mission::mission()

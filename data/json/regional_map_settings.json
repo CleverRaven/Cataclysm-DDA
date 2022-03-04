@@ -266,6 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
+        "terrains": [ "forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -291,12 +292,31 @@
               "t_pit_shallow": 1
             }
           },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_puddle": 1 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
       },
       "forest_thick": {
+        "terrains": [
+          "forest_thick",
+          "forest_trail_isolated",
+          "forest_trail_end_north",
+          "forest_trail_end_east",
+          "forest_trail_end_south",
+          "forest_trail_end_west",
+          "forest_trail_ns",
+          "forest_trail_ew",
+          "forest_trail_ne",
+          "forest_trail_es",
+          "forest_trail_sw",
+          "forest_trail_wn",
+          "forest_trail_new",
+          "forest_trail_nsw",
+          "forest_trail_esw",
+          "forest_trail_nes",
+          "forest_trail_nesw"
+        ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -322,12 +342,13 @@
               "t_pit_shallow": 1
             }
           },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_puddle": 1 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
       },
       "forest_water": {
+        "terrains": [ "forest_water" ],
         "sparseness_adjacency_factor": 2,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -375,10 +396,15 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 } }
+          "water": {
+            "sequence": 3,
+            "chance": 2,
+            "clear_types": false,
+            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
+          }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": { "t_water_sh": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
+        "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
       }
     },
     "forest_trail_settings": {
@@ -414,11 +440,13 @@
           "mx_grass2": 40,
           "mx_fallen_shed": 30,
           "mx_spider": 200,
-          "mx_nest_wasp": 100,
+          "mx_nest_wasp": 50,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
+          "mx_pond_forest": 125,
+          "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
@@ -446,12 +474,14 @@
           "mx_fallen_shed": 20,
           "mx_shia": 1,
           "mx_spider": 200,
-          "mx_nest_wasp": 100,
+          "mx_nest_wasp": 25,
           "mx_jabberwock": 1,
           "mx_grove": 500,
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
+          "mx_pond_forest": 125,
+          "mx_pond_forest_2": 125,
           "mx_clay_deposit": 125,
           "mx_point_dead_vegetation": 500,
           "mx_point_burned_ground": 500,
@@ -479,11 +509,13 @@
           "mx_grass": 10,
           "mx_grass2": 20,
           "mx_pond": 240,
+          "mx_pond_swamp": 240,
+          "mx_pond_swamp_2": 240,
           "mx_clay_deposit": 140,
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-          "mx_nest_dermatik": 50,
+          "mx_nest_dermatik": 75,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1
         }
@@ -505,6 +537,7 @@
           "mx_grass2": 350,
           "mx_trees": 50,
           "mx_trees2": 80,
+          "mx_Trapdoor_spider_den": 4,
           "mx_fallen_shed": 20,
           "mx_pond": 20,
           "mx_point_burned_ground": 50,
@@ -705,6 +738,7 @@
         "house_garage8": 50,
         "rural_house1": 50,
         "rural_house2": 50,
+        "garden_house_1": 50,
         "house_toolshed": 50,
         "house_suicide": 20,
         "house_quiverfull": 30,
@@ -763,6 +797,7 @@
         "park_5": 50,
         "park_6": 50,
         "park_7": 50,
+        "pool": 20,
         "pool_1": 20,
         "pool_2": 20,
         "pool_3": 20,
@@ -817,6 +852,7 @@
         "craft_shop": 200,
         "craft_shop_1": 200,
         "craft_shop_2": 200,
+        "craft_shop_3": 200,
         "s_gas": 500,
         "s_gas_1": 500,
         "s_pharm": 300,
@@ -836,11 +872,15 @@
         "gym_fitness_1": 200,
         "s_liquor": 500,
         "s_gun": 200,
+        "s_gun_looted": 200,
         "s_gun_1": 200,
         "s_gun_2": 200,
         "s_gun_3": 200,
+        "s_gun_3_looted": 200,
         "s_gun_4": 200,
+        "s_gun_4_looted": 200,
         "s_gunstore": 200,
+        "s_gunstore_looted": 200,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,
@@ -904,15 +944,17 @@
         "police": 100,
         "police_1": 100,
         "police_2": 100,
+        "police_dept": 1250,
         "fire_station": 200,
         "fire_station_1": 200,
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
         "s_games": 200,
-        "s_jewelry": 200,
+        "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
+        "s_dive_shop": 300,
         "museum": 100,
         "s_music": 200,
         "s_laundromat": 100,
@@ -1028,7 +1070,9 @@
         "lightning",
         "flurries",
         "snowing",
-        "snowstorm"
+        "snowstorm",
+        "early_portal_storm",
+        "portal_storm"
       ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }

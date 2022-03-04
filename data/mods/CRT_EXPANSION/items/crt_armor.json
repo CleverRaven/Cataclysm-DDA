@@ -28,6 +28,7 @@
     "weight": "1500 g",
     "price": 250000,
     "warmth": 40,
+    "material": [ "rubber", "superalloy", "nomex" ],
     "material_thickness": 5,
     "environmental_protection": 5,
     "armor": [ { "encumbrance": 17, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
@@ -93,8 +94,8 @@
     "id": "crt_chestrig",
     "copy-from": "chestrig",
     "type": "ARMOR",
-    "name": "CRIT chestrig",
-    "description": "A slightly modified chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
+    "name": "CRIT chest rig",
+    "description": "A slightly modified chest rig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
@@ -276,7 +277,7 @@
     "weight": "42563 g",
     "volume": "12500 ml",
     "price": 100000000,
-    "material": [ "hardsteel", "kevlar" ],
+    "material": [ "qt_steel", "kevlar" ],
     "symbol": "[",
     "color": "light_green",
     "warmth": 25,

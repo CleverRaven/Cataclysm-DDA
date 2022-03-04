@@ -78,6 +78,15 @@ enum class mod : int {
     ARMOR_ELEC,
     ARMOR_ACID,
     ARMOR_BIO,
+    EXTRA_BASH,
+    EXTRA_CUT,
+    EXTRA_STAB,
+    EXTRA_BULLET,
+    EXTRA_HEAT,
+    EXTRA_COLD,
+    EXTRA_ELEC,
+    EXTRA_ACID,
+    EXTRA_BIO,
     // effects for the item that has the enchantment
     ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
@@ -177,6 +186,8 @@ class enchantment
         void activate_passive( Character &guy ) const;
 
         enchantment_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<enchantment_id, mod_id>> src;
 
         bool was_loaded = false;
 

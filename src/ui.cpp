@@ -23,6 +23,7 @@
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -288,6 +289,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     input_category = "UILIST";
+    input_context ctxt( input_category, keyboard_mode::keychar );
     additional_actions.clear();
 }
 
@@ -296,26 +298,25 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( !filtering || filter.empty() );
-    int num_entries = entries.size();
     // TODO: && is_all_lc( filter )
-    bool nocase = filtering_nocase;
-    std::string fstr;
-    fstr.reserve( filter.size() );
-    if( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
-    } else {
-        fstr = filter;
-    }
     fentries.clear();
     fselected = -1;
     int f = 0;
-    for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch( entries[i].txt, fstr ) ) {
-            fentries.push_back( i );
+    for( size_t i = 0; i < entries.size(); i++ ) {
+        bool visible = true;
+        if( filtering && !filter.empty() ) {
+            if( filtering_nocase ) {
+                // case-insensitive match
+                visible = lcmatch( entries[i].txt, filter );
+            } else {
+                // case-sensitive match
+                visible = entries[i].txt.find( filter ) != std::string::npos;
+            }
+        }
+        if( visible ) {
+            fentries.push_back( static_cast<int>( i ) );
             if( hilight_disabled || entries[i].enabled ) {
-                if( i == selected || ( i > selected && fselected == -1 ) ) {
+                if( static_cast<int>( i ) == selected || ( static_cast<int>( i ) > selected && fselected == -1 ) ) {
                     // Either this is selected, or we are past the previously selected entry,
                     // which has been filtered out, so choose another nearby entry instead.
                     fselected = f;
@@ -348,7 +349,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -417,10 +418,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
     return min_width;
 }
 
-/**
- * Calculate sizes, populate arrays, initialize window
- */
-void uilist::setup()
+void uilist::calc_data()
 {
     bool w_auto = !w_width_setup.fun;
 
@@ -463,7 +461,7 @@ void uilist::setup()
         int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
-                autoassign.emplace_back( i );
+                autoassign.emplace_back( static_cast<int>( i ) );
             } else if( entries[i].hotkey.value() != input_event() ) {
                 keymap[entries[i].hotkey.value()] = i;
             }
@@ -492,8 +490,9 @@ void uilist::setup()
             entries[ i ].text_color = text_color;
         }
     }
-    input_context ctxt( input_category );
-    const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
+
+    const hotkey_queue &hotkeys = hotkey_queue::create_from_available_hotkeys( ctxt );
+
     input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
     for( auto it = autoassign.begin(); it != autoassign.end() &&
          hotkey != input_event(); ++it ) {
@@ -601,6 +600,11 @@ void uilist::setup()
     } else {
         w_y  = w_y_setup.fun( w_height );
     }
+}
+
+void uilist::setup()
+{
+    calc_data();
 
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
@@ -625,7 +629,7 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
+    int sbside = pad_left <= 0 ? 0 : w_width - 1;
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -784,6 +788,10 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -scroll_rate;
     } else if( action == "SCROLL_UP" ) {
         return -3;
+    } else if( action == "HOME" ) {
+        return -fselected;
+    } else if( action == "END" ) {
+        return entries.size() - fselected;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -804,8 +812,8 @@ bool uilist::scrollby( const int scrollby )
         return false;
     }
 
-    bool looparound = ( scrollby == -1 || scrollby == 1 );
-    bool backwards = ( scrollby < 0 );
+    bool looparound = scrollby == -1 || scrollby == 1;
+    bool backwards = scrollby < 0;
     int recmax = static_cast<int>( fentries.size() );
 
     fselected += scrollby;
@@ -875,6 +883,73 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
  */
 void uilist::query( bool loop, int timeout )
 {
+#if defined(__ANDROID__)
+    bool auto_pos = w_x_setup.fun == nullptr && w_y_setup.fun == nullptr &&
+                    w_width_setup.fun == nullptr && w_height_setup.fun == nullptr;
+
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && auto_pos ) {
+        if( !started ) {
+            calc_data();
+            started = true;
+        }
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID list_menu_method_id = env->GetMethodID( native_ui_cls, "singleChoiceList",
+                                        "(Ljava/lang/String;[Ljava/lang/String;[Z)I" );
+        jstring jstr_message = env->NewStringUTF( text.c_str() );
+        jobjectArray j_options = env->NewObjectArray( entries.size(), env->FindClass( "java/lang/String" ),
+                                 env->NewStringUTF( "" ) );
+        jbooleanArray j_enabled = env->NewBooleanArray( entries.size() );
+        jboolean *n_enabled = new jboolean[entries.size()];
+        for( std::size_t i = 0; i < entries.size(); i++ ) {
+            std::string entry = remove_color_tags( entries[i].txt );
+            if( !entries[i].ctxt.empty() ) {
+                std::string ctxt = remove_color_tags( entries[i].ctxt );
+                while( !ctxt.empty() && ctxt.back() == '\n' ) {
+                    ctxt.pop_back();
+                }
+                if( !ctxt.empty() ) {
+                    str_append( entry, "\n", ctxt );
+                }
+            }
+            if( desc_enabled ) {
+                std::string desc = remove_color_tags( entries[i].desc );
+                while( !desc.empty() && desc.back() == '\n' ) {
+                    desc.pop_back();
+                }
+                if( !desc.empty() ) {
+                    str_append( entry, "\n", desc );
+                }
+            }
+            env->SetObjectArrayElement( j_options, i, env->NewStringUTF( entry.c_str() ) );
+            n_enabled[i] = entries[i].enabled;
+        }
+        env->SetBooleanArrayRegion( j_enabled, 0, entries.size(), n_enabled );
+        int j_ret = env->CallIntMethod( native_ui_obj, list_menu_method_id, jstr_message, j_options,
+                                        j_enabled );
+        env->DeleteLocalRef( j_enabled );
+        env->DeleteLocalRef( j_options );
+        env->DeleteLocalRef( jstr_message );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        delete[] n_enabled;
+        if( j_ret == -1 ) {
+            ret = UILIST_CANCEL;
+        } else if( 0 <= j_ret && j_ret < entries.size() ) {
+            ret = entries[j_ret].retval;
+        } else {
+            ret = UILIST_ERROR;
+        }
+        return;
+    }
+#endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
@@ -882,10 +957,12 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keycode );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {

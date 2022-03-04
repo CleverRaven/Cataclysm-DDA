@@ -8,6 +8,7 @@
 *.tmp
 *.zip
 *.apk
+*.log
 /WinDepend/
 /bindist/
 /build/
@@ -36,7 +37,7 @@ CataclysmWin.layout
 cata_test
 cata_test-tiles
 cataclysm
-cataclysm-tiles
+*cataclysm-tiles
 cataclysm-vcpkg
 cataclysmdda-*
 chkjson*
@@ -51,17 +52,20 @@ json_formatter
 *.opensdf
 *.pdb
 *.lib
+*.manifest
 *.sdf
 *.suo
 *.user
 *.vcxproj.filters
+*.lastbuildstate
 .vs/
 .vscode/
-Debug*/
-Release*/
 
-# Distribution script results
-/msvc-full-features/distribution
+# Visual Studio project files
+/msvc-full-features/**/
+
+# Temporary CMakeFiles
+out/
 
 # Visual Studio 2015
 /msvc-full-features/*db
@@ -72,8 +76,10 @@ Cataclysm.exe.lastcodeanalysissucceeded
 #Visual Studio 2017
 /msvc-full-features/PredictedInputCache_Debug_x64.dat
 
+# Visual Studio 2019
+**/enc_temp_folder/*
+
 #vcpkg
-/msvc-full-features/vcpkg_installed
 /msvc-object_creator/vcpkg_installed
 
 # PVS Studio
@@ -95,7 +101,7 @@ cscope.*
 tags
 
 # Generated translation source
-/lang/po/cataclysm-dda.pot
+/lang/po/*.pot
 /lang/po/en.po
 
 # Compiled binary translations
@@ -112,6 +118,7 @@ tags
 nbproject/
 
 # Python runtime files
+__pycache__
 *.pyc
 
 # vim files

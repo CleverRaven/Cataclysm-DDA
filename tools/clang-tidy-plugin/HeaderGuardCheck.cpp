@@ -34,7 +34,7 @@ static std::string cleanPath( StringRef Path )
 static bool pathExists( const std::string &path )
 {
     struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    return stat( path.c_str(), &buffer ) == 0;
 }
 
 static bool isHeaderFileName( StringRef FileName )

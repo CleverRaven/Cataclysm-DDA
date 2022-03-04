@@ -219,5 +219,24 @@
     "environmental_protection": 1,
     "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
+  },
+  {
+    "id": "santa_beard",
+    "type": "ARMOR",
+    "name": { "str": "white beard" },
+    "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
+    "weight": "200 g",
+    "volume": "150 ml",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "white",
+    "warmth": 8,
+    "material_thickness": 0.1,
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
   }
 ]

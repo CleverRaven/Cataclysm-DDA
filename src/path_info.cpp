@@ -7,6 +7,7 @@
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
+#include "system_language.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -33,6 +34,7 @@ static std::string datadir_value;
 static std::string base_path_value;
 static std::string savedir_value;
 static std::string autopickup_value;
+static std::string autonote_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
@@ -119,6 +121,7 @@ void PATH_INFO::set_standard_filenames()
     options_value = config_dir_value + "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
+    autonote_value = config_dir_value + "auto_note.json";
 }
 
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
@@ -142,6 +145,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 std::string PATH_INFO::autopickup()
 {
     return autopickup_value;
+}
+std::string PATH_INFO::autonote()
+{
+    return autonote_value;
 }
 std::string PATH_INFO::base_colors()
 {
@@ -182,6 +189,10 @@ std::string PATH_INFO::defaultsounddir()
 std::string PATH_INFO::defaulttilejson()
 {
     return "tile_config.json";
+}
+std::string PATH_INFO::defaultlayeringjson()
+{
+    return "layering.json";
 }
 std::string PATH_INFO::defaulttilepng()
 {
@@ -344,6 +355,10 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
+
+    if( !get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+        return _( "Cataclysm: Dark Days Ahead" );
+    }
 
     if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
         theme_extension = ".alt1";

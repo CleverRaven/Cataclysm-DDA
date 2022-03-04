@@ -6,6 +6,9 @@
     "items": [
       { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
       { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
+      { "item": "voltmeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "multimeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "emf_detector", "prob": 20, "charges": [ 0, 100 ] },
       [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
@@ -25,6 +28,7 @@
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
+      [ "extension_cable", 45 ],
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "recharge_station", 20 ],
@@ -99,6 +103,22 @@
     ]
   },
   {
+    "id": "hardware_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ]
+    ]
+  },
+  {
     "id": "supplies_plumbing",
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",
@@ -118,6 +138,7 @@
       [ "superglue", 100 ],
       [ "string_6", 100 ],
       [ "string_36", 100 ],
+      [ "rubber_cement", 50 ],
       [ "rope_6", 100 ],
       [ "rope_30", 50 ],
       [ "water_faucet", 100 ],
@@ -145,6 +166,7 @@
       { "item": "metal_tank_little", "prob": 50, "count": [ 1, 2 ] },
       [ "metal_tank", 10 ],
       [ "jerrycan", 10 ],
+      [ "rubber_cement", 50 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
       { "item": "scrap_copper", "prob": 15, "count": [ 1, 12 ] },
@@ -215,6 +237,7 @@
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
+      [ "rubber_cement", 25 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -256,11 +279,13 @@
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
-      [ "denat_alcohol", 5 ],
+      [ "denat_alcohol", 3 ],
+      [ "methed_alcohol", 2 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "gas_forge", 15 ]
     ]
   },
   {
@@ -292,6 +317,8 @@
       { "item": "chem_formaldehyde", "prob": 10, "charges-min": 1 },
       { "item": "chem_acetone", "prob": 10, "charges-min": 1 },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
+      { "item": "mercury", "prob": 10, "charges-min": 100 },
+      { "item": "chem_sodium", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
@@ -299,14 +326,15 @@
       { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges-min": 1 },
       [ "material_rocksalt", 2 ],
       { "item": "ether", "prob": 10, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+      { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
+      { "item": "methed_alcohol", "prob": 4, "charges-min": 250 },
       { "item": "chem_DMSO", "prob": 10, "charges-min": 100 },
       { "item": "chem_phenol", "prob": 10, "charges-min": 100 },
       { "item": "chem_glycerol", "prob": 10, "charges-min": 10 },
       { "item": "chem_peptone_broth", "prob": 10, "charges-min": 1 },
       { "item": "chem_agar", "prob": 10, "charges-min": 1 },
       { "item": "chem_acrylamide", "prob": 10, "charges-min": 1 },
-      [ "oxygen_tank", 6 ],
+      { "item": "oxygen_tank", "prob": 6, "charges": 24 },
       [ "nitrogen_tank", 7 ],
       [ "hydrogen_tank", 8 ],
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
@@ -328,7 +356,24 @@
       { "item": "lung", "prob": 10, "count": [ 1, 3 ] },
       { "item": "kidney", "prob": 10, "count": [ 1, 3 ] },
       { "item": "liver", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "mouse_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "rat_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "meat_tainted", "prob": 30, "count": [ 1, 3 ] },
       { "item": "brain", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "rabbit_foot", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "snail_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "frog_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "insect_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "bovine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "spider_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "molerat_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "reptile_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "ursine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "beast_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "human_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "cephalopod_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },
@@ -349,12 +394,14 @@
     "//": "Combustible fuels within their default containers",
     "items": [
       [ "chem_ethanol", 10 ],
-      [ "denat_alcohol", 20 ],
+      [ "denat_alcohol", 12 ],
+      [ "denat_alcohol", 8 ],
       [ "chem_methanol", 10 ],
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
-      [ "lamp_oil", 100 ]
+      [ "lamp_oil", 100 ],
+      [ "propane", 75 ]
     ]
   },
   {
@@ -371,7 +418,13 @@
       { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 12 ] },
       { "item": "wire", "prob": 5 },
-      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
+      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
+      { "item": "lc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "lc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "mc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "mc_steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "hc_steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "hc_steel_chunk", "prob": 15, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -395,6 +448,7 @@
       [ "motor", 2 ],
       [ "wheel", 10 ],
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
+      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],
       [ "wheel_bicycle", 10 ],
@@ -456,7 +510,8 @@
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
       [ "solar_panel", 3 ],
-      [ "recharge_station", 8 ]
+      [ "recharge_station", 8 ],
+      [ "gas_forge", 2 ]
     ]
   },
   {
@@ -469,6 +524,7 @@
       [ "filter_air", 60 ],
       [ "filter_liquid", 60 ],
       [ "glowplug", 10 ],
+      [ "rubber_cement", 25 ],
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
@@ -596,7 +652,7 @@
     "type": "item_group",
     "items": [
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "pen", "prob": 15, "charges": [ 0, 300 ] },
+      { "item": "pen", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "pencil", "prob": 35, "charges": [ 0, 100 ] },
       { "item": "black_pen", "prob": 35, "charges": [ 0, 100 ] },
       { "item": "blue_pen", "prob": 20, "charges": [ 0, 100 ] },

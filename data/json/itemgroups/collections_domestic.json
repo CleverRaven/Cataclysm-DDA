@@ -126,6 +126,7 @@
       { "item": "multi_cooker", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "char_smoker", "prob": 5, "charges-min": 0 },
       [ "can_sealer", 2 ],
+      [ "oil_press_manual", 2 ],
       [ "atomic_coffeepot", 1 ]
     ]
   },
@@ -169,7 +170,11 @@
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
-        "prob": 10
+        "prob": 6
+      },
+      {
+        "collection": [ { "item": "methed_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
+        "prob": 4
       },
       { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
     ]
@@ -217,7 +222,8 @@
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_muriatic_acid", "prob": 15 },
-      { "item": "denat_alcohol", "prob": 10 },
+      { "item": "denat_alcohol", "prob": 6 },
+      { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
       { "item": "butane_can", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
@@ -414,6 +420,7 @@
       { "group": "alcohol", "prob": 163 },
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 36, "charges-min": 0 },
+      { "item": "waterproof_smart_phone_case", "prob": 5 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "umbrella", "prob": 50 },
@@ -445,6 +452,9 @@
       { "item": "phonebook", "prob": 5 },
       { "item": "survnote", "prob": 1 },
       { "group": "toy_radio_car", "prob": 2 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
       { "item": "radiocontrol", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "magnifying_glass", "prob": 2 },
       { "item": "straw_hat", "prob": 5 },
@@ -577,6 +587,7 @@
       { "item": "gelatin_dessert_powder", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
       { "item": "bread", "prob": 14 },
+      { "item": "bread_garlic", "prob": 7 },
       { "item": "cornbread", "prob": 7 },
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
@@ -592,7 +603,7 @@
       { "item": "pudding", "prob": 10 },
       { "item": "gelatin_dessert_processed", "prob": 10 },
       { "item": "veggy_pickled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 5, "charges": 4, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 4, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 6, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "ghee", "prob": 5 },
@@ -782,10 +793,10 @@
       { "item": "jam_fruit", "prob": 10 },
       { "item": "juice", "prob": 50 },
       { "item": "potato", "prob": 10 },
-      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 40, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "vinegar", "prob": 15 },
       { "item": "veggy_pickled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 5, "charges": 4, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "bacon", "prob": 25 },
       { "item": "lunchmeat", "prob": 45 },
       { "item": "bologna", "prob": 45 },
@@ -970,6 +981,7 @@
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
       { "item": "corset", "prob": 15 },
+      { "item": "corset_waist", "prob": 15 },
       { "item": "firehelmet", "prob": 1 },
       { "item": "bunker_coat", "prob": 1 },
       { "item": "bunker_pants", "prob": 1 },
@@ -984,6 +996,7 @@
       { "item": "smoxygen_tank", "prob": 2, "charges": [ 0, 12 ] },
       { "item": "alarmclock", "prob": 30 },
       { "item": "maid_dress", "prob": 3 },
+      { "item": "maid_dress_short", "prob": 3 },
       { "item": "maid_hat", "prob": 3 },
       { "group": "religious_books", "prob": 38 },
       { "item": "mouthpiece", "prob": 1 },
@@ -995,6 +1008,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
     ]

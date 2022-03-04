@@ -39,6 +39,7 @@
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 #endif
 
@@ -695,6 +696,26 @@ int border_helper::border_connection::as_curses_line() const
 
 bool query_yn( const std::string &text )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "queryYN", "(Ljava/lang/String;)Z" );
+        jstring jstr = env->NewStringUTF( text.c_str() );
+        bool result = env->CallBooleanMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return result;
+    }
+#endif // defined(__ANDROID__)
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
@@ -747,6 +768,26 @@ std::vector<std::string> get_hotkeys( const std::string &s )
 
 int popup( const std::string &text, PopupFlags flags )
 {
+#if defined(__ANDROID__)
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && flags == PF_NONE ) {
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID queryYN_method_id = env->GetMethodID( native_ui_cls, "popup", "(Ljava/lang/String;)V" );
+        jstring jstr = env->NewStringUTF( remove_color_tags( text ).c_str() );
+        env->CallVoidMethod( native_ui_obj, queryYN_method_id, jstr );
+        env->DeleteLocalRef( jstr );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        return UNKNOWN_UNICODE;
+    }
+#endif
     query_popup pop;
     pop.preferred_keyboard_mode( keyboard_mode::keychar );
     pop.message( "%s", text );
@@ -915,16 +956,23 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 for( const iteminfo &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( i.sName == k.sName && i.sType == k.sType ) {
-                            if( i.dValue > k.dValue - .1 &&
-                                i.dValue < k.dValue + .1 ) {
+                            double iVal = i.dValue;
+                            double kVal = k.dValue;
+                            if( i.sFmt != k.sFmt ) {
+                                // Different units, compare unit adjusted vals
+                                iVal = i.dUnitAdjustedVal;
+                                kVal = k.dUnitAdjustedVal;
+                            }
+                            if( iVal > kVal - .01 &&
+                                iVal < kVal + .01 ) {
                                 thisColor = c_light_gray;
-                            } else if( i.dValue > k.dValue ) {
+                            } else if( iVal > kVal ) {
                                 if( i.bLowerIsBetter ) {
                                     thisColor = c_light_red;
                                 } else {
                                     thisColor = c_light_green;
                                 }
-                            } else if( i.dValue < k.dValue ) {
+                            } else if( iVal < kVal ) {
                                 if( i.bLowerIsBetter ) {
                                     thisColor = c_light_green;
                                 } else {
@@ -1279,15 +1327,15 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), ( bSelected ) ? h_light_gray : c_light_gray, sText );
+    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_white : c_light_gray, sText );
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
     }
 
     if( bSelected ) {
-        mvwputch( w, point( iOffsetX - 1, 1 ),      h_light_gray, '<' );
-        mvwputch( w, point( iOffsetXRight + 1, 1 ), h_light_gray, '>' );
+        mvwputch( w, point( iOffsetX - 1, 1 ),      h_white, '<' );
+        mvwputch( w, point( iOffsetXRight + 1, 1 ), h_white, '>' );
 
         for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
             mvwputch( w, point( i, 2 ), c_black, ' ' );
@@ -1309,15 +1357,15 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
     if( !bDisabled ) {
-        mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_light_gray : c_light_gray, sText );
+        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_white : c_light_gray, sText );
     } else {
-        mvwprintz( w, point( iOffsetX + 1, 0 ), ( bSelected ) ? h_dark_gray : c_dark_gray, sText );
+        mvwprintz( w, point( iOffsetX + 1, 0 ), bSelected ? h_dark_gray : c_dark_gray, sText );
     }
 
     if( bSelected ) {
         if( !bDisabled ) {
-            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_light_gray, '<' );
-            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_light_gray, '>' );
+            mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_white, '<' );
+            mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_white, '>' );
         } else {
             mvwputch( w, point( iOffsetX - bDecorate, 0 ),      h_dark_gray, '<' );
             mvwputch( w, point( iOffsetXRight + bDecorate, 0 ), h_dark_gray, '>' );
@@ -1798,6 +1846,53 @@ void replace_city_tag( std::string &input, const std::string &name )
     replace_substring( input, "<city>", name, true );
 }
 
+void replace_keybind_tag( std::string &input )
+{
+    std::string keybind_tag_start = "<keybind:";
+    size_t keybind_length = keybind_tag_start.length();
+    std::string keybind_tag_end = ">";
+
+    size_t pos = input.find( keybind_tag_start );
+    while( pos != std::string::npos ) {
+        size_t pos_end = input.find( keybind_tag_end, pos );
+        if( pos_end == std::string::npos ) {
+            debugmsg( "Mismatched keybind tag in string: '%s'", input );
+            break;
+        }
+        size_t pos_keybind = pos + keybind_length;
+        std::string keybind_full = input.substr( pos_keybind, pos_end - pos_keybind );
+        std::string keybind = keybind_full;
+
+        size_t pos_category_split = keybind_full.find( ':' );
+
+        std::string category = "DEFAULTMODE";
+        if( pos_category_split != std::string::npos ) {
+            category = keybind_full.substr( 0, pos_category_split );
+            keybind = keybind_full.substr( pos_category_split + 1 );
+        }
+        input_context ctxt( category );
+
+        std::string keybind_desc;
+        std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
+        if( keys.empty() ) { // Display description for unbound keys
+            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+
+            if( !ctxt.is_registered_action( keybind ) ) {
+                debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
+            }
+        } else {
+            keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
+                return colorize( '\'' + k.long_description() + '\'', c_yellow );
+            }, enumeration_conjunction::or_ );
+        }
+        std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
+                                                keybind_tag_end );
+        replace_substring( input, to_replace, keybind_desc, true );
+
+        pos = input.find( keybind_tag_start );
+    }
+}
+
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
@@ -1812,16 +1907,18 @@ void replace_substring( std::string &input, const std::string &substring,
     }
 }
 
-//wrap if for i18n
-std::string &capitalize_letter( std::string &str, size_t n )
+std::string uppercase_first_letter( const std::string &str )
 {
-    char c = str[n];
-    if( !str.empty() && c >= 'a' && c <= 'z' ) {
-        c += 'A' - 'a';
-        str[n] = c;
-    }
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towupper( wstr[0] );
+    return wstr_to_utf8( wstr );
+}
 
-    return str;
+std::string lowercase_first_letter( const std::string &str )
+{
+    std::wstring wstr = utf8_to_wstr( str );
+    wstr[0] = towlower( wstr[0] );
+    return wstr_to_utf8( wstr );
 }
 
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
@@ -1946,6 +2043,31 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
 
+std::pair<std::string, nc_color> rad_badge_color( const int rad )
+{
+    using pair_t = std::pair<const int, std::pair<std::string, nc_color>>;
+
+    static const std::array<pair_t, 6> values = {{
+            pair_t { 0,   { translate_marker( "green" ),  c_white_green } },
+            pair_t { 30,  { translate_marker( "blue" ),   h_white       } },
+            pair_t { 60,  { translate_marker( "yellow" ), i_yellow      } },
+            pair_t { 120, { translate_marker( "orange" ), c_red_yellow  } },
+            pair_t { 240, { translate_marker( "red" ),    c_red_red     } },
+            pair_t { 500, { translate_marker( "black" ),  c_pink        } }
+        }
+    };
+
+    unsigned i = 0;
+    for( ; i < values.size(); i++ ) {
+        if( rad <= values[i].first ) {
+            break;
+        }
+    }
+    i = i == values.size() ? i - 1 : i;
+
+    return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
+}
+
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
 {
     const std::array<std::pair<double, char>, 1> ratings =
@@ -1970,7 +2092,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
 {
     const int width = getmaxx( w );
     const int rows = getmaxy( w );
-    const int col_width = ( ( width - pad ) / columns );
+    const int col_width = ( width - pad ) / columns;
     int indent = 1;  // 1 for right window border
     if( r_align ) {
         indent = ( col_width * columns ) + 1;
@@ -2132,11 +2254,11 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         } else {
             //reserve Left/Right for creature hp display
             if( p_oDir == ( iso_mode ? direction::SOUTHEAST : direction::EAST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
+                p_oDir = one_in( 2 ) ? ( iso_mode ? direction::EAST : direction::NORTHEAST ) :
                          ( iso_mode ? direction::SOUTH : direction::SOUTHEAST );
 
             } else if( p_oDir == ( iso_mode ? direction::NORTHWEST : direction::WEST ) ) {
-                p_oDir = ( one_in( 2 ) ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
+                p_oDir = one_in( 2 ) ? ( iso_mode ? direction::NORTH : direction::NORTHWEST ) :
                          ( iso_mode ? direction::WEST : direction::SOUTHWEST );
             }
         }
@@ -2423,7 +2545,7 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
 }
 
 /**
-* Convert, round up and format a volume.
+* Convert and format volume.
 */
 std::string format_volume( const units::volume &volume )
 {
@@ -2431,7 +2553,7 @@ std::string format_volume( const units::volume &volume )
 }
 
 /**
-* Convert, clamp, round up and format a volume,
+* Convert, clamp and format volume,
 * taking into account the specified width (0 for unlimited space),
 * optionally returning a flag that indicate if the value was truncated to fit the width,
 * optionally returning the formatted value as double.
@@ -2446,8 +2568,6 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     if( width != 0 ) {
         value = clamp_to_width( value, std::abs( width ), scale, out_truncated );
     }
-    // round up
-    value = round_up( value, scale );
     if( out_value != nullptr ) {
         *out_value = value;
     }

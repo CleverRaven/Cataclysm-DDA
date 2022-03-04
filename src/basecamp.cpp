@@ -39,6 +39,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_forest( "forest" );
+
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -388,7 +390,7 @@ item_group_id basecamp::get_gatherlist() const
             return gatherlist;
         }
     }
-    return item_group_id( "forest" );
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -542,13 +544,14 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
 }
 
 // get the subset of companions working on a specific task
-comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contains )
 {
     comp_list available;
     for( const auto &elem : camp_workers ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( ( c_mission.mission_id == mission_id ) ||
-            ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
+        if( is_equal( c_mission.miss_id, miss_id ) ||
+            ( contains && c_mission.miss_id.id == miss_id.id &&
+              c_mission.miss_id.dir == miss_id.dir ) ) {
             available.push_back( elem );
         }
     }
@@ -603,15 +606,16 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
+        std::unordered_set<tripoint_abs_ms> src_set =
+            mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*

@@ -87,6 +87,7 @@
         "volume_multiplier": 0.35
       }
     ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
@@ -133,6 +134,7 @@
         "volume_multiplier": 0.2
       }
     ],
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
@@ -176,6 +178,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "material": [ "leather" ],
     "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
   },
   {

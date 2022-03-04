@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -55,8 +56,6 @@ cata::optional<int> petfood( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> plantblech( Character *, item *, bool, const tripoint & );
 cata::optional<int> poison( Character *, item *, bool, const tripoint & );
 cata::optional<int> prozac( Character *, item *, bool, const tripoint & );
-cata::optional<int> purifier( Character *, item *, bool, const tripoint & );
-cata::optional<int> purify_iv( Character *, item *, bool, const tripoint & );
 cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
@@ -94,9 +93,9 @@ cata::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
+cata::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -105,12 +104,12 @@ cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
 cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );
@@ -135,15 +134,18 @@ cata::optional<int> hand_crank( Character *, item *, bool, const tripoint & );
 cata::optional<int> heat_food( Character *, item *, bool, const tripoint & );
 cata::optional<int> heatpack( Character *, item *, bool, const tripoint & );
 cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
+cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
 cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
 cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
 cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
+cata::optional<int> electricstorage( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
+cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
 cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
@@ -156,6 +158,7 @@ cata::optional<int> noise_emitter_on( Character *, item *, bool, const tripoint 
 cata::optional<int> oxygen_bottle( Character *, item *, bool, const tripoint & );
 cata::optional<int> oxytorch( Character *, item *, bool, const tripoint & );
 cata::optional<int> binder_add_recipe( Character *, item *, bool, const tripoint & );
+cata::optional<int> binder_manage_recipe( Character *, item *, bool, const tripoint & );
 cata::optional<int> pack_cbm( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> pack_item( Character *, item *, bool, const tripoint & );
 cata::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );
@@ -204,6 +207,7 @@ cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint &
 cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
 cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
 cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
 
 // MACGUFFINS
 
@@ -238,6 +242,8 @@ cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
+// used for unit testing iuse::gun_repair
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {

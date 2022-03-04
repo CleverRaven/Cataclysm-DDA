@@ -25,9 +25,11 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const efftype_id effect_on_roof( "on_roof" );
+
 static const itype_id fuel_type_battery( "battery" );
 
-static const efftype_id effect_on_roof( "on_roof" );
+static const skill_id skill_gun( "gun" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -533,12 +535,13 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.set_skill_level( skill_gun, 4 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
+    cpu.recalc_sight_limits();
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
     cpu.set_fac( get_owner() );

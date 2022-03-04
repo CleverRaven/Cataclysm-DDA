@@ -18,7 +18,7 @@
     "volume": "1 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": 20
   },
   {
@@ -65,7 +65,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
-    "vitamins": [ [ "vitA", 16 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -576,7 +576,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 45,
+    "calories": 41,
     "description": "A thick syrup produced from shredded sugar beets.  Useful in cooking as a sweetener.",
     "price": 1500,
     "price_postapoc": 350,
@@ -595,7 +595,7 @@
     "spoils_in": "52 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 110,
+    "calories": 280,
     "description": "Delicious sponge cake with buttercream icing, it says happy birthday on it.",
     "price": 120,
     "price_postapoc": 200,
@@ -611,6 +611,7 @@
     "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
+    "calories": 280,
     "description": "Delicious chocolate cake.  It has all the icing.  All of it."
   },
   {
@@ -619,6 +620,7 @@
     "name": { "str": "cake" },
     "spoils_in": "4 days",
     "copy-from": "jihelucake",
+    "calories": 295,
     "quench": -5,
     "description": "A cake coated in the thickest icing you've ever seen.  Someone has written guff in quotation marks on it…",
     "fun": 20
@@ -647,7 +649,7 @@
     "charges": 5,
     "stack_size": 30,
     "fun": 2,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -762,7 +764,7 @@
     "material": [ "junk" ],
     "volume": "150 ml",
     "charges": 5,
-    "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "calcium", 9 ] ],
     "fun": 2
   },
   {
@@ -776,12 +778,12 @@
     "quench": 1,
     "healthy": -1,
     "calories": 362,
-    "description": "Some caramel.  Still bad for your health.",
+    "description": "Caramel covered apples.  One of the children's favorite snacks during the festival.  But now they want you.",
     "price": 150,
     "price_postapoc": 500,
     "material": [ "junk", "fruit" ],
     "volume": "150 ml",
-    "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ], [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ] ],
     "fun": 5
   },
   {
@@ -875,7 +877,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -902,7 +904,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 10 ], [ "calcium", 10 ], [ "iron", 12 ], [ "vitB", 29 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -943,7 +945,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 13 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -964,7 +966,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": 4
   },
   {
@@ -1074,7 +1076,29 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chilidogs_wheat_free",
+    "name": { "str_sp": "wheat-free chili dogs" },
+    "weight": "318 g",
+    "color": "red",
+    "spoils_in": "1 day",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -1,
+    "calories": 353,
+    "description": "A wheat-free hot dog, served with chili con carne as a topping.  Yum!",
+    "price": 900,
+    "price_postapoc": 150,
+    "material": [ "flesh", "junk", "veggy" ],
+    "volume": "400 ml",
+    "charges": 2,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 15,
+    "vitamins": [ [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1096,7 +1120,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 6 ], [ "iron", 8 ], [ "vitB", 15 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1128,14 +1152,14 @@
     "name": { "str": "chocolate pancake" },
     "weight": "78 g",
     "healthy": 0,
-    "calories": 217,
+    "calories": 201,
     "description": "Fluffy and delicious pancakes with real maple syrup, with delicious chocolate baked right in.",
     "price": 700,
     "price_postapoc": 100,
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
     "fun": 6,
-    "vitamins": [ [ "vitA", 5 ], [ "calcium", 5 ], [ "iron", 17 ], [ "vitB", 33 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1146,7 +1170,7 @@
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 120,
+    "calories": 660,
     "description": "Crunchy and delicious waffles with real maple syrup, with delicious chocolate baked right in.",
     "price": 650,
     "price_postapoc": 100,
@@ -1155,7 +1179,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 25 ], [ "iron", 25 ], [ "vitB", 63 ] ]
+    "vitamins": [ [ "calcium", 25 ], [ "iron", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1177,7 +1201,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ] ]
+    "vitamins": [ [ "calcium", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1199,7 +1223,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1277,11 +1301,46 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "hotdogs_cooked_wheat_free",
+    "name": { "str": "cooked wheat-free hot dog" },
+    "weight": "383 g",
+    "color": "red",
+    "spoils_in": "1 day",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -1,
+    "calories": 407,
+    "description": "Surprisingly, not made from dog.  Cooked in wheat-free bread, this hot dog now tastes much better, but will spoil.",
+    "price": 800,
+    "price_postapoc": 350,
+    "material": [ "flesh", "junk", "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 12,
+    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "hotdogs_newyork",
     "name": { "str": "new york wiener" },
     "copy-from": "hotdogs_cooked",
     "weight": "568 g",
     "looks_like": "hotdogs_cooked",
+    "calories": 721,
+    "description": "What's better than a hot dog?  A hot dog smothered in ground meat and chopped onions, of course!  Tastes better than a normal hot dog.",
+    "price_postapoc": 500,
+    "volume": "375 ml",
+    "fun": 18,
+    "//": "The fun value is high to justify crafting this versus a normal hot dog."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hotdogs_newyork_wheat_free",
+    "name": { "str": "wheat-free new york wiener" },
+    "copy-from": "hotdogs_cooked_wheat_free",
+    "weight": "568 g",
+    "looks_like": "hotdogs_cooked_wheat_free",
     "calories": 721,
     "description": "What's better than a hot dog?  A hot dog smothered in ground meat and chopped onions, of course!  Tastes better than a normal hot dog.",
     "price_postapoc": 500,
@@ -1355,7 +1414,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": -2
   },
   {
@@ -1376,7 +1435,7 @@
     "material": [ "flesh", "egg", "junk" ],
     "volume": "500ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "iron", 10 ] ],
     "fun": 4
   },
   {

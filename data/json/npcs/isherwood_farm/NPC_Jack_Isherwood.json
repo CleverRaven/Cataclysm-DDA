@@ -97,7 +97,7 @@
       { "item": "cheese_hard", "prob": 50 },
       { "item": "vinegar", "prob": 55 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 50, "charges": 4, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -199,7 +199,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_FARM",
-    "dynamic_line": "Even out here we've had some attacks and seen … other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
+    "dynamic_line": "Even out here we've had some attacks and seen… other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },

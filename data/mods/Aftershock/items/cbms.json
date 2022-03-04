@@ -121,7 +121,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Combat Rated Energy Field CBM" },
-    "description": "The HawkingCorps EnergyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven cabaple of protecting against most improvised weapons.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 15 points.",
+    "description": "The HawkingCorps EnergyField Mark 2 was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  This field is rated to reduce bashing and cut damage as viewed in your HUD by 15 points.",
     "price": 100000,
     "price_postapoc": 3500,
     "difficulty": 8
@@ -151,7 +151,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Pattern-U15 Attenuation Field CBM" },
-    "description": "A military grade kinetic attenuation system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse engineered from.  A side effect modern engineering seems unable to address is the tendency for this unit to release electrical fields when hit.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 20 points",
+    "description": "A military grade kinetic attenuation system developed for use within UICA's special service branches.  Although much more effective than anything that could be conceived with current technology, it remains a pale imitation of the Hyperspace Age systems it was reverse engineered from.  A side effect modern engineering seems unable to address is the tendency for this unit to release electrical fields when hit.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 20 points.",
     "price": 100000,
     "price_postapoc": 6500,
     "difficulty": 10
@@ -161,7 +161,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Kinetic annulment system CBM" },
-    "description": "A kinetic attenuation system salvaged from a pre-discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 40 points",
+    "description": "A kinetic attenuation system salvaged from a pre-discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  This field is rated to reduce ballistic and piercing damage as viewed in your HUD by 40 points.",
     "price": 100000,
     "price_postapoc": 12500,
     "difficulty": 16
