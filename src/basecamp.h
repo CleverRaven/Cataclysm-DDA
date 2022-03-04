@@ -288,6 +288,14 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const skill_id &skill_tested, int skill_level );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
@@ -350,9 +358,9 @@ class basecamp
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
         void fortifications_return( const mission_id miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
-                                           const time_duration work_days );
+                                           const comp_list &npc_list );
         bool salt_water_pipe_return( const mission_id &miss_id,
-                                     const time_duration work_days );
+                                     const comp_list &npc_list );
 
         void combat_mission_return( const mission_id &miss_id );
         void validate_assignees();
