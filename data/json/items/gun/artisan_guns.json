@@ -1,0 +1,15 @@
+[
+  {
+    "id": "pulverizer",
+    "copy-from": "hammer_sledge",
+    "name": { "str": "the Pulverizer" },
+    "type": "GENERIC",
+    "description": "A large, heavy hammer converted for use as a weapon.  Has a notable safety on the side and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off the blanks are engaged sending a moving piston forward causing massive damage.",
+    "proportional": { "weight": 1.2 },
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "powder_blank": 1 } }
+    ],
+    "extend": { "flags": [ "RELOAD_EJECT" ] },
+    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT" ]
+  }
+]

@@ -799,7 +799,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            perform_technique( technique, t, d, move_cost );
+            perform_technique( technique, t, d, move_cost, *cur_weapon );
         }
 
         //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -1653,6 +1653,8 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = get_map().is_wall_adjacent( pos() );
+    // this could be more robust but for now it should work fine
+    bool is_loaded = weap.is_magazine_full();
 
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
@@ -1697,6 +1699,11 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
         if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
+            continue;
+        }
+
+        // if the technique needs a loaded weapon and it isn't loaded skip it
+        if( tec.needs_ammo && !is_loaded ) {
             continue;
         }
 
@@ -1915,7 +1922,7 @@ static void print_damage_info( const damage_instance &di )
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                   int &move_cost )
+                                   int &move_cost, item &cur_weapon )
 {
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
@@ -1976,6 +1983,18 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
         if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
+        }
+    }
+
+    if( technique.needs_ammo ) {
+        const itype_id current_ammo = cur_weapon.ammo_current();
+        // if the weapon needs ammo we now expend it
+        cur_weapon.ammo_consume( 1, pos(), this );
+        const itype_id casing = *current_ammo->ammo->casing;
+        if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
+            cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                          item_pocket::pocket_type::MAGAZINE );
+            cur_weapon.on_contents_changed();
         }
     }
 

@@ -97,6 +97,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "powder_blank",
+    "name": "powder blank",
+    "default": "22_blank"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9mm",
     "name": "9x19mm",
     "default": "9mm"

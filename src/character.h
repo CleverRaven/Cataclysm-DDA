@@ -900,7 +900,7 @@ class Character : public Creature, public visitable
         matec_id pick_technique( Creature &t, const item &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                int &move_cost );
+                                int &move_cost, item &cur_weapon );
 
         // modifies the damage dealt based on the character's enchantments
         damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const override;
