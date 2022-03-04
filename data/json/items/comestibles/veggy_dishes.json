@@ -519,7 +519,7 @@
   {
     "type": "COMESTIBLE",
     "id": "plantain_cooked",
-    "name": { "str": "cooked plantains" },
+    "name": { "str_sp": "cooked plantains" },
     "weight": "118 g",
     "color": "yellow",
     "spoils_in": "2 days",
