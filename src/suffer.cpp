@@ -1285,9 +1285,9 @@ void suffer::from_bad_bionics( Character &you )
         you.get_power_level() >= you.get_max_power_level() * .75 ) {
         you.mod_str_bonus( -3 );
     }
-    if( you.has_bionic( bio_radleak ) && one_turn_in( 60_minutes ) ) {
-        you.add_msg_if_player( m_bad, _( "You feel an uncomfortable sensation from within your body." ) );
-        you.mod_rad( 1 );
+    if( you.has_bionic( bio_radleak ) && one_turn_in( 300_minutes ) ) {
+        you.add_msg_if_player( m_bad, _( "You CBM leaks radiation." ) );
+        you.mod_rad( 4 );
     }
 }
 
