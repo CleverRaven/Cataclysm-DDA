@@ -779,6 +779,11 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
+std::string Character::name_and_maybe_activity() const
+{
+    return disp_name( false, true );
+}
+
 std::string Character::skin_name() const
 {
     // TODO: Return actual deflecting layer name

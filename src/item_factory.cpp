@@ -240,6 +240,9 @@ void Item_factory::finalize_pre( itype &obj )
         const std::string func = "detach_gunmods";
         emplace_usage( obj.use_methods, func );
         obj.ammo_scale.emplace( func, 0.0f );
+        const std::string func2 = "modify_gunmods";
+        emplace_usage( obj.use_methods, func2 );
+        obj.ammo_scale.emplace( func2, 0.0f );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -1604,6 +1607,7 @@ void Item_factory::init()
     add_actor( std::make_unique<molle_detach_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
+    add_actor( std::make_unique<modify_gunmods_actor>() );
     add_actor( std::make_unique<deploy_tent_actor>() );
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );

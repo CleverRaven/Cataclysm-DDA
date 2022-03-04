@@ -665,6 +665,7 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
+    "longest_side": "204 mm",
     "cutting": 14,
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -4

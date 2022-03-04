@@ -192,6 +192,7 @@ extern const flag_id flag_MOUNTED_GUN;
 extern const flag_id flag_MUNDANE;
 extern const flag_id flag_MUSHY;
 extern const flag_id flag_MYCUS_OK;
+extern const flag_id flag_NANOFAB_REPAIR;
 extern const flag_id flag_NANOFAB_TEMPLATE;
 extern const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE;
 extern const flag_id flag_NEEDS_NO_LUBE;
