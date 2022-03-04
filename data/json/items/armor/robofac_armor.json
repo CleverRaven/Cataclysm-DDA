@@ -40,16 +40,16 @@
       {
         "description": "Quick access pouches",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
         "max_item_length": "270 mm",
         "moves": 80
       },
       {
         "description": "Quick access pouches",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
         "max_item_length": "270 mm",
         "moves": 80
       },
@@ -72,10 +72,20 @@
         "moves": 200,
         "description": "Hooks for an armored skirt",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1100 g",
+        "max_item_length": "70 cm",
+        "moves": 200,
+        "holster": true,
+        "description": "Strap for a gun barrel",
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
       }
     ],
     "armor": [
-      { "encumbrance": [ 4, 6 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
+      { "encumbrance": [ 4, 8 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
       {
         "encumbrance": [ 4, 4 ],
         "coverage": 100,
