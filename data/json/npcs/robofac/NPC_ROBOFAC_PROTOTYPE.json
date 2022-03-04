@@ -495,7 +495,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_HWP_EXODII",
     "//": "creating EXODII barrel",
     "type": "talk_topic",
-    "dynamic_line": "Yes the 'EXODII' we have yet to make contact but are monitoring them.  If you provide us with 5 rounds, a magazine and the rifle we should be able to easily fabricate the parts. Should take 3 days.",
+    "dynamic_line": "Yes the 'EXODII' we have yet to make contact but are monitoring them.  If you provide us with 5 rounds, a magazine and the rifle we should be able to easily fabricate the parts.  Should take 3 days.",
     "responses": [
       {
         "text": "[5 12.3ln, PA Md. 68 magazine, PA md. 68] See you in 3 days.",
