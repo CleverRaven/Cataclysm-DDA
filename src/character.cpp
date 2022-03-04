@@ -778,6 +778,11 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
     }
 }
 
+std::string Character::name_and_maybe_activity() const
+{
+    return disp_name( false, true );
+}
+
 std::string Character::skin_name() const
 {
     // TODO: Return actual deflecting layer name
@@ -3248,7 +3253,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
-    is_dead = true;
+    set_all_parts_hp_cur( 0 );
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
@@ -7214,6 +7219,10 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
         return;
+    }
+
+    if( is_npc() ) {
+        as_npc()->on_attacked( *source );
     }
 
     bool u_see = get_player_view().sees( *this );
