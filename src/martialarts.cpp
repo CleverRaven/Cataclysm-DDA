@@ -376,6 +376,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
+    optional( jo, was_loaded, "prevent_weapon_blocking", prevent_weapon_blocking, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -1380,6 +1381,11 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
 bool character_martial_arts::is_force_unarmed() const
 {
     return style_selected->force_unarmed;
+}
+
+bool character_martial_arts::can_weapon_block() const
+{
+    return !style_selected->prevent_weapon_blocking;
 }
 
 void character_martial_arts::clear_all_effects( Character &owner )
