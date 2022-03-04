@@ -41,10 +41,12 @@ std::string enum_to_string<breathability_rating>( breathability_rating data )
     switch( data ) {
         case breathability_rating::IMPERMEABLE:
             return "IMPERMEABLE";
-        case breathability_rating::SOMEWHAT:
-            return "SOMEWHAT";
-        case breathability_rating::BREATHABLE:
-            return "BREATHABLE";
+        case breathability_rating::POOR:
+            return "POOR";
+        case breathability_rating::AVERAGE:
+            return "AVERAGE";
+        case breathability_rating::GOOD:
+            return "GOOD";
         case breathability_rating::MOISTURE_WICKING:
             return "MOISTURE_WICKING";
         case breathability_rating::SECOND_SKIN:
@@ -259,14 +261,16 @@ int material_type::breathability() const
     switch( _breathability ) {
         case breathability_rating::IMPERMEABLE:
             return 0;
-        case breathability_rating::SOMEWHAT:
+        case breathability_rating::POOR:
             return 30;
-        case breathability_rating::BREATHABLE:
+        case breathability_rating::AVERAGE:
             return 50;
-        case breathability_rating::MOISTURE_WICKING:
+        case breathability_rating::GOOD:
             return 80;
+        case breathability_rating::MOISTURE_WICKING:
+            return 110;
         case breathability_rating::SECOND_SKIN:
-            return 100;
+            return 140;
         case breathability_rating::last:
             break;
     }

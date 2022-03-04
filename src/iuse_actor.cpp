@@ -292,7 +292,12 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
-    if( container.is_empty() ) {
+    if( it.is_comestible() ) {
+        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        obj = &obj_it;
+        p.i_add_or_drop( *obj );
+        result = 1;
+    } else if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -4321,7 +4326,7 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    const bool modifiables = std::all_of( mods.begin(), mods.end(),
+    const bool modifiables = std::any_of( mods.begin(), mods.end(),
                                           std::bind( &item::is_transformable, std::placeholders::_1 ) );
 
     if( !modifiables ) {

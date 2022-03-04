@@ -143,6 +143,25 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_grass_curtain",
+    "group": "build_door_grass_curtain",
+    "//": "Door frame not required",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "tailor", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
+      [ [ "grass_sheet", 2 ] ],
+      [ [ "stick", 1 ] ],
+      [ [ "string_36", 1 ], [ "cordage_36", 1 ], [ "string_6", 6 ], [ "cordage_6", 6 ] ]
+    ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_grass_curtain_c"
+  },
+  {
+    "type": "construction",
     "id": "constr_beaded_door",
     "group": "build_beaded_curtain",
     "category": "CONSTRUCT",
@@ -3104,6 +3123,17 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "oven", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_arcade_machine",
+    "group": "place_arcade_machine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "arcade_machine", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },

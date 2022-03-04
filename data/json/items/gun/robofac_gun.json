@@ -22,9 +22,17 @@
     "dispersion": 150,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight" ],
+    "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight", "robofac_stock" ],
     "//": "Forward ejection port would require a different brass catcher design",
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "grip", 1 ], [ "bore", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -185,6 +193,13 @@
     "copy-from": "grip",
     "name": { "str": "integrated front grip" },
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "robofac_stock",
+    "type": "GUNMOD",
+    "copy-from": "adjustable_stock",
+    "name": { "str": "bullpup adjustable stock" },
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "robofac40",
