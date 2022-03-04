@@ -1762,7 +1762,7 @@ void npc::on_attacked( const Creature &attacker )
     if( is_hallucination() ) {
         die( nullptr );
     }
-    if( attacker.is_avatar() && !is_enemy() ) {
+    if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
         make_angry();
         hit_by_player = true;
     }
@@ -3767,6 +3767,11 @@ std::string npc::name_and_activity() const
     } else {
         return get_name();
     }
+}
+
+std::string npc::name_and_maybe_activity() const
+{
+    return name_and_activity();
 }
 
 std::string npc::get_current_activity() const

@@ -93,6 +93,7 @@ cata::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
+cata::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );

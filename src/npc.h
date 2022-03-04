@@ -841,6 +841,7 @@ class npc : public Character
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
         std::string name_and_activity() const;
+        std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity
         std::string get_current_status() const;
         /// Returns the current activity name (reading, disassembling, etc.), or "nothing"

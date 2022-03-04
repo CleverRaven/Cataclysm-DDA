@@ -665,6 +665,7 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
+    "longest_side": "204 mm",
     "cutting": 14,
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -4
@@ -3099,7 +3100,7 @@
     "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
     "price": 10000,
     "price_postapoc": 100,
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "weight": "1500 g",
     "volume": "500 ml",
     "bashing": 6

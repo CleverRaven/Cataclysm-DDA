@@ -144,6 +144,17 @@
     "damage_reduction": { "all": 28, "stab": 12 }
   },
   {
+    "id": "heattank",
+    "type": "vehicle_part",
+    "name": { "str": "heated tank (60L)" },
+    "item": "heattank",
+    "location": "fuel_source",
+    "copy-from": "fridgetank",
+    "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
+    "epower": -60,
+    "flags": [ "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
     "id": "external_tank_small",
     "type": "vehicle_part",
     "name": { "str": "external tank (100L)" },

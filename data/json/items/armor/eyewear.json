@@ -206,6 +206,24 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
+    "id": "glass_goggles",
+    "type": "ARMOR",
+    "name": { "str": "pair of glass goggles", "str_pl": "pairs of glass goggles" },
+    "description": "A pair of old-fashioned goggles with thick glass lenses, somewhat similar to those worn by the pilots of open-cockpit aircraft, but more crude looking.  Won't protect your eyes from physical harm, but can keep hazardous chemicals out.",
+    "weight": "90 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 200,
+    "material": [ "glass" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_cyan",
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "OUTER", "FRAGILE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
+  },
+  {
     "id": "goggles_ski",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",

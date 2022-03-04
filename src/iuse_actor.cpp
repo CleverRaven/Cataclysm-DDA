@@ -114,6 +114,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
@@ -220,7 +222,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     int result = 0;
 
     const bool possess = p.has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
+                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) <= 1 );
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -290,7 +292,12 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
-    if( container.is_empty() ) {
+    if( it.is_comestible() ) {
+        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        obj = &obj_it;
+        p.i_add_or_drop( *obj );
+        result = 1;
+    } else if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -4272,6 +4279,77 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
 {
     if( !item::find_type( my_item_type )->gun ) {
         debugmsg( "Item %s has detach_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
+    }
+}
+
+cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
+        const tripoint &pnt ) const
+{
+
+    std::vector<item *> mods;
+    for( item *mod : it.gunmods() ) {
+        if( mod->is_transformable() ) {
+            mods.push_back( mod );
+        }
+    }
+
+    uilist prompt;
+    prompt.text = _( "Modify which part" );
+
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        prompt.addentry( i, true, -1, string_format( "%s: %s", mods[i]->tname(),
+                         mods[i]->get_use( "transform" )->get_name() ) );
+    }
+
+    prompt.query();
+
+    if( prompt.ret >= 0 ) {
+        // set gun to default incase this changes anything
+        it.gun_set_mode( gun_mode_DEFAULT );
+        p.invoke_item( mods[prompt.ret], "transform", pnt );
+        return 0;
+    }
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+        const tripoint & ) const
+{
+    if( !p.is_wielding( it ) ) {
+        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+    }
+    const auto mods = it.gunmods();
+
+    if( mods.empty() ) {
+        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+    }
+
+    const bool modifiables = std::any_of( mods.begin(), mods.end(),
+                                          std::bind( &item::is_transformable, std::placeholders::_1 ) );
+
+    if( !modifiables ) {
+        return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
+    }
+
+    if( p.is_worn(
+            it ) ) { // I don't know if modifying really needs this but its for future proofing.
+        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> modify_gunmods_actor::modify_gunmods_actor::clone() const
+{
+    return std::make_unique<modify_gunmods_actor>( *this );
+}
+
+void modify_gunmods_actor::finalize( const itype_id &my_item_type )
+{
+    if( !item::find_type( my_item_type )->gun ) {
+        debugmsg( "Item %s has modify_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
     }
 }
 
