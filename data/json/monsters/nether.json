@@ -1093,5 +1093,61 @@
     "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON" ]
+  },
+  {
+    "id": "mon_swarm_structure",
+    "type": "MONSTER",
+    "name": { "str": "Swarm Structure" },
+    "description": "Your mind can't decide if this is a vast structure, or an endless swarm of tiny flying sharp things. The only thing you know for sure is that it is far too large to fit in the space it occupies.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 80,
+    "speed": 80,
+    "symbol": "S",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 5,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_swarm_structure_attack", "min_level": 1 },
+        "cooldown": 6,
+        "monster_message": "The integrity of spacetime is violated."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "You memories can't decide whether the %s was even there in the first place." },
+    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_twisting_blade",
+    "type": "MONSTER",
+    "name": { "str": "Twisting Blade" },
+    "description": "You are uncertain whether this dwarfs you or you dwarf it. It's exact shape and number of dimnesions changes but it is always sharp enough to cut a moment in half.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 30,
+    "speed": 60,
+    "symbol": "B",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_twisting_blade_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "You are cut in ways worse than physical."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "You memories can't decide whether the %s was even there in the first place." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   }
 ]
