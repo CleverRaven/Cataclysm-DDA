@@ -1698,7 +1698,8 @@
         "coverage": 100,
         "encumbrance": 30
       }
-    ]
+    ],
+    "extend": { "flags": [ "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xl_chainmail_suit_faraday",
@@ -1706,7 +1707,7 @@
     "copy-from": "chainmail_suit_faraday",
     "name": { "str": "XL faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "ELECTRIC_IMMUNE", "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday_xs",
@@ -1715,7 +1716,7 @@
     "looks_like": "chainmail_suit_faraday",
     "name": { "str": "XS faraday chainmail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "ELECTRIC_IMMUNE", "UNDERSIZE" ] }
   },
   {
     "id": "cleansuit",

@@ -1115,7 +1115,8 @@
       "ALARMCLOCK",
       "SWIM_GOGGLES",
       "SUN_GLASSES",
-      "NO_REPAIR"
+      "NO_REPAIR",
+      "NANOFAB_REPAIR"
     ],
     "armor": [
       {
@@ -1214,7 +1215,8 @@
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
       "CLIMATE_CONTROL",
-      "NO_REPAIR"
+      "NO_REPAIR",
+      "NANOFAB_REPAIR"
     ]
   },
   {

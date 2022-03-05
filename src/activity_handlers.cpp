@@ -1515,7 +1515,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {

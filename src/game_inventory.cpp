@@ -1041,7 +1041,7 @@ static std::string get_consume_needs_hint( Character &you )
         desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_today ), c_white );
         hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
         desc = std::make_pair( string_format( _( "%d kcal " ), kcal_ingested_yesterday ), c_white );
-        hint.append( string_format( "%s %s", _( "Yesterday: " ), colorize( desc.first, desc.second ) ) );
+        hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
     } else {
         hint.append( _( "Consumed today (kcal): " ) );
         hint.append( colorize( kcal_estimated_intake, c_white ) );

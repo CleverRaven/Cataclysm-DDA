@@ -703,6 +703,7 @@
     "name": { "str": "cooked liver" },
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
+    "fun": 0,
     "price_postapoc": 50,
     "healthy": 2
   },

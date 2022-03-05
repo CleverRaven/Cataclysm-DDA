@@ -196,6 +196,15 @@ class effect_type
         std::vector<std::pair<int, int>> red_kill_chance;
 };
 
+class effect;
+
+// Inheritance here allows forward declaration of the map in class Creature.
+// Storing body_part as an int_id to make things easier for hash and JSON
+class effects_map : public
+    std::map<efftype_id, std::map<bodypart_id, effect>>
+{
+};
+
 class effect
 {
     public:
@@ -239,7 +248,7 @@ class effect
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
         void decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
-                    const time_point &time, bool player );
+                    const time_point &time, bool player, const effects_map &eff_map = effects_map() );
 
         /** Returns the remaining duration of an effect. */
         time_duration get_duration() const;
@@ -385,12 +394,5 @@ std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
 nc_color colorize_bleeding_intensity( int intensity );
-
-// Inheritance here allows forward declaration of the map in class Creature.
-// Storing body_part as an int_id to make things easier for hash and JSON
-class effects_map : public
-    std::map<efftype_id, std::map<bodypart_id, effect>>
-{
-};
 
 #endif // CATA_SRC_EFFECT_H
