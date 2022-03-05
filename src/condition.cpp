@@ -344,12 +344,7 @@ void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
 {
     const std::string &u_mission = jo.get_string( "u_has_mission" );
     condition = [u_mission]( const T & ) {
-        for( mission *miss_it : get_avatar().get_active_missions() ) {
-            if( miss_it->mission_id() == mission_type_id( u_mission ) ) {
-                return true;
-            }
-        }
-        return false;
+        return get_avatar().has_active_mission( u_mission );
     };
 }
 

@@ -112,6 +112,8 @@ static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_e
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
 
+static const std::string mission_ranch_doctor_medical_anesthetic =
+    "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC";
 struct miss_data {
     std::string serialize_id;  // Serialized string for enum
     translation action;        // Optional extended UI description of task for return.
@@ -129,6 +131,10 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     },
     {
         "Scavenging_Raid_Job",
+        to_translation( "" )
+    },
+    {
+        "Lab_Raid_Job",
         to_translation( "" )
     },
     {
@@ -456,6 +462,7 @@ namespace talk_function
 {
 void scavenger_patrol( mission_data &mission_key, npc &p );
 void scavenger_raid( mission_data &mission_key, npc &p );
+void lab_raid( mission_data &mission_key, npc &p );
 void commune_menial( mission_data &mission_key, npc &p );
 void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_farmfield( mission_data &mission_key, npc &p );
@@ -476,6 +483,10 @@ void talk_function::companion_mission( npc &p )
         scavenger_patrol( mission_key, p );
         if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             scavenger_raid( mission_key, p );
+        }
+
+        if( p.is_actor() && p.as_actor().has_active_mission( mission_ranch_doctor_medical_anesthetic ) ) {
+            lab_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
         title = _( "Agricultural Missions" );
@@ -560,6 +571,39 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
             entry += _( return_ally_question_string );
         }
         mission_key.add_return( miss_id, _( "Retrieve Scavenging Raid" ), entry, avail );
+    }
+}
+
+void talk_function::lab_raid( mission_data &mission_key, npc &p )
+{
+    std::string entry = _( "Profit: lab materials\nDanger: High\nTime: 20 hour missions\n\n"
+                           "Scavenging raids target formerly populated areas to loot as many "
+                           "valuable items as possible before being surrounded by the undead.  "
+                           "Combat is to be expected and assistance from the rest of the party "
+                           "can't be guaranteed.  The rewards are greater and there is a chance "
+                           "of the companion bringing back items." );
+    const mission_id miss_id = {Lab_Raid_Job, "", cata::nullopt};
+    mission_key.add_start( miss_id, _( "Assign Lab Raid" ), entry );
+    std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
+    if( !npc_list.empty() ) {
+        entry = _( "Profit: lab materials\nDanger: High\nTime: 20 hour missions\n\n"
+                   "Raid Roster:\n" );
+        bool avail = false;
+
+        for( auto &elem : npc_list ) {
+            const bool done = calendar::turn >= elem->companion_mission_time + 20_hours;
+            avail |= done;
+            if( done ) {
+                entry += "  " + elem->get_name() + _( " [DONE]\n" );
+            } else {
+                entry += "  " + elem->get_name() + " [" + std::to_string( to_hours<int>( calendar::turn -
+                         elem->companion_mission_time ) ) + _( " hours / 20 hours]\n" );
+            }
+        }
+        if( avail ) {
+            entry += _( return_ally_question_string );
+        }
+        mission_key.add_return( miss_id, _( "Retrieve Lab Raid" ), entry, avail );
     }
 }
 
@@ -1059,6 +1103,14 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
                 scavenging_raid_return( p );
             } else {
                 individual_mission( p, _( "departs on the scavenging raid…" ), cur_key.id.id );
+            }
+            break;
+
+        case Lab_Raid_Job:
+            if( cur_key.id.ret ) {
+                lab_raid_return( p );
+            } else {
+                individual_mission( p, _( "departs on the lab raid…" ), cur_key.id.id );
             }
             break;
 
@@ -1737,6 +1789,65 @@ bool talk_function::scavenging_raid_return( npc &p )
                p.get_name(), comp->get_name() );
         player_character.cash += 10000;
     }
+    if( one_in( 2 ) ) {
+        item_group_id itemlist( "npc_misc" );
+        if( one_in( 8 ) ) {
+            itemlist = Item_spawn_data_npc_weapon_random;
+        }
+        item result = item_group::item_from( itemlist );
+        if( !result.is_null() ) {
+            popup( _( "%s returned with a %s for you!" ), comp->get_name(), result.tname() );
+            player_character.i_add( result );
+        }
+    }
+    companion_return( *comp );
+    return true;
+}
+
+bool talk_function::lab_raid_return( npc &p )
+{
+    npc_ptr comp = companion_choose_return( p, { Lab_Raid_Job, "", cata::nullopt},
+                                            calendar::turn - 20_hours );
+    if( comp == nullptr ) {
+        return false;
+    }
+    int experience = rng( 20, 40 );
+    if( one_in( 2 ) ) {
+        popup( _( "While scavenging, %s's party suddenly found itself set upon by a large mob of "
+                  "undead…" ), comp->get_name() );
+        int skill = scavenging_combat_skill( *comp, 4, true );
+        if( one_in( 10 ) ) {
+            popup( _( "Through quick thinking the group was able to evade combat!" ) );
+        } else {
+            popup( _( "Combat took place in close quarters, focusing on melee skills…" ) );
+            int monsters = rng( 12, 30 );
+            if( skill * rng_float( .60, 1.4 ) > ( .35 * monsters * rng_float( .6, 1.4 ) ) ) {
+                popup( _( "Through brute force the party smashed through the group of %d "
+                          "undead!" ), monsters );
+                experience += rng( 2, 10 );
+            } else {
+                popup( _( "Unfortunately they were overpowered by the undead…  I'm sorry." ) );
+                overmap_buffer.remove_npc( comp->getID() );
+                return false;
+            }
+        }
+    }
+    Character &player_character = get_player_character();
+    //The loot value needs to be added to the faction - what the player is payed
+    tripoint_abs_omt loot_location = player_character.global_omt_location();
+    // Only check at the ground floor.
+    loot_location.z() = 0;
+    for( int i = 0; i < rng( 2, 3 ); i++ ) {
+        const tripoint_abs_omt site = overmap_buffer.find_closest(
+                                          loot_location, "lab", 0, false, ot_match_type::prefix );
+        overmap_buffer.reveal( site, 2 );
+        loot_building( site );
+    }
+
+    companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
+    popup( _( "%s returns from the raid having a fair bit of experience…" ),
+           comp->get_name() );
+
     if( one_in( 2 ) ) {
         item_group_id itemlist( "npc_misc" );
         if( one_in( 8 ) ) {

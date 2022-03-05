@@ -593,6 +593,39 @@ void talk_function::give_equipment_allowance( npc &p, int allowance )
     p.add_effect( effect_asked_for_item, 3_hours );
 }
 
+void talk_function::lesser_give_aid( npc &p )
+{
+    p.add_effect( effect_currently_busy, 30_minutes );
+    Character &player_character = get_player_character();
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        player_character.heal( bp, rng( 5, 15 ) );
+        if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+            player_character.remove_effect( effect_bleed, bp );
+        }
+    }
+    const int moves = to_moves<int>( 30_minutes );
+    player_character.assign_activity( ACT_WAIT_NPC, moves );
+    player_character.activity.str_values.push_back( p.get_name() );
+}
+
+void talk_function::lesser_give_all_aid( npc &p )
+{
+    p.add_effect( effect_currently_busy, 30_minutes );
+    give_aid( p );
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
+            for( const bodypart_id &bp :
+                 guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                guy.heal( bp, rng( 5, 15 ) );
+                if( guy.has_effect( effect_bleed, bp.id() ) ) {
+                    guy.remove_effect( effect_bleed, bp );
+                }
+            }
+        }
+    }
+}
+
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );

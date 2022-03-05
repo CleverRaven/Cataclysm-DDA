@@ -155,6 +155,9 @@ class avatar : public Character
          * Returns the mission that is currently active. Returns null if mission is active.
          */
         mission *get_active_mission() const;
+
+        bool has_active_mission( const std::string &mission_id ) const;
+
         /**
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.

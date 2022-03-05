@@ -322,6 +322,16 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
+bool avatar::has_active_mission( const std::string &mission_id ) const
+{
+    for( mission *miss_it : get_avatar().get_active_missions() ) {
+        if( miss_it->mission_id() == mission_type_id( mission_id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void avatar::reset_all_missions()
 {
     active_mission = nullptr;

@@ -4335,6 +4335,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( end_conversation ),
             WRAP( insult_combat ),
             WRAP( give_equipment ),
+            WRAP( lesser_give_aid ),
+            WRAP( lesser_give_all_aid ),
             WRAP( give_aid ),
             WRAP( give_all_aid ),
             WRAP( barber_beard ),
