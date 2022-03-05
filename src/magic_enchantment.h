@@ -40,7 +40,6 @@ enum class mod : int {
     MAX_MANA,
     REGEN_MANA,
     BIONIC_POWER,
-    REGEN_BIONIC_POWER,//total kJ of per second regen
     MAX_STAMINA,
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
