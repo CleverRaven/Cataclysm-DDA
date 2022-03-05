@@ -1716,7 +1716,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
                 get_player_character() ) / ( result.size() + 1 ) );
 
         if( must_feed && camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ) ) ) {
-            if( result.size() == 0 ) {
+            if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
                 return result;
             } else {
@@ -1729,7 +1729,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
         //  but currently recipes only provides a function to check for the full set of requirement,
         //  with no access to the tool subset, so no tools are actually assigned.
         npc_ptr comp = talk_function::individual_mission( omt_pos, base_camps::id, desc, miss_id,
-                       false, {}, required_skills, result.size() > 0 );
+                       false, {}, required_skills, !result.empty() );
 
         if( comp == nullptr ) {
             break;
@@ -1738,7 +1738,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
         }
     }
 
-    if( result.size() == 0 ) {
+    if( result.empty() ) {
         return result;
     } else {
         work_days = base_camps::to_workdays( making.batch_duration(
@@ -1789,7 +1789,7 @@ void basecamp::start_upgrade( const mission_id &miss_id )
             comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ),
                                         making.required_skills );
         }
-        if( comp.size() == 0 ) {
+        if( comp.empty() ) {
             return;
         }
         components.consume_components();
@@ -2575,13 +2575,13 @@ bool basecamp::common_salt_water_pipe_construction(
                                     making.required_skills );
     }
 
-    if( comp.size() != 0 ) {
+    if( !comp.empty() ) {
         components.consume_components();
         update_in_progress( miss_id.parameters, miss_id.dir.value() );  // Dir will always have a value
         pipe->segments[segment_number].started = true;
     }
 
-    return comp.size() != 0;
+    return !comp.empty();
 }
 
 void basecamp::start_salt_water_pipe( const mission_id &miss_id )
@@ -3227,7 +3227,7 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     const recipe &making = recipe_id( bldg ).obj();
 
     comp_list npc_list = get_mission_workers( miss_id );
-    if( npc_list.size() == 0 ) {
+    if( npc_list.empty() ) {
         return false;
     }
 
