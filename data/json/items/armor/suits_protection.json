@@ -1204,15 +1204,40 @@
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
-    "material": [ "steel", "iron" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "warmth": 10,
     "longest_side": "40 cm",
-    "material_thickness": 2,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
     "id": "armor_tiresuit",
