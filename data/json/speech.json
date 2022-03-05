@@ -2625,7 +2625,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_memory" ],
-    "sound": "Put it down we can talk about this.",
+    "sound": "Put it down, we can talk about this.",
     "volume": 20
   },
   {
