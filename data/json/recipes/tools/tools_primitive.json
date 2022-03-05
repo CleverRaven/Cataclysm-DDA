@@ -266,10 +266,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 2 },
-      { "id": "DRILL_ROCK", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL_ROCK", "level": 1 } ],
     "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
