@@ -93,7 +93,8 @@ struct bionic_data {
 
     /** The bionic provides this much power every second passively and at all times */
     units::energy power_trickle = 0_kJ;
-
+    units::energy trickle_amount = 0_kJ;
+    
     float vitamin_absorb_mod = 1.0f;
 
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
