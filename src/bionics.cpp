@@ -340,7 +340,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
-
+    assign( jsobj, "fuel_trickle", fuel_trickle, false, 0_kJ );
+    
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
     optional( jsobj, was_loaded, "flags", flags );
@@ -1763,6 +1764,10 @@ void Character::process_bionic( bionic &bio )
     if( !bio.powered ) {
         passive_power_gen( bio );
         return;
+    }
+
+    if( bio.fuel_trickle != 0 ) {
+        mod_power_level( units::from_kilojoule( bio.fuel_trickle ) );
     }
 
     if( bio.get_uid() == get_weapon_bionic_uid() ) {
