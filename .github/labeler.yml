@@ -21,6 +21,10 @@
 "NPC / Factions":
   - data/json/npcs/**/*
 
+"Player Faction Base / Camp":
+  - src/basecamp**/*
+  - data/json/mapgen/basecamps/**/*
+
 "Items: Ammo / Guns":
   - data/json/items/gun/**/*
   - data/json/items/ammo/**/*
