@@ -81,6 +81,36 @@
     "type": "vehicle_part"
   },
   {
+    "id": "ap_arcade_machine",
+    "name": { "str": "arcade machine" },
+    "categories": [ "utility" ],
+    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Ready to be played.",
+    "symbol": "6",
+    "color": "red",
+    "location": "structure",
+    "broken_color": "red",
+    "broken_symbol": "x",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 10 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "COVERED", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
+    "epower": -150,
+    "item": "arcade_machine",
+    "looks_like": "f_arcade_machine",
+    "breaks_into": [
+      { "item": "splinter", "count": [ 0, 6 ] },
+      { "item": "television", "prob": 50 },
+      { "item": "2x4", "count": [ 2, 6 ] },
+      { "item": "nail", "charges": [ 4, 10 ] },
+      { "item": "cable", "charges": [ 4, 10 ] },
+      { "item": "circuit", "count": [ 0, 4 ] },
+      { "item": "power_supply", "prob": 50 },
+      { "item": "RAM", "count": [ 0, 2 ] }
+    ],
+    "size": 200,
+    "type": "vehicle_part"
+  },
+  {
     "type": "vehicle_part",
     "id": "ap_forge",
     "name": { "str": "electric forge" },

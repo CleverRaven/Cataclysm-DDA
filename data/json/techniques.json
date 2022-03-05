@@ -1650,6 +1650,7 @@
       "<npcname> spins and back-kicks %s, right in the center of gravity"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 2,
@@ -1666,8 +1667,9 @@
     "type": "technique",
     "id": "tec_taekwondo_push",
     "name": "Side Kick",
-    "unarmed_allowed": true,
     "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
     "knockback_dist": 1,
     "attack_vectors": [ "FOOT" ]
   },
@@ -1677,6 +1679,7 @@
     "name": "Sweep Kick",
     "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
     "down_dur": 1,
@@ -1687,6 +1690,7 @@
     "id": "tec_taekwondo_roundhouse",
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.2 },
@@ -1701,6 +1705,7 @@
     "name": "Feint",
     "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true

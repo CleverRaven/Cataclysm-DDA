@@ -155,7 +155,7 @@
     "name": { "str": "CRIT helmet (off)", "str_pl": "CRIT helmets (off)" },
     "description": "A standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.",
     "color": "light_gray",
-    "material": [ "kevlar", "hardsteel" ],
+    "material": [ "kevlar", "qt_steel" ],
     "material_thickness": 3,
     "warmth": 20,
     "charges_per_use": 1,
@@ -189,7 +189,7 @@
     "name": { "str": "CRIT helmet (on)", "str_pl": "CRIT helmets (on)" },
     "description": "A standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attached to the side.  This light is currently on and drawing power.",
     "color": "light_gray",
-    "material": [ "kevlar", "hardsteel" ],
+    "material": [ "kevlar", "qt_steel" ],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -220,7 +220,7 @@
     "name": "CRIT canteen",
     "description": "A durable steel canteen that can heat up food with built in atomic heating elements.",
     "color": "dark_gray",
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE" ]

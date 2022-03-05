@@ -825,14 +825,30 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
+static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
+{
+    for( auto &eff_grp : eff_map ) {
+        for( auto &eff : eff_grp.second ) {
+            for( const efftype_id &block : eff.second.get_blocks_effects() ) {
+                if( block == e ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
-                    const time_point &time, const bool player )
+                    const time_point &time, const bool player, const effects_map &eff_map )
 {
     // Decay intensity if supposed to do so, removing effects at zero intensity
     if( intensity > 0 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
         get_max_duration() > get_duration() ) {
-        set_intensity( intensity + eff_type->int_decay_step, player );
+        if( eff_type->int_decay_step <= 0 || !effect_is_blocked( eff_type->id, eff_map ) ) {
+            set_intensity( intensity + eff_type->int_decay_step, player );
+        }
         if( intensity <= 0 ) {
             rem_ids.push_back( get_id() );
             rem_bps.push_back( bp.id() );

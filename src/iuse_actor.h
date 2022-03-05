@@ -1054,6 +1054,18 @@ class detach_gunmods_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
+class modify_gunmods_actor : public iuse_actor
+{
+    public:
+        explicit modify_gunmods_actor( const std::string &type = "modify_gunmods" ) : iuse_actor( type ) {}
+
+        void load( const JsonObject & ) override {}
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
+};
+
 class deploy_tent_actor : public iuse_actor
 {
     public:
