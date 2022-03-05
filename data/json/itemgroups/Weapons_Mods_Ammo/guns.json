@@ -378,7 +378,8 @@
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
-      { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 }
+      { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -401,7 +402,8 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 }
+      { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -915,7 +917,8 @@
       { "item": "mosin44", "prob": 2, "charges-min": 0, "charges-max": 5 },
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
-      { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 }
+      { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   }
 ]
