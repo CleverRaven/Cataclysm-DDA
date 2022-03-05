@@ -18,13 +18,13 @@
       { "text": "What is your job here?", "topic": "TALK_RANCH_BARBER_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_BARBER_HIRE" },
       {
-        "text": "[3 merch] I'll have a shave",
+        "text": "[3 merch] I'll have a shave.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [ "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
       },
       {
-        "text": "[6 merch] I'll get a haircut",
+        "text": "[6 merch] I'll get a haircut.",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
