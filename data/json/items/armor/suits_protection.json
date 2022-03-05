@@ -1698,7 +1698,8 @@
         "coverage": 100,
         "encumbrance": 30
       }
-    ]
+    ],
+    "extend": { "flags": [ "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xl_chainmail_suit_faraday",
@@ -1706,7 +1707,7 @@
     "copy-from": "chainmail_suit_faraday",
     "name": { "str": "XL faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "ELECTRIC_IMMUNE", "OVERSIZE" ] }
   },
   {
     "id": "chainmail_suit_faraday_xs",
@@ -1715,7 +1716,7 @@
     "looks_like": "chainmail_suit_faraday",
     "name": { "str": "XS faraday chainmail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "ELECTRIC_IMMUNE", "UNDERSIZE" ] }
   },
   {
     "id": "cleansuit",
@@ -2423,35 +2424,6 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY" ]
   },
   {
-    "id": "mil_flight_suit",
-    "type": "ARMOR",
-    "name": { "str": "military flight suit" },
-    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
-    "weight": "1315 g",
-    "volume": "4687 ml",
-    "price": 22065,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "material": [ "nomex" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "green",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
-    ],
-    "warmth": 25,
-    "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "POCKETS" ]
-  },
-  {
     "id": "officer_uniform",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
@@ -2488,6 +2460,7 @@
   },
   {
     "id": "mil_flight_suit",
+    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
@@ -2513,6 +2486,6 @@
     ],
     "warmth": 25,
     "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS" ]
   }
 ]

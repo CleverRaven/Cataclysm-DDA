@@ -74,6 +74,8 @@
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
+# Astyle all source files as fast as possible.
+#  make astyle-fast
 # Check if source files are styled properly.
 #  make astyle-check
 # Style the whitelisted json files (maintain the current level of styling).
@@ -731,14 +733,7 @@ ifeq ($(TILES), 1)
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(LOCALIZE),1)
-    NCURSES_PREFIX = ncursesw
-  else
-    NCURSES_PREFIX = ncurses
-  endif
-  ifdef OSXCROSS
-    NCURSES_PREFIX = ncurses
-  endif
+  NCURSES_PREFIX = ncursesw
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
@@ -1199,20 +1194,23 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 
 endif
 
+astyle-fast: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 	mkdir -p $(ODIR) && touch $(ODIR)/.astyle-check-stamp
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
 astyle-check:
 ifdef ASTYLE_CHECK
 	$(info $(ASTYLE_BINARY) -V: $(shell $(ASTYLE_BINARY) -V))
-	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
-        else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
+	@if [ "$(findstring Needs formatting:,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+        else printf "astyle regressions found.\n$(ASTYLE_CHECK)" && false; fi
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif

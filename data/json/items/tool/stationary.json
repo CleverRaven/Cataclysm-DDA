@@ -82,7 +82,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD" ]
+    "flags": [ "STAB", "FRAGILE_MELEE", "WRITE_MESSAGE" ]
   },
   {
     "id": "pencil",

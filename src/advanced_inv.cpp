@@ -1660,7 +1660,7 @@ void advanced_inventory::display()
                 get_auto_pickup().remove_rule( &*sitem->items.front() );
                 sitem->autopickup = false;
             } else {
-                get_auto_pickup().add_rule( &*sitem->items.front() );
+                get_auto_pickup().add_rule( &*sitem->items.front(), true );
                 sitem->autopickup = true;
             }
             recalc = true;

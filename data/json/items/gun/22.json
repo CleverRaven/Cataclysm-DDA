@@ -36,6 +36,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -80,6 +81,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
@@ -208,6 +210,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],

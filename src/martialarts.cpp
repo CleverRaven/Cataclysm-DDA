@@ -263,6 +263,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
+    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
+    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
+
     reqs.load( jo, src );
     bonuses.load( jo );
 }
@@ -373,6 +376,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
+    optional( jo, was_loaded, "prevent_weapon_blocking", prevent_weapon_blocking, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -804,7 +808,7 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
-    miss_recovery = false; // allows free recovery from misses, like tec_feint
+    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
@@ -1236,6 +1240,40 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
+
+std::string character_martial_arts::get_valid_attack_vector( const Character &user,
+        std::vector<std::string> attack_vectors ) const
+{
+    for( auto av : attack_vectors ) {
+        if( can_use_attack_vector( user, av ) ) {
+            return av;
+        }
+    }
+
+    return "NONE";
+}
+
+bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+{
+    martialart ma = style_selected.obj();
+    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
+    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
+    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
+    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
+    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
+    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
+    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
+    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool always_ok = av == "HEAD" || av == "TORSO";
+    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
+    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
+    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
+    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
+
+    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+}
+
 bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
@@ -1260,7 +1298,8 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1293,7 +1332,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1341,6 +1381,11 @@ bool character_martial_arts::can_nonstandard_block( const Character &owner ) con
 bool character_martial_arts::is_force_unarmed() const
 {
     return style_selected->force_unarmed;
+}
+
+bool character_martial_arts::can_weapon_block() const
+{
+    return !style_selected->prevent_weapon_blocking;
 }
 
 void character_martial_arts::clear_all_effects( Character &owner )
@@ -1718,7 +1763,7 @@ std::string ma_technique::get_description() const
     }
 
     if( miss_recovery ) {
-        dump += _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) +
+        dump += _( "* Reduces the time of a <info>miss</info> by <info>half</info>" ) +
                 std::string( "\n" );
     }
 

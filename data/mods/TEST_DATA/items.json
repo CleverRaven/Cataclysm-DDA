@@ -867,23 +867,6 @@
     "armor": [ { "coverage": 50, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "test_longshirt",
-    "type": "ARMOR",
-    "name": "TEST long-sleeved shirt",
-    "description": "A long-sleeved cotton shirt.",
-    "weight": "146 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "dress_shirt",
-    "color": "blue",
-    "warmth": 5,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
-  },
-  {
     "id": "test_ear_plugs",
     "type": "ARMOR",
     "name": { "str": "TEST pair of ear plugs", "str_pl": "TEST pairs of ear plugs" },
@@ -1109,7 +1092,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "hardsteel", "covered_by_mat": 5, "thickness": 1 }
+          { "type": "qt_steel", "covered_by_mat": 5, "thickness": 1 }
         ],
         "encumbrance": 7
       }
@@ -2171,7 +2154,7 @@
     "price_postapoc": 30000,
     "to_hit": 1,
     "bashing": 1,
-    "material": [ "hardsteel", "ceramic", "kevlar_rigid" ],
+    "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
@@ -2268,7 +2251,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "use_action": { "type": "mutagen", "is_weak": true },
+    "vitamins": [ [ "mutagen", 60 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3067,5 +3050,48 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "test_boxing_gloves",
+    "repairs_like": "gauntlets_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of boxing gloves", "str_pl": "pairs of boxing gloves" },
+    "description": "A pair of big, red, 8 oz. boxing gloves.  These are made from thick leather.",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "test_winglets",
+    "//": "Only for the test wing body parts",
+    "repairs_like": "gauntlets_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
+    "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l", "test_bird_wing_r" ] } ]
   }
 ]

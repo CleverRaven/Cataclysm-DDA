@@ -584,6 +584,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_WEAR_EFFECT",
+    "type": "json_flag",
+    "info": "This item can be worn, but it <neutral>won't provide any effects</neutral>."
+  },
+  {
     "id": "PALS_SMALL",
     "type": "json_flag",
     "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
@@ -859,9 +864,19 @@
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
+    "id": "NANOFAB_REPAIR",
+    "type": "json_flag",
+    "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
+  },
+  {
     "id": "NANOFAB_TEMPLATE",
     "type": "json_flag",
     "info": "This item contains a nanofabricator recipe."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE_SINGLE_USE",
+    "type": "json_flag",
+    "info": "This template is copy protected and will be <bad>destroyed</bad> after a single use."
   },
   {
     "id": "BIONIC_FAULTY",
@@ -1121,7 +1136,20 @@
   },
   {
     "id": "COLLAPSIBLE_STOCK",
+    "//": "this is deprecated for the COLLAPSED_STOCK and FOLDED_STOCK, kept around for mod support",
     "type": "json_flag"
+  },
+  {
+    "id": "FOLDED_STOCK",
+    "//": "for weapons that stock folds to one side, no change in volume.",
+    "type": "json_flag",
+    "info": "This items stock is folded it will be hard to shoot with."
+  },
+  {
+    "id": "COLLAPSED_STOCK",
+    "//": "for weapons that stock collapses into the body reducing volume as well.",
+    "type": "json_flag",
+    "info": "This items stock is collapsed it will be hard to shoot with."
   },
   {
     "id": "CONDUCTIVE",
@@ -1354,6 +1382,7 @@
   },
   {
     "id": "NEEDS_UNFOLD",
+    "//": "should not be used for folding mods, use a transforming mod instead",
     "type": "json_flag"
   },
   {

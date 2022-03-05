@@ -41,7 +41,12 @@
     "difficulty": 2,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
+      "assign_mission_target": {
+        "//": "om_special does nothing because we are at the evac_center. I added this to make the linter happy.",
+        "om_special": "evac_center",
+        "om_terrain": "evac_center_9",
+        "reveal_radius": 1
+      },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
         "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
@@ -327,7 +332,7 @@
     "dynamic_line": "Hmm.\"  Smokes looks thoughtful, rubbing his chin.  \"Well, most of the people downstairs aren't willing to come up for things like that, and a lot of folks that are up here have a lot of bad memories from that.  You could try asking around some of the people we have upstairs, but it'll be tough.  If you have some Merch you could spare, though, I could get some people off guard duty and into your little crew for some hazard pay.  You might also have luck asking the Old Guard rep in the southwest bay, near the library - I hear they've got some volunteers lately.",
     "responses": [
       {
-        "text": "Five Merch for someone sounds fair to me.",
+        "text": "[5 merch] Five Merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
@@ -337,7 +342,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1"
       },
       {
-        "text": "How about ten Merch to do it?",
+        "text": "[10 merch] How about ten Merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },

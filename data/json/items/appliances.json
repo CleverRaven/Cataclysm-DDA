@@ -11,15 +11,7 @@
     "insulation": 10,
     "volume": "800 L",
     "weight": "70 kg",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "500 L",
-        "max_contains_weight": "400 kg"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ]
   },
   {
     "type": "GENERIC",
@@ -35,6 +27,19 @@
     "volume": "290 L",
     "weight": "77 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "arcade_machine",
+    "looks_like": "f_arcade_machine",
+    "symbol": "6",
+    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Ready to be plugged in and played.",
+    "color": "red",
+    "name": { "str": "disconnected arcade machine" },
+    "material": [ "budget_steel" ],
+    "longest_side": "200 cm",
+    "volume": "290 L",
+    "weight": "77 kg"
   },
   {
     "type": "TOOL",
