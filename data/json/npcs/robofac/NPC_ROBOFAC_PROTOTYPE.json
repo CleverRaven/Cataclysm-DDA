@@ -131,7 +131,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
       },
       {
-        "text": "I've found this piece of XEDRA tech?  Some sort of defense against monsters.  I'm curious what you all can make of it.",
+        "text": "I've found this piece of XEDRA tech; it seems to be some sort of defense against monsters.  I'm curious what you all can make of it.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "dimensional_anchor", "count": 1 } },
