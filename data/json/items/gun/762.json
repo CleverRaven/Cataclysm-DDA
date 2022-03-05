@@ -202,5 +202,59 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
-  }
+  },
+  {
+    "id": "mk47",
+    "type": "GUN",
+    "name": { "str": "Mk47 Mutant" },
+    "copy-from": "rifle_manual",
+    "description": "The CMMG Mk47 Mutant is a burst-fire assault rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
+    "weight": "2540 g",
+    "volume": "2300 ml",
+    "longest_side": "930 mm",
+    "price": 170000,
+    "price_postapoc": 4000,
+    "to_hit": 
+      {
+      "balance": "neutral", 
+      "grip": "solid", 
+      "length": "long", 
+      "surface": "point"
+      },
+    "bashing": 12,
+    "material": [ "plastic", "steel" ],
+    "looks_like": "ar15",
+    "ammo": [ "762" ],
+    "built_in_mods": [ "pistol_grip" ],
+    "dispersion": 150,
+    "durability": 7,
+    "loudness": 9,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "2 rd.", 2 ], [ "SEMI-AUTO", "semi-auto", 1 ] ],
+    "reload": 420,
+    "reload_noise_volume": 10,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+      ],
+    "pocket_data": [ 
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "akmag10",
+          "akmag20",
+          "akmag30",
+          "akmag40",
+          "akdrum75"
+        ]
+      } 
+    ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+	}
 ]
