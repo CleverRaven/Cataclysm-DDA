@@ -89,7 +89,7 @@
   {
     "id": "newspaper",
     "type": "item_group",
-    "items": [ [ "afs_personal_card", 2 ] ]
+    "items": [ [ "afs_personal_card", 2 ], [ "afs_welcome1_book" ], [ "afs_welcome2_book" ], [ "afs_welcome3_book" ] ]
   },
   {
     "id": "livingroom",
