@@ -1217,7 +1217,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 18
       },
       {
         "material": [
@@ -1226,7 +1226,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 15
       },
       {
         "material": [
@@ -1235,7 +1235,7 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 15
       }
     ]
   },
