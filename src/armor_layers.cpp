@@ -433,6 +433,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                                     string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
+    prot.push_back( name_and_value( space + _( "Breathability:" ),
+                                    string_format( "%3d", static_cast<int>( worn_item.breathability( bp ) ) ), width ) );
     return prot;
 }
 

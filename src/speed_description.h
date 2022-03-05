@@ -31,8 +31,10 @@ class speed_description
 
     private:
         friend class generic_factory<speed_description>;
+        friend struct mod_tracker;
 
         speed_description_id id;
+        std::vector<std::pair<speed_description_id, mod_id>> src;
         bool was_loaded = false;
 
         // Always sorted with highest value first

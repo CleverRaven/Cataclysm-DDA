@@ -17,6 +17,7 @@ class ascii_art
         bool was_loaded = false;
 
         ascii_art_id id;
+        std::vector<std::pair<ascii_art_id, mod_id>> src;
         std::vector<std::string> picture;
 };
 

@@ -912,7 +912,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            desc.first = display::current_position_text( ava.global_omt_location() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

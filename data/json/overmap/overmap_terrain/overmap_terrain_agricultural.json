@@ -271,7 +271,7 @@
     "id": [ "farm_stills_4", "farm_stills_8", "farm_stills_12" ],
     "copy-from": "generic_rural_building",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
-    "name": "grape farm"
+    "name": "vineyard"
   },
   {
     "type": "overmap_terrain",
@@ -459,7 +459,7 @@
   {
     "type": "overmap_terrain",
     "id": "horse_farm_isherwood_9",
-    "name": "green house",
+    "name": "greenhouse",
     "copy-from": "generic_rural_building",
     "sym": "o"
   },
@@ -467,7 +467,7 @@
     "type": "overmap_terrain",
     "id": "horse_farm_isherwood_9_roof",
     "copy-from": "generic_rural_building",
-    "name": "green house roof",
+    "name": "greenhouse roof",
     "sym": "o"
   },
   {
@@ -570,14 +570,14 @@
     "type": "overmap_terrain",
     "id": "horse_farm_9",
     "copy-from": "generic_rural_building",
-    "name": "green house",
+    "name": "greenhouse",
     "sym": "o"
   },
   {
     "type": "overmap_terrain",
     "id": "horse_farm_9_roof",
     "copy-from": "generic_rural_building",
-    "name": "green house roof",
+    "name": "greenhouse roof",
     "sym": "o"
   },
   {

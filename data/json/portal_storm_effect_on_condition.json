@@ -221,7 +221,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ] ] }
+    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ], [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ] ] }
   },
   {
     "type": "effect_on_condition",
@@ -257,15 +257,14 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", 5 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-        [ "EOC_PORTAL_ABSENCE", 1 ],
-        [ "EOC_PORTAL_PAIN", 1 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 3 ],
-        [ "EOC_PORTAL_GRASS_CHANGE", 5 ],
-        [ "EOC_PORTAL_MESSAGE", 5 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 5 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 1 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 3 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 5 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
   },
@@ -285,18 +284,17 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 3 ],
-        [ "EOC_PORTAL_ABSENCE", 1 ],
-        [ "EOC_PORTAL_MEMORIES", 1 ],
-        [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
-        [ "EOC_PORTAL_PAIN", 3 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_GRASS_CHANGE", 1 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
-        [ "EOC_PORTAL_SMOKE", 2 ],
-        [ "EOC_PORTAL_MESSAGE", 7 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 3 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 3 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
+        [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 7 } ]
       ]
     }
   },
@@ -315,17 +313,15 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GIANT_APPENDAGE", 3 ],
-        [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 1 ],
-        [ "EOC_PORTAL_ABSENCE", 2 ],
-        [ "EOC_PORTAL_MEMORIES", 2 ],
-        [ "EOC_PORTAL_NETHER_SPAWN", 3 ],
-        [ "EOC_PORTAL_LIGHT", 2 ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", 1 ],
-        [ "EOC_PORTAL_MESSAGE", 5 ],
-        [ "EOC_PORTAL_STORM_POPUP", 1 ],
-        [ "EOC_PORTAL_DOOR_OPEN", 1 ]
+        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 3 } ],
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 1 } ],
+        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
   },
@@ -344,7 +340,9 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ], [ "EOC_PORTAL_STORM_VOICES_1", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
+              }
             }
           }
         },
@@ -361,7 +359,9 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_2",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ], [ "EOC_PORTAL_STORM_VOICES_2", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_2", { "const": 1 } ] ]
+              }
             }
           }
         },
@@ -373,7 +373,9 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
-              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_VOICES_3", 1 ] ] }
+              "false_effect": {
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
+              }
             }
           }
         }
@@ -503,7 +505,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "global": true,
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
@@ -747,7 +748,13 @@
       {
         "result": [ "t_door_curtain_o" ],
         "valid_terrain": [ "t_door_curtain_c" ],
-        "message": " A door flies open!",
+        "message": " A curtain flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_o" ],
+        "valid_terrain": [ "t_door_grass_curtain_c" ],
+        "message": " A curtain flies open!",
         "message_good": false
       },
       {
@@ -904,7 +911,13 @@
       {
         "result": [ "t_door_curtain_c" ],
         "valid_terrain": [ "t_door_curtain_o" ],
-        "message": " A door slams shut!",
+        "message": " A curtain suddenly shuts!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_c" ],
+        "valid_terrain": [ "t_door_grass_curtain_o" ],
+        "message": " A curtain suddenly shuts!",
         "message_good": false
       },
       {
@@ -1055,22 +1068,33 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
+    "condition": { "not": "u_driving" },
     "effect": [
-      { "u_location_variable": { "global_val": "cell_loc" } },
-      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_offset": 1 },
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
       {
         "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
       },
       {
-        "mapgen_update": "portal_cell",
-        "target_var": { "global_val": "cell_loc" },
-        "revert": true,
+        "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       {
-        "mapgen_update": "portal_cell_roof",
-        "target_var": { "global_val": "cell_roof_loc" },
-        "revert": true,
+        "mapgen_update": "portal_cell_cleanup",
+        "target_var": { "global_val": "cell_loc" },
+        "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
+        "target_var": { "global_val": "place_name" }
+      },
+      {
+        "place_override": { "global_val": "place_name", "default": "1 minutes" },
+        "length": { "u_val": "cell_time", "default": "1 minutes" }
+      },
+      {
+        "revert_location": { "global_val": "cell_roof_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       { "mapgen_update": "portal_cell_roof", "target_var": { "global_val": "cell_roof_loc" } },
@@ -1079,11 +1103,11 @@
       {
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
-          "effect": [ { "u_teleport": { "global_val": "cell_loc" } }, { "u_message": "You came back, this time at least." } ]
+          "effect": [ { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back, this time at least." } ]
         },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
-      { "u_message": "You are trapped in a warped area." }
+      { "u_message": "You are trapped in <global_val:place_name>?" }
     ]
   },
   {
@@ -1091,12 +1115,7 @@
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
       { "u_location_variable": { "global_val": "portal_dungeon" } },
-      {
-        "mapgen_update": "portal_dungeon",
-        "target_var": { "global_val": "portal_dungeon" },
-        "revert": true,
-        "time_in_future": [ "5 minutes", "5 minutes" ]
-      },
+      { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },

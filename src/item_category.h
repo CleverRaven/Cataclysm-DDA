@@ -45,6 +45,7 @@ class item_category
     public:
         /** Unique ID of this category, used when loading from JSON. */
         item_category_id id;
+        std::vector<std::pair<item_category_id, mod_id>> src;
 
         item_category() = default;
         /**

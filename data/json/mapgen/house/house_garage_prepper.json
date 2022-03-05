@@ -40,6 +40,7 @@
         "M": "t_region_groundcover_urban",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         " ": "t_carpet_concrete_red",
         "`": "t_concrete",

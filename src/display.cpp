@@ -11,6 +11,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "timed_event.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -205,7 +206,7 @@ std::string display::time_string( const Character &u )
     // Return exact time if character has a watch, or approximate time if aboveground
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -1137,7 +1138,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
                                               mission_xyz.y() <= center_xyz.y() + bottom ) &&
                               ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
                     found_mi );
 
@@ -1165,6 +1166,14 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
     point_om_omt omt;
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
+std::string display::current_position_text( const tripoint_abs_omt &loc )
+{
+    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return _( e->string_id );
+    }
+    return overmap_buffer.ter( loc )->get_name();
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

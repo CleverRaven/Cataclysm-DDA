@@ -45,6 +45,7 @@ class zone_type
     public:
 
         zone_type_id id;
+        std::vector<std::pair<zone_type_id, mod_id>> src;
         bool was_loaded = false;
 
         zone_type() = default;

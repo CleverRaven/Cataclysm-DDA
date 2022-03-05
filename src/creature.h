@@ -214,6 +214,7 @@ enum class get_body_part_flags : int {
     none = 0,
     only_main = 1 << 0,
     sorted = 1 << 1,
+    primary_type = 1 << 2,
 };
 
 template<>

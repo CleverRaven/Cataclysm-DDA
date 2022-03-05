@@ -1677,7 +1677,7 @@ void Creature::process_effects()
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar() );
+            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar(), *effects );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -2068,8 +2068,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }
@@ -2126,8 +2127,9 @@ void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_toler
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }
@@ -2384,13 +2386,18 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     body_part_type::type part_type, get_body_part_flags flags ) const
 {
     const bool only_main( flags & get_body_part_flags::only_main );
+    const bool primary( flags & get_body_part_flags::primary_type );
 
     std::vector<bodypart_id> bodyparts;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        if( elem.first->has_type( part_type ) ) {
+        if( primary ) {
+            if( elem.first->primary_limb_type() == part_type ) {
+                bodyparts.emplace_back( elem.first );
+            }
+        } else if( elem.first->has_type( part_type ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }

@@ -17,14 +17,7 @@
     "looks_like": "vitamins",
     "fun": -8,
     "freezing_point": -9999,
-    "vitamins": [
-      [ "calcium", 24, 48 ],
-      [ "iron", 24, 48 ],
-      [ "vitA", 24, 48 ],
-      [ "vitB", 24, 48 ],
-      [ "vitC", 24, 48 ],
-      [ "bad_food", 10 ]
-    ]
+    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
   },
   {
     "id": "afs_calorie_water",
@@ -39,14 +32,7 @@
     "price": 10000,
     "looks_like": "bleach",
     "fun": -2,
-    "vitamins": [
-      [ "calcium", 24, 48 ],
-      [ "iron", 24, 48 ],
-      [ "vitA", 24, 48 ],
-      [ "vitB", 24, 48 ],
-      [ "vitC", 24, 48 ],
-      [ "bad_food", 10 ]
-    ]
+    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
   },
   {
     "id": "afs_sundew",
@@ -102,7 +88,7 @@
     "description": "Smoothly blended edibles, neatly shaped into cubes for maximum enjoyment.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 1 ] ]
   },
   {
     "id": "afs_food_to_go",
@@ -131,7 +117,7 @@
     "description": "Rings of caramelized yellow colorant, tasting not exactly like apple.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "iron", 1 ], [ "vitA", 1 ], [ "vitC", 10 ] ]
+    "vitamins": [ [ "iron", 1 ], [ "vitC", 10 ] ]
   },
   {
     "id": "afs_cee_wafers",
@@ -163,7 +149,7 @@
     "fun": 0,
     "charges": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "vitB", 10 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ]
   },
   {
     "id": "afs_soup_27",
@@ -178,7 +164,7 @@
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "vitB", 10 ], [ "vitA", 5 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ] ]
   },
   {
     "id": "afs_escapepod_ration",

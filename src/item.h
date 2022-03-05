@@ -866,6 +866,11 @@ class item : public visitable
         units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
         units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
+        int get_used_holsters() const;
+        int get_total_holsters() const;
+        units::volume get_total_holster_volume() const;
+        units::volume get_used_holster_volume() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -1209,6 +1214,15 @@ class item : public visitable
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
+         * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
+         * range 0 - 100 (no breathability - full breathability)
+         * takes as a value the body part to check
+         * @return armor data consolidated breathability
+         */
+        int breathability( const bodypart_id &bp ) const;
+        int breathability() const;
+
+        /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
          * roll is normally set to 0 which means all materials protect for legacy
@@ -1413,6 +1427,7 @@ class item : public visitable
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
+        bool is_vehicle_battery() const;
         bool is_ammo_belt() const;
         bool is_holster() const;
         bool is_ammo() const;

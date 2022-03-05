@@ -1191,7 +1191,7 @@ static void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
     }
 }
 
@@ -1636,7 +1636,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1664,6 +1664,7 @@ static void character_edit_menu()
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprat[U]re" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
@@ -1877,6 +1878,13 @@ static void character_edit_menu()
         break;
         case D_ADD_EFFECT: {
             wisheffect( you );
+            break;
+        }
+        case D_CHECK_TEMP: {
+            for( const bodypart_id &bp : you.get_all_body_parts() ) {
+                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
+                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+            }
             break;
         }
         case D_ASTHMA: {
@@ -2143,7 +2151,7 @@ static void debug_menu_game_state()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
+    tripoint_abs_sm abs_sub = here.get_abs_sub();
     std::string mfus;
     std::vector<std::pair<m_flag, int>> sorted;
     sorted.reserve( m_flag::MF_MAX );
@@ -2193,7 +2201,7 @@ static void debug_menu_game_state()
 
     popup_top(
         s.c_str(),
-        player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
+        player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
         overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
@@ -2858,7 +2866,7 @@ void debug()
                     mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
-                    here.invalidate_map_cache( here.get_abs_sub().z );
+                    here.invalidate_map_cache( here.get_abs_sub().z() );
                 }
             }
             break;
@@ -3036,7 +3044,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 } // namespace debug_menu

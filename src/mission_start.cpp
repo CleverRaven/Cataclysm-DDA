@@ -210,7 +210,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     }
     // if there's no possible location, then we have to overwrite an existing console...
     const tripoint fallback( rng( rng_x_min, rng_x_max ), rng( rng_y_min, rng_y_max ),
-                             compmap.get_abs_sub().z );
+                             compmap.get_abs_sub().z() );
     return random_entry( *used, fallback );
 }
 

@@ -1607,5 +1607,15 @@
     "id": "hickory_nut_unshelled",
     "type": "MIGRATION",
     "replace": "hickory_nut_shelled"
+  },
+  {
+    "id": "bthk_stock",
+    "type": "MIGRATION",
+    "replace": "adjustable_stock"
+  },
+  {
+    "id": "folding_bthk_stock",
+    "type": "MIGRATION",
+    "replace": "high_end_folding_stock"
   }
 ]
