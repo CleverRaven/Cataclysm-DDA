@@ -2,7 +2,7 @@
   {
     "abstract": "generic_polymer_resin",
     "type": "material",
-    "name": "Polymer resin",
+    "name": "Polymer Resin",
     "specific_heat_liquid": 1.25,
     "specific_heat_solid": 1.25,
     "density": 1,
@@ -21,7 +21,7 @@
   {
     "type": "material",
     "id": "thermo_resin",
-    "name": "Thermoplastic resin",
+    "name": "Thermoplastic Resin",
     "copy-from": "generic_polymer_resin",
     "//": "This material ID is for plastics that can be reshaped and moulded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
     "repaired_with": "thermo_resin_chunk",
@@ -49,7 +49,7 @@
   {
     "type": "material",
     "id": "pseudo_fuel",
-    "name": "Pseudo fuel",
+    "name": "Pseudo Fuel",
     "density": 1,
     "bash_resist": 0,
     "cut_resist": 0,
@@ -940,7 +940,7 @@
   {
     "type": "material",
     "id": "avgas",
-    "name": "avgas fuel",
+    "name": "Avgas Fuel",
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "energy": 45.8,
@@ -972,7 +972,7 @@
   {
     "type": "material",
     "id": "lamp_oil",
-    "name": "Lamp oil",
+    "name": "Lamp Oil",
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "//": "Roughly equivalent to LPG",
@@ -983,7 +983,7 @@
   {
     "type": "material",
     "id": "motor_oil",
-    "name": "Motor oil",
+    "name": "Motor Oil",
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "//": "Roughly equivalent to LPG",
@@ -1064,7 +1064,7 @@
   {
     "type": "material",
     "id": "foodplace_foodstuff",
-    "name": "Foodplace's delicious foodstuff",
+    "name": "Foodplace's Delicious Foodstuff",
     "copy-from": "junk"
   },
   {
@@ -1580,7 +1580,7 @@
   {
     "type": "material",
     "id": "slime",
-    "name": "slime",
+    "name": "Slime",
     "density": 1,
     "bash_resist": 0,
     "cut_resist": 0,
@@ -1864,7 +1864,7 @@
   {
     "type": "material",
     "id": "hydrogen_cell",
-    "name": "Pressurized hydrogen",
+    "name": "Pressurized Hydrogen",
     "density": 30,
     "bash_resist": 6,
     "specific_heat_liquid": 0.82,
@@ -1951,7 +1951,7 @@
   {
     "type": "material",
     "id": "carbide",
-    "name": "layered carbide",
+    "name": "Layered Carbide",
     "density": 30,
     "breathability": "SECOND_SKIN",
     "specific_heat_liquid": 0.82,
@@ -2234,14 +2234,14 @@
   {
     "type": "material",
     "id": "blood",
-    "name": "blood",
+    "name": "Blood",
     "copy-from": "water",
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ]
   },
   {
     "type": "material",
     "id": "hblood",
-    "name": "human blood",
+    "name": "Human Blood",
     "copy-from": "blood"
   },
   {
