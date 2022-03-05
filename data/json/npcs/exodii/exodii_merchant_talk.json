@@ -595,7 +595,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
-    "dynamic_line": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
+    "dynamic_line": "*becomes distant for a moment.*  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
     "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -792,7 +792,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2",
     "type": "talk_topic",
-    "dynamic_line": "No!  Bluster an' clouds, no!*  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
+    "dynamic_line": "No!  Bluster an' clouds, no!  *Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
     "responses": [
       {
         "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
