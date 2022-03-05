@@ -1548,11 +1548,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
 void Character::passive_power_gen( const bionic &bio )
 {
-    const float power_trickle = units::from_kilojoule( bio.info().power_trickle );
-    if( power_trickle != 0.0 ) {
-        mod_power_level( power_trickle );
-        return;
-    }
+    mod_power_level( bio.info().power_trickle );
 
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
     if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
