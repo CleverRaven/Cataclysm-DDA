@@ -1127,7 +1127,7 @@
     "id": "mon_twisting_blade",
     "type": "MONSTER",
     "name": { "str": "Twisting Blade" },
-    "description": "You are uncertain whether this dwarfs you or you dwarf it. It's exact shape and number of dimnesions changes but it is always sharp enough to cut a moment in half.",
+    "description": "You are uncertain whether this dwarfs you or you dwarf it. It's exact shape and number of dimensions changes but it is always sharp enough to cut a moment in half.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
