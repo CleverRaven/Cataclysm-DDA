@@ -426,8 +426,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Carpentry_Job:
         case Forage_Job:
         case Caravan_Commune_Center_Job:
-        case Purchase_East_Field:
-        case Upgrade_East_Field:
         case Plant_East_Field:
         case Harvest_East_Field:
         case Camp_Emergency_Recall:

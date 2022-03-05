@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -485,7 +486,7 @@ void talk_function::companion_mission( npc &p )
             scavenger_raid( mission_key, p );
         }
 
-        if( p.is_actor() && p.as_actor().has_active_mission( mission_ranch_doctor_medical_anesthetic ) ) {
+        if( p.is_avatar() && get_avatar().has_active_mission(mission_ranch_doctor_medical_anesthetic)) {
             lab_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {

@@ -1,5 +1,19 @@
 [
   {
+    "type": "item_group",
+    "id": "ranch_nurse_clinic_aspirin",
+    "items": [
+      { "item": "aspirin", "prob": 1, "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ranch_doctor_filing_cabinets",
+    "items": [
+      { "item": "book_binder", "prob": 1, "charges": [ 25, 50 ] }
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_west_wall_door",
@@ -491,9 +505,11 @@
         "  "
       ],
       "furniture": { "r": "f_rack" },
+      "place_items": [
+        { "item": "ranch_nurse_clinic_aspirin", "x": 1, "chance": 100, "y": 0, "repeat": [1, 2] }
+      ],
       "place_item": [
-        { "item": "bandages", "x": 0, "y": 0, "amount": [ 1, 3 ] },
-        { "item": "aspirin", "x": 1, "y": 0, "amount": [ 1, 2 ] }
+        { "item": "bandages", "x": 0, "y": 0, "amount": [ 1, 3 ] }
       ]
     }
   },
