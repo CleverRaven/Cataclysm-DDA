@@ -93,8 +93,8 @@ class outfit
         item item_worn_with_flag( const flag_id &f ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
-        // find the best clothing weapon when unarmed
-        item *current_unarmed_weapon( const std::string &attack_vector );
+        // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
+        item *current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
@@ -114,6 +114,9 @@ class outfit
         float weight_capacity_modifier() const;
         units::mass weight_capacity_bonus() const;
         units::volume holster_volume() const;
+        int used_holsters() const;
+        int total_holsters() const;
+        units::volume free_holster_volume() const;
         units::volume contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume volume_capacity_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume free_space() const;

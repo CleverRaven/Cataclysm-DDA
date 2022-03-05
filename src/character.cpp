@@ -7737,30 +7737,30 @@ int Character::empty_holsters() const
 int Character::used_holsters() const
 {
     int e_holsters = 0;
-    e_holsters += weapon.get_used_holsters();
-    for( const item &w : worn ) {
-        e_holsters += w.get_used_holsters();
+    if( weapon.is_holster() ) {
+        e_holsters += weapon.get_used_holsters();
     }
+    e_holsters += worn.used_holsters();
     return e_holsters;
 }
 
 int Character::total_holsters() const
 {
     int e_holsters = 0;
-    e_holsters += weapon.get_total_holsters();
-    for( const item &w : worn ) {
-        e_holsters += w.get_total_holsters();
+    if( weapon.is_holster() ) {
+        e_holsters += weapon.get_total_holsters();
     }
+    e_holsters += worn.total_holsters();
     return e_holsters;
 }
 
 units::volume Character::free_holster_volume() const
 {
     units::volume holster_volume = 0_ml;
-    holster_volume += weapon.get_total_holster_volume() - weapon.get_used_holster_volume();
-    for( const item &w : worn ) {
-        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
+    if( weapon.is_holster() ) {
+        holster_volume += weapon.get_total_holster_volume() - weapon.get_used_holster_volume();
     }
+    holster_volume += worn.free_holster_volume();
     return holster_volume;
 }
 
