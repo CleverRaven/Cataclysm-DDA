@@ -2410,7 +2410,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
             target_pos = target_pos + tripoint( 0, 0,
                                                 iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
         }
-        write_var_value( type, var_name, target, target_pos.to_string() );
+        write_var_value( type, var_name, d.actor(type == var_type::npc), target_pos.to_string() );
     };
 }
 

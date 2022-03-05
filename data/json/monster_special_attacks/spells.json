@@ -573,8 +573,8 @@
     "id": "EOC_mon_swarm_structure_attack",
     "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
     "effect": [
-      { "u_location_variable": { "global_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
-      { "npc_teleport": { "global_val": "swarm_target" } }
+      { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
+      { "npc_teleport": { "npc_val": "swarm_target" } }
     ],
     "false_effect": {
       "u_spawn_monster": "mon_twisting_blade",
