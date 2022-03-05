@@ -1766,8 +1766,8 @@ void Character::process_bionic( bionic &bio )
         return;
     }
 
-    if( bio.power_trickle != 0 ) {
-        mod_power_level( units::from_kilojoule( bio.power_trickle ) );
+    if( bio->power_trickle != 0 ) {
+        mod_power_level( units::from_kilojoule( bio->power_trickle ) );
     }
 
     if( bio.get_uid() == get_weapon_bionic_uid() ) {
