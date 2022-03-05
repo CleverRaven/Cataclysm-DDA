@@ -22,7 +22,7 @@
   - data/json/npcs/**/*
 
 "Player Faction Base / Camp":
-  - src/basecamp**/*
+  - "src/basecamp.(cpp|h)"
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
