@@ -9,4 +9,5 @@ jobs:
       - uses: actions/labeler@v3
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        sync-labels: true
+          # I don't want no bot removing stuff for me
+          # sync-labels: true
