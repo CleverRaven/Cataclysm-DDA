@@ -3570,7 +3570,7 @@
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "time": "10 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "hc_steel_chunk", 4 ] ] ]
   },
   {
@@ -3578,7 +3578,7 @@
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "time": "10 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "mc_steel_chunk", 4 ] ] ]
   },
   {
@@ -3586,7 +3586,7 @@
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
     "time": "10 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "lc_steel_chunk", 4 ] ] ]
   },
   {
