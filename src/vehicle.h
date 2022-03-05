@@ -2170,4 +2170,93 @@ class vehicle
         std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
+// For reference what each function is supposed to do, see their implementation in
+// @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
+// if needed.
+class RemovePartHandler
+{
+    public:
+        virtual ~RemovePartHandler() = default;
+
+        virtual void unboard( const tripoint &loc ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
+        virtual void set_transparency_cache_dirty( int z ) = 0;
+        virtual void set_floor_cache_dirty( int z ) = 0;
+        virtual void removed( vehicle &veh, int part ) = 0;
+        virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
+};
+
+class DefaultRemovePartHandler : public RemovePartHandler
+{
+    public:
+        ~DefaultRemovePartHandler() override = default;
+
+        void unboard( const tripoint &loc ) override {
+            get_map().unboard_vehicle( loc );
+        }
+        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
+            get_map().add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int z ) override {
+            map &here = get_map();
+            here.set_transparency_cache_dirty( z );
+            here.set_seen_cache_dirty( tripoint_zero );
+        }
+        void set_floor_cache_dirty( const int z ) override {
+            get_map().set_floor_cache_dirty( z );
+        }
+        void removed( vehicle &veh, const int part ) override;
+        void spawn_animal_from_part( item &base, const tripoint &loc ) override {
+            base.release_monster( loc, 1 );
+        }
+};
+
+class MapgenRemovePartHandler : public RemovePartHandler
+{
+    private:
+        map &m;
+
+    public:
+        explicit MapgenRemovePartHandler( map &m ) : m( m ) { }
+
+        ~MapgenRemovePartHandler() override = default;
+
+        void unboard( const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to unboard during mapgen!" );
+            // Ignored. Will almost certainly not be called anyway, because
+            // there are no creatures that could have been mounted during mapgen.
+        }
+        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
+            if( !m.inbounds( loc ) ) {
+                if( !permit_oob ) {
+                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                              it.tname(), loc.to_string() );
+                }
+                tripoint copy = loc;
+                m.clip_to_bounds( copy );
+                cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
+                add_item_or_charges( copy, std::move( it ), false );
+                return;
+            }
+            m.add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int /*z*/ ) override {
+            // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
+        }
+        void set_floor_cache_dirty( const int /*z*/ ) override {
+            // Ignored for now. We don't initialize the floor cache in mapgen anyway.
+        }
+        void removed( vehicle &veh, const int /*part*/ ) override {
+            // TODO: check if this is necessary, it probably isn't during mapgen
+            m.dirty_vehicle_list.insert( &veh );
+        }
+        void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
+            // Ignored. The base item will not be changed and will spawn as is:
+            // still containing the animal.
+            // This should not happend during mapgen anyway.
+            // TODO: *if* this actually happens: create a spawn point for the animal instead.
+        }
+};
+
 #endif // CATA_SRC_VEHICLE_H

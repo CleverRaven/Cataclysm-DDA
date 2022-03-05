@@ -128,118 +128,33 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 // 1 kJ per battery charge
 static const int bat_energy_j = 1000;
 
-// For reference what each function is supposed to do, see their implementation in
-// @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
-// if needed.
-class RemovePartHandler
+void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
-    public:
-        virtual ~RemovePartHandler() = default;
-
-        virtual void unboard( const tripoint &loc ) = 0;
-        virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
-        virtual void set_transparency_cache_dirty( int z ) = 0;
-        virtual void set_floor_cache_dirty( int z ) = 0;
-        virtual void removed( vehicle &veh, int part ) = 0;
-        virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
-};
-
-class DefaultRemovePartHandler : public RemovePartHandler
-{
-    public:
-        ~DefaultRemovePartHandler() override = default;
-
-        void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( loc );
-        }
-        void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
-            get_map().add_item_or_charges( loc, std::move( it ) );
-        }
-        void set_transparency_cache_dirty( const int z ) override {
-            map &here = get_map();
-            here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_zero );
-        }
-        void set_floor_cache_dirty( const int z ) override {
-            get_map().set_floor_cache_dirty( z );
-        }
-        void removed( vehicle &veh, const int part ) override {
-            avatar &player_character = get_avatar();
-            // If the player is currently working on the removed part, stop them as it's futile now.
-            const player_activity &act = player_character.activity;
-            map &here = get_map();
-            if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
-                if( veh_pointer_or_null( here.veh_at( tripoint( act.values[0], act.values[1],
-                                                      player_character.posz() ) ) ) == &veh ) {
-                    if( act.values[6] >= part ) {
-                        player_character.cancel_activity();
-                        add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
-                    }
-                }
+    avatar &player_character = get_avatar();
+    // If the player is currently working on the removed part, stop them as it's futile now.
+    const player_activity &act = player_character.activity;
+    map &here = get_map();
+    if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
+        if( veh_pointer_or_null( here.veh_at( tripoint( act.values[0], act.values[1],
+                                              player_character.posz() ) ) ) == &veh ) {
+            if( act.values[6] >= part ) {
+                player_character.cancel_activity();
+                add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
             }
-            // TODO: maybe do this for all the nearby NPCs as well?
-            if( player_character.get_grab_type() == object_type::VEHICLE &&
-                player_character.pos() + player_character.grab_point == veh.global_part_pos3( part ) ) {
-                if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
-                    add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                    player_character.grab( object_type::NONE );
-                }
-            }
+        }
+    }
+    // TODO: maybe do this for all the nearby NPCs as well?
+    if( player_character.get_grab_type() == object_type::VEHICLE &&
+        player_character.pos() + player_character.grab_point == veh.global_part_pos3( part ) ) {
+        if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
+            add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
+            player_character.grab( object_type::NONE );
+        }
+    }
 
-            here.dirty_vehicle_list.insert( &veh );
-        }
-        void spawn_animal_from_part( item &base, const tripoint &loc ) override {
-            base.release_monster( loc, 1 );
-        }
-};
+    here.dirty_vehicle_list.insert( &veh );
+}
 
-class MapgenRemovePartHandler : public RemovePartHandler
-{
-    private:
-        map &m;
-
-    public:
-        explicit MapgenRemovePartHandler( map &m ) : m( m ) { }
-
-        ~MapgenRemovePartHandler() override = default;
-
-        void unboard( const tripoint &/*loc*/ ) override {
-            debugmsg( "Tried to unboard during mapgen!" );
-            // Ignored. Will almost certainly not be called anyway, because
-            // there are no creatures that could have been mounted during mapgen.
-        }
-        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
-            if( !m.inbounds( loc ) ) {
-                if( !permit_oob ) {
-                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
-                              it.tname(), loc.to_string() );
-                }
-                tripoint copy = loc;
-                m.clip_to_bounds( copy );
-                cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
-                add_item_or_charges( copy, std::move( it ), false );
-                return;
-            }
-            m.add_item_or_charges( loc, std::move( it ) );
-        }
-        void set_transparency_cache_dirty( const int /*z*/ ) override {
-            // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
-        }
-        void set_floor_cache_dirty( const int /*z*/ ) override {
-            // Ignored for now. We don't initialize the floor cache in mapgen anyway.
-        }
-        void removed( vehicle &veh, const int /*part*/ ) override {
-            // TODO: check if this is necessary, it probably isn't during mapgen
-            m.dirty_vehicle_list.insert( &veh );
-        }
-        void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
-            debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
-            // Ignored. The base item will not be changed and will spawn as is:
-            // still containing the animal.
-            // This should not happend during mapgen anyway.
-            // TODO: *if* this actually happens: create a spawn point for the animal instead.
-        }
-};
 
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
