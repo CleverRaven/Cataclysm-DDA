@@ -232,7 +232,7 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "2 rd.", 2 ], [ "SEMI-AUTO", "semi-auto", 1 ] ],
     "reload": 420,
-    "reload_noise_volume": 10,
+    "reload_noise_volume": 8,
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "muzzle", 1 ],
