@@ -18,6 +18,13 @@
 "Code: Test":
   - tests/**/*
 
+"NPC / Factions":
+  - data/json/npcs/**/*
+
+"Items: Ammo / Guns":
+  - data/json/items/gun/**/*
+  - data/json/items/ammo/**/*
+
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
