@@ -214,13 +214,7 @@
     "longest_side": "930 mm",
     "price": 170000,
     "price_postapoc": 4000,
-    "to_hit": 
-      {
-      "balance": "neutral", 
-      "grip": "solid", 
-      "length": "long", 
-      "surface": "point"
-      },
+    "to_hit": { "balance": "neutral", "grip": "solid", "length": "long", "surface": "point" },
     "bashing": 12,
     "material": [ "plastic", "steel" ],
     "looks_like": "ar15",
@@ -232,7 +226,7 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "2 rd.", 2 ], [ "SEMI-AUTO", "semi-auto", 1 ] ],
     "reload": 420,
-    "reload_noise_volume": 8,
+    "reload_noise_volume": 10,
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "muzzle", 1 ],
@@ -242,19 +236,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
-      ],
-    "pocket_data": [ 
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "akmag10",
-          "akmag20",
-          "akmag30",
-          "akmag40",
-          "akdrum75"
-        ]
-      } 
     ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ]
-	}
+  }
 ]
