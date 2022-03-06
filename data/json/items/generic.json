@@ -1388,7 +1388,7 @@
     "color": "green",
     "name": { "str": "broken military dispatch", "str_pl": "broken military dispatches" },
     "category": "other",
-    "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
+    "description": "A broken military dispatch.  Though the scratched manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
