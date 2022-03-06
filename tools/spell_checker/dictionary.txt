@@ -429,7 +429,7 @@ deinonychus
 deles
 delsihous
 demihuman
-denatonuim
+denatonium
 deployer
 dermatik
 derring
