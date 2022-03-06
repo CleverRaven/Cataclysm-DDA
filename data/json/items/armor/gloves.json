@@ -52,6 +52,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+	"material": [ "steel", "iron" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
@@ -93,6 +94,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+	"material": [ "budget_steel" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
@@ -117,6 +119,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+	"material": [ "lc_steel_chain"],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
@@ -150,6 +153,7 @@
     "id": "mc_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
+	"material": [ "mc_steel_chain"],
     "name": { "str": "pair of medium steel chainmail gloves", "str_pl": "pairs of medium steel chainmail gloves" },
     "description": "Customized medium steel chainmail gloves that fully enclose the hand.",
     "armor": [
@@ -181,6 +185,7 @@
     "id": "hc_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
+	"material": [ "hc_steel_chain"],
     "name": { "str": "pair of high steel chainmail gloves", "str_pl": "pairs of high steel chainmail gloves" },
     "description": "Customized high steel chainmail gloves that fully enclose the hand.",
     "armor": [
@@ -212,6 +217,7 @@
     "id": "ch_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
+	"material": [ "ch_steel_chain"],
     "name": { "str": "pair of hardened steel chainmail gloves", "str_pl": "pairs of hardened steel chainmail gloves" },
     "description": "Customized hardened steel chainmail gloves that fully enclose the hand.",
     "armor": [
@@ -243,6 +249,7 @@
     "id": "qt_chainmail_hands",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hands",
+	"material": [ "qt_steel_chain"],
     "name": { "str": "pair of tempered steel chainmail gloves", "str_pl": "pairs of tempered steel chainmail gloves" },
     "description": "Customized tempered steel chainmail gloves that fully enclose the hand.",
     "armor": [
@@ -1169,6 +1176,7 @@
     "bashing": 7,
     "symbol": "[",
     "looks_like": "fire_gauntlets",
+	"material": [ "lc_steel", "lc_steel_chain" ],
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
@@ -1198,6 +1206,7 @@
     "id": "mc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
+	"material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str_sp": "medium steel demi-gauntlet" },
     "flags": [ "STURDY" ],
     "armor": [
@@ -1225,6 +1234,7 @@
     "id": "hc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
+	"material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str_sp": "high steel demi-gauntlet" },
     "armor": [
       {
@@ -1251,6 +1261,7 @@
     "id": "ch_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
+	"material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str_sp": "hardened steel demi-gauntlet" },
     "armor": [
       {
@@ -1270,6 +1281,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "XL hardened steel demi-gauntlet" },
     "copy-from": "ch_demi_gaunt",
+	"material": [ "qt_steel", "qt_steel_chain" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1313,6 +1325,7 @@
     "bashing": 7,
     "symbol": "[",
     "looks_like": "fire_gauntlets",
+	"material": [ "lc_steel", "lc_steel_chain" ],
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
@@ -1342,6 +1355,7 @@
     "id": "mc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
+	"material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str_sp": "medium steel mitten gauntlet" },
     "armor": [
       {
@@ -1368,6 +1382,7 @@
     "id": "hc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
+	"material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str_sp": "high steel mitten gauntlet" },
     "armor": [
       {
@@ -1394,6 +1409,7 @@
     "id": "ch_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
+	"material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str_sp": "hardened mitten gauntlet" },
     "armor": [
       {
@@ -1420,6 +1436,7 @@
     "id": "qt_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
+	"material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str_sp": "tempered steel mitten gauntlet" },
     "armor": [
       {

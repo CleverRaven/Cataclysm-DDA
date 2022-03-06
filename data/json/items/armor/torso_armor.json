@@ -214,6 +214,7 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
+	"material": [ "steel", "iron" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
@@ -254,6 +255,7 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
+	"material": [ "budget_steel" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
@@ -278,6 +280,7 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
+	"material": [ "lc_steel_chain"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
@@ -311,6 +314,7 @@
     "id": "mc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+	"material": [ "mc_steel_chain"],
     "name": { "str": "medium steel chainmail vest" },
     "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -342,6 +346,7 @@
     "id": "hc_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+	"material": [ "hc_steel_chain"],
     "name": { "str": "high steel chainmail vest" },
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -373,6 +378,7 @@
     "id": "ch_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+	"material": [ "ch_steel_chain"],
     "name": { "str": "hardened steel chainmail vest" },
     "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
@@ -404,6 +410,7 @@
     "id": "qt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_vest",
+	"material": [ "qt_steel_chain"],
     "name": { "str": "tempered steel chainmail vest" },
     "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
