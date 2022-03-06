@@ -644,6 +644,31 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "chainmail_junk_arms",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "description": "Customized chainmail arms.  The metal shows signs of rust and corrosion.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "weight": "2812 g",
+    "volume": "750 ml",
+    "price": 7500,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_red",
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
     "id": "lc_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",

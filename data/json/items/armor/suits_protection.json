@@ -263,23 +263,6 @@
     "material": [ "budget_steel", "leather" ]
   },
   {
-    "id": "xl_armor_lightplate",
-    "type": "ARMOR",
-    "name": { "str": "XL plate armor" },
-    "copy-from": "armor_junk_lightplate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xs_armor_lightplate",
-    "type": "ARMOR",
-    "copy-from": "armor_junk_lightplate",
-    "looks_like": "armor_lightplate",
-    "name": { "str": "XS plate armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
-  },
-  {
     "id": "armor_lc_lightplate",
     "type": "ARMOR",
     "category": "armor",
@@ -1128,23 +1111,6 @@
     "material": [ "budget_steel", "leather" ]
   },
   {
-    "id": "xl_armor_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL ornamental plate armor" },
-    "copy-from": "armor_junk_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
-  },
-  {
-    "id": "xs_armor_plate",
-    "type": "ARMOR",
-    "copy-from": "armor_junk_plate",
-    "looks_like": "armor_plate",
-    "name": { "str": "XS ornamental plate armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
-  },
-  {
     "id": "armor_riot",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
@@ -1310,7 +1276,32 @@
     "looks_like": "chainmail_hauberk",
     "name": { "str": "XS chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_junk_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail hauberk" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14430 g",
+    "volume": "2750 ml",
+    "price": 35988,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "armor_blarmor",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "lc_chainmail_hauberk",
@@ -1518,7 +1509,32 @@
     "looks_like": "chainmail_suit",
     "name": { "str": "XS chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "chainmail_junk_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail armor" },
+    "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "16436 g",
+    "volume": "3250 ml",
+    "price": 45000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "light_red",
+    "warmth": 0,
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "lc_chainmail_suit",
