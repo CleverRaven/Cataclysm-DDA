@@ -16,7 +16,7 @@
     "points": 0,
     "visibility": 3,
     "ugliness": 1,
-    "description": "Your eyes have mutated; now you have big, brightly colored eyes. It's visually striking, but doesn't alter your vision.",
+    "description": "Your eyes have mutated; now you have big, brightly colored eyes.  It's visually striking, but doesn't alter your vision.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
     "types": [ "EYES" ],
     "category": [ "AVALI" ],
@@ -52,7 +52,7 @@
     "points": 0,
     "visibility": 4,
     "ugliness": 2,
-    "description": "Your ears have forked at their tips. Aside from looking rather strange, it doesn't seem to have any effect.",
+    "description": "Your ears have forked at their tips.  Aside from looking rather strange, it doesn't seem to have any effect.",
     "types": [ "EARS" ],
     "changes_to": [ "AVI_EARS2" ],
     "category": [ "AVALI" ]
