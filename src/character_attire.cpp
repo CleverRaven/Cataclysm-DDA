@@ -259,14 +259,22 @@ Character::wear( item_location item_wear, bool interactive )
 }
 
 cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
-        bool interactive, bool do_calc_encumbrance )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items )
 {
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
     guy.last_item = to_wear.typeId();
 
-    std::list<item>::iterator position = position_to_wear_new_item( to_wear );
-    std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
+    std::list<item>::iterator new_item_it = worn.end();
+
+    if( do_sort_items ) {
+        std::list<item>::iterator position = position_to_wear_new_item( to_wear );
+        new_item_it = worn.insert( position, to_wear );
+    } else {
+        // this is used for debug and putting on clothing in the wrong order
+        worn.push_back( to_wear );
+    }
+
 
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
@@ -301,7 +309,10 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
-    new_item_it->on_wear( guy );
+    // skip this for unsorted items in debug mode
+    if( do_sort_items ) {
+        new_item_it->on_wear( guy );
+    }
 
     guy.inv->update_invlet( *new_item_it );
     guy.inv->update_cache_with_item( *new_item_it );
