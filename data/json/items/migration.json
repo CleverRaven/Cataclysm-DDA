@@ -1624,8 +1624,8 @@
     "replace": "folding_poncho"
   },
   {
-    "id": "emer_blanket",
+    "id": "emer_blanket_on",
     "type": "MIGRATION",
-    "replace": "emer_blanket_on"
+    "replace": "emer_blanket"
   }
 ]
