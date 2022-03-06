@@ -582,10 +582,10 @@ static bool mx_military( map &m, const tripoint & )
                 }
             } else {
                 m.add_spawn( mon_zombie_soldier, 1, *p );
-                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
-                if( !one_in( 10 ) ) {
+                // 25% chance per corpse to to generate an extra weapon on the ground
+                if( one_in( 4 ) ) {
                     item_group_id group;
-                    // 80% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // ~80% assault rifles, ~10% LMGs, ~5% shotguns, ~5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = Item_spawn_data_military_standard_sniper_rifles;
                     } else if( one_in( 19 ) ) {
@@ -725,15 +725,15 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             return m.passable( n );
             } ) ) {
                 m.add_spawn( mon_zombie_soldier, 1, *p );
-                // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
-                if( !one_in( 10 ) ) {
+                // 25% chance per corpse to to generate an extra weapon on the ground
+                if( one_in( 4 ) ) {
                     item_group_id group;
-                    // 75% assault rifles, 10% LMGs, 5% shotguns, 5% sniper rifles
+                    // ~80% assault rifles, ~10% LMGs, ~5% shotguns, ~5% sniper rifles
                     if( one_in( 20 ) ) {
                         group = Item_spawn_data_military_standard_sniper_rifles;
-                    } else if( one_in( 20 ) ) {
+                    } else if( one_in( 19 ) ) {
                         group = Item_spawn_data_military_standard_shotguns;
-                    } else if( one_in( 10 ) ) {
+                    } else if( one_in( 9 ) ) {
                         group = Item_spawn_data_military_standard_lmgs;
                     } else {
                         group = Item_spawn_data_military_standard_assault_rifles;
