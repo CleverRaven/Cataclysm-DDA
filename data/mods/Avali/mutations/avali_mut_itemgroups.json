@@ -2,11 +2,11 @@
   {
     "type": "item_group",
     "id": "mut_lab",
-    "items": [ [ [ "mutagen_avali" ], 1 ], [ ["iv_mutagen_avali"], 1 ] ]
+    "items": [ [ [ "mutagen_avali" ], 1 ], [ [ "iv_mutagen_avali" ], 1 ] ]
   },
   {
     "type": "item_group",
     "id": "mut_iv",
-    "items": [ [ [ "mutagen_avali" ], 1 ], [ ["iv_mutagen_avali"], 1 ] ]
+    "items": [ [ [ "iv_mutagen_avali" ], 1 ] ]
   }
 ]
