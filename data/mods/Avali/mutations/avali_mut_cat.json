@@ -1,0 +1,106 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "AVALI",
+    "name": "Avali",
+    "threshold_mut": "THRESH_AVALI",
+    "mutagen_message": "This world doesn't seem like where you belong, but you'll make it work.",
+    "memorial_message": "Returned to their tribe.",
+    "vitamin": "mutagen_avali"
+  },
+  {
+    "id": "mutagen_avali",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "avali mutagen",
+    "description": "Mutagen cocktail simply labeled 'PE0184 Avalon'",
+    "vitamins": [ [ "mutagen_avali", 175 ], [ "mutagen", 125 ] ]
+  },
+  {
+    "id": "iv_mutagen_avali",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "avali mutagenic primer",
+    "description": "A super-concentrated yellow substance with silvery flecks that remind you of bundling up in warm cloth.  You need a syringe to inject it and prime your body for mutation.",
+    "color": "light_gray",
+    "healthy": -2,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the avali mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_avali", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_avali",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Avali Mutagen" },
+    "excess": "mutagen_avali",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_avali",
+    "name": [ "Avali Mutation", "Avali Transformation", "Avali Metamorphosis" ],
+    "desc": [
+      "You consumed Avali mutagen.",
+      "You consumed a large amount of Avali mutagen.",
+      "You consumed a life-changing amount of Avali mutagen."
+    ],
+    "main_parts_only": true,
+    "max_intensity": 3,
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Avali Mutagen Contamination"
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of fashioning a set of warm clothes from bright yellow cloth.",
+      "You dream of taking a vacation in the summer... to Antartica."
+    ],
+    "category": "AVALI",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a vivid dream of hunting with friends.",
+      "You dream of sitting on the floor of a cloth tent, eating with your tribe."
+    ],
+    "category": "AVALI",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "A peculiar dream of having four ears somehow seems... right.",
+      "You dream of using a thin feather-tipped tail to balance on a rock, as part of a contest. You win, of course."
+    ],
+    "category": "AVALI",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of forming a new pack, and making this world your own.",
+      "You have a dream of being on another world, a glittering gem of technology, though you can't remember the details."
+    ],
+    "category": "AVALI",
+    "strength": 4
+  }
+]

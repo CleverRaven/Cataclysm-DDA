@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "avali",
+    "name": "Avali Mutations",
+    "authors": [ "Aronai" ],
+    "maintainers": [ "Aronai" ],
+    "description": "Adds a mutation category and tree for Avali mutations, based on the CC BY-SA species by RyujinZERO.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

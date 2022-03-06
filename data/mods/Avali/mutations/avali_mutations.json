@@ -1,0 +1,267 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_AVALI",
+    "name": "Avali",
+    "points": 1,
+    "description": "This isn't your world, but you might be able to call it home after some cleaning up.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_EYES",
+    "name": { "str": "Avali Eyes" },
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 1,
+    "description": "Your eyes have mutated; now you have big, brightly colored eyes. It's visually striking, but doesn't alter your vision.",
+    "social_modifiers": { "lie": 2, "persuade": 2 },
+    "types": [ "EYES" ],
+    "category": [ "AVALI" ],
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "AVALI" ], "changes_to": [ "AVI_TAIL" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_TAIL",
+    "name": { "str": "Avali Tail" },
+    "points": 1,
+    "visibility": 6,
+    "ugliness": 2,
+    "description": "You have a long, thin tail, tipped with a large feathery spade.  It improves your balance, making your ability to dodge higher, but prevents wearing non-fabric pants.",
+    "types": [ "TAIL" ],
+    "prereqs": [ "TAIL_STUB" ],
+    "category": [ "AVALI" ],
+    "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
+    "allow_soft_gear": true,
+    "dodge_modifier": 2,
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_EARS1",
+    "name": { "str": "Forked Ears" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "description": "Your ears have forked at their tips. Aside from looking rather strange, it doesn't seem to have any effect.",
+    "types": [ "EARS" ],
+    "changes_to": [ "AVI_EARS2" ],
+    "category": [ "AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_EARS2",
+    "name": { "str": "Avali Ears" },
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 2,
+    "description": "You have four ears instead of two, and they wiggle and twist towards sounds. Your ability to detect distant noises is quite impressive.",
+    "types": [ "EARS" ],
+    "prereqs": [ "AVI_EARS1" ],
+    "category": [ "AVALI" ],
+    "hearing_modifier": 2.5,
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "AVI_BLOOD",
+    "name": { "str": "Avali Metabolism" },
+    "points": 0,
+    "mixed_effect": true,
+    "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees above 65 F (18.3 C). Your metabolism is more effective, however.",
+    "types": [ "METABOLISM" ],
+    "category": [ "AVALI" ],
+    "temperature_speed_modifier": -0.2,
+    "metabolism_modifier": -0.333,
+    "threshreq": [ "THRESH_AVALI" ]
+  },
+  {
+    "type": "mutation",
+    "id": "QUICK",
+    "copy-from": "QUICK",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTEATER",
+    "copy-from": "LIGHTEATER",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFT",
+    "copy-from": "DEFT",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTSTEP",
+    "copy-from": "LIGHTSTEP",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET",
+    "copy-from": "FLEET",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODCARDIO",
+    "copy-from": "GOODCARDIO",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTFUR",
+    "copy-from": "LIGHTFUR",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FUR",
+    "copy-from": "FUR",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LONGNAILS",
+    "copy-from": "LONGNAILS",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GHTSTEP",
+    "copy-from": "GHTSTEP",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SKIN_ROUGH",
+    "copy-from": "SKIN_ROUGH",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "copy-from": "FANGS",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FORKED_TONGUE",
+    "copy-from": "FORKED_TONGUE",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_FEATHERS",
+    "copy-from": "ARM_FEATHERS",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FLEET2",
+    "copy-from": "FLEET2",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP",
+    "copy-from": "PER_UP",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_2",
+    "copy-from": "PER_UP_2",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_3",
+    "copy-from": "PER_UP_3",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP",
+    "copy-from": "DEX_UP",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_2",
+    "copy-from": "DEX_UP_2",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "BADBACK",
+    "copy-from": "BADBACK",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD",
+    "copy-from": "NOMAD",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANTIJUNK",
+    "copy-from": "ANTIJUNK",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALDISCORD",
+    "copy-from": "ANIMALDISCORD",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SLIT_NOSTRILS",
+    "copy-from": "SLIT_NOSTRILS",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HOLLOW_BONES",
+    "copy-from": "HOLLOW_BONES",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "copy-from": "NOMAD2",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SNOUT",
+    "copy-from": "SNOUT",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MUZZLE_LONG",
+    "copy-from": "MUZZLE_LONG",
+    "extend": { "category": [ "AVALI" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RAP_TALONS",
+    "copy-from": "RAP_TALONS",
+    "extend": { "category": [ "AVALI" ] }
+  }
+]
