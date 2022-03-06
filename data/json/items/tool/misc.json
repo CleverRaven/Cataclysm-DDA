@@ -449,7 +449,7 @@
     "type": "TOOL",
     "id": "gasket_plastic",
     "name": { "str": "plastic gasket" },
-    "description": " A single-use plastic gasket.",
+    "description": "A single-use plastic gasket.",
     "symbol": "(",
     "color": "dark_gray",
     "looks_like": "plastic_chunk",
