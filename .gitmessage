@@ -1,4 +1,6 @@
-# If this commit is applied, it will ....
+# Generally use conventional commit's commit message style
+# https://www.conventionalcommits.org/en/v1.0.0/
+# Supported types and scopes can be found at .github/labeler.yml
 # |<-- Using around 50, Maximum 72 Characters -->|
 
 # Explain why this change is being made

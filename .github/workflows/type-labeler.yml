@@ -1,0 +1,23 @@
+name: Type-Scope Labeler Issues-PRs
+
+on: 
+  issues:
+    types: [opened, synchronize]
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Label by Type-Scope
+      id: labeler
+      uses: jimschubert/labeler-action@v1
+      with:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

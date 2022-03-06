@@ -1,122 +1,162 @@
-"[C++]":
-  - "**/*.cpp"
-  - "**/*.h"
+# enable labeler on issues, prs, or both.
+enable:
+  issues: true
+  prs: true
 
-"[JSON]":
-  - "**/*.json"
+# Labels is an object where:
+# - keys are labels
+# - values are objects of { include: [ pattern ], exclude: [ pattern ] }
+#    - pattern must be a valid regex, and is applied globally to
+#      title + description of issues and/or prs (see enabled config above)
+#    - 'include' patterns will associate a label if any of these patterns match
+#    - 'exclude' patterns will ignore this label if any of these patterns match
 
-"[Python]":
-  - "**/*.py"
+# Uses Go Regex
+labels:
+  'Accessibility':
+    include:
+      - '^\w+\(accessibility\)(!)?: .+$'
 
-"<Documentation>":
-  - "**/*.md"
-  - doc/**/*
-  - doxygen_doc/**/*
+  'Bionics':
+    include:
+      - '^\w+\((cbms|bionics)\)(!)?: .+$'
 
-"Code: Tooling":
-  - tools/**/*
-  - .github/**/*
-  - utilities/**/*
+  'Code: Build':
+     include:
+       - '^build(\(.+\))?(!)?: .+$'
+       - '^\w+\(build\)(!)?: .+$'
 
-"Code: Tests":
-  - tests/**/*
+  'Code: Debug':
+    include:
+      - '^debug(\(.+\))?(!)?: .+$'
+      - '^\w+\(debug\)(!)?: .+$'
 
-"Code: Build":
-  - build-data/**/*
-  - build-scripts/**/*
-  - "**/Makefile"
-  - "**/CMakeLists.txt"
-  - "**/*.cmake"
+  'Code: Infrastructure / Style / Static Analysis':
+    include:
+      - '^(style|infrastructure|static-analysis)(\(.+\))?(!)?: .+$'
 
-"Crafting / Construction / Recipes":
-  - "**/recipes/**/*"
-  - data/json/construction.json
-  - data/json/construction_category.json
-  - data/json/construction_group.json
-  - data/json/deconstruction.json
+  'Code: Performance':
+    include:
+      - '^(perf|performance)(\(.+\))?(!)?: .+$'
+      - '^\w+\((perf|performance)\)(!)?: .+$'
 
-"NPC / Factions":
-  - "**/npcs/**/*"
+  'Code: Tests':
+    include:
+      - '^(test|tests)(\(.+\))?(!)?: .+$'
+      - '^\w+\((test|tests)\)(!)?: .+$'
 
-"Info / User Interface":
-  - "**/ui/**/*"
-  - "**/widget/**/*"
-  - "src/list_view.*"
-  - "src/surroundings_menu.*"
+  'Code: Tooling':
+    include:
+      - '^tools(\(.+\))?(!)?: .+$'
+      - '^\w+\(tools\)(!)?: .+$'
 
-"Appliance/Power Grid":
-  - "**/appliance**"
+  'Controls / Input':
+    include:
+      - '^\w+\(controls\)(!)?: .+$'
 
-"Monsters":
-  - "**/monsters/**/*"
+  'Crafting / Construction / Recipes':
+    include:
+      - '^\w+\((crafting|construction|recipes)\)(!)?: .+$'
 
-"Lore":
-  - data/json/npcs/BG_trait_groups.json
-  - data/json/npcs/Personality_trait_groups.json
-  - data/json/npcs/personality_traits.json
-  - "**/Backgrounds/**/*"
-  - "**/snippets/**/*"
+  '<Documentation>':
+    include:
+      - '^(doc|docs)(\(.+\))?(!)?: .+$'
 
-"Limbs":
-  - "src/bodypart.*"
-  - "data/json/limb_scores.json"
+  '<Enhancement / Feature>':
+    include:
+      - '^(feat|feature|enhance|enhancement)(\(.+\))?(!)?: .+$'
 
-"Spawn":
-  - "**/itemgroups/**/*"
-  - "**/monstergroups/**/*"
+  '<Exploit>':
+    include:
+      - '^\w+\(exploit\)(!)?: .+$'
 
-"Bionics":
-  - "**/bionics.*"
+  'Fields / Furniture / Terrain / Traps':
+    include:
+      - '^\w+\((fields|furniture|terrain|traps)\)(!)?: .+$'
 
-"Map / Mapgen":
-  - "**/mapgen/**/*"
-  - "**/mapgen_palettes/**/*"
-  - "**/overmap/**/*"
+  'Game: Balance':
+    include:
+      - '^balance(\(.+\))?(!)?: .+$'
 
-"Player Faction Base / Camp":
-  - "src/basecamp.*"
-  - "src/faction_camp.*"
-  - data/json/mapgen/basecamps/**/*
+  'Info / User Interface':
+    include:
+      - '^ui(\(.+\))?(!)?: .+$'
+      - '^\w+\(ui\)(!)?: .+$'
 
-"Items: Ammo / Guns":
-  - "**/gun/**/*"
-  - "**/ammo/**/*"
+  'Items: Armor / Clothing':
+    include:
+      - '^\w+\((armor|clothing)\)(!)?: .+$'
 
-"SDL: Tiles / Sound":
-  - gfx/**/*
-  - sound/**/*
+  'Items: Containers':
+    include:
+      - '^\w+\(containers\)(!)?: .+$'
 
-"Translation":
-  - lang/**/*
-  - "src/translation.*"
+  'Items: Food / Vitamins':
+    include:
+      - '^\w+\(food\)(!)?: .+$'
 
-"Mods: Aftershock":
-  - data/mods/Aftershock/**/*
-  - data/mods/aftershock_exoplanet/**/*
+  'Items: Gunmod / Toolmod':
+    include:
+      - '^\w+\((gunmod|toolmod)\)(!)?: .+$'
 
-"Mods: Dark Days of the Dead":
-  - data/mods/classic_zombies/**/*
+  'Items / Item Actions / Item Qualities':
+    include:
+      - '^\w+\(items\)(!)?: .+$'
 
-"Mods: Dark Skies":
-  - data/mods/Dark-Skies-Above/**/*
+  'Items: Magazines':
+    include:
+      - '^\w+\(magazines\)(!)?: .+$'
 
-"Mods: DinoMod":
-  - data/mods/DinoMod/**/*
+  'Maps / Mapgen':
+    include:
+      - '^\w+\(maps\)(!)?: .+$'
 
-"Mods: Generic Guns":
-  - data/mods/Generic_Guns/**/*
+  'Martial Arts':
+    include:
+      - '^\w+\(ma\)(!)?: .+$'
 
-"Mods: MMA":
-  - data/mods/MMA/**/*
+  'Mechanics: Enchantments / Spells':
+    include:
+      - '^\w+\((enchantments|spells)\)(!)?: .+$'
 
-"Mods: Magiclysm":
-  - data/mods/Magiclysm/**/*
+  'Missions':
+    include:
+      - '^\w+\(missions\)(!)?: .+$'
 
-"Mods: Innawood 🌲":
-  - data/mods/innawood/**/*
+  'Mods':
+    include:
+      - '^\w+(\(mods\))(!)?: .+$'
 
-"Mods: No Hope":
-  - data/mods/No_Hope/**/*
+  'Mutations / Traits / Professions/ Hobbies':
+    include:
+      - '^\w+\((mutations|traits|professions|hobbies)\)(!)?: .+$'
 
-"Mods":
-  - data/mods/**/*
+  'NPC / Factions':
+    include:
+      - '^(npc|factions)(\(.+\))?(!)?: .+$'
+      - '^\w+\((npc|factions)\)(!)?: .+$'
+
+  '<Quality of Life>':
+    include:
+      - '^\w+(\(QoL\))(!)?: .+$'
+
+  '<Suggestion / Discussion>':
+    include:
+      - '^(suggestion|discussion)(\(.+\))?(!)?: .+$'
+
+  'Translation':
+    include:
+      - '^\w+\((i18n|translation)\)(!)?: .+$'
+
+  'Vehicles':
+    include:
+      - '^\w+(\(vehicles\))(!)?: .+$'
+
+  'Chore':
+    include:
+      - '^chore(\(.+\))?(!)?: .+$'
+
+  'CI':
+    include:
+      - '^ci(\(.+\))?(!)?: .+$'
+      - '^\w+\(ci\)(!)?: .+$'
