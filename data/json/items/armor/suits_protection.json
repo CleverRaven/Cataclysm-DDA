@@ -255,6 +255,23 @@
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "xl_armor_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "XL plate armor" },
+    "copy-from": "armor_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_armor_lightplate",
+    "type": "ARMOR",
+    "copy-from": "armor_lightplate",
+    "looks_like": "armor_lightplate",
+    "name": { "str": "XS plate armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+  },
+  {
     "id": "armor_junk_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lightplate",
@@ -1101,6 +1118,23 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "xl_armor_plate",
+    "type": "ARMOR",
+    "name": { "str": "XL ornamental plate armor" },
+    "copy-from": "armor_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+  },
+  {
+    "id": "xs_armor_plate",
+    "type": "ARMOR",
+    "copy-from": "armor_plate",
+    "looks_like": "armor_plate",
+    "name": { "str": "XS ornamental plate armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
   },
   {
     "id": "armor_junk_plate",
