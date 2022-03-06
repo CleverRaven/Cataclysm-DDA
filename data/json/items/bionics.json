@@ -1271,7 +1271,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str_sp": "Trickle Charger CBM" },
-    "description": "A low-power, long-lasting bioelectric charger.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
+    "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
     "weight": "500 g",
     "difficulty": 3
   }
