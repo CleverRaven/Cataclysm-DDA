@@ -4,16 +4,16 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
-      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 20 ] },
+      { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 20 ] },
       {
         "item": "m27_assault_rifle",
         "variant": "m38dmr",
         "contents-group": "m38dmr_mods",
         "prob": 1,
-        "charges": [ 0, 30 ]
+        "charges": [ 0, 20 ]
       },
-      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
+      { "item": "m16a4", "prob": 2, "charges": [ 0, 20 ] }
     ]
   },
   {
