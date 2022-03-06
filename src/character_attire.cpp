@@ -528,6 +528,8 @@ bool Character::is_wearing_shoes( const side &check_side ) const
                 // if we returned both
                 return true;
                 break;
+            case side::num_sides:
+                break;
         }
 
         // check if we've found both sides and are looking for both sides
