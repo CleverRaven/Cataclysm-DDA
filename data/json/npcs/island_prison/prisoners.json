@@ -110,7 +110,7 @@
       [ "throwing_knife", 5 ],
       {
         "distribution": [ { "group": "longguns_cop", "prob": 20, "contents-item": "shoulder_strap" }, { "group": "sidearms_cop", "prob": 80 } ],
-        "prob": 60
+        "prob": 50
       }
     ]
   },
