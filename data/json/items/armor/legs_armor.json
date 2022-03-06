@@ -983,7 +983,7 @@
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1137,7 +1137,7 @@
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1291,7 +1291,7 @@
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
