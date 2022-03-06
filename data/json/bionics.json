@@ -1784,7 +1784,7 @@
     "name": { "str": "Sleep Mode Shutdown" },
     "description": "For better or worse, this CBM suppresses stimuli while asleep, preventing you from waking up until the end of your natural sleep cycle.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_FAULTY, "BIONIC_SHOCKPROOF"" ]
+    "flags": [ "BIONIC_FAULTY, "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_trickle",
