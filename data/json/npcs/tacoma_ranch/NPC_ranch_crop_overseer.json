@@ -310,7 +310,11 @@
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD_PLANT_SEEDS",
     "dynamic_line": "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready to harvest, you can have us liquidate it or harvest it for you. Planting will cost 1 merch per plot.",
     "responses": [
-      { "text": "TODO", "topic": "TALK_DONE" },
+      {
+        "text": "[1 merch / plot] I'd like to plant some seeds.",
+        "topic": "TALK_DONE",
+        "effect": { "companion_mission": "PLANT FIELD" }
+      },
       { "text": "Never mind.", "topic": "TALK_RANCH_CROP_OVERSEER" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -320,7 +324,11 @@
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD_HARVEST_PLANTS",
     "dynamic_line": "You can either have us liquidate the crop and give you the cash or pay us to harvest it for you.  Harvesting will cost 1 merch per plot.",
     "responses": [
-      { "text": "TODO", "topic": "TALK_DONE" },
+      {
+        "text": "[1 merch / plot] I'd like to harvest the field.",
+        "topic": "TALK_DONE",
+        "effect": { "companion_mission": "HARVEST FIELD" }
+      },
       { "text": "Never mind.", "topic": "TALK_RANCH_CROP_OVERSEER" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]

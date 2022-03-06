@@ -155,14 +155,6 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         "Caravan_Commune_Center_Job",
         to_translation( "" )
     },
-    {
-        "Plant_East_Field",
-        to_translation( "" )
-    },
-    {
-        "Harvest_East_Field",
-        to_translation( "" )
-    },
     //  Faction camp missions
     {
         "Camp_Distribute_Food",
@@ -467,7 +459,6 @@ void scavenger_raid( mission_data &mission_key, npc &p );
 void lab_raid( mission_data &mission_key, npc &p );
 void commune_menial( mission_data &mission_key, npc &p );
 void commune_carpentry( mission_data &mission_key, npc &p );
-void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
 bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
@@ -492,7 +483,6 @@ void talk_function::companion_mission( npc &p )
         }
     } else if( role_id == "COMMUNE CROPS" ) {
         title = _( "Agricultural Missions" );
-        commune_farmfield( mission_key, p );
         commune_forage( mission_key, p );
         commune_refuge_caravan( mission_key, p );
     } else if( role_id == "FOREMAN" ) {
@@ -504,6 +494,12 @@ void talk_function::companion_mission( npc &p )
     } else if( role_id == "REFUGEE MERCHANT" ) {
         title = _( "Free Merchant Missions" );
         commune_refuge_caravan( mission_key, p );
+    } else if( role_id == "PLANT FIELD" ) {
+        field_plant( p, omt_ranch_camp_63 );
+        return;
+    } else if( role_id == "HARVEST FIELD" ) {
+        field_harvest( p, omt_ranch_camp_63 );
+        return;
     } else {
         return;
     }
@@ -659,43 +655,6 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
         }
         mission_key.add_return( miss_id,
                                 _( "Recover Ally from Carpentry Work" ), entry, avail );
-    }
-}
-
-void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
-{
-    mission_id miss_id = { No_Mission, "", cata::nullopt };
-
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: 1 merch/plot\n\n"
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ..#....**" // NOLINT(cata-text-style)
-                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                               "We'll plant the field with your choice of crop if you are willing "
-                               "to finance it.  When the crop is ready to harvest you can have us "
-                               "liquidate it or harvest it for you." );
-        miss_id.id = Plant_East_Field;
-        mission_key.add_start( miss_id, _( "Plant East Field" ), entry );
-        entry = _( "Cost: 1 merch/plot\n\n"
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ..#....**" // NOLINT(cata-text-style)
-                   "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                   "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                   "You can either have us liquidate the crop and give you the cash or pay us to "
-                   "harvest it for you." );
-        miss_id.id = Harvest_East_Field;
-        mission_key.add_start( miss_id, _( "Harvest East Field" ), entry );
     }
 }
 
@@ -1150,14 +1109,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             } else {
                 debugmsg( "Unrecognized caravan mission id parameter encountered: '%s'", cur_key.id.id.parameters );
             }
-            break;
-
-        case Plant_East_Field:
-            field_plant( p, omt_ranch_camp_63 );
-            break;
-
-        case Harvest_East_Field:
-            field_harvest( p, omt_ranch_camp_63 );
             break;
 
         case No_Mission:

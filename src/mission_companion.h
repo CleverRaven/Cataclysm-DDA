@@ -45,10 +45,6 @@ enum mission_kind : int {
     Forage_Job,
     Caravan_Commune_Center_Job,
 
-    //  Tacoma Farm direct tasks
-    Plant_East_Field,
-    Harvest_East_Field,
-
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
     Camp_Assign_Jobs,
