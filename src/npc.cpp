@@ -1894,8 +1894,6 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ),
-                                       player_character.is_blind() ? _( "someone" ) : get_name(), formatted_line );
     if( player_character.is_deaf() && !player_character.is_blind() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ),
                                 get_name() );
@@ -1909,6 +1907,10 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         add_msg( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
         return;
     }
+
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ),
+                                       player_character.is_blind() ? _( "someone" ) : get_name(), formatted_line );
+
     // Sound happens even if we can't hear it
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
