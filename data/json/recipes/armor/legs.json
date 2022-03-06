@@ -521,27 +521,23 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "strap_large", 3 ] ],
+    "using": [ [ "strap_small", 4 ], [ "mixed_steel", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ]
   },
   {
     "result": "xs_legguard_scrap",
     "type": "recipe",
     "copy-from": "legguard_scrap",
     "time": "40 m",
-    "using": [ [ "strap_large", 2 ] ],
-    "components": [ [ [ "scrap", 45 ] ] ]
+    "using": [ [ "strap_small", 3 ], [ "mixed_steel", 1 ] ]
   },
   {
     "result": "xl_legguard_scrap",
     "type": "recipe",
     "copy-from": "legguard_scrap",
     "time": "45 m",
-    "using": [ [ "strap_large", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 90 ] ] ]
+    "using": [ [ "strap_small", 5 ], [ "mixed_steel", 1 ] ]
   },
   {
     "result": "legguard_tire",
