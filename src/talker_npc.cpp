@@ -804,6 +804,10 @@ std::string talker_npc::get_job_description() const
 
 std::string talker_npc::evaluation_by( const talker &alpha ) const
 {
+    if( !alpha.can_see() ) {
+        return _( "&You're blind and can't make anything out." );
+    }
+
     ///\EFFECT_PER affects whether player can size up NPCs
 
     ///\EFFECT_INT slightly affects whether player can size up NPCs

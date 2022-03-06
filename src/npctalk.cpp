@@ -1120,7 +1120,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_SIZE_UP" ) {
         return actor( true )->evaluation_by( *actor( false ) );
     } else if( topic == "TALK_LOOK_AT" ) {
-        return "&" + actor( true )->short_description();
+        if( actor( false )->can_see() ) {
+            return "&" + actor( true )->short_description();
+        } else {
+            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
+        }
     } else if( topic == "TALK_OPINION" ) {
         return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
