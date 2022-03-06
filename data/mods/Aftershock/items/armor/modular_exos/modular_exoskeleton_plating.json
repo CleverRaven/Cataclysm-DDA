@@ -4,17 +4,49 @@
     "type": "ARMOR",
     "category": "exosuit",
     "name": { "str": "steel helmet plate (exosuit)", "str_pl": "steel helmet plates (exosuit)" },
-    "description": "Designed to attach to an exosuit's helmet, this is a sturdy plate of steel.",
+    "description": "Designed to attach to an exosuit's helmet via carbide brackets, this is a sturdy plate of tempered steel.",
     "weight": "12880 g",
     "volume": "5 L",
-    "material": [ "steel" ],
+    "material": [ "qt_steel" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
     "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 6,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_HELMET_PLATE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
+    "non_functional": "damaged_exo_helmet_steel_plate",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_helmet_steel_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
+    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be repaired in the field.",
+    "looks_like": "exo_helmet_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_helmet_steel_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "destroyed steel helmet plate (exosuit)", "str_pl": "destroyed steel helmet plates (exosuit)" },
+    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "material": [ "vacuum_carbide" ],
+    "looks_like": "exo_helmet_steel",
+    "extend": { "flags": [ "NANOFAB_REPAIR" ] }
   },
   {
     "id": "exo_helmet_plastic",
