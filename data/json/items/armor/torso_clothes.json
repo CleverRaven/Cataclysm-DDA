@@ -710,7 +710,10 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
-    "description": "A short red dress with white faux fur as trim.  Looks like something Mrs. Claus might wear on Christmas night.",
+    "description": {
+      "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
+      "str": "A short red dress with white faux fur as trim.  Looks like something Mrs. Claus might wear on Christmas night."
+    },
     "weight": "600 g",
     "volume": "2000 ml",
     "price": 16000,
