@@ -1196,7 +1196,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap suit" },
-    "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but uncomfortable protection.",
     "weight": "9534 g",
     "volume": "15500 ml",
     "price": 60000,
@@ -1217,6 +1217,9 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
+        "cover_melee": 80,
+        "cover_ranged": 80,
+        "cover_vitals": 0,
         "encumbrance": 18
       },
       {
@@ -1226,6 +1229,9 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
+        "cover_melee": 80,
+        "cover_ranged": 80,
+        "cover_vitals": 0,
         "encumbrance": 15
       },
       {
@@ -1235,6 +1241,9 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
+        "cover_melee": 80,
+        "cover_ranged": 80,
+        "cover_vitals": 0,
         "encumbrance": 15
       }
     ]

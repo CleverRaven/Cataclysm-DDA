@@ -778,13 +778,16 @@
     "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [
       {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 6,
-        "coverage": 80,
+        "coverage": 100,
         "cover_melee": 80,
         "cover_ranged": 80,
         "cover_vitals": 0,
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+        "encumbrance": 15
       }
     ]
   },

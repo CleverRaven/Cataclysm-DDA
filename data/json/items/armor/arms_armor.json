@@ -383,7 +383,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of scrap arm guards", "str_pl": "pairs of scrap arm guards" },
-    "description": "A pair of arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of arm guards made from scraps of metal secured by simple strings.",
     "weight": "3064 g",
     "volume": "4750 ml",
     "price": 20000,
@@ -400,6 +400,10 @@
     "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 6,
         "coverage": 80,
