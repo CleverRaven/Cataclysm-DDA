@@ -1385,18 +1385,20 @@ void construct::done_wiring( const tripoint &p )
         }
 
         bounding_box vehicle_box = veh->get_bounding_box( false );
-        int size_x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-        int size_y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+        point size;
+        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
 
         vehicle &veh_target = vp->vehicle();
         if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
             bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
 
-            int target_size_x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-            int target_size_y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+            point target_size;
+            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
 
-            if( size_x + target_size_x <= MAX_WIRE_VEHICLE_SIZE &&
-                size_y + target_size_y <= MAX_WIRE_VEHICLE_SIZE ) {
+            if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
                 if( !veh->merge_vehicle_parts( &veh_target ) ) {
                     debugmsg( "failed to merge vehicle parts" );
                 }
