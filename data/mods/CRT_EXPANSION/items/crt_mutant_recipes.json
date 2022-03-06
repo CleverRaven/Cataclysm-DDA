@@ -1,0 +1,80 @@
+[
+  {
+    "result": "crt_la_boots_toeless",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": false,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_articulation" }, { "proficiency": "prof_closures" } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "crt_la_boots", 1 ] ] ]
+  },
+  {
+    "result": "crt_boots_toeless",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_FEET",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_boots", 1 ] ] ]
+  },
+  {
+    "result": "crt_iduster_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_iduster", 1 ] ] ]
+  },
+  {
+    "result": "crt_aarmor_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_aarmor", 1 ] ] ]
+  },
+  {
+    "result": "crt_earmor_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_earmor", 1 ] ] ]
+  },
+  {
+    "result": "crt_earmor_boots_toeless",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_FEET",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_earmor_boots", 1 ] ] ]
+  },
+  {
+    "result": "crt_sarmor_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_sarmor", 1 ] ] ]
+  },
+  {
+    "result": "crt_warmor_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_warmor", 1 ] ] ]
+  },
+  {
+    "result": "crt_gasmask_snout",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_gasmask", 1 ] ] ]
+  },
+  {
+    "result": "crt_em_vest_tail",
+    "type": "recipe",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "copy-from": "crt_la_boots_toeless",
+    "components": [ [ [ "crt_em_vest", 1 ] ] ]
+  }
+]
