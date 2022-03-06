@@ -31,9 +31,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "screw",
-    "name": "screws",
-    "default": "screw"
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts and bolts"
   },
   {
     "type": "ammunition_type",
