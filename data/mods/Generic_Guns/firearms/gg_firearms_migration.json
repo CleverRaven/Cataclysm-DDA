@@ -291,7 +291,8 @@
       "famas",
       "aksemi",
       "fs2000",
-      "robofac_gun"
+      "robofac_gun",
+      "mk47"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
