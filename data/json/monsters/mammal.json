@@ -2379,7 +2379,7 @@
   {
     "id": "mon_goat_kid",
     "type": "MONSTER",
-    "name": { "str": "kid" },
+    "name": { "ctxt": "goat", "str": "kid" },
     "copy-from": "mon_sheep_lamb",
     "description": "A hooved browsing mammal known for climbing and eating just about anything.  The young are famously cute and cuddly.",
     "symbol": "g",
