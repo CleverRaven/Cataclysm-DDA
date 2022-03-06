@@ -2185,7 +2185,7 @@
     "type": "GENERIC",
     "id": "sunflower",
     "name": { "str": "sunflower" },
-    "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
+    "description": "The top of a sunflower, with yellow petals and some seeds that have yet to be eaten by animals.",
     "weight": "450 g",
     "to_hit": -2,
     "color": "yellow",
