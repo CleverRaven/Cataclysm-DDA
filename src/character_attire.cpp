@@ -259,14 +259,22 @@ Character::wear( item_location item_wear, bool interactive )
 }
 
 cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
-        bool interactive, bool do_calc_encumbrance )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items )
 {
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
     guy.last_item = to_wear.typeId();
 
-    std::list<item>::iterator position = position_to_wear_new_item( to_wear );
-    std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
+    std::list<item>::iterator new_item_it = worn.end();
+
+    if( do_sort_items ) {
+        std::list<item>::iterator position = position_to_wear_new_item( to_wear );
+        new_item_it = worn.insert( position, to_wear );
+    } else {
+        // this is used for debug and putting on clothing in the wrong order
+        worn.push_back( to_wear );
+    }
+
 
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
@@ -301,7 +309,10 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
-    new_item_it->on_wear( guy );
+    // skip this for unsorted items in debug mode
+    if( do_sort_items ) {
+        new_item_it->on_wear( guy );
+    }
 
     guy.inv->update_invlet( *new_item_it );
     guy.inv->update_cache_with_item( *new_item_it );
@@ -489,6 +500,8 @@ side outfit::is_wearing_shoes( const bodypart_id &bp ) const
 bool Character::is_wearing_shoes( const side &check_side ) const
 {
     side side_covered = side::num_sides;
+    bool any_left_foot_is_covered = false;
+    bool any_right_foot_is_covered = false;
 
     for( const bodypart_id &part : get_all_body_parts() ) {
         // Is any right|left foot...
@@ -496,22 +509,35 @@ bool Character::is_wearing_shoes( const side &check_side ) const
             continue;
         }
         side_covered = worn.is_wearing_shoes( part );
+
+        // early return if we've found a match
+        switch( side_covered ) {
+            case side::RIGHT:
+                if( check_side == side::RIGHT ) {
+                    return true;
+                }
+                any_right_foot_is_covered = true;
+                break;
+            case side::LEFT:
+                if( check_side == side::LEFT ) {
+                    return true;
+                }
+                any_left_foot_is_covered = true;
+                break;
+            case side::BOTH:
+                // if we returned both
+                return true;
+                break;
+        }
+
+        // check if we've found both sides and are looking for both sides
+        if( check_side == side::BOTH && any_right_foot_is_covered && any_left_foot_is_covered ) {
+            return true;
+        }
     }
 
-    if( side_covered == side::num_sides ) {
-        return false;
-    }
-    if( side_covered == side::BOTH ) {
-        return true;
-    }
-
-    if( side_covered == side::RIGHT && ( check_side == side::LEFT || check_side == side::BOTH ) ) {
-        return false;
-    }
-    if( side_covered == side::LEFT && ( check_side == side::RIGHT || check_side == side::BOTH ) ) {
-        return false;
-    }
-    return true;
+    // fall through return if we haven't found a match
+    return false;
 }
 
 bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item ) const
@@ -1330,6 +1356,33 @@ int outfit::empty_holsters() const
     return e_holsters;
 }
 
+int outfit::used_holsters() const
+{
+    int e_holsters = 0;
+    for( const item &w : worn ) {
+        e_holsters += w.get_used_holsters();
+    }
+    return e_holsters;
+}
+
+int outfit::total_holsters() const
+{
+    int e_holsters = 0;
+    for( const item &w : worn ) {
+        e_holsters += w.get_total_holsters();
+    }
+    return e_holsters;
+}
+
+units::volume outfit::free_holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    for( const item &w : worn ) {
+        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
+    }
+    return holster_volume;
+}
+
 units::volume outfit::small_pocket_volume( const units::volume &threshold )  const
 {
     units::volume small_spaces = 0_ml;
@@ -1811,9 +1864,8 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector )
+item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon )
 {
-    item *cur_weapon = &null_item_reference();
     for( item &worn_item : worn ) {
         bool covers = false;
 

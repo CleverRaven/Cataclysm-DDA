@@ -17,7 +17,8 @@
     "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
     "arm_block": 1,
     "leg_block": 99,
-    "force_unarmed": true
+    "force_unarmed": true,
+    "prevent_weapon_blocking": true
   },
   {
     "type": "martial_art",
@@ -1234,7 +1235,8 @@
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
-    "force_unarmed": true,
+    "prevent_weapon_blocking": true,
+    "allow_all_weapons": true,
     "static_buffs": [
       {
         "id": "buff_taekwondo_static",

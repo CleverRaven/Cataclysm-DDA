@@ -176,7 +176,7 @@ class ma_technique
         bool dodge_counter = false; // counter move activated on a dodge
         bool block_counter = false; // counter move activated on a block
 
-        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
+        bool miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
         bool grab_break = false;    // allows grab_breaks, like tec_break
 
         int weighting = 0; //how often this technique is used
@@ -340,6 +340,7 @@ class martialart
         bool strictly_melee = false; // Must have a weapon.
         bool allow_all_weapons = false; // Can use unarmed or with ANY weapon
         bool force_unarmed = false; // Don't use ANY weapon - punch or kick if needed
+        bool prevent_weapon_blocking = false; // Cannot block with weapons
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onpause_buffs;

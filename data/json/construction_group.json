@@ -231,6 +231,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_door_grass_curtain",
+    "name": "Build Door Curtain from Grass"
+  },
+  {
+    "type": "construction_group",
     "id": "build_double_glazed_glass_window",
     "name": "Build Double Glazed Glass Window"
   },
@@ -1113,6 +1118,11 @@
     "type": "construction_group",
     "id": "place_oven",
     "name": "Place Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_arcade_machine",
+    "name": "Place Arcade Machine"
   },
   {
     "type": "construction_group",

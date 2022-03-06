@@ -76,7 +76,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::HEAT:
         case damage_type::COLD:
         case damage_type::ELECTRIC: {
-            return worn.damage_resist( dt, bp ) + mutation_armor( bp, dt );
+            return worn.damage_resist( dt, bp ) + mutation_armor( bp, dt ) + bp->damage_resistance( dt );
         }
         case damage_type::NONE:
         case damage_type::NUM:

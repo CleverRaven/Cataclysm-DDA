@@ -868,7 +868,7 @@ void test_scenario::run()
         REQUIRE( !vp.has_value() );
     }
     INFO( "checking worn items" );
-    match( guy, guy.worn.all_items_loc( guy ), worn_results );
+    match( guy, guy.worn.top_items_loc( guy ), worn_results );
     INFO( "checking wielded item" );
     if( wielded_results ) {
         match( item_location( guy, &guy.get_wielded_item() ), *wielded_results );
