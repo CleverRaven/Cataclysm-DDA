@@ -67,6 +67,31 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
+    "id": "chainmail_junk_hood",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chainmail coif" },
+    "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "symbol": "[",
+    "looks_like": "balclava",
+    "color": "light_red",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
     "id": "lc_chainmail_hood",
     "type": "ARMOR",
     "category": "armor",
