@@ -475,7 +475,7 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
-        fun = fun - 20;
+        fun = fun - 13;
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
