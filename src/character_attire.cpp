@@ -312,10 +312,10 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
     // skip this for unsorted items in debug mode
     if( do_sort_items ) {
         new_item_it->on_wear( guy );
-    }
 
-    guy.inv->update_invlet( *new_item_it );
-    guy.inv->update_cache_with_item( *new_item_it );
+        guy.inv->update_invlet( *new_item_it );
+        guy.inv->update_cache_with_item( *new_item_it );
+    }
 
     if( do_calc_encumbrance ) {
         guy.recalc_sight_limits();
