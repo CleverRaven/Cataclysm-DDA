@@ -33,6 +33,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+    "material": [ "steel, iron" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
@@ -77,6 +78,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+    "material": [ "budget_steel" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
@@ -102,6 +104,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
@@ -138,6 +141,7 @@
     "id": "mc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
+    "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail coif" },
     "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
@@ -172,6 +176,7 @@
     "id": "hc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
+    "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail coif" },
     "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
@@ -206,6 +211,7 @@
     "id": "ch_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
+    "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail coif" },
     "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
@@ -240,6 +246,7 @@
     "id": "qt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
+    "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail coif" },
     "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
