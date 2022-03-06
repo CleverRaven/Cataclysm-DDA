@@ -1465,14 +1465,26 @@ void talk_function::field_plant( npc &p, const std::string &place )
     if( free_seeds > empty_plots ) {
         limiting_number = empty_plots;
     }
+    int player_merch = player_character.amount_of( itype_FMCNote );
 
-    if( !player_character.has_amount( itype_FMCNote, limiting_number ) ) {
-        popup( _( "I'm sorry, you don't have enough money to plant those seeds…" ) );
+    if( player_merch == 0 ) {
+        popup( _( "I'm sorry, you don't have any money to plant those seeds…" ) );
         return;
     }
-    if( !query_yn( _( "Do you wish to have %d %s planted here for %d merch?" ), limiting_number,
-                   seed_names[seed_index], limiting_number ) ) {
-        return;
+
+    if( player_merch < limiting_number ) {
+        limiting_number = player_merch;
+        if( !query_yn(
+                _( "You only have enough money to plant %d plants.  Do you wish to have %d %s planted here for %d merch?" ),
+                limiting_number, limiting_number,
+                seed_names[seed_index], limiting_number ) ) {
+            return;
+        }
+    } else {
+        if( !query_yn( _( "Do you wish to have %d %s planted here for %d merch?" ), limiting_number,
+                       seed_names[seed_index], limiting_number ) ) {
+            return;
+        }
     }
 
     player_character.use_amount( itype_FMCNote, limiting_number );
