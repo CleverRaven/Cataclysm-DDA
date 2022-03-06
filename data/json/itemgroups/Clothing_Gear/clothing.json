@@ -2684,8 +2684,8 @@
       [ "armor_larmor", 40 ],
       [ "gambeson", 50 ],
       [ "armor_cuirass", 25 ],
-      [ "chainmail_suit", 10 ],
-      [ "chainmail_vest", 3 ]
+      [ "chainmail_junk_suit", 10 ],
+      [ "chainmail_junk_vest", 3 ]
     ]
   },
   {
