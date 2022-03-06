@@ -2383,7 +2383,7 @@
     "copy-from": "mon_sheep_lamb",
     "description": "A hooved browsing mammal known for climbing and eating just about anything.  The young are famously cute and cuddly.",
     "symbol": "g",
-    "looks_like": "mon_sheep",
+    "looks_like": "mon_goat",
     "dodge": 3,
     "upgrades": { "age_grow": 240, "into": "mon_goat" },
     "//": "Puberty reached in 6-9 months."
