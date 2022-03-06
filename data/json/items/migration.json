@@ -1617,5 +1617,15 @@
     "id": "folding_bthk_stock",
     "type": "MIGRATION",
     "replace": "high_end_folding_stock"
+  },
+  {
+    "id": "folding_poncho_on",
+    "type": "MIGRATION",
+    "replace": "folding_poncho"
+  },
+  {
+    "id": "emer_blanket",
+    "type": "MIGRATION",
+    "replace": "emer_blanket_on"
   }
 ]
