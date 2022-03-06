@@ -33,7 +33,7 @@
     "type": "ammunition_type",
     "id": "nuts_bolts",
     "name": "nuts and bolts",
-    "default": "nuts and bolts"
+    "default": "nuts_bolts"
   },
   {
     "type": "ammunition_type",
