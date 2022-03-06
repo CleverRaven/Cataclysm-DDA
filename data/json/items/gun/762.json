@@ -237,7 +237,6 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ]
   }
 ]
