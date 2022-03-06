@@ -2391,7 +2391,7 @@
   {
     "id": "mon_goat",
     "type": "MONSTER",
-    "name": { "str_sp": "goat" },
+    "name": { "str": "goat" },
     "copy-from": "mon_sheep",
     "description": "A hooved browsing mammal known for climbing and eating just about anything.  Either gender can have horns.",
     "volume": "75 L",
