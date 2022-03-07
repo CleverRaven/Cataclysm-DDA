@@ -39,12 +39,6 @@
       { "group": "mon_zombie_soldier_death_drops" },
       {
         "distribution": [
-          { "group": "clothing_soldier_set", "prob": 65, "damage": [ 1, 4 ] },
-          { "group": "clothing_soldier_winter_set", "prob": 35, "damage": [ 1, 4 ] }
-        ]
-      },
-      {
-        "distribution": [
           {
             "group": "military_standard_assault_rifles",
             "contents-item": "shoulder_strap",
