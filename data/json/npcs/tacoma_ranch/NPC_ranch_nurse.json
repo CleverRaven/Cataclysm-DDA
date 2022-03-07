@@ -89,13 +89,13 @@
     },
     "responses": [
       {
-        "text": "[$100, 30m] I need you to patch me up.",
+        "text": "[$100, 15m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "lesser_give_aid", { "u_spend_cash": 10000 } ],
         "condition": { "npc_service": true }
       },
       {
-        "text": "[$250, 1h] I need you to patch my friends up.",
+        "text": "[$250, 30h] I need you to patch my friends up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "lesser_give_all_aid", { "u_spend_cash": 25000 } ],
         "condition": { "npc_service": true }

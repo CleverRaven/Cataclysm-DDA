@@ -3,8 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "looted_house", "looted_hospital" ],
-    "object": {
-      "fill_ter": "t_floor"
-    }
+    "object": { "fill_ter": "t_floor" }
   }
 ]

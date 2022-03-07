@@ -79,7 +79,11 @@
       "type": "dialogue",
       "context": "tacoma_ranch",
       "value": "yes",
-      "yes": "What can I help you with?",
+      "yes": {
+        "npc_has_effect": "currently_busy",
+        "yes": "I have other patients to attend to.  Come back later.",
+        "no": "What can I help you with?"
+      },
       "no": "I can't right now, I have other matters to attend to."
     },
     "responses": [
@@ -171,10 +175,7 @@
     "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC_DELIVERED",
     "type": "talk_topic",
     "dynamic_line": "Thanks, this will help a lot.",
-    "responses": [
-      { "text": "Glad to help.", "topic": "TALK_NONE" },
-      { "text": "I've got to go…", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Glad to help.", "topic": "TALK_NONE" }, { "text": "I've got to go…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_RANCH_DOCTOR_SUPPLIES",

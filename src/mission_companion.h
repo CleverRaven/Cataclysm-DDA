@@ -225,7 +225,7 @@ npc_ptr companion_choose_return( comp_list &npc_list );
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map marker
 // TODO: Make this return the loot gained
-void loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement);
+void loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H
