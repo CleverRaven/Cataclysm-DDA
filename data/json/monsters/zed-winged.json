@@ -44,7 +44,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_brute_winged" },
+    "upgrades": { "half_life": 112, "into": "mon_zombie_brute_winged" },
     "flags": [
       "SEES",
       "HEARS",
@@ -152,7 +152,7 @@
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
     "flags": [
       "SEES",
       "HEARS",

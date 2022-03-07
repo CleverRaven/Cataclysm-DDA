@@ -116,7 +116,7 @@
       "effect": { "id": "death_halfworm", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "upgrades": { "half_life": 20, "into": "mon_graboid" },
+    "upgrades": { "half_life": 80, "into": "mon_graboid" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
@@ -126,7 +126,7 @@
     "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
-    "upgrades": { "half_life": 14, "into": "mon_worm" }
+    "upgrades": { "half_life": 56, "into": "mon_worm" }
   },
   {
     "id": "mon_large_cockroach",
@@ -137,7 +137,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_giant_cockroach" }
+    "upgrades": { "half_life": 56, "into": "mon_giant_cockroach" }
   },
   {
     "id": "mon_skittering_plague",
@@ -423,7 +423,7 @@
     "attack_effs": [ { "id": "venom_weaken", "duration": 75 } ],
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_bee" }
+    "upgrades": { "half_life": 56, "into": "mon_bee" }
   },
   {
     "id": "mon_bee",
@@ -459,7 +459,7 @@
     "harvest": "arachnid_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
+    "upgrades": { "half_life": 56, "into": "mon_bee_mega" },
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
@@ -945,7 +945,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_fly" }
+    "upgrades": { "half_life": 56, "into": "mon_fly" }
   },
   {
     "id": "mon_fly",
@@ -973,7 +973,7 @@
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_fly_mega" },
     "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
@@ -1001,7 +1001,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_mosquito_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_mosquito_giant" }
   },
   {
     "id": "mon_mosquito_giant",
@@ -1030,7 +1030,7 @@
     "vision_night": 12,
     "harvest": "arachnid_flying",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_mosquito_mega" },
     "flags": [ "SEES", "SMELLS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1056,7 +1056,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_cellar_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_cellar_giant" }
   },
   {
     "id": "mon_spider_cellar_giant",
@@ -1090,7 +1090,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_cellar_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_cellar_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
     "//": "No, they are not in fact the most venomous spider in the world."
   },
@@ -1151,7 +1151,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_jumping_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_jumping_giant" }
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -1186,7 +1186,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_jumping_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_jumping_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -1216,7 +1216,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_trapdoor_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_trapdoor_giant" }
   },
   {
     "id": "mon_spider_trapdoor_giant",
@@ -1248,7 +1248,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_trapdoor_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_trapdoor_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1273,7 +1273,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_web" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_web" }
   },
   {
     "id": "mon_spider_web",
@@ -1307,7 +1307,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_web_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_web_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1364,7 +1364,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_widow_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_widow_giant" }
   },
   {
     "id": "mon_spider_widow_giant",
@@ -1397,7 +1397,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_widow_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_widow_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1455,7 +1455,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_spider_wolf_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_spider_wolf_giant" }
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -1490,7 +1490,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_spider_wolf_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_spider_wolf_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1664,7 +1664,7 @@
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 30, "into": "mon_wasp" },
+    "upgrades": { "half_life": 120, "into": "mon_wasp" },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ]
   },
   {
@@ -1677,7 +1677,7 @@
     "melee_skill": 6,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_guard" }
+    "upgrades": { "half_life": 120, "into": "mon_wasp_guard" }
   },
   {
     "id": "mon_wasp_queen",
@@ -1688,7 +1688,7 @@
     "armor_elec": 3,
     "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_mega" }
+    "upgrades": { "half_life": 120, "into": "mon_wasp_mega" }
   },
   {
     "id": "mon_wasp",
@@ -2011,7 +2011,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_ant" }
+    "upgrades": { "half_life": 56, "into": "mon_ant" }
   },
   {
     "id": "mon_ant",
@@ -2057,7 +2057,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_ant_acid" }
+    "upgrades": { "half_life": 56, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -2277,7 +2277,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
-    "upgrades": { "half_life": 21, "into": "mon_ant_soldier_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_ant_soldier_mega" },
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -2309,7 +2309,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
-    "upgrades": { "half_life": 14, "into": "mon_locust" }
+    "upgrades": { "half_life": 56, "into": "mon_locust" }
   },
   {
     "id": "mon_locust",
@@ -2344,7 +2344,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_locust_mega" },
+    "upgrades": { "half_life": 56, "into": "mon_locust_mega" },
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true }, [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },

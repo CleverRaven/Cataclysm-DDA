@@ -32,7 +32,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
@@ -77,7 +77,7 @@
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
+    "upgrades": { "half_life": 152, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -103,7 +103,7 @@
     "looks_like": "mon_zombie_soldier_blackops_1",
     "bleed_rate": 0,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
-    "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } },
+    "delete": { "upgrades": { "half_life": 152, "into": "mon_zombie_soldier_blackops_2" } },
     "extend": {
       "special_attacks": [
         {
@@ -125,7 +125,7 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "bleed_rate": 50,
-    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
+    "delete": { "upgrades": { "half_life": 112, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "extend": {
       "special_attacks": [
@@ -160,7 +160,7 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "bleed_rate": 50,
-    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
+    "delete": { "upgrades": { "half_life": 112, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "extend": {
       "special_attacks": [
@@ -224,7 +224,7 @@
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
+    "upgrades": { "half_life": 168, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -327,7 +327,7 @@
     "copy-from": "mon_zombie_military_pilot",
     "looks_like": "mon_zombie",
     "delete": { "flags": [ "NOHEAD" ] },
-    "upgrades": { "half_life": 18, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 72, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_milbase_personnel_death_drops"
   },
   {

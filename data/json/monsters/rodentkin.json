@@ -23,7 +23,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 50, "avoid_sharp": true },
-    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 92, "into_group": "GROUP_RATKIN_EVOLVED" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,
@@ -52,7 +52,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 92, "into_group": "GROUP_RATKIN_EVOLVED" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
   },
@@ -77,7 +77,7 @@
     "armor_bash": 5,
     "armor_cut": 6,
     "armor_bullet": 2,
-    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 92, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },

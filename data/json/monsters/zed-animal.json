@@ -68,7 +68,7 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -103,7 +103,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -135,7 +135,7 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
-    "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
+    "upgrades": { "half_life": 112, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -167,7 +167,7 @@
     "special_attacks": [ [ "HOWL", 10 ], { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
+    "upgrades": { "half_life": 112, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -202,7 +202,7 @@
     "harvest": "zombie_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
+    "upgrades": { "half_life": 56, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -235,7 +235,7 @@
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2 } ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
+    "upgrades": { "half_life": 80, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
@@ -301,7 +301,7 @@
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOOSE_UPGRADE" },
+    "upgrades": { "half_life": 56, "into_group": "GROUP_ZOOSE_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -335,7 +335,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOUGAR_UPGRADE" },
+    "upgrades": { "half_life": 56, "into_group": "GROUP_ZOUGAR_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
