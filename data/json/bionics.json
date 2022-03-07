@@ -1776,7 +1776,7 @@
     "description": "Reactive shock absorbers installed in your wrists and elbows which greatly reduce felt recoil.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL_MODIFIER", "multiply": -0.4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RECOIL_MODIFIER", "multiply": -0.35 } ] } ]
   },
   {
     "id": "bio_sleep_shutdown",
