@@ -548,17 +548,40 @@
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       {
         "distribution": [
-          { "group": "military_standard_assault_rifles", "contents-item": "shoulder_strap", "prob": 75 },
-          { "group": "military_standard_sniper_rifles", "prob": 20 },
-          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
-          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
-        ],
-        "prob": 75
+          {
+            "group": "military_standard_assault_rifles",
+            "contents-item": "shoulder_strap",
+            "prob": 75,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_lmgs",
+            "contents-item": "shoulder_strap",
+            "prob": 10,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_shotguns",
+            "contents-item": "shoulder_strap",
+            "prob": 5,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_sniper_rifles",
+            "contents-item": "shoulder_strap",
+            "prob": 5,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          }
+        ]
       },
       { "group": "wallets", "prob": 10 },
       { "group": "pocket_cigar", "prob": 15 },
       { "group": "misc_smoking_legal", "prob": 30 },
-      { "group": "military_standard_pistols"},
+      { "group": "military_standard_pistols" },
       { "item": "e_tool", "prob": 15, "damage": [ 1, 4 ] },
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
