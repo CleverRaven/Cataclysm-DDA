@@ -8,7 +8,7 @@
     "flags": [ "CLASSIC", "RIVER" ],
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "water" ] ],
+      [ [ 0, 0, 0 ], [ "water", "lake_shore" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -21,7 +21,7 @@
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "river_cave_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "river_cave_entrance_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "river_cave_nesw",
         "above": "tunnel_to_surface",
