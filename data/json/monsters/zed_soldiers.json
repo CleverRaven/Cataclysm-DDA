@@ -39,6 +39,7 @@
   },
   {
     "id": "mon_zombie_soldier_extra",
+    "looks_like": "mon_zombie_soldier",
     "type": "MONSTER",
     "name": { "str": "zombie soldier" },
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
