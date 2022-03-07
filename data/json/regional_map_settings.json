@@ -523,7 +523,7 @@
       "field": {
         "chance": 6,
         "extras": {
-          "mx_helicopter": 10,
+          "mx_helicopter": 2,
           "mx_military": 4,
           "mx_science": 10,
           "mx_collegekids": 30,
