@@ -504,7 +504,7 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
             avatar &player_character = get_avatar();
             if( !is_distraction_ignored( distraction_type::hunger ) ) {
                 if( player_character.get_hunger() >= 300 && player_character.get_starvation() > 2500 ) {
-                    res.emplace( distraction_type::hunger, "You are at risk of starving!" );
+                    res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }
             if( !is_distraction_ignored( distraction_type::thirst ) ) {
