@@ -58,6 +58,7 @@ class zone_type
         bool can_be_personal = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void reset();
         void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.
