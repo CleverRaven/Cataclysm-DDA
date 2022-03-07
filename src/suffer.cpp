@@ -1287,7 +1287,12 @@ void suffer::from_bad_bionics( Character &you )
     }
     if( you.has_bionic( bio_radleak ) && one_turn_in( 300_minutes ) ) {
         you.add_msg_if_player( m_bad, _( "You CBM leaks radiation." ) );
-        you.mod_rad( 4 );
+        if( you.has_effect( effect_iodine ) ) {
+            // Radioactive mutation makes iodine less efficient (but more useful)
+            you.mod_rad( 2 );
+        } else {
+            you.mod_rad( 5 );
+        }
     }
 }
 
