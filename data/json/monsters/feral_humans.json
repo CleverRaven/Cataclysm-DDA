@@ -710,7 +710,7 @@
         "fake_per": 9,
         "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral prepper haphazardly fires their firearm!"
+        "description": "The feral soldier haphazardly fires their firearm!"
       }
     ],
     "death_drops": "mon_feral_soldier_extra_death_drops"
