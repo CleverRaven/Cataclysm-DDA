@@ -3,7 +3,7 @@
     "id": "mon_octupus_stalker",
     "type": "MONSTER",
     "name": { "str": "Stalker Octopus", "str_pl": "Stalker Octopi" },
-    "description": "This octopus seems larger than you remember from visits to the aquarium and doesn't seem as slowed by land as would be expected.  It's body seems to mimic it's surroundings.",
+    "description": "This octopus seems larger than you remember from visits to the aquarium and doesn't seem as slowed by land as would be expected.  Its body seems to mimic its surroundings.",
     "default_faction": "kraken",
     "bodytype": "human",
     "categories": [ "WILDLIFE" ],
