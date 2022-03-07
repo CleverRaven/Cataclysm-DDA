@@ -166,6 +166,13 @@
     "description": "Precise step-by-step instructions and other required data for installation of Titanium Skeletal Bracing CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
+    "id": "AID_bio_trickle",
+    "type": "GENERIC",
+    "copy-from": "AID_abstract",
+    "name": { "str_sp": "Trickle Charger CBM installation data" },
+    "description": "Precise step-by-step instructions and other required data for installation of Trickle Charger CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
+  },
+  {
     "id": "software",
     "type": "GENERIC",
     "name": { "str_sp": "software" },
