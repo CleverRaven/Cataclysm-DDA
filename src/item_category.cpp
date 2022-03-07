@@ -45,7 +45,7 @@ void item_category::load_item_cat( const JsonObject &jo, const std::string &src 
     item_category_factory.load( jo, src );
 }
 
-void reset()
+void item_category::reset()
 {
     item_category_factory.reset();
 }
