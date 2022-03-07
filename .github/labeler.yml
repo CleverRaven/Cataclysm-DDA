@@ -21,6 +21,9 @@
 "NPC / Factions":
   - data/json/npcs/**/*
 
+"CBMs":
+  - "data/json/bionics.json"
+
 "Player Faction Base / Camp":
   - "src/basecamp.(cpp|h)"
   - data/json/mapgen/basecamps/**/*
