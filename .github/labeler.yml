@@ -1,14 +1,14 @@
-"C++":
+"[C++]":
   - "**/*.cpp"
   - "**/*.h"
 
-"Json":
+"[JSON]":
   - "**/*.json"
 
-"Python":
+"[Python]":
   - "**/*.py"
 
-"Documentation":
+"<Documentation>":
   - "**/*.md"
   - doc/**/*
 
