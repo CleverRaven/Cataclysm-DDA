@@ -509,7 +509,7 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
             }
             if( !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
-                    res.emplace( distraction_type::thirst, "You are dangerously dehydrated!" );
+                    res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
                 }
             }
         }
