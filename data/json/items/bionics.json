@@ -1274,6 +1274,7 @@
     "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
     "weight": "500 g",
     "price": 120000,
-    "difficulty": 3
+    "difficulty": 3,
+    "installation_data": "AID_bio_trickle"
   }
 ]
