@@ -275,7 +275,7 @@
     "power_armor": true,
     "material_thickness": 10,
     "flags": [ "WATERPROOF", "STURDY", "BELTED" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100 } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": ["torso_hanging_back"]} ]
   },
   {
     "id": "power_armor_heavy",
