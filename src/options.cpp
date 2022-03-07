@@ -2197,7 +2197,7 @@ void options_manager::add_options_world_default()
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
          to_translation( "Monster evolution scaling factor" ),
          to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 4.0, 0.01
+         0.0, 100, 1.0, 0.01
        );
 
     add_empty_line();
