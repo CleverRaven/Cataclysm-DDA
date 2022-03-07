@@ -167,6 +167,8 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_soldier_extra( "mon_zombie_soldier_extra" );
+static const mtype_id mon_feral_soldier_extra( "mon_feral_soldier_extra" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
@@ -581,10 +583,9 @@ static bool mx_military( map &m, const tripoint & )
                     m.add_spawn( mon_dispatch, 1, *p );
                 }
             } else {
-                if ( one_in( 3 ) ) {
+                if( one_in( 3 ) ) {
                     m.add_spawn( mon_feral_soldier_extra, 1, *p );
-                }
-                else {
+                } else {
                     m.add_spawn( mon_zombie_soldier_extra, 1, *p );
                 }
 
