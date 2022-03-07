@@ -500,7 +500,6 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         }
         // Nested in the !ACT_AIM to avoid nuisance during combat
         // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
-        //if( act_id != ACT_CONSUME && act_id != ACT_EAT_MENU ) {
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
             if( !is_distraction_ignored( distraction_type::hunger ) ) {
