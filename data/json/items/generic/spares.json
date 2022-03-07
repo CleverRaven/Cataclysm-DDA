@@ -118,6 +118,34 @@
     "price_postapoc": 500
   },
   {
+    "id": "compressor",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "compressor" },
+    "description": "An electrically-powered device which compresses the gas to increase pressure.  Used in fridges, air conditioners and many other appliances.",
+    "material": [ "steel" ],
+    "weight": "7 kg",
+    "volume": "3 L",
+    "bashing": 16,
+    "to_hit": -4,
+    "price": 10000,
+    "price_postapoc": 2000
+  },
+  {
+    "id": "nitrogen_membrane_filter",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "nitrogen membrane filter" },
+    "description": "A straight pipe with high-tech membrane filter inside it, designed to separate nitrogen from compressed air that is pumped through it.",
+    "material": [ "steel" ],
+    "weight": "2 kg",
+    "volume": "500 ml",
+    "bashing": 12,
+    "longest_side": "60 cm",
+    "price": 40000,
+    "price_postapoc": 2000
+  },
+  {
     "id": "pipe_fittings",
     "copy-from": "spare_part",
     "type": "GENERIC",

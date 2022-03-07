@@ -551,6 +551,7 @@
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
+      [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],

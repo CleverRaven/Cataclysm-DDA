@@ -3138,6 +3138,26 @@
     "post_special": "done_appliance"
   },
   {
+    "id": "app_nitrogen_generator",
+    "group": "place_nitrogen_generator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "nitrogen_generator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+    {
+    "id": "app_ammonia_machine",
+    "group": "place_ammonia_machine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "ammonia_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
     "type": "construction",
     "id": "app_forge",
     "group": "place_electric_forge",

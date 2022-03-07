@@ -678,6 +678,68 @@
     "material": [ "steel" ]
   },
   {
+    "id": "ammonia_machine",
+    "type": "TOOL",
+    "name": { "str": "ammonia machine" },
+    "description": "A huge makeshift appliance which produces ammonia via Haber–Bosch process from hydrogen and nitrogen, while also producing hydrogen for this process via brine electrolysis.  Powered by electricty.",
+    "weight": "65 kg",
+    "volume": "90 L",
+    "longest_side": "200 cm",
+    "price": 800000,
+    "price_postapoc": 120000,
+    "to_hit": -4,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "battery_car",
+          "battery_motorbike",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "storage_battery",
+          "large_storage_battery"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nitrogen_generator",
+    "type": "TOOL",
+    "name": { "str": "nitrogen generator" },
+    "description": "A large makeshift appliance which captures nitrogen from air for use in chemistry projects.  It includes a standard air filter for filtering out dust and other large particles, a deliquescent dryer to remove water vapor from air, and a nitrogen membrane filter to separate nitrogen from dry air.",
+    "weight": "25 kg",
+    "volume": "70 L",
+    "longest_side": "150 cm",
+    "price": 100000,
+    "price_postapoc": 10000,
+    "to_hit": -4,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "battery_car",
+          "battery_motorbike",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "storage_battery",
+          "large_storage_battery"
+        ]
+      }
+    ]
+  },
+  {
     "id": "butane_tank",
     "type": "TOOL",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
