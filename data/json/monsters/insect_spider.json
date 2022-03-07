@@ -459,7 +459,7 @@
     "harvest": "arachnid_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 56, "into": "mon_bee_mega" },
+    "upgrades": { "half_life": 84, "into": "mon_bee_mega" },
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
