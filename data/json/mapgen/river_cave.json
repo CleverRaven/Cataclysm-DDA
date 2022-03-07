@@ -3,8 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "river_cave_entrance" ],
-    "weight": 200,
     "object": {
+      "fallback_predecessor_mapgen": "water",
       "rotation": [ 0, 3 ],
       "rows": [
         "##########++~~~~~~~~~~~/",
@@ -32,6 +32,7 @@
         "###########+++...~~...//",
         "###########+++...~~...//"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "fill_ter": "t_mud",
       "terrain": {
         " ": "t_mud",
@@ -56,7 +57,7 @@
         ">>"
       ], "terrain": { ">": "t_slope_up" },
     "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-   }  
+   }
   },
   {
     "//": "walls of river cave that can shift from side to side to make the tunnel wind",

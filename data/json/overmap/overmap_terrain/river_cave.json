@@ -6,7 +6,7 @@
     "sym": "O",
     "color": "light_cyan",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR", "RIVER", "LAKE_SHORE" ]
   },
   {
     "type": "overmap_terrain",

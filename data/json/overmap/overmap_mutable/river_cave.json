@@ -8,7 +8,7 @@
     "flags": [ "CLASSIC", "RIVER" ],
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "water", "lake_shore" ] ],
+      [ [ 0, 0, 0 ], [ "land", "lake_shore" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
