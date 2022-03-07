@@ -1,0 +1,9 @@
+[
+  {
+    "type": "mapgen",
+    "//": "Pseudo terrain used for companion missions (Tacoma ranch)",
+    "method": "json",
+    "om_terrain": [ "looted_building" ],
+    "object": { "fill_ter": "t_floor" }
+  }
+]

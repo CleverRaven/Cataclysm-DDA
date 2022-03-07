@@ -15,6 +15,21 @@
     "type": "talk_topic",
     "dynamic_line": "I hope you are here to do business.",
     "responses": [
+      {
+        "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
+        "topic": "TALK_RANCH_GENERIC_ANESTHETIC_FOR_DOCTOR",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "u_has_var": "doctor_anesthetic_crop_overseer_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [
+          { "u_add_var": "doctor_anesthetic_crop_overseer_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+        ]
+      },
       { "text": "What are you doing here?", "topic": "TALK_RANCH_CROP_OVERSEER_JOB" },
       {
         "text": "I figured you might be looking for some help…",
@@ -26,7 +41,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
+            { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
             {
               "not": { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
             }
@@ -38,7 +53,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD",
         "condition": {
           "or": [
-            { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" },
+            { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
             { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -63,7 +78,7 @@
       "value": "yes",
       "yes": "Back to check on your field?  What can I help you with?",
       "no": {
-        "u_has_trait": "NPC_CONSTRUCTION_LEV_1",
+        "npc_has_trait": "NPC_CONSTRUCTION_LEV_1",
         "yes": "Back to check on your field?  What can I help you with?",
         "no": "There's a field on the other side of the house that isn't being used for anything right now.  We're willing to let you purchase it for your own agricultural enterprises if you're interested."
       }
@@ -74,7 +89,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD_ASK_PURCHASE",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
+            { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
             {
               "not": { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
             }
@@ -86,7 +101,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD_ASK_UPGRADE_FENCE",
         "condition": {
           "or": [
-            { "and": [ { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "u_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] },
+            { "and": [ { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] },
             {
               "and": [
                 { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
@@ -108,7 +123,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD_PLANT_SEEDS",
         "condition": {
           "or": [
-            { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" },
+            { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
             { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -118,7 +133,7 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD_HARVEST_PLANTS",
         "condition": {
           "or": [
-            { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" },
+            { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
             { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
@@ -179,7 +194,7 @@
       {
         "text": "I'm interested.  How much is it going to cost?",
         "topic": "TALK_RANCH_CROP_OVERSEER_UPGRADE_FENCE_LEGACY",
-        "condition": { "and": [ { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "u_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] }
+        "condition": { "and": [ { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] }
       },
       {
         "text": "I'm interested.  How much is it going to cost?",
@@ -273,11 +288,11 @@
       {
         "text": "[200 merch] Yeah, let's do it.",
         "topic": "TALK_NONE",
-        "condition": { "and": [ { "u_has_items": { "item": "FMCNote", "count": 200 } }, { "u_has_trait": "NPC_CONSTRUCTION_LEV_2" } ] },
+        "condition": { "and": [ { "u_has_items": { "item": "FMCNote", "count": 200 } }, { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } ] },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 200 },
-          { "u_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
-          { "u_lose_trait": "NPC_CONSTRUCTION_LEV_2" },
+          { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
+          { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_2" },
           { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "u_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
@@ -290,13 +305,13 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
-            { "u_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "not": { "u_has_trait": "NPC_CONSTRUCTION_LEV_2" } }
+            { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
+            { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } }
           ]
         },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 100 },
-          { "u_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
+          { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
           { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" }
         ]
@@ -308,7 +323,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD_PLANT_SEEDS",
-    "dynamic_line": "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready to harvest, you can have us liquidate it or harvest it for you. Planting will cost 1 merch per plot.",
+    "dynamic_line": "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready to harvest, you can have us liquidate it or harvest it for you.  Planting will cost 1 merch per plot.",
     "responses": [
       {
         "text": "[1 merch / plot] I'd like to plant some seeds.",

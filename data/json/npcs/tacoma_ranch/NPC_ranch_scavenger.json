@@ -16,14 +16,22 @@
     "type": "talk_topic",
     "dynamic_line": "Welcome to the junk shop.",
     "responses": [
-      { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
-      { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
-      { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
       {
         "text": "The doctor needs some help building an anesthetic machine.  Do you have anything that could help?",
         "topic": "TALK_RANCH_SCAVENGER_ANESTHETIC_FOR_DOCTOR",
-        "condition": { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" }
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
+            {
+              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "u_add_var": "scavenger_hospital_raid", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
       },
+      { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
+      { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },

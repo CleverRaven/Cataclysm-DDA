@@ -435,6 +435,16 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Pseudo terrain used for companion missions (Tacoma ranch)",
+    "id": "looted_building",
+    "name": "looted building",
+    "sym": "#",
+    "color": "light_gray",
+    "see_cost": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
     "sym": "%",

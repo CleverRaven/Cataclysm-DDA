@@ -12,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -95,14 +94,24 @@ static const string_id<class npc_template> npc_template_commune_guard( "commune_
 static const string_id<class npc_template> npc_template_thug( "thug" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+
+static const std::string var_PURCHASED_FIELD_1 =
+    "npctalk_var_dialogue_tacoma_ranch_purchased_field_1";
+static const std::string var_PURCHASED_FIELD_1_FENCE =
+    "npctalk_var_dialogue_tacoma_ranch_purchased_field_1_fence";
+static const std::string var_SCAVENGER_HOSPITAL_RAID =
+    "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid";
+static const std::string var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED =
+    "npctalk_var_mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
 
 static const std::string role_id_faction_camp = "FACTION_CAMP";
 
 static const std::string omt_evac_center_18 = "evac_center_18";
 static const std::string omt_ranch_camp_63 = "ranch_camp_63";
+
+static const oter_str_id oter_looted_building( "looted_building" );
 
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
@@ -114,8 +123,6 @@ static const std::string camp_upgrade_expansion_npc_string = "_faction_upgrade_e
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
 
-static const std::string mission_ranch_doctor_medical_anesthetic =
-    "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC";
 struct miss_data {
     std::string serialize_id;  // Serialized string for enum
     translation action;        // Optional extended UI description of task for return.
@@ -136,7 +143,7 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         to_translation( "" )
     },
     {
-        "Lab_Raid_Job",
+        "Hospital_Raid_Job",
         to_translation( "" )
     },
     {
@@ -456,7 +463,7 @@ namespace talk_function
 {
 void scavenger_patrol( mission_data &mission_key, npc &p );
 void scavenger_raid( mission_data &mission_key, npc &p );
-void lab_raid( mission_data &mission_key, npc &p );
+void hospital_raid( mission_data &mission_key, npc &p );
 void commune_menial( mission_data &mission_key, npc &p );
 void commune_carpentry( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
@@ -478,8 +485,9 @@ void talk_function::companion_mission( npc &p )
             scavenger_raid( mission_key, p );
         }
 
-        if( get_avatar().has_active_mission( mission_ranch_doctor_medical_anesthetic ) ) {
-            lab_raid( mission_key, p );
+        Character &player_character = get_player_character();
+        if( player_character.get_value( var_SCAVENGER_HOSPITAL_RAID ) == "yes" ) {
+            hospital_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
         title = _( "Agricultural Missions" );
@@ -572,19 +580,19 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
     }
 }
 
-void talk_function::lab_raid( mission_data &mission_key, npc &p )
+void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: lab materials\nDanger: High\nTime: 20 hour missions\n\n"
-                           "Scavenging raid targeting a lab to search for lab equipment and as many "
+    std::string entry = _( "Profit: hospital materials\nDanger: High\nTime: 20 hour missions\n\n"
+                           "Scavenging raid targeting a hospital to search for hospital equipment and as many "
                            "valuable items as possible before being surrounded by the undead.  "
                            "Combat is to be expected and assistance from the rest of the party "
                            "can't be guaranteed.  This will be an extremely dangerous mission, "
                            "so make sure everyone is prepared before they go." );
-    const mission_id miss_id = {Lab_Raid_Job, "", cata::nullopt};
-    mission_key.add_start( miss_id, _( "Assign Lab Raid" ), entry );
+    const mission_id miss_id = {Hospital_Raid_Job, "", cata::nullopt};
+    mission_key.add_start( miss_id, _( "Assign Hospital Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: lab materials\nDanger: High\nTime: 20 hour missions\n\n"
+        entry = _( "Profit: hospital materials\nDanger: High\nTime: 20 hour missions\n\n"
                    "Raid Roster:\n" );
         bool avail = false;
 
@@ -601,7 +609,7 @@ void talk_function::lab_raid( mission_data &mission_key, npc &p )
         if( avail ) {
             entry += _( return_ally_question_string );
         }
-        mission_key.add_return( miss_id, _( "Retrieve Lab Raid" ), entry, avail );
+        mission_key.add_return( miss_id, _( "Retrieve Hospital Raid" ), entry, avail );
     }
 }
 
@@ -1067,11 +1075,11 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             }
             break;
 
-        case Lab_Raid_Job:
+        case Hospital_Raid_Job:
             if( cur_key.id.ret ) {
-                lab_raid_return( p );
+                hospital_raid_return( p );
             } else {
-                individual_mission( p, _( "departs on the lab raid…" ), cur_key.id.id );
+                individual_mission( p, _( "departs on the hospital raid…" ), cur_key.id.id );
             }
             break;
 
@@ -1564,7 +1572,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
+    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
         skillLevel += 2;
     }
 
@@ -1736,7 +1745,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    //The loot value needs to be added to the faction - what the player is payed
+    //The loot value needs to be added to the faction - what the player is paid
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;
@@ -1776,9 +1785,9 @@ bool talk_function::scavenging_raid_return( npc &p )
     return true;
 }
 
-bool talk_function::lab_raid_return( npc &p )
+bool talk_function::hospital_raid_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Lab_Raid_Job, "", cata::nullopt},
+    npc_ptr comp = companion_choose_return( p, { Hospital_Raid_Job, "", cata::nullopt},
                                             calendar::turn - 20_hours );
     if( comp == nullptr ) {
         return false;
@@ -1805,13 +1814,13 @@ bool talk_function::lab_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    //The loot value needs to be added to the faction - what the player is payed
+    //The loot value needs to be added to the faction - what the player is paid
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                          loot_location, "lab", 0, false, ot_match_type::prefix );
+                                          loot_location, "hospital", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }
@@ -1831,6 +1840,13 @@ bool talk_function::lab_raid_return( npc &p )
             player_character.i_add_or_drop( result );
         }
     }
+
+    player_character.set_value( var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED, "yes" );
+    player_character.set_value( var_SCAVENGER_HOSPITAL_RAID, "no" );
+
+    popup( _( "%s returned with some medical equipment that should help the doctor!" ),
+           comp->get_name() );
+
     companion_return( *comp );
     return true;
 }
@@ -2637,7 +2653,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
         }
     }
     bay.save();
-    overmap_buffer.ter_set( site, oter_id( "looted_building" ) );
+    overmap_buffer.ter_set( site, oter_looted_building );
 }
 
 void mission_data::add_return( const mission_id &id, const std::string &name_display,
