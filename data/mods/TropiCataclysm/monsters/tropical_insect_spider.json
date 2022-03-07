@@ -8,7 +8,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "32 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 14, "into": "mon_scorpion_giant" }
+    "upgrades": { "half_life": 56, "into": "mon_scorpion_giant" }
   },
   {
     "id": "mon_scorpion_giant",
@@ -59,7 +59,7 @@
     "dodge": 2,
     "harvest": "arachnid_firefly",
     "reproduction": { "baby_egg": "egg_butterfly", "baby_count": 1, "baby_timer": 15 },
-    "upgrades": { "half_life": 14, "into": "mon_butterfly_giant" },
+    "upgrades": { "half_life": 56, "into": "mon_butterfly_giant" },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
@@ -119,7 +119,7 @@
     "dodge": 2,
     "harvest": "arachnid_firefly",
     "reproduction": { "baby_egg": "egg_butterfly", "baby_count": 1, "baby_timer": 15 },
-    "upgrades": { "half_life": 14, "into": "mon_moth_giant" },
+    "upgrades": { "half_life": 56, "into": "mon_moth_giant" },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
@@ -374,7 +374,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 15, "into_group": "GROUP_TERMITE_ALATE" },
+    "upgrades": { "half_life": 60, "into_group": "GROUP_TERMITE_ALATE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS", "GROUP_MORALE", "HARDTOSHOOT" ]
   },
   {
@@ -536,7 +536,7 @@
     "color": "white",
     "volume": "5 L",
     "weight": "5 kg",
-    "upgrades": { "half_life": 14, "into": "mon_woodlouse" }
+    "upgrades": { "half_life": 56, "into": "mon_woodlouse" }
   },
   {
     "id": "mon_onicophore",
@@ -569,7 +569,7 @@
         "monster_message": "The velvet worm shoots sticky strings of goo from two appendages in its head!"
       }
     ],
-    "upgrades": { "half_life": 20, "into": "mon_onicophore_giant" },
+    "upgrades": { "half_life": 80, "into": "mon_onicophore_giant" },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "CLIMBS" ]
@@ -723,6 +723,6 @@
     "symbol": "w",
     "volume": "10 L",
     "weight": "15 kg",
-    "upgrades": { "half_life": 14, "into": "mon_water_scorpion" }
+    "upgrades": { "half_life": 56, "into": "mon_water_scorpion" }
   }
 ]

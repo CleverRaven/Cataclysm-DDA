@@ -144,7 +144,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
-    "upgrades": { "half_life": 28, "into": "mon_afs_headless_horror" },
+    "upgrades": { "half_life": 112, "into": "mon_afs_headless_horror" },
     "flags": [
       "STUMBLES",
       "WARM",

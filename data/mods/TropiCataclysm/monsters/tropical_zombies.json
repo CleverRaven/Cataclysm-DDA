@@ -41,7 +41,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
     "flags": [
       "SEES",
