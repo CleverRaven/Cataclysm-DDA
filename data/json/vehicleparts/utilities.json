@@ -332,7 +332,7 @@
       { "item": "pipe", "count": [ 1, 2 ] },
       { "item": "compressor", "prob": 25 }
     ]
-  }
+  },
   {
     "id": "veh_oil_press_electric",
     "type": "vehicle_part",

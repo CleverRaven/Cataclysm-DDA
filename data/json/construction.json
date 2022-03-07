@@ -3147,7 +3147,7 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
-    {
+  {
     "id": "app_ammonia_machine",
     "group": "place_ammonia_machine",
     "category": "APPLIANCE",
