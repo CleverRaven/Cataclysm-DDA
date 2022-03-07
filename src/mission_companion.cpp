@@ -111,10 +111,11 @@ static const std::string role_id_faction_camp = "FACTION_CAMP";
 static const std::string omt_evac_center_18 = "evac_center_18";
 static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
-static const oter_str_id oter_looted_building( "looted_building" );
-
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
+
+static const oter_str_id oter_looted_house( "looted_house" );
+static const oter_str_id oter_looted_hospital( "looted_hospital" );
 
 //  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
 static const std::string camp_upgrade_npc_string = "_faction_upgrade_camp";
@@ -1753,7 +1754,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         const tripoint_abs_omt site = overmap_buffer.find_closest(
                                           loot_location, "house", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
-        loot_building( site );
+        loot_building( site, oter_looted_house );
     }
 
     int merch_amount = rng( 50, 100 );
@@ -1822,7 +1823,7 @@ bool talk_function::hospital_raid_return( npc &p )
         const tripoint_abs_omt site = overmap_buffer.find_closest(
                                           loot_location, "hospital", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
-        loot_building( site );
+        loot_building( site, oter_looted_hospital );
     }
 
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
@@ -2587,8 +2588,8 @@ npc_ptr talk_function::companion_choose_return( comp_list &npc_list )
     return nullptr;
 }
 
-//Smash stuff, steal valuables, and change map maker
-void talk_function::loot_building( const tripoint_abs_omt &site )
+//Smash stuff, steal valuables, and change map marker
+void talk_function::loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement )
 {
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
@@ -2653,7 +2654,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
         }
     }
     bay.save();
-    overmap_buffer.ter_set( site, oter_looted_building );
+    overmap_buffer.ter_set( site, looted_replacement );
 }
 
 void mission_data::add_return( const mission_id &id, const std::string &name_display,

@@ -435,18 +435,24 @@
   },
   {
     "type": "overmap_terrain",
-    "//": "Pseudo terrain used for companion missions (Tacoma ranch)",
-    "id": "looted_building",
-    "name": "looted building",
-    "sym": "#",
-    "color": "light_gray",
-    "see_cost": 2,
-    "flags": [ "SHOULD_NOT_SPAWN" ]
+    "id": "debug_ramps",
+    "name": "ramp testing area",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "debug_ramps",
-    "name": "ramp testing area",
+    "id": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_hospital",
+    "name": "looted hospital",
     "sym": "%",
     "color": "white",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]

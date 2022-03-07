@@ -6244,17 +6244,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "copy-from": "looted_building",
-    "name": "looted building",
-    "sym": "l",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "debug_ramps",
     "copy-from": "debug_ramps",
     "name": "ramp testing area",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_house",
+    "copy-from": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_hospital",
+    "copy-from": "looted_hospital",
+    "name": "looted hospital",
     "sym": "%",
     "color": "white"
   },
