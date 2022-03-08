@@ -110,7 +110,7 @@
   {
     "type": "ammunition_type",
     "id": "357mag",
-    "name": ".357 magnum",
+    "name": ".357 Magnum",
     "default": "357mag_jhp"
   },
   {

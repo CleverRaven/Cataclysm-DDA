@@ -681,7 +681,7 @@
     "type": "technique",
     "id": "tec_dragon_strike",
     "name": "Dragon Strike",
-    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname> descends upon %s with a powerful Dragon Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
