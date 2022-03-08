@@ -399,7 +399,7 @@
     "symbol": "%",
     "quench": -2,
     "calories": 280,
-    "description": "A dry and virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.",
+    "description": "A dry and virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.  So dry it is almost inedible by itself.",
     "price": 125,
     "price_postapoc": 150,
     "material": [ "wheat" ],
@@ -408,7 +408,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
-    "fun": -1
+    "fun": -4
   },
   {
     "type": "COMESTIBLE",
