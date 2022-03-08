@@ -274,7 +274,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_FEAR",
-    "dynamic_line": "Whoah whoah, calm down.  Yikes. Yeah fine, we're good.  Just stop trying to spook me, I don't like it.",
+    "dynamic_line": "Whoah whoah, calm down.  Yikes.  Yeah fine, we're good.  Just stop trying to spook me, I don't like it.",
     "responses": [
       {
         "text": "Yes, that worked great.",
