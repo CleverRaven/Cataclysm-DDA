@@ -267,8 +267,7 @@
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "using": [ [ "fastener_small", 1 ], [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "tailoring_leather_patchwork", 1 ] ] ],
+    "using": [ [ "fastener_small", 1 ], [ "sewing_standard", 15 ], [ "tailoring_leather_patchwork", 1 ] ],
     "byproducts": [ [ "leather", 1 ] ]
   },
   {
