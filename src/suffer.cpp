@@ -168,7 +168,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const vitamin_id vitamin_vitA( "vitA" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
@@ -807,7 +806,6 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1 );
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
@@ -1865,7 +1863,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
         if( curr_wetness < wetness_max ) {
-            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment ) );
+            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment * 100 ) );
         }
     }
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
@@ -1902,7 +1900,7 @@ void Character::apply_wetness_morale( int temperature )
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = get_part_wetness( bp );
+        const int part_drench = get_part_wetness( bp ) / 100;
         if( part_drench == 0 ) {
             continue;
         }

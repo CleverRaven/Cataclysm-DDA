@@ -39,7 +39,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -61,7 +61,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
     "fun": 1
   },
   {

@@ -165,7 +165,7 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
             listed_names.emplace_back( id, id->nname( 1 ) );
         }
         for( const itype_id &id : nearby_itypes ) {
-            if( !listed_itypes.count( id ) ) {
+            if( !listed_itypes.count( id ) && selected_pocket->is_compatible( item( id ) ).success() ) {
                 nearby_names.emplace_back( id, id->nname( 1 ) );
             }
         }
@@ -182,7 +182,11 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         for( const std::pair<itype_id, std::string> &it : nearby_names ) {
             selector_menu.addentry( add_prefix + it.second );
         }
-        selector_menu.query();
+        if( selector_menu.entries.empty() ) {
+            popup( std::string( _( "No nearby items would fit here." ) ), PF_GET_KEY );
+        } else {
+            selector_menu.query();
+        }
 
         const int selected = selector_menu.ret;
         itype_id selected_id = itype_id::NULL_ID();
@@ -1597,6 +1601,50 @@ std::vector< const item_pocket *> item_contents::get_all_reloadable_pockets() co
     return pockets;
 }
 
+int item_contents::get_used_holsters() const
+{
+    int holsters = 0;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.holster_full() ) {
+            holsters++;
+        }
+    }
+    return holsters;
+}
+
+int item_contents::get_total_holsters() const
+{
+    int holsters = 0;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.is_holster() ) {
+            holsters++;
+        }
+    }
+    return holsters;
+}
+
+units::volume item_contents::get_used_holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.holster_full() ) {
+            holster_volume += pocket.volume_capacity();
+        }
+    }
+    return holster_volume;
+}
+
+units::volume item_contents::get_total_holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.is_holster() ) {
+            holster_volume += pocket.volume_capacity();
+        }
+    }
+    return holster_volume;
+}
+
 units::volume item_contents::total_container_capacity( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;
@@ -1606,12 +1654,11 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            const pocket_data *p_data = pocket.get_pocket_data();
             // if the pocket has default volume or is a holster that has an
             // item in it or is a pocket that has normal pickup disabled
             // instead of returning the volume return the volume of things contained
             if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                pocket.settings.is_disabled() || ( p_data->holster && !pocket.all_items_top().empty() ) ) {
+                pocket.settings.is_disabled() || pocket.holster_full() ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
@@ -1982,7 +2029,7 @@ void item_contents::favorite_settings_menu( const std::string &item_name )
         return TERMY;
     };
     for( int i = 1; i <= num_container_pockets; i++ ) {
-        pocket_selector.addentry( string_format( "%d - %s", i, pocket_name[i - 1] ) );
+        pocket_selector.addentry( 0, true, '\0', string_format( "%d - %s", i, pocket_name[i - 1] ) );
     }
 
     pocket_selector.query();

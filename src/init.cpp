@@ -541,8 +541,10 @@ void DynamicDataLoader::unload_data()
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();
+    ascii_art::reset();
     behavior::reset();
     body_part_type::reset();
+    butchery_requirements::reset();
     sub_body_part_type::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
@@ -550,6 +552,7 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    disease_type::reset();
     dreams.clear();
     emit::reset();
     enchantment::reset();
@@ -562,6 +565,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     harvest_drop_type::reset();
     harvest_list::reset();
+    item_category::reset();
     item_controller->reset();
     json_flag::reset();
     limb_score::reset();
@@ -592,6 +596,7 @@ void DynamicDataLoader::unload_data()
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
+    relic_procgen_data::reset();
     requirement_data::reset();
     reset_bionics();
     reset_constructions();
@@ -614,6 +619,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
     VehicleGroup::reset();
@@ -626,6 +632,7 @@ void DynamicDataLoader::unload_data()
     weakpoints::reset();
     weather_types::reset();
     widget::reset();
+    zone_type::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()

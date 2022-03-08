@@ -3,10 +3,10 @@
     "id": "foie_gras",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str_sp": "foie gras" },
+    "name": { "str_sp": "faux gras" },
     "symbol": "%",
     "looks_like": "meat_cooked",
-    "description": "Though it's not technically foie gras, you don't have to think about that.",
+    "description": "Though this meal is technically not foie gras, you have a feeling neither France nor animal rights groups are likely to criticize it either way now.",
     "price_postapoc": 150,
     "material": [ "flesh", "fruit" ],
     "color": "brown",
@@ -19,7 +19,7 @@
     "fun": 15,
     "quench": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 15 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ] ]
   },
   {
     "id": "liver_onion",
@@ -39,7 +39,7 @@
     "healthy": 4,
     "quench": -3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ] ]
   },
   {
     "id": "fried_livers",
@@ -62,7 +62,7 @@
     "fun": 6,
     "quench": -4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ], [ "vitB", 337 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ] ]
   },
   {
     "id": "humble_pie",
@@ -84,7 +84,7 @@
     "weight": "249 g",
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 36 ], [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 171 ] ]
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ] ]
   },
   {
     "id": "stewed_tripe",
@@ -146,7 +146,7 @@
     "weight": "112 g",
     "charges": 14,
     "calories": 344,
-    "vitamins": [ [ "vitA", 43 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 193 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 5 ] ]
   },
   {
     "id": "fried_brain",
@@ -168,7 +168,7 @@
     "flags": [ "EATEN_HOT" ],
     "calories": 285,
     "charges": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 144 ], [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
   },
   {
     "id": "deviled_kidney",
@@ -191,7 +191,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "calories": 301,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 104 ], [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
   },
   {
     "id": "grilled_sweetbread",

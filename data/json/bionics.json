@@ -1323,11 +1323,12 @@
     "id": "bio_railgun",
     "type": "bionic",
     "name": { "str": "Railgun" },
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
+    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 10 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
     "occupied_bodyparts": [ [ "arm_l", 5 ], [ "arm_r", 5 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
+    "act_cost": "1 kJ",
+    "react_cost": "100 J",
+    "trigger_cost": "10 kJ",
     "time": 1
   },
   {

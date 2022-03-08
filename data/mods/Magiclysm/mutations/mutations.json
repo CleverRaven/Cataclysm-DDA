@@ -381,7 +381,7 @@
     "prereqs": [ "NAUSEA" ],
     "category": [ "DRAGON_BLACK", "SLIME" ],
     "metabolism_modifier": 0.5,
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
+    "vitamins_absorb_multi": [ [ "all", [ [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
   },
   {
     "type": "mutation",

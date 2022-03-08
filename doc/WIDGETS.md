@@ -818,13 +818,11 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | var                     | description
 |--                       |--
 | `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
-| `body_temp_text`        | Felt body temperature "Comfortable", "Chilly", "Warm" etc.
 | `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
 | `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
 | `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
 | `date_text`             | Current day within season, like "Summer, day 15"
 | `env_temp_text`         | Environment temperature, if thermometer is available
-| `fatigue_text`          | Fatigue level - "Tired", "Dead Tired", "Exhausted"
 | `mood_text`             | Avatar mood represented as an emoticon face
 | `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
 | `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"

@@ -621,6 +621,7 @@ For information about tools with option to export ASCII art in format ready to b
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
 | `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
+| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
 | `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
@@ -652,6 +653,8 @@ For information about tools with option to export ASCII art in format ready to b
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated. 
 | `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
+| `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
 | `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.
@@ -1177,32 +1180,8 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
 | `name`             | Human readable name for the category of mutations.
 | `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
-| `mutagen_message`  | A message displayed to the player when they take a mutagen of the matching type.
-| `mutagen_hunger`   | The amount of hunger (per mutation triggered) caused by taking the matching mutagen.
-| `mutagen_thirst`   | The amount of thirst (per mutation triggered) caused by taking the matching mutagen.
-| `mutagen_pain`     | The amount of pain caused (per mutation triggered) by taking the matching mutagen.
-| `mutagen_fatigue`  | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen.
-| `mutagen_morale`   | The amount of morale increase caused by taking the matching mutagen for mutagen junkies.
-| `iv_message`       | A message displayed to the player when they take a mutagen serum of the matching type.
-| `iv_min_mutations` | The minimum number of mutations to trigger when taking the mutagen serum.
-| `iv_additional_mutations`  | The minimum number of mutations to trigger when taking the mutagen serum.
-| `iv_additional_mutations_chance`  | The probability of acquiring additional mutations, the formula is one in "additional_mutations_chance" per "additional_mutation".
-| `iv_hunger`        | The amount of hunger (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_thirst`        | The amount of thirst (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_pain`          | The amount of pain (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_fatigue`       | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen serum.
-| `iv_morale`        | The minimum amount of morale caused by taking the matching mutagen serum.
-| `iv_morale_max`    | The maximum amount of morale caused by taking the matching mutagen serum.
-| `iv_sound`         | A flag indicating that taking the matching mutagen serum causes the character to make noise.
-| `iv_sound_message` | The message describing the noise made by the character when taking the mutagen serum.
-| `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
-| `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
-| `iv_noise`         | The volume of the noise the character makes.
-| `iv_sleep`         | A flag indicating that the player will involuntarily sleep after taking the matching mutation serum.
-| `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
-| `iv_sleep_dur`     | The duration of the involuntary sleep in seconds.
+| `mutagen_message`  | A message displayed to the player when they mutate in this category.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
-| `junkie_message`   | The message to display if the character is addicted to the associated mutagen and takes some.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 
 ### Names
@@ -3174,7 +3153,7 @@ Guns can be defined like this:
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
-"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finaly the number of shots of the mod.
+"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.

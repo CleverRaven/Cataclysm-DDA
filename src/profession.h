@@ -40,9 +40,11 @@ class profession
         using itypedecvec = std::vector<itypedec>;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
+        friend struct mod_tracker;
 
     private:
         string_id<profession> id;
+        std::vector<std::pair<string_id<profession>, mod_id>> src;
         bool was_loaded = false;
 
         translation _name_male;
