@@ -2957,7 +2957,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "edible_fat", 1 ] ],
-    "components": [ [ [ "hardtack", 1 ] ], [ [ "water", 1 ] ] ]
+    "components": [ [ [ "hardtack", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
