@@ -112,7 +112,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "M1911 pistol" },
-    "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1991 magazines.",
+    "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1911 magazines.",
     "variant_type": "gun",
     "variants": [
       {

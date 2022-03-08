@@ -1109,7 +1109,7 @@
     "category": "container",
     "name": { "str": "glass flask" },
     "looks_like": "bottle_glass",
-    "description": "A 250 ml laboratory conical flask, with a rubber bung.",
+    "description": "A 250ml laboratory conical flask, with a rubber stopper.",
     "weight": "48 g",
     "volume": "360 ml",
     "longest_side": "132 mm",
