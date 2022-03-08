@@ -5588,15 +5588,14 @@ void game::pickup( const tripoint &p )
 void game::peek()
 {
     const cata::optional<tripoint> p = choose_direction( _( "Peek where?" ), true );
-    tripoint new_pos;
     if( !p ) {
         return;
     }
-
+    tripoint new_pos = u.pos() + *p;
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
         vertical_move( p->z, false, true );
-        
+
         if( old_pos != u.pos() ) {
             new_pos = u.pos();
             vertical_move( p->z * -1, false, true );
