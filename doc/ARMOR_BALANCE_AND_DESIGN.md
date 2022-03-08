@@ -43,7 +43,7 @@ All armors need:
 * ```"material"``` array: a list of the materials that make up the item in general.
 * ```"armor"``` array: this will be described in depth later in **advanced armor definitions**.
 * ```"warmth"``` value, usually between 0 - 50 based on how hot the item is to wear.
-* ```"material_thickness"``` this is measured in mm, this **the most important value to get right when designing armor**
+* ```"material_thickness"``` this is measured in mm, this is **the most important value to get right when designing armor**
 
 here is an example armor to look at:
 ```json
@@ -92,13 +92,13 @@ Any item with an "armor" array easily searchable in the code.
 ### Layers
 #### Explanation
 Layers are a system in Cataclysm used to differentiate different types of clothes. Functionally things on separate layers will not conflict with each other. So you can wear underwear, jeans, knee pads and drop leg pouches without conflict. The layers are defined as flags, if you don't define a layer for an item it instead is assumed to be normal layer. The layers are (in order):
-* PERSONAL - your personal aura this is primarily for magiclysm and sci-fi stuff.
-* SKINTIGHT - underwear - things that are incredibly thin, less than 1mm
-* NORMAL - everyday clothes - pants, sweaters, loose shirts, jumpsuits.
-* WAIST - things worn as belts - this is an artifact of the system designed for having belts not conflict with backpacks. Use it **only** for belts on torso.
-* OUTER - outerwear - things like winter coats, trench coats, **all hard armor**
-* BELTED - pouches and storage - things like drop pouches, rifle slings, holsters, backpacks all go on this layer
-* AURA - outer aura - again magiclysm and sci-fi, not really used in core
+* PERSONAL - your personal aura, this is primarily for magiclysm and sci-fi stuff.
+* SKINTIGHT - underwear, things that are incredibly thin, less than 1mm
+* NORMAL - everyday clothes, pants, sweaters, loose shirts, jumpsuits.
+* WAIST - things worn as belts, this is an old legacy solution designed for having belts not conflict with backpacks. Use it **only** for belts on torso.
+* OUTER - outerwear, things like winter coats, trench coats, **all hard armor**
+* BELTED - pouches and storage, things like drop pouches, rifle slings, holsters, backpacks all go on this layer
+* AURA - outer aura, again magiclysm and sci-fi, not really used in core
 
 Items can also be on multiple layers by including additional flags. The best example of this is an OUTER armor with a lot of pouches would also be BELTED.
 
@@ -483,7 +483,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 ```
 
 #### Further Reading
-Basically and "TOOL_ARMOR"
+Basically any "TOOL_ARMOR"
 
 ### Enchantments / Traits
 
@@ -515,9 +515,6 @@ The Nomad Jumpsuits use this to provide well distributed.
 ### Notable Flags
 This is a hopefully exhaustive list of flags you may wish to use on items and what they do.
 
-#### Important
-
-
 #### Layers
 ID | Description
 -- | --
@@ -533,93 +530,94 @@ AURA | On this layer
 #### Clothing stuff
 ID | Description
 -- | --
-VARSIZE | item may not fit you, if it fits encumberance values are halved compared to defined values.
-STURDY | armor is much less likely to take damage and degrade when struck
-NO_REPAIR | can't be repaired by the player using tools like the sewing kit, or welder
-WATER_FRIENDLY | armor makes the covered body parts not feel bad to be wet
-WATER_PROOF | makes the body parts immune to water
-RAIN_PROOF | wont get wet in rain
-HOOD | keeps head warm if nothing on it
-POCKETS | keeps hands warm if they are free
-BLOCK_WHILE_WORN | can be used to block with while worn
-COLLAR | keeps mouth warm if not covered
+VARSIZE | Item may not fit you, if it fits encumberance values are halved compared to defined values.
+STURDY | Armor is much less likely to take damage and degrade when struck
+NO_REPAIR | Can't be repaired by the player using tools like the sewing kit, or welder
+WATER_FRIENDLY | Armor makes the covered body parts not feel bad to be wet
+WATER_PROOF | Makes the body parts immune to water
+RAIN_PROOF | Wont get wet in rain
+HOOD | Keeps head warm if nothing on it
+POCKETS | Keeps hands warm if they are free
+BLOCK_WHILE_WORN | Can be used to block with while worn
+COLLAR | Keeps mouth warm if not covered
 ONLY_ONE | Only one of this item can be worn
 ONE_PER_LAYER | Only one item can be worn on this clothing layer
 FANCY | Clothing is impractically fancy, (like a top hat)
-SUPER_FANCY | even more fancy than fancy
-FILTHY | disgusting dirty clothes
+SUPER_FANCY | Even more fancy than fancy
+FILTHY | Disgusting dirty clothes
 FRAGILE | Breaks fast
-SLOWS_MOVEMENT | slows you down to wear
+SLOWS_MOVEMENT | Slows you down to wear
 
 #### Immunities/Defenses
 **only some of these that are used**
+
 ID | Description
 -- | --
-ELECTRIC_IMMUNE |
-BIO_IMMUNE |
-BASH_IMMUNE |
-CUT_IMMUNE |
-BULLET_IMMUNE |
-ACID_IMMUNE |
-STAB_IMMUNE |
-HEAT_IMMUNE |
-GAS_PROOF |
-RAD_PROOF |
-PSYSHIELD_PARTIAL | partial mind control protection
-RAD_RESIST | partial rads protection
-SUN_GLASSES | protects from suns glare
+ELECTRIC_IMMUNE | Immunity
+BIO_IMMUNE | Immunity
+BASH_IMMUNE | Immunity
+CUT_IMMUNE | Immunity
+BULLET_IMMUNE | Immunity
+ACID_IMMUNE | Immunity
+STAB_IMMUNE | Immunity
+HEAT_IMMUNE | Immunity
+GAS_PROOF | Immunity
+RAD_PROOF | Immunity
+PSYSHIELD_PARTIAL | Partial mind control protection
+RAD_RESIST | Partial rads protection
+SUN_GLASSES | Protects from suns glare
 
 #### Mutation stuff
 ID | Description
 -- | --
-OVERSIZE | can be worn by larger Characters
-UNDERSIZE can be worn by smaller Characters
-ALLOWS_TAIL | people with tails can still wear it
-ALLOWS_TALONS | people with talons can still wear it
-ALLOWS_NATURAL_ATTACKS | wont hinder special attacks
+OVERSIZE | Can be worn by larger Characters
+UNDERSIZE | Can be worn by smaller Characters
+ALLOWS_TAIL | People with tails can still wear it
+ALLOWS_TALONS | People with talons can still wear it
+ALLOWS_NATURAL_ATTACKS | Wont hinder special attacks
 
 #### Sci-fi
 ID | Description
 -- | --
-ACTIVE_CLOAKING | makes you invisible
-CLIMATE_CONTROL | keeps the character at a safe temperature
-NO_CLEAN | can't be cleaned no matter what you do (combine with filthy)
-SEMITANGIBLE | can be worn with other stuff on layer
-POWERARMOR_COMPATIBLE | can be worn with power armor on
-NANOFAB_REPAIR | can be repaired in a nanofabricator
-
+ACTIVE_CLOAKING | Makes you invisible
+CLIMATE_CONTROL | Keeps the character at a safe temperature
+NO_CLEAN | Can't be cleaned no matter what you do (combine with filthy)
+SEMITANGIBLE | Can be worn with other stuff on layer
+POWERARMOR_COMPATIBLE | Can be worn with power armor on
+NANOFAB_REPAIR | Can be repaired in a nanofabricator
+DIMENSIONAL_ANCHOR | Provides nether protection
+PORTAL_PROOF | Provides protection from portals
+GNV_EFFECT | Night Vision
+IR_EFFECT | Infrared Vision
 
 #### Ablative
 ID | Description
 -- | --
-CANT_WEAR | armor can't be worn directly (all ablative plates should have this)
-ABLATIVE_LARGE | large ablative plates that fit in the front of standard ballistic vests
-ABLATIVE_MEDIUM | side ablative plates that fit in the sides of standard ballistic vests
-ABLATIVE_MANTLE | shoulder, arm and torso armor used by Hub 01
-ABLATIVE_SKIRT | hip and thigh armor used by Hub 01
+CANT_WEAR | Armor can't be worn directly (all ablative plates should have this)
+ABLATIVE_LARGE | Large ablative plates that fit in the front of standard ballistic vests
+ABLATIVE_MEDIUM | Side ablative plates that fit in the sides of standard ballistic vests
+ABLATIVE_MANTLE | Shoulder, arm and torso armor used by Hub 01
+ABLATIVE_SKIRT | Hip and thigh armor used by Hub 01
 
 #### Situational
 ID | Description
 -- | --
-DEAF | can't hear anything
-FLASH_PROTECTION | protects from flashbangs
-FLOTATION | causes you to float
-FIN | makes you swim faster
-PARTIAL_DEAF | protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | lets players no this item gives no benefits (used on jewelry)
-PALS_SMALL | can be incorporated into a LBV / ballistic vest (takes 1 slot)
-PALS_MEDIUM | can be incorporated into a LBV / ballistic vest (takes 2 slot)
-PALS_LARGE | can be incorporated into a LBV / ballistic vest (takes 3 slot)
-ROLLER_ONE | heelies
-ROLLER_INLINE | inline roller blades
-ROLLER_QUAD | quad roller blades
-SWIM_GOGGLES | lets you see under water
+DEAF | Can't hear anything
+FLASH_PROTECTION | Protects from flashbangs
+FLOTATION | Causes you to float
+FIN | Makes you swim faster
+PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
+NO_WEAR_EFFECT | Lets players no this item gives no benefits (used on jewelry)
+PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
+PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
+PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
+ROLLER_ONE | Heelies
+ROLLER_INLINE | Inline roller blades
+ROLLER_QUAD | Quad roller blades
+SWIM_GOGGLES | Lets you see under water
 
 ## Making your own items
 When you want to add a new item to Cataclysm there are a few things you should prioritize, focus on and consider.
-
-
-
 
 ### Balance/Considerations
 
