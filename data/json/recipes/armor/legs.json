@@ -206,7 +206,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_lycra_patchwork", 1 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "lycra", 2 ] ]
+    "byproducts": [ [ "lycra_patch", 2 ] ]
   },
   {
     "result": "hot_pants_fur",
@@ -372,7 +372,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_lycra_patchwork", 6 ] ],
-    "byproducts": [ [ "lycra", 5 ] ],
+    "byproducts": [ [ "lycra_patch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
