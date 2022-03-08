@@ -452,6 +452,7 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
     "id": "looted_house",
     "name": "looted house",
     "sym": "%",
@@ -460,6 +461,7 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
     "id": "looted_hospital",
     "name": "looted hospital",
     "sym": "%",
