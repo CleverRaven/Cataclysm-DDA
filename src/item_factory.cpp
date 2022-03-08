@@ -1767,7 +1767,6 @@ void Item_factory::check_definitions() const
             }
             // check that all materials are between 0-100 proportional coverage
             for( const armor_portion_data &portion : type->armor->sub_data ) {
-                bool found = false;
                 for( const part_material &mat : portion.materials ) {
                     if( mat.cover < 0 || mat.cover > 100 ) {
                         msg += string_format( "material %s has proportional coverage %d.  proportional coverage is a value between 0-100.",
@@ -1788,7 +1787,7 @@ void Item_factory::check_definitions() const
                     }
 
                     if( !found ) {
-                        msg += string_format( "at least 1 material for any armor entry should have proportional coverage 100. Consider dropping overall coverage to compensate." );
+                        msg += string_format( "at least 1 material for any armor entry should have proportional coverage 100.  Consider dropping overall coverage to compensate." );
                     }
                 }
             }

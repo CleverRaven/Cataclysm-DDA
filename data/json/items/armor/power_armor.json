@@ -277,7 +277,14 @@
     "flags": [ "WATERPROOF", "STURDY", "BELTED" ],
     "//": "this should be moved to an accessory like aftershock suits when someone gets around to overhauling power armor.",
     "//2": "If this is on the torso it counts as actual power armor and can be worn without wearing power armor cause hardcoded.",
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "arm_l", "arm_r" ], "specifically_covers": ["arm_shoulder_l", "arm_shoulder_r" ]} ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
   },
   {
     "id": "power_armor_heavy",

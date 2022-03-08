@@ -2852,7 +2852,7 @@
       "noise": 38,
       "moves": 100
     },
-    "armor": [ { "coverage": 1, "covers": [ "torso" ], "specifically_covers": ["torso_neck"] } ]
+    "armor": [ { "coverage": 1, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "powered_earmuffs",
