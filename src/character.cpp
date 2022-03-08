@@ -635,14 +635,14 @@ void Character::set_wielded_item( const item &to_wield )
     weapon = to_wield;
 }
 
-bool Character::set_oxygen()
+int Character::get_oxygen_max() const
 {
-    // if not already grabbed or underwater set your oxygen level
-    if( !has_effect( effect_grabbed, body_part_torso ) && !is_underwater() ) {
-        oxygen = 30 + 2 * str_cur;
-        return true;
-    }
-    return false;
+    return 30 + 2 * str_cur;
+}
+
+bool Character::can_recover_oxygen() const
+{
+    return !has_effect( effect_grabbed, body_part_torso ) && !is_underwater();
 }
 
 void Character::randomize_heartrate()
@@ -3247,6 +3247,7 @@ void Character::normalize()
     recalc_hp();
     set_all_parts_temp_conv( BODYTEMP_NORM );
     set_stamina( get_stamina_max() );
+    oxygen = get_oxygen_max();
 }
 
 // Actual player death is mostly handled in game::is_game_over
