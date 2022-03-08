@@ -153,7 +153,7 @@
     "id": "ap_ammonia_machine",
     "name": { "str": "ammonia machine" },
     "location": "structure",
-    "description": "A huge makeshift appliance which produces ammonia via Haber–Bosch process from hydrogen and nitrogen, with a power cord to connect it to an electric grid.",
+    "description": "A huge makeshift appliance which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen, with a power cord to connect it to an electric grid.",
     "item": "ammonia_machine",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_ammonia_machine"
@@ -163,7 +163,7 @@
     "id": "ap_nitrogen_generator",
     "name": { "str": "nitrogen generator" },
     "location": "structure",
-    "description": "A large makeshift appliance which captures nitrogen from air for use in chemistry projects, with a power cord to connect it to an electric grid.",
+    "description": "A large makeshift appliance which captures nitrogen from the air for use in chemistry projects, with a power cord to connect it to an electric grid.",
     "item": "nitrogen_generator",
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_nitrogen_generator"
