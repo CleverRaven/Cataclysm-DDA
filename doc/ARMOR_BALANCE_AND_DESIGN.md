@@ -263,9 +263,11 @@ It is possible to be more verbose and specific with materials and armor. To do t
 #### Further Reading
 The Plate armor uses this.
 
-### Melee and Ranged Coverage
+### Melee, Ranged and Vitals Coverage
 #### Explanation
-This can be specified to differentiate an armors chance to absorb ranged vs. melee attacks. If not defined these default to the armors base coverage. **these are not a replacement for coverage** basic "coverage" is still used for stuff like, sun burn/wind. Primarily these can be used by modern gear that is designed to protect center of mass/practical front facing locations.
+In the case of melee and ranged coverage they can be specified to differentiate an armors chance to absorb ranged vs. melee attacks. They behave identically to regular coverage taking it's place for those types of attacks. If not defined these default to the armors base coverage. **these are not a replacement for coverage** basic "coverage" is still used for stuff like, sun burn/wind. Primarily these can be used by modern gear that is designed to protect center of mass/practical front facing locations.
+
+Vitals Coverage does not behave like normal coverage and a is a % reduction to the amount of bonus damage a character takes from critical hits. If you have 100% vitals protection you take no additional damage from critical hits. If you have 50% vitals protection you take half the additional damage.
 
 #### Example
 ```json
@@ -593,7 +595,7 @@ IR_EFFECT | Infrared Vision
 #### Ablative
 ID | Description
 -- | --
-CANT_WEAR | Armor can't be worn directly (all ablative plates should have this)
+CANT_WEAR | Armor can't be worn directly (**all ablative plates should have this**)
 ABLATIVE_LARGE | Large ablative plates that fit in the front of standard ballistic vests
 ABLATIVE_MEDIUM | Side ablative plates that fit in the sides of standard ballistic vests
 ABLATIVE_MANTLE | Shoulder, arm and torso armor used by Hub 01
@@ -622,16 +624,16 @@ When you want to add a new item to Cataclysm there are a few things you should p
 ### Balance/Considerations
 
 #### The Golden Rule Of Balance
-The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low you **can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic). This consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
+The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low **you can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a discussion about how to solve it can be had. A new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic) or perhaps your assumptions / materials are wrong. Any solution however should come with proper research since it will have long reaching effects. The reasoning for this golden rule is it consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
 
 #### The Golden Rule Of Design
 Make things as simple as they possibly can be. When a player inspects a t-shirt they shouldn't have to inspect 35 lines of armor data that could be summarized as "basically no protection, keeps you kinda warm". Advanced and dedicated armor can be *very* complicated but try to keep clothing as complex as they need to be to be simulated correctly.
 
 #### Subjective Values
-With the above mentioned you should be able to intuit sensible materials, thicknesses, flags, and weight.  Your core variables that aren't fixed are warmth, encumbrance, layer and coverage.  
+With the above mentioned you should be able to intuit/research sensible materials, thicknesses, flags, and weight.  Your core variables that are more discretionary are warmth, encumbrance, layer and coverage.  
 
 #### Layer
-Layer should be based on real world intuit however thickness also matters. The loose rule, which is generous, is (at least for arms, legs and torso)
+Layer should be based on real world intuit however thickness also matters. The loose rule, erring on the side of generosity is (at least for arms, legs and torso)
 * skintight 1mm or less
 * normal 2mm or less
 * outer no restrictions (within reason obviously)
@@ -640,35 +642,40 @@ Layer should be based on real world intuit however thickness also matters. The l
 Warmth should be based on materials, look at armors similar to what you are making and go from there. Also it is worth considering how much of the body is covered.
 
 #### Coverage
-Coverage has a big rule on the core team of **No hard, powerful armors with 100% coverage**. This can be subverted slightly by using covered_by_mat to make it so the armors best protection doesn't cover 100% of the body but limbs need to bend so no part of the body can really have 100% coverage with a hard high protection material. Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.  
+Coverage has a big rule on the core team of **No hard, powerful armors with 100% coverage**. This can be subverted slightly by using covered_by_mat to make it so the armors best protection doesn't cover 100% of the body but limbs need to bend so no part of the body can really have 100% coverage with a hard high protection material. Further any armor that **does** have 100% coverage with great protection from hard materials should either be super sci-fi, or made to order. Super covering protective plate mail was made tailored to a persons body in a way mass manufacture gear isn't.
+
+Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.  
 
 When balancing coverage try to describe what you would see. Doing multiple armor entries per sublimb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sublimbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
 
 
 #### Encumbrance
-This can be very subjective. The main things to keep in mind are
+This can be very subjective. The main things to keep in mind are.
 1. if something is VARSIZE it's values in game will be halved, balance for that.
-2. the further from your the core of your torso the more encumbering it should be.
-3. the more coverage something has the more encumbering it should be
-4. joints should be penalized more heavily than other locations
-5. the heavier something is the more encumbering it should be
+2. the further from your core, the torso, weight is the more encumbering it should be.
+3. the more coverage something has the more encumbering it should be.
+4. joints should be penalized more heavily than other locations.
+5. the heavier something is the more encumbering it should be.
+6. the more uncomfortable and poorly designed something is the more encumbring it should be.
 
 So you will find lots of
 * negligible encumbrance (< 2) clothing with almost no protection and 90% to 100% coverage
 * low encumbrance (< 5) clothing made of soft materials with just okay protection and 90% to 100% coverage
 * low - medium (< 10) encumbrance modern armor with good protection and low 80% coverage
-* high (> 15) encumbrance armor with good protection and high 95%+ coverage
+* high (> 15) encumbrance traditional armor with good protection and high 95%+ coverage
 
 Aside from super sci-fi outliers everything should realistically fall into those categories.
 
 When doing encumbrance per volume you should use volume_encumber_modifier. Some good modifiers to use are:
-* greater than .4 poorly designed storage scaling up to tying something to you with rope at 1
-* .4 stuff not well strapped to you and hanging like rifles on slings
-* .3 reasonable value for armor and strapped pouches
-* .2 very well affixed pouches (should have a higher base encumbrance to compensate)
+* .4+ poorly designed/improvised storage
+* .4 stuff not well fixed to you and hanging like rifles on slings
+* .3 reasonable value for armor and strapped pouches designed for combat, but accessible.
+* .2 very well affixed pouches (should have a higher base encumbrance on the item to compensate)
 * 0 all ablative pockets (their encumbrance is added from their armor directly)
 
 also keep in mind that, for example, if something covers the legs and the torso you can split that ".3" over the legs and torso so the torso becomes ".15" and the legs are each ".1". This probably should never be perfect unless it is an excellently designed storage system.
+
+Also the above values assume things being focused around the torso, shoulders, hips and thighs for the same reason mentioned above the further out from your center something is the worse it should be.
 
 ### What 'Just Works'
 Aside from what is described in this guide a lot of the behind the scenes calculations are just handled for you. So for example the info displayed in game per limb is an amalgamation of all of your sublimb entries consolidated. This is just to simplify a single display to the player but is still very useful.
@@ -678,7 +685,8 @@ Space left for questions as they arise.
 
 ## Looking Forward
 In the future ideally
-* Warmth will be handled by material + thickness, or at least scaled by armor coverage
-* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sublocation coverage, coverage (using the 5 tenets from above)
-* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sublimbs that the armor normally covers
-* All old armors will be overhauled to have better and more detailed information
+* Warmth will be handled by material + thickness, or at least scaled by armor coverage.
+* Encumbrance will be entirely handled by material, thickness, 1 - 2 descriptive words, sublocation coverage, coverage (using the 6 tenets from above).
+* Characters will be able to wear human armor on non human limbs with scaling coverage based on how closely their limbs approximate the sublimbs that the armor normally covers.
+* All old armors will be overhauled to have better and more detailed information.
+* More material refinement.
