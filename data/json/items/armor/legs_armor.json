@@ -146,7 +146,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -189,7 +189,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -214,7 +214,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -248,7 +248,7 @@
     "description": "Customized medium steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -282,7 +282,7 @@
     "description": "Customized high steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -316,7 +316,7 @@
     "description": "Customized hardened steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -350,7 +350,7 @@
     "description": "Customized tempered steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20

@@ -1214,7 +1214,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1255,7 +1255,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1279,7 +1279,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1312,7 +1312,7 @@
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1345,7 +1345,7 @@
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1377,7 +1377,7 @@
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1409,7 +1409,7 @@
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20

@@ -41,7 +41,7 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -86,7 +86,7 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -111,7 +111,7 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -146,7 +146,7 @@
     "description": "A customized medium steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -181,7 +181,7 @@
     "description": "A customized high steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -216,7 +216,7 @@
     "description": "A customized hardened steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
@@ -251,7 +251,7 @@
     "description": "A customized tempered steel chainmail hood.  Can be worn comfortably under helmets.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 10
