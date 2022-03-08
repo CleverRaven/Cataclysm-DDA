@@ -109,6 +109,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -190,7 +191,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -270,7 +272,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
@@ -737,6 +740,7 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -1275,7 +1279,8 @@
       [ "rail mount", 3 ],
       [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
     ],
     "default_mods": [ "folding_stock", "red_dot_sight" ],
     "pocket_data": [

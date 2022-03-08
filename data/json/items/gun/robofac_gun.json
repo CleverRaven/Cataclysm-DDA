@@ -22,9 +22,17 @@
     "dispersion": 150,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight" ],
+    "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight", "robofac_stock" ],
     "//": "Forward ejection port would require a different brass catcher design",
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "grip", 1 ], [ "bore", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40", "robofac20", "robofac10", "robofac60" ] } ]
   },
   {
@@ -145,7 +153,7 @@
     "id": "robofac_laser_sight",
     "copy-from": "rail_laser_sight",
     "type": "GUNMOD",
-    "name": { "str": "integral laser designator." },
+    "name": { "str": "integral laser designator" },
     "flags": [ "LASER_SIGHT", "IRREMOVABLE" ]
   },
   {
@@ -154,6 +162,13 @@
     "copy-from": "grip",
     "name": { "str": "integrated front grip" },
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+  },
+  {
+    "id": "robofac_stock",
+    "type": "GUNMOD",
+    "copy-from": "adjustable_stock",
+    "name": { "str": "bullpup adjustable stock" },
+    "flags": [ "IRREMOVABLE" ]
   },
   {
     "id": "robofac40",
@@ -173,13 +188,13 @@
   },
   {
     "id": "robofac60",
-    "looks_like": "mp5mag",
+    "looks_like": "calicomag",
     "type": "MAGAZINE",
     "name": { "str": "HWP 60-round 9mm helical magazine" },
     "description": "A surprisingly compact 60-round helical magazine for use with the Hub 01 Hybrid Weapons Platform.",
-    "weight": "490 g",
-    "volume": "500 ml",
-    "longest_side": "250 mm",
+    "weight": "360 g",
+    "volume": "360 ml",
+    "longest_side": "232 mm",
     "price": 9920,
     "price_postapoc": 500,
     "material": [ "plastic", "steel" ],
@@ -196,9 +211,9 @@
     "type": "MAGAZINE",
     "name": { "str": "HWP 10-round shotgun magazine" },
     "description": "A 10-round shotgun magazine for use with the Hub 01 Hybrid Weapons Platform.",
-    "weight": "210 g",
-    "volume": "500 ml",
-    "longest_side": "250 mm",
+    "weight": "400 g",
+    "volume": "700 ml",
+    "longest_side": "300 mm",
     "price": 4500,
     "price_postapoc": 100,
     "material": [ "plastic", "steel" ],
@@ -214,9 +229,9 @@
     "type": "MAGAZINE",
     "name": { "str": "HWP 20-round .308 magazine" },
     "description": "A 20-round 308 magazine for use with the Hub 01 Hybrid Weapons Platform.",
-    "weight": "240 g",
-    "volume": "500 ml",
-    "longest_side": "280 mm",
+    "weight": "180 g",
+    "volume": "320 ml",
+    "longest_side": "152 mm",
     "price": 1200,
     "price_postapoc": 250,
     "material": [ "plastic", "steel" ],

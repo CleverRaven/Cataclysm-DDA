@@ -543,7 +543,7 @@ bool item::activate_thrown( const tripoint &pos )
 
 units::energy item::set_energy( const units::energy &qty )
 {
-    if( !is_battery() ) {
+    if( !is_vehicle_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
         return 0_J;
     }
@@ -1843,7 +1843,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, &mon, bp );
+        guy.roll_all_damage( crit, base_damage, true, *this, "WEAPON", &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
@@ -1868,7 +1868,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, &mon, bp );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, "WEAPON", &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -3426,6 +3426,8 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
+        info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Breathability: " ) ),
+                           breathability( bp ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s%s</bold>:", bp_desc,
                                _( "Protection when active" ) ) );
@@ -4040,7 +4042,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/,
                          int /*batch*/, bool /*debug*/ ) const
 {
-    if( !is_battery() ) {
+    if( !is_vehicle_battery() ) {
         return;
     }
 
@@ -4768,9 +4770,9 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, nullptr, bp );
+        player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, nullptr, bp );
+        player_character.roll_all_damage( true, crit, true, *this, "WEAPON", nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -5880,38 +5882,40 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext += string_format( " (%d%%)", percent_progress );
     } else {
         maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
+    }
 
-        /* only expand full contents name if with_contents == true */
-        if( with_contents && contents.num_item_stacks() == 1 ) {
-            const item &contents_item = contents.only_item();
-            const unsigned contents_count =
-                ( ( contents_item.made_of( phase_id::LIQUID ) ||
-                    contents_item.is_food() || contents_item.count_by_charges() ) &&
-                  contents_item.charges > 1 )
-                ? contents_item.charges
-                : 1;
+    /* only expand full contents name if with_contents == true */
+    if( with_contents && contents.num_item_stacks() == 1 ) {
+        const item &contents_item = contents.only_item();
+        const unsigned contents_count =
+            ( ( contents_item.made_of( phase_id::LIQUID ) ||
+                contents_item.is_food() || contents_item.count_by_charges() ) &&
+              contents_item.charges > 1 )
+            ? contents_item.charges
+            : 1;
 
-            // with_contents=false for nested items to prevent excessively long names
-            const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
+        // with_contents=false for nested items to prevent excessively long names
+        const std::string contents_tname = contents_item.tname( contents_count, true, 0, false );
 
+        if( contents_tname != "none" ) {
             if( contents_count == 1 || !ammo_types().empty() ) {
                 // Don't append an item count for single items, or items that are ammo-exclusive
                 // (eg: quivers), as they format their own counts.
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name]
                                                       " > %1$s" ), contents_tname );
-            } else {
+            } else if( contents_count != 0 ) {
                 // Otherwise, add a contents count!
                 contents_suffix_text = string_format( pgettext( "item name",
                                                       //~ [container item name] " > [inner item name] (qty)
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
-        } else if( !contents.empty() ) {
-            contents_suffix_text = string_format( npgettext( "item name",
-                                                  //~ [container item name] " > [count] item"
-                                                  " > %1$zd item", " > %1$zd items",
-                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
         }
+    } else if( !contents.empty() && contents.num_item_stacks() != 0 ) {
+        contents_suffix_text = string_format( npgettext( "item name",
+                                              //~ [container item name] " > [count] item"
+                                              " > %1$zd item", " > %1$zd items",
+                                              contents.num_item_stacks() ), contents.num_item_stacks() );
     }
 
     Character &player_character = get_player_character();
@@ -5985,6 +5989,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
+    if( is_gun() && ( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) ) {
+        tagtext += _( " (folded)" );
+    }
     if( is_broken() ) {
         tagtext += _( " (broken)" );
     }
@@ -6001,7 +6008,13 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        if( has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
+            tagtext += string_format( _( " (SINGLE USE %s)" ),
+                                      nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        } else {
+            tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        }
     }
 
     if( has_flag( flag_RADIO_MOD ) ) {
@@ -6150,7 +6163,7 @@ std::string item::display_name( unsigned int quantity ) const
         } else if( !ammo_default().is_null() ) {
             max_amount = ammo_capacity( item_controller->find_template( ammo_default() )->ammo->type );
         }
-    } else if( is_battery() ) {
+    } else if( is_vehicle_battery() ) {
         show_amt = true;
         amount = to_joule( energy_remaining() );
         max_amount = to_joule( type->battery->max_capacity );
@@ -6427,13 +6440,29 @@ units::length item::length() const
         // only the longest thing sticking off the gun matters for length adjustment
         // TODO: Differentiate from back end mods like stocks vs front end like bayonets and muzzle devices
         units::length max_length = 0_mm;
+        units::length stock_length = 0_mm;
+        units::length stock_accessory_length = 0_mm;
         for( const item *mod : mods ) {
-            units::length l = mod->integral_length();
-            if( l > max_length ) {
-                max_length = l;
+            // stocks and accessories for stocks are added with whatever the longest thing on the front is
+            if( mod->type->gunmod->location.str() == "stock" ) {
+                stock_length = mod->integral_length();
+                if( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) {
+                    // stock is folded so need to reduce length
+
+                    // folded stock length is estimated at about 20 cm, LOP for guns should be about
+                    // 13.5 inches and a folding stock folds past the trigger and isn't perfectly efficient
+                    stock_length = stock_length - 20_cm;
+                }
+            } else if( mod->type->gunmod->location.str() == "stock accessory" ) {
+                stock_accessory_length = mod->integral_length();
+            } else {
+                units::length l = mod->integral_length();
+                if( l > max_length ) {
+                    max_length = l;
+                }
             }
         }
-        return length_adjusted + max_length;
+        return length_adjusted + max_length + stock_length + stock_accessory_length;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
@@ -6450,8 +6479,9 @@ units::volume item::collapsed_volume_delta() const
 {
     units::volume delta_volume = 0_ml;
 
-    // TODO: implement stock_length property for guns
-    if( is_gun() && has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+    // COLLAPSIBLE_STOCK is the legacy version of this just here for mod support
+    // TODO Remove at some point
+    if( is_gun() && ( has_flag( flag_COLLAPSIBLE_STOCK ) || has_flag( flag_COLLAPSED_STOCK ) ) ) {
         // consider only the base size of the gun (without mods)
         int tmpvol = get_var( "volume",
                               ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
@@ -7714,7 +7744,11 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bash_resist() * eff_thic;
                 }
             }
@@ -7739,7 +7773,7 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
     return ( resist * eff_thickness ) + mod;
 }
 
-float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) const
+float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
     if( is_null() ) {
         return 0.0f;
@@ -7756,7 +7790,11 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self,  int roll ) co
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bash_resist() * eff_thic;
             }
         }
@@ -7800,7 +7838,11 @@ float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->cut_resist() * eff_thic;
                 }
             }
@@ -7842,7 +7884,11 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->cut_resist() * eff_thic;
             }
         }
@@ -7901,7 +7947,11 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp, int roll ) const
             for( const part_material *m : armor_mats ) {
                 const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
                 // only count the material if it's hit
-                if( roll < m->cover ) {
+
+                // if roll is -1 each material is rolled at this point individually
+                int internal_roll;
+                roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+                if( internal_roll < m->cover ) {
                     resist += m->id->bullet_resist() * eff_thic;
                 }
             }
@@ -7943,7 +7993,11 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
         for( const part_material *m : armor_mats ) {
             const float eff_thic = std::max( 0.1f, m->thickness - eff_damage );
             // only count the material if it's hit
-            if( roll < m->cover ) {
+
+            // if roll is -1 each material is rolled at this point individually
+            int internal_roll;
+            roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
+            if( internal_roll < m->cover ) {
                 resist += m->id->bullet_resist() * eff_thic;
             }
         }
@@ -8114,6 +8168,41 @@ float item::fire_resist( const sub_bodypart_id &bp, bool to_self, int base_env_r
     return resist + mod;
 }
 
+int item::breathability( const bodypart_id &bp ) const
+{
+    const bool bp_null = bp == bodypart_id();
+    // if the armor doesn't have armor data
+    // or its not on a specific limb
+    if( bp_null || armor_made_of( bp ).empty() ) {
+        return breathability();
+    }
+    const armor_portion_data *a = portion_for_bodypart( bp );
+    if( a == nullptr ) {
+        // if it doesn't cover it breathes great
+        return 100;
+    }
+
+    return a->breathability;
+}
+
+int item::breathability() const
+{
+    // very rudimentary average for simple armor and non limb based situations
+    int breathability = 0;
+
+    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+    const std::map<material_id, int> mats = made_of();
+    if( !mats.empty() ) {
+        for( const auto &m : mats ) {
+            breathability += m.first->breathability() * m.second;
+        }
+        // Average based portion of materials
+        breathability /= total;
+    }
+
+    return breathability;
+}
+
 int item::chip_resistance( bool worst, const bodypart_id &bp ) const
 {
     int res = worst ? INT_MAX : INT_MIN;
@@ -8245,11 +8334,15 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
 
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float raw_dmg = du.amount;
-    if( raw_dmg > armors_own_resist ) {
-        // If damage is above armor value, the chance to avoid armor damage is
-        // 50% + 50% * 1/dmg
-        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+    const float post_mitigated_dmg = du.amount;
+    // more gradual damage chance calc
+    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    if( post_mitigated_dmg > armors_own_resist ) {
+        // handle overflow, if you take a lot of damage your armor should be damaged
+        if( damaged_chance >= 1 ) {
+            return armor_status::DAMAGED;
+        }
+        if( one_in( 1 / ( 1 - damaged_chance ) ) ) {
             return armor_status::UNDAMAGED;
         }
     } else {
@@ -8271,6 +8364,12 @@ item::armor_status item::damage_armor_transforms( damage_unit &du )
 {
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = damage_resist( du.type, true, bodypart_id() );
+
+    // to avoid dumb chip damage plates shouldn't ever transform if they take less than
+    // 20% of their protection in damage
+    if( du.amount / armors_own_resist < 0.2f ) {
+        return armor_status::UNDAMAGED;
+    }
 
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
@@ -8767,6 +8866,11 @@ bool item::is_magazine() const
 }
 
 bool item::is_battery() const
+{
+    return is_magazine() && ammo_capacity( ammo_battery );
+}
+
+bool item::is_vehicle_battery() const
 {
     return !!type->battery;
 }
@@ -9798,7 +9902,7 @@ int item::gun_range( const Character *p ) const
 
 units::energy item::energy_remaining() const
 {
-    if( is_battery() ) {
+    if( is_vehicle_battery() ) {
         return energy;
     }
 
@@ -10847,6 +10951,23 @@ units::volume item::get_total_contained_volume( const bool unrestricted_pockets_
 units::mass item::get_total_contained_weight( const bool unrestricted_pockets_only ) const
 {
     return contents.total_contained_weight( unrestricted_pockets_only );
+}
+
+int item::get_used_holsters() const
+{
+    return contents.get_used_holsters();
+}
+int item::get_total_holsters() const
+{
+    return contents.get_total_holsters();
+}
+units::volume item::get_total_holster_volume() const
+{
+    return contents.get_total_holster_volume();
+}
+units::volume item::get_used_holster_volume() const
+{
+    return contents.get_used_holster_volume();
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
@@ -12946,7 +13067,7 @@ units::volume item::check_for_free_space() const
 
 int item::get_pocket_size() const
 {
-    // set the ammount of space that will be used on the vest based on the size of the item
+    // set the amount of space that will be used on the vest based on the size of the item
     if( has_flag( flag_PALS_SMALL ) ) {
         return 1;
     } else if( has_flag( flag_PALS_MEDIUM ) ) {

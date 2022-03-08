@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+aberrance
 aboveground
 abso
 acausal
@@ -229,7 +230,6 @@ brewable
 brimless
 bronchodilator
 bronchospasm
-bubblewrap
 bubblicious
 buchner
 bucka
@@ -291,6 +291,8 @@ chasin
 chausses
 cheapshot
 cheescutter
+chelator
+chelators
 chestpiece
 chestrig
 chestwrap
@@ -426,7 +428,7 @@ deinonychus
 deles
 delsihous
 demihuman
-denatonuim
+denatonium
 deployer
 dermatik
 derring
@@ -584,6 +586,7 @@ firemask
 firepit
 firestarters
 firesuit
+firesuits
 fireweed
 fishfolk
 fishily
@@ -688,6 +691,7 @@ glyceride
 goooood
 gooorge
 goops
+gorget
 gorgosaurus
 gowod
 gozu
@@ -1758,6 +1762,7 @@ uncleaned
 uncoils
 underbarrel
 undercovering
+undergrown
 underprepared
 underslung
 undersuit

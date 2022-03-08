@@ -117,6 +117,7 @@ class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::pair<overmap_land_use_code_id, mod_id>> src;
 
         int land_use_code = 0;
         translation name;
@@ -221,6 +222,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
+        std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
@@ -284,6 +286,7 @@ struct oter_t {
 
     public:
         oter_str_id id;         // definitive identifier.
+        std::vector < std::pair < oter_str_id, mod_id>> src;
 
         oter_t();
         explicit oter_t( const oter_type_t &type );
@@ -540,6 +543,11 @@ class overmap_special
         mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;
+        // TODO: fix how this works with fake specials
+        // Due to fake specials being created after data loading, if any mod has a region settings
+        // which has a fake special defined in DDA, it will count as from the same src, and thus
+        // a duplicate.
+        //std::vector<std::pair<overmap_special_id, mod_id>> src;
 
         // Used by generic_factory
         bool was_loaded = false;
@@ -576,8 +584,10 @@ struct overmap_special_migration {
     private:
         bool was_loaded = false;
         overmap_special_migration_id id;
+        std::vector<std::pair<overmap_special_migration_id, mod_id>> src;
         overmap_special_id new_id;
         friend generic_factory<overmap_special_migration>;
+        friend struct mod_tracker;
 };
 
 namespace overmap_terrains

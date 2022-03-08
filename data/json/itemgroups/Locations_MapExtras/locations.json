@@ -412,6 +412,7 @@
       { "group": "ammo_pocket_batteries", "prob": 10 },
       [ "solar_panel", 15 ],
       [ "jumper_cable", 5 ],
+      [ "extension_cable", 5 ],
       [ "pipe", 20 ],
       [ "stereo", 6 ],
       [ "toaster", 20 ],
@@ -751,7 +752,8 @@
       [ "copper_hairpin", 25 ],
       [ "copper_locket", 25 ],
       [ "jumper_cable", 10 ],
-      [ "jumper_cable_heavy", 10 ]
+      [ "jumper_cable_heavy", 10 ],
+      [ "extension_cable", 10 ]
     ]
   },
   {
@@ -1270,7 +1272,7 @@
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "glasses_safety", 40 ],
-      [ "goggles_welding", 70 ],
+      { "group": "SUS_welding_gear", "prob": 70 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 2, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
@@ -1660,6 +1662,7 @@
     "entries": [
       { "group": "clothing_glasses", "prob": 80 },
       { "item": "child_book", "prob": 60 },
+      { "item": "oil_lamp_clay", "prob": 20 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 4, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },

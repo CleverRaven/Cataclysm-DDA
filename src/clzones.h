@@ -45,6 +45,7 @@ class zone_type
     public:
 
         zone_type_id id;
+        std::vector<std::pair<zone_type_id, mod_id>> src;
         bool was_loaded = false;
 
         zone_type() = default;
@@ -57,6 +58,7 @@ class zone_type
         bool can_be_personal = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
+        static void reset();
         void load( const JsonObject &jo, const std::string & );
         /**
          * All spells in the game.

@@ -550,7 +550,7 @@
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
     "proportional": { "weight": 0.7, "volume": 0.5 },
-    "description": "A plastic straw, for drinking things and making litter",
+    "description": "A plastic straw, for drinking things and making litter.",
     "copy-from": "base_plastic_silverware"
   },
   {
