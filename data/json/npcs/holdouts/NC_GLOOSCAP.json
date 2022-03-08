@@ -104,24 +104,14 @@
         "condition": { "u_has_trait": "PRETTY" }
       },
       {
-        "text": "[CHA 12] That smile is very nice.  It makes me smile too.",
-        "topic": "TALK_GLOOSCAP_SOCIAL",
-        "condition": { "u_has_charisma": 12 }
-      },
-      {
-        "text": "[CHA 18] Worship my beauty.",
-        "topic": "TALK_GLOOSCAP_WORSHIP",
-        "condition": { "u_has_charisma": 18 }
-      },
-      {
         "text": "[GLORIOUS] Worship my beauty.",
         "topic": "TALK_GLOOSCAP_WORSHIP",
         "condition": { "u_has_trait": "GLORIUS" }
       },
       {
-        "text": "[TERRIFYING and CHA 8+] Fear me!  I am disgusting!",
+        "text": "[TERRIFYING] Fear me!  I am disgusting!",
         "topic": "TALK_GLOOSCAP_FEAR",
-        "condition": { "and": [ { "u_has_trait": "TERRIFYING" }, { "u_has_charisma": 8 } ] }
+        "condition": { "and": [ { "u_has_trait": "TERRIFYING" } ] }
       },
       {
         "text": "[TERRIFYING] Destroy me!",
@@ -279,6 +269,19 @@
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GLOOSCAP" },
       { "text": "I need to move on.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GLOOSCAP_FEAR",
+    "dynamic_line": "Whoah whoah, calm down.  Yikes. Yeah fine, we're good.  Just stop trying to spook me, I don't like it.",
+    "responses": [
+      {
+        "text": "Yes, that worked great.",
+        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GLOOSCAP"
+      },
+      { "text": "We are not good and I'm done talking to you.", "topic": "TALK_DONE" }
     ]
   }
 ]
