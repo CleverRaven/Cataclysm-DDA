@@ -51,7 +51,7 @@ def copy_and_rewrite(file):
         return []
     otool_ret = subprocess.run(["otool", "-L", file], capture_output=True)
     if otool_ret.returncode != 0:
-        raise Exception("An error occured in calling otool -L:\n {}"
+        raise Exception("An error occurred in calling otool -L:\n {}"
                         .format(otool_ret.stderr.decode('utf-8')))
     dependencies = []
     for line in otool_ret.stdout.decode('utf-8').split('\n')[1:]:

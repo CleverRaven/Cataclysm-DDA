@@ -330,16 +330,15 @@ static const limb_score_id limb_score_vision( "vision" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_case_hardened_steel( "case_hardened_steel" );
+static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_hflesh( "hflesh" );
-static const material_id material_high_steel( "high_steel" );
 static const material_id material_iron( "iron" );
-static const material_id material_low_steel( "low_steel" );
-static const material_id material_med_steel( "med_steel" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
-static const material_id material_tempered_steel( "tempered_steel" );
 static const material_id material_wool( "wool" );
 
 static const morale_type morale_nightmare( "morale_nightmare" );
@@ -480,7 +479,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
-static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel, material_hardsteel };
+static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_ch_steel, material_hc_steel, material_lc_steel, material_mc_steel, material_qt_steel };
 
 namespace io
 {
@@ -976,6 +975,7 @@ double Character::aim_factor_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
     double wielded_volume = gun.volume() / 1_ml;
+    // this is only here for mod support
     if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
         // use the unfolded volume
         wielded_volume += gun.collapsed_volume_delta() / 1_ml;
@@ -3253,7 +3253,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
-    is_dead = true;
+    set_all_parts_hp_cur( 0 );
     set_killer( nkiller );
     set_time_died( calendar::turn );
 
@@ -7221,6 +7221,10 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    if( is_npc() ) {
+        as_npc()->on_attacked( *source );
+    }
+
     bool u_see = get_player_view().sees( *this );
     const units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
@@ -7909,6 +7913,36 @@ int Character::empty_holsters() const
         }
     }
     return e_holsters;
+}
+
+int Character::used_holsters() const
+{
+    int e_holsters = 0;
+    e_holsters += weapon.get_used_holsters();
+    for( const item &w : worn ) {
+        e_holsters += w.get_used_holsters();
+    }
+    return e_holsters;
+}
+
+int Character::total_holsters() const
+{
+    int e_holsters = 0;
+    e_holsters += weapon.get_total_holsters();
+    for( const item &w : worn ) {
+        e_holsters += w.get_total_holsters();
+    }
+    return e_holsters;
+}
+
+units::volume Character::free_holster_volume() const
+{
+    units::volume holster_volume = 0_ml;
+    holster_volume += weapon.get_total_holster_volume() - weapon.get_used_holster_volume();
+    for( const item &w : worn ) {
+        holster_volume += w.get_total_holster_volume() - w.get_used_holster_volume();
+    }
+    return holster_volume;
 }
 
 units::volume Character::small_pocket_volume( const units::volume &threshold ) const

@@ -1239,7 +1239,7 @@
         "materials": [
           "iron",
           "steel",
-          "hardsteel",
+          "qt_steel",
           "aluminum",
           "copper",
           "bronze",
@@ -1296,7 +1296,6 @@
         "materials": [
           "iron",
           "steel",
-          "hardsteel",
           "aluminum",
           "copper",
           "bronze",
@@ -1350,7 +1349,6 @@
         "materials": [
           "iron",
           "steel",
-          "hardsteel",
           "aluminum",
           "copper",
           "bronze",

@@ -45,6 +45,7 @@ static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
+static const efftype_id effect_zombie_virus( "zombie_virus" );
 
 static const skill_id skill_throw( "throw" );
 
@@ -460,6 +461,13 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
             target.add_effect( effect_bite, 1_turns, hit, true );
+        }
+    }
+
+    // Flag only set for zombies in the deadly_bites mod
+    if( z.has_flag( MF_DEADLY_VIRUS ) && x_in_y( infection_chance, 20 ) ) {
+        if( !target.has_effect( effect_zombie_virus ) ) {
+            target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }
 

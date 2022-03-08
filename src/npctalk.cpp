@@ -1840,6 +1840,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
@@ -1878,7 +1879,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
-            d_win.handle_scrolling( action );
+            d_win.handle_scrolling( action, response_lines.size() );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
@@ -1886,6 +1887,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             if( action == "HELP_KEYBINDINGS" ) {
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
+            } else if( action == "CONFIRM" ) {
+                response_ind = d_win.sel_response;
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -1894,7 +1897,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
-        } while( ( action != "ANY_INPUT" && action != "QUIT" ) || response_ind >= response_hotkeys.size() );
+        } while( response_ind >= response_hotkeys.size() ||
+                 ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -3631,7 +3635,14 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
                                            dov_time_in_future.is_npc() ) );
         for( const effect_on_condition_id &eoc : eocs ) {
             if( eoc->type == eoc_type::ACTIVATION ) {
-                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                if( alpha ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha );
+                } else if( eoc->global ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                }
+                // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+                // this is so monster attacks against other monsters won't give error messages.
             } else {
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }

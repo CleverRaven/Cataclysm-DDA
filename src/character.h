@@ -1017,7 +1017,7 @@ class Character : public Creature, public visitable
         std::string weapname() const;
 
         // any side effects that might happen when the Character is hit
-        /** Handles special defenses from an attack that hit us (source can be null) */
+        /** Handles special defenses from melee attack that hit us (source can be null) */
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
@@ -1318,7 +1318,7 @@ class Character : public Creature, public visitable
         void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
-                          const vitamin_id &mut_vit ) const;
+                          const vitamin_id &mut_vit, const bool &terminal ) const;
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, const bool use_vitamins );
@@ -1942,7 +1942,17 @@ class Character : public Creature, public visitable
          * Returns the total volume of all worn holsters.
         */
         units::volume holster_volume() const;
+
+        /**
+         * Used and total holsters
+        */
+        int used_holsters() const;
+        int total_holsters() const;
+        units::volume free_holster_volume() const;
+
+        // this is just used for pack rat maybe should be moved to the above more robust functions
         int empty_holsters() const;
+
         /**
          * Returns the total volume of all pockets less than or equal to the volume passed in
          * @param volume threshold for pockets to be considered
@@ -2308,7 +2318,6 @@ class Character : public Creature, public visitable
         cata::optional<std::string> play_name;
         bool male = false;
 
-        bool is_dead = false;
         std::vector<effect_on_condition_id> death_eocs;
         std::list<item> worn;
         bool nv_cached = false;

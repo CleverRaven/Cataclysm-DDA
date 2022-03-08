@@ -779,7 +779,7 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ 500 ],
-      "hurt_tick": [ 100 ],
+      "hurt_tick": [ 150 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
       "pain_chance": [ 90 ],
@@ -792,7 +792,7 @@
       "dex_mod": [ 1 ],
       "int_mod": [ 1 ],
       "hurt_chance": [ -240, -50 ],
-      "hurt_tick": [ -60 ],
+      "hurt_tick": [ -25 ],
       "pain_chance": [ -30 ]
     },
     "rating": "bad",

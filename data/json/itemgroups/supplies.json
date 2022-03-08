@@ -28,6 +28,7 @@
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
+      [ "extension_cable", 45 ],
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "recharge_station", 20 ],

@@ -111,12 +111,14 @@ struct mutation_branch {
         trait_id id;
         std::vector<std::pair<trait_id, mod_id>> src;
         bool was_loaded = false;
-        // True if this is a valid mutation (False for "unavailable from generic mutagen").
+        // True if this is a valid mutation.
         bool valid = false;
         // True if Purifier can remove it (False for *Special* mutations).
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // True if it can only be obtained after reaching the Terminus, (False by default, prevents purification).
+        bool terminus = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
