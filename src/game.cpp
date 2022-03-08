@@ -5604,7 +5604,7 @@ void game::peek()
         }
     }
 
-    if( m.impassable( new_pos) ) {
+    if( m.impassable( new_pos ) ) {
         return;
     }
 
