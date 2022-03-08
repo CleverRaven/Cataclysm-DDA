@@ -998,10 +998,10 @@ void place_construction( const construction_group_str_id &group )
     if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
-    const bool is_app = con.category == construction_category_APPLIANCE;
+    const bool is_appliance = con.category == construction_category_APPLIANCE;
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        if( is_app && player_character.has_trait( trait_DEBUG_HS ) ) {
+        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
             // appliances require a base item in the construction
             used.emplace_back( item( it.front().type ) );
         } else {
@@ -1011,7 +1011,7 @@ void place_construction( const construction_group_str_id &group )
     }
     // If player has debug hammerspace while building an appliance, they won't get
     // the appliance they want unless lastconsumed points to the appliance's base itype
-    if( is_app && player_character.has_trait( trait_DEBUG_HS ) ) {
+    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
         const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
         if( !comp_list.empty() && !comp_list.front().empty() ) {
             player_character.lastconsumed = comp_list.front().front().type;
