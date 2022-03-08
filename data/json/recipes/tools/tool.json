@@ -569,6 +569,7 @@
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "cable", 100 ] ],
       [ [ "scrap", 2 ] ],
+      [ [ "lye", 2 ] ],
       [ [ "steel_grille", 8 ] ],
       [ [ "compressor", 2 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ],

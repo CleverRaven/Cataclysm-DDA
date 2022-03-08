@@ -82,7 +82,7 @@
     "activity_level": "NO_EXERCISE",
     "result": "ammonia",
     "charges": 8,
-    "byproducts": [ [ "salt_water", 1 ], [ "lye", 2 ] ],
+    "byproducts": [ [ "salt_water", 1 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -90,6 +90,6 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [ [ [ "ammonia_machine", 500 ] ], [ [ "nitrogen_generator", 50 ] ] ],
-    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "salt", 10 ] ], [ [ "water_clean", 4 ] ] ]
+    "components": [ [ [ "salt", 10 ] ], [ [ "water_clean", 8 ] ] ]
   }
 ]

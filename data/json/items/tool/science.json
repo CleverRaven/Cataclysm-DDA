@@ -681,7 +681,7 @@
     "id": "ammonia_machine",
     "type": "TOOL",
     "name": { "str": "ammonia machine" },
-    "description": "A huge makeshift appliance which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen, while also producing hydrogen for this process via brine electrolysis.  Powered by electricity.",
+    "description": "A huge makeshift appliance which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen, while also producing hydrogen for this process via electrolysis of sodium hydroxide solution.  Powered by electricity.",
     "weight": "65 kg",
     "volume": "90 L",
     "longest_side": "200 cm",
