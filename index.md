@@ -21,7 +21,7 @@ These sites are owned and managed by the project directly.
 * [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
 * [Forums](https://discourse.cataclysmdda.org)
 * [Development-oriented Discord](https://discord.gg/jFEc7Yp)
-* IRC channel: irc.libera.chat channel: #CataclysmDDA [webchat](https://kiwiirc.com/nextclient/irc.libera.chat#CataclysmDDA)
+* IRC channel: #CataclysmDDA on Libera Chat, [webchat](https://web.libera.chat/#CataclysmDDA)
 
 ## Community Managed Resources
 These are resources provided by third parties that the project sees as helpful to users.
