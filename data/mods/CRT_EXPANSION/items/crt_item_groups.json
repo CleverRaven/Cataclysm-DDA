@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "gunmod_rare",
     "//": "Common gunmods typically owned by citizens and found in many locations.",
-    "items": [ [ "folding_bthk_stock", 20 ] ]
+    "items": [ [ "high_end_folding_stock", 20 ] ]
   },
   {
     "type": "item_group",

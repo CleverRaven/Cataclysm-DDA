@@ -12,7 +12,7 @@
     "id": "afs_magnet_2",
     "copy-from": "afs_scrap_2",
     "name": { "str": "cryo electromagnet" },
-    "description": "A powerful super conductive electromagnet, that must be kept  at very low temperatures to operate.",
+    "description": "A powerful super conductive electromagnet, that must be kept at very low temperatures to operate.",
     "looks_like": "scrap"
   },
   {

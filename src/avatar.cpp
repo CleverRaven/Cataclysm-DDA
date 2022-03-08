@@ -921,7 +921,7 @@ int avatar::limb_dodge_encumbrance() const
     std::map<body_part_type::type, std::vector<bodypart_id>> bps;
     for( const auto &bp : body ) {
         if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->limb_type].emplace_back( bp.first );
+            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
         }
     }
 

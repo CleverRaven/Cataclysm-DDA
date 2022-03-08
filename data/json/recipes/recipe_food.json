@@ -2261,8 +2261,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "rag", -1 ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
@@ -7756,7 +7756,20 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
-      [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
+      [
+        [ "offal", 4 ],
+        [ "mutant_bug_organs", 4 ],
+        [ "meat_nofish", 2, "LIST" ],
+        [ "bacon", 8 ],
+        [ "bologna", 10 ],
+        [ "meat_pickled", 2 ],
+        [ "dry_meat", 2 ],
+        [ "jerky", 2 ],
+        [ "meat_smoked", 2 ],
+        [ "meat_salted", 2 ],
+        [ "meat_fried", 2 ],
+        [ "brain", 10 ]
+      ],
       [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
@@ -7804,7 +7817,20 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
-      [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
+      [
+        [ "offal", 4 ],
+        [ "mutant_bug_organs", 4 ],
+        [ "meat_nofish", 2, "LIST" ],
+        [ "bacon", 8 ],
+        [ "bologna", 10 ],
+        [ "meat_pickled", 2 ],
+        [ "dry_meat", 2 ],
+        [ "jerky", 2 ],
+        [ "meat_smoked", 2 ],
+        [ "meat_salted", 2 ],
+        [ "meat_fried", 2 ],
+        [ "brain", 10 ]
+      ],
       [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
         [ "salt_water", 4 ],
@@ -7833,7 +7859,8 @@
     "time": "1 h 7 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "oats", 2 ] ] ]
   },
   {
@@ -7851,7 +7878,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "wheat", 1 ], [ "barley", 1 ], [ "oats", 4 ], [ "starch", 1 ] ] ]
   },
   {
@@ -7869,7 +7896,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "buckwheat", 1 ], [ "acorns_cooked", 10 ], [ "dry_rice", 5 ], [ "chestnut_roasted", 12 ] ] ]
   },
   {
@@ -7886,7 +7913,8 @@
     "time": "1 h 7 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "dry_corn", 1 ] ] ]
   },
   {
@@ -7903,7 +7931,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
   {
@@ -7920,7 +7948,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
@@ -7936,8 +7964,8 @@
     "time": "1 h 7 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 30, 1 ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_forage_cooking" },

@@ -340,7 +340,11 @@
     "type": "item_group",
     "id": "ear_protection",
     "//": "used in shooting_range.",
-    "items": [ { "item": "powered_earmuffs", "prob": 10, "charges": [ 0, 100 ] }, [ "ear_plugs", 50 ] ]
+    "items": [
+      { "item": "powered_earmuffs", "prob": 10, "charges": [ 0, 100 ] },
+      [ "ear_plugs", 50 ],
+      { "item": "powered_earplugs", "prob": 10, "charges": [ 0, 100 ] }
+    ]
   },
   {
     "id": "clothing_outdoor_shoes",

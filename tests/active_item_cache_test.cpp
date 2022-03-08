@@ -30,8 +30,8 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
         for( int y = 0; y < MAPSIZE_Y; ++y ) {
             REQUIRE( here.i_at( { x, y, z } ).empty() );
             CAPTURE( x, y, z );
-            tripoint abs_loc = here.get_abs_sub() + tripoint( x / SEEX, y / SEEY, z );
-            CAPTURE( abs_loc.x, abs_loc.y, abs_loc.z );
+            tripoint_abs_sm abs_loc = here.get_abs_sub() + tripoint( x / SEEX, y / SEEY, z );
+            CAPTURE( abs_loc );
             REQUIRE( here.get_submaps_with_active_items().empty() );
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) ==
                      here.get_submaps_with_active_items().end() );

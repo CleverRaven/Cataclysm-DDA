@@ -102,7 +102,6 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
@@ -115,14 +114,13 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
-
-static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
-static const mutation_category_id mutation_category_ELFA( "ELFA" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -142,7 +140,6 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
@@ -225,7 +222,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     int result = 0;
 
     const bool possess = p.has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
+                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) <= 1 );
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -295,7 +292,12 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
-    if( container.is_empty() ) {
+    if( it.is_comestible() ) {
+        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
+        obj = &obj_it;
+        p.i_add_or_drop( *obj );
+        result = 1;
+    } else if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -4280,142 +4282,75 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-std::unique_ptr<iuse_actor> mutagen_actor::clone() const
+cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
+        const tripoint &pnt ) const
 {
-    return std::make_unique<mutagen_actor>( *this );
-}
 
-void mutagen_actor::load( const JsonObject &obj )
-{
-    mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
-    is_weak = obj.get_bool( "is_weak", false );
-    is_strong = obj.get_bool( "is_strong", false );
-}
-
-cata::optional<int> mutagen_actor::use( Character &p, item &it, bool, const tripoint & ) const
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
-
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    if( is_weak && !one_in( 3 ) ) {
-        // Nothing! Mutagenic flesh often just fails to work.
-        return it.type->charges_to_use();
-    }
-
-    const mutation_category_trait &m_category = mutation_category_trait::get_category(
-                mutation_category );
-
-    if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_good, _( "You quiver with anticipation…" ) );
-        p.add_morale( MORALE_MUTAGEN, 5, 50 );
-    }
-
-    p.add_msg_if_player( m_category.mutagen_message() );
-
-    if( one_in( 6 ) && !p.is_on_ground() ) {
-        p.add_msg_player_or_npc( m_bad,
-                                 _( "You suddenly feel dizzy, and collapse to the ground." ),
-                                 _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 1_turns, false, 0, true );
-    }
-
-    int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
-
-    for( int i = 0; i < mut_count; i++ ) {
-        p.mutate_category( m_category.id );
-        p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
-    }
-    // burn calories directly
-    p.mod_stored_nutr( m_category.mutagen_hunger * mut_count );
-    p.mod_thirst( m_category.mutagen_thirst * mut_count );
-    p.mod_fatigue( m_category.mutagen_fatigue * mut_count );
-    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
-        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
-    }
-
-    return it.type->charges_to_use();
-}
-
-std::unique_ptr<iuse_actor> mutagen_iv_actor::clone() const
-{
-    return std::make_unique<mutagen_iv_actor>( *this );
-}
-
-void mutagen_iv_actor::load( const JsonObject &obj )
-{
-    mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
-}
-
-cata::optional<int> mutagen_iv_actor::use( Character &p, item &it, bool, const tripoint & ) const
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
-
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    const mutation_category_trait &m_category = mutation_category_trait::get_category(
-                mutation_category );
-
-    if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_category.junkie_message() );
-    } else {
-        p.add_msg_if_player( m_category.iv_message() );
-    }
-
-    // try to cross the threshold to be able to get post-threshold mutations this iv.
-    test_crossing_threshold( p, m_category );
-
-    // TODO: Remove the "is_avatar" part, implement NPC screams
-    if( p.is_avatar() && !p.has_trait( trait_NOPAIN ) && m_category.iv_sound ) {
-        p.mod_pain( m_category.iv_pain );
-        /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-        sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
-                       m_category.iv_sound_message(), true, m_category.iv_sound_id(), m_category.iv_sound_variant() );
-    }
-
-    int mut_count = m_category.iv_min_mutations;
-    for( int i = 0; i < m_category.iv_additional_mutations; ++i ) {
-        if( !one_in( m_category.iv_additional_mutations_chance ) ) {
-            ++mut_count;
+    std::vector<item *> mods;
+    for( item *mod : it.gunmods() ) {
+        if( mod->is_transformable() ) {
+            mods.push_back( mod );
         }
     }
 
-    for( int i = 0; i < mut_count; i++ ) {
-        p.mutate_category( m_category.id );
-        p.mod_pain( m_category.iv_pain  * rng( 1, 5 ) );
+    uilist prompt;
+    prompt.text = _( "Modify which part" );
+
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        prompt.addentry( i, true, -1, string_format( "%s: %s", mods[i]->tname(),
+                         mods[i]->get_use( "transform" )->get_name() ) );
     }
 
-    p.mod_hunger( m_category.iv_hunger * mut_count );
-    p.mod_thirst( m_category.iv_thirst * mut_count );
-    p.mod_fatigue( m_category.iv_fatigue * mut_count );
-    if( it.is_comestible() && !it.get_comestible()->default_nutrition.vitamins.empty() ) {
-        p.vitamins_mod( it.get_comestible()->default_nutrition.vitamins );
+    prompt.query();
+
+    if( prompt.ret >= 0 ) {
+        // set gun to default incase this changes anything
+        it.gun_set_mode( gun_mode_DEFAULT );
+        p.invoke_item( mods[prompt.ret], "transform", pnt );
+        return 0;
     }
 
-    if( m_category.id == mutation_category_CHIMERA ) {
-        p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == mutation_category_ELFA ) {
-        p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.iv_morale > 0 ) {
-        p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+        const tripoint & ) const
+{
+    if( !p.is_wielding( it ) ) {
+        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+    }
+    const auto mods = it.gunmods();
+
+    if( mods.empty() ) {
+        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    if( m_category.iv_sleep && !one_in( 3 ) ) {
-        p.add_msg_if_player( m_bad, m_category.iv_sleep_message() );
-        /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-        p.fall_asleep( time_duration::from_turns( m_category.iv_sleep_dur - p.int_cur * 5 ) );
+    const bool modifiables = std::any_of( mods.begin(), mods.end(),
+                                          std::bind( &item::is_transformable, std::placeholders::_1 ) );
+
+    if( !modifiables ) {
+        return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
     }
 
-    // try crossing again after getting new in-category mutations.
-    test_crossing_threshold( p, m_category );
+    if( p.is_worn(
+            it ) ) { // I don't know if modifying really needs this but its for future proofing.
+        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+    }
 
-    return it.type->charges_to_use();
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> modify_gunmods_actor::modify_gunmods_actor::clone() const
+{
+    return std::make_unique<modify_gunmods_actor>( *this );
+}
+
+void modify_gunmods_actor::finalize( const itype_id &my_item_type )
+{
+    if( !item::find_type( my_item_type )->gun ) {
+        debugmsg( "Item %s has modify_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
+    }
 }
 
 std::unique_ptr<iuse_actor> deploy_tent_actor::clone() const

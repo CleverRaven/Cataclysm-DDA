@@ -31,7 +31,14 @@
       { "group": "survivor_stabbing", "prob": 100, "damage": [ 0, 3 ] },
       { "group": "mon_zombie_survivor_death_drops", "prob": 100 },
       { "item": "spearsling", "prob": 100, "damage": [ 0, 3 ] },
-      { "item": "survivor_belt_notools", "prob": 30, "damage": [ 0, 3 ] },
+      {
+        "distribution": [
+          { "item": "police_belt", "prob": 35, "damage": [ 0, 3 ] },
+          { "item": "fireman_belt", "prob": 35, "damage": [ 0, 3 ] },
+          { "item": "tool_belt", "prob": 30, "damage": [ 0, 3 ] }
+        ],
+        "prob": 50
+      },
       { "item": "duster_leather", "prob": 25, "damage": [ 0, 3 ] },
       { "item": "kevlar", "prob": 25, "damage": [ 0, 3 ] },
       { "item": "tac_helmet", "prob": 10, "damage": [ 0, 3 ] }

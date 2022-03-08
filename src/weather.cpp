@@ -73,7 +73,7 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z >= 0;
+    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z() >= 0;
 }
 
 weather_type_id get_bad_weather()
@@ -450,12 +450,12 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
     Character &player_character = get_player_character();
     map &here = get_map();
     if( !player_character.has_effect( effect_sleep ) && !player_character.is_deaf() ) {
-        if( here.get_abs_sub().z >= 0 ) {
+        if( here.get_abs_sub().z() >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
-        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
@@ -956,7 +956,7 @@ void weather_manager::update_weather()
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
         if( weather_id != old_weather && weather_id->dangerous &&
-            here.get_abs_sub().z >= 0 && here.is_outside( player_character.pos() )
+            here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );

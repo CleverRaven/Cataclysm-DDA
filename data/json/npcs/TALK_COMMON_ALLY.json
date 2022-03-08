@@ -276,7 +276,7 @@
               "npc_rule": "use_guns",
               "yes": {
                 "and": [
-                  { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "  " },
+                  { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "" },
                   {
                     "npc_rule": "use_silent",
                     "yes": "<ally_rule_use_silent_true_text>",
@@ -630,7 +630,8 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_aim_rule": "AIM_STRICTLY_PRECISE" } },
         "effect": { "set_npc_aim_rule": "AIM_STRICTLY_PRECISE" }
-      }
+      },
+      { "text": "Never mind.", "topic": "TALK_NONE" }
     ]
   },
   {

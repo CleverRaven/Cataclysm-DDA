@@ -151,6 +151,7 @@ struct weakpoint {
 struct weakpoints {
     // id of this set of weakpoints (inline weakpoints have a null id)
     weakpoints_id id;
+    std::vector<std::pair<weakpoints_id, mod_id>> src;
     // List of weakpoints. Each weakpoint should have a unique id.
     std::vector<weakpoint> weakpoint_list;
     // Default weakpoint to return.
