@@ -21,7 +21,7 @@
 "NPC / Factions":
   - data/json/npcs/**/*
 
-"CBMs":
+"Bionics":
   - "data/json/bionics.json"
 
 "Player Faction Base / Camp":
