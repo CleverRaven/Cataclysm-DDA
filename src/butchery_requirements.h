@@ -36,7 +36,7 @@ class butchery_requirements
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<butchery_requirements> &get_all();
         static void check_consistency();
-        static void reset_all();
+        static void reset();
         bool is_valid() const;
     private:
         // int is speed bonus
