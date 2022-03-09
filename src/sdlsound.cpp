@@ -33,6 +33,8 @@
 #include "sounds.h"
 #include "units.h"
 
+#include "music.h"
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 struct id_variant_season {
@@ -183,6 +185,19 @@ void musicFinished()
     Mix_FreeMusic( current_music );
     current_music = nullptr;
 
+    if( music::is_listening_music ) {
+        if( current_playlist.compare( "music" ) != 0 ) {
+            play_music( "music" );
+
+            return;
+        }
+    }
+    else if( current_playlist.compare( "music" ) == 0 ) {
+        play_music( "title" );
+
+        return;
+    }
+
     const auto iter = playlists.find( current_playlist );
     if( iter == playlists.end() ) {
         return;
@@ -208,17 +223,20 @@ void musicFinished()
 
 void play_music( const std::string &playlist )
 {
+    // Don't interrupt playlist that's already playing.
+    if( playlist == current_playlist ) {
+        return;
+    }
+    else {
+        stop_music();
+    }
+
     const auto iter = playlists.find( playlist );
     if( iter == playlists.end() ) {
         return;
     }
     const music_playlist &list = iter->second;
     if( list.entries.empty() ) {
-        return;
-    }
-
-    // Don't interrupt playlist that's already playing.
-    if( playlist == current_playlist ) {
         return;
     }
 
@@ -277,7 +295,12 @@ void update_music_volume()
     // needs to be changed to something other than a static string when
     // #28018 is resolved, as this function may be called from places
     // other than the main menu.
-    play_music( "title" );
+    if( music::is_listening_music ) {
+        play_music( "music" );
+    }
+    else {
+        play_music( "title" );
+    }
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
