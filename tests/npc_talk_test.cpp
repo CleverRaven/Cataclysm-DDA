@@ -129,7 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
-    player_character.set_value( "test_var", "It's avatar" );
+    player_character.set_value( "npctalk_var_test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -139,7 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
-    beta.set_value( "test_var", "It's npc" );
+    beta.set_value( "npctalk_var_test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -1067,7 +1067,7 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     prep_test( d );
 
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "test_var", "It's global" );
+    globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
     gen_response_lines( d, 3 );
