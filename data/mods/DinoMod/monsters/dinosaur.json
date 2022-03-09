@@ -437,6 +437,7 @@
     "type": "MONSTER",
     "id": "mon_albertonykus",
     "name": { "str_sp": "albertonykus" },
+    "looks_like": "mon_gallimimus",
     "species": "DINOSAUR",
     "default_faction": "insectivore_dino",
     "symbol": "D",
