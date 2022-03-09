@@ -192,7 +192,8 @@ class outfit
                            std::vector<std::function<void()>> &actions );
         // an extension of Character::best_pocket()
         void best_pocket( Character &guy, const item &it, const item *avoid,
-                          std::pair<item_location, item_pocket *> &current_best );
+                          std::pair<item_location, item_pocket *> &current_best,
+                          bool ignore_settings = false );
         void overflow( const tripoint &pos );
         void holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy );
         void get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const;
@@ -201,7 +202,7 @@ class outfit
         // called after reading in savegame json to update the whole outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
-        void pickup_stash( const item &newit, int &remaining_charges );
+        void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;
