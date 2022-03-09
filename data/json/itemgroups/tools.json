@@ -246,7 +246,7 @@
       [ "pliers", 200 ],
       [ "bucket", 50 ],
       [ "mop", 100 ],
-      [ "mop_folded", 100],
+      [ "mop_folded", 100 ],
       [ "shovel", 40 ],
       [ "hammer_sledge", 10 ],
       [ "hammer_sledge_short", 20 ],
