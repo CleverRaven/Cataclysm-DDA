@@ -1046,6 +1046,7 @@
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "broom", "prob": 30 },
       { "item": "mop", "prob": 30 },
+      { "item": "mop_folded", "prob": 30 },
       { "item": "sponge", "prob": 30 },
       { "item": "gloves_rubber", "prob": 20 },
       { "item": "mask_dust", "prob": 65 },

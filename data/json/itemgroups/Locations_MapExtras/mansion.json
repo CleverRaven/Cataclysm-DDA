@@ -1164,6 +1164,7 @@
     "items": [
       [ "broom", 40 ],
       [ "mop", 40 ],
+      [ "mop_folded", 40 ],
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
