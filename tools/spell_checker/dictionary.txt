@@ -33,6 +33,7 @@ alate
 alates
 alay
 albertosaurus
+albertonykus
 aldosterone
 alembic
 alexandrites
@@ -1558,6 +1559,7 @@ sp
 spacebar
 spadelike
 spak
+spall
 spasmically
 spearcat
 spearhand
