@@ -380,7 +380,7 @@ int Character::item_wear_cost( const item &it ) const
 
 ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res )
 {
-    if( worn.is_worn( it ) ) {
+    if( !worn.is_worn( it ) ) {
         return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
                                             _( "<npcname> is not wearing that item." ) );
     }
