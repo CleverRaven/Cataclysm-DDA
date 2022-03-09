@@ -253,15 +253,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         int used_charges = weapon.fill_with( newit, remaining_charges );
                         remaining_charges -= used_charges;
                     }
-                    for( item &i : player_character.worn ) {
-                        if( remaining_charges == 0 ) {
-                            break;
-                        }
-                        if( i.can_contain_partial( newit ) ) {
-                            int used_charges = i.fill_with( newit, remaining_charges );
-                            remaining_charges -= used_charges;
-                        }
-                    }
+                    player_character.worn.pickup_stash( newit, remaining_charges );
                     newit.charges -= remaining_charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {

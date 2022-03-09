@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts_bolts"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -110,7 +116,7 @@
   {
     "type": "ammunition_type",
     "id": "357mag",
-    "name": ".357 magnum",
+    "name": ".357 Magnum",
     "default": "357mag_jhp"
   },
   {

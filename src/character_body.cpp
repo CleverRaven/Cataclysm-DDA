@@ -125,22 +125,7 @@ void Character::update_body_wetness( const w_point &weather )
         }
 
         // Make clothing slow down drying
-        float clothing_mult = 1.0;
-        for( const item &i : worn ) {
-            if( i.covers( bp ) ) {
-                const float item_coverage = static_cast<float>( i.get_coverage( bp ) ) / 100;
-                const float item_breathability = static_cast<float>( i.breathability( bp ) ) / 100;
-
-                // breathability of naked skin + breathability of item
-                const float breathability = ( 1.0 - item_coverage ) + item_coverage * item_breathability;
-
-                clothing_mult = std::min( clothing_mult, breathability );
-            }
-        }
-
-        // always some evaporation even if completely covered
-        // doesn't handle things that would be "air tight"
-        clothing_mult = std::max( clothing_mult, .1f );
+        const float clothing_mult = worn.clothing_wetness_mult( bp );
 
         const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                      temp_mult / clothing_mult;
@@ -412,13 +397,8 @@ void Character::update_bodytemp()
     for( const bodypart_id &bp : get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-    for( const item &it : worn ) {
-        for( const bodypart_str_id &covered : it.get_covered_body_parts() ) {
-            clothing_map[covered.id()].emplace_back( &it );
-        }
-    }
 
-    std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
+    std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty

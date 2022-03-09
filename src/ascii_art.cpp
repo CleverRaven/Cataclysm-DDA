@@ -48,3 +48,8 @@ void ascii_art::load( const JsonObject &jo, const std::string & )
     }
 }
 
+void ascii_art::reset()
+{
+    ascii_art_factory.reset();
+}
+

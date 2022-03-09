@@ -1703,9 +1703,7 @@ static void character_edit_menu()
             if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
-            for( auto &it : you.worn ) {
-                it.on_takeoff( you );
-            }
+            you.worn.on_takeoff( you );
             you.worn.clear();
             you.inv->clear();
             you.remove_weapon();
@@ -1718,7 +1716,7 @@ static void character_edit_menu()
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 you.on_item_wear( to_wear );
-                you.worn.push_back( to_wear );
+                you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),

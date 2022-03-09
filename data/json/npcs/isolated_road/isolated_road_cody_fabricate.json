@@ -46,8 +46,8 @@
       "type": "dialogue",
       "context": "artisans",
       "value": "yes",
-      "yes": "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four.  For five I could, I think, create a suit of that Nomad armor.  It would incorporate climate control, help you support more weight, and it'll have a jumpsuit built in but you will not be able to wear normal clothes with it.",
-      "no": "Alright <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
+      "yes": "Alright <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four.  For five I could, I think, create a suit of that Nomad armor.  It would incorporate climate control, help you support more weight, and it'll have a jumpsuit built in but you will not be able to wear normal clothes with it.",
+      "no": "Alright <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem, if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel or, I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
     },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
@@ -78,21 +78,21 @@
       "context": "artisans",
       "op": "==",
       "value": 3,
-      "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
+      "yes": "Alright so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
       "no": {
         "u_compare_var": "blacksmith_wait",
         "type": "number",
         "context": "artisans",
         "op": "==",
         "value": 4,
-        "yes": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
-        "no": "Alright so it'll be <u_val:npctalk_var_number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen as well as some help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+        "yes": "Alright so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
+        "no": "Alright so it'll be <u_val:umber_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen as well as some help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
       }
     },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
@@ -108,7 +108,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[200 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[200 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 200 } },
@@ -124,7 +124,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[300 merch] Sounds good.  See you in <u_val:npctalk_var_number_artisans_blacksmith_wait> weeks.",
+        "text": "[300 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 300 } },

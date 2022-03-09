@@ -1852,7 +1852,7 @@
     "id": "gambeson_loose_vest",
     "repairs_like": "gambeson",
     "type": "ARMOR",
-    "name": { "str": "gambeson vest (loose)", "str_pl": "gambeson vest(loose)" },
+    "name": { "str": "gambeson vest (loose)", "str_pl": "gambeson vests (loose)" },
     "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
     "copy-from": "gambeson_vest",
     "extend": { "flags": [ "OUTER" ] },
