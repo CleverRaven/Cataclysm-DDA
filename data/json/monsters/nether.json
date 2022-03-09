@@ -1120,7 +1120,7 @@
         "monster_message": "The integrity of spacetime is violated."
       }
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "You memories can't decide whether the %s was even there in the first place." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
     "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {
@@ -1147,7 +1147,7 @@
         "monster_message": "You are cut in ways worse than physical."
       }
     ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "You memories can't decide whether the %s was even there in the first place." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   }
 ]
