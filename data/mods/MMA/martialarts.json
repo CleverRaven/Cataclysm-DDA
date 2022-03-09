@@ -42,7 +42,7 @@
       "mma_tec_desert_wind_spin",
       "mma_tec_desert_wind_wide"
     ],
-    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS"]
+    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS" ]
   },
   {
     "type": "martial_art",
