@@ -1,0 +1,12 @@
+[
+  {
+    "type": "weapon_category",
+    "id": "DESERT_SWORDS",
+    "name": "DESERT SWORDS"
+  },
+  {
+    "type": "weapon_category",
+    "id": "SPEARS",
+    "name": "SPEARS"
+  }
+]
