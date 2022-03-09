@@ -31,6 +31,7 @@ class anatomy
 
     public:
         anatomy_id id;
+        std::vector<std::pair<anatomy_id, mod_id>> src;
         bool was_loaded = false;
 
         anatomy() = default;

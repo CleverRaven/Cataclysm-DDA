@@ -20,7 +20,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
     "fun": 1
   },
   {
@@ -90,7 +90,7 @@
     "calories": 161,
     "description": "This is cultured milk defatted either due to churning or curdling.  Spoils quickly.",
     "price": 1,
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -111,7 +111,7 @@
     "phase": "liquid",
     "flags": [ "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 2 ], [ "vitB", 3 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -131,7 +131,6 @@
     "material": [ "milk" ],
     "volume": "500 ml",
     "charges": 32,
-    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ],
     "fun": -1
   },
   {
@@ -148,7 +147,7 @@
     "price": 200,
     "price_postapoc": 500,
     "charges": 33,
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 3 ] ]
+    "vitamins": [ [ "calcium", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -219,7 +218,7 @@
     "price": 385,
     "price_postapoc": 150,
     "charges": 1,
-    "vitamins": [ [ "vitA", 5 ], [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
     "fun": 5,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
@@ -242,7 +241,7 @@
     "volume": "250 ml",
     "charges": 8,
     "fun": 7,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 16 ] ]
+    "vitamins": [ [ "calcium", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,7 +263,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 12 ], [ "calcium", 38 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 38 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -286,7 +285,7 @@
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
-    "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5,
     "freezing_point": -459
   },
@@ -310,7 +309,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
   },
   {
@@ -343,7 +342,7 @@
     "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   }

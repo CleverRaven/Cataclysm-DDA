@@ -6,7 +6,7 @@
     "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "dilophosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "magenta_green",
+    "color": "brown_white",
     "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
@@ -18,7 +18,7 @@
     "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "ceratosaurus_juvenile",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "magenta_green",
+    "color": "brown_white",
     "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
@@ -155,7 +155,7 @@
     "speed": 60,
     "material": [ "flesh" ],
     "symbol": "v",
-    "color": "light_green_yellow",
+    "color": "light_gray",
     "looks_like": "mon_eoraptor",
     "aggression": -99,
     "morale": 5,
@@ -175,7 +175,6 @@
     "name": "green and magenta two-legged juvenile",
     "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "green_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_nothronychus" }
   },
   {
@@ -209,7 +208,6 @@
     "looks_like": "mon_apatosaurus",
     "default_faction": "herbivore_dino",
     "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
-    "color": "brown_magenta",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
@@ -300,7 +298,6 @@
     "name": "green and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "green_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
@@ -309,7 +306,6 @@
     "name": "brown and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
   },
   {
@@ -318,7 +314,6 @@
     "name": "brown and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
   },
   {
@@ -327,7 +322,6 @@
     "name": "brown and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
   },
   {
@@ -336,7 +330,6 @@
     "name": "brown and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
   },
   {
@@ -345,7 +338,7 @@
     "name": "green and yellow four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "light_green_yellow",
+    "color": "yellow",
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
@@ -354,7 +347,7 @@
     "name": "gray and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "dark_gray_magenta",
+    "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
   },
   {
@@ -363,7 +356,7 @@
     "name": "gray and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "dark_gray_magenta",
+    "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
   },
   {
@@ -372,7 +365,7 @@
     "name": "gray and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "dark_gray_magenta",
+    "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
   },
   {
@@ -381,7 +374,7 @@
     "name": "gray and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
-    "color": "dark_gray_magenta",
+    "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
   },
   {
@@ -397,7 +390,6 @@
     "description": "A huge four-legged plant-eating dinosaur juvenile with a beak, two horns, and a broad bony nose.",
     "copy-from": "mon_pachyrhinosaurus",
     "hp": 200,
-    "color": "light_green_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_pachyrhinosaurus" }
   },
   {
@@ -425,7 +417,6 @@
     "description": "A huge four-legged plant-eating dinosaur juvenile with a bony crest, beak, and horns.",
     "copy-from": "mon_triceratops",
     "hp": 200,
-    "color": "light_green_magenta",
     "upgrades": { "age_grow": 365, "into": "mon_triceratops" }
   },
   {

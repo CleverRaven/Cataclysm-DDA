@@ -176,7 +176,7 @@
     "looks_like": "slingpack",
     "color": "green",
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "PALS_LARGE" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

@@ -144,7 +144,7 @@
     "type": "furniture",
     "id": "f_arcade_machine",
     "name": "arcade machine",
-    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Useless for its intended purpose, it's bound to have valuable parts.",
+    "description": "A bulky upright arcade cabinet, brightly painted and slightly worn with age.  Useless for its intended purpose without power, it's bound to have valuable parts.",
     "symbol": "6",
     "color": "red",
     "move_cost_mod": -1,

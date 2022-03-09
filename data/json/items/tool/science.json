@@ -1435,7 +1435,7 @@
       "description": "Touch the opening.",
       "effect_on_conditions": [
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_SLIGHT",
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
             { "u_message": "You have a slight feeling of being watched." },
@@ -1443,7 +1443,7 @@
           ]
         },
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_INTENSE",
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },

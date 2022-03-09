@@ -11,7 +11,7 @@
     "longest_side": "5 cm",
     "bashing": 60,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "clumsy" },
-    "material": [ "hardsteel", "vacuum_carbide" ],
+    "material": [ "qt_steel", "vacuum_carbide" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "SWEEP" ],

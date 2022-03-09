@@ -52,6 +52,7 @@
         ",,,,,              ,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmh_2_palette_common" ]
     }
   },

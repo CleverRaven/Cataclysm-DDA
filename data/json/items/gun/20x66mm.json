@@ -34,6 +34,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
@@ -70,6 +71,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -106,6 +108,7 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],

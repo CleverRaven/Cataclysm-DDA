@@ -1,0 +1,75 @@
+[
+  {
+    "id": "SUS_bathroom_medicine",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "antivirals", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "id": "drugs_rare",
+    "type": "item_group",
+    "items": [ [ "antivirals", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "harddrugs",
+    "items": [ { "item": "antivirals", "prob": 10, "charges": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "softdrugs",
+    "items": [ { "item": "antivirals", "prob": 5, "charges": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_drugs",
+    "items": [ { "item": "antivirals", "prob": 1, "charges": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "rare",
+    "subtype": "distribution",
+    "entries": [ { "item": "antivirals", "prob": 10, "charges": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "science",
+    "items": [ { "item": "antivirals", "prob": 2, "charges": [ 1, 10 ] } ]
+  },
+  {
+    "id": "vet_hardrug",
+    "type": "item_group",
+    "items": [ { "item": "antivirals", "prob": 20, "charges": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_lab",
+    "items": [ [ "antivirals", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_bed",
+    "items": [ [ "antivirals", 6 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "survivorzed_extra",
+    "items": [ { "item": "antivirals", "prob": 1, "charges": [ 0, 10 ] } ]
+  },
+  {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "items": [ [ "antivirals", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "behindcounter",
+    "subtype": "distribution",
+    "entries": [ { "item": "antivirals", "prob": 5, "charges": [ 1, 5 ] } ]
+  },
+  {
+    "id": "drugs_misc",
+    "type": "item_group",
+    "items": [ [ "antivirals", 100 ] ]
+  }
+]
