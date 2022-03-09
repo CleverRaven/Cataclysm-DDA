@@ -135,7 +135,7 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
-    "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD" ]
+    "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD", "WATER_BREAK" ]
   },
   {
     "id": "ref_lighter",
