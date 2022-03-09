@@ -358,14 +358,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
-        file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
-    }
+    u.worn.write_text_memorial( file, indent, eol );
     file << eol;
 
     //Inventory
