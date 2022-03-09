@@ -2465,7 +2465,7 @@ void inventory_selector::toggle_categorize_contained()
                 item_location const loc = entry->locations.front();
                 // if the item is in an ablative pocket then put it with the item it is in
                 // first do a short circuit test if the parent has ablative pockets at all
-                if( loc.parent_item()->is_ablative() &&
+                if( loc.parent_item()->is_ablative() && loc.parent_item()->is_worn_by_player() &&
                     loc.parent_item()->contained_where( *loc )->get_pocket_data()->ablative ) {
                     custom_category = &item_category_ITEMS_WORN.obj();
                     inventory_entry const nested_plate( entry->locations, custom_category );
