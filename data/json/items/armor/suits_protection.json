@@ -1833,7 +1833,7 @@
     "volume": "6 L",
     "price": 240500,
     "price_postapoc": 2500,
-    "material": [ "nomex", "kevlar_layered" ],
+    "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
@@ -2414,7 +2414,7 @@
     "price": 285000,
     "price_postapoc": 2500,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "thermo_resin", "plastic" ],
+    "material": [ "kevlar", "thermo_resin", "plastic" ],
     "symbol": "[",
     "longest_side": "40 cm",
     "looks_like": "armor_riot",
@@ -2579,7 +2579,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2646,7 +2646,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2713,7 +2713,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,

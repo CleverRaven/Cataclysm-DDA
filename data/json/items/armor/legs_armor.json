@@ -432,7 +432,7 @@
     "weight": "1519 g",
     "copy-from": "chaps_leather",
     "price": 7800,
-    "material": [ "kevlar_layered" ],
+    "material": [ "kevlar" ],
     "material_thickness": 1
   },
   {
