@@ -43,7 +43,7 @@
     "type": "ARMOR",
     "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "category": "armor",
-    "description": "A solid, single piece cuirass made from bronze.",
+    "description": "A solid, single piece cuirass made from bronze.  It isn't particularly well designed, but it does it's job.",
     "weight": "4896 g",
     "volume": "6 L",
     "price": 40000,
