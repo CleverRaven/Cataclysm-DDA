@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts_bolts"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -94,6 +100,12 @@
     "id": "22",
     "name": ".22",
     "default": "22_lr"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "powder_blank",
+    "name": "powder blank",
+    "default": "22_blank"
   },
   {
     "type": "ammunition_type",
