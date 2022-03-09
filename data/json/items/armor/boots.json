@@ -1208,12 +1208,13 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
+    "material": [ "steel", "iron" ],
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1238,6 +1239,30 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
+    "id": "chainmail_junk_feet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
+    "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.  The metal shows signs of rust and corrosion.",
+    "weight": "2006 g",
+    "volume": "500 ml",
+    "price": 5012,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "budget_steel" ],
+    "symbol": "[",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
     "id": "lc_chainmail_feet",
     "type": "ARMOR",
     "category": "armor",
@@ -1248,12 +1273,13 @@
     "price": 5012,
     "price_postapoc": 2000,
     "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1281,11 +1307,12 @@
     "id": "mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1313,11 +1340,12 @@
     "id": "hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1344,11 +1372,12 @@
     "id": "ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1375,11 +1404,12 @@
     "id": "qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -1671,6 +1701,7 @@
     "bashing": 7,
     "symbol": "[",
     "looks_like": "boots_steel",
+    "material": [ "lc_steel" ],
     "color": "light_gray",
     "warmth": 0,
     "sided": true,
@@ -1701,6 +1732,7 @@
     "id": "mc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "mc_steel" ],
     "name": { "str": "medium steel sabaton" },
     "armor": [
       {
@@ -1727,6 +1759,7 @@
     "id": "hc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "hc_steel" ],
     "name": { "str": "high steel sabaton" },
     "armor": [
       {
@@ -1753,6 +1786,7 @@
     "id": "ch_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "ch_steel" ],
     "name": { "str": "hardened steel sabaton" },
     "armor": [
       {
@@ -1779,6 +1813,7 @@
     "id": "qt_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "qt_steel" ],
     "name": { "str": "tempered steel sabaton" },
     "armor": [
       {

@@ -609,6 +609,7 @@
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
+    "material": [ "steel", "iron" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
@@ -616,9 +617,9 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "steel", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -644,6 +645,32 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "chainmail_junk_arms",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "description": "Customized chainmail arms.  The metal shows signs of rust and corrosion.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "weight": "2812 g",
+    "volume": "750 ml",
+    "price": 7500,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "material": [ "budget_steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_red",
+    "material_thickness": 3,
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
     "id": "lc_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
@@ -656,13 +683,14 @@
     "to_hit": -1,
     "symbol": "[",
     "looks_like": "armguard_metal",
+    "material": [ "lc_steel_chain" ],
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -689,13 +717,14 @@
     "id": "mc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
+    "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
     "description": "Customized medium steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -722,13 +751,14 @@
     "id": "hc_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
+    "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
     "description": "Customized high steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -755,13 +785,14 @@
     "id": "ch_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
+    "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
     "description": "Customized hardened steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -788,13 +819,14 @@
     "id": "qt_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
+    "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
     "description": "Customized tempered steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "armor": [
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 95, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 20
       }
     ]
@@ -922,12 +954,13 @@
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armguard_metal",
+    "material": [ "lc_steel", "lc_steel_chain" ],
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -954,6 +987,7 @@
     "id": "armor_mc_lightarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
+    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
@@ -982,6 +1016,7 @@
     "id": "armor_hc_lightarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
+    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
     "armor": [
@@ -1010,6 +1045,7 @@
     "id": "armor_ch_lightarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
+    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
@@ -1038,6 +1074,7 @@
     "id": "armor_qt_lightarmguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightarmguard",
+    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
@@ -1076,12 +1113,13 @@
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
+    "material": [ "lc_steel", "lc_steel_chain" ],
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1108,6 +1146,7 @@
     "id": "armor_mc_armguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_armguard",
+    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel arm guard" },
     "description": "An armguard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
@@ -1137,6 +1176,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel arm guard" },
+    "material": [ "hc_steel", "hc_steel_chain" ],
     "description": "An armguard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
     "armor": [
       {
@@ -1164,6 +1204,7 @@
     "id": "armor_ch_armguard",
     "type": "ARMOR",
     "copy-from": "armor_lc_armguard",
+    "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened arm guard" },
     "description": "An armguard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
@@ -1193,6 +1234,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_armguard",
     "name": { "str": "tempered arm guard" },
+    "material": [ "qt_steel", "qt_steel_chain" ],
     "description": "An armguard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
@@ -1235,7 +1277,7 @@
     "longest_side": "60 cm",
     "sided": true,
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [

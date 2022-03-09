@@ -238,6 +238,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
@@ -807,6 +809,8 @@ ma_technique::ma_technique()
     stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
+
+    needs_ammo = false;       // technique only works if the item is loaded with ammo
 
     miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break

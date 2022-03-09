@@ -60,5 +60,11 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "small_powder_blank",
+    "type": "AMMO",
+    "copy-from": "22_blank",
+    "name": { "str_sp": "pistol blank" }
   }
 ]
