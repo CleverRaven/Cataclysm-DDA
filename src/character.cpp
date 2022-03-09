@@ -1306,19 +1306,19 @@ bool Character::is_on_ground() const
            has_effect( effect_downed ) || is_prone();
 }
 
-bool Character::can_stash( const item &it )
+bool Character::can_stash( const item &it, bool ignore_pkt_settings )
 {
-    return best_pocket( it, nullptr ).second != nullptr;
+    return best_pocket( it, nullptr, ignore_pkt_settings ).second != nullptr;
 }
 
-bool Character::can_stash_partial( const item &it )
+bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 {
     item copy = it;
     if( it.count_by_charges() ) {
         copy.charges = 1;
     }
 
-    return can_stash( copy );
+    return can_stash( copy, ignore_pkt_settings );
 }
 
 void Character::cancel_stashed_activity()

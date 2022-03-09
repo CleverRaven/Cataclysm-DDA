@@ -1785,14 +1785,15 @@ units::volume outfit::max_single_item_volume() const
 }
 
 void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
-                          std::pair<item_location, item_pocket *> &current_best )
+                          std::pair<item_location, item_pocket *> &current_best, bool ignore_settings )
 {
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_location loc( guy, &worn_it );
-        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc, avoid );
+        std::pair<item_location, item_pocket *> internal_pocket =
+            worn_it.best_pocket( it, loc, avoid, false, ignore_settings );
         if( internal_pocket.second != nullptr &&
             ( current_best.second == nullptr ||
               current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
@@ -1941,14 +1942,15 @@ void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
     }
 }
 
-void outfit::pickup_stash( const item &newit, int &remaining_charges )
+void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings )
 {
     for( item &i : worn ) {
         if( remaining_charges == 0 ) {
             break;
         }
         if( i.can_contain_partial( newit ) ) {
-            const int used_charges = i.fill_with( newit, remaining_charges );
+            const int used_charges =
+                i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
         }
     }
