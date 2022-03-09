@@ -507,7 +507,7 @@
           { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
-        "coverage": 100,
+        "coverage": 95,
         "cover_melee": 80,
         "cover_ranged": 80,
         "cover_vitals": 0,
