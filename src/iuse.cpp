@@ -9748,7 +9748,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
         auto to_string = []( int val ) -> std::string {
             if( val == INT_MAX )
             {
-                return "inf";
+                return _( "inf" );
             }
             return string_format( "%3d", val );
         };
