@@ -63,8 +63,8 @@
           { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
         ],
         "encumbrance": 8,
-        "coverage": 95,
-        "cover_ranged": 90,
+        "coverage": 100,
+        "cover_ranged": 95,
         "cover_vitals": 70,
         "covers": [ "torso" ]
       },
@@ -74,8 +74,8 @@
           { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
         ],
         "encumbrance": 4,
-        "coverage": 95,
-        "cover_ranged": 90,
+        "coverage": 90,
+        "cover_ranged": 95,
         "cover_vitals": 70,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
