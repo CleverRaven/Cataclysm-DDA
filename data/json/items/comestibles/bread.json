@@ -406,7 +406,7 @@
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 10 ] ],
     "stack_size": 20,
     "fun": -4
   },

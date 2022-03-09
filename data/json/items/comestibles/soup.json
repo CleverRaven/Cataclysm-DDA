@@ -248,14 +248,15 @@
     "symbol": "o",
     "quench": 2,
     "calories": 504,
-    "description": "An old recipe from the American Civil War.  It's edible.",
+    "description": "An old recipe from the American Civil War.  First you crush your hardtack into chunks with whatever object you have at hand then combine it with the water to make the tack soggy.  You're going to want to melt down your fat.  Add salt and pepper.  Then you'll fry up the soggy chunks in the fat til the fat is absorbed into the chunks and browned.  It's edible.",
     "price": 50,
     "price_postapoc": 100,
     "material": [ "flesh", "wheat" ],
     "volume": "500 ml",
     "charges": 4,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ]
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
