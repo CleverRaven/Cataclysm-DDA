@@ -47,7 +47,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ] ],
-    "weight": 50,
+    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -126,8 +126,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_2ndfloor1", "lodge_2ndfloor2" ] ],
-    "weight": 50,
+    "om_terrain": [ [ "lodge_2ndfloorglooscap1", "lodge_2ndfloorglooscap2" ] ],
+    "weight": 100,
     "object": {
       "rows": [
         "  ##W###W###W###W###w##W#################       ",
