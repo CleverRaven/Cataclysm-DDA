@@ -270,6 +270,7 @@ void stop_music()
     Mix_HaltMusic();
     current_music = nullptr;
 
+    playlist_indexes.clear();
     current_playlist.clear();
     current_playlist_at = 0;
     absolute_playlist_at = 0;
