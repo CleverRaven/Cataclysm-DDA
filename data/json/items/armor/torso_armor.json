@@ -504,7 +504,7 @@
       {
         "material": [
           { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 1.0 }
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 95,
