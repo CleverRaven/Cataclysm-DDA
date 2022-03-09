@@ -2331,10 +2331,10 @@ class Character : public Creature, public visitable
         stomach_contents guts;
         std::list<consumption_event> consumption_history;
 
-        // sets the characters oxygen level if they aren't already using it
-        // oxygen is set only when needed. Currently when drowning or suffocating
-        // returns if oxygen was set.
-        bool set_oxygen();
+        ///\EFFECT_STR increases breath-holding capacity while sinking or suffocating
+        int get_oxygen_max() const;
+        // Whether the character can recover their oxygen level
+        bool can_recover_oxygen() const;
         int oxygen = 0;
         int slow_rad = 0;
         blood_type my_blood_type;

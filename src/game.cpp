@@ -10781,8 +10781,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
-            ///\EFFECT_STR increases breath-holding capacity while diving
-            u.set_oxygen();
             u.set_underwater( true );
             add_msg( _( "You dive underwater!" ) );
         } else {

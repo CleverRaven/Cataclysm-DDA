@@ -189,6 +189,10 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
     }
+    if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
+        oxygen += std::max( ( to_turns<int>( to - from ) * get_stamina() * 5 ) / get_stamina_max(), 1 );
+        oxygen = std::min( oxygen, get_oxygen_max() );
+    }
     update_stomach( from, to );
     recalculate_enchantment_cache();
     // after recalcing the enchantment cache can properly remove and add mutations
