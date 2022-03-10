@@ -34,6 +34,9 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+#include "music.h"
+#include "sdlsound.h"
+
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -655,6 +658,9 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+
+    music::is_listening_music = false;
+
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
@@ -735,6 +741,13 @@ bool do_turn()
                 }
             }
         }
+    }
+
+    if( music::is_listening_music ) {
+        play_music( "music" );
+    }
+    else {
+        play_music( "title" );
     }
 
     if( g->driving_view_offset.x != 0 || g->driving_view_offset.y != 0 ) {

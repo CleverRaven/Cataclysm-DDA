@@ -44,6 +44,8 @@
 #include "weather.h"
 #include "weather_type.h"
 
+#include "music.h"
+
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_mixer.h>
@@ -619,6 +621,10 @@ void sounds::process_sound_markers( Character *you )
                 guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
+        }
+
+        if( sound.category == sound_t::music ) {
+            music::is_listening_music = true;
         }
 
         // don't print our own noise or things without descriptions

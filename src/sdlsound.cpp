@@ -33,6 +33,8 @@
 #include "sounds.h"
 #include "units.h"
 
+#include "music.h"
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 struct sfx_args {
@@ -190,6 +192,19 @@ void musicFinished()
     Mix_FreeMusic( current_music );
     current_music = nullptr;
 
+    if( music::is_listening_music ) {
+        if( current_playlist.compare( "music" ) != 0 ) {
+            play_music( "music" );
+
+            return;
+        }
+    }
+    else if( current_playlist.compare( "music" ) == 0 ) {
+        play_music( "title" );
+
+        return;
+    }
+
     const auto iter = playlists.find( current_playlist );
     if( iter == playlists.end() ) {
         return;
@@ -215,17 +230,20 @@ void musicFinished()
 
 void play_music( const std::string &playlist )
 {
+    // Don't interrupt playlist that's already playing.
+    if( playlist == current_playlist ) {
+        return;
+    }
+    else {
+        stop_music();
+    }
+
     const auto iter = playlists.find( playlist );
     if( iter == playlists.end() ) {
         return;
     }
     const music_playlist &list = iter->second;
     if( list.entries.empty() ) {
-        return;
-    }
-
-    // Don't interrupt playlist that's already playing.
-    if( playlist == current_playlist ) {
         return;
     }
 
@@ -259,6 +277,7 @@ void stop_music()
     Mix_HaltMusic();
     current_music = nullptr;
 
+    playlist_indexes.clear();
     current_playlist.clear();
     current_playlist_at = 0;
     absolute_playlist_at = 0;
@@ -270,21 +289,18 @@ void update_music_volume()
         return;
     }
 
+    bool sound_enabled_old = sounds::sound_enabled;
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
         stop_music();
         return;
     }
+    else if( !sound_enabled_old ) {
+        play_music( "title" );
+    }
 
     Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
-    // Start playing music, if we aren't already doing so (if
-    // SOUND_ENABLED was toggled.)
-
-    // needs to be changed to something other than a static string when
-    // #28018 is resolved, as this function may be called from places
-    // other than the main menu.
-    play_music( "title" );
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
