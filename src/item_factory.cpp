@@ -1772,7 +1772,7 @@ void Item_factory::check_definitions() const
                 for( const part_material &mat : portion.materials ) {
                     if( !mat.ignore_sheet_thickness && !mat.id->is_valid_thickness( mat.thickness ) ) {
                         msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
-                                              mat.thickness, mat.id.str(), mat.id->thickness_multiple() );
+                                              mat.id.str(), mat.thickness, mat.id->thickness_multiple() );
                     }
                 }
             }
