@@ -47,6 +47,8 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
+#include "music.h"
+
 void main_menu::on_move() const
 {
     sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -367,8 +369,12 @@ bool main_menu::opening_screen()
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
 
-    // Play title music, whoo!
-    play_music( "title" );
+    if( music::is_listening_music ) {
+        music::is_listening_music = false;
+    }
+    else {
+        play_music( "title" );
+    }
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
