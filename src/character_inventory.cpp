@@ -475,7 +475,7 @@ void Character::drop_invalid_inventory()
     cache_inventory_is_valid = true;
 }
 
-void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy )
+void outfit::holster_opts( std::vector<dispose_option> &opts, item_location &obj, Character &guy )
 {
 
     for( auto &e : worn ) {
