@@ -19,7 +19,7 @@
   {
     "type": "effect_type",
     "id": "npc_suspend",
-    "name": [ "npc_suspend" ],
+    "name": [ "Suspended NPC" ],
     "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
   },
   {
@@ -67,7 +67,7 @@
   {
     "type": "effect_type",
     "id": "no_ammo",
-    "name": [ "No ammo" ],
+    "name": [ "No Ammo" ],
     "desc": [ "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it." ]
   },
   {
@@ -91,13 +91,13 @@
   {
     "type": "effect_type",
     "id": "asked_to_socialize",
-    "name": [ "Asked to socialize" ],
+    "name": [ "Asked to Socialize" ],
     "desc": [ "AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "asked_to_hint",
-    "name": [ "Asked to hint" ],
+    "name": [ "Asked to Hint" ],
     "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
   },
   {
@@ -147,25 +147,25 @@
   {
     "type": "effect_type",
     "id": "npc_run_away",
-    "name": [ "Running away!" ],
+    "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_flee_player",
-    "name": [ "Running away!" ],
+    "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee the player.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_fire_bad",
-    "name": [ "Avoiding a fire!" ],
+    "name": [ "Avoiding a Fire" ],
     "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
     "id": "npc_player_still_looking",
-    "name": [ "Waiting for you to find something" ],
+    "name": [ "Waiting till You Find Something" ],
     "desc": [
       "AI tag to prevent NPCs from following the player while the player is finding an additional copy of an item.  This is a bug if you have it."
     ]
@@ -222,7 +222,7 @@
   {
     "type": "effect_type",
     "id": "led_by_leash",
-    "name": [ "Being Led By Leash" ],
+    "name": [ "Being Led by Leash" ],
     "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
   },
   {
@@ -241,7 +241,7 @@
   {
     "type": "effect_type",
     "id": "targeted",
-    "name": [ "Turret is Targeted" ],
+    "name": [ "Turret Is Targeted" ],
     "desc": [ "AI tag used for turret targeting sounds.  This is a bug if you have it." ]
   },
   {
@@ -294,7 +294,7 @@
   {
     "type": "effect_type",
     "id": "dripping_mechanical_fluid",
-    "name": [ "Mechanical fluid dripping" ],
+    "name": [ "Mechanical Fluid Dripping" ],
     "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
     "show_in_info": true
   },
@@ -331,13 +331,13 @@
   {
     "type": "effect_type",
     "id": "masked_scent",
-    "name": [ "Masked scent" ],
+    "name": [ "Masked Scent" ],
     "desc": [ "Your scent is masked by another one." ]
   },
   {
     "type": "effect_type",
     "id": "got_checked",
-    "name": [ "Got a check-up" ],
+    "name": [ "Got a Check-up" ],
     "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
@@ -430,7 +430,7 @@
   {
     "type": "effect_type",
     "id": "bouldering",
-    "name": [ "Unstable footing" ],
+    "name": [ "Unstable Footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
@@ -451,14 +451,14 @@
   {
     "type": "effect_type",
     "id": "earphones",
-    "name": [ "Wearing earphones" ],
+    "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad"
   },
   {
     "type": "effect_type",
     "id": "deaf",
-    "name": [ "Impaired hearing", "Ringing ears", "Deaf" ],
+    "name": [ "Impaired Hearing", "Ringing Ears", "Deaf" ],
     "desc": [
       "Your hearing is impaired.",
       "You can barely hear anything and your ears hurt.",
@@ -751,7 +751,7 @@
     "desc": [
       "You consumed mutagen.  It was probably a good idea.",
       "You can feel your insides shifting.  It feels… nice.",
-      "Your innards churn in an unnatural fashion- if you survive this, you'll be a changed… something."
+      "Your innards churn in an unnatural fashion - if you survive this, you'll be a changed… something."
     ],
     "main_parts_only": true,
     "max_intensity": 3,
@@ -1257,7 +1257,7 @@
     "name": [ "Plant Mutation", "Plant Transformation", "Plant Metamorphosis" ],
     "desc": [
       "You consumed plant mutagen.",
-      "All this running… why don't you just find a nice, fertile spot and bask in the sun.",
+      "All this running… why don't you just find a nice, fertile spot and bask in the sun?",
       "Your processes are slowing.  You would make great fertilizer."
     ],
     "max_intensity": 3,
@@ -1476,7 +1476,7 @@
   {
     "type": "effect_type",
     "id": "beartrap",
-    "name": [ "Stuck in beartrap" ],
+    "name": [ "Stuck in a Beartrap" ],
     "desc": [ "You can't move until you get free!" ],
     "apply_message": "You are caught!",
     "rating": "bad",
@@ -1494,7 +1494,7 @@
   {
     "type": "effect_type",
     "id": "snow_glare",
-    "name": [ "Snow glare" ],
+    "name": [ "Snow Glare" ],
     "desc": [ "The sunlight is reflecting off the snow." ],
     "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
     "rating": "bad",
@@ -1532,7 +1532,7 @@
   {
     "type": "effect_type",
     "id": "teargas",
-    "name": [ "Tear gas" ],
+    "name": [ "Tear Gas" ],
     "desc": [ "You've been exposed to tear gas!" ],
     "apply_message": "You inhale a lungful of tear gas.",
     "rating": "bad",
@@ -1587,7 +1587,7 @@
   {
     "type": "effect_type",
     "id": "took_xanax_visible",
-    "name": [ "Took fast-acting sedative" ],
+    "name": [ "Took Fast-acting Sedative" ],
     "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ],
     "max_duration": 18000,
     "dur_add_perc": 20
@@ -1607,7 +1607,7 @@
   {
     "type": "effect_type",
     "id": "took_prozac_visible",
-    "name": [ "Took antidepressant" ],
+    "name": [ "Took Antidepressant" ],
     "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ],
     "max_duration": 72000,
     "dur_add_perc": 35
@@ -1615,7 +1615,7 @@
   {
     "type": "effect_type",
     "id": "in_pit",
-    "name": [ "Stuck in Pit" ],
+    "name": [ "Stuck in a Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
   },
@@ -1634,7 +1634,7 @@
   {
     "type": "effect_type",
     "id": "took_thorazine_visible",
-    "name": [ "Took antipsychotic" ],
+    "name": [ "Took Antipsychotic" ],
     "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ],
     "max_duration": 72000,
     "dur_add_perc": 35
@@ -1642,7 +1642,7 @@
   {
     "type": "effect_type",
     "id": "no_sight",
-    "name": [ "Poor sight" ],
+    "name": [ "Poor Sight" ],
     "desc": [ "You can't see very far from this spot." ],
     "apply_message": "Your sight distance is impaired.",
     "rating": "bad"
@@ -1697,7 +1697,7 @@
   {
     "type": "effect_type",
     "id": "sludged",
-    "name": [ "sludged" ],
+    "name": [ "Sludged" ],
     "desc": [ "You're standing in sludge!" ],
     "apply_message": "You've stepped into some sludge!",
     "rating": "bad",
@@ -1776,7 +1776,7 @@
   {
     "type": "effect_type",
     "id": "recover",
-    "name": [ "Recovering From Infection" ],
+    "name": [ "Recovering from Infection" ],
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "resist_traits": [ "INFRESIST" ],
@@ -1845,8 +1845,8 @@
   {
     "type": "effect_type",
     "id": "spores",
-    "name": [ "Spore dusted", "Spore covered", "Spore coated" ],
-    "speed_name": "Spore covered",
+    "name": [ "Spore Dusted", "Spore Covered", "Spore Coated" ],
+    "speed_name": "Spore Covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
     "max_intensity": 3,
     "int_decay_tick": 720,
@@ -1875,7 +1875,7 @@
   {
     "type": "effect_type",
     "id": "taint",
-    "name": [ "Touched mind", "Touched mind", "Tainted mind", "Badly tainted mind" ],
+    "name": [ "Touched Mind", "Touched Mind", "Tainted Mind", "Badly Tainted Mind" ],
     "miss_messages": [ [ "Your sense of reality warps!", 3 ] ],
     "speed_name": "Tainted",
     "desc": [
@@ -2181,7 +2181,7 @@
   {
     "type": "effect_type",
     "id": "formication",
-    "name": [ "Itchy skin", "Writhing skin", "Bugs in skin" ],
+    "name": [ "Itchy Skin", "Writhing Skin", "Bugs in Skin" ],
     "desc": [ "You stop to scratch yourself frequently; high INT helps you resist the urge." ],
     "apply_message": "Your skin feels extremely itchy!",
     "rating": "bad",
@@ -2274,7 +2274,7 @@
   {
     "type": "effect_type",
     "id": "took_antiasthmatic",
-    "name": [ "Took antiasthmatic drugs" ],
+    "name": [ "Took Antiasthmatic Drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ],
     "rating": "good",
     "max_duration": 86400,
@@ -2564,7 +2564,7 @@
   {
     "type": "effect_type",
     "id": "took_anticonvulsant_visible",
-    "name": [ "Took anticonvulsant drugs" ],
+    "name": [ "Took Anticonvulsant Drugs" ],
     "desc": [
       "You took anticonvulsant drugs some time ago and you might still be under its influence.\nPrescription note says its effect duration may vary, so your estimate may be inaccurate."
     ],
@@ -2580,7 +2580,7 @@
   {
     "type": "effect_type",
     "id": "relax_gas",
-    "name": [ "Relaxation gas" ],
+    "name": [ "Relaxation Gas" ],
     "desc": [ "You are thoroughly relaxed and don't feel like moving.  Fighting?  Too much effort." ],
     "apply_message": "You inhale sweetish gas.",
     "remove_message": "The slackness leaves your muscles.",
@@ -2633,9 +2633,9 @@
   {
     "type": "effect_type",
     "id": "tetanus",
-    "name": [ "Muscle cramps" ],
+    "name": [ "Muscle Cramps" ],
     "apply_message": "Your muscles start convulsing!",
-    "desc": [ "You muscles are binding up, you should probably find a sedative." ],
+    "desc": [ "Your muscles are binding up, you should probably find a sedative." ],
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
@@ -2644,7 +2644,7 @@
   {
     "type": "effect_type",
     "id": "rat_bite_fever",
-    "name": [ "puckered scratches" ],
+    "name": [ "Puckered Scratches" ],
     "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
     "remove_message": "The fever breaks.",
     "rating": "bad",
@@ -2723,7 +2723,7 @@
   {
     "type": "effect_type",
     "id": "under_operation",
-    "name": [ "Under operation" ],
+    "name": [ "Under Operation" ],
     "desc": [ "You are being operated on.  Try to stay still." ]
   },
   {
@@ -2741,7 +2741,7 @@
   },
   {
     "type": "effect_type",
-    "name": [ "Playing an instrument" ],
+    "name": [ "Playing an Instrument" ],
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
     "rating": "neutral",
@@ -2784,7 +2784,7 @@
   {
     "type": "effect_type",
     "id": "anemia",
-    "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
+    "name": [ "Early Iron Deficiency", "Iron Deficiency", "Acute Iron Deficiency" ],
     "desc": [
       "A lack of iron in your diet has hampered the efficiency and regeneration of your red blood cells.",
       "Prolonged lack of iron in your diet has compromised the efficiency and regeneration of your red blood cells.",
@@ -2825,7 +2825,7 @@
   {
     "type": "effect_type",
     "id": "redcells_anemia",
-    "name": [ "Early anemia", "Anemia", "Acute anemia" ],
+    "name": [ "Early Anemia", "Anemia", "Acute Anemia" ],
     "desc": [ "Loss of red blood cells results in progressively worsening anemia." ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
@@ -2859,7 +2859,7 @@
   {
     "type": "effect_type",
     "id": "scurvy",
-    "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
+    "name": [ "Early Scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
     "apply_message": "You start to develop symptoms of scurvy.",
     "remove_message": "Your scurvy has resolved.",
@@ -2918,7 +2918,7 @@
   {
     "type": "effect_type",
     "id": "bad_food_ennui",
-    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
+    "name": [ "Gross Food", "Demoralizing Food", "Depressing Food" ],
     "desc": [
       "The food you eat is disgusting.",
       "Eating nothing but disgusting rations is starting to get you down.",
@@ -2931,7 +2931,7 @@
   {
     "type": "effect_type",
     "id": "hypovolemia",
-    "name": [ "Mild hypovolemic shock", "Moderate hypovolemic shock", "Advanced hypovolemic shock", "Severe hypovolemic shock" ],
+    "name": [ "Mild Hypovolemic shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
@@ -2956,7 +2956,7 @@
   {
     "type": "effect_type",
     "id": "haslight",
-    "name": [ "Lit up" ],
+    "name": [ "Lit Up" ],
     "desc": [ "You are carrying a light and can't hide well." ],
     "max_duration": "1 s",
     "rating": "bad"
@@ -2964,7 +2964,7 @@
   {
     "type": "effect_type",
     "id": "mending",
-    "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
+    "name": [ "Started Recovery", "Recovering", "Mostly Recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
     "max_duration": "10 d",
@@ -3098,7 +3098,7 @@
   {
     "type": "effect_type",
     "id": "weak_antibiotic_visible",
-    "name": [ "Took weak antibiotic" ],
+    "name": [ "Took Weak Antibiotic" ],
     "desc": [
       "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -3108,7 +3108,7 @@
   {
     "type": "effect_type",
     "id": "antibiotic_visible",
-    "name": [ "Took antibiotic" ],
+    "name": [ "Took Antibiotic" ],
     "desc": [
       "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -3118,7 +3118,7 @@
   {
     "type": "effect_type",
     "id": "strong_antibiotic_visible",
-    "name": [ "Took strong antibiotic" ],
+    "name": [ "Took Strong Antibiotic" ],
     "desc": [
       "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
     ],
@@ -3160,7 +3160,7 @@
   {
     "type": "effect_type",
     "id": "tummy_tablet",
-    "name": [ "Soothed stomach" ],
+    "name": [ "Soothed Stomach" ],
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
@@ -3277,7 +3277,7 @@
   {
     "type": "effect_type",
     "id": "migo_atmosphere",
-    "name": [ "Stinking air", "Disorienting air", "Disorienting air", "Smothering air", "Smothering air" ],
+    "name": [ "Stinking Air", "Disorienting Air", "Disorienting Air", "Smothering Air", "Smothering Air" ],
     "desc": [
       "The air in here smells like vinegar and mold.",
       "The air in here smells like vinegar and mold.  It makes you feel soft-headed and confused.",
@@ -3307,7 +3307,7 @@
   {
     "type": "effect_type",
     "id": "fetid_goop",
-    "name": [ "Covered in fetid goop" ],
+    "name": [ "Covered in Fetid Goop" ],
     "desc": [ "The feeling of the goop slowly sliding on your skin revulses you and the smell makes you gag." ],
     "apply_message": "You're disgusted by the goop.",
     "rating": "bad",

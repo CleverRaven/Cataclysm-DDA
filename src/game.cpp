@@ -5299,7 +5299,7 @@ bool game::npc_menu( npc &who )
         if( who.is_hallucination() ) {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         } else {
-            who.sort_armor();
+            who.worn.sort_armor( who );
             u.mod_moves( -100 );
         }
     } else if( choice == attack ) {
@@ -5591,23 +5591,24 @@ void game::peek()
     if( !p ) {
         return;
     }
-
+    tripoint new_pos = u.pos() + *p;
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
         vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
+            new_pos = u.pos();
             vertical_move( p->z * -1, false, true );
         } else {
             return;
         }
     }
 
-    if( m.impassable( u.pos() + *p ) ) {
+    if( m.impassable( new_pos ) ) {
         return;
     }
 
-    peek( u.pos() + *p );
+    peek( new_pos );
 }
 
 void game::peek( const tripoint &p )
@@ -9097,9 +9098,7 @@ void game::wield( item_location loc )
                 break;
             case item_location::type::character:
                 if( worn_index != INT_MIN ) {
-                    auto it = u.worn.begin();
-                    std::advance( it, worn_index );
-                    u.worn.insert( it, to_wield );
+                    u.worn.insert_item_at_index( to_wield, worn_index );
                 } else {
                     u.i_add( to_wield, true, nullptr, loc.get_item() );
                 }
@@ -10783,8 +10782,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
-            ///\EFFECT_STR increases breath-holding capacity while diving
-            u.set_oxygen();
             u.set_underwater( true );
             add_msg( _( "You dive underwater!" ) );
         } else {

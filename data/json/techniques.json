@@ -149,6 +149,27 @@
   },
   {
     "type": "technique",
+    "id": "SWEETSPOT",
+    "name": "Sweet Spot Hit",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "stun_dur": 1,
+    "knockback_dist": 2,
+    "//": "this should basically always happen if you get the crit",
+    "weighting": 10,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.1 },
+      { "stat": "damage", "type": "bash", "scale": 3 },
+      { "stat": "damage", "type": "cut", "scale": 3 },
+      { "stat": "damage", "type": "stab", "scale": 3 }
+    ],
+    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
     "melee_allowed": true,

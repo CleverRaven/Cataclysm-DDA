@@ -878,7 +878,7 @@
     "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items": [ { "group": "longguns_cop", "prob": 50 }, { "group": "sidearms_cop", "prob": 50 } ]
+    "items": [ { "group": "longguns_cop", "prob": 20 }, { "group": "sidearms_cop", "prob": 80 } ]
   },
   {
     "type": "item_group",

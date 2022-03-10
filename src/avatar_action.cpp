@@ -605,8 +605,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
-            ///\EFFECT_STR increases breath-holding capacity while sinking
-            you.set_oxygen();
             you.set_underwater( true );
         }
     }
