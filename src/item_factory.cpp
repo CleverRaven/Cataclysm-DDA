@@ -1770,7 +1770,7 @@ void Item_factory::check_definitions() const
             // valid thickness is a multiple of sheet thickness
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 for( const part_material &mat : portion.materials ) {
-                    if( !mat.ignore_thickness_multiple && !mat.id->is_valid_thickness( mat.thickness ) ) {
+                    if( !mat.ignore_sheet_thickness && !mat.id->is_valid_thickness( mat.thickness ) ) {
                         msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
                                               mat.thickness, mat.id.str(), mat.id->thickness_multiple() );
                     }
@@ -2512,7 +2512,7 @@ void part_material::deserialize( const JsonObject &jo )
         jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
     }
     optional( jo, false, "thickness", thickness, 0.0f );
-    optional( jo, false, "ignore_thickness_multiple", ignore_thickness_multiple, false );
+    optional( jo, false, "ignore_sheet_thickness", ignore_sheet_thickness, false );
 }
 
 void armor_portion_data::deserialize( const JsonObject &jo )
