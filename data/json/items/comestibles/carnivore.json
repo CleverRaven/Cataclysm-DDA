@@ -132,7 +132,7 @@
     "healthy": 0,
     "parasites": 0,
     "material": "blood",
-blood-nob    "comestible_type": "DRINK",
+    "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
     "phase": "liquid",
