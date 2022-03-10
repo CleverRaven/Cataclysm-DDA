@@ -47,16 +47,40 @@
     "volume": "9250 ml",
     "price": 26000,
     "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
+    "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
     "longest_side": "60 cm",
     "warmth": 20,
-    "material_thickness": 8,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+        ],
+        "encumbrance": 8,
+        "coverage": 100,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "//": "this simulates the overlapping plates", "type": "leather", "covered_by_mat": 40, "thickness": 2.0 }
+        ],
+        "encumbrance": 4,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_shoulder_l", "arm_upper_r", "arm_shoulder_r" ]
+      }
+    ]
   },
   {
     "id": "xl_armor_lamellar",

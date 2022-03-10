@@ -1966,13 +1966,13 @@
     "id": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
+    "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "2760 g",
     "volume": "2520 ml",
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -1981,22 +1981,51 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
+    "//": "materials on this guy are slightly weird since it is trying to quilt soft armor panels, so at thickest it is their thickness",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 }
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
+      }
     ]
   },
   {
     "id": "k_gambeson_vest",
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson vest" },
-    "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
+    "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "1840 g",
     "volume": "1670 ml",
     "price": 20000,
     "price_postapoc": 600,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -2005,7 +2034,17 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_loose", "menu_text": "Loosen" },
-    "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "k_gambeson_loose",

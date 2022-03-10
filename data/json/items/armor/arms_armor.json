@@ -564,7 +564,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of kevlar gambeson sleeves", "str_pl": "pairs of kevlar gambeson sleeves" },
-    "description": "A pair sleeves made from layers of kevlar.",
+    "description": "A pair sleeves made from aramid with strips of soft body armor sewn on top to simulate quilting.",
     "weight": "920 g",
     "volume": "840 ml",
     "price": 1200,
@@ -578,7 +578,29 @@
     "material_thickness": 3.2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
+      }
+    ]
   },
   {
     "id": "xl_k_gambeson_sleeve",
