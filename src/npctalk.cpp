@@ -2229,18 +2229,20 @@ void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, in
 }
 
 void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::string &member,
-        int count,
-        bool is_npc )
+        int count, int charges, bool is_npc )
 {
     itype_id item_name;
     jo.read( member, item_name, true );
-    function = [is_npc, item_name, count]( const dialogue & d ) {
+    function = [is_npc, item_name, count, charges]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
-        const auto consume_item = [&]( talker & p, const itype_id & item_name, int count ) {
+        const auto consume_item = [&]( talker & p, const itype_id & item_name, int count, int charges ) {
             item old_item( item_name );
-            if( p.has_charges( item_name, count ) ) {
-                p.use_charges( item_name, count );
+            if( count == 0 && charges > 0 && p.has_charges( item_name, charges ) ) {
+                p.use_charges(item_name, charges);
             } else if( p.has_amount( item_name, count ) ) {
+                if( charges > 0 && p.has_charges( item_name, charges ) ) {
+                    p.use_charges( item_name, charges );
+                }
                 p.use_amount( item_name, count );
             } else {
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
@@ -2248,9 +2250,9 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
             }
         };
         if( is_npc ) {
-            consume_item( *d.actor( true ), item_name, count );
+            consume_item( *d.actor( true ), item_name, count, charges );
         } else {
-            consume_item( *d.actor( false ), item_name, count );
+            consume_item( *d.actor( false ), item_name, count, charges );
         }
     };
 }
@@ -4037,10 +4039,19 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
         }
-        int count = 1;
+        int count = 0;
+        int charges = 0;
+        if (jo.has_int("charges")) {
+            charges = jo.get_int("charges");
+        }
+        else {
+            count = 1;
+        }
+
         if( jo.has_int( "count" ) ) {
             count = jo.get_int( "count" );
         }
+
         std::string container_name;
         if( jo.has_string( "container" ) ) {
             container_name = jo.get_string( "container" );
@@ -4061,9 +4072,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             jo.read( "u_spawn_item", item_name, true );
             subeffect_fun.set_u_spawn_item( item_name, count, container_name );
         } else if( jo.has_string( "u_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "u_consume_item", count );
+            subeffect_fun.set_consume_item( jo, "u_consume_item", count, charges );
         } else if( jo.has_string( "npc_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "npc_consume_item", count, is_npc );
+            subeffect_fun.set_consume_item( jo, "npc_consume_item", count, charges, is_npc );
         } else if( jo.has_string( "u_remove_item_with" ) ) {
             subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
         } else if( jo.has_string( "npc_remove_item_with" ) ) {
