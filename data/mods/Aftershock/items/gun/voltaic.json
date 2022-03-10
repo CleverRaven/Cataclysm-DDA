@@ -1,0 +1,28 @@
+[
+  {
+    "id": "afs_electro_anomaly_rifle",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "R-PROTON ENR" },
+    "description": "Within the solid barrel of the Raaz PROTON, an electrical anomaly is shredded and duplicated through magnetic stimulation and projected outwards.  Freed from containment, it will rapidly evaporate within a cloud of electric charge.",
+    "price": "12 kUSD",
+    "price_postapoc": "12 kUSD",
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 30,
+    "ups_charges": 0,
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
+    "ranged_damage": [ { "damage_type": "electric", "amount": 10 }, { "damage_type": "pure", "amount": 25 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_voltaic_cartridge" ]
+      }
+    ],
+    "ammo_effects": [ "ELECTRO_ANOMALY" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  }
+]
