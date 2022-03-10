@@ -143,6 +143,17 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
   },
   {
+    "id": "mon_albertonykus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light green and yellow hatchling",
+    "default_faction": "insectivore_young",
+    "color": "light_green_yellow",
+    "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+  },
+  {
     "id": "mon_velociraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",

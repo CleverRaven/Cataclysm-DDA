@@ -219,19 +219,7 @@ bool Character::try_remove_grab()
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
-            // when you break out of a grab you have a chance to lose some things from your pockets
-            // that are hanging off your character
-            std::vector<item_pocket *> pd;
-            for( item &i : worn ) {
-                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
-                if( i.has_ripoff_pockets() ) {
-                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
-                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
-                            pd.push_back( pocket );
-                        }
-                    }
-                }
-            }
+            std::vector<item_pocket *> pd = worn.grab_drop_pockets();
             // if we have items that can be pulled off
             if( !pd.empty() ) {
                 // choose an item to be ripped off

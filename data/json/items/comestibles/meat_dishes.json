@@ -24,7 +24,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 37 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": -10
   },
   {
@@ -106,7 +106,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "price_postapoc": 250,
-    "vitamins": [ [ "vitA", 30 ], [ "vitC", 4 ], [ "iron", 22 ], [ "vitB", 36 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ] ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
   },
@@ -179,7 +179,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ], [ "vitB", 323 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -202,7 +202,7 @@
     "material": [ "flesh" ],
     "charges": 2,
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 39 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ] ],
     "fun": 5
   },
   {
@@ -247,7 +247,7 @@
     "material": [ "flesh" ],
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "vitB", 19 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
     "fun": 4
   },
   {
@@ -303,7 +303,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ], [ "vitB", 259 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -330,7 +330,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 20 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -353,7 +353,7 @@
     "price_postapoc": 150,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -429,7 +429,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +456,7 @@
     "looks_like": "fish_fried",
     "fun": 13,
     "charges": 5,
-    "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 5 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -503,7 +503,7 @@
     "material": [ "flesh" ],
     "volume": "750 ml",
     "charges": 10,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ], [ "vitB", 11 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -549,7 +549,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ [ "iron", 3 ], [ "vitB", 11 ] ]
+    "vitamins": [ [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -559,7 +559,7 @@
     "calories": 2150,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
-    "vitamins": [ [ "vitA", 96 ], [ "vitB", 96 ], [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
+    "vitamins": [ [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -633,7 +633,7 @@
     "price_postapoc": 350,
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitA", 14 ], [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
     "fun": 3
   },
   {
@@ -661,7 +661,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ], [ "vitB", 195 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -681,7 +681,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "charges": 2,
-    "vitamins": [ [ "vitA", 6 ], [ "calcium", 5 ], [ "iron", 27 ], [ "vitB", 64 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 27 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -716,7 +716,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ], [ "vitB", 66 ] ]
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -757,7 +757,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 141 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -776,7 +776,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 57 ], [ "iron", 9 ], [ "vitB", 413 ] ]
+    "vitamins": [ [ "calcium", 57 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -796,7 +796,7 @@
     "volume": "500 ml",
     "charges": 2,
     "fun": 1,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 3 ], [ "iron", 18 ], [ "vitB", 34 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -836,7 +836,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "vitA", 28 ], [ "calcium", 11 ], [ "iron", 25 ], [ "vitB", 1312 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -862,7 +862,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ], [ "vitB", 348 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -884,7 +884,7 @@
     "//": "One beans + one protein = 2 servings",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -906,7 +906,7 @@
     "//": "One rice + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -928,7 +928,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -982,7 +982,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 19 ], [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ], [ "vitB", 63 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -997,7 +997,7 @@
     "price_postapoc": 1500,
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ], [ "vitB", 53 ] ]
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1023,7 +1023,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 19 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 97 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1091,7 +1091,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "vitB", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1119,7 +1119,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ], [ "vitB", 79 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1158,7 +1158,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1184,7 +1184,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1199,7 +1199,7 @@
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
-    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1214,7 +1214,7 @@
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
-    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1239,7 +1239,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1264,7 +1264,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1351,7 +1351,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "vitB", 17 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1436,7 +1436,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 144 ], [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ], [ "vitB", 87 ] ]
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1456,7 +1456,7 @@
     "volume": "750 ml",
     "charges": 3,
     "fun": 14,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1477,7 +1477,7 @@
     "volume": "1 L",
     "charges": 2,
     "fun": 13,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1554,7 +1554,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ], [ "vitB", 17 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1578,7 +1578,7 @@
     "price_postapoc": 200,
     "material": [ "flesh" ],
     "volume": "85 ml",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
     "fun": -10
   },
   {

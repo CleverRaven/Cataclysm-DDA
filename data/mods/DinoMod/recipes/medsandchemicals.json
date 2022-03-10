@@ -14,7 +14,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "egg_dino", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
+      [ [ "egg_dino_theropod", 1 ], [ "egg_velociraptor", 1 ], [ "egg_deinonychus", 1 ], [ "egg_utahraptor", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ]
   },
@@ -52,7 +52,12 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "egg_dino", 1 ], [ "egg_allosaurus", 1 ], [ "egg_acrocanthosaurus", 1 ], [ "egg_tyrannosaurus", 1 ] ],
+      [
+        [ "egg_dino_theropod", 1 ],
+        [ "egg_allosaurus", 1 ],
+        [ "egg_acrocanthosaurus", 1 ],
+        [ "egg_tyrannosaurus", 1 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ]
   },

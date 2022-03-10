@@ -539,6 +539,11 @@
         "portal_storm"
       ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [ "LAB" ], "clear_whitelist": false, "whitelist": [  ] }
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "LAB", "MAN_MADE", "MILITARY", "URBAN", "FARM", "EXODII" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    }
   }
 ]

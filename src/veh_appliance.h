@@ -115,6 +115,11 @@ class veh_app_interact
         */
         void rename();
         /**
+         * Function associated with the "REMOVE" action.
+         * Turns the installed appliance into its base item.
+        */
+        void remove();
+        /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned
          * (either directly to the player or to 'act'), or when QUIT input is received.

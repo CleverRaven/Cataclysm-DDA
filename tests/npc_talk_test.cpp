@@ -129,7 +129,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     clear_vehicles();
     clear_map();
     avatar &player_character = get_avatar();
-    player_character.set_value( "test_var", "It's avatar" );
+    player_character.set_value( "npctalk_var_test_var", "It's avatar" );
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
@@ -139,7 +139,7 @@ static npc &prep_test( dialogue &d, bool shopkeep = false )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker( shopkeep );
-    beta.set_value( "test_var", "It's npc" );
+    beta.set_value( "npctalk_var_test_var", "It's npc" );
     d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
@@ -641,7 +641,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.emplace_back( "backpack" );
+    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect
@@ -1067,7 +1067,7 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     prep_test( d );
 
     global_variables &globvars = get_globals();
-    globvars.set_global_value( "test_var", "It's global" );
+    globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
     gen_response_lines( d, 3 );
@@ -1167,7 +1167,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 55000 );
-    player_character.worn.emplace_back( "backpack" );
+    player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
@@ -1193,7 +1193,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 14 ].text == "time_since_cataclysm in days > 3" );
     CHECK( d.responses[ 15 ].text == "Allies equals 1" );
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
-    CHECK( d.responses[ 17 ].text == "Owed ammount equals 14" );
+    CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
     // TODO: Relaibly test the random number generator.
     CHECK( d.responses[ 19 ].text == "Temperature is 21." );

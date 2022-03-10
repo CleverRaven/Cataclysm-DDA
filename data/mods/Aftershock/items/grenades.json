@@ -44,7 +44,7 @@
     "category": "weapons",
     "looks_like": "grenade_emp",
     "name": "electroshock grenade",
-    "description": "This is an electronic weapon that will emit a short ranged electric field.  When activated, you'll have five turns before it starts doing so; throwing it before that would be a good idea.",
+    "description": "This is an electronic weapon that will emit a short-ranged electric field.  When activated, you'll have five turns before it starts doing so; throwing it before that would be a good idea.",
     "use_action": { "menu_text": "Pull pin", "need_wielding": true, "type": "transform", "target": "afs_electroshock_grenade_1_act" }
   },
   {
@@ -64,7 +64,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "cryo grenade" },
-    "description": "This is a military-grade cryo hand grenade.  Once it explodes it spreads exotic highly radioactive shrapnel.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
+    "description": "This is a military-grade cryo hand grenade.  Once it explodes it spreads exotic highly-radioactive shrapnel.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",
     "price": 1500,
@@ -90,7 +90,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active cryo grenade" },
-    "description": "This is an active grenade, and will explode any second now.  Once it explodes it spreads exotic highly thermodynamic shrapnel.  Better throw it!",
+    "description": "This is an active grenade, and will explode any second now.  Once it explodes it spreads exotic highly-thermodynamic shrapnel.  Better throw it!",
     "weight": "397 g",
     "volume": "250 ml",
     "price": 0,

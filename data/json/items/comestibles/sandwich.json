@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -61,7 +61,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -91,7 +91,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -121,7 +121,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 14,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -162,7 +162,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -225,7 +225,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ], [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -302,7 +302,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -331,7 +331,7 @@
     "volume": "300 ml",
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -432,7 +432,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -451,7 +451,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -474,7 +474,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -496,7 +496,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -526,7 +526,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -556,7 +556,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 14,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -597,7 +597,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -660,7 +660,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ], [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -736,7 +736,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 28 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -769,7 +769,7 @@
     "volume": "300 ml",
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -870,7 +870,7 @@
     "material": [ "flesh", "veggy" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -893,6 +893,6 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ] ]
   }
 ]

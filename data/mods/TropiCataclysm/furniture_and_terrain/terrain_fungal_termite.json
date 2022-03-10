@@ -36,7 +36,7 @@
     "type": "terrain",
     "id": "t_fungus_underground_harvested",
     "name": "underground fungus",
-    "description": "This is a large clump of mutated fungi grown by the termites deep underground.  It doesnt seem to be ready for harvest yet.",
+    "description": "This is a large clump of mutated fungi grown by the termites deep underground.  It doesn't seem to be ready for harvest yet.",
     "symbol": "#",
     "color": [ "white", "white", "white", "white" ],
     "move_cost": 8,

@@ -1707,7 +1707,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     }
   },
   {
@@ -1825,28 +1825,6 @@
         "text": "Some Lachesis mutus pills, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
       }
     ]
-  },
-  {
-    "id": "inj_vitb",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "injectable vitamin B" },
-    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
-    "weight": "40 g",
-    "volume": "250 ml",
-    "price": 150,
-    "price_postapoc": 500,
-    "charges": 2,
-    "stack_size": 10,
-    "symbol": "!",
-    "color": "magenta",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "vitB", 100 ] ]
-    }
   },
   {
     "id": "inj_iron",

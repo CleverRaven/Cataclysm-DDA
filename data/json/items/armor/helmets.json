@@ -904,13 +904,14 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -919,7 +920,7 @@
       },
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -943,7 +944,7 @@
     "armor": [
       {
         "material": [
-          { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -986,13 +987,14 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "mc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1001,7 +1003,7 @@
       },
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -1025,7 +1027,7 @@
     "armor": [
       {
         "material": [
-          { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1068,13 +1070,14 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "hc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1083,7 +1086,7 @@
       },
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -1107,7 +1110,7 @@
     "armor": [
       {
         "material": [
-          { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1150,13 +1153,14 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "ch_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1165,7 +1169,7 @@
       },
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -1189,7 +1193,7 @@
     "armor": [
       {
         "material": [
-          { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1232,13 +1236,14 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "qt_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -1247,7 +1252,7 @@
       },
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "eyes", "mouth" ],
@@ -1271,7 +1276,7 @@
     "armor": [
       {
         "material": [
-          { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
         ],
         "covers": [ "head" ],

@@ -884,7 +884,7 @@ def main() -> Union[int, ComposingException]:
         help='Only output the tile_config.json')
     arg_parser.add_argument(
         '--fail-fast', dest='fail_fast', action='store_true',
-        help='Stop immediately after an error has occured')
+        help='Stop immediately after an error has occurred')
     arg_parser.add_argument(
         '--loglevel', dest='loglevel',
         choices=['INFO', 'WARNING', 'ERROR'],  # 'DEBUG', 'CRITICAL'

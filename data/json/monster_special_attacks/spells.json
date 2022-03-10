@@ -358,7 +358,7 @@
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE" ],
     "min_damage": 5,
     "max_damage": 5,
-    "damage_type": "cut",
+    "damage_type": "pure",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "attack"
@@ -463,7 +463,11 @@
     ],
     "false_effect": [
       {
-        "weighted_list_eocs": [ [ "EOC_shifting_mass_attack", 2 ], [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ], [ "EOC_PORTAL_INCORPOREAL", 1 ] ]
+        "weighted_list_eocs": [
+          [ "EOC_shifting_mass_attack", { "const": 2 } ],
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+          [ "EOC_PORTAL_INCORPOREAL", { "const": 1 } ]
+        ]
       },
       { "u_message": "For an instant you feel the absence's hunger upon you." }
     ]
@@ -521,5 +525,64 @@
     "damage_type": "biological",
     "min_damage": 9999,
     "max_damage": 9999
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_twisting_blade_attack",
+    "name": { "str": "Twisting Blade Attack" },
+    "description": "Hurts you mentally.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 1,
+    "max_range": 1,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mon_twisting_blade_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_twisting_blade_attack",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_add_effect": "nightmares", "duration": "18 hours" },
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 300 } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_swarm_structure_attack",
+    "name": { "str": "Swarm Structure Action" },
+    "description": "Teleports and summons monsters.",
+    "valid_targets": [ "hostile", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mon_swarm_structure_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_swarm_structure_attack",
+    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "effect": [
+      { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
+      { "npc_teleport": { "npc_val": "swarm_target" } }
+    ],
+    "false_effect": {
+      "u_spawn_monster": "mon_twisting_blade",
+      "real_count": [ 3, 5 ],
+      "hallucination_count": [ 5, 10 ],
+      "min_radius": 3,
+      "max_radius": 5,
+      "lifespan": [ "5 seconds", "10 seconds" ]
+    }
   }
 ]

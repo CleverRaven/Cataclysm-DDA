@@ -886,7 +886,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::activity_text_color( ava );
             break;
         case widget_var::bp_armor_outer_text:
-            desc.first = display::colorized_bodypart_outer_armor( ava, only_bp() );
+            desc.first = ava.worn.get_armor_display( only_bp() );
             apply_color = false; // Item name already colorized by tname
             break;
         case widget_var::date_text:
@@ -912,7 +912,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            desc.first = display::current_position_text( ava.global_omt_location() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

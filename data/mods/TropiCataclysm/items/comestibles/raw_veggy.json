@@ -10,13 +10,13 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 34,
-    "description": "A chunk of underground fungus.  Its slightly toxic but seems nutritious enough.",
+    "description": "A chunk of underground fungus.  It's slightly toxic but seems nutritious enough.",
     "price": 600,
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID", "RAW" ],
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "mutant_toxin", 10 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "mutant_toxin", 10 ] ]
   }
 ]

@@ -240,6 +240,32 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     return canputitems;
 }
 
+item_location outfit::adv_inv_get_container( item_location container, const advanced_inv_area &area,
+        Character &guy )
+{
+    size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+    if( worn.size() > idx ) {
+        auto iter = worn.begin();
+        std::advance( iter, idx );
+        if( area.is_container_valid( &*iter ) ) {
+            container = item_location( guy, &*iter );
+        }
+    }
+
+    // no need to reinvent the wheel
+    if( !container ) {
+        auto iter = worn.begin();
+        for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+            if( area.is_container_valid( &*iter ) ) {
+                container = item_location( guy, &*iter );
+                uistate.adv_inv_container_index = i;
+                break;
+            }
+        }
+    }
+    return container;
+}
+
 item_location advanced_inv_area::get_container( bool in_vehicle )
 {
     item_location container;
@@ -270,27 +296,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            std::list<item> &worn = player_character.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
-            if( worn.size() > idx ) {
-                auto iter = worn.begin();
-                std::advance( iter, idx );
-                if( is_container_valid( &*iter ) ) {
-                    container = item_location( player_character, &*iter );
-                }
-            }
-
-            // no need to reinvent the wheel
-            if( !container ) {
-                auto iter = worn.begin();
-                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = item_location( player_character, &*iter );
-                        uistate.adv_inv_container_index = i;
-                        break;
-                    }
-                }
-            }
+            container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
