@@ -7,6 +7,7 @@
 #include <set>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
@@ -274,27 +275,17 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = player_character.inv->slice();
+            const std::vector<advanced_inv_listitem> &inv_stacks = get_avatar().get_AIM_inventory();
 
             // check index first
-            if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto &it = stacks[uistate.adv_inv_container_index]->front();
-                if( is_container_valid( &it ) ) {
-                    container = item_location( player_character, &it );
+            if( inv_stacks.size() > static_cast<size_t>(uistate.adv_inv_container_index)) {
+                item_location i_location = inv_stacks[uistate.adv_inv_container_index].items.front();
+                item *it = i_location.get_item();
+                if( is_container_valid( it ) && inv_stacks[uistate.adv_inv_container_index].idx ) {
+                    container = item_location( player_character, it );
                 }
             }
 
-            // try entire area
-            if( !container ) {
-                for( size_t x = 0; x < stacks.size(); ++x ) {
-                    item &it = stacks[x]->front();
-                    if( is_container_valid( &it ) ) {
-                        container = item_location( player_character, &it );
-                        uistate.adv_inv_container_index = x;
-                        break;
-                    }
-                }
-            }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
             container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
