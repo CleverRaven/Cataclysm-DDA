@@ -1436,8 +1436,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         result = false;
     }
 
-    if ( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-        if ( current_submap->get_ter(l) == t_dirtmound ) {
+    if( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+        if( current_submap->get_ter( l ) == t_dirtmound ) {
             ter_set( p, t_dirt );
         }
     }
