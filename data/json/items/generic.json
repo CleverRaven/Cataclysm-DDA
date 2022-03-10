@@ -161,7 +161,7 @@
     "category": "other",
     "symbol": "-",
     "color": "pink",
-    "name": { "str": "foodplace loyalty card" },
+    "name": { "str": "Foodplace loyalty card" },
     "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything…",
     "price": 0,
     "price_postapoc": 0,
@@ -665,6 +665,7 @@
     "material": [ "steel" ],
     "weight": "349 g",
     "volume": "250 ml",
+    "longest_side": "204 mm",
     "cutting": 14,
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -4
@@ -697,6 +698,49 @@
     "weight": "151 g",
     "volume": "100 ml",
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "lc_wire",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "mild steel wire" },
+    "description": "A length of thin, relatively stiff, steel wire.  Like the sort you find in wire fences.",
+    "category": "spare_parts",
+    "price": 20000,
+    "price_postapoc": 100,
+    "material": [ "lc_steel" ],
+    "weight": "151 g",
+    "volume": "100 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "mc_wire",
+    "copy-from": "lc_wire",
+    "name": { "str": "medium steel wire" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "hc_wire",
+    "copy-from": "lc_wire",
+    "name": { "str": "high steel wire" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "ch_wire",
+    "copy-from": "lc_wire",
+    "name": { "str": "hardened steel wire" },
+    "material": [ "ch_steel" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "qt_wire",
+    "copy-from": "lc_wire",
+    "name": { "str": "tempered steel wire" },
+    "material": [ "qt_steel" ]
   },
   {
     "type": "GENERIC",
@@ -1344,7 +1388,7 @@
     "color": "green",
     "name": { "str": "broken military dispatch", "str_pl": "broken military dispatches" },
     "category": "other",
-    "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
+    "description": "A broken military dispatch.  Though the scratched manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
@@ -2141,7 +2185,7 @@
     "type": "GENERIC",
     "id": "sunflower",
     "name": { "str": "sunflower" },
-    "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
+    "description": "The top of a sunflower, with yellow petals and some seeds that have yet to be eaten by animals.",
     "weight": "450 g",
     "to_hit": -2,
     "color": "yellow",
@@ -3056,7 +3100,7 @@
     "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
     "price": 10000,
     "price_postapoc": 100,
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "weight": "1500 g",
     "volume": "500 ml",
     "bashing": 6

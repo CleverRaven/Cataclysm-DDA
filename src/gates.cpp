@@ -52,6 +52,7 @@ struct gate_data {
         was_loaded( false ) {}
 
     gate_id id;
+    std::vector<std::pair<gate_id, mod_id>> src;
 
     ter_str_id door;
     ter_str_id floor;

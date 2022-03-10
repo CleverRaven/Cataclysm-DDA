@@ -149,6 +149,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
+        case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -193,6 +194,9 @@ const int spell_type::min_field_intensity_default = 0;
 const int spell_type::max_field_intensity_default = 0;
 const float spell_type::field_intensity_increment_default = 0.0f;
 const float spell_type::field_intensity_variance_default = 0.0f;
+const int spell_type::min_accuracy_default = 20;
+const float spell_type::accuracy_increment_default = 0.0f;
+const int spell_type::max_accuracy_default = 20;
 const int spell_type::min_damage_default = 0;
 const float spell_type::damage_increment_default = 0.0f;
 const int spell_type::max_damage_default = 0;
@@ -309,6 +313,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance,
               field_intensity_variance_default );
 
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, min_accuracy_default );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, accuracy_increment_default );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, max_accuracy_default );
+
     optional( jo, was_loaded, "min_damage", min_damage, min_damage_default );
     optional( jo, was_loaded, "damage_increment", damage_increment, damage_increment_default );
     optional( jo, was_loaded, "max_damage", max_damage, max_damage_default );
@@ -394,6 +402,9 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "min_damage", min_damage, min_damage_default );
     json.member( "max_damage", max_damage, max_damage_default );
     json.member( "damage_increment", damage_increment, damage_increment_default );
+    json.member( "min_accuracy", min_accuracy, min_accuracy_default );
+    json.member( "accuracy_increment", accuracy_increment, accuracy_increment_default );
+    json.member( "max_accuracy", max_accuracy, max_accuracy_default );
     json.member( "min_range", min_range, min_range_default );
     json.member( "max_range", max_range, min_range_default );
     json.member( "range_increment", range_increment, range_increment_default );
@@ -600,6 +611,21 @@ int spell::damage() const
         } else { // if it's negative, min and max work differently
             return std::max( leveled_damage, type->max_damage );
         }
+    }
+}
+
+int spell::min_leveled_accuracy() const
+{
+    return type->min_accuracy + std::round( get_level() * type->accuracy_increment );
+}
+
+int spell::accuracy() const
+{
+    const int leveled_accuracy = min_leveled_accuracy();
+    if( type->min_accuracy >= 0 || type->max_accuracy >= type->min_accuracy ) {
+        return std::min( leveled_accuracy, type->max_accuracy );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_accuracy, type->max_accuracy );
     }
 }
 

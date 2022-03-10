@@ -69,7 +69,6 @@
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
@@ -1979,7 +1978,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
     map &here = get_map();
     const tripoint_abs_ms abspos = you.get_location();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
 
@@ -2771,7 +2770,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
-        you.assign_activity( ACT_CHURN, 18000, -1 );
+        you.assign_activity( player_activity( churn_activity_actor( 18000, item_location() ) ) );
         you.backlog.push_front( player_activity( act_id ) );
         // TODO: fix point types
         you.activity.placement = src.raw();

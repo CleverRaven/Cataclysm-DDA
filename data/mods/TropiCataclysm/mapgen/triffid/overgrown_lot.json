@@ -1,0 +1,235 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "overgrownlot",
+    "weight": 100,
+    "object": {
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "1": "f_null",
+        "4": "f_null",
+        "7": "f_null",
+        "P": "f_sign",
+        "T": "f_null",
+        "_": "f_null",
+        "t": "f_null"
+      },
+      "rows": [
+        "..._....._._..._..._....",
+        "............P...._......",
+        "._...._.._..P..._...._..",
+        "...........__..........7",
+        "...._..__........_....._",
+        "_.7....Y...........__...",
+        "........_.._._.._...t._.",
+        ".....1_.................",
+        "..._...._........_Y.....",
+        "..__.......__.._......7.",
+        "..4......._..._.._.._...",
+        "#_....Y_....._......Y...",
+        ".1_._.._.._.X...._....._",
+        "_..._....._..__..._..1..",
+        "..#........_._....._.._4",
+        "..._...Y__...._..._.....",
+        "._#..................._.",
+        "...._._..__..._...Y.....",
+        "...._.1.....Y..._......#",
+        "..4....._.........._....",
+        "...#._......_........._1",
+        "_4._T..._.._t._._.4_#...",
+        "1....._..#.....#T..._.7.",
+        "..#...#.7._#..1_.._..#.."
+      ],
+      "terrain": {
+        "#": "t_underbrush",
+        ".": "t_grass",
+        "1": "t_tree_young",
+        "4": "t_tree_pine",
+        "7": "t_tree_maple_tapped",
+        "P": "t_grass",
+        "T": "t_tree_deadpine",
+        "_": "t_dirt",
+        "t": "t_tree_maple",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
+      "place_signs": [
+        { "signage": "Property for sale!", "x": 12, "y": 1 },
+        { "signage": "Call <given_name> with <family_name> Realty at 555-6288!", "x": 12, "y": 2 }
+      ],
+      "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
+    }
+  },
+  {
+    "method": "json",
+    "object": {
+      "furniture": { ".": "f_null", "4": "f_null", "P": "f_sign", "_": "f_null", "d": "f_null" },
+      "rows": [
+        ".........d......______..",
+        "................______..",
+        "...............d______..",
+        ".d..............______..",
+        "..............P.______..",
+        "..4.............______..",
+        "......d.........______..",
+        "................______d.",
+        "........................",
+        "d...............Y.......",
+        "........................",
+        "......Y.................",
+        "..d.....................",
+        "...d........d.......Y...",
+        ".................d......",
+        ".........d.............d",
+        "........................",
+        "......X.................",
+        "..............****..d...",
+        "d.......d..***~~~~***...",
+        "..........**~~~~~~~~**..",
+        "....Y.....****~~~~****..",
+        "............*******.....",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_grass",
+        "4": "t_tree_willow",
+        "P": "t_grass",
+        "_": "t_pavement",
+        "d": "t_dirt",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound",
+        "*": "t_water_sh",
+        "~": "t_water_dp"
+      },
+      "place_signs": [ { "signage": "Lot SOLD!", "x": 14, "y": 4 } ],
+      "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
+    },
+    "om_terrain": "overgrownlot",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "furniture": { ".": "f_null", "P": "f_sign", "#": "f_null", "_": "f_null", "s": "f_sign" },
+      "place_items": [ { "chance": 35, "item": "trash", "x": 16, "y": 17 }, { "chance": 35, "item": "trash", "x": 7, "y": 11 } ],
+      "place_vehicles": [
+        { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "bicycle", "x": 6, "y": 17 },
+        { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 17, "y": 19 }
+      ],
+      "rows": [
+        "..._..._........_...._..",
+        "._.........._._.........",
+        "....#_..............._._",
+        "_.Y..._..._..._...._..._",
+        ".._..........._.._......",
+        "..._._...._..P.....Y_...",
+        "_............s_.........",
+        "......__._........._._._",
+        "..._.._..........._..#..",
+        "._......#.._............",
+        "_......._..#..._........",
+        "..#.._............._....",
+        "_.._.........._.._....._",
+        "....._....#._._....#....",
+        "..Y....._.._......._.._.",
+        "_._.__......X..._..._.#.",
+        "...#.._....._...........",
+        ".........._..#..._..Y.._",
+        "..._...._...............",
+        "__............_._..._...",
+        "_.._..#_.._........_#...",
+        "....._....._..._...._...",
+        "...._...Y....#........._",
+        "..#..._.._...._.._._...."
+      ],
+      "terrain": {
+        ".": "t_dirt",
+        "#": "t_underbrush",
+        "P": "t_dirt",
+        "_": "t_grass",
+        "s": "t_grass",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
+      "place_signs": [
+        { "signage": "Empty lot for sale!", "x": 13, "y": 5 },
+        { "signage": "Call <family_name> Family Realty at 555-3130!", "x": 13, "y": 6 }
+      ],
+      "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
+    },
+    "om_terrain": "overgrownlot",
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "object": {
+      "furniture": {
+        "#": "f_null",
+        "+": "f_null",
+        ".": "f_null",
+        "P": "f_sign",
+        "^": "f_rubble_rock",
+        "_": "f_null",
+        "d": "f_null",
+        "g": "f_null",
+        "r": "f_rubble_rock",
+        "|": "f_null"
+      },
+      "place_items": [
+        { "chance": 15, "item": "trash", "x": 13, "y": 20 },
+        { "chance": 15, "item": "trash", "x": 6, "y": 19 },
+        { "chance": 15, "item": "trash", "x": 6, "y": 16 },
+        { "chance": 15, "item": "trash", "x": 4, "y": 12 }
+      ],
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "g|..||.||P|++|||||.||||g",
+        "g|.............d......|d",
+        "d|d....d...dd.......d.|g",
+        "g|..........g....Y.dd.|d",
+        "g|.dg......d.g.....g..|g",
+        "d|............d......d|d",
+        "g...Y..d............d..g",
+        "g|.g.gd....d..........|g",
+        "g|...d....d...Y.d.g...|g",
+        "g|.d^..^..dd....d.....|d",
+        "d|.d..d....g.....d.g...g",
+        "g....^^.^d...d.....d..|d",
+        "g|.........X....g.....|g",
+        "g|dd...g..r.d..d.....d|g",
+        "d|...#.....#..dd......|d",
+        "g|.Y#...#.......d..dd.|g",
+        "g....^.g....dd..#..g..|g",
+        "g|....dd#.g........Y..|d",
+        "d|.^d.....d.d^....d.d.|g",
+        "g||||||..|||||||.||||||g",
+        "gggdgggdggdggdgdggdgdggg"
+      ],
+      "terrain": {
+        "#": "t_dirtmound",
+        "+": "t_chaingate_l",
+        ".": "t_concrete",
+        "^": "t_concrete",
+        "_": "t_sidewalk",
+        "d": "t_dirt",
+        "g": "t_grass",
+        "r": "t_grass",
+        "P": "t_chainfence_v",
+        "|": "t_chainfence_v",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
+      "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ],
+      "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
+    },
+    "om_terrain": "overgrownlot",
+    "type": "mapgen",
+    "weight": 100
+  }
+]

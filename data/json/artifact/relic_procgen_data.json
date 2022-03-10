@@ -159,6 +159,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -208,14 +216,6 @@
         "type": "ATTACK_SPEED",
         "increment": 5,
         "power_per_increment": 250
-      },
-      {
-        "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -419,6 +419,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -468,14 +476,6 @@
         "type": "ATTACK_SPEED",
         "increment": 5,
         "power_per_increment": 250
-      },
-      {
-        "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -679,6 +679,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -728,14 +736,6 @@
         "type": "ATTACK_SPEED",
         "increment": 5,
         "power_per_increment": 250
-      },
-      {
-        "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
       },
       {
         "weight": 50,

@@ -175,7 +175,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
-      [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ] ],
+      [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_bathroom", 5 ], [ "bottle_plastic_small", 10 ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 5 ] ]

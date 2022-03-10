@@ -38,5 +38,43 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chem_glycerol", 20 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "chem_mercury_fulminate",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "1 h",
+    "batch_time_factors": [ 99, 2 ],
+    "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
+    "charges": 958,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "mercury", 22 ] ], [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_ethanol", 206 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "chem_lead_azide",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "90 m",
+    "batch_time_factors": [ 99, 2 ],
+    "book_learn": [ [ "adv_chemistry", 7 ], [ "recipe_labchem", 7 ] ],
+    "charges": 1168,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_sodium", 142 ] ],
+      [ [ "ammonia", 1 ] ],
+      [ [ "chem_ammonium_nitrate", 238 ] ],
+      [ [ "lead", 103 ] ],
+      [ [ "chem_nitric_acid", 1 ] ]
+    ]
   }
 ]
