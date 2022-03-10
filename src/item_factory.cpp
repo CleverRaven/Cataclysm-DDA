@@ -1771,8 +1771,8 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 for( const part_material &mat : portion.materials ) {
                     if( !mat.ignore_thickness_multiple && !mat.id->is_valid_thickness( mat.thickness ) ) {
-                        msg += string_format( "material %s isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
-                                              mat.id.str(), mat.id->thickness_multiple() );
+                        msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
+                                              mat.thickness, mat.id.str(), mat.id->thickness_multiple() );
                     }
                 }
             }
