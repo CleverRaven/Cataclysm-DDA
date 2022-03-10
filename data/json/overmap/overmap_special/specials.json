@@ -285,6 +285,8 @@
       { "point": [ 1, 0, 0 ], "overmap": "lodge_ground2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
       { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential1_north" },
       { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential2_north" }
     ],
