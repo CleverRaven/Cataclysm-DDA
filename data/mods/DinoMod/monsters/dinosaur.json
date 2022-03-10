@@ -533,7 +533,7 @@
     "dodge": 5,
     "hp": 120,
     "zombify_into": "mon_zanzu",
-    "description": "A large feathered bipedal dinosaur with a long neck, a beak and a large head crest. Sharp claws extend from its dextrous hands.",
+    "description": "A large feathered bipedal dinosaur with a long neck, a beak and a large head crest.  Sharp claws extend from its dextrous hands.",
     "reproduction": { "baby_egg": "egg_anzu", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
