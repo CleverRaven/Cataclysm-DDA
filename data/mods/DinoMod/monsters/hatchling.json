@@ -166,6 +166,7 @@
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
+    "default_faction": "anzu_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_anzu_juvenile" },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
   },
