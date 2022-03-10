@@ -28,6 +28,17 @@
     "difficulty": 5
   },
   {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Grav Chute CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Pre-Discontinuity bionic module that was implanted into elite drop troops who could jump from their insertion vehicle during the radar disruption of reentry.  While active, the field will prevent damage to your body from severe impacts, at the cost of impaired movement.",
+    "price": 10000,
+    "weight": "3000 g",
+    "difficulty": 8
+  },
+  {
     "id": "afs_bio_dopamine_stimulators",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
