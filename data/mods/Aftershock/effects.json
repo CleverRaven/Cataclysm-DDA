@@ -100,6 +100,8 @@
     "desc": [ "You feel sluggish and short of breath", "Synthetic blood increases your speed, stamina and general endurance." ],
     "rating": "good",
     "int_dur_factor": "8 h",
+    "max_intensity": 2,
+    "max_duration": "24 h",
     "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "stamina_min": [ 35 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
     "blood_analysis_description": "Synthetic blood",
