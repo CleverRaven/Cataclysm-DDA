@@ -454,6 +454,12 @@ bool return_true( const T & )
     return true;
 }
 
+template<typename T>
+bool return_false( const T & )
+{
+    return false;
+}
+
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */

@@ -4,14 +4,9 @@
     "id": "MANATOUCHED",
     "name": "Manatouched",
     "threshold_mut": "THRESH_MANA",
-    "mutagen_message": "Your ley lines surge with mana.",
-    "iv_message": "A crackle of power comes from within.",
-    "iv_sound": true,
-    "iv_sound_message": "a crackle",
-    "iv_sound_id": "crackle",
-    "iv_noise": 1,
-    "iv_additional_mutations": 1,
-    "memorial_message": "Ascended to the metaphysical."
+    "mutagen_message": "Your ley lines surge with mana and power.",
+    "memorial_message": "Ascended to the metaphysical.",
+    "vitamin": "mutagen_manatouched"
   },
   {
     "type": "mutation",

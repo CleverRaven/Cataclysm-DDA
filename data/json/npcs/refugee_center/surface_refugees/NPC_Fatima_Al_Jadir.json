@@ -176,7 +176,7 @@
     "responses": [
       {
         "//": "5 merch if player has not bartered nor finished mission",
-        "text": "All right, here's your money.",
+        "text": "[5 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
@@ -189,7 +189,7 @@
       },
       {
         "//": "4 merch if player has not bartered but has done the mission",
-        "text": "All right, here's your money.",
+        "text": "[4 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
@@ -202,7 +202,7 @@
       },
       {
         "//": "3 merch if player has successfully bartered price down",
-        "text": "All right, here's your money.",
+        "text": "[3 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [

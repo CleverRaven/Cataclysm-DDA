@@ -15,7 +15,7 @@
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
-//     I.e. a group with 1 monster at frequency will have 50% chance to spawn
+//     I.e. a group with 1 monster at frequency 500 will have 50% chance to spawn
 //     the default monster.
 //     In the same spirit, if you have a total point count of over 1000, the
 //     default monster will never get picked, and nor will the others past the
@@ -370,9 +370,10 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
     if( monster_blacklist.count( m.str() ) > 0 ) {
         return true;
     }
-    // Return true if the whitelist mode is exclusive and either whitelist is populated.
+    // Return true if the whitelist mode is exclusive and any whitelist is populated.
     return monster_whitelist_is_exclusive &&
-           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() );
+           ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() ||
+             !monster_species_whitelist.empty() );
 }
 
 void MonsterGroupManager::FinalizeMonsterGroups()
@@ -532,6 +533,8 @@ void MonsterGroupManager::ClearMonsterGroups()
     monster_whitelist_is_exclusive = false;
     monster_categories_blacklist.clear();
     monster_categories_whitelist.clear();
+    monster_species_blacklist.clear();
+    monster_species_whitelist.clear();
 }
 
 static void check_group_def( const mongroup_id &g )

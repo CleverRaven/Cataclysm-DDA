@@ -175,8 +175,7 @@
     "charges": 1562,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chunk_sulfur", 1 ] ] ]
   },
   {

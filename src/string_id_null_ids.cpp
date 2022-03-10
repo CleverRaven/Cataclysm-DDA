@@ -17,6 +17,7 @@
 //NOLINTNEXTLINE(cata-static-string_id-constants)
 MAKE_NULL_ID( activity_type, "ACT_NULL" )
 MAKE_NULL_ID( harvest_drop_type, "null" )
+MAKE_NULL_ID( vitamin, "null" )
 MAKE_NULL_ID( harvest_list, "null" )
 MAKE_NULL_ID( Item_spawn_data, "null" )
 MAKE_NULL_ID( effect_type, "null" )

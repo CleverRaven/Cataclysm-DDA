@@ -2,8 +2,8 @@
   {
     "type": "item_group",
     "id": "trash_forest",
-    "//": "Naturally occuring glass is considered to be from lightning strikes, maybe?",
-    "//2": "Naturally occuring metal is considered to be sufficiently pure nuggets",
+    "//": "Naturally occurring glass is considered to be from lightning strikes, maybe?",
+    "//2": "Naturally occurring metal is considered to be sufficiently pure nuggets",
     "items": [
       [ "rock", 80000 ],
       [ "rock_flaking", 80000 ],
