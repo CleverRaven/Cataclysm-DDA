@@ -282,26 +282,18 @@ void update_music_volume()
         return;
     }
 
+    bool sound_enabled_old = sounds::sound_enabled;
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
         stop_music();
         return;
     }
-
-    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
-    // Start playing music, if we aren't already doing so (if
-    // SOUND_ENABLED was toggled.)
-
-    // needs to be changed to something other than a static string when
-    // #28018 is resolved, as this function may be called from places
-    // other than the main menu.
-    if( music::is_listening_music ) {
-        play_music( "music" );
-    }
-    else {
+    else if( !sound_enabled_old ) {
         play_music( "title" );
     }
+
+    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
