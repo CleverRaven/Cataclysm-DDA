@@ -475,7 +475,7 @@ void Character::drop_invalid_inventory()
     cache_inventory_is_valid = true;
 }
 
-void outfit::holster_opts( std::vector<dispose_option> &opts, item_location &obj, Character &guy )
+void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy )
 {
 
     for( auto &e : worn ) {
@@ -485,8 +485,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location &obj
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
-                [&guy, ptr, &e, &obj] {
-                    return ptr->store( guy, e, *obj );
+                [&guy, ptr, &e, obj] {
+                    // *obj by itself attempts to use the const version of the operator (in gcc9),
+                    // so construct a new item_location which allows using the non-const version
+                    return ptr->store( guy, e, *item_location( obj ) );
                 }
             } );
         }
