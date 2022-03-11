@@ -2215,11 +2215,9 @@ void remove_stale_inventory_quick_shortcuts()
                 in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : player_character.worn ) {
-                        if( item.invlet == key ) {
-                            in_inventory = true;
-                            break;
-                        }
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    if( item ) {
+                        in_inventory = true;
                     }
                 }
                 if( !in_inventory ) {
@@ -2350,11 +2348,9 @@ void draw_quick_shortcuts()
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : player_character.worn ) {
-                        if( item.invlet == key ) {
-                            hint_text = item.display_name();
-                            break;
-                        }
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    if( item ) {
+                        hint_text = item.value()->display_name();
                     }
                 }
                 if( hint_text == "none" ) {
