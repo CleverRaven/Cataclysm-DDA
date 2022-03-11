@@ -13,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-from util import import_data
+from util import CDDAJSONWriter, import_data
 
 basepath = Path(__file__).parent
 relpath = (basepath if not basepath.is_relative_to(Path().resolve()) else
@@ -21,11 +21,11 @@ relpath = (basepath if not basepath.is_relative_to(Path().resolve()) else
 
 default_blacklist = relpath.joinpath('reprice/blacklist.json')
 parser = argparse.ArgumentParser(description=__doc__)
+# add argument's `dest` goes strait to main
 
-# TODO: add option to json output
 parser.add_argument(
     '--json-dir', type=Path,
-    help='directory where JSON files are',
+    help="directory where JSON files are",
     metavar='<dir>',
     dest='json_dir'
 )
@@ -36,8 +36,13 @@ parser.add_argument(
     dest='fn_pattern'
 )
 parser.add_argument(
+    '--objects', action='store_true',
+    help="outputs whole objects in JSON format",
+    dest='is_json_output'
+)
+parser.add_argument(
     '--noblacklist', action='store_false',
-    help='ignores blacklist',
+    help="ignores blacklist",
     dest='use_blacklist'
 )
 parser.add_argument(
@@ -49,7 +54,7 @@ parser.add_argument(
 )
 
 
-def main(json_dir, fn_pattern, blacklist_file, use_blacklist):
+def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
     if use_blacklist:
         with open(blacklist_file, 'r') as fp_bl:
             blacklist = json.load(fp_bl)
@@ -67,26 +72,30 @@ def main(json_dir, fn_pattern, blacklist_file, use_blacklist):
         'id' in item and item['id'] not in blacklist
     ]
 
-    def parse_item(item):
-        if 'name' not in item:
-            name = ""
-        elif not isinstance(item['name'], dict):
-            name = item['name']
-        else:
-            name = (item['name'].get('str') or item['name'].get('str_sp') or
-                    item['name'].get('str_pl'))
-
-        first_line = "\"id\": \"{:s}\"".format(item['id'])
-        if name is None:
-            parse_error.append(
-                "conldn't parse item name with '{:s} id".format(item['id']))
-            return first_line
-        return '\n'.join([first_line, "\"name\": \"{:s}\"".format(name)])
-
-    for item in reprice[:-1]:
-        print(parse_item(item), '\n')
-    if reprice:
-        print(parse_item(reprice[-1]))
+    if is_json_output:
+        for item in reprice:
+            print(CDDAJSONWriter(item).dumps())
+    else:
+        def parse_item(item):
+            if 'name' not in item:
+                name = ""
+            elif not isinstance(item['name'], dict):
+                name = item['name']
+            else:
+                name = (item['name'].get('str') or item['name'].get('str_sp') or
+                        item['name'].get('str_pl'))
+    
+            first_line = "\"id\": \"{:s}\"".format(item['id'])
+            if name is None:
+                parse_error.append(
+                    "conldn't parse item name with '{:s} id".format(item['id']))
+                return first_line
+            return '\n'.join([first_line, "\"name\": \"{:s}\"".format(name)])
+    
+        for item in reprice[:-1]:
+            print(parse_item(item), '\n')
+        if reprice:
+            print(parse_item(reprice[-1]))
 
     if parse_errors:
         print("ERROR: following occured parsing JSON data:", file=sys.stderr)
