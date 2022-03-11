@@ -2945,6 +2945,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "soggy_hardtack",
+    "charges": 2,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "hardtack", 1 ] ], [ [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hellfire_stew",
     "charges": 4,
     "category": "CC_FOOD",
