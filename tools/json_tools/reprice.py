@@ -77,23 +77,24 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
             print(CDDAJSONWriter(item).dumps())
     else:
         parse_errors = []
-        
+
         def parse_item(item):
             if 'name' not in item:
                 name = ""
             elif not isinstance(item['name'], dict):
                 name = item['name']
             else:
-                name = (item['name'].get('str') or item['name'].get('str_sp')
-                        or item['name'].get('str_pl'))
-    
+                name = (item['name'].get('str') or
+                        item['name'].get('str_sp') or
+                        item['name'].get('str_pl'))
+
             first_line = "\"id\": \"{:s}\"".format(item['id'])
             if name is None:
-                parse_error.append(
-                    "conldn't parse item name with '{:s} id".format(item['id']))
+                parse_errors.append("conldn't parse item name with "
+                                    "'{:s} id".format(item['id']))
                 return first_line
             return '\n'.join([first_line, "\"name\": \"{:s}\"".format(name)])
-    
+
         for item in reprice[:-1]:
             print(parse_item(item), '\n')
         if reprice:
