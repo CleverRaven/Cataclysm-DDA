@@ -42,7 +42,7 @@ const std::vector<butchery_requirements> &butchery_requirements::get_all()
     return butchery_req_factory.get_all();
 }
 
-void butchery_requirements::reset_all()
+void butchery_requirements::reset()
 {
     butchery_req_factory.reset();
 }

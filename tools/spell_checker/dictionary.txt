@@ -33,6 +33,7 @@ alate
 alates
 alay
 albertosaurus
+albertonykus
 aldosterone
 alembic
 alexandrites
@@ -230,7 +231,6 @@ brewable
 brimless
 bronchodilator
 bronchospasm
-bubblewrap
 bubblicious
 buchner
 bucka
@@ -429,7 +429,7 @@ deinonychus
 deles
 delsihous
 demihuman
-denatonuim
+denatonium
 deployer
 dermatik
 derring
@@ -1559,6 +1559,7 @@ sp
 spacebar
 spadelike
 spak
+spall
 spasmically
 spearcat
 spearhand

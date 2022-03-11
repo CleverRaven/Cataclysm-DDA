@@ -2155,7 +2155,7 @@ void mapgen_forest( mapgendata &dat )
     * biome to forests so that forests don't fade out as they transition to roads).
     *
     * @param ot The type of terrain to determine the sparseness of.
-    * @return A discrete scale of the density of natural features occuring in \p ot.
+    * @return A discrete scale of the density of natural features occurring in \p ot.
     */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
@@ -2816,7 +2816,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
     // in finding a more elegant solution. This is functional, but improvements that maintain the result
-    // are welcome. The basic jist is as follows:
+    // are welcome. The basic gist is as follows:
     //
     // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
     // river bank, or something else that we don't care about. We then create a polygon with four points,

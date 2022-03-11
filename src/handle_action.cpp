@@ -121,7 +121,6 @@ static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
-static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
@@ -797,11 +796,7 @@ static void smash()
         std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
         int tmp_bash_armor = 0;
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            for( const item &i : player_character.worn ) {
-                if( i.covers( bp ) ) {
-                    tmp_bash_armor += i.bash_resist( false, bp );
-                }
-            }
+            tmp_bash_armor += player_character.worn.damage_resist( damage_type::BASH, bp );
             for( const trait_id &mut : player_character.get_mutations() ) {
                 const resistances &res = mut->damage_resistance( bp );
                 tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
@@ -1423,28 +1418,7 @@ static void fire()
         std::vector<std::string> options;
         std::vector<std::function<void()>> actions;
 
-        for( auto &w : player_character.worn ) {
-
-            std::vector<item *> guns = w.items_with( []( const item & it ) {
-                return it.is_gun();
-            } );
-
-            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
-                //~ draw (first) gun contained in holster
-                //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
-                options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  guns.front()->tname(),
-                                                  w.type_name(),
-                                                  guns.front()->ammo_remaining() ) );
-
-                actions.emplace_back( [&] { player_character.invoke_item( &w, "holster" ); } );
-
-            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
-                // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { player_character.wield( w ); } );
-            }
-        }
+        player_character.worn.fire_options( player_character, options, actions );
         if( !options.empty() ) {
             int sel = uilist( _( "Draw what?" ), options );
             if( sel >= 0 ) {
@@ -2260,7 +2234,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SORT_ARMOR:
-            player_character.sort_armor();
+            player_character.worn.sort_armor( player_character );
             break;
 
         case ACTION_WAIT:

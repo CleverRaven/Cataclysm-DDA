@@ -74,7 +74,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6,
-    "non_functional": "migo_plate_undergrown",
+    "non_functional": "migo_plate_naked",
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
