@@ -7,7 +7,6 @@ them with an empty line.
 
 It ignores `id`s found in blacklist.json.
 """
-# TODO: add example
 
 import argparse
 import json
@@ -66,11 +65,17 @@ def main(json_dir, fn_pattern, blacklist_file, use_blacklist):
         if 'price' in item and 'price_postapoc' not in item and
         'id' in item and item['id'] not in blacklist
     ]
-    # TODO: check name resolution
+
+    def get_item_name(item):
+        if 'name' not in item:
+            return ""
+        if not isinstance(item['name'], dict):
+            return item['name']
+        return (item['name'].get('str') or item['name'].get('str_sp') or
+                item['name'].get('str_pl'))
+
     print('\n\n'.join("\"id\": \"{id:s}\"\n\"name\": \"{name:s}\"".format(
-        id=r['id'],
-        name=r['name'].get('str') or r['name'].get('str_sp') or
-        r['name'].get('str_pl') if 'name' in r else "") for r in reprice)
+        id=item['id'], name=get_item_name(r)) for item in reprice)
     )
 
     if errors:
