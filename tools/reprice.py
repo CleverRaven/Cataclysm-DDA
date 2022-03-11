@@ -8,6 +8,6 @@ from json_tools.util import import_data
 
 (data, errors) = import_data()
 reprice = [item for item in data
-              if 'price' in item and 'price_postapoc' not in item]
-ids_and_names = [(r['id'], r['name']['str' if 'str' in r['name'] else 'str_sp'])
-                    for r in reprice if 'abstract' not in r]
+           if 'price' in item and 'price_postapoc' not in item]
+ids_and_names = [(r['id'], r['name'].get('str', r['name'].get('str_sp')))
+                 for r in reprice if 'abstract' not in r]
