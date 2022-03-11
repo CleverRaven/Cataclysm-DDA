@@ -379,17 +379,17 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 
     for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         sfx_args preload_key = {
-            jsobj.get_string( "id" ),
-            jsobj.get_string( "variant", "default" ),
-            jsobj.get_string( "season", "" ),
+            aobj.get_string( "id" ),
+            aobj.get_string( "variant", "default" ),
+            aobj.get_string( "season", "" ),
             cata::optional<bool>(),
             cata::optional<bool>()
         };
-        if( jsobj.has_bool( "is_indoors" ) ) {
-            preload_key.indoors = jsobj.get_bool( "is_indoors" );
+        if( aobj.has_bool( "is_indoors" ) ) {
+            preload_key.indoors = aobj.get_bool( "is_indoors" );
         }
-        if( jsobj.has_bool( "is_night" ) ) {
-            preload_key.indoors = jsobj.get_bool( "is_night" );
+        if( aobj.has_bool( "is_night" ) ) {
+            preload_key.indoors = aobj.get_bool( "is_night" );
         }
         sfx_preload.push_back( preload_key );
     }
