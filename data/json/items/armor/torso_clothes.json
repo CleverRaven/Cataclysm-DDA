@@ -960,9 +960,9 @@
         "weight": 40
       },
       {
-        "id": "fda_approved_tshirt",
-        "name": { "str_sp": "fda approved t-shirt" },
-        "description": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'.",
+        "id": "faather_tshirt",
+        "name": { "str_sp": "Matt Berry t-shirt" },
+        "description": "Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape 'Faaather'!",
         "weight": 1
       },
       {
@@ -1015,6 +1015,10 @@
       {
         "id": "allyourbase",
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
+      },
+      {
+        "id": "fda_approved",
+        "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
