@@ -289,6 +289,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     input_category = "UILIST";
+    input_context ctxt( input_category, keyboard_mode::keychar );
     additional_actions.clear();
 }
 
@@ -348,7 +349,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -489,8 +490,9 @@ void uilist::calc_data()
             entries[ i ].text_color = text_color;
         }
     }
-    input_context ctxt( input_category );
-    const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
+
+    const hotkey_queue &hotkeys = hotkey_queue::create_from_available_hotkeys( ctxt );
+
     input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
     for( auto it = autoassign.begin(); it != autoassign.end() &&
          hotkey != input_event(); ++it ) {
@@ -955,7 +957,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keycode );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );

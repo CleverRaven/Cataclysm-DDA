@@ -75,7 +75,12 @@ class window_panel
                       const std::string &id, const translation &nm, int ht, int wd, bool default_toggle_,
                       const std::function<bool()> &render_func = default_render, bool force_draw = false );
 
-        std::function<void( const draw_args & )> draw;
+        window_panel( const std::string &id, const translation &nm, int ht, int wd, bool default_toggle_,
+                      const std::function<bool()> &render_func = default_render, bool force_draw = false );
+
+        // Draw function returns the diff in height on the sidebar.
+        // This is to reclaim any lines from skipped widgets.
+        std::function<int( const draw_args & )> draw;
         std::function<bool()> render;
 
         int get_height() const;
@@ -84,6 +89,7 @@ class window_panel
         std::string get_name() const;
         void set_widget( const widget_id &w );
         const widget_id &get_widget() const;
+        void set_draw_func( const std::function<int( const draw_args & )> &draw_func );
         bool toggle;
         bool always_draw;
 

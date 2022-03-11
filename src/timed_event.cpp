@@ -109,7 +109,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::SPAWN_WYRMS: {
-            if( here.get_abs_sub().z >= 0 ) {
+            if( here.get_abs_sub().z() >= 0 ) {
                 return;
             }
             get_memorial().add(
@@ -306,7 +306,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::REVERT_SUBMAP: {
-            submap *sm = MAPBUFFER.lookup_submap( tripoint( map_point.x(), map_point.y(), map_point.z() ) );
+            submap *sm = MAPBUFFER.lookup_submap( map_point );
             sm->revert_submap( revert );
             get_map().invalidate_map_cache( map_point.z() );
             break;
@@ -325,7 +325,7 @@ void timed_event::per_turn()
     switch( type ) {
         case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( here.get_abs_sub().z >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
+            if( here.get_abs_sub().z() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = here.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
@@ -342,7 +342,7 @@ void timed_event::per_turn()
         break;
 
         case timed_event_type::SPAWN_WYRMS:
-            if( here.get_abs_sub().z >= 0 ) {
+            if( here.get_abs_sub().z() >= 0 ) {
                 when -= 1_turns;
                 return;
             }

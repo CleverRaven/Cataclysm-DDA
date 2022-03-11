@@ -814,8 +814,9 @@
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
     "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
-    "weight": "742 g",
-    "volume": "750 ml",
+    "weight": "1000 g",
+    "volume": "960 ml",
+    "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -989,7 +990,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "military_explosive_small_grenade_act",
@@ -1034,7 +1035,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "military_explosive_grenade_act",
@@ -1276,7 +1277,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "small_homemade_grenade_act",
@@ -1320,7 +1321,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "NPC_ACTIVATE" ]
   },
   {
     "id": "homemade_grenade_act",

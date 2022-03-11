@@ -59,6 +59,8 @@
       {
         "collection": [
           { "item": "bp_nomad_jumpsuit", "prob": 100 },
+          { "item": "exodii_ac_kit", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] },
           { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
           { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },

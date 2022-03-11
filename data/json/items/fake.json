@@ -307,5 +307,23 @@
     "copy-from": "fake_power_tool",
     "type": "TOOL",
     "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
+  },
+  {
+    "id": "pseudo_training_dummy_light",
+    "type": "TOOL",
+    "name": { "str": "training dummy" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_training_dummy_heavy",
+    "type": "TOOL",
+    "name": { "str": "armored training dummy" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

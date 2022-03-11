@@ -168,7 +168,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK" ],
-    "vitamins": [ [ "vitA", 25 ], [ "vitB", 25 ], [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
     "fun": 30
   },
   {
@@ -270,7 +270,7 @@
     "price_postapoc": 50,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -413,7 +413,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
+    "vitamins": [ [ "calcium", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -688,7 +688,7 @@
     "material": [ "tomato" ],
     "volume": "250 ml",
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -704,7 +704,7 @@
     "healthy": -20,
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": 80,
     "price_postapoc": 0,
@@ -729,7 +729,7 @@
     "healthy": 2,
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -778,7 +778,7 @@
     "healthy": 2,
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -803,7 +803,7 @@
     "healthy": 1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -826,10 +826,10 @@
     "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
-    "healthy": 2,
+    "healthy": -1,
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -851,10 +851,10 @@
     "to_hit": -5,
     "material": [ "flesh" ],
     "symbol": ";",
-    "healthy": 1,
+    "healthy": -1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",

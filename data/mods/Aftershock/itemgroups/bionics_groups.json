@@ -10,6 +10,7 @@
       [ "afs_bio_neurosoft_aeronautics", 5 ],
       [ "bio_forcefield_bash_cut_weak", 25 ],
       [ "afs_bio_translocator", 5 ],
+      [ "bio_shock_absorber", 2 ],
       [ "afs_bio_skullgun", 5 ]
     ]
   },
@@ -30,6 +31,7 @@
       [ "bio_forcefield_ballistic_weak", 10 ],
       [ "bio_forcefield_ballistic_medium", 10 ],
       [ "afs_bio_translocator", 5 ],
+      [ "bio_shock_absorber", 2 ],
       [ "afs_bio_skullgun", 2 ]
     ]
   },
@@ -50,6 +52,7 @@
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_forcefield_ballistic_heavy", 1 ],
       [ "afs_bio_translocator", 5 ],
+      [ "bio_shock_absorber", 2 ],
       [ "afs_bio_skullgun", 2 ]
     ]
   },
@@ -101,27 +104,6 @@
       },
       {
         "drop": "bionics_subs",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
-    ]
-  },
-  {
-    "id": "CBM_CIV",
-    "type": "harvest",
-    "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_common",
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]

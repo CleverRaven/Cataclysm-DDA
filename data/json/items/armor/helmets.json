@@ -904,32 +904,31 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        },
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "eyes", "mouth" ],
-          "coverage": 100,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -942,19 +941,17 @@
     "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "low_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -990,32 +987,31 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "mc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        },
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "eyes", "mouth" ],
-          "coverage": 100,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1028,19 +1024,17 @@
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "med_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1076,32 +1070,31 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "hc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        },
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "eyes", "mouth" ],
-          "coverage": 100,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1114,19 +1107,17 @@
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "high_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1162,32 +1153,31 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "ch_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        },
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "eyes", "mouth" ],
-          "coverage": 100,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1200,19 +1190,17 @@
     "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "case_hardened_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1248,32 +1236,31 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "qt_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        },
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "eyes", "mouth" ],
-          "coverage": 100,
-          "encumbrance": 10,
-          "layers": [ "OUTER" ]
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -1286,19 +1273,17 @@
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "tempered_steel", "covered_by_mat": 100, "thickness": 1.25 },
-            { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-          ],
-          "covers": [ "head" ],
-          "coverage": 100,
-          "encumbrance": 15
-        }
-      ]
-    },
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ],
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],

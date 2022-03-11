@@ -99,6 +99,7 @@
       [ "crackpipe", 37 ],
       [ "laser_sight", 15 ],
       [ "rail_laser_sight", 10 ],
+      [ "glocksear", 10 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
       { "item": "gum", "prob": 60, "charges": [ 1, 10 ] },
       { "item": "caff_gum", "prob": 7, "charges": [ 1, 10 ] },

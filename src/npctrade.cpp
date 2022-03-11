@@ -313,13 +313,8 @@ bool npc_trading::npc_will_accept_trade( npc const &np, int your_balance )
 }
 bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t const &to_trade )
 {
-    std::vector<item> avail_pockets;
+    std::vector<item> avail_pockets = np.worn.available_pockets();
 
-    for( const item &it : np.worn ) {
-        if( it.is_container() || it.is_holster() ) {
-            avail_pockets.push_back( it );
-        }
-    }
     if( avail_pockets.empty() ) {
         return false;
     }
@@ -334,7 +329,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored and !np.can_wear( *it.first, false ).value() ) {
+        if( !item_stored && !np.can_wear( *it.first, false ).value() ) {
             return false;
         }
     }

@@ -99,6 +99,11 @@ void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &d
     }
 }
 
+bool always_yes( const inventory_entry & )
+{
+    return true;
+}
+
 } // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -956,7 +961,6 @@ void inventory_column::add_entry( const inventory_entry &entry )
         entries.emplace_back( entry );
     }
     entries_cell_cache.clear();
-    expand_to_fit( entry );
     paging_is_valid = false;
 }
 
@@ -1032,6 +1036,10 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
+    // Recalculate all the widths.
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1328,10 +1336,6 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
 {
     inventory_column::reset_width( all_columns );
 
-    const auto always_yes = []( const inventory_entry & ) {
-        return true;
-    };
-
     for( const inventory_column *const col : all_columns ) {
         if( col && !dynamic_cast<const selection_column *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
@@ -1378,7 +1382,6 @@ void selection_column::on_change( const inventory_entry &entry )
     } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
-            expand_to_fit( my_entry );
         } else {
             iter = entries.erase( iter );
         }
@@ -1934,7 +1937,8 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
     const units::volume &volume_carried, const units::volume &volume_capacity,
-    const units::length &longest_length, const units::volume &largest_free_volume )
+    const units::length &longest_length, const units::volume &largest_free_volume,
+    const units::volume &holster_volume, const int used_holsters, const int total_holsters )
 {
     // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
     std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
@@ -1944,6 +1948,10 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
                                  volume_units_abbr(),
                                  colorize( format_volume( largest_free_volume ), c_light_gray ),
                                  volume_units_abbr() );
+
+    std::string holster_caption = string_format( _( "Free Holster Volume (%s): %s Used Holsters:" ),
+                                  volume_units_abbr(),
+                                  colorize( format_volume( holster_volume ), c_light_gray ) );
     return {
         {
             display_stat( length_weight_caption,
@@ -1957,6 +1965,12 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
                           units::to_milliliter( volume_capacity ), []( int v )
             {
                 return format_volume( units::from_milliliter( v ) );
+            } ),
+            display_stat( holster_caption,
+                          used_holsters,
+                          total_holsters, []( int v )
+            {
+                return string_format( "%d", v );
             } )
         }
     };
@@ -1966,13 +1980,14 @@ inventory_selector::stats inventory_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats( u.weight_carried(), u.weight_capacity(),
                                         u.volume_carried(), u.volume_capacity(),
-                                        u.max_single_item_length(), u.max_single_item_volume() );
+                                        u.max_single_item_length(), u.max_single_item_volume(),
+                                        u.free_holster_volume(), u.used_holsters(), u.total_holsters() );
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
 {
     // Stats consist of arrays of cells.
-    const size_t num_stats = 2;
+    const size_t num_stats = 3;
     const std::array<stat, num_stats> stats = get_raw_stats();
     // Streams for every stat.
     std::array<std::string, num_stats> lines;
@@ -3034,7 +3049,8 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_capacity(),
                u.volume_carried_with_tweaks( to_use ),
                u.volume_capacity_with_tweaks( to_use ),
-               u.max_single_item_length(), u.max_single_item_volume() );
+               u.max_single_item_length(), u.max_single_item_volume(),
+               u.free_holster_volume(), u.used_holsters(), u.total_holsters() );
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
@@ -3059,7 +3075,9 @@ void pickup_selector::apply_selection( std::vector<drop_location> selection )
 {
     for( drop_location &loc : selection ) {
         inventory_entry *entry = find_entry_by_location( loc.first );
-        set_chosen_count( *entry, loc.second + entry->chosen_count );
+        if( entry != nullptr ) {
+            set_chosen_count( *entry, loc.second + entry->chosen_count );
+        }
     }
 }
 
@@ -3191,7 +3209,10 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.volume_carried() + volume,
                u.volume_capacity(),
                u.max_single_item_length(),
-               u.max_single_item_volume() );
+               u.max_single_item_volume(),
+               u.free_holster_volume(),
+               u.used_holsters(),
+               u.total_holsters() );
 }
 
 bool inventory_examiner::check_parent_item()

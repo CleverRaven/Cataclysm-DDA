@@ -95,6 +95,7 @@ class talker_character_const: public talker
         std::string short_description() const override;
         bool has_activity() const override;
         bool is_mounted() const override;
+        int get_activity_level() const override;
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
@@ -119,6 +120,10 @@ class talker_character_const: public talker
         int get_height() const override;
         int get_bmi_permil() const override;
         const move_mode_id &get_move_mode() const override;
+        int get_fine_detail_vision_mod() const override;
+        int get_health() const override;
+        int get_body_temp() const override;
+        int get_body_temp_delta() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -156,6 +161,8 @@ class talker_character: public talker_character_const
         void set_per_max( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;

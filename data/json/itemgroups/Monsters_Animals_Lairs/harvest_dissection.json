@@ -14,7 +14,7 @@
   {
     "id": "rodent_sample_small",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "item": "rat_sample", "count-min": 0, "count-max": 1, "prob": 50 },
       { "item": "mouse_sample", "count-min": 0, "count-max": 1, "prob": 50 }

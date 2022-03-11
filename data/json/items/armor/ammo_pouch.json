@@ -91,7 +91,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -120,7 +120,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -149,7 +149,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -158,7 +158,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -167,7 +167,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -176,7 +176,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -319,7 +319,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -328,7 +328,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
@@ -538,7 +538,7 @@
         "coverage": 55,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },
@@ -565,7 +565,39 @@
         "coverage": 85,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.4
+        "volume_encumber_modifier": 0.25
+      }
+    ]
+  },
+  {
+    "id": "load_bearing_vest_sling",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "copy-from": "load_bearing_vest",
+    "name": { "str": "load bearing vest with sling", "str_pl": "load bearing vests with slings" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
+    "weight": "1500 g",
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_hanging_front" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ],
+    "pocket_data": [
+      {
+        "description": "rifle sling",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 1.6,
+        "moves": 30
       }
     ]
   },
@@ -592,7 +624,39 @@
         "coverage": 85,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper", "torso_lower" ],
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 0.2
+      }
+    ]
+  },
+  {
+    "id": "heavy_load_bearing_vest_sling",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "copy-from": "heavy_load_bearing_vest",
+    "name": { "str": "heavy load bearing vest with sling", "str_pl": "heavy load bearing vests with slings" },
+    "description": "This massive vest covered in MOLLE webbing is designed to attach a large number of pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.  This one has a single point sling wrapped around the shoulders using a system to keep your weapon extra secure.",
+    "weight": "2300 g",
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_front" ],
+        "volume_encumber_modifier": 0.2
+      }
+    ],
+    "pocket_data": [
+      {
+        "description": "rifle sling",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "1000 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
+        "volume_encumber_modifier": 2,
+        "moves": 30
       }
     ]
   },
@@ -618,7 +682,7 @@
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
         "moves": 40,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -647,7 +711,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -676,7 +740,7 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "254 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -684,7 +748,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "165 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -713,7 +777,7 @@
         "max_contains_weight": "8 kg",
         "max_item_length": "305 mm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -743,7 +807,7 @@
         "max_contains_weight": "500 g",
         "max_item_length": "37 cm",
         "moves": 40,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -814,7 +878,7 @@
         "//": "gas masks don't seem to have lengths currently",
         "max_item_length": "30 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -823,7 +887,7 @@
         "max_contains_weight": "500 g",
         "max_item_length": "8 cm",
         "moves": 80,
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -852,7 +916,7 @@
         "max_contains_weight": "2 kg",
         "moves": 30,
         "flag_restriction": [ "GRENADE" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
@@ -882,7 +946,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -891,7 +955,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -900,7 +964,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -909,7 +973,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -918,7 +982,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -927,7 +991,7 @@
         "max_contains_weight": "2 kg",
         "moves": 40,
         "flag_restriction": [ "MAG_COMPACT" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ],
     "material_thickness": 0.5,
