@@ -65,6 +65,7 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
         **{key: value for key, value in zip(('json_dir, json_fmatch'),
                                             (json_dir, fn_pattern))
             if value is not None})
+    # TODO: use items only placed in vending machines
     reprice = [
         item for item in data
         if 'price' in item and 'price_postapoc' not in item and
