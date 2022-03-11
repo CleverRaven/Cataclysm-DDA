@@ -358,7 +358,7 @@
     "name": { "str": "pair of XL biosilicified chitin gauntlets", "str_pl": "pairs of XL biosilicified chitin gauntlets" },
     "copy-from": "gauntlets_acidchitin",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "STURDY", "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gauntlets_acidchitin",
