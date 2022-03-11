@@ -61,7 +61,6 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
     else:
         blacklist = []
 
-    parse_errors = []
     data, json_errors = import_data(
         **{key: value for key, value in zip(('json_dir, json_fmatch'),
                                             (json_dir, fn_pattern))
@@ -76,6 +75,7 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
         for item in reprice:
             print(CDDAJSONWriter(item).dumps())
     else:
+        parse_errors = []
         def parse_item(item):
             if 'name' not in item:
                 name = ""
@@ -97,9 +97,10 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
         if reprice:
             print(parse_item(reprice[-1]))
 
-    if parse_errors:
-        print("ERROR: following occured parsing JSON data:", file=sys.stderr)
-        print('\n'.join(parse_errors, file=sys.stderr))
+        if parse_errors:
+            print("ERROR: following occured parsing JSON data:",
+                  file=sys.stderr)
+            print('\n'.join(parse_errors, file=sys.stderr))
     if json_errors:
         print("ERROR: following occured loading JSON files:", file=sys.stderr)
         print('\n'.jon(json_errors), file=sys.stderr)
