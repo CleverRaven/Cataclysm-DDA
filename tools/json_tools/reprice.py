@@ -6,6 +6,11 @@ Script prints `id` and `name` of each item in following lines separating
 them with an empty line.
 
 It ignores `id`s found in blacklist.json.
+
+Bit of the exitcode in big endian order:
+    parse error
+    json error
+    unknown error
 """
 
 import argparse
@@ -55,6 +60,7 @@ parser.add_argument(
 
 
 def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
+    ret = 0
     if use_blacklist:
         with open(blacklist_file, 'r') as fp_bl:
             blacklist = json.load(fp_bl)
@@ -101,15 +107,22 @@ def main(json_dir, fn_pattern, is_json_output, blacklist_file, use_blacklist):
             print(parse_item(reprice[-1]))
 
         if parse_errors:
-            print("ERROR: following occured parsing JSON data:",
+            ret |= 0x04
+            print("ERROR: following occured parsing JSON data:\n",
                   file=sys.stderr)
-            print('\n'.join(parse_errors, file=sys.stderr))
+            print('\n'.join(parse_errors), file=sys.stderr)
     if json_errors:
-        print("ERROR: following occured loading JSON files:", file=sys.stderr)
-        print('\n'.jon(json_errors), file=sys.stderr)
+        ret |= 0x02
+        print("ERROR: following occured loading JSON files:\n",
+              file=sys.stderr)
+        print('\n'.join(json_errors), file=sys.stderr)
+    return ret
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
-
-    main(**vars(args))
+    try:
+        sys.exit(main(**vars(args)))
+    except Exception:
+        print("ERROR: for unknown reason", file=sys.stderr)
+        sys.exit(1)
