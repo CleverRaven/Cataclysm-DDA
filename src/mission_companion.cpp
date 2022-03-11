@@ -2630,7 +2630,11 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site, oter_
         } else if( t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
             const map_bash_info &bash = bay.ter( p ).obj().bash;
             bay.ter_set( p, bash.ter_set );
+            // Bash doors twice
+            const map_bash_info &bash_again = bay.ter(p).obj().bash;
+            bay.ter_set(p, bash_again.ter_set);
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            bay.spawn_items(p, item_group::items_from(bash_again.drop_group, calendar::turn));
         } else if( t == t_door_metal_c || t == t_door_metal_locked || t == t_door_metal_pickable ) {
             bay.ter_set( p, t_door_metal_o );
         } else if( t == t_door_glass_c ) {
