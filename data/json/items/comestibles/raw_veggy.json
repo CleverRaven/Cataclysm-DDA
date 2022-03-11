@@ -39,6 +39,21 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "wild_sarsaparilla_root",
+    "name": { "str": "wild sarsaparilla root" },
+    "weight": "50 g",
+    "volume": "80 ml",
+    "color": "brown",
+    "calories": 40,
+    "spoils_in": "20 days",
+    "description": "This aromatic rhizome can be eaten as is in an emergency, but it is much better used for making beverages.  Its taste is pleasant but it is also tough and stringy.",
+    "symbol": ",",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
+    "fun": -3
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "broccoli",
     "name": { "str_sp": "broccoli" },
     "weight": "96 g",

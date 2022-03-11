@@ -30,6 +30,11 @@
     "entries": [ { "drop": "carrot_wild" } ]
   },
   {
+    "id": "wild_sarsaparilla_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wild_sarsaparilla_root" } ]
+  },
+  {
     "id": "salsify_seed_harv",
     "type": "harvest",
     "entries": [ { "drop": "seed_salsify_raw", "base_num": [ 1, 4 ] } ]

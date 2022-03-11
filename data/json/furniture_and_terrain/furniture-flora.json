@@ -314,16 +314,39 @@
   },
   {
     "type": "furniture",
+    "id": "f_wild_sarsaparilla",
+    "name": "wild sarsaparilla",
+    "description": "A small, flowering plant known as 'Aralia nudicaulis'.  It is colored in vibrant shades of orange and red in autumn, making it easy to spot.",
+    "symbol": ",",
+    "looks_like": "f_lily",
+    "color": [ "brown_green", "green", "red", "brown" ],
+    "move_cost_mod": 1,
+    "coverage": 20,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_sarsaparilla_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "twig", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_wintergreen",
     "name": "wintergreen",
     "description": "A small shrub native to North America.  The leaves, which remain green even in winter, are valued for medicinal purposes.  It produces edible and sweet berries, too!",
     "symbol": ",",
     "looks_like": "f_mutpoppy",
-    "color": [ "brown_green", "green", "green", "green" ],
+    "//": "green all year long",
+    "color": "green",
     "move_cost_mod": 1,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "wintergreen_harv" } ],
     "bash": {
@@ -341,7 +364,7 @@
     "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
     "symbol": ",",
     "looks_like": "f_cattails",
-    "color": [ "brown_green", "green", "green", "green" ],
+    "color": [ "brown_green", "green", "green", "brown" ],
     "move_cost_mod": 3,
     "coverage": 70,
     "required_str": -1,
@@ -353,7 +376,7 @@
       "str_max": 6,
       "sound": "crunch.",
       "sound_fail": "whish.",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
     }
   },
   {
@@ -374,7 +397,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 2, 3 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "item": "leaves", "count": [ 5, 8 ] }
+      ]
     }
   },
   {
@@ -395,7 +422,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -415,7 +446,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -435,7 +470,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -455,7 +494,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   }
 ]
