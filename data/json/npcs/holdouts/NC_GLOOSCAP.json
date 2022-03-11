@@ -36,6 +36,26 @@
         "condition": { "u_has_intelligence": 11 }
       },
       {
+        "text": "So.  You're dressed like a hunter.  Are you a hunter?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+            {
+              "not": { "u_has_var": "u_befriended_glooscap", "type": "dialogue", "context": "meeting", "value": "yes" }
+            }
+          ],
+          "type": "dialogue",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "topic": "TALK_GLOOSCAP_HUNTER"
+      },
+      {
+        "text": "Have you had any luck out there?",
+        "condition": { "u_has_var": "u_befriended_glooscap", "type": "dialogue", "context": "meeting", "value": "yes" },
+        "topic": "start_trade"
+      },
+      {
         "text": "Whatever, I don't have time for whatever this is.  Try not to get your face eaten I guess.",
         "topic": "TALK_DONE"
       }
@@ -45,6 +65,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_WHERE",
     "dynamic_line": "I'm used to it.  No, Glooscap has been a name here for a very long time.  Is your name foreign?",
+    "speaker_effect": { "effect": { "u_add_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "No, my name has been a name here for a very long time too.", "topic": "TALK_GLOOSCAP" },
       { "text": "No, I just made it up.", "topic": "TALK_GLOOSCAP" },
@@ -56,6 +77,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_MYTH",
     "dynamic_line": "You know the real people's stories?  Yes, a lot like that.",
+    "speaker_effect": { "effect": { "u_add_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Cool, cool.  So you like myths and stuff?", "topic": "TALK_GLOOSCAP_MYTH_FAIL" },
       {
@@ -115,13 +137,8 @@
       },
       {
         "text": "[TERRIFYING] Destroy me!",
-        "effect": [ { "u_add_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
-        "condition": {
-          "and": [
-            { "not": { "u_has_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_trait": "TERRIFYING" }
-          ]
-        },
+        "effect": [ "insult_combat" ],
+        "condition": { "u_has_trait": "TERRIFYING" },
         "topic": "TALK_DONE"
       },
       {
@@ -275,6 +292,76 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP_FEAR",
     "dynamic_line": "Whoah whoah, calm down.  Yikes.  Yeah fine, we're good.  Just stop trying to spook me, I don't like it.",
+    "responses": [
+      {
+        "text": "Yes, that worked great.",
+        "effect": { "u_add_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GLOOSCAP"
+      },
+      { "text": "We are not good and I'm done talking to you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GLOOSCAP_HUNTER",
+    "dynamic_line": "Among other things, sure.  I have some extra I might be willing to trade, but I only trade with my friends and I don't have a lot of those left.",
+    "responses": [
+      {
+        "text": "[HAS BEER] I don't know about friends, but I have some drinks with me, want to have some?",
+        "topic": "TALK_GLOOSCAP_SOCIAL",
+        "condition": { "u_has_item": "beer" }
+      },
+      {
+        "text": "[HAS IPA] I don't know about friends, but I have some drinks with me, want to have some?",
+        "topic": "TALK_GLOOSCAP_SOCIAL",
+        "condition": { "u_has_item": "india_pale_ale" }
+      },
+      {
+        "text": "[HAS CIGARETTES] I don't know about friends, but I have some cigarettes, want one with me?",
+        "topic": "TALK_GLOOSCAP_SOCIAL",
+        "condition": { "u_has_item": "cig" }
+      },
+      {
+        "text": "[HAS JOINT] I don't know about friends, but I have something to smoke, want to have some with me?",
+        "topic": "TALK_GLOOSCAP_SOCIAL",
+        "condition": { "u_has_item": "joint" }
+      },
+      {
+        "text": "You seem cool and I'd like to talk more but I don't have anything fun.  I'll try and find something and come back so we can share.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[PRETTY] I think we're going to be great friends, don't you agree?",
+        "topic": "TALK_GLOOSCAP_SOCIAL",
+        "condition": { "u_has_trait": "PRETTY" }
+      },
+      {
+        "text": "[GLORIOUS] Worship my beauty.",
+        "topic": "TALK_GLOOSCAP_WORSHIP",
+        "condition": { "u_has_trait": "GLORIUS" }
+      },
+      {
+        "text": "[TERRIFYING] Fear me!  I am disgusting!",
+        "topic": "TALK_GLOOSCAP_FEAR",
+        "condition": { "and": [ { "u_has_trait": "TERRIFYING" } ] }
+      },
+      {
+        "text": "[TERRIFYING] Destroy me!",
+        "effect": [ "insult_combat" ],
+        "condition": { "u_has_trait": "TERRIFYING" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[INT 14] Do you have a twin named Malsumis?",
+        "topic": "TALK_GLOOSCAP_MYTH_SUCCESS",
+        "condition": { "u_has_intelligence": 14 }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GLOOSCAP_WORSHIP",
+    "dynamic_line": "Whoah whoah, calm down.  Yikes.  Yeah fine, we're good.  Just stop making that face, it's too much for me.  Gives me feelings.",
     "responses": [
       {
         "text": "Yes, that worked great.",
