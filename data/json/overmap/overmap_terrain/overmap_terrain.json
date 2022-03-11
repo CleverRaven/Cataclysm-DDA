@@ -307,7 +307,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_2ndfloorglooscap1", "lodge_2ndfloorglooscap2" ],
+    "id": [ "lodge_2ndfloor_glooscap1", "lodge_2ndfloor_glooscap2" ],
     "name": "second floor hunting lodge",
     "copy-from": "generic_forest",
     "sym": "L",
