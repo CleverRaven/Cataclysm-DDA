@@ -7401,6 +7401,7 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                         with_belted.push_back( layer_level::BELTED );
                         return with_belted;
                     }
+                    return data.layers;
                 } else {
                     return data.layers;
                 }
@@ -7445,6 +7446,20 @@ bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id 
         }
     }
     return false;
+}
+
+layer_level item::get_highest_layer( const sub_bodypart_id sbp ) const
+{
+    layer_level highest_layer = layer_level::PERSONAL;
+
+    // find highest layer from this item
+    for( layer_level our_layer : get_layer( sbp ) ) {
+        if( our_layer > highest_layer ) {
+            highest_layer = our_layer;
+        }
+    }
+
+    return highest_layer;
 }
 
 item::cover_type item::get_cover_type( damage_type type )
