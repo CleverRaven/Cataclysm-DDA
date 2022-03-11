@@ -939,6 +939,51 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.1,
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "skeletor_tshirt",
+        "name": { "str_sp": "political meme t-shirt" },
+        "description": "A dark blue t-shirt with a circle of stars inside the start is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him are the words 'Great Again'.",
+        "weight": 1
+      },
+      {
+        "id": "my_little_nazgul_tshirt",
+        "name": { "str_sp": "my little nazgul t-shirt" },
+        "description": "A light grey t-shirt with a drawing of a Nazgul riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "weight": 1
+      },
+      {
+        "id": "generic_tshirt",
+        "name": { "str_sp": "t-shirt" },
+        "description": "A short-sleeved cotton shirt.",
+        "weight": 40
+      },
+      {
+        "id": "fda_approved_tshirt",
+        "name": { "str_sp": "fda approved t-shirt" },
+        "description": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'.",
+        "weight": 1
+      },
+      {
+        "id": "doom_song_tshirt",
+        "name": { "str_sp": "doom song tshirt" },
+        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song. Doom, doom, doom, dooooom!!".,
+        "weight": 1
+      },
+      {
+        "id": "portal_to_the_cat_dimension_tshirt",
+        "name": { "str_sp": "portal to the cat dimension t-shirt" },
+        "description": "A black t-shirt with a picture of a woman standing in front of a yawning portal with numerous cats surrounding her and exiting the portal.",
+        "weight": 5
+      },
+      {
+        "id": "forbidden_futurama_tshirt",
+        "name": { "str_sp": "forbidden robot t-shirt" },
+        "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
+        "weight": 1
+      }
+    ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
