@@ -18,7 +18,8 @@
     "items": [
       { "group": "office", "prob": 100 },
       [ "newest_newspaper", 100 ],
-      [ "egg_dino", 100 ],
+      [ "egg_dino", 75 ],
+      [ "egg_dino_theropod", 75 ],
       [ "iv_mutagen_tyrant", 25 ],
       [ "mutagen_tyrant", 75 ],
       [ "iv_mutagen_stego", 25 ],

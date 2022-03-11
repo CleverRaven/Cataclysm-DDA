@@ -126,7 +126,6 @@ static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
@@ -301,7 +300,6 @@ activity_handlers::finish_functions = {
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
     { ACT_WAIT, wait_finish },
@@ -2504,62 +2502,6 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
-void activity_handlers::gunmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    // first unpack all of our arguments
-    if( act->values.size() != 4 ) {
-        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    item &gun = *act->targets.at( 0 );
-    item &mod = *act->targets.at( 1 );
-
-    // chance of success (%)
-    const int roll = act->values[1];
-    // chance of damage (%)
-    const int risk = act->values[2];
-
-    // any tool charges used during installation
-    const itype_id tool( act->name );
-    const int qty = act->values[3];
-
-    if( !gun.is_gunmod_compatible( mod ).success() ) {
-        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    if( !tool.is_empty() && qty > 0 ) {
-        you->use_charges( tool, qty );
-    }
-
-    if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
-                 gun.tname() );
-        gun.put_in( you->i_rem( &mod ), item_pocket::pocket_type::MOD );
-
-    } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.inc_damage() ) {
-            // Remove irremovable mods prior to destroying the gun
-            for( item *mod : gun.gunmods() ) {
-                if( mod->is_irremovable() ) {
-                    you->remove_item( *mod );
-                }
-            }
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
-                     gun.tname() );
-            you->i_rem( &gun );
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
-                     gun.tname() );
-        }
-
-    } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
-    }
-}
-
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -2711,7 +2653,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 void activity_handlers::armor_layers_do_turn( player_activity *, Character *you )
 {
     you->cancel_activity();
-    you->sort_armor();
+    you->worn.sort_armor( *you );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )

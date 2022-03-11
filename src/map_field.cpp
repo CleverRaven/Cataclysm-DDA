@@ -1725,12 +1725,7 @@ void map::player_in_field( Character &you )
                 // Bees will try to sting you in random body parts, up to 8 times.
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
                     bodypart_id bp = you.get_random_body_part();
-                    int sum_cover = 0;
-                    for( const item &i : you.worn ) {
-                        if( i.covers( bp ) ) {
-                            sum_cover += i.get_coverage( bp );
-                        }
-                    }
+                    int sum_cover = you.worn.get_coverage( bp );
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
                     if( ( you.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&

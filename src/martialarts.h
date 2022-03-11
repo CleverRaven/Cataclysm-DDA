@@ -187,6 +187,8 @@ class ma_technique
         bool wall_adjacent = false; // only works near a wall
         bool human_target = false;  // only works on humanoid enemies
 
+        bool needs_ammo = false;    // technique only works if the item is loaded with ammo
+
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
 
