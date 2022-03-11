@@ -792,6 +792,7 @@
     "id": "mon_scutellosaurus",
     "name": { "str_sp": "scutellosaurus" },
     "copy-from": "mon_stegosaurus",
+    "looks_like": "mon_eoraptor",
     "default_faction": "small_animal",
     "volume": "10 L",
     "weight": "10 kg",
@@ -809,7 +810,8 @@
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "harvest": "mammal_tiny"
   },
   {
     "type": "MONSTER",
