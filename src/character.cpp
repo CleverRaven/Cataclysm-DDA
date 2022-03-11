@@ -11109,7 +11109,7 @@ void Character::pause()
 
     map &here = get_map();
     // Train swimming if underwater
-    if( !in_vehicle ) {
+    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, get_drenching_body_parts(), false );
