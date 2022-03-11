@@ -122,6 +122,8 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
+#include "music.h"
+
 struct dealt_projectile_attack;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -2008,6 +2010,10 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
 
 void Character::process_turn()
 {
+    if( !is_npc() ) {
+        music::is_listening_mp3 = false;
+    }
+
     // Has to happen before reset_stats
     clear_miss_reasons();
     migrate_items_to_storage( false );

@@ -601,6 +601,13 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    if( music::is_listening_music || music::is_listening_mp3 ) {
+        play_music( "music" );
+    }
+    else {
+        play_music( "title" );
+    }
+
     music::is_listening_music = false;
 
     weather_manager &weather = get_weather();
@@ -741,13 +748,6 @@ bool do_turn()
                 }
             }
         }
-    }
-
-    if( music::is_listening_music ) {
-        play_music( "music" );
-    }
-    else {
-        play_music( "title" );
     }
 
     if( g->driving_view_offset.x != 0 || g->driving_view_offset.y != 0 ) {

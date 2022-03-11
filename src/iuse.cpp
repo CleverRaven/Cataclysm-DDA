@@ -4359,7 +4359,9 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
             p.add_effect( effect_earphones, 1_turns );
         }
 
-        music::is_listening_music = true;
+        if( !p.is_npc() ) {
+            music::is_listening_mp3 = true;
+        }
     }
 }
 

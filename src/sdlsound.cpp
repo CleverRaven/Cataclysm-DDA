@@ -192,7 +192,7 @@ void musicFinished()
     Mix_FreeMusic( current_music );
     current_music = nullptr;
 
-    if( music::is_listening_music ) {
+    if( music::is_listening_music || music::is_listening_mp3 ) {
         if( current_playlist.compare( "music" ) != 0 ) {
             play_music( "music" );
 

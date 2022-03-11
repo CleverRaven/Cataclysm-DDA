@@ -369,8 +369,9 @@ bool main_menu::opening_screen()
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
 
-    if( music::is_listening_music ) {
+    if( music::is_listening_music || music::is_listening_mp3 ) {
         music::is_listening_music = false;
+        music::is_listening_mp3 = false;
     }
     else {
         play_music( "title" );
