@@ -48,7 +48,6 @@ void Character::try_remove_bear_trap()
     */
     /** @EFFECT_STR increases chance to escape bear trap */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-    map &here = get_map();
     if( is_avatar() && is_mounted() ) {
         auto *mon = mounted_creature.get();
         if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
