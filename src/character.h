@@ -1782,8 +1782,8 @@ class Character : public Creature, public visitable
         *  An optional qty can be provided (and will perform better than separate calls).
         *  @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
         */
-        bool i_drop_at(item& it, int qty = 1, const item* avoid = nullptr,
-            const item* original_inventory_item = nullptr);
+        bool i_drop_at( item &it, int qty = 1, const item *avoid = nullptr,
+                        const item *original_inventory_item = nullptr );
 
         /**
          * Check any already unsealed pockets in items pointed to by `containers`
