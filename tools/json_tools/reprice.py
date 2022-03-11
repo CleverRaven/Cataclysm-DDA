@@ -56,7 +56,8 @@ def main(json_dir, fn_pattern, blacklist_file, use_blacklist):
     else:
         blacklist = []
 
-    data, errors = import_data(
+    parse_errors = []
+    data, json_errors = import_data(
         **{key: value for key, value in zip(('json_dir, json_fmatch'),
                                             (json_dir, fn_pattern))
             if value is not None})
@@ -66,21 +67,33 @@ def main(json_dir, fn_pattern, blacklist_file, use_blacklist):
         'id' in item and item['id'] not in blacklist
     ]
 
-    def get_item_name(item):
+    def parse_item(item):
         if 'name' not in item:
-            return ""
-        if not isinstance(item['name'], dict):
-            return item['name']
-        return (item['name'].get('str') or item['name'].get('str_sp') or
-                item['name'].get('str_pl'))
+            name = ""
+        elif not isinstance(item['name'], dict):
+            name = item['name']
+        else:
+            name = (item['name'].get('str') or item['name'].get('str_sp') or
+                    item['name'].get('str_pl'))
 
-    print('\n\n'.join("\"id\": \"{id:s}\"\n\"name\": \"{name:s}\"".format(
-        id=item['id'], name=get_item_name(r)) for item in reprice)
-    )
+        first_line = "\"id\": \"{:s}\"".format(item['id'])
+        if name is None:
+            parse_error.append(
+                "conldn't parse item name with '{:s} id".format(item['id']))
+            return first_line
+        return '\n'.join([first_line, "\"name\": \"{:s}\"".format(name)])
 
-    if errors:
-        print("ERROR: following occured loading JSON data:", file=sys.stderr)
-        print(errors, file=sys.stderr)
+    for item in reprice[:-1]:
+        print(parse_item(item), '\n')
+    if reprice:
+        print(parse_item(reprice[-1]))
+
+    if parse_errors:
+        print("ERROR: following occured parsing JSON data:", file=sys.stderr)
+        print('\n'.join(parse_errors, file=sys.stderr))
+    if json_errors:
+        print("ERROR: following occured loading JSON files:", file=sys.stderr)
+        print('\n'.jon(json_errors), file=sys.stderr)
 
 
 if __name__ == '__main__':
