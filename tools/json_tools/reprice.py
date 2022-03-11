@@ -4,7 +4,7 @@ It stores candidates in `reprice` and
 extracts item ids and names in `ids_and_names`.
 """
 
-from json_tools.util import import_data
+from util import import_data
 
 (data, errors) = import_data()
 reprice = [item for item in data
