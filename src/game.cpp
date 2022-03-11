@@ -10809,7 +10809,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        if( u.get_working_arm_count() < 1 ) {
+        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
             add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
             return;
         }
