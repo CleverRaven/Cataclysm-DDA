@@ -1750,11 +1750,13 @@ bool talk_function::scavenging_raid_return( npc &p )
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;
+    std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         const tripoint_abs_omt site = overmap_buffer.find_closest(
                                           loot_location, "house", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
-        loot_building( site, oter_looted_house );
+        std::set<item> returned_items = loot_building( site, oter_looted_house );
+        all_returned_items.insert(returned_items.begin(), returned_items.end());
     }
 
     int merch_amount = rng( 50, 100 );
@@ -1777,6 +1779,10 @@ bool talk_function::scavenging_raid_return( npc &p )
             popup( _( "%s returned with a %s for you!" ), comp->get_name(), result.tname() );
             player_character.i_add_or_drop( result );
         }
+    }
+
+    for (item i : all_returned_items) {
+        player_character.i_drop_at(i);
     }
 
     item merch = item( itype_FMCNote );
@@ -1819,11 +1825,13 @@ bool talk_function::hospital_raid_return( npc &p )
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;
+    std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         const tripoint_abs_omt site = overmap_buffer.find_closest(
                                           loot_location, "hospital", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
-        loot_building( site, oter_looted_hospital );
+        std::set<item> returned_items = loot_building( site, oter_looted_hospital );
+        all_returned_items.insert(returned_items.begin(), returned_items.end());
     }
 
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
@@ -1840,6 +1848,10 @@ bool talk_function::hospital_raid_return( npc &p )
             popup( _( "%s returned with a %s for you!" ), comp->get_name(), result.tname() );
             player_character.i_add_or_drop( result );
         }
+    }
+
+    for (item i : all_returned_items) {
+        player_character.i_drop_at(i);
     }
 
     player_character.set_value( var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED, "yes" );
@@ -2601,11 +2613,12 @@ npc_ptr talk_function::companion_choose_return( comp_list &npc_list )
 }
 
 //Smash stuff, steal valuables, and change map marker
-void talk_function::loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement )
+std::set<item> talk_function::loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement )
 {
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     creature_tracker &creatures = get_creature_tracker();
+    std::set<item> return_items;
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
@@ -2659,7 +2672,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site, oter_str_id loo
             if( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
                 ( it->made_of( phase_id::LIQUID ) && !one_in( 8 ) ) ||
                 ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
-                it = items.erase( it );
+                return_items.insert(*it);
             } else {
                 ++it;
             }
@@ -2667,6 +2680,8 @@ void talk_function::loot_building( const tripoint_abs_omt &site, oter_str_id loo
     }
     bay.save();
     overmap_buffer.ter_set( site, looted_replacement );
+
+    return return_items;
 }
 
 void mission_data::add_return( const mission_id &id, const std::string &name_display,
