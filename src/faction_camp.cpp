@@ -3896,8 +3896,8 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
     }
 
     const std::string msg = _( "returns from working your fields…" );
-    npc_ptr comp = talk_function::companion_choose_return(omt_pos, base_camps::id, miss_id,
-        calendar::turn);
+    npc_ptr comp = talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
+                   calendar::before_time_starts );
     if( comp == nullptr ) {
         return false;
     }
