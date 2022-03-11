@@ -119,6 +119,8 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
+#include "music.h"
+
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
@@ -4346,6 +4348,8 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
         if( volume == 0 ) {
             p.add_effect( effect_earphones, 1_turns );
         }
+
+        music::is_listening_music = true;
     }
 }
 

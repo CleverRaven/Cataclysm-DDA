@@ -601,6 +601,8 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    music::is_listening_music = false;
+
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -658,8 +660,6 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
-
-    music::is_listening_music = false;
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
