@@ -446,7 +446,8 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ], [ "mixed_steel", 3 ] ],
+    "using": [ [ "cordage", 6 ], [ "mixed_steel", 5 ] ],
+    "components": [ [ [ "rag", 28 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ]
   },

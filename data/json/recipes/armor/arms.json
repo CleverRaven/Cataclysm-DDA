@@ -287,6 +287,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 6 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
@@ -295,14 +296,16 @@
     "type": "recipe",
     "copy-from": "armguard_scrap",
     "time": "30 m",
-    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ]
+    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "xl_armguard_scrap",
     "type": "recipe",
     "copy-from": "armguard_scrap",
     "time": "35 m",
-    "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ]
+    "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 8 ] ] ]
   },
   {
     "result": "armguard_tire",
