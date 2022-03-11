@@ -5203,7 +5203,7 @@ bool game::npc_menu( npc &who )
         trade
     };
 
-    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
 
