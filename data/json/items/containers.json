@@ -1667,25 +1667,25 @@
       {
         "id": "black_smart_phone_case",
         "name": { "str_sp": "black waterproof smartphone case" },
-        "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.  This one is black.",
+        "description": "A <black> waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "pink_smart_phone_case",
         "name": { "str_sp": "pink waterproof smartphone case" },
-        "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.  This one is pink.",
+        "description": "A <pink> waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "red_smart_phone_case",
         "name": { "str_sp": "red waterproof smartphone case" },
-        "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.  This one is red.",
+        "description": "A <red> waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "bejewelled_smart_phone_case",
         "name": { "str_sp": "bejewelled waterproof smartphone case" },
-        "description": "A waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.  This one is gold with jewels.",
+        "description": "A <gold> waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 5
       },
       {
