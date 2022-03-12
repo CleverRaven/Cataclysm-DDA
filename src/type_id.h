@@ -112,6 +112,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class map_extra;
+using map_extra_id = string_id<map_extra>;
+
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
 
@@ -165,6 +168,9 @@ using overmap_location_id = string_id<overmap_location>;
 
 class overmap_special;
 using overmap_special_id = string_id<overmap_special>;
+
+struct overmap_special_migration;
+using overmap_special_migration_id = string_id<overmap_special_migration>;
 
 class profession;
 using profession_id = string_id<profession>;

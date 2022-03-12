@@ -144,6 +144,32 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "rune_animist_weapon_adept",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 6 ], [ "stabbing", 2 ] ],
+    "difficulty": 6,
+    "time": "360 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "MANA_INFUSE", "level": 2 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "rune_animist_weapon", 1 ] ], [ [ "twisted_restore_potion", 1 ] ], [ [ "blood", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_druid_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -226,6 +252,28 @@
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
       [ [ "silver_small", 100 ] ],
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
+      [ [ "rune_stormshaper", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "rune_stormshaper_weapon_adept",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "bashing", 4 ] ],
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "using": [ [ "forging_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "components": [
+      [ [ "rune_stormshaper_weapon", 1 ] ],
+      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
+      [ [ "gold", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
     ]

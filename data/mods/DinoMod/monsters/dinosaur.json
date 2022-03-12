@@ -16,7 +16,7 @@
     "volume": "20 L",
     "weight": "20 kg",
     "material": [ "flesh" ],
-    "aggression": 20,
+    "aggression": 5,
     "morale": 40,
     "speed": 100,
     "melee_skill": 6,
@@ -42,7 +42,9 @@
     ],
     "vision_day": 50,
     "death_drops": {  },
-    "harvest": "dino_feather_leather"
+    "harvest": "dino_feather_leather",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ]
   },
   {
     "type": "MONSTER",
@@ -51,11 +53,11 @@
     "species": "DINOSAUR",
     "default_faction": "dilophosaurus",
     "symbol": "D",
-    "color": "magenta_green",
+    "color": "brown_white",
     "volume": "400 L",
     "weight": "400 kg",
     "material": [ "flesh" ],
-    "aggression": 10,
+    "aggression": 5,
     "morale": 40,
     "speed": 120,
     "melee_skill": 6,
@@ -64,10 +66,7 @@
     "melee_cut": 2,
     "dodge": 4,
     "armor_bash": 4,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 100,
     "zombify_into": "mon_zilophosaurus",
     "description": "A medium dinosaur with sharp teeth and two prominent bony crests on its head.",
@@ -77,8 +76,8 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -94,7 +93,7 @@
     "weight": "540 kg",
     "material": [ "flesh" ],
     "bodytype": "ostrich",
-    "aggression": 30,
+    "aggression": 10,
     "morale": 70,
     "speed": 250,
     "melee_skill": 6,
@@ -104,10 +103,7 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 70,
     "zombify_into": "mon_zeratosaurus",
     "description": "A large, fast predatory bipedal dinosaur, decorated with three colorful horns on its head and dotted with bright skin bones with long sharp teeth and a long flexible tail.",
@@ -117,8 +113,8 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -133,7 +129,7 @@
     "weight": "1000 kg",
     "bodytype": "bear",
     "material": [ "flesh" ],
-    "aggression": 70,
+    "aggression": 15,
     "morale": 70,
     "speed": 90,
     "melee_skill": 6,
@@ -143,10 +139,7 @@
     "armor_bash": 4,
     "armor_cut": 3,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 425,
     "zombify_into": "mon_zpinosaurus",
     "description": "Meet the king of the river, a huge dinosaur about the size of a small house, with a ferocious crocodile-like head and a sail on its back.  Usually feeds on fish.",
@@ -156,8 +149,7 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 3 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -172,7 +164,7 @@
     "weight": "1000 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
-    "aggression": 80,
+    "aggression": 15,
     "morale": 80,
     "speed": 110,
     "melee_skill": 7,
@@ -181,10 +173,7 @@
     "melee_cut": 6,
     "dodge": 4,
     "armor_bash": 3,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 190,
     "zombify_into": "mon_zallosaurus",
     "description": "A large predatory bipedal dinosaur, with tiger-like stripes on its broad back.",
@@ -194,8 +183,7 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -257,7 +245,7 @@
     "weight": "1000 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
-    "aggression": 90,
+    "aggression": 15,
     "morale": 90,
     "speed": 50,
     "melee_skill": 7,
@@ -268,10 +256,7 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_lg_theropod_body" ],
     "hp": 270,
     "zombify_into": "mon_zalbertosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with long strong arms and a feathered mullet and tail.",
@@ -281,8 +266,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -298,7 +282,7 @@
     "weight": "767 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
-    "aggression": 90,
+    "aggression": 15,
     "morale": 80,
     "speed": 70,
     "dodge": 6,
@@ -309,10 +293,7 @@
     "armor_bash": 12,
     "armor_cut": 12,
     "armor_bullet": 12,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_lg_theropod_body" ],
     "hp": 150,
     "vision_day": 36,
     "zombify_into": "mon_zianzhousaurus",
@@ -323,8 +304,7 @@
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -339,7 +319,7 @@
     "weight": "1000 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
-    "aggression": 100,
+    "aggression": 15,
     "morale": 90,
     "speed": 50,
     "melee_skill": 8,
@@ -350,10 +330,7 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_lg_theropod_body" ],
     "hp": 400,
     "zombify_into": "mon_zyrannosaurus",
     "description": "Enormous teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms with large claws, with a feathered mullet and tail.",
@@ -363,8 +340,7 @@
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -388,6 +364,7 @@
     "melee_cut": 1,
     "dodge": 8,
     "vision_day": 50,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 20,
     "description": "A fast moving bipedal dinosaur about the size of a turkey.  Its teeth and claws are small but sharp.",
     "reproduction": { "baby_egg": "egg_compsognathus", "baby_count": 3, "baby_timer": 12 },
@@ -398,7 +375,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GUILT",
       "HIT_AND_RUN",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
@@ -410,8 +386,7 @@
     ],
     "harvest": "mammal_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
-    "placate_triggers": [ "MEAT" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -421,7 +396,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "light_green_yellow",
+    "color": "light_gray",
     "volume": "440 L",
     "weight": "440 kg",
     "bodytype": "ostrich",
@@ -434,6 +409,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 8,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 110,
     "zombify_into": "mon_zallimimus",
     "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks somewhat like a reptilian ostrich.",
@@ -454,7 +430,41 @@
       "WARM"
     ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_albertonykus",
+    "name": { "str_sp": "albertonykus" },
+    "looks_like": "mon_gallimimus",
+    "species": "DINOSAUR",
+    "default_faction": "insectivore_dino",
+    "symbol": "D",
+    "color": "light_gray",
+    "volume": "5 L",
+    "weight": "5 kg",
+    "bodytype": "ostrich",
+    "material": [ "flesh" ],
+    "aggression": -60,
+    "morale": -20,
+    "speed": 140,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 2,
+    "dodge": 8,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
+    "hp": 10,
+    "description": "A small, feathered bipedal dinosaur with a long feathered tail.",
+    "reproduction": { "baby_egg": "egg_albertonykus", "baby_count": 3, "baby_timer": 12 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ { "type": "bite", "cooldown": 10 } ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
+    "vision_night": 5,
+    "harvest": "bird_small",
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -464,7 +474,7 @@
     "species": [ "DINOSAUR" ],
     "default_faction": "velociraptor",
     "symbol": "D",
-    "color": "light_red_green",
+    "color": "light_red",
     "volume": "15 L",
     "weight": "15 kg",
     "bodytype": "ostrich",
@@ -477,6 +487,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 6,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 30,
     "vision_night": 5,
     "special_attacks": [
@@ -490,8 +501,8 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_feather_leather",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
+    "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -502,13 +513,13 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "green_magenta",
+    "color": "light_gray",
     "volume": "800 L",
     "weight": "800 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
     "aggression": -15,
-    "morale": 90,
+    "morale": 70,
     "speed": 20,
     "melee_skill": 5,
     "melee_dice": 3,
@@ -517,10 +528,7 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "dodge": 4,
     "hp": 160,
     "zombify_into": "mon_zothronychus",
@@ -532,8 +540,8 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW", "WARM" ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "FIRE" ],
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -556,6 +564,7 @@
     "melee_dice_sides": 8,
     "melee_cut": 4,
     "dodge": 6,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 40,
     "zombify_into": "mon_zeinonychus",
     "vision_night": 5,
@@ -582,8 +591,8 @@
       "PRIORITIZE_TARGETS"
     ],
     "harvest": "dino_feather_leather",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -598,7 +607,7 @@
     "weight": "500 kg",
     "bodytype": "ostrich",
     "material": [ "flesh" ],
-    "aggression": 30,
+    "aggression": 15,
     "morale": 80,
     "speed": 160,
     "melee_skill": 7,
@@ -607,10 +616,7 @@
     "melee_cut": 5,
     "dodge": 6,
     "armor_bash": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
@@ -625,8 +631,8 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_large_feather_pred",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -636,7 +642,7 @@
     "species": [ "DINOSAUR" ],
     "default_faction": "eoraptor",
     "symbol": "D",
-    "color": "dark_gray_yellow",
+    "color": "yellow",
     "volume": "10 L",
     "weight": "10 kg",
     "bodytype": "ostrich",
@@ -649,6 +655,7 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 8,
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 10,
     "death_drops": { "subtype": "collection", "groups": [ [ "science", 100 ], [ "mut_lab", 10 ] ] },
     "description": "A bipedal dinosaur about the size of a chicken.  It darts around quickly and has long arms for grabbing what it desires.  It's holding something.",
@@ -659,7 +666,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -682,7 +689,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "brown_magenta",
+    "color": "light_gray",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
@@ -696,10 +703,7 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_sauropod_body" ],
     "vision_day": 50,
     "hp": 500,
     "zombify_into": "mon_zapatosaurus",
@@ -714,8 +718,8 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "FIRE" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -788,6 +792,7 @@
     "id": "mon_scutellosaurus",
     "name": { "str_sp": "scutellosaurus" },
     "copy-from": "mon_stegosaurus",
+    "looks_like": "mon_eoraptor",
     "default_faction": "small_animal",
     "volume": "10 L",
     "weight": "10 kg",
@@ -799,11 +804,14 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 6,
+    "armor_cut": 5,
+    "weakpoint_sets": [ "wps_ankylosaurid_body" ],
     "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "harvest": "mammal_tiny"
   },
   {
     "type": "MONSTER",
@@ -812,7 +820,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "green_magenta",
+    "color": "light_gray",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
@@ -827,10 +835,7 @@
     "dodge": 4,
     "armor_bash": 3,
     "armor_cut": 10,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_ankylosaurid_body" ],
     "hp": 275,
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
@@ -845,7 +850,8 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -872,7 +878,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "brown_magenta",
+    "color": "light_gray",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
@@ -888,10 +894,7 @@
     "armor_bash": 15,
     "armor_cut": 18,
     "armor_bullet": 6,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.8 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_ankylosaurid_body" ],
     "hp": 375,
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
@@ -906,7 +909,8 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -950,7 +954,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "light_green_yellow",
+    "color": "yellow",
     "volume": "850 L",
     "weight": "850 kg",
     "bodytype": "elephant",
@@ -966,10 +970,7 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 170,
     "zombify_into": "mon_zamptosaurus",
     "description": "A large feathered dinosaur with four strong legs, broad shoulders and a pointed beak.  It moves slowly but with enormous strength.",
@@ -992,7 +993,8 @@
       "WARM"
     ],
     "harvest": "mammal_large_leather",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1000,7 +1002,7 @@
     "id": "mon_parasaurolophus",
     "name": { "str_sp": "parasaurolophus" },
     "copy-from": "mon_camptosaurus",
-    "color": "dark_gray_magenta",
+    "color": "yellow",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "bear",
@@ -1059,7 +1061,7 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "light_green_yellow",
+    "color": "light_gray",
     "volume": "450 L",
     "weight": "450 kg",
     "bodytype": "ostrich",
@@ -1072,7 +1074,7 @@
     "melee_dice_sides": 4,
     "dodge": 6,
     "armor_bash": 2,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoint_sets": [ "wps_lg_ceratopsian_body" ],
     "hp": 115,
     "zombify_into": "mon_zachycephalosaurus",
     "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks like a reptilian ostrich with a round hard-looking domed head.",
@@ -1093,8 +1095,8 @@
       "HIT_AND_RUN"
     ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1162,13 +1164,13 @@
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
-    "color": "light_green_magenta",
+    "color": "light_gray",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
     "material": [ "flesh" ],
     "diff": 30,
-    "aggression": -20,
+    "aggression": -10,
     "morale": 50,
     "speed": 80,
     "melee_skill": 8,
@@ -1179,7 +1181,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoint_sets": [ "wps_lg_ceratopsian_body" ],
     "hp": 400,
     "zombify_into": "mon_zriceratops",
     "description": "A massive rhino-like dinosaur with a bony crest from which three large horns emerge.",
@@ -1190,7 +1192,8 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1214,6 +1217,7 @@
     "melee_cut": 0,
     "dodge": 5,
     "vision_day": 50,
+    "weakpoint_sets": [ "wps_pterosaur_body" ],
     "hp": 2,
     "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
@@ -1222,8 +1226,7 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
-    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
-    "placate_triggers": [ "MEAT" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1235,13 +1238,14 @@
     "volume": "38 L",
     "weight": "50 kg",
     "hp": 20,
-    "aggression": 20,
+    "aggression": 9,
     "morale": 50,
     "speed": 200,
     "zombify_into": "mon_zteranodon",
     "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
     "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 },
-    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
     "special_attacks": [ [ "scratch", 10 ] ]
   },
@@ -1254,7 +1258,7 @@
     "volume": "190 L",
     "weight": "250 kg",
     "hp": 70,
-    "aggression": 50,
+    "aggression": 9,
     "morale": 80,
     "speed": 150,
     "zombify_into": "mon_zuetzalcoatlus",
@@ -1263,7 +1267,8 @@
     "special_attacks": [ [ "scratch", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY", "PET_MOUNTABLE" ],
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather"
   },
   {
@@ -1278,7 +1283,7 @@
     "weight": "1000 kg",
     "bodytype": "fish",
     "material": [ "flesh" ],
-    "aggression": 60,
+    "aggression": 9,
     "morale": 90,
     "speed": 30,
     "melee_skill": 8,
@@ -1288,7 +1293,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 6,
-    "weakpoints": [ { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 } ],
+    "weakpoint_sets": [ "wps_mosasaur_body" ],
     "hp": 335,
     "zombify_into": "mon_zosasaurus",
     "description": "A huge aquatic reptile about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",
@@ -1298,8 +1303,7 @@
     "special_attacks": [ [ "LUNGE", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
+    "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR" ]
   }
 ]

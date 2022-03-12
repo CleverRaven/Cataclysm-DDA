@@ -948,6 +948,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
+            REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
@@ -974,8 +975,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = category;
-            capitalize_letter( catgname, 0 );
+            catgname = uppercase_first_letter( category );
             title += ": " + catgname;
         }
 

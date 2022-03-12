@@ -168,6 +168,7 @@
       { "item": "slingshot", "prob": 10 },
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80, "charges": [ 0, 50 ] },
+      { "item": "powered_earplugs", "prob": 60, "charges": [ 0, 50 ] },
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 5 }
     ]
@@ -181,6 +182,7 @@
       [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
+      [ "storage_line", 20 ],
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],

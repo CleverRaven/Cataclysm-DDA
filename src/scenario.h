@@ -22,7 +22,9 @@ class scenario
     private:
         friend class string_id<scenario>;
         friend class generic_factory<scenario>;
+        friend struct mod_tracker;
         string_id<scenario> id;
+        std::vector<std::pair<string_id<scenario>, mod_id>> src;
         bool was_loaded = false;
         translation _name_male;
         translation _name_female;
@@ -46,7 +48,7 @@ class scenario
         std::vector<start_location_id> _allowed_locs;
         int _point_cost = 0;
         std::set<std::string> flags; // flags for some special properties of the scenario
-        std::string _map_extra;
+        map_extra_id _map_extra;
         std::vector<mission_type_id> _missions;
         std::vector<effect_on_condition_id> _eoc;
 
@@ -115,7 +117,7 @@ class scenario
         bool allowed_start( const start_location_id &loc ) const;
         signed int point_cost() const;
         bool has_map_extra() const;
-        const std::string &get_map_extra() const;
+        const map_extra_id &get_map_extra() const;
 
         /**
          * Returns "All", "Limited", or "Almost all" (translated)

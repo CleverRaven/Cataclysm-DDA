@@ -160,6 +160,7 @@
         ],
         "entries": [
           { "item": "holster", "contents-group": "holster_supp_57" },
+          { "item": "suppressor" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "legpouch_large", "contents-group": "army_mags_57" }
         ]

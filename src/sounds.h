@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "units_fwd.h"
+#include "optional.h"
 
 class Character;
 class Creature;
@@ -119,6 +120,9 @@ enum class channel : int {
     interior_engine_sound,
     radio,
     outdoors_portal_storm_env,
+    outdoors_clear_env,
+    outdoors_cloudy_env,
+    outdoors_sunny_env,
     MAX_CHANNEL                 //the last reserved channel
 };
 
@@ -136,16 +140,19 @@ void load_playlist( const JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume,
                          units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant,
-                         const std::string &season, int volume,
-                         units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
+                         const std::string &season, const cata::optional<bool> &is_indoors,
+                         const cata::optional<bool> &is_night, int volume, units::angle angle,
+                         double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
 void play_variant_sound( const std::string &id, const std::string &variant,
-                         const std::string &season, int volume );
+                         const std::string &season, const cata::optional<bool> &is_indoors,
+                         const cata::optional<bool> &is_night, int volume );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant,
-                                 const std::string &season,
-                                 int volume, channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
+                                 const std::string &season, const cata::optional<bool> &is_indoors,
+                                 const cata::optional<bool> &is_night, int volume,
+                                 channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
 void play_activity_sound( const std::string &id, const std::string &variant,
                           const std::string &season, int volume );
@@ -168,7 +175,8 @@ void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );
 bool has_variant_sound( const std::string &id, const std::string &variant );
 bool has_variant_sound( const std::string &id, const std::string &variant,
-                        const std::string &season );
+                        const std::string &season, const cata::optional<bool> &is_indoors,
+                        const cata::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );

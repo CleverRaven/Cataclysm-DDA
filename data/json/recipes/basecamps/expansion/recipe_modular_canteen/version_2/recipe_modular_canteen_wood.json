@@ -165,7 +165,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_brewery_wood",
-    "description": "Let's build a the wood panel brewery.",
+    "description": "Let's build a wood panel brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

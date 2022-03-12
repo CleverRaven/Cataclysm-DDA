@@ -92,26 +92,18 @@ static constexpr time_duration angle_to_time( const units::angle a )
     return a / 15.0_degrees * 1_hours;
 }
 
-// To support the eternal season option we create a strong typedef of timepoint
-// which is a solar_effective_time.  This converts a regular time to a time
-// which would be relevant for sun position calculations.  Normally the two
-// times are the same, but when eternal seasons are used the effective time is
-// always set to the same day, so that the sun position doesn't change from day
-// to day.
-struct solar_effective_time {
-    explicit solar_effective_time( const time_point &t_ )
-        : t( t_ ) {
-        if( calendar::eternal_season() ) {
-            const time_point start_midnight =
-                calendar::start_of_game - time_past_midnight( calendar::start_of_game );
-            t = start_midnight + time_past_midnight( t_ );
-        }
+season_effective_time::season_effective_time( const time_point &t_ )
+    : t( t_ )
+{
+    if( calendar::eternal_season() ) {
+        const time_point start_midnight =
+            calendar::start_of_game - time_past_midnight( calendar::start_of_game );
+        t = start_midnight + time_past_midnight( t_ );
     }
-    time_point t;
-};
+}
 
 static std::pair<units::angle, units::angle> sun_ra_declination(
-    solar_effective_time t, time_duration timezone )
+    season_effective_time t, time_duration timezone )
 {
     // This derivation is mostly from
     // https://en.wikipedia.org/wiki/Position_of_the_Sun
@@ -155,7 +147,7 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     return { right_ascension, declination };
 }
 
-static units::angle sidereal_time_at( solar_effective_time t, units::angle longitude,
+static units::angle sidereal_time_at( season_effective_time t, units::angle longitude,
                                       time_duration timezone )
 {
     // Repeat some calculations from sun_ra_declination
@@ -176,7 +168,7 @@ static units::angle sidereal_time_at( solar_effective_time t, units::angle longi
 std::pair<units::angle, units::angle> sun_azimuth_altitude(
     time_point ti )
 {
-    const solar_effective_time t = solar_effective_time( ti );
+    const season_effective_time t = season_effective_time( ti );
     const lat_long location = location_boston;
     units::angle right_ascension;
     units::angle declination;
@@ -257,7 +249,7 @@ static time_point solar_noon_near( const time_point &t )
 
 static units::angle offset_to_sun_altitude(
     const units::angle altitude, const units::angle longitude,
-    const solar_effective_time approx_time, const bool evening )
+    const season_effective_time approx_time, const bool evening )
 {
     units::angle ra;
     units::angle declination;
@@ -286,7 +278,7 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
 {
     const time_point solar_noon = solar_noon_near( t );
     units::angle initial_offset =
-        offset_to_sun_altitude( altitude, longitude, solar_effective_time( solar_noon ), evening );
+        offset_to_sun_altitude( altitude, longitude, season_effective_time( solar_noon ), evening );
     if( !evening ) {
         initial_offset -= 360_degrees;
     }
@@ -295,7 +287,7 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
     // Now we should have the correct time to within a few minutes; iterate to
     // get a more precise estimate
     units::angle correction_offset =
-        offset_to_sun_altitude( altitude, longitude, solar_effective_time( initial_approximation ),
+        offset_to_sun_altitude( altitude, longitude, season_effective_time( initial_approximation ),
                                 evening );
     if( correction_offset > 180_degrees ) {
         correction_offset -= 360_degrees;

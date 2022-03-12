@@ -417,5 +417,17 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY" ],
     "examine_action": "finite_water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_puddle_underground",
+    "name": "recess",
+    "description": "A shallow pit in the ground.",
+    "looks_like": "t_rock_floor",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY", "INDOORS" ],
+    "examine_action": "finite_water_source"
   }
 ]

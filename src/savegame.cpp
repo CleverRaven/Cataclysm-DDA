@@ -36,6 +36,7 @@
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
+#include "timed_event.h"
 
 class overmap_connection;
 
@@ -87,13 +88,15 @@ void game::serialize( std::ostream &fout )
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
-    tripoint pos_sm = m.get_abs_sub();
-    const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
-    json.member( "levx", pos_sm.x );
-    json.member( "levy", pos_sm.y );
-    json.member( "levz", pos_sm.z );
-    json.member( "om_x", pos_om.x );
-    json.member( "om_y", pos_om.y );
+    tripoint_abs_sm pos_abs_sm = m.get_abs_sub();
+    point_abs_om pos_om;
+    tripoint_om_sm pos_sm;
+    std::tie( pos_om, pos_sm ) = project_remain<coords::om>( pos_abs_sm );
+    json.member( "levx", pos_sm.x() );
+    json.member( "levy", pos_sm.y() );
+    json.member( "levz", pos_sm.z() );
+    json.member( "om_x", pos_om.x() );
+    json.member( "om_y", pos_om.y() );
     // view offset
     json.member( "view_offset_x", u.view_offset.x );
     json.member( "view_offset_y", u.view_offset.y );
@@ -707,7 +710,10 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        s = overmap_special_migration::migrate( s );
+                        if( !s.is_null() ) {
+                            is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                        }
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -723,9 +729,11 @@ void overmap::unserialize( std::istream &fin )
                                             std::string name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
-                                                overmap_special_placements[p] = s;
-                                                if( is_safe_zone ) {
-                                                    safe_at_worldgen.emplace( p );
+                                                if( !s.is_null() ) {
+                                                    overmap_special_placements[p] = s;
+                                                    if( is_safe_zone ) {
+                                                        safe_at_worldgen.emplace( p );
+                                                    }
                                                 }
                                             }
                                         }
@@ -1297,6 +1305,8 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
+            } else if( name == "timed_events" ) {
+                timed_event_manager::unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1332,6 +1342,39 @@ void global_variables::unserialize( JsonObject &jo )
     jo.read( "global_vals", global_values );
 }
 
+void timed_event_manager::unserialize_all( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject jo = jsin.get_object();
+        int type;
+        time_point when;
+        int faction_id;
+        int strength;
+        tripoint_abs_sm where;
+        std::string string_id;
+        submap_revert revert;
+        jo.read( "faction", faction_id );
+        jo.read( "map_point", where );
+        jo.read( "strength", strength );
+        jo.read( "string_id", string_id );
+        jo.read( "type", type );
+        jo.read( "when", when );
+        point pt;
+        for( JsonObject jp : jo.get_array( "revert" ) ) {
+            revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
+            revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
+            revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
+            if( pt.x++ < SEEX ) {
+                pt.x = 0;
+                pt.y++;
+            }
+        }
+        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
+                                string_id, revert );
+    }
+}
+
 void game::serialize_master( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
@@ -1344,6 +1387,9 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
+
+        json.member( "timed_events" );
+        timed_event_manager::serialize_all( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
@@ -1375,6 +1421,35 @@ void faction_manager::serialize( JsonOut &jsout ) const
 void global_variables::serialize( JsonOut &jsout ) const
 {
     jsout.member( "global_vals", global_values );
+}
+
+void timed_event_manager::serialize_all( JsonOut &jsout )
+{
+    jsout.start_array();
+    for( const auto &elem : get_timed_events().events ) {
+        jsout.start_object();
+        jsout.member( "faction", elem.faction_id );
+        jsout.member( "map_point", elem.map_point );
+        jsout.member( "strength", elem.strength );
+        jsout.member( "string_id", elem.string_id );
+        jsout.member( "type", elem.type );
+        jsout.member( "when", elem.when );
+        jsout.member( "revert" );
+        jsout.start_array();
+        for( int y = 0; y < SEEY; y++ ) {
+            for( int x = 0; x < SEEX; x++ ) {
+                jsout.start_object();
+                point pt( x, y );
+                jsout.member( "furn", elem.revert.get_furn( pt ) );
+                jsout.member( "ter", elem.revert.get_ter( pt ) );
+                jsout.member( "trap", elem.revert.get_trap( pt ) );
+                jsout.end_object();
+            }
+        }
+        jsout.end_array();
+        jsout.end_object();
+    }
+    jsout.end_array();
 }
 
 void faction_manager::deserialize( JsonIn &jsin )

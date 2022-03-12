@@ -27,6 +27,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "diary.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -211,6 +212,7 @@ void avatar::control_npc( npc &np )
     // center the map on the new avatar character
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
+    character_mood_face( true );
 }
 
 void avatar::control_npc_menu()
@@ -489,9 +491,10 @@ bool avatar::read( item_location &book, item_location ereader )
     }
 
     int learner_id = -1;
+    const bool is_martialarts = book->type->use_methods.count( "MA_MANUAL" );
 
     //only show the menu if there's useful information or multiple options
-    if( skill || !nonlearners.empty() || !fun_learners.empty() ) {
+    if( ( skill || !nonlearners.empty() || !fun_learners.empty() ) && !is_martialarts ) {
         uilist menu;
 
         // Some helpers to reduce repetition:
@@ -572,7 +575,6 @@ bool avatar::read( item_location &book, item_location ereader )
         }
     }
 
-    const bool is_martialarts = book->type->use_methods.count( "MA_MANUAL" );
     if( is_martialarts ) {
 
         if( martial_arts_data->has_martialart( martial_art_learned_from( *book->type ) ) ) {
@@ -819,6 +821,25 @@ void avatar::wake_up()
     Character::wake_up();
 }
 
+void avatar::add_snippet( snippet_id snippet )
+{
+    if( has_seen_snippet( snippet ) ) {
+        return;
+    }
+
+    snippets_read.emplace( snippet );
+}
+
+bool avatar::has_seen_snippet( const snippet_id &snippet ) const
+{
+    return snippets_read.count( snippet ) > 0;
+}
+
+const std::set<snippet_id> &avatar::get_snippets()
+{
+    return snippets_read;
+}
+
 void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
@@ -900,7 +921,7 @@ int avatar::limb_dodge_encumbrance() const
     std::map<body_part_type::type, std::vector<bodypart_id>> bps;
     for( const auto &bp : body ) {
         if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->limb_type].emplace_back( bp.first );
+            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
         }
     }
 
@@ -1515,7 +1536,7 @@ std::string avatar::total_daily_calories_string() const
 
     std::string ret = header_string;
 
-    // Start with today in the first row, day number from start of cataclysm
+    // Start with today in the first row, day number from start of the Cataclysm
     int today = day_of_season<int>( calendar::turn ) + 1;
     int day_offset = 0;
     for( const daily_calories &day : calorie_diary ) {
@@ -1930,4 +1951,9 @@ void avatar::try_to_sleep( const time_duration &dur )
 bool avatar::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
+}
+
+void avatar::set_location( const tripoint_abs_ms &loc )
+{
+    Creature::set_location( loc );
 }

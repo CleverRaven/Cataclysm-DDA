@@ -37,6 +37,7 @@ add_library(CataAnalyzerPlugin MODULE
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp
+        UTF8ToLowerUpperCheck.cpp
         Utils.cpp
         XYCheck.cpp)
 

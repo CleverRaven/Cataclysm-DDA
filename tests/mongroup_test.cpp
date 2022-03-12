@@ -3,6 +3,7 @@
 
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "item.h"
 #include "mongroup.h"
 #include "options.h"
 #include "options_helpers.h"

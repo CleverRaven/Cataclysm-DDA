@@ -508,7 +508,7 @@
     "id": "mon_ztegosaurus_scorched",
     "name": { "str": "scorched stegosaurus zombie" },
     "copy-from": "mon_ztegosaurus",
-    "description": "A heavily-burned zombie dinosaur with prominant bony back plates; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with prominent bony back plates; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {

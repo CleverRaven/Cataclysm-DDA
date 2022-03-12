@@ -36,5 +36,18 @@
     "bashing": 28,
     "to_hit": -2,
     "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_wool_bat",
+    "symbol": "#",
+    "color": "brown",
+    "name": { "str": "fiber insulation bat" },
+    "//": "I am assuming this is made of rock wool, but it could also be fiberglass.  There is almost no practical difference for our purposes.",
+    "description": "A foil-wrapped bat of fibrous insulation: fire and moisture resistant, used for hot appliances like dishwashers and ovens.",
+    "category": "spare_parts",
+    "material": "epoxy",
+    "weight": "150 g",
+    "volume": "3 L"
   }
 ]

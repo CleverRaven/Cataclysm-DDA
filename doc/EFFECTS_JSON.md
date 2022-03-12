@@ -304,7 +304,7 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 ### Flags
 
 "EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
+"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 
 ### Vitamin Mods
 
@@ -462,6 +462,15 @@ Valid arguments:
 "thirst_chance"     - Chance to become more thirsty
 "thirst_chance_bot"
 "thirst_tick"       - Defaults to every tick
+
+"perspiration_amount"     - Amount of perspiration it can give/take.
+"perspiration_min"        - Minimal amount of perspiration, certain effect will give/take
+"perspiration_max"        - if 0 or missing value will be exactly "perspiration_min"
+"perspiration_min_val"    - Defaults to 0, which means uncapped
+"perspiration_max_val"    - Defaults to 0, which means uncapped
+"perspiration_chance"     - Chance to perspire
+"perspiration_chance_bot"
+"perspiration_tick"       - Defaults to every tick
 
 "fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
 "fatigue_min"       - Minimal amount of fatigue, certain effect will give/take

@@ -43,6 +43,13 @@ submap::~submap() = default;
 
 submap &submap::operator=( submap && ) noexcept = default;
 
+void submap::clear_fields( const point &p )
+{
+    field &f = get_field( p );
+    field_count -= f.field_count();
+    f.clear();
+}
+
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 // Handle GCC warning: 'warning: returning reference to temporary'
@@ -218,6 +225,12 @@ bool submap::contains_vehicle( vehicle *veh )
     return match != vehicles.end();
 }
 
+bool submap::is_open_air( const point &p ) const
+{
+    ter_id t = get_ter( p );
+    return t->trap == tr_ledge;
+}
+
 void submap::rotate( int turns )
 {
     turns = turns % 4;
@@ -331,4 +344,30 @@ void submap::mirror( bool horizontally )
         }
         computers = mirror_comp;
     }
+}
+
+void submap::revert_submap( submap_revert &sr )
+{
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            frn[x][y] = sr.get_furn( pt );
+            ter[x][y] = sr.get_ter( pt );
+            trp[x][y] = sr.get_trap( pt );
+        }
+    }
+}
+
+submap_revert submap::get_revert_submap() const
+{
+    submap_revert ret;
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            ret.set_furn( pt, frn[x][y] );
+            ret.set_ter( pt, ter[x][y] );
+            ret.set_trap( pt, trp[x][y] );
+        }
+    }
+    return ret;
 }

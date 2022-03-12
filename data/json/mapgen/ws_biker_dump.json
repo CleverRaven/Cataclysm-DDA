@@ -226,7 +226,7 @@
         "p": { "item": "trash", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 },
         "b": { "item": "bed", "chance": 40 },
-        "F": { "item": "fridge", "chance": 40, "repeat": [ 2, 6 ] },
+        "F": { "item": "SUS_fridge_survivor", "chance": 40 },
         "S": { "item": "softdrugs", "chance": 40, "repeat": [ 2, 6 ] },
         "O": { "item": "oven", "chance": 40, "repeat": [ 2, 6 ] },
         "l": { "item": "methchef", "chance": 40, "repeat": [ 2, 6 ] },

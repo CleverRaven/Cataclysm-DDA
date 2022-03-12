@@ -24,6 +24,8 @@
     "armor_cut": 7,
     "armor_bullet": 6,
     "armor_acid": 4,
+    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -49,6 +51,8 @@
     "armor_cut": 25,
     "armor_stab": 18,
     "armor_bullet": 20,
+    "armor_elec": 4,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
     "vision_night": 6,
     "death_drops": "mon_zombie_survivor_elite_death_drops"
   }

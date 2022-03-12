@@ -209,6 +209,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS" ]
@@ -305,6 +306,7 @@
     "weight": "3890 g",
     "price_postapoc": 150,
     "color": "light_gray",
+    "looks_like": "spear_pipe",
     "symbol": "/",
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1", "IMPALE" ],

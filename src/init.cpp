@@ -370,6 +370,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
+    add( "charge_migration_blacklist", load_charge_migration_blacklist );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -401,6 +402,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add( "overmap_special_migration", &overmap_special_migration::load_migrations );
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
 
@@ -539,8 +541,10 @@ void DynamicDataLoader::unload_data()
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();
+    ascii_art::reset();
     behavior::reset();
     body_part_type::reset();
+    butchery_requirements::reset();
     sub_body_part_type::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
@@ -548,6 +552,7 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    disease_type::reset();
     dreams.clear();
     emit::reset();
     enchantment::reset();
@@ -560,6 +565,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     harvest_drop_type::reset();
     harvest_list::reset();
+    item_category::reset();
     item_controller->reset();
     json_flag::reset();
     limb_score::reset();
@@ -580,6 +586,7 @@ void DynamicDataLoader::unload_data()
     overmap_land_use_codes::reset();
     overmap_locations::reset();
     overmap_specials::reset();
+    overmap_special_migration::reset();
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
@@ -589,12 +596,14 @@ void DynamicDataLoader::unload_data()
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
+    relic_procgen_data::reset();
     requirement_data::reset();
     reset_bionics();
     reset_constructions();
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
+    MapExtras::clear();
     reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();
@@ -610,6 +619,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
     VehicleGroup::reset();
@@ -621,6 +631,8 @@ void DynamicDataLoader::unload_data()
     vpart_category::reset();
     weakpoints::reset();
     weather_types::reset();
+    widget::reset();
+    zone_type::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()
@@ -700,6 +712,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif

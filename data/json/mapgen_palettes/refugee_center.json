@@ -62,7 +62,7 @@
   {
     "type": "palette",
     "id": "rc_grounds",
-    "//": "should give the feeling of overgrown and decaying grounds even prior to cataclysm",
+    "//": "should give the feeling of overgrown and decaying grounds even prior to the Cataclysm",
     "terrain": {
       "'": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
       ",": [ [ "t_pavement_y", 300 ], [ "t_region_groundcover_barren", 6 ], "t_region_groundcover_forest" ],

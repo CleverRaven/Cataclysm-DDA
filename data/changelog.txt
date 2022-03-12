@@ -272,7 +272,7 @@ Fixes light sources rendering the player invisible at certain ranges.
 Fixes a crash when an NPC gives the player equipment.
 Fixes "Unable to find and assign mission target" messages when accepting a mission.
 No more floor items when trading with follower NPCs.
-Fixes crashes from trying to access a nonexistant basecamp.
+Fixes crashes from trying to access a nonexistent basecamp.
 Helicopters: Allows descending into open air while moving, and disallows roof teleporting.
 Fixes cold items rotting in a freezer and adds more rotting tests.
 Spawns regular ants under regular anthills.
@@ -1687,7 +1687,7 @@ Adds the Intravenous Needletip and Titanium Skeletal Bracing CBMs.
 Adding new starting scenario at refugee center.
 The Fish mutation tree now has unique, post-threshold mutations.
 Labs can have funagloid portals, lab escape allows crowbar.
-Many options for using miscelaneous items as improvised tools.
+Many options for using miscellaneous items as improvised tools.
 Perception stat now determines overmap visibility, and the Topographagnosia trait is now available.
 Added railroad station overmap special.
 Re-implements old start location options to the Challenge-Lab scenario.

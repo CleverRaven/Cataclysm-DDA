@@ -438,7 +438,7 @@
     "type": "technique",
     "id": "tec_lizard_tail",
     "name": "Lizard Tail",
-    "messages": [ "You leap andkick %s", "<npcname> leaps and kicks %s" ],
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,

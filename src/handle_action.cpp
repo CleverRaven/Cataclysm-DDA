@@ -33,6 +33,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "diary.h"
 #include "do_turn.h"
 #include "event.h"
 #include "event_bus.h"
@@ -57,6 +58,7 @@
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "messages.h"
@@ -119,7 +121,6 @@ static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
-static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
@@ -134,6 +135,8 @@ static const skill_id skill_melee( "melee" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -147,6 +150,8 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -323,7 +328,7 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
+                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z() );
                         const Creature *critter = creatures.creature_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
@@ -635,6 +640,10 @@ static void grab()
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
+        if( vp->vehicle().has_tag( flag_CANT_DRAG ) ) {
+            add_msg( m_info, _( "There's nothing to grab there!" ) );
+            return;
+        }
         you.grab( object_type::VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
@@ -698,11 +707,11 @@ static void smash()
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
-        smashskill = player_character.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
+        smashskill = player_character.get_arm_str() + mon->mech_str_addition() + mon->type->melee_dice *
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.get_wielded_item().damage_melee(
+        smashskill = player_character.get_arm_str() + player_character.get_wielded_item().damage_melee(
                          damage_type::BASH );
     }
 
@@ -787,11 +796,7 @@ static void smash()
         std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
         int tmp_bash_armor = 0;
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            for( const item &i : player_character.worn ) {
-                if( i.covers( bp ) ) {
-                    tmp_bash_armor += i.bash_resist( false, bp );
-                }
-            }
+            tmp_bash_armor += player_character.worn.damage_resist( damage_type::BASH, bp );
             for( const trait_id &mut : player_character.get_mutations() ) {
                 const resistances &res = mut->damage_resistance( bp );
                 tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
@@ -957,7 +962,7 @@ static void wait()
         }
     }
 
-    if( here.get_abs_sub().z >= 0 || has_watch ) {
+    if( here.get_abs_sub().z() >= 0 || has_watch ) {
         const time_point last_midnight = calendar::turn - time_past_midnight( calendar::turn );
         const auto diurnal_time_before = []( const time_point & p ) {
             // Either the given time is in the future (e.g. waiting for sunset while it's early morning),
@@ -1036,7 +1041,11 @@ static void sleep()
         return;
     }
 
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+        !player_character.has_trait( trait_WATERSLEEPER ) &&
+        !player_character.has_trait( trait_WATERSLEEP ) &&
+        boat == nullptr ) {
         add_msg( m_info, _( "You cannot sleep while swimming." ) );
         return;
     }
@@ -1409,28 +1418,7 @@ static void fire()
         std::vector<std::string> options;
         std::vector<std::function<void()>> actions;
 
-        for( auto &w : player_character.worn ) {
-
-            std::vector<item *> guns = w.items_with( []( const item & it ) {
-                return it.is_gun();
-            } );
-
-            if( !guns.empty() && w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) ) {
-                //~ draw (first) gun contained in holster
-                //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
-                options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  guns.front()->tname(),
-                                                  w.type_name(),
-                                                  guns.front()->ammo_remaining() ) );
-
-                actions.emplace_back( [&] { player_character.invoke_item( &w, "holster" ); } );
-
-            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
-                // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { player_character.wield( w ); } );
-            }
-        }
+        player_character.worn.fire_options( player_character, options, actions );
         if( !options.empty() ) {
             int sel = uilist( _( "Draw what?" ), options );
             if( sel >= 0 ) {
@@ -2246,7 +2234,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SORT_ARMOR:
-            player_character.sort_armor();
+            player_character.worn.sort_armor( player_character );
             break;
 
         case ACTION_WAIT:
@@ -2439,6 +2427,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
+            if( !m.is_outside( player_character.pos() ) ) {
+                uistate.overmap_visible_weather = false;
+            }
             ui::omap::display();
             break;
 
@@ -2823,13 +2814,15 @@ bool game::handle_action()
         if( !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
-                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
+                std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( const cata::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
-                    add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
-                                        "the current context." ),
-                             *hint );
+                    msg = string_format( "%s\n%s", msg,
+                                         string_format( _( "%s at any time to see and edit keybindings relevant to "
+                                                           "the current context." ),
+                                                        *hint ) );
                 }
+                add_msg( m_info, msg );
             }
         }
         return false;

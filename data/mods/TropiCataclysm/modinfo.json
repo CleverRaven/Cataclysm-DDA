@@ -7,7 +7,7 @@
     "description": "WIP for a Tropical themed region, it started as a fork of Desert Region but the plan is to evolve into its own thing",
     "category": "content",
     "dependencies": [ "dda" ],
-    "version": "0.50",
+    "version": "0.60",
     "obsolete": false
   }
 ]

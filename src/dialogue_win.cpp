@@ -52,18 +52,59 @@ void dialogue_window::draw( const std::string &npc_name, const std::vector<talk_
     wnoutrefresh( d_win );
 }
 
-void dialogue_window::handle_scrolling( const std::string &action )
+void dialogue_window::handle_scrolling( const std::string &action, int num_responses )
 {
     // Scroll the responses section
     const int displayable_lines = RESPONSES_LINES - 2;
-    if( action == "DOWN" || action == "PAGE_DOWN" ) {
+    const bool offscreen_lines = displayable_lines < num_responses;
+    int next_offset = 0;
+    for( int i = scroll_yoffset; i < num_responses; i++ ) {
+        next_offset += std::get<1>( folded_txt[i] );
+        if( next_offset >= displayable_lines || i == num_responses - 1 ) {
+            next_offset = i - scroll_yoffset;
+            break;
+        }
+    }
+    int prev_offset = 0;
+    for( int i = scroll_yoffset; i >= 0; i-- ) {
+        prev_offset += std::get<1>( folded_txt[i] );
+        if( prev_offset >= displayable_lines || i == 0 ) {
+            prev_offset = i;
+            break;
+        }
+    }
+    if( action == "PAGE_DOWN" ) {
         if( can_scroll_down ) {
-            scroll_yoffset += displayable_lines;
+            scroll_yoffset += next_offset;
+            sel_response = scroll_yoffset;
         }
-    } else if( action == "UP" || action == "PAGE_UP" ) {
+    } else if( action == "PAGE_UP" ) {
         if( can_scroll_up ) {
-            scroll_yoffset = std::max( 0, scroll_yoffset - displayable_lines );
+            scroll_yoffset = prev_offset;
+            sel_response = scroll_yoffset;
         }
+    } else if( action == "UP" ) {
+        sel_response--;
+        if( sel_response < 0 ) {
+            sel_response = num_responses - 1;
+        }
+    } else if( action == "DOWN" ) {
+        sel_response++;
+        if( sel_response >= num_responses ) {
+            sel_response = 0;
+        }
+    }
+    if( offscreen_lines && ( action == "UP" || action == "DOWN" ) ) {
+        if( sel_response < scroll_yoffset ) {
+            scroll_yoffset = sel_response;
+        } else if( sel_response >= scroll_yoffset + next_offset ) {
+            scroll_yoffset = sel_response - next_offset;
+        }
+    }
+    if( scroll_yoffset < 0 ) {
+        scroll_yoffset = 0;
+    } else if( scroll_yoffset >= num_responses ) {
+        scroll_yoffset = sel_response;
     }
 }
 
@@ -72,6 +113,7 @@ void dialogue_window::refresh_response_display()
     scroll_yoffset = 0;
     can_scroll_down = false;
     can_scroll_up = false;
+    sel_response = 0;
 }
 
 void dialogue_window::add_to_history( const std::string &text, const std::string &speaker_name,
@@ -194,14 +236,29 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     // Even if we're scrolled, we have to iterate through the full list of responses, since scroll
     // amount is based on the number of lines *after* folding.
     int ycurrent = yoffset - scroll_yoffset;
-    for( size_t i = 0; i < responses.size() && ycurrent <= ymax; i++ ) {
+    folded_txt.clear();
+    for( size_t i = 0; i < responses.size(); i++ ) {
         //~ %s: hotkey description
         const std::string hotkey_text = string_format( pgettext( "talk option", "%s: " ),
                                         responses[i].hotkey_desc );
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
         const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
-        const nc_color &color = is_computer ? default_color() : responses[i].color;
+        if( static_cast<int>( i ) < scroll_yoffset ) {
+            // account for multi-line options
+            ycurrent -= std::max( 0, static_cast<int>( folded.size() ) - 1 );
+        }
+        folded_txt.emplace_back( std::make_tuple( hotkey_text, folded.size(), folded ) );
+    }
+    for( size_t i = 0; i < responses.size() && ycurrent <= ymax; i++ ) {
+        nc_color color = is_computer ? default_color() : responses[i].color;
+        if( i == static_cast<size_t>( sel_response ) ) {
+            color = hilite( color );
+        }
+        const std::string &hotkey_text = std::get<0>( folded_txt[i] );
+        const std::vector<std::string> &folded = std::get<2>( folded_txt[i] );
+        const int hotkey_width = utf8_width( hotkey_text );
+        const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
         for( size_t j = 0; j < folded.size(); j++, ycurrent++ ) {
             if( ycurrent < yoffset ) {
                 // Off screen (above)
@@ -214,7 +271,8 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
                 // First line; display hotkey
                 mvwprintz( d_win, point( responses_xoffset, ycurrent ), color, hotkey_text );
             }
-            mvwprintz( d_win, point( responses_xoffset + hotkey_width, ycurrent ), color, folded[j] );
+            mvwprintz( d_win, point( responses_xoffset + hotkey_width, ycurrent ), color,
+                       left_justify( folded[j], fold_width, true ) );
         }
     }
     bool more_responses_to_display = ycurrent > ymax;

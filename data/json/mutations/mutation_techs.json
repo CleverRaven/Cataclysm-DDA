@@ -1,0 +1,35 @@
+[
+  {
+    "type": "technique",
+    "id": "tec_dbg_sting",
+    "name": "CHOMP",
+    "messages": [ "You sting %s with your bug-laden tail", "<npcname> stings %s with their bug-laden tail" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "attack_override": true,
+    "weighting": -2,
+    "crit_ok": true,
+    "required_char_flags": [ "SEESLEEP" ],
+    "forbidden_char_flags": [ "EYE_MEMBRANE" ],
+    "repeat_min": 1,
+    "repeat_max": 5,
+    "mult_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 15 } ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 5 },
+      { "stat": "arpen", "type": "bash", "scale": 10 },
+      { "stat": "arpen", "type": "cut", "scale": 10 },
+      { "stat": "movecost", "scale": 40 }
+    ],
+    "tech_effects": [
+      {
+        "id": "bleed",
+        "chance": 100,
+        "duration": 2000,
+        "permanent": true,
+        "on_damage": false,
+        "message": "You bleed the %s dry!"
+      },
+      { "id": "downed", "chance": 50, "duration": 2, "message": "You bonk the %s real good", "req_flag": "DREAMY" }
+    ]
+  }
+]

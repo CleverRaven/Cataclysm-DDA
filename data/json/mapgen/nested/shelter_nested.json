@@ -31,7 +31,6 @@
         "               c  6     ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "computers": {
         "6": {
@@ -195,7 +194,6 @@
         "                  l     ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } },
       "computers": {
@@ -355,7 +353,6 @@
         "                   c    ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "computers": {
         "6": {

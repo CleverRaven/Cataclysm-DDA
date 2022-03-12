@@ -308,6 +308,35 @@
   },
   {
     "type": "faction",
+    "id": "isolated_artisans",
+    "name": "Isolated Artisans",
+    "likes_u": 10,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 2,
+    "power": 5,
+    "food_supply": 4000,
+    "wealth": 100000,
+    "currency": "FMCNote",
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
+    "epilogues": [
+      { "power_min": 0, "id": "epilogue_faction_isolated_road_0" },
+      { "power_max": 150, "id": "epilogue_faction_isolated_road_150" }
+    ],
+    "description": "A couple of talented artisans in the country."
+  },
+  {
+    "type": "faction",
     "id": "marloss",
     "name": "Marloss Evangelists",
     "likes_u": 15,
@@ -658,7 +687,7 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
-    "description": "Mr Lapin and any acolytes he may have gathered in the apocalypse."
+    "description": "Mr. Lapin and any acolytes he may have gathered in the apocalypse."
   },
   {
     "type": "faction",

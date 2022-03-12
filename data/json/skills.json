@@ -54,7 +54,7 @@
     "type": "skill",
     "id": "swimming",
     "name": { "str": "athletics" },
-    "description": "Your ability to swim.  Affects swimming endurance and ability to swim with weight.  note: presently this skill only affects swimming.",
+    "description": "Your athletic ability, including swimming endurance and ability to swim with weight.  Athletic skill also improves your overall cardio fitness and stamina.",
     "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },

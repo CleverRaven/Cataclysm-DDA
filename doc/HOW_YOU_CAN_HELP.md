@@ -34,7 +34,7 @@ the discovery, discussion, and testing processes that surround game development.
 Ways to help with issues:
 
 - Reproduce issues that [need confirmation](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S1+-+Need+confirmation%29%22).
-  Finding a procecdure that reliably reproduces a problem is an important step toward finding a
+  Finding a procedure that reliably reproduces a problem is an important step toward finding a
   solution. Comment with your results (positive or negative), game version, the steps you followed,
   and any screenshots or other relevant info.
 

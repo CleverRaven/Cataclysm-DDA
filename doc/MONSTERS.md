@@ -96,6 +96,12 @@ Monsters may also have any of these optional properties:
 | `shearing`               | (array of objects) Items produced when the monster is sheared
 | `speed_description`      | (string) ID of a `speed_description` type describing the monster speed string
 | `petfood`                | (object) Data regarding feeding this monster to turn it into a pet
+| `absorb_ml_per_hp`       | (int) For monsters with the `ABSORB_ITEMS` special attack. Determines the amount in milliliters that must be absorbed to gain 1 HP. Default 250.
+| `absorb_move_cost_per_ml`| (float) For monsters with the `ABSORB_ITEMS` special attack. Determines the move cost for absorbing items based on the volume in milliliters of the absorbed items. Default 0.025f.
+| `absorb_move_cost_min`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a minimum movement cost for absorbing items regardless of the volume of the consumed item. Default 1.
+| `absorb_move_cost_max`   | (int) For monsters with the `ABSORB_ITEMS` special attack. Sets a maximum movement cost for absorbing items regardless of the volume of the consumed item. -1 for no limit. Default -1.
+| `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
+| `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -237,7 +243,7 @@ Monster baseline difficulty.  Impacts the shade used to label the monster, and i
 | `2`   | a limited defensive ability such as a skitterbot's taser, or a weak special like a shrieker zombie's special ability to alert nearby monsters, or a minor bonus to attack like poison or venom.
 | `5`   | a limited ranged attack weaker than spitter zombie's spit, or a powerful defensive ability like a shocker zombie's zapback or an acid zombie's acid spray.
 | `10`  | a powerful ranged attack, like a spitters zombie's spit or an turret's 9mm SMG.
-| `15`  | a powerful ranged attack with additional hazards, like a corrosize zombie's spit
+| `15`  | a powerful ranged attack with additional hazards, like a corrosive zombie's spit
 | `20`  | a very powerful ranged attack, like a laser turret or military turret's 5.56mm rifle, or a powerful special ability, like a zombie necromancer's ability to raise other zombies.
 | `30`  | a ranged attack that is deadly even for armored characters, like an anti-material turret's .50 BMG rifle.
 
@@ -363,7 +369,7 @@ The `coverage_mult` and `difficulty` objects support the following subfields:
 | `bash`              | The value used for melee bashing weapons.
 | `cut`               | The value used for melee cutting weapons.
 | `stab`              | The value used for melee stabbing weapons.
-| `ranged`            | The value used for ranged weapons, including projectiles and throwning weapons.
+| `ranged`            | The value used for ranged weapons, including projectiles and throwing weapons.
 | `melee`             | The default value for melee weapons (`bash`, `cut`, and `stab`). Takes precedence over `point` and `broad`.
 | `point`             | The default value for pointed weapons (`stab` and `ranged`).
 | `broad`             | The default value for broad weapons (`bash` and `cut`).
@@ -575,7 +581,7 @@ Decides whether this monster can be tamed. `%s` is the monster name.
 ## "special_when_hit"
 (array, optional)
 
-A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [JSON_FLAGS.md](JSON_FLAGS.md)) and the chance for that defense to be actually triggered. Example:
+A special defense attack, triggered when the monster is attacked. It should contain an array with the id of the defense (see Monster defense attacks in [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)) and the chance for that defense to be actually triggered. Example:
 
 ```JSON
 "special_when_hit": [ "ZAPBACK", 100 ]
@@ -625,7 +631,7 @@ Each element of the array should be an object containing the following members:
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example:
+The old style array should contain 2 elements: the id of the attack (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) for a list) and the cooldown for that attack. Example:
 
 ```JSON
 "special_attacks": [ [ "GRAB", 10 ] ]
@@ -658,89 +664,4 @@ In the case of separately defined attacks the object has to contain at least an 
 This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 # Monster special attack types
-The listed attack types can be as monster special attacks (see "special_attacks").
-
-## "monster_attack"
-
-The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead. All fields beyond `id` are optional.
-
-| field                 | description
-| ---                   | ---
-| `cooldown`			| Integer, amount of turns between uses.
-| `damage_max_instance` | Array of objects, see ## "melee_damage"
-| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a
-|						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
-| `move_cost`           | Integer, moves needed to complete special attack. Default 100.
-| `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
-| `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
-|						| targeted with a chance proportional to the value.
-| `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
-| `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
-| `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
-| `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
-| `hitsize_min`         | Integer, upper bound of limb size this attack can target.
-| `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
-| `effects`				| Array, defines additional effects for the attack to add.
-| `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
-| `miss_msg_u`			| String, message for missed attack against the player.
-| `miss_msg_npc`		| String, message for missed attack against an NPC.
-| `hit_dmg_u`			| String, message for succesful attack against the player.
-| `hit_dmg_npc`			| String, message for succesful attack against an NPC.
-| `no_dmg_msg_u`		| String, message for a 0-damage attack against the player.
-| `no_dmg_msg_npc`		| String, message for a 0-damage attack against an NPC.
-| `throw_msg_u`		    | String, message for a flinging attack against the player.
-| `throw_msg_npc`		| String, message for a flinging attack against an NPC.
-
-## "bite"
-
-Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections if the target is grabbed at the same time.
-
-| field                 | description
-| ---                   | ---
-| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100.
-
-
-## "leap"
-
-Makes the monster leap a few tiles. It supports the following additional properties:
-
-| field                | description
-| ---                  | ---
-| `max_range`          | (Required) Maximal range of attack.
-| `min_range`          | (Required) Minimal range needed for attack.
-| `allow_no_target`    | This prevents monster from using the ability on empty space.
-| `move_cost`          | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
-| `min_consider_range` | Minimal range to consider for using specific attack.
-| `max_consider_range` | Maximal range to consider for using specific attack.
-
-
-## "gun"
-
-Fires a gun at a target. If friendly, will avoid harming the player.
-- Moves some existing moon-phase tests to `tests/moon_test.cpp`
-
-| field                       | description
-| ---                         | ---
-| `gun_type`                  | (Required) Valid item id of a gun that will be used to perform the attack.
-| `ammo_type`                 | (Required) Valid item id of the ammo the gun will be loaded with.  Monster should also have a "starting_ammo" field with this ammo. For example: `"ammo_type" : "50bmg", "starting_ammo" : {"50bmg":100}`
-| `max_ammo`                  | Cap on ammo. If ammo goes above this value for any reason, a debug message will be printed.
-| `fake_str`                  | Strength stat of the fake NPC that will execute the attack. 8 if not specified.
-| `fake_dex`                  | Dexterity stat of the fake NPC that will execute the attack. 8 if not specified.
-| `fake_int`                  | Intelligence stat of the fake NPC that will execute the attack. 8 if not specified.
-| `fake_per`                  | Perception stat of the fake NPC that will execute the attack. 8 if not specified.
-| `fake_skills`               | Array of 2 element arrays of skill id and skill level pairs.
-| `move_cost`                 | Move cost of executing the attack
-| `require_targeting_player`  | If true, the monster will need to "target" the player, wasting `targeting_cost` moves, putting the attack on cooldown and making warning sounds, unless it attacked something that needs to be targeted recently.  Gives "grace period" to player.
-| `require_targeting_npc`     | As above, but with npcs.
-| `require_targeting_monster` | As above, but with monsters.
-| `targeting_timeout`         | Targeting status will be applied for this many turns.  Note that targeting applies to turret, not targets.
-| `targeting_timeout_extend`  | Successfully attacking will extend the targeting for this many turns. Can be negative.
-| `targeting_cost`            | Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns.
-| `laser_lock`                | If true and attacking a creature that isn't laser-locked but needs to be targeted, the monster will act as if it had no targeting status (and waste time targeting), the target will become laser-locked, and if the target is the player, it will cause a warning.  Laser-locking affects the target, but isn't tied to specific attacker.
-| `range`                     | Maximum range at which targets will be acquired.
-| `range_no_burst`            | Maximum range at which targets will be attacked with a burst (if applicable).
-| `burst_limit`               | Limit on burst size.
-| `description`               | Description of the attack being executed if seen by the player.
-| `targeting_sound`           | Description of the sound made when targeting.
-| `targeting_volume`          | Volume of the sound made when targeting.
-| `no_ammo_sound`             | Description of the sound made when out of ammo.
+The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).

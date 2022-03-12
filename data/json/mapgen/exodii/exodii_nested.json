@@ -11,7 +11,7 @@
         "1__cc",
         "L____",
         "2345T",
-        "|||||"
+        "     "
       ],
       "place_npcs": [ { "class": "exodii_merchant", "x": 2, "y": 1 } ],
       "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },

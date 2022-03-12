@@ -13,6 +13,13 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_albertonykus",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_kosmoceratops",
         "weight": 21,
         "cost_multiplier": 25,
@@ -398,6 +405,13 @@
         "conditions": [ "WINTER" ]
       },
       {
+        "monster": "mon_albertonykus",
+        "weight": 200,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
         "monster": "mon_velociraptor",
         "weight": 150,
         "cost_multiplier": 10,
@@ -487,6 +501,13 @@
     "//": "Current SPRING first DAY count is 75.",
     "is_animal": true,
     "monsters": [
+      {
+        "monster": "mon_albertonykus",
+        "weight": 25,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
       {
         "monster": "mon_eoraptor",
         "weight": 50,

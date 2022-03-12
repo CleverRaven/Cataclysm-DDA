@@ -88,7 +88,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "CROWBAR" ],
+    "use_action": [ "CROWBAR_WEAK" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -119,5 +119,26 @@
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 40 ] ],
     "flags": [ "PSEUDO", "PERFECT_LOCKPICK" ]
+  },
+  {
+    "id": "heavy_crowbar",
+    "type": "TOOL",
+    "name": { "str": "heavy crowbar" },
+    "looks_like": "crowbar",
+    "description": "A 5 foot long construction prybar.  Essentially a long solid steel rod with a hardened chisel tip.",
+    "weight": "8 kg",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
+    "price_postapoc": 4000,
+    "color": "red",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "flags": [ "DURABLE_MELEE", "ALWAYS_TWOHAND", "SHEATH_SPEAR" ],
+    "volume": "1 L",
+    "longest_side": "150 cm",
+    "bashing": 45,
+    "price": 10000,
+    "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
   }
 ]

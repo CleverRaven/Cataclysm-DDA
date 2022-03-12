@@ -1064,7 +1064,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEATPROOF" ) ) ) ) {
+    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEAT_IMMUNE" ) ) ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

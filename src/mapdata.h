@@ -160,6 +160,7 @@ struct plant_data {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * ROAD - Mainly affects the speed of rollerblades
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -223,6 +224,7 @@ enum class ter_furn_flag : int {
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
+    TFLAG_ALLOW_ON_OPEN_AIR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP_DOWN,
     TFLAG_RAMP_UP,
@@ -499,7 +501,7 @@ struct map_data_common_t {
 
         // The color the sym will draw in on the GUI.
         std::array<nc_color, NUM_SEASONS> color_;
-        void load_symbol( const JsonObject &jo );
+        void load_symbol( const JsonObject &jo, const std::string &context );
 
         std::string looks_like;
 

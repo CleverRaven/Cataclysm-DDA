@@ -232,8 +232,7 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    static const flag_id sonar_detectable = json_flag_SONAR_DETECTABLE;
-    return has_flag( sonar_detectable );
+    return has_flag( json_flag_SONAR_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const

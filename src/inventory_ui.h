@@ -330,6 +330,7 @@ class inventory_column
         void order_by_parent();
 
         inventory_entry *find_by_invlet( int invlet ) const;
+        inventory_entry *find_by_location( item_location &loc ) const;
 
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
@@ -607,7 +608,7 @@ class inventory_selector
 
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 2>;
+        using stats = std::array<stat, 3>;
 
     protected:
         Character &u;
@@ -667,7 +668,8 @@ class inventory_selector
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume );
+            const units::length &longest_length, const units::volume &largest_free_volume,
+            const units::volume &holster_volume, const int used_holsters, const int total_holsters );
 
         /** Get stats to display in top right.
          *
@@ -685,6 +687,7 @@ class inventory_selector
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
         inventory_entry *find_entry_by_coordinate( const point &coordinate ) const;
+        inventory_entry *find_entry_by_location( item_location &loc ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;
@@ -840,10 +843,13 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
+        using GetStats = std::function<stats( const std::vector<std::pair<item_location, int>> )>;
         explicit inventory_multiselector( Character &p,
                                           const inventory_selector_preset &preset = default_preset,
                                           const std::string &selection_column_title = "",
+                                          const GetStats & = {},
                                           bool allow_select_contained = false );
+        drop_locations execute();
     protected:
         void rearrange_columns( size_t client_width ) override;
         size_t max_chosen_count;
@@ -854,8 +860,12 @@ class inventory_multiselector : public inventory_selector
         std::vector<item_location> usable_locs;
         bool allow_select_contained;
         virtual void on_toggle() {};
+        void on_input( const inventory_input &input );
+        int count = 0;
+        stats get_raw_stats() const override;
     private:
         std::unique_ptr<inventory_column> selection_col;
+        GetStats get_stats;
 };
 
 class inventory_compare_selector : public inventory_multiselector
@@ -869,25 +879,6 @@ class inventory_compare_selector : public inventory_multiselector
         void toggle_entry( inventory_entry *entry );
 };
 
-// This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
-// Should accept a function to calculate dummy values.
-class inventory_iuse_selector : public inventory_multiselector
-{
-    public:
-        using GetStats = std::function<stats( const std::vector<std::pair<item_location, int>> )>;
-        inventory_iuse_selector( Character &p,
-                                 const std::string &selector_title,
-                                 const inventory_selector_preset &preset = default_preset,
-                                 const GetStats & = {} );
-        drop_locations execute();
-
-    protected:
-        stats get_raw_stats() const override;
-
-    private:
-        GetStats get_stats;
-};
-
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
@@ -897,24 +888,30 @@ class inventory_drop_selector : public inventory_multiselector
             const std::string &selection_column_title = _( "ITEMS TO DROP" ),
             bool warn_liquid = true );
         drop_locations execute();
-        void on_input( const inventory_input &input );
     protected:
         stats get_raw_stats() const override;
 
     private:
         bool warn_liquid;
-        int count = 0;
 };
 
 class pickup_selector : public inventory_multiselector
 {
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
-                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
+                                  const cata::optional<tripoint> &where = cata::nullopt );
         drop_locations execute();
+        void apply_selection( std::vector<drop_location> selection );
     protected:
         stats get_raw_stats() const override;
         void reassign_custom_invlets() override;
+    private:
+        bool wield( int &count );
+        bool wear();
+        void remove_from_to_use( item_location &it );
+        void add_reopen_activity();
+        const cata::optional<tripoint> where;
 };
 
 /**

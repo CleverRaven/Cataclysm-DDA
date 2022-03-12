@@ -289,6 +289,7 @@ void uilist::init()
     max_column_len = 0;      // for calculating space for second column
 
     input_category = "UILIST";
+    input_context ctxt( input_category, keyboard_mode::keychar );
     additional_actions.clear();
 }
 
@@ -297,26 +298,25 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = !filtering || filter.empty();
-    int num_entries = entries.size();
     // TODO: && is_all_lc( filter )
-    bool nocase = filtering_nocase;
-    std::string fstr;
-    fstr.reserve( filter.size() );
-    if( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
-    } else {
-        fstr = filter;
-    }
     fentries.clear();
     fselected = -1;
     int f = 0;
-    for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch( entries[i].txt, fstr ) ) {
-            fentries.push_back( i );
+    for( size_t i = 0; i < entries.size(); i++ ) {
+        bool visible = true;
+        if( filtering && !filter.empty() ) {
+            if( filtering_nocase ) {
+                // case-insensitive match
+                visible = lcmatch( entries[i].txt, filter );
+            } else {
+                // case-sensitive match
+                visible = entries[i].txt.find( filter ) != std::string::npos;
+            }
+        }
+        if( visible ) {
+            fentries.push_back( static_cast<int>( i ) );
             if( hilight_disabled || entries[i].enabled ) {
-                if( i == selected || ( i > selected && fselected == -1 ) ) {
+                if( static_cast<int>( i ) == selected || ( static_cast<int>( i ) > selected && fselected == -1 ) ) {
                     // Either this is selected, or we are past the previously selected entry,
                     // which has been filtered out, so choose another nearby entry instead.
                     fselected = f;
@@ -349,7 +349,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -461,7 +461,7 @@ void uilist::calc_data()
         int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
-                autoassign.emplace_back( i );
+                autoassign.emplace_back( static_cast<int>( i ) );
             } else if( entries[i].hotkey.value() != input_event() ) {
                 keymap[entries[i].hotkey.value()] = i;
             }
@@ -490,8 +490,9 @@ void uilist::calc_data()
             entries[ i ].text_color = text_color;
         }
     }
-    input_context ctxt( input_category );
-    const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
+
+    const hotkey_queue &hotkeys = hotkey_queue::create_from_available_hotkeys( ctxt );
+
     input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
     for( auto it = autoassign.begin(); it != autoassign.end() &&
          hotkey != input_event(); ++it ) {
@@ -787,6 +788,10 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -scroll_rate;
     } else if( action == "SCROLL_UP" ) {
         return -3;
+    } else if( action == "HOME" ) {
+        return -fselected;
+    } else if( action == "END" ) {
+        return entries.size() - fselected;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -952,10 +957,12 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keycode );
+    ctxt.set_category( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {

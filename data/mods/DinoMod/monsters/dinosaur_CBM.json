@@ -207,7 +207,7 @@
       }
     ],
     "zombify_into": "mon_zpinosaurus_bio_op",
-    "description": "A massive therapod with a huge fin on its back and a crocodile-like snout.  It is silver from armor plating and cybernetics crackle all over its body.  There seems to be a laser rifle mounted to its head.  It scans endlessly for its next target.",
+    "description": "A massive theropod with a huge fin on its back and a crocodile-like snout.  It is silver from armor plating and cybernetics crackle all over its body.  There seems to be a laser rifle mounted to its head.  It scans endlessly for its next target.",
     "special_when_hit": [ "ZAPBACK", 10 ],
     "harvest": "CBM_DINO_LARGE"
   }

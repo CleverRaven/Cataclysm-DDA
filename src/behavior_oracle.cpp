@@ -41,6 +41,7 @@ predicate_map = {{
         { "npc_has_food", make_function( &character_oracle_t::has_food ) },
         { "monster_not_hallucination", make_function( &monster_oracle_t::not_hallucination ) },
         { "monster_items_available", make_function( &monster_oracle_t::items_available ) },
+        { "monster_split_possible", make_function( &monster_oracle_t::split_possible ) },
         { "monster_adjacent_plants", make_function( &monster_oracle_t::adjacent_plants ) },
         { "monster_special_available", make_function( &monster_oracle_t::special_available ) }
     }

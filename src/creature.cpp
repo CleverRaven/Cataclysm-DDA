@@ -85,6 +85,8 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
+static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
+static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
 static const material_id material_cotton( "cotton" );
 static const material_id material_flesh( "flesh" );
@@ -320,11 +322,9 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    if( critter.is_hallucination() ) {
+    if( critter.is_hallucination() && !is_avatar() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
-        // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
-        // the player will see them always.
-        return is_avatar();
+        return false;
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
@@ -668,14 +668,9 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
     float crit_mod = 1.f;
     const Character *c = as_character();
     if( c != nullptr ) {
-        int total_v_cover = 0;
-        for( const item &it : c->worn ) {
-            if( it.covers( bp ) ) {
-                total_v_cover += it.get_coverage( bp, item::cover_type::COVER_VITALS );
-            }
-        }
-        total_v_cover = clamp<int>( total_v_cover, 0, 100 );
-        crit_mod = 1.f - total_v_cover / 100.f;
+        const int total_cover = clamp<int>( c->worn.get_coverage( bp, item::cover_type::COVER_VITALS ), 0,
+                                            100 );
+        crit_mod = 1.f - total_cover / 100.f;
     }
     // TODO: as_monster()
     return crit_mod;
@@ -683,7 +678,13 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    const float dodge = dodge_roll();
+    add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
+                   hitroll );
+
+    float dodge = dodge_roll();
+    add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
+                   dodge );
+
     int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
@@ -697,7 +698,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
-
+    add_msg_debug( debugmode::DF_CREATURE, "Final hitspread %d",
+                   hit_spread );
     return hit_spread;
 }
 
@@ -932,7 +934,7 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const float crit_multiplier = proj.critical_multiplier;
     const float std_hit_mult = std::sqrt( 2.0 * crit_multiplier );
     if( magic ) {
-        ret.damage_mult *= rng_float( 0.9, 1.1 );
+        // do nothing special, no damage mults, nothing
     } else if( goodhit < accuracy_headshot &&
                ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         ret.message = _( "Headshot!" );
@@ -1208,12 +1210,19 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             }
             break;
 
-        case damage_type::ELECTRIC:
+        case damage_type::ELECTRIC: {
             // Electrical damage adds a major speed/dex debuff
-            if( x_in_y( std::max( adjusted_damage, 2 ), 5 ) ) {
-                add_effect( source, effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
+            double multiplier = 1.0;
+            if( monster *mon = as_monster() ) {
+                multiplier = mon->type->status_chance_multiplier;
+            }
+            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+            if( x_in_y( chance, 100 ) ) {
+                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+                add_effect( source, effect_zapped, 1_turns * duration );
             }
             break;
+        }
 
         case damage_type::ACID:
             // Acid damage and acid burns are more painful
@@ -1663,7 +1672,7 @@ void Creature::process_effects()
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar() );
+            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar(), *effects );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -1855,6 +1864,13 @@ int Creature::get_armor_bullet_bonus() const
 {
     return armor_bullet_bonus;
 }
+
+int Creature::get_spell_resist() const
+{
+    // TODO: add spell resistance to monsters, then make this pure virtual
+    return 0;
+}
+
 int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
@@ -2047,8 +2063,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }
@@ -2105,8 +2122,9 @@ void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_toler
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
+    bool was_broken = is_avatar() && as_character()->is_limb_broken( id );
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
-    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+    if( !was_broken && is_avatar() && as_character()->is_limb_broken( id ) ) {
         get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
     }
 }
@@ -2351,7 +2369,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
 bodypart_id Creature::get_root_body_part() const
 {
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->connected_to == part->main_part ) {
+        if( part->connected_to == part->id ) {
             return part;
         }
     }
@@ -2363,13 +2381,18 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     body_part_type::type part_type, get_body_part_flags flags ) const
 {
     const bool only_main( flags & get_body_part_flags::only_main );
+    const bool primary( flags & get_body_part_flags::primary_type );
 
     std::vector<bodypart_id> bodyparts;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
-        if( elem.first->limb_type == part_type ) {
+        if( primary ) {
+            if( elem.first->primary_limb_type() == part_type ) {
+                bodyparts.emplace_back( elem.first );
+            }
+        } else if( elem.first->has_type( part_type ) ) {
             bodyparts.emplace_back( elem.first );
         }
     }
@@ -2381,6 +2404,46 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
+std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
+const
+{
+    std::vector<bodypart_id> bodyparts;
+
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( flag ) ) {
+            bodyparts.emplace_back( elem.first );
+        }
+    }
+    return bodyparts;
+}
+
+body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool lower ) const
+{
+    body_part_set ret;
+    // Need to exclude stuff - start full and reduce?
+    ret.fill( get_all_body_parts() );
+    // Diving
+    if( upper && mid && lower ) {
+        return ret;
+    }
+    body_part_set upper_limbs;
+    body_part_set lower_limbs;
+    upper_limbs.fill( get_all_body_parts_with_flag( json_flag_LIMB_UPPER ) );
+    lower_limbs.fill( get_all_body_parts_with_flag( json_flag_LIMB_LOWER ) );
+    // Rain?
+    if( upper && mid ) {
+        ret.substract_set( lower_limbs );
+    }
+    // Swimming with your head out
+    if( !upper ) {
+        ret.substract_set( upper_limbs );
+    }
+    // Wading in water
+    if( !upper && !mid && lower ) {
+        ret = lower_limbs;
+    }
+    return ret;
+}
 int Creature::get_hp( const bodypart_id &bp ) const
 {
     if( bp != bodypart_str_id::NULL_ID() ) {
@@ -2654,6 +2717,11 @@ bodypart_id Creature::select_body_part( int min_hit, int max_hit, bool can_attac
 
     return anatomy( get_all_body_parts() ).select_body_part( min_hit, max_hit, can_attack_high,
             hit_roll );
+}
+
+bodypart_id Creature::select_blocking_part( bool arm, bool leg, bool nonstandard ) const
+{
+    return anatomy( get_all_body_parts() ).select_blocking_part( this, arm, leg, nonstandard );
 }
 
 bodypart_id Creature::random_body_part( bool main_parts_only ) const

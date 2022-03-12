@@ -262,10 +262,10 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_NPC_RETREAT;
-        const tripoint abs_pos = get_location().raw();
+        const tripoint_abs_ms abs_pos = get_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
-                fac_id );
+        cata::optional<tripoint_abs_ms> retreat_target =
+            mgr.get_nearest( retreat_zone, abs_pos, 60, fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
             if( !path.empty() ) {
@@ -1192,7 +1192,7 @@ void npc::execute_action( npc_action action )
             } else {
                 fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
-                if( cbm_weapon_index >= 0 ) {
+                if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
                 }
             }
@@ -1599,53 +1599,47 @@ void npc::deactivate_combat_cbms()
     for( const bionic_id &cbm_id : weapon_cbms ) {
         deactivate_bionic_by_id( cbm_id );
     }
-    cbm_weapon_index = -1;
+    weapon_bionic_uid = 0;
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( !i.powered ) {
-                return activate_bionic( index, eff_only );
+                return activate_bionic( i, eff_only );
             } else {
                 return true;
             }
         }
-        index += 1;
     }
     return false;
 }
 
 bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 {
-    int index = 0;
-    for( const bionic &i : *my_bionics ) {
+    for( bionic &i : *my_bionics ) {
         if( i.id == cbm_id ) {
             if( i.powered ) {
-                return deactivate_bionic( index, eff_only );
+                return deactivate_bionic( i, eff_only );
             } else {
                 return false;
             }
         }
-        index += 1;
     }
     return false;
 }
@@ -1731,7 +1725,7 @@ bool npc::recharge_cbm()
     return false;
 }
 
-void npc::activate_combat_items()
+void outfit::activate_combat_items( npc &guy )
 {
     for( item &candidate : worn ) {
         if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
@@ -1743,12 +1737,32 @@ void npc::activate_combat_items()
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && available_ups() == 0 ) {
+            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0 ) {
                 continue;
             }
-            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
-                transform->use( *this, candidate, false, tripoint_zero );
-                add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
+                transform->use( guy, candidate, false, tripoint_zero );
+                guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+            }
+        }
+    }
+}
+
+void npc::activate_combat_items()
+{
+    worn.activate_combat_items( *this );
+}
+
+void outfit::deactivate_combat_items( npc &guy )
+{
+    for( item &candidate : worn ) {
+        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
+            candidate.active ) {
+            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
+                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+            if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
+                transform->use( guy, candidate, false, tripoint_zero );
+                guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
             }
         }
     }
@@ -1756,17 +1770,7 @@ void npc::activate_combat_items()
 
 void npc::deactivate_combat_items()
 {
-    for( item &candidate : worn ) {
-        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
-            candidate.active ) {
-            const iuse_transform *transform = dynamic_cast<const iuse_transform *>
-                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
-            if( transform->can_use( *this, candidate, false, tripoint_zero ).success() ) {
-                transform->use( *this, candidate, false, tripoint_zero );
-                add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
-            }
-        }
-    }
+    worn.deactivate_combat_items( *this );
 }
 
 void npc::prepare_for_combat()
@@ -2247,7 +2251,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
-    return !rules.has_flag( ally_rule::avoid_doors ) && get_map().open_door( p, inside, true );
+    return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
+           get_map().open_door( p, inside, true );
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -3169,7 +3174,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_wgt ) {
-            rWgt.emplace_back( wgt_ratio, i );
+            rWgt.emplace_back( wgt_ratio, static_cast<int>( i ) );
         }
         for( size_t j = 0; j < rVol.size() && !added_vol; j++ ) {
             if( vol_ratio > rVol[j].ratio ) {
@@ -3178,7 +3183,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             }
         }
         if( !added_vol ) {
-            rVol.emplace_back( vol_ratio, i );
+            rVol.emplace_back( vol_ratio, static_cast<int>( i ) );
         }
     }
 
@@ -4196,20 +4201,28 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurrence of any of that locations terrain types
-        omt_find_params find_params;
-        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
-            std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.str();
-            temp_pair.second = ot_match_type::type;
-            find_params.types.push_back( temp_pair );
+        auto cache_iter = goal_cache.find( fulfill );
+        if( cache_iter != goal_cache.end() && cache_iter->second.omt_loc == surface_omt_loc ) {
+            goal = cache_iter->second.goal;
+        } else {
+            // look for the closest occurrence of any of that locations terrain types
+            omt_find_params find_params;
+            for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
+                std::pair<std::string, ot_match_type> temp_pair;
+                temp_pair.first = elem.str();
+                temp_pair.second = ot_match_type::type;
+                find_params.types.push_back( temp_pair );
+            }
+            // note: no shuffle of `find_params.types` is needed, because `find_closest`
+            // disregards `types` order anyway, and already returns random result among
+            // those having equal minimal distance
+            find_params.search_range = 75;
+            find_params.existing_only = false;
+            goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
+            npc_need_goal_cache &cache = goal_cache[fulfill];
+            cache.goal = goal;
+            cache.omt_loc = surface_omt_loc;
         }
-        // note: no shuffle of `find_params.types` is needed, because `find_closest`
-        // disregards `types` order anyway, and already returns random result among
-        // those having equal minimal distance
-        find_params.search_range = 75;
-        find_params.existing_only = false;
-        goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
@@ -4681,9 +4694,15 @@ bool npc::adjust_worn()
     if( !any_broken ) {
         return false;
     }
-    const auto covers_broken = [this]( const item & it, side s ) {
+
+    return worn.adjust_worn( *this );
+}
+
+bool outfit::adjust_worn( npc &guy )
+{
+    const auto covers_broken = [&guy]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
-        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
             if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
@@ -4699,14 +4718,14 @@ bool npc::adjust_worn()
         if( !covers_broken( elem, elem.get_side() ) ) {
             const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
             //create an item_location for takeoff() to handle.
-            item_location loc_for_takeoff = item_location( *this, &elem );
+            item_location loc_for_takeoff = item_location( guy, &elem );
             // Try to change side (if it makes sense), or take off.
-            if( ( needs_change && change_side( elem ) ) || takeoff( loc_for_takeoff ) ) {
+            std::list<item> temp_list;
+            if( ( needs_change && guy.change_side( elem ) ) || takeoff( loc_for_takeoff, &temp_list, guy ) ) {
                 return true;
             }
         }
     }
-
     return false;
 }
 

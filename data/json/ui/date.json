@@ -1,0 +1,9 @@
+[
+  {
+    "id": "date_desc",
+    "type": "widget",
+    "label": "Date",
+    "style": "text",
+    "var": "date_text"
+  }
+]

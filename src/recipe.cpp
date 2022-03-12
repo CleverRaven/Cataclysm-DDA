@@ -312,7 +312,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         mandatory( jo, was_loaded, "category", category );
         mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        assign( jo, "reversible", reversible, strict );
+
+        if( jo.has_bool( "reversible" ) ) {
+            assign( jo, "reversible", reversible, strict );
+        } else if( jo.has_object( "reversible" ) ) {
+            reversible = true;
+            // Convert duration to time in moves
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>
+                                          ( jo.get_object( "reversible" ).get_member( "time" ), time_duration::units ) );
+        }
 
         if( jo.has_member( "byproducts" ) ) {
             if( this->reversible ) {
@@ -941,10 +949,20 @@ std::function<bool( const item & )> recipe::get_component_filter(
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
         static_cast<bool>( flags & recipe_filter_flags::no_rotten );
+    const bool flags_forbid_favorites =
+        static_cast<bool>( flags & recipe_filter_flags::no_favorite );
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
+        };
+    }
+
+    // Disallow crafting using favorited items as components
+    std::function<bool( const item & )> favorite_filter = return_true<item>;
+    if( flags_forbid_favorites ) {
+        favorite_filter = []( const item & component ) {
+            return !component.is_favorite;
         };
     }
 
@@ -971,9 +989,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+    return [ rotten_filter, favorite_filter, frozen_filter,
+                   magazine_filter ]( const item & component ) {
         return is_crafting_component( component ) &&
                rotten_filter( component ) &&
+               favorite_filter( component ) &&
                frozen_filter( component ) &&
                magazine_filter( component );
     };

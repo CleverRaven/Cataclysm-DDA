@@ -516,7 +516,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         SECTION( "several rocks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
-                   " TEST rocks" );
+                   " TEST rocks (2)" );
         }
         SECTION( "several stacks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );

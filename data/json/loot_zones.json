@@ -105,6 +105,13 @@
     "description": "Destination for books and magazines."
   },
   {
+    "id": "LOOT_MANUALS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Manuals",
+    "can_be_personal": true,
+    "description": "Destination for instructional books and magazines."
+  },
+  {
     "id": "LOOT_MODS",
     "type": "LOOT_ZONE",
     "name": "Loot: Mods",
@@ -145,6 +152,13 @@
     "name": "Loot: Maps",
     "can_be_personal": true,
     "description": "Destination for maps."
+  },
+  {
+    "id": "LOOT_KEYS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Keys",
+    "can_be_personal": true,
+    "description": "Destination for keys."
   },
   {
     "id": "LOOT_CURRENCY",

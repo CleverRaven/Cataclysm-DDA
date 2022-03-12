@@ -1707,22 +1707,6 @@ bool JsonIn::read( std::bitset<N> &b, bool throw_on_error )
     return true;
 }
 
-bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
-{
-    // can't know what type of json object it will deserialize from,
-    // so just try to deserialize, catching any error.
-    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
-    try {
-        j.deserialize( *this );
-        return true;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
-}
-
 /**
  * Get the normal form of a relative path. Does not work on absolute paths.
  * Slash and backslash are both treated as path separators and replaced with
@@ -2238,15 +2222,6 @@ void JsonOut::write( const std::bitset<N> &b )
         stream->put( ch );
     }
     stream->put( '"' );
-    need_separator = true;
-}
-
-void JsonOut::write( const JsonSerializer &thing )
-{
-    if( need_separator ) {
-        write_separator();
-    }
-    thing.serialize( *this );
     need_separator = true;
 }
 

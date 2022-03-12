@@ -36,6 +36,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -80,11 +81,19 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 }, "allowed_speedloaders": [ "marlin_tubeloader" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "22": 19 },
+        "allowed_speedloaders": [ "marlin_tubeloader" ]
+      }
+    ]
   },
   {
     "id": "moss_brownie",
@@ -201,6 +210,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -221,7 +231,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "22": 8 },
         "allowed_speedloaders": [ "22_speedloader8" ]
@@ -322,7 +331,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Walther P22" },
-    "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy",
+    "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
     "weight": "480 g",
     "volume": "290 ml",
     "longest_side": "183 mm",

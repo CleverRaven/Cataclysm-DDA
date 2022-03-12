@@ -24,6 +24,14 @@
     "components": [ [ [ "thread", 70 ] ] ]
   },
   {
+    "result": "xssocks",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 28 ] ] ]
+  },
+  {
     "result": "boxer_shorts",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -40,6 +48,14 @@
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
+    "result": "xsboxer_shorts",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 30 ] ] ]
+  },
+  {
     "result": "boxer_briefs",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -54,6 +70,14 @@
     "time": "60 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
+  },
+  {
+    "result": "xsboxer_briefs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 60 ] ] ]
   },
   {
     "result": "briefs",
@@ -86,6 +110,14 @@
     "time": "60 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
+  },
+  {
+    "result": "xsboy_shorts",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 30 ] ] ]
   },
   {
     "result": "down_blanket",

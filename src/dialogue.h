@@ -100,6 +100,8 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mutate_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -108,11 +110,13 @@ struct talk_effect_fun_t {
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_finish_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member,
-                                            bool is_npc = false );
+        void set_run_eocs( const JsonObject &jo, const std::string &member );
+        void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_queue_eocs( const JsonObject &jo, const std::string &member );
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc,
+                             bool targeted = false );
         void set_lightning();
         void set_next_weather();
         void set_sound_effect( const JsonObject &jo, const std::string &member );
@@ -141,7 +145,9 @@ struct talk_effect_fun_t {
         void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
+        void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
@@ -156,11 +162,12 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member );
-        std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo );
+        void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_give_equipment( const JsonObject &jo, const std::string &member );
         void set_open_dialogue();
         void set_take_control();
         void set_take_control_menu();
@@ -394,23 +401,75 @@ struct dynamic_line_t {
         }
 };
 
+struct var_info {
+    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+        name( in_name ), default_val( in_default_val ) {}
+    var_type type;
+    std::string name;
+    std::string default_val;
+};
 
-struct int_or_var {
+static std::string read_var_value( var_type type, std::string name, talker *talk )
+{
+    global_variables &globvars = get_globals();
+    switch( type ) {
+        case var_type::global:
+            return globvars.get_global_value( name );
+            break;
+        case var_type::u:
+        case var_type::npc:
+            return talk->get_value( name );
+            break;
+        case var_type::faction:
+            debugmsg( "Not implemented yet." );
+            break;
+        case var_type::party:
+            debugmsg( "Not implemented yet." );
+            break;
+        default:
+            debugmsg( "Invalid type." );
+            break;
+    }
+    return "";
+}
+
+struct str_or_var {
+    cata::optional<std::string> str_val;
+    cata::optional<std::string> var_val;
+    cata::optional<std::string> default_val;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
+    std::string evaluate( talker *talk ) const {
+        if( str_val.has_value() ) {
+            return str_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = read_var_value( type, var_val.value(), talk );
+            if( !val.empty() ) {
+                return std::string( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return "";
+        }
+    }
+};
+
+struct int_or_var_part {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
-    bool global = false;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
     int evaluate( talker *talk ) const {
         if( int_val.has_value() ) {
             return int_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 return std::stoi( val );
             }
@@ -422,22 +481,35 @@ struct int_or_var {
     }
 };
 
-struct duration_or_var {
+struct int_or_var {
+    bool pair = false;
+    int_or_var_part min;
+    int_or_var_part max;
+    bool is_npc() const {
+        return min.type == var_type::npc || max.type == var_type::npc;
+    }
+    int evaluate( talker *talk ) const {
+        if( pair ) {
+            return rng( min.evaluate( talk ), max.evaluate( talk ) );
+        } else {
+            return min.evaluate( talk );
+        }
+    }
+};
+
+struct duration_or_var_part {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
-    bool global = false;
+    var_type type = var_type::u;
+    bool is_npc() const {
+        return type == var_type::npc;
+    }
     time_duration evaluate( talker *talk ) const {
         if( dur_val.has_value() ) {
             return dur_val.value();
         } else if( var_val.has_value() ) {
-            std::string val;
-            if( global ) {
-                global_variables &globvars = get_globals();
-                val = globvars.get_global_value( var_val.value() );
-            } else {
-                val = talk->get_value( var_val.value() );
-            }
+            std::string val = read_var_value( type, var_val.value(), talk );
             if( !val.empty() ) {
                 time_duration ret_val;
                 ret_val = time_duration::from_turns( std::stoi( val ) );
@@ -447,6 +519,22 @@ struct duration_or_var {
         } else {
             debugmsg( "No valid value." );
             return 0_seconds;
+        }
+    }
+};
+
+struct duration_or_var {
+    bool pair = false;
+    duration_or_var_part min;
+    duration_or_var_part max;
+    bool is_npc() const {
+        return min.type == var_type::npc || max.type == var_type::npc;
+    }
+    time_duration evaluate( talker *talk ) const {
+        if( pair ) {
+            return rng( min.evaluate( talk ), max.evaluate( talk ) );
+        } else {
+            return min.evaluate( talk );
         }
     }
 };

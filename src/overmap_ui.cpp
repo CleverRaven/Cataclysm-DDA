@@ -38,6 +38,7 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "cursesport.h"
+#include "display.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -846,8 +847,7 @@ static void draw_ascii(
                     }
                 }
                 // Highlight areas that already have been generated
-                // TODO: fix point types
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
+                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -1173,17 +1173,15 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
-        print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
+        print_hint( "TOGGLE_OVERMAP_WEATHER",
+                    !get_map().is_outside( get_player_character().pos() ) ? c_dark_gray :
+                    uistate.overmap_visible_weather ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
 
-    point_abs_omt abs_omt = center.xy();
-    point_abs_om om;
-    point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
-               _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
+    const std::string coords = display::overmap_position_text( center );
+    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, coords );
     wnoutrefresh( wbar );
 }
 
@@ -1873,7 +1871,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
+            if( get_map().is_outside( get_player_character().pos() ) ) {
+                uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
+            }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {

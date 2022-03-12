@@ -31,7 +31,7 @@ static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 
 // NOLINTNEXTLINE(readability-function-size)
-TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
+TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )
 {
     const itype_id gun_id = itype_m4_carbine;
     const ammotype gun_ammo = ammo_223;
@@ -179,9 +179,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 item &ammo = player_character.i_add( item( alt_ammo ) );
                 bool ok = mag.reload( player_character, item_location( player_character, &ammo ),
                                       mag.ammo_capacity( gun_ammo ) );
-                THEN( "further reloading should fail" ) {
-                    REQUIRE_FALSE( ok );
-                    REQUIRE( mag.ammo_remaining() == mag_cap - 2 );
+                THEN( "further reloading should be succesful" ) {
+                    REQUIRE( ok );
+                    REQUIRE( mag.ammo_remaining() == mag_cap );
                 }
             }
 
@@ -277,9 +277,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     item &ammo = player_character.i_add( item( alt_ammo, calendar::turn, 10 ) );
                     bool ok = gun.magazine_current()->reload( player_character, item_location( player_character,
                               &ammo ), 10 );
-                    THEN( "further reloading should fail" ) {
-                        REQUIRE_FALSE( ok );
-                        REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
+                    THEN( "further reloading should be succesful" ) {
+                        REQUIRE( ok );
+                        REQUIRE( gun.ammo_remaining() == mag_cap );
                     }
                 }
 
@@ -337,7 +337,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     }
 }
 
-TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
+TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
 {
     const itype_id gun_id = itype_sw_619;
     const ammotype gun_ammo = ammo_38;

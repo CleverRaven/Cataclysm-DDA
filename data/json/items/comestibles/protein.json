@@ -74,7 +74,7 @@
     "color": "green",
     "container": "wrapper_pr",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
     "id": "protein_shake",
@@ -107,7 +107,7 @@
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
+    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 5 ] ] }
   },
   {
     "id": "milk_fortified",
@@ -135,7 +135,7 @@
     "quench": 22,
     "healthy": 3,
     "fun": 1,
-    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
