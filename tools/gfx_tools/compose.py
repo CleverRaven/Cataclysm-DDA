@@ -250,7 +250,7 @@ class Tileset:
                 f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
-        info_path = self.source_dir / 'tile_info.json'
+        info_path = self.source_dir.joinpath('tile_info.json')
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
@@ -272,7 +272,7 @@ class Tileset:
         properties = {}
 
         for candidate_path in (self.source_dir, self.output_dir):
-            properties_path = candidate_path / PROPERTIES_FILENAME
+            properties_path = candidate_path.joinpath(PROPERTIES_FILENAME)
             if os.access(properties_path, os.R_OK):
                 properties = read_properties(properties_path)
                 if properties:
@@ -295,7 +295,7 @@ class Tileset:
         Convert a composing tileset into a package readable by the game
         '''
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        tileset_confpath = self.output_dir / self.determine_conffile()
+        tileset_confpath = self.output_dir.joinpath(self.determine_conffile())
         typed_sheets = {
             'main': [],
             'filler': [],
@@ -500,9 +500,9 @@ class Tilesheet:
         output_root = self.name.split('.png')[0]
         dir_name = \
             f'pngs_{output_root}_{self.sprite_width}x{self.sprite_height}'
-        self.subdir_path = tileset.source_dir / dir_name
+        self.subdir_path = tileset.source_dir.joinpath(dir_name)
 
-        self.output = tileset.output_dir / self.name
+        self.output = tileset.output_dir.joinpath(self.name)
 
         self.tile_entries = []
         self.null_image = \
@@ -530,7 +530,8 @@ class Tilesheet:
         '''
         all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
         excluded_paths = [  # TODO: dict by parent dirs
-            self.subdir_path / ignored_path for ignored_path in self.exclude
+            self.subdir_path.joinpath(ignored_path)
+            for ignored_path in self.exclude
         ]
         mode = all_files if no_tqdm or run_silent else tqdm(all_files)
         for subdir_fpath, dirs, filenames in mode:
@@ -539,11 +540,11 @@ class Tilesheet:
                 # replace dirs in-place to prevent walking down excluded paths
                 dirs[:] = [
                     d for d in dirs
-                    if subdir_fpath / d not in excluded_paths
+                    if subdir_fpath.joinpath(d) not in excluded_paths
                 ]
 
             for filename in sorted(filenames):
-                filepath = subdir_fpath / filename
+                filepath = subdir_fpath.joinpath(filename)
 
                 if filepath.suffixes == ['.png']:
                     self.process_png(filepath)
