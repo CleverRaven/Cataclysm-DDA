@@ -88,7 +88,7 @@
     "name": { "str": "XL lamellar cuirass", "str_pl": "XL lamellar cuirasses" },
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_lamellar",
@@ -97,7 +97,7 @@
     "looks_like": "armor_lamellar",
     "name": { "str": "XS lamellar cuirass", "str_pl": "XS lamellar cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE", "OUTER" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_lorica",
