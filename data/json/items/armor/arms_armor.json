@@ -422,7 +422,7 @@
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_scrap",
@@ -432,7 +432,7 @@
     "name": { "str": "pair of XS scrap arm guards", "str_pl": "pairs of XS scrap arm guards" },
     "description": "A pair of undersized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_tire",
