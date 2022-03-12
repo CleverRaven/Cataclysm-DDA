@@ -277,8 +277,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     return retval;
 }
 
-bool Character::i_drop_at( item &it, int qty, const item *avoid,
-                           const item *original_inventory_item )
+bool Character::i_drop_at( item &it, int qty )
 {
     bool retval = true;
     map &here = get_map();
