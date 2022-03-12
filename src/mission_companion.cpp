@@ -554,12 +554,13 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 
 void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: 50-100 merch\nDanger: Medium\nTime: 10 hour missions\n\n"
-                           "Scavenging raids target formerly populated areas to loot as many "
-                           "valuable items as possible before being surrounded by the undead.  "
-                           "Combat is to be expected and assistance from the rest of the party "
-                           "can't be guaranteed.  The rewards are greater and there is a chance "
-                           "of the companion bringing back items." );
+    std::string entry =
+        _( "Profit: 50-100 merch, some items\nDanger: Medium\nTime: 10 hour missions\n\n"
+           "Scavenging raids target formerly populated areas to loot as many "
+           "valuable items as possible before being surrounded by the undead.  "
+           "Combat is to be expected and assistance from the rest of the party "
+           "can't be guaranteed.  The rewards are greater and there is a chance "
+           "of the companion bringing back items." );
     const mission_id miss_id = {Scavenging_Raid_Job, "", cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Scavenging Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
@@ -587,12 +588,13 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: hospital materials\nDanger: High\nTime: 20 hour missions\n\n"
-                           "Scavenging raid targeting a hospital to search for hospital equipment and as many "
-                           "valuable items as possible before being surrounded by the undead.  "
-                           "Combat is to be expected and assistance from the rest of the party "
-                           "can't be guaranteed.  This will be an extremely dangerous mission, "
-                           "so make sure everyone is prepared before they go." );
+    std::string entry =
+        _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
+           "Scavenging raid targeting a hospital to search for hospital equipment and as many "
+           "valuable items as possible before being surrounded by the undead.  "
+           "Combat is to be expected and assistance from the rest of the party "
+           "can't be guaranteed.  This will be an extremely dangerous mission, "
+           "so make sure everyone is prepared before they go." );
     const mission_id miss_id = {Hospital_Raid_Job, "", cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Hospital Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
@@ -1808,7 +1810,13 @@ bool talk_function::scavenging_raid_return( npc &p )
     }
 
     for( item i : all_returned_items ) {
-        player_character.i_drop_at( i );
+        // Scavengers get most items and put them up for sale, player gets the scraps
+        if( one_in( 8 ) ) {
+            player_character.i_drop_at( i );
+        } else {
+            i.set_owner( p );
+            p.i_add_or_drop( i );
+        }
     }
 
     item merch = item( itype_FMCNote );
@@ -1886,7 +1894,13 @@ bool talk_function::hospital_raid_return( npc &p )
     }
 
     for( item i : all_returned_items ) {
-        player_character.i_drop_at( i );
+        // One time mission, so the loot gets split evenly
+        if( one_in( 2 ) ) {
+            player_character.i_drop_at( i );
+        } else {
+            i.set_owner( p );
+            p.i_add_or_drop( i );
+        }
     }
 
     player_character.set_value( var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED, "yes" );
