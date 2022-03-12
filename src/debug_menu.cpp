@@ -1668,7 +1668,7 @@ static void character_edit_menu()
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
-                    _( "Write effect_on_condition(s) to eocs.output." ) );
+                    _( "Write effect_on_condition(s) to eocs.output" ) );
     nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 
     if( you.is_npc() ) {
