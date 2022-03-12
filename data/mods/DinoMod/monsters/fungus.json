@@ -225,7 +225,26 @@
     "vision_night": 5,
     "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
     "upgrades": {  },
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+  },
+  {
+    "id": "mon_zanzu_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal anzu zombie" },
+    "description": "Once a large feathered bipedal dinosaur with a long neck and claws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zanzu",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zeinonychus_fungus",
@@ -249,7 +268,7 @@
       { "type": "bite", "cooldown": 5 }
     ],
     "upgrades": {  },
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zutahraptor_fungus",
@@ -273,7 +292,7 @@
       { "type": "bite", "cooldown": 5 }
     ],
     "upgrades": {  },
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zamargasaurus_fungus",
