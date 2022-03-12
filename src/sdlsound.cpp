@@ -192,15 +192,10 @@ void musicFinished()
     Mix_FreeMusic( current_music );
     current_music = nullptr;
 
-    if( music::is_listening_music || music::is_listening_mp3 ) {
-        if( current_playlist.compare( "music" ) != 0 ) {
-            play_music( "music" );
+    std::string new_playlist = music::get_music_id_string();
 
-            return;
-        }
-    }
-    else if( current_playlist.compare( "music" ) == 0 ) {
-        play_music( "title" );
+    if( current_playlist.compare( new_playlist ) ) {
+        play_music( new_playlist );
 
         return;
     }
@@ -294,10 +289,12 @@ void update_music_volume()
 
     if( !sounds::sound_enabled ) {
         stop_music();
+        music::deactivate_music_id_all();
+        
         return;
     }
     else if( !sound_enabled_old ) {
-        play_music( "title" );
+        play_music( music::get_music_id_string() );
     }
 
     Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );

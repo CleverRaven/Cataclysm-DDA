@@ -624,7 +624,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         if( sound.category == sound_t::music ) {
-            music::is_listening_music = true;
+            music::activate_music_id( music::music_id::sound );
         }
 
         // don't print our own noise or things without descriptions

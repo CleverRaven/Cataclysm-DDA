@@ -601,14 +601,7 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
-    if( music::is_listening_music || music::is_listening_mp3 ) {
-        play_music( "music" );
-    }
-    else {
-        play_music( "title" );
-    }
-
-    music::is_listening_music = false;
+    play_music( music::get_music_id_string() );
 
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
@@ -676,6 +669,8 @@ bool do_turn()
     }
 
     // Process sound events into sound markers for display to the player.
+    music::deactivate_music_id( music::music_id::sound );
+
     sounds::process_sound_markers( &u );
 
     if( u.is_deaf() ) {

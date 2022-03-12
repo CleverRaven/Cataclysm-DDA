@@ -369,12 +369,11 @@ bool main_menu::opening_screen()
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
 
-    if( music::is_listening_music || music::is_listening_mp3 ) {
-        music::is_listening_music = false;
-        music::is_listening_mp3 = false;
+    if( music::get_music_id() != music::music_id::title ) {
+        music::deactivate_music_id_all();
     }
     else {
-        play_music( "title" );
+        play_music( music::get_music_id_string() );
     }
 
     world_generator->set_active_world( nullptr );

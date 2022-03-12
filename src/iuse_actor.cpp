@@ -91,6 +91,8 @@
 #include "weather.h"
 #include "weather_type.h"
 
+#include "music.h"
+
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -2192,6 +2194,10 @@ void musical_instrument_actor::load( const JsonObject &obj )
 cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( !p.is_npc() ) {
+        music::deactivate_music_id( music::music_id::instrument );
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
@@ -2249,6 +2255,10 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
 
     // We can play the music now
+    if( !p.is_npc() ) {
+        music::activate_music_id( music::music_id::instrument );
+    }
+
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
