@@ -1663,7 +1663,7 @@ static void character_edit_menu()
                     "%s", _( "Status window" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
-    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprature" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
