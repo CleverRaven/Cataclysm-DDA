@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "music.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -43,8 +44,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
-
-#include "music.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

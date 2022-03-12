@@ -73,6 +73,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -118,8 +119,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
-
-#include "music.h"
 
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );

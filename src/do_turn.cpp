@@ -20,12 +20,14 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "music.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "popup.h"
 #include "scent_map.h"
+#include "sdlsound.h"
 #include "string_input_popup.h"
 #include "timed_event.h"
 #include "ui_manager.h"
@@ -33,9 +35,6 @@
 #include "vpart_position.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-#include "music.h"
-#include "sdlsound.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
@@ -668,9 +667,9 @@ bool do_turn()
         }
     }
 
-    // Process sound events into sound markers for display to the player.
     music::deactivate_music_id( music::music_id::sound );
 
+    // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
 
     if( u.is_deaf() ) {

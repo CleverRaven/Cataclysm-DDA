@@ -30,6 +30,7 @@
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
+#include "music.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -46,8 +47,6 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
-
-#include "music.h"
 
 void main_menu::on_move() const
 {

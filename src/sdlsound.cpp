@@ -26,14 +26,13 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "messages.h"
+#include "music.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
 #include "units.h"
-
-#include "music.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -194,7 +193,7 @@ void musicFinished()
 
     std::string new_playlist = music::get_music_id_string();
 
-    if( current_playlist.compare( new_playlist ) ) {
+    if( current_playlist != new_playlist ) {
         play_music( new_playlist );
         return;
     }
