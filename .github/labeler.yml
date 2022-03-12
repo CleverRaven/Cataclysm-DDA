@@ -18,6 +18,20 @@
 "Code: Tests":
   - tests/**/*
 
+"NPC / Factions":
+  - data/json/npcs/**/*
+
+"Bionics":
+  - "data/json/bionics.json"
+
+"Player Faction Base / Camp":
+  - "src/basecamp.(cpp|h)"
+  - data/json/mapgen/basecamps/**/*
+
+"Items: Ammo / Guns":
+  - data/json/items/gun/**/*
+  - data/json/items/ammo/**/*
+
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
