@@ -371,8 +371,7 @@ bool main_menu::opening_screen()
 
     if( music::get_music_id() != music::music_id::title ) {
         music::deactivate_music_id_all();
-    }
-    else {
+    } else {
         play_music( music::get_music_id_string() );
     }
 

@@ -196,7 +196,6 @@ void musicFinished()
 
     if( current_playlist.compare( new_playlist ) ) {
         play_music( new_playlist );
-
         return;
     }
 
@@ -228,8 +227,7 @@ void play_music( const std::string &playlist )
     // Don't interrupt playlist that's already playing.
     if( playlist == current_playlist ) {
         return;
-    }
-    else {
+    } else {
         stop_music();
     }
 
@@ -284,20 +282,18 @@ void update_music_volume()
         return;
     }
 
+    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+
     bool sound_enabled_old = sounds::sound_enabled;
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
         stop_music();
         music::deactivate_music_id_all();
-        
         return;
-    }
-    else if( !sound_enabled_old ) {
+    } else if( !sound_enabled_old ) {
         play_music( music::get_music_id_string() );
     }
-
-    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
