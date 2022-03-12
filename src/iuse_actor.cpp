@@ -2194,8 +2194,12 @@ void musical_instrument_actor::load( const JsonObject &obj )
 cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
-    if( !p.is_npc() ) {
+    if( !p.is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
         music::deactivate_music_id( music::music_id::instrument );
+        // Because musical instrument creates musical sound too
+        if( music::is_active_music_id( music::music_id::sound ) ) {
+            music::deactivate_music_id( music::music_id::sound );
+        }
     }
 
     if( p.is_mounted() ) {
