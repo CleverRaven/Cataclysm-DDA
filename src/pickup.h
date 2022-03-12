@@ -18,7 +18,7 @@ namespace Pickup
  * `true` in other cases.
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                bool autopickup );
+                bool autopickup, bool &stash_successful );
 bool query_thief();
 
 enum from_where : int {

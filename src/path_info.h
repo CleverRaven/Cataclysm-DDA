@@ -21,6 +21,7 @@ void init_user_dir( std::string dir );
 void set_standard_filenames();
 
 std::string autopickup();
+std::string autonote();
 std::string base_colors();
 std::string base_path();
 std::string colors();

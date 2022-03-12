@@ -10,7 +10,14 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_BLACKSMITH_SERVICES",
-    "faction": "isolated_artisans"
+    "faction": "isolated_artisans",
+    "death_eocs": [
+      {
+        "id": "EOC_DEATH_NPC_CODY",
+        "eoc_type": "NPC_DEATH",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "cody_dead" }, "=", { "const": 1 } ] } ]
+      }
+    ]
   },
   {
     "type": "npc_class",
@@ -50,7 +57,14 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_GUNSMITH_SERVICES",
-    "faction": "isolated_artisans"
+    "faction": "isolated_artisans",
+    "death_eocs": [
+      {
+        "id": "EOC_DEATH_NPC_JAY",
+        "eoc_type": "NPC_DEATH",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "jay_dead" }, "=", { "const": 1 } ] } ]
+      }
+    ]
   },
   {
     "type": "npc_class",

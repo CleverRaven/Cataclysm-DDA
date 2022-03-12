@@ -100,6 +100,7 @@ parsers = {
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
+    "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,

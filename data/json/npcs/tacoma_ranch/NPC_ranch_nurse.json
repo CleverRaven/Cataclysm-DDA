@@ -317,7 +317,7 @@
     "difficulty": 5,
     "value": 50000,
     "item": "syringe",
-    "count": 3,
+    "count": 10,
     "start": "ranch_nurse_9",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",

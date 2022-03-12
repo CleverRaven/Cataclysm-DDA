@@ -885,6 +885,34 @@
     "type": "mapgen",
     "method": "json",
     "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_E_W_1A",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        " BBBB ",
+        " LLLL ",
+        " BBBB ",
+        "      ",
+        " yIIy "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
     "nested_mapgen_id": "diningroom_6x6_E_W_2",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -935,6 +963,644 @@
           { "item": "dining", "chance": 10 }
         ]
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_E_W_2A",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        " BBBB ",
+        " LLLL ",
+        " LLLL ",
+        " BBBB ",
+        "y    a"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates table orientation",
+    "nested_mapgen_id": "diningroom_6x6_N_S_2A",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        " BLLB ",
+        " BLLB ",
+        " BLLB ",
+        " BLLB ",
+        "Y    y"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "123li",
+        "     ",
+        " JjJ ",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "liwww",
+        "     ",
+        "123j~",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "123 ~",
+        "     ",
+        "iJjJl",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "JiJ l",
+        "     ",
+        "123~w",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "J  1~",
+        "j    ",
+        "Jil32",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_1C",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "123 J",
+        "    j",
+        "linYJ",
+        "     ",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ilJjJ",
+        "     ",
+        "~ 123",
+        "  AAA",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "wlijn",
+        "w    ",
+        "w 123",
+        "  AAA",
+        "     "
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_3",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "nilww",
+        "    w",
+        " LL  ",
+        "    ~",
+        "3j1 j"
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "kitchen_5x5_N_3",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "wwlww",
+        "     ",
+        " nij ",
+        "     ",
+        "1~ 23"
+      ],
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
+      "palettes": [ "house_w_nest_palette" ],
+      "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
+      "items": {
+        "w": [ { "item": "SUS_pantry", "chance": 10 }, { "item": "cannedfood", "chance": 15, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "SUS_fridge", "chance": 100 },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "j": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "1": [
+          { "item": "SUS_cookware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_silverware", "chance": 100 }
+        ],
+        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+        "~": { "item": "SUS_junk_drawer", "chance": 100 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "yxxx",
+        "    ",
+        "C p ",
+        " @@@"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 2, "y": 0, "chance": 100 },
+        { "item": "stereo", "x": 1, "y": 0, "chance": 60 },
+        { "group": "consumer_electronics", "x": 3, "y": 0, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CppC",
+        " 66H",
+        " 66 ",
+        "▤▤▤▤"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "▤": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }, "p": { "item": "livingroom", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "▤▤▤▤",
+        "6666",
+        "6666",
+        "@@@H"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "▤": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }, "p": { "item": "livingroom", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Cxxx",
+        "    ",
+        "▤ p ",
+        "▤@@@"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 1, "y": 0, "chance": 100 },
+        { "item": "stereo", "x": 2, "y": 0, "chance": 60 },
+        { "group": "consumer_electronics", "x": 3, "y": 0, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "▤": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }, "p": { "item": "livingroom", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y@@@",
+        "  p ",
+        "C   ",
+        " xxx"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 1, "y": 3, "chance": 100 },
+        { "item": "stereo", "x": 2, "y": 3, "chance": 60 },
+        { "group": "consumer_electronics", "x": 3, "y": 3, "chance": 60, "repeat": [ 1, 4 ] }
+      ],
+      "items": { "p": { "item": "livingroom", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "livingroom_4x4_N_S_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    ",
+        "eee ",
+        "eee ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "e": { "item": "pool_table", "chance": 40 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Y@@y",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "▤▤▤▤",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "▤": [ { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CppC",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "p": [ { "item": "livingroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BLLB",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": {
+        "L": [
+          { "item": "dishes_dining", "chance": 30 },
+          { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "baked_goods", "chance": 5 },
+          { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "dining", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ybcy",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "DZWD",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "Z": [ { "item": "laundry", "chance": 30 } ], "W": [ { "item": "laundry", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "compass direction indicates furniture orientation",
+    "nested_mapgen_id": "livingroom_4x4_N_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "xxxx",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "place_loot": [
+        { "item": "television", "x": 1, "y": 0, "chance": 100 },
+        { "item": "stereo", "x": 0, "y": 0, "chance": 60 },
+        { "group": "consumer_electronics", "x": [ 2, 3 ], "y": 0, "chance": 60, "repeat": [ 1, 4 ] }
+      ]
     }
   },
   {
@@ -1241,6 +1907,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "bookcases and chair for for studies, workrooms, hobby rooms, etc",
+    "nested_mapgen_id": "bonus_room_3x3_1A",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H ▤",
+        " C▤",
+        "  ▤"
+      ],
+      "palettes": [ "house_w_nest_palette" ],
+      "items": { "▤": [ { "item": "homebooks", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "small furniture groupings for studies, workrooms, hobby rooms, etc",
     "nested_mapgen_id": "bonus_room_3x3_2",
     "object": {
@@ -1526,6 +2209,7 @@
         "D2R3Dc",
         "BBCBB "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ],
       "terrain": { "s": "t_concrete" },
       "place_items": [
@@ -1551,6 +2235,7 @@
         "D9R8Dc",
         "BBCBB "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ],
       "terrain": { "s": "t_concrete" },
       "place_items": [
@@ -1576,6 +2261,7 @@
         "|SzzQ|",
         "||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_palette" ],
       "terrain": {
         "|": "t_wall_metal_corrugated",
@@ -1610,6 +2296,7 @@
         "|GEEB|",
         "||oo||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_wall_wood",
         "+": "t_door_locked",
@@ -1654,6 +2341,7 @@
         "+   S|",
         "||||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "|": "t_scrap_wall",
         "+": "t_door_metal_pickable",
@@ -1682,6 +2370,7 @@
         "  Kcc ",
         "   cZ "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ]
     }
   },
@@ -1810,6 +2499,7 @@
         "PPP",
         "PPP"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ],
       "sealed_item": { "P": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" } },
       "place_items": [
@@ -1831,6 +2521,7 @@
         "   ",
         "111"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "house_w_nest_garden_palette" ],
       "place_items": [
         { "item": "farming_tools", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 5, "repeat": [ 1, 3 ] },
@@ -1851,6 +2542,7 @@
         "1Z1",
         "111"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "house_w_nest_garden_palette" ]
     }
   },

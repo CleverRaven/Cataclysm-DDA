@@ -85,7 +85,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
-    "bashing": 23,
+    "bashing": 18,
     "range": 10,
     "dispersion": 200,
     "durability": 8,

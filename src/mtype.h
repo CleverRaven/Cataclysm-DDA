@@ -183,6 +183,7 @@ enum m_flag : int {
     MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
+    MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

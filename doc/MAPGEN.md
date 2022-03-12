@@ -337,7 +337,7 @@ Example:
 ```
 
 ### Row terrains in "terrain"
-**required by "rows"**
+**usually required by "rows"**
 
 Defines terrain ids for "rows", each key is a single character with a terrain id string
 
@@ -404,6 +404,31 @@ Example:
 },
 ```
 
+## Mapgen flags
+`"flags"` may provide a list of flags to be applied to the mapgen.
+
+Example:
+```json
+"flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+```
+
+Currently the defined flags are as follows:
+
+* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
+  mutually exclusive flags that can be used with any mapgen which is layered on
+  top of existing terrain.  This can be update mapgen, nested mapgen, or
+  regular mapgen with a predecessor.  It specifies the behaviour to follow when
+  an existing terrain is changed by the update, but the tile has existing
+  items, trap, or furniture on it.  If neither flag is provided this is an
+  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
+  or furniture will be removed before changing the terrain.  If
+  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
+  an error.  If you require more fine-grained control over this behaviour than
+  can be provided by these flags, then each of these things can be removed
+  either individually or together.  See the other entries below, such as
+  `remove_all`.
+  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
 
@@ -436,8 +461,8 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 
 | Field  | Description
 | ---    | ---
-| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"variable"`
-| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"` `"radiation"`, `"variable"`
+| id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" or "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -457,7 +482,7 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
+| line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
@@ -481,8 +506,8 @@ Example:
 
 | Field  | Description
 | ---    | ---
-| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`
-| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation". For `trap_remove` if tr_null is used any traps present will be removed. 
+| square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`
+| id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation" and "item_remove". For `trap_remove` if tr_null is used any traps present will be removed. 
 | x, y   | Top-left corner of square.
 | x2, y2 | Bottom-right corner of square.
 
@@ -851,18 +876,6 @@ To use this type with explicit coordinates use the name "place_item" (this if fo
 ]
 ```
 
-### Remove items by type
-
-| Field    | Description
-| ---      | ---
-| items    | (optional, string array) types of items to be removed. If left empty all items will be removed.
-
-```json 
-"remove_items": [ 
-    { "items": [ "rock" ], "x": [ 10, 15 ], "y": [ 10, 15 ] }
-]
-```
-
 ### Place a specific monster with "monster"
 
 | Field    | Description
@@ -924,7 +937,7 @@ pumps, or unless terrain the liquid spilled on has `LIQUIDCONT` flag), but can b
 | Field  | Description
 | ---    | ---
 | liquid | (required, item id) the item (a liquid)
-| amount | (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+| amount | (optional, integer/min-max array) amount of liquid to place (a value of -1 defaults to the item's default charges)
 | chance | (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
 Example for dropping a default amount of gasoline (200 units) on the ground (either by using a character in the rows
@@ -1014,6 +1027,14 @@ The `type` field values affect NPC behavior. NPCs will:
 - Prefer to retreat towards `NPC_RETREAT` zones.
 - Not move to the see the source of unseen sounds coming from `NPC_NO_INVESTIGATE` zones.
 - Not move to the see the source of unseen sounds coming from outside `NPC_INVESTIGATE_ONLY` zones.
+
+
+### Remove everything with "remove_all"
+
+This has no additional fields, and will remove all fields, items, traps,
+graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
+update mapgen to clear out existing stuff that might exist but wouldn't make
+sense in the nest.
 
 
 ### Translate terrain type with "translate_ter"
@@ -1323,9 +1344,7 @@ other half to use `cabin_palette_abandoned`.
 # Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it
-updates an existing overmap tile with a specific set of changes.  Currently, it only works within
-the NPC mission interface, but it will be expanded to be a general purpose tool for modifying
-existing maps.
+updates an existing overmap tile with a specific set of changes.
 
 update_mapgen generally uses the same fields as JSON mapgen, with a few exceptions.  update_mapgen has a few new fields
 to support missions, as well as ways to specify which overmap tile will be updated.

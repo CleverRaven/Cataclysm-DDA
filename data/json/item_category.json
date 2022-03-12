@@ -177,6 +177,13 @@
     "sort_rank": 20
   },
   {
+    "id": "exosuit",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "EXOSUIT" },
+    "zone": "LOOT_EXOSUIT",
+    "sort_rank": 20
+  },
+  {
     "id": "ITEMS_WORN",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ITEMS WORN" },

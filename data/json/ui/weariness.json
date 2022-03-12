@@ -11,7 +11,6 @@
     "type": "widget",
     "label": "Weariness",
     "var": "weariness_level",
-    "var_max": 10,
     "style": "graph",
     "fill": "pool",
     "width": 5,

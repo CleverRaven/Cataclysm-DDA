@@ -520,7 +520,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "tools": [ [ [ "material_sand", 1 ] ] ],
+    "tools": [ [ [ "material_sand", -1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
@@ -1212,5 +1212,19 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ], [ "metal_file", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "magnifying_glass",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   }
 ]

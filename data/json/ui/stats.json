@@ -1,31 +1,38 @@
 [
   {
+    "id": "stat_number",
+    "//": "Base widget for stats",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ]
+  },
+  {
     "id": "str_num",
     "type": "widget",
     "label": "Str",
     "var": "stat_str",
-    "style": "number"
+    "copy-from": "stat_number"
   },
   {
     "id": "dex_num",
     "type": "widget",
     "label": "Dex",
     "var": "stat_dex",
-    "style": "number"
+    "copy-from": "stat_number"
   },
   {
     "id": "int_num",
     "type": "widget",
     "label": "Int",
     "var": "stat_int",
-    "style": "number"
+    "copy-from": "stat_number"
   },
   {
     "id": "per_num",
     "type": "widget",
     "label": "Per",
     "var": "stat_per",
-    "style": "number"
+    "copy-from": "stat_number"
   },
   {
     "id": "stats_layout",

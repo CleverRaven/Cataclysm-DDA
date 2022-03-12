@@ -12,15 +12,7 @@
     "book_learn": [ [ "textbook_chemistry" ], [ "distilling_cookbook", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
-    "components": [
-      [
-        [ "hard_liquor", 14, "LIST" ],
-        [ "weak_liquor", 10, "LIST" ],
-        [ "wash_liquor", 42, "LIST" ],
-        [ "cheap_wine", 56, "LIST" ],
-        [ "worthy_wine", 40, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "mixed_alcohol_strong", 14 ], [ "mixed_alcohol_weak", 10 ], [ "wash_liquor", 42, "LIST" ] ] ]
   },
   {
     "result": "methed_alcohol",

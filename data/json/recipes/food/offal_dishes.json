@@ -326,7 +326,7 @@
     "time": "30 m",
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "charges": 8,
@@ -482,7 +482,17 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
-      [ [ "meat_nofish", 2, "LIST" ] ],
+      [
+        [ "meat_nofish", 2, "LIST" ],
+        [ "bacon", 8 ],
+        [ "bologna", 10 ],
+        [ "meat_pickled", 2 ],
+        [ "dry_meat", 2 ],
+        [ "jerky", 2 ],
+        [ "meat_smoked", 2 ],
+        [ "meat_salted", 2 ],
+        [ "meat_fried", 2 ]
+      ],
       [ [ "sausage_casings", 6 ], [ "sausage_casings_artificial", 6 ] ],
       [
         [ "salt_water", 4 ],

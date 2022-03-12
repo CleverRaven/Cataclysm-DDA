@@ -132,11 +132,7 @@ static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const efftype_id effect_hypocalcemia( "hypocalcemia" );
-static const efftype_id effect_hypovitA( "hypovitA" );
-static const efftype_id effect_hypovitB( "hypovitB" );
 static const efftype_id effect_riding( "riding" );
-static const efftype_id effect_scurvy( "scurvy" );
 
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
@@ -780,14 +776,17 @@ void Character::load( const JsonObject &data )
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
-    for( auto &w : worn ) {
-        w.on_takeoff( *this );
-    }
+    worn.on_takeoff( *this );
     worn.clear();
-    data.read( "worn", worn );
-    for( auto &w : worn ) {
-        on_item_wear( w );
+    // deprecate after 0.G
+    if( data.has_array( "worn" ) ) {
+        std::list<item> items;
+        data.read( "worn", items );
+        worn = outfit( items );
+    } else {
+        data.read( "worn", worn );
     }
+    worn.on_item_wear( *this );
 
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
@@ -1018,7 +1017,6 @@ void Character::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
-    data.read( "is_dead", is_dead );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
@@ -1309,7 +1307,6 @@ void Character::store( JsonOut &json ) const
 
     // gender
     json.member( "male", male );
-    json.member( "is_dead", is_dead );
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
@@ -2168,7 +2165,7 @@ void npc::load( const JsonObject &data )
     }
 
     if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.mission_id = comp_miss_id;
+        comp_mission.miss_id = mission_id_of( comp_miss_id );
     }
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
@@ -2284,7 +2281,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", comp_mission.mission_id );
+    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );
@@ -2723,6 +2720,16 @@ void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*s
     charge_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
+static std::set<itype_id> charge_migration_blacklist;
+
+void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    jo.allow_omitted_members();
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    charge_migration_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2903,7 +2910,11 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
+        if( charge_migration_blacklist.count( type->get_id() ) != 0 ) {
+            for( int i = 0; i < charges - 1; i++ ) {
+                put_in( item( type ), item_pocket::pocket_type::MIGRATION );
+            }
+        } else if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!",
                       type->get_id().str() );
         }
@@ -3740,18 +3751,6 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "effects", *effects );
     }
 
-    // Remove legacy vitamin effects - they don't do anything, and can't be removed
-    // Remove this code whenever they actually do anything (0.F or later)
-    std::set<efftype_id> blacklisted = {
-        effect_hypocalcemia,
-        effect_hypovitA,
-        effect_hypovitB,
-        effect_scurvy
-    };
-    for( const efftype_id &remove : blacklisted ) {
-        remove_effect( remove );
-    }
-
     jsin.read( "values", values );
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
@@ -4182,7 +4181,27 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_object();
         }
         json.end_array();
+        json.member( "salt_water_pipes" );
+        json.start_array();
+        for( const auto &pipe : salt_water_pipes ) {
+            json.start_object();
+            json.member( "expansion", pipe->expansion );
+            json.member( "connection_direction", pipe->connection_direction );
+            json.member( "segments" );
+            json.start_array();
+            for( const auto &segment : pipe->segments ) {
+                json.start_object();
+                json.member( "point", segment.point );
+                json.member( "started", segment.started );
+                json.member( "finished", segment.finished );
+                json.end_object();
+            }
+            json.end_array();
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
+
     } else {
         return;
     }
@@ -4241,6 +4260,22 @@ void basecamp::deserialize( const JsonObject &data )
         tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
+    }
+
+    for( JsonObject edata : data.get_array( "salt_water_pipes" ) ) {
+        edata.allow_omitted_members();
+        expansion_salt_water_pipe *pipe = new expansion_salt_water_pipe;
+        edata.read( "expansion", pipe->expansion );
+        edata.read( "connection_direction", pipe->connection_direction );
+        for( JsonObject seg : edata.get_array( "segments" ) ) {
+            seg.allow_omitted_members();
+            expansion_salt_water_pipe_segment segment;
+            seg.read( "point", segment.point );
+            seg.read( "started", segment.started );
+            seg.read( "finished", segment.finished );
+            pipe->segments.push_back( segment );
+        }
+        salt_water_pipes.push_back( pipe );
     }
 }
 

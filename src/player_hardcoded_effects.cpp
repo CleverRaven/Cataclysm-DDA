@@ -124,6 +124,8 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
@@ -640,7 +642,7 @@ static void eff_fun_datura( Character &u, effect &it )
     }
     if( dur > 600_minutes && one_in( 768 ) ) {
         u.mod_pain( rng( -3, -24 ) );
-        if( dur > 800_minutes && one_in( 16 ) ) {
+        if( dur > 800_minutes && one_in( 16 ) && !u.is_on_ground() ) {
             u.add_msg_if_player( m_bad,
                                  _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
             u.add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
@@ -779,7 +781,7 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     u.mod_stamina( -500 * intense );
                     break;
                 case 6:
-                    if( one_in( 2 ) ) {
+                    if( one_in( 2 ) && !u.is_on_ground() ) {
                         warning = _( "You drop to the ground, fighting to keep yourself conscious." );
                         u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
                         break;
@@ -907,8 +909,10 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                     u.add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
                     break;
                 case 6:
-                    u.add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
-                    u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                    if( !u.is_on_ground() ) {
+                        u.add_msg_if_player( m_bad, _( "You must sit down for a moment.  Just a moment." ) );
+                        u.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                    }
                     break;
                 case 7: // 7-9 empty for variability, as messages stack on higher intensity
                 case 8:
@@ -962,15 +966,21 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( g->natural_light_level( u.posz() ) >= 12 &&
                 get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
+                    u.set_fatigue( 25 );
+                }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
                     u.mod_stored_nutr( -5 );
                 }
-                if( u.get_thirst() >= -30 ) {
-                    u.mod_thirst( -5 );
-                }
             }
+            if( u.get_thirst() >= -40 ) {
+                u.mod_thirst( -5 );
+            }
+            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+            u.vitamin_mod( vitamin_iron, 2 );
+            u.vitamin_mod( vitamin_calcium, 2 );
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
@@ -1027,7 +1037,8 @@ static void eff_fun_sleep( Character &u, effect &it )
 
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
-    if( !u.is_blind() && !u.has_effect( effect_narcosis ) ) {
+    if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
+        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
@@ -1221,13 +1232,13 @@ void Character::hardcoded_effects( effect &it )
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ),
                          body_part_name_accusative( bp ) );
-                player_character.cancel_activity();
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
+            mod_pain( 1 );
             apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
@@ -1349,7 +1360,9 @@ void Character::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                schedule_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
+                if( !is_on_ground() ) {
+                    schedule_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
+                }
                 schedule_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
@@ -1598,7 +1611,9 @@ void Character::hardcoded_effects( effect &it )
                     add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
                     time_duration td = rng( 30_seconds, 4_minutes );
                     schedule_effect( effect_motor_seizure, td );
-                    schedule_effect( effect_downed, td );
+                    if( !is_on_ground() ) {
+                        schedule_effect( effect_downed, td );
+                    }
                     schedule_effect( effect_stunned, td );
                     if( one_in( 3 ) ) {
                         add_msg_if_player( m_bad, _( "You lose consciousness!" ) );
@@ -1628,7 +1643,7 @@ void Character::hardcoded_effects( effect &it )
                             }
                         }
                     } else if( limb == "leg" ) {
-                        if( dice( 4, 4 ) > get_dex() ) {
+                        if( dice( 4, 4 ) > get_dex() && !is_on_ground() ) {
                             schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
                         } else {
                             add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
@@ -1640,7 +1655,9 @@ void Character::hardcoded_effects( effect &it )
                     add_msg_if_player( m_bad,
                                        _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
                     schedule_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
-                    schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                    if( !is_on_ground() ) {
+                        schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                    }
                 }
                 mod *= 2;
             /* fallthrough */

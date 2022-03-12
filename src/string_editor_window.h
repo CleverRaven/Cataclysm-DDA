@@ -2,17 +2,14 @@
 #ifndef CATA_SRC_STRING_EDITOR_WINDOW_H
 #define CATA_SRC_STRING_EDITOR_WINDOW_H
 
-#include <map>
 #include <string>
 #include <vector>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
-#include "string_formatter.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "wcwidth.h"
 
 /// <summary>
 /// Editor, to let the player edit text.
@@ -25,7 +22,7 @@
 class string_editor_window
 {
     private:
-        /*window it is schown in*/
+        /*window it is shown in*/
         catacurses::window _win;
         /*max X and Y size*/
         point _max;
@@ -34,45 +31,35 @@ class string_editor_window
         /*foldedtext for display*/
         std::vector<std::string> _foldedtext;
 
-        /*default color*/
-        nc_color _string_color = c_magenta;
-        nc_color _cursor_color = h_light_gray;
-
-        bool _ignore_custom_actions = true;
-
-        /*position of Courser in _utext or as coordinates */
+        /*position of cursor in _utext or as coordinates */
         int _position = 0;
         int _xposition = 0;
         int _yposition = 0;
 
-        std::unique_ptr<input_context> ctxt_ptr;
-        input_context *ctxt = nullptr;
+        std::unique_ptr<input_context> ctxt;
         bool _handled = false;
 
-        std::map<long, std::function<bool()>> callbacks;
     public:
-        string_editor_window( catacurses::window &win, std::string text );
+        string_editor_window( catacurses::window &win, const std::string &text );
 
         bool handled() const;
 
-        /*loop, user imput is handelt. returns the moditided string*/
-        const std::string &query_string( const bool loop );
+        /*loop, user input is handled. returns the modified string*/
+        const std::string &query_string( bool loop );
 
     private:
-
         /*print the editor*/
         void print_editor();
 
         void create_context();
 
-        /*move the coursour*/
-        void coursour_left( int n = 1 );
-        void coursour_right( int n = 1 );
-        void coursour_up( int n = 1 );
-        void coursour_down( int n = 1 );
+        /*move the cursor*/
+        void cursor_left();
+        void cursor_right();
+        void cursor_up();
+        void cursor_down();
 
         /*returns line and position in folded text for position in text*/
-        std::pair<int, int> get_line_and_position( std::vector<std::string> foldedtext,
-                int position );
+        std::pair<int, int> get_line_and_position();
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H

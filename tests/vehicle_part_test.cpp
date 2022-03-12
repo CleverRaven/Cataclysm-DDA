@@ -33,12 +33,19 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_water( "water" );
+
+static const itype_id itype_fridge_test( "fridge_test" );
+static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
+static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
 static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
@@ -214,5 +221,54 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
         items.emplace_back( itype_oatmeal );
 
         test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
+    }
+}
+
+static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, ammotype ammo_type,
+                                      int expected_count )
+{
+    CAPTURE( part_type );
+    CAPTURE( item_type );
+    CAPTURE( ammo_type );
+    vehicle_part test_part( part_type, "", point_zero, item( item_type ) );
+    CHECK( expected_count == test_part.ammo_capacity( ammo_type ) );
+}
+
+TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
+{
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_water, 1600 );
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 400000 );
+    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
+    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
+}
+
+TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
+{
+    GIVEN( "tank is empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        REQUIRE( vp.ammo_remaining() == 0 );
+        THEN( "ammo_current ammotype is always null" ) {
+            CHECK( vp.ammo_current().is_null() );
+            CHECK( !item::find_type( vp.ammo_current() )->ammo );
+            // Segmentation fault:
+            //vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type );
+        }
+        THEN( "using explicit ammotype for ammo_capacity returns expected value" ) {
+            CHECK( vp.ammo_capacity( ammo_flammable ) == 60000 );
+        }
+    }
+
+    GIVEN( "tank is not empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        item tank( itype_metal_tank_test );
+        REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
+        vp.set_base( tank );
+        REQUIRE( vp.ammo_remaining() == 100 );
+
+        THEN( "ammo_current is not null" ) {
+            CHECK( vp.ammo_current() == itype_water_clean );
+            CHECK( !!item::find_type( vp.ammo_current() )->ammo );
+            CHECK( vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type ) == 240 );
+        }
     }
 }

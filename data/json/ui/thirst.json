@@ -4,7 +4,85 @@
     "type": "widget",
     "label": "Thirst",
     "style": "text",
-    "var": "thirst_text",
-    "//": "Uses display::thirst_text_color"
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "Parched",
+        "color": "light_red",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "Very thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          ]
+        }
+      },
+      {
+        "id": "thirsty",
+        "text": "Thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          ]
+        }
+      },
+      {
+        "id": "neutral",
+        "text": "",
+        "color": "white",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          ]
+        }
+      },
+      {
+        "id": "slaked",
+        "text": "Slaked",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          ]
+        }
+      },
+      {
+        "id": "hydrated",
+        "text": "Hydrated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          ]
+        }
+      },
+      {
+        "id": "turgid",
+        "text": "Turgid",
+        "color": "green",
+        "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      }
+    ]
   }
 ]

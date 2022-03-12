@@ -463,6 +463,15 @@ Valid arguments:
 "thirst_chance_bot"
 "thirst_tick"       - Defaults to every tick
 
+"perspiration_amount"     - Amount of perspiration it can give/take.
+"perspiration_min"        - Minimal amount of perspiration, certain effect will give/take
+"perspiration_max"        - if 0 or missing value will be exactly "perspiration_min"
+"perspiration_min_val"    - Defaults to 0, which means uncapped
+"perspiration_max_val"    - Defaults to 0, which means uncapped
+"perspiration_chance"     - Chance to perspire
+"perspiration_chance_bot"
+"perspiration_tick"       - Defaults to every tick
+
 "fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
 "fatigue_min"       - Minimal amount of fatigue, certain effect will give/take
 "fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"

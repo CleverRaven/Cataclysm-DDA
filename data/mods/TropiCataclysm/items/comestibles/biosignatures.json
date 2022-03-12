@@ -11,7 +11,7 @@
     "quench": -3,
     "healthy": -10,
     "calories": 26,
-    "description": "The dust left over by winged insects such as butterflies or moths.  Its mostly chitin but may also contain dirt and other gross materials.",
+    "description": "The dust left over by winged insects such as butterflies or moths.  It's mostly chitin but may also contain dirt and other gross materials.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "feces" ],

@@ -16,7 +16,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BUNKER_MERCHANT_HERE",
-    "dynamic_line": "No, no…  Well, maybe a little.  It was just as wrecked down here as it is up top when I found it, wasn't too hard to fix up.  You're welcome to stay in the spare room awhile, just don't hog it.  You're not the only scav out there.",
+    "dynamic_line": "No, no… well, maybe a little.  It was just as wrecked down here as it is up top when I found it, wasn't too hard to fix up.  You're welcome to stay in the spare room awhile, just don't hog it.  You're not the only scav out there.",
     "responses": [ { "text": "Interesting…", "topic": "TALK_BUNKER_MERCHANT" } ]
   },
   {

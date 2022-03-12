@@ -15,34 +15,24 @@ jobs:
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.status == 'success' &&
       github.repository == 'CleverRaven/Cataclysm-DDA' }}
     steps:
-      - name: "Install dependencies"
+      - name: "Install gettext tools"
+        run: sudo apt install gettext
+      - name: "Install Transifex CLI"
         run: |
-          sudo apt-get update
-          sudo apt-get install gettext python3-pip
-          sudo pip3 install transifex-client polib
+          curl -sL https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+      - name: "Install Python3"
+        run: |
+          sudo apt install python3-pip
+          sudo pip3 install polib
       - name: "Checkout"
         uses: actions/checkout@v2
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh
-      - name: "Set up Transifex token"
+      - name: "Push translation template to Transifex server"
         env: 
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: |
-          cat << EOF > ~/.transifexrc
-          [https://www.transifex.com]
-          api_hostname = https://api.transifex.com
-          hostname = https://www.transifex.com
-          password = $TX_TOKEN
-          username = api
-          EOF
-      - name: "Push translation template to Transifex server"
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 5
-          max_attempts: 3
-          retry_on: error
-          command: |
-            tx push --source --no-interactive --resource cataclysm-dda.master-cataclysm-dda
+        run: tx push -s

@@ -101,7 +101,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "e_scrap", "count": [ 1, 2 ] },
-      { "item": "bearing", "count": [ 5, 10 ] },
+      { "item": "bearing", "charges": [ 5, 10 ] },
       { "item": "cable", "charges": [ 10, 20 ] }
     ],
     "damage_reduction": { "all": 32 }
@@ -137,7 +137,7 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "e_scrap", "count": [ 3, 5 ] },
-      { "item": "bearing", "count": [ 20, 40 ] },
+      { "item": "bearing", "charges": [ 20, 40 ] },
       { "item": "cable", "charges": [ 15, 30 ] }
     ],
     "damage_reduction": { "all": 43 }
@@ -173,7 +173,7 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "e_scrap", "count": [ 5, 10 ] },
-      { "item": "bearing", "count": [ 20, 50 ] },
+      { "item": "bearing", "charges": [ 20, 50 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
     ],
     "damage_reduction": { "all": 50 }
@@ -209,7 +209,7 @@
       { "item": "steel_chunk", "count": [ 6, 10 ] },
       { "item": "scrap", "count": [ 6, 10 ] },
       { "item": "e_scrap", "count": [ 5, 15 ] },
-      { "item": "bearing", "count": [ 25, 60 ] },
+      { "item": "bearing", "charges": [ 25, 60 ] },
       { "item": "cable", "charges": [ 20, 30 ] }
     ],
     "damage_reduction": { "all": 60 }
@@ -245,7 +245,7 @@
       { "item": "steel_chunk", "count": [ 24, 40 ] },
       { "item": "scrap", "count": [ 24, 40 ] },
       { "item": "e_scrap", "count": [ 20, 60 ] },
-      { "item": "bearing", "count": [ 100, 240 ] },
+      { "item": "bearing", "charges": [ 100, 240 ] },
       { "item": "cable", "charges": [ 80, 120 ] }
     ],
     "damage_reduction": { "all": 60 }

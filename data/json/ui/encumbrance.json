@@ -3,7 +3,6 @@
     "id": "encumbrance_graph",
     "type": "widget",
     "style": "graph",
-    "var_max": 50,
     "width": 5,
     "symbols": "-vX",
     "fill": "bucket"

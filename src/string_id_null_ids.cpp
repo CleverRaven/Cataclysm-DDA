@@ -17,6 +17,7 @@
 //NOLINTNEXTLINE(cata-static-string_id-constants)
 MAKE_NULL_ID( activity_type, "ACT_NULL" )
 MAKE_NULL_ID( harvest_drop_type, "null" )
+MAKE_NULL_ID( vitamin, "null" )
 MAKE_NULL_ID( harvest_list, "null" )
 MAKE_NULL_ID( Item_spawn_data, "null" )
 MAKE_NULL_ID( effect_type, "null" )
@@ -47,6 +48,7 @@ MAKE_NULL_ID( VehicleGroup, "null" )
 MAKE_NULL_ID( zone_type, "null" )
 MAKE_NULL_ID( speed_description, "SPEED_DESCRIPTION_NULL_ID" )
 MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
+MAKE_NULL_ID( move_mode, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

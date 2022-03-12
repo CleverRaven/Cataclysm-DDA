@@ -32,7 +32,7 @@
         ",###############_______,"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "w": "t_pavement", ";": "t_region_groundcover_urban" }
+      "terrain": { "w": "t_pavement" }
     }
   },
   {
@@ -173,7 +173,7 @@
         ",###############_______,"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "w": "t_pavement", ";": "t_region_groundcover_urban" },
+      "terrain": { "w": "t_pavement" },
       "nested": {
         "#": { "chunks": [ [ "general_graffiti", 15 ], [ "null", 75 ] ] },
         "m": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },

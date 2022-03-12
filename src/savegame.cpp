@@ -88,13 +88,15 @@ void game::serialize( std::ostream &fout )
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
-    tripoint pos_sm = m.get_abs_sub();
-    const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
-    json.member( "levx", pos_sm.x );
-    json.member( "levy", pos_sm.y );
-    json.member( "levz", pos_sm.z );
-    json.member( "om_x", pos_om.x );
-    json.member( "om_y", pos_om.y );
+    tripoint_abs_sm pos_abs_sm = m.get_abs_sub();
+    point_abs_om pos_om;
+    tripoint_om_sm pos_sm;
+    std::tie( pos_om, pos_sm ) = project_remain<coords::om>( pos_abs_sm );
+    json.member( "levx", pos_sm.x() );
+    json.member( "levy", pos_sm.y() );
+    json.member( "levz", pos_sm.z() );
+    json.member( "om_x", pos_om.x() );
+    json.member( "om_y", pos_om.y() );
     // view offset
     json.member( "view_offset_x", u.view_offset.x );
     json.member( "view_offset_y", u.view_offset.y );
@@ -1351,14 +1353,25 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         int strength;
         tripoint_abs_sm where;
         std::string string_id;
+        submap_revert revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", where );
         jo.read( "strength", strength );
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
+        point pt;
+        for( JsonObject jp : jo.get_array( "revert" ) ) {
+            revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
+            revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
+            revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
+            if( pt.x++ < SEEX ) {
+                pt.x = 0;
+                pt.y++;
+            }
+        }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
-                                string_id );
+                                string_id, revert );
     }
 }
 
@@ -1421,6 +1434,19 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
+        jsout.member( "revert" );
+        jsout.start_array();
+        for( int y = 0; y < SEEY; y++ ) {
+            for( int x = 0; x < SEEX; x++ ) {
+                jsout.start_object();
+                point pt( x, y );
+                jsout.member( "furn", elem.revert.get_furn( pt ) );
+                jsout.member( "ter", elem.revert.get_ter( pt ) );
+                jsout.member( "trap", elem.revert.get_trap( pt ) );
+                jsout.end_object();
+            }
+        }
+        jsout.end_array();
         jsout.end_object();
     }
     jsout.end_array();

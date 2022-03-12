@@ -559,6 +559,7 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close( bool dangerous = false );
+        field_entry *is_in_dangerous_field();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p, bool z_level_changed = false );
@@ -834,7 +835,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint_abs_omt &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
 
         unsigned int get_seed() const;
 

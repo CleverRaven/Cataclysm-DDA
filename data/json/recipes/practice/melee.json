@@ -12,7 +12,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "melee", 1 ] ],
     "book_learn": [ [ "mag_melee", 0 ], [ "manual_melee", 0 ] ],
-    "//": "Only training weapons, all of these have the WBLOCK_2 techniques and are relatively easy to handle, in other words they have a possitive to_hit bonus.",
+    "//": "Only training weapons, all of these have the WBLOCK_2 techniques and are relatively easy to handle, in other words they have a positive to_hit bonus.",
     "tools": [ [ "cudgel", "bokken", "bokken_fake", "bokken_inferior", "q_staff" ] ]
   },
   {
@@ -30,7 +30,10 @@
     "autolearn": [ [ "cutting", 1 ] ],
     "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
     "//": "Only training weapons or wooden versions of swords, a real katana would be too much to handle correctly at these levels.",
-    "tools": [ [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ], [ "training_dummy_light" ] ],
+    "tools": [
+      [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ],
     "//1": "Some components to mark the striking points for the session.",
     "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ] ]
   },
@@ -74,7 +77,7 @@
         "naginata",
         "scythe_war"
       ],
-      [ "training_dummy_heavy" ]
+      [ "pseudo_training_dummy_heavy" ]
     ],
     "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
@@ -94,7 +97,10 @@
     "autolearn": [ [ "bashing", 1 ] ],
     "book_learn": [ [ "mag_bashing", 0 ], [ "manual_bashing", 0 ] ],
     "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
-    "tools": [ [ "cudgel", "q_staff", "bat", "baton-extended", "PR24-extended" ], [ "training_dummy_light" ] ],
+    "tools": [
+      [ "cudgel", "q_staff", "bat", "baton-extended", "PR24-extended" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ],
     "//1": "Some components to mark the striking points for the session.",
     "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ] ]
   },
@@ -118,6 +124,7 @@
         "warhammer",
         "mace",
         "i_staff",
+        "bo",
         "morningstar",
         "2h_flail_steel",
         "glaive",
@@ -126,7 +133,7 @@
         "poleaxe",
         "battleaxe"
       ],
-      [ "training_dummy_heavy" ]
+      [ "pseudo_training_dummy_heavy" ]
     ],
     "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
@@ -148,7 +155,7 @@
     "//": "Only training weapons or light and easy to use weapons.",
     "tools": [
       [ "spear_wood", "spear_knife_superior", "spear_stone", "spear_spike", "fencing_foil", "fencing_epee", "fencing_sabre" ],
-      [ "training_dummy_light" ]
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
     ],
     "//1": "Some components to mark the striking points for the session.",
     "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ] ]
@@ -170,7 +177,7 @@
     "//": "Only historial, powerful stabbing weapons.",
     "tools": [
       [ "pike", "lucern_hammer", "spear_dory", "sword_cane", "rapier", "estoc", "kris", "qiang", "tanto" ],
-      [ "training_dummy_heavy" ]
+      [ "pseudo_training_dummy_heavy" ]
     ],
     "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "scrap", 20 ] ] ]
@@ -189,7 +196,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "unarmed", 1 ] ],
     "book_learn": [ [ "mag_unarmed", 0 ], [ "manual_brawl", 0 ] ],
-    "tools": [ [ "training_dummy_light", "pseudo_punching_bag" ] ]
+    "tools": [ [ "pseudo_training_dummy_light", "pseudo_punching_bag" ] ]
   },
   {
     "id": "prac_dancing",

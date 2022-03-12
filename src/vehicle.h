@@ -942,6 +942,8 @@ class vehicle
                                          bool do_not_rack = false );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
+        // merges vehicles together by copying parts, does not account for any vehicle complexities
+        bool merge_vehicle_parts( vehicle *veh );
 
         /**
          * @param handler A class that receives various callbacks, e.g. for placing items.
@@ -1186,6 +1188,11 @@ class vehicle
          */
         std::map<itype_id, int> fuels_left() const;
 
+        /**
+         * All the individual fuel items that are in all the tanks in the vehicle.
+        */
+        std::list<item *> fuel_items_left();
+
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false,
                        const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
@@ -1199,7 +1206,7 @@ class vehicle
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
-        // Returns the total specific energy of this fuel type. Frozen is ignored.
+        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
         float fuel_specific_energy( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
@@ -1826,7 +1833,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
-        bounding_box get_bounding_box();
+        bounding_box get_bounding_box( bool use_precalc = true );
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( const time_point &update_to );

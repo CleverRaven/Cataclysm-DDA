@@ -67,6 +67,7 @@ static monster *spawn_zombie_at_range( const int range )
 
 TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 {
+    get_player_character().setpos( main_npc_start_tripoint );
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_sunny );

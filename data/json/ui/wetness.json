@@ -2,14 +2,12 @@
   {
     "id": "wetness_num",
     "type": "widget",
-    "style": "number",
-    "var_max": 100
+    "style": "number"
   },
   {
     "id": "wetness_graph",
     "type": "widget",
     "style": "graph",
-    "var_max": 50,
     "width": 5,
     "symbols": ".oO",
     "fill": "bucket",

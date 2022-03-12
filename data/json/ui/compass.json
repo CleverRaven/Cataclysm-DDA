@@ -31,7 +31,7 @@
   {
     "id": "compass_W_text",
     "type": "widget",
-    "label": "W",
+    "label": { "str": "W", "ctxt": "compass" },
     "direction": "W",
     "copy-from": "compass_text_template"
   },
@@ -120,7 +120,7 @@
     "style": "layout",
     "arrange": "rows",
     "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout", "compass_legend_text" ],
-    "flags": [ "W_DISABLED" ]
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "compass_all_layout_alt",

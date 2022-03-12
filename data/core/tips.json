@@ -27,7 +27,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Peek around corners, when crouching or up/down the stairs to check for enemies." ]
+    "text": [ "Peek around corners, when crouching, or up/down stairs to check for enemies." ]
   },
   {
     "type": "snippet",
@@ -72,7 +72,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You don't have to sit next to fire to use it." ]
+    "text": [ "You don't have to sit right next to fire to use it." ]
   },
   {
     "type": "snippet",
@@ -122,7 +122,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Drugs are great for quick morale boost and such, but be aware of addiction and overdose." ]
+    "text": [ "Drugs are great for quick morale boosts and more, but be aware of addiction and overdose." ]
   },
   {
     "type": "snippet",
@@ -227,7 +227,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Be mindful of environmental protection of your gear.  It can take you places." ]
+    "text": [ "Be mindful of the environmental protection of your gear.  It can take you places." ]
   },
   {
     "type": "snippet",
@@ -387,7 +387,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  Bandaid is sufficient enough." ]
+    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  A Bandaid is sufficient enough." ]
   },
   {
     "type": "snippet",
@@ -477,7 +477,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Save time.  Instead of using a recipe, place water in a container on the fire to boil it." ]
+    "text": [ "Save time.  Instead of using a recipe, place water in a container on a fire to boil it." ]
   },
   {
     "type": "snippet",
@@ -492,12 +492,12 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become master in specific areas." ]
+    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become a master in specific areas." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Prolonged physical exhaustion results in weariness.  Overwork causes loss of productivity." ]
+    "text": [ "Prolonged physical exhaustion results in weariness.  Overworking causes loss of productivity." ]
   },
   {
     "type": "snippet",
@@ -507,7 +507,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Verticality is a thing.  If you can get to the roof somehow, it may save your life." ]
+    "text": [ "Verticality is a thing.  If you can get to a roof somehow, it may save your life." ]
   },
   {
     "type": "snippet",
@@ -537,7 +537,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You can view local keybindings in most sub-menus by pressing a question mark (?) key." ]
+    "text": [ "You can view local keybindings in most sub-menus by pressing the question mark (?) key." ]
   },
   {
     "type": "snippet",
@@ -557,7 +557,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Many items have contextual use.  Use item action menu to find out what you can do with them." ]
+    "text": [ "Many items have contextual uses.  Use the item action menu to find out what you can do with them." ]
   },
   {
     "type": "snippet",
@@ -567,7 +567,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Auto-pickup settings can save your time when you need it.  It's fully customizable too." ]
+    "text": [ "Auto-pickup settings can save you time when you need it.  It's fully customizable too." ]
   },
   {
     "type": "snippet",
@@ -597,7 +597,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "When looking around, use T to move to destination or item automatically." ]
+    "text": [ "When looking around, use T to move to a destination or item automatically." ]
   },
   {
     "type": "snippet",

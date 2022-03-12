@@ -34,6 +34,8 @@
  * Further documentation can be found below.
  */
 
+template<typename E>
+class enum_bitset;
 class JsonArray;
 class JsonIn;
 class JsonObject;
@@ -556,6 +558,38 @@ class JsonIn
                                        throw_on_error,
                                        "Duplicate entry in set defined by json array" );
                         }
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        // special case for enum_bitset
+        template <typename T>
+        bool read( enum_bitset<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v = {};
+                while( !end_array() ) {
+                    T element;
+                    if( read( element, throw_on_error ) ) {
+                        if( v.test( element ) ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
+                        v.set( element );
                     } else {
                         skip_value();
                     }

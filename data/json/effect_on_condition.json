@@ -39,14 +39,13 @@
   {
     "type": "effect_on_condition",
     "id": "thunder",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "condition": {
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
@@ -58,14 +57,13 @@
   {
     "type": "effect_on_condition",
     "id": "lightning",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "condition": {
       "and": [
         { "is_weather": "lightning" },
         { "one_in_chance": 600 },
-        { "compare_int": [ { "u_val": "pos_z" }, { "const": 0 } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
@@ -73,22 +71,17 @@
       { "u_message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
-      { "custom_light_level": 100, "length_min": "1 seconds", "length_max": "1 seconds" }
+      { "custom_light_level": 100, "length": [ "1 seconds", "1 seconds" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "acid_drizzle",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "run_for_npcs": true,
     "condition": {
-      "and": [
-        { "is_weather": "acid_drizzle" },
-        "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, { "const": 30 } ], "op": "<" }
-      ]
+      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_int": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
     },
     "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
     "effect": [
@@ -99,15 +92,14 @@
   {
     "type": "effect_on_condition",
     "id": "acid_rain",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence": 1,
     "global": true,
     "run_for_npcs": true,
     "condition": {
       "and": [
         { "is_weather": "acid_rain" },
         "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, { "const": 100 } ], "op": "<" },
+        { "compare_int": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
         {
           "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
         }
@@ -119,8 +111,7 @@
   {
     "type": "effect_on_condition",
     "id": "snow",
-    "recurrence_min": 6,
-    "recurrence_max": 6,
+    "recurrence": 6,
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
@@ -130,8 +121,7 @@
   {
     "type": "effect_on_condition",
     "id": "snowstorm",
-    "recurrence_min": 6,
-    "recurrence_max": 6,
+    "recurrence": 6,
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
@@ -141,11 +131,8 @@
   {
     "type": "effect_on_condition",
     "id": "bio_drain",
-    "recurrence_min": "30 minutes",
-    "recurrence_max": "1 hours 30 minutes",
-    "condition": {
-      "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
-    },
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -166,8 +153,7 @@
   {
     "type": "effect_on_condition",
     "id": "ambient_subway",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "2 hours",
+    "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
     "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
@@ -175,8 +161,7 @@
   {
     "type": "effect_on_condition",
     "id": "ambient_lab_subway",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "2 hours",
+    "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
     "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
     "effect": [ { "u_message": "AMBIENT_LAB_SUBWAY", "snippet": true, "sound": true } ]
@@ -187,25 +172,14 @@
     "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
     "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
-      {
-        "u_set_spawn_monster": "mon_robofac_camspy",
-        "real_count": 1,
-        "min_radius": 15,
-        "max_radius": 40,
-        "outdoor_only": true
-      },
-      {
-        "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ],
-        "time_in_future_min": "1 days",
-        "time_in_future_max": "7 days"
-      }
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
+      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future": [ "1 days", "7 days" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "bio_trip",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_trip" },
@@ -222,8 +196,7 @@
   {
     "type": "effect_on_condition",
     "id": "mut_eyestalk",
-    "recurrence_min": "2 hours 15 minutes",
-    "recurrence_max": "10 hours 15 minutes",
+    "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_trait": "EYESTALKS1" },
@@ -240,8 +213,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_spasm",
-    "recurrence_min": "2 hours 30 minutes",
-    "recurrence_max": "7 hours 30 minutes",
+    "recurrence": [ "2 hours 30 minutes", "7 hours 30 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_spasm" },
@@ -260,10 +232,9 @@
   {
     "type": "effect_on_condition",
     "id": "bio_shakes",
-    "recurrence_min": "1 hours",
-    "recurrence_max": "3 hours",
+    "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
-      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, { "power": "25 kJ" } ], "op": ">=" } ]
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
@@ -276,13 +247,12 @@
   {
     "type": "effect_on_condition",
     "id": "bio_glowy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": {
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "compare_int": [ { "u_val": "power" }, { "power": "1 kJ" } ], "op": ">=" }
+        { "compare_int": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
@@ -295,8 +265,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_sleepy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
     "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "++" ] } ]
@@ -304,8 +273,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_itchy",
-    "recurrence_min": "25 minutes",
-    "recurrence_max": "1 hours 15 minutes",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
@@ -316,14 +284,13 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise",
-    "recurrence_min": "30 minutes",
-    "recurrence_max": "1 hours 30 minutes",
+    "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_noise" } },
     "effect": [
       { "u_make_sound": "Crackle!", "volume": 60, "type": "movement" },
       {
-        "set_queue_effect_on_condition": [
+        "run_eocs": [
           {
             "id": "bio_noise_hearing",
             "condition": { "not": "u_is_deaf" },
@@ -347,8 +314,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_leaky",
-    "recurrence_min": "3 minutes",
-    "recurrence_max": "9 minutes",
+    "recurrence": [ "3 minutes", "9 minutes" ],
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
@@ -359,5 +325,47 @@
     "eoc_type": "AVATAR_DEATH",
     "condition": { "and": [ { "npc_allies": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ] },
     "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_gunsmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "jay_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" },
+      { "u_add_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isolated_artisans_blacksmith_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "cody_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": {
+            "u_compare_time_since_var": "blacksmith_shop_update",
+            "type": "timer",
+            "context": "artisans",
+            "op": "<",
+            "time": "7 d"
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "cody_shop_update", "om_terrain": "isolated_house_farm_blacksmith" },
+      { "u_add_var": "blacksmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+    ]
   }
 ]

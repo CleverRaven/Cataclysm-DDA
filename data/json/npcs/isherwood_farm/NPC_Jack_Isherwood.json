@@ -97,7 +97,7 @@
       { "item": "cheese_hard", "prob": 50 },
       { "item": "vinegar", "prob": 55 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 50, "charges": 4, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },

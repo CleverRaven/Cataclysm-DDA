@@ -165,7 +165,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmk_2_brewery_log",
-    "description": "Let's build a the log brewery.",
+    "description": "Let's build a log brewery.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

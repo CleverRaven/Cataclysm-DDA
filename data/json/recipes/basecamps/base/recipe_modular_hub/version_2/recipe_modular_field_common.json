@@ -65,7 +65,6 @@
     "description": "Now that we have some cover, we should build a stove in the northeast shack.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_stove_NE",

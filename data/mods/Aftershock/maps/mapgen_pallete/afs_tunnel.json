@@ -7,13 +7,7 @@
   {
     "type": "palette",
     "id": "afs_tunnel",
-    "terrain": {
-      "#": "t_ice_wall",
-      "'": "t_open_air",
-      ",": "t_open_air",
-      ".": "t_rock_floor",
-      "0": [ [ "t_rock", 5 ], [ "t_rock_floor_no_roof", 5 ] ]
-    }
+    "terrain": { "#": "t_ice_wall", "'": "t_open_air", ".": "t_rock_floor", "0": [ [ "t_rock", 5 ], [ "t_rock_floor_no_roof", 5 ] ] }
   },
   {
     "type": "palette",
@@ -25,7 +19,12 @@
       "s": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
       "I": [ [ "t_fumarole", 5 ], [ "t_basalt_wall", 5 ], [ "t_lichenyum", 1 ], [ "t_basaltfloor", 5 ] ]
     },
-    "furniture": { "s": [ [ "f_basaltspike", 5 ], [ "f_null", 5 ] ], "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ] },
+    "furniture": {
+      "s": [ [ "f_basaltspike", 5 ], [ "f_null", 5 ] ],
+      "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ],
+      "W": "f_clear",
+      "w": "f_clear"
+    },
     "mapping": {
       "*": {
         "terrain": [ [ "t_null", 40 ], [ "t_basaltfloor", 5 ], [ "t_lichen", 4 ], [ "t_lichendirt", 5 ] ],
@@ -44,7 +43,12 @@
       "F": [ [ "t_lichen", 5 ], [ "t_lichendirt", 5 ] ],
       "I": [ [ "t_tree_worm", 5 ], [ "t_tree_lichen", 5 ], [ "t_lichenyum", 5 ], [ "t_lichendirt", 5 ] ]
     },
-    "furniture": { "s": [ [ "f_shrub_moss", 5 ], [ "f_null", 5 ] ], "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ] },
+    "furniture": {
+      "s": [ [ "f_shrub_moss", 5 ], [ "f_null", 5 ] ],
+      "F": [ [ "f_geo_vent", 5 ], [ "f_null", 5 ] ],
+      "W": "f_clear",
+      "w": "f_clear"
+    },
     "mapping": {
       "*": {
         "terrain": [ [ "t_null", 40 ], [ "t_lichen", 5 ], [ "t_lichendirt", 15 ] ],

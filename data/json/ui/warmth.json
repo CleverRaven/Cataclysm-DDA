@@ -3,7 +3,6 @@
     "id": "warmth_num",
     "type": "widget",
     "style": "number",
-    "var_max": 10000,
     "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {

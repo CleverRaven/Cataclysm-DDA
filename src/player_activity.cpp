@@ -10,6 +10,8 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "field.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -463,4 +465,29 @@ void player_activity::inherit_distractions( const player_activity &other )
     for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
+}
+
+
+std::map<distraction_type, std::string> player_activity::get_distractions()
+{
+    std::map < distraction_type, std::string > res;
+    if( id() != ACT_AIM && moves_left > 0 ) {
+        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+            Creature *hostile_critter = g->is_hostile_very_close( true );
+            if( hostile_critter != nullptr ) {
+                res.emplace( distraction_type::hostile_spotted_near,
+                             string_format( _( "The %s is dangerously close!" ),
+                                            g->is_hostile_very_close( true )->get_name() ) );
+            }
+        }
+        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+            field_entry *field = g->is_in_dangerous_field();
+            if( field != nullptr ) {
+                res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
+                             g->is_in_dangerous_field()->name() ) );
+            }
+        }
+    }
+
+    return res;
 }

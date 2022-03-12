@@ -438,7 +438,7 @@
     "followup": "MISSION_REFUGEE_Boris_LAPTOP",
     "dialogue": {
       "describe": "Find a circular saw for Boris.",
-      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love tablesaw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
+      "offer": "We now have a space to work in, and I have wood and nails to spare.  All I need is a saw.  I would love a table saw and mitre saw, but I can work with a hand held circular saw for now.  I have looked, and what we have is garbage.  Can you bring me a good one?",
       "accepted": "You are a kind soul.",
       "rejected": "Ah well.  I can ask around myself, perhaps.",
       "advice": "It is not hard to find.  I have even seen them for sale at the merchants, but they save them as trade goods and will not give me as a gift.",

@@ -235,6 +235,7 @@
     "comestible_type": "MED",
     "name": { "str": "caffeinated chewing gum" },
     "description": "Sugar-free chewing gum with added caffeine, it's a nice pick-me-up.",
+    "addiction_type": "caffeine",
     "category": "drugs",
     "weight": "3 g",
     "volume": "250 ml",
@@ -1238,6 +1239,7 @@
     "comestible_type": "MED",
     "name": { "str_sp": "high-grade methamphetamine" },
     "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.  This one could have only been made by a great chemist.",
+    "looks_like": "meth",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 25000,
@@ -1705,7 +1707,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     }
   },
   {
@@ -1823,28 +1825,6 @@
         "text": "Some Lachesis mutus pills, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
       }
     ]
-  },
-  {
-    "id": "inj_vitb",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "injectable vitamin B" },
-    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
-    "weight": "40 g",
-    "volume": "250 ml",
-    "price": 150,
-    "price_postapoc": 500,
-    "charges": 2,
-    "stack_size": 10,
-    "symbol": "!",
-    "color": "magenta",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "vitB", 100 ] ]
-    }
   },
   {
     "id": "inj_iron",
@@ -2040,7 +2020,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "cattail jelly", "str_pl": "cattail jellies" },
-    "description": "Clear jelly harvested from cattail, has antiseptic properties and works as a painkiller.",
+    "description": "Clear jelly harvested from cattail.  Can be used to protect a wound from contamination and works as a painkiller.",
     "container": "bottle_plastic_small",
     "weight": "50 g",
     "volume": "250 ml",
@@ -2054,7 +2034,7 @@
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 3,
+      "disinfectant_power": 1,
       "bite": 0.75,
       "move_cost": 3000,
       "effects": [ { "id": "pkill1", "duration": 720 } ]

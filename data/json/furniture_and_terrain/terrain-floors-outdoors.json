@@ -61,9 +61,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_clay",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
@@ -81,9 +81,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_sand",
       "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
     }
   },

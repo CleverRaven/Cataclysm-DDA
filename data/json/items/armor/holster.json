@@ -237,6 +237,8 @@
     "type": "ARMOR",
     "name": { "str": "western holster" },
     "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "weight": "260 g",
+    "volume": "550 ml",
     "price_postapoc": 500,
     "material": [ "leather" ],
     "sided": true,
@@ -416,7 +418,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE" ],
+    "flags": [ "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
         "encumbrance": [ 2, 7 ],
@@ -425,5 +427,15 @@
         "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
+  },
+  {
+    "id": "XS_holster",
+    "type": "ARMOR",
+    "copy-from": "XL_holster",
+    "looks_like": "XL_holster",
+    "name": { "str": "XS holster" },
+    "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg.  Activate to holster/draw a gun.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
   }
 ]

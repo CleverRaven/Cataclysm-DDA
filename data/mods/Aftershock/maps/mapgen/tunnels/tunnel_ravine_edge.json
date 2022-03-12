@@ -34,7 +34,7 @@
       "palettes": [ "afs_tunnel_any" ],
       "place_nested": [
         { "else_chunks": [ "tunnel_corner_l" ], "x": 0, "y": 15, "neighbors": { "west": "ravine" } },
-        { "else_chunks": [ "tunnel_corner_r" ], "x": 16, "y": 15, "neighbors": { "east": "ravine" } }
+        { "else_chunks": [ "tunnel_corner_r" ], "x": 15, "y": 15, "neighbors": { "east": "ravine" } }
       ]
     }
   },
@@ -55,6 +55,7 @@
         "#####    ",
         "######## "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   },
@@ -75,6 +76,7 @@
         "    #####",
         " ## #####"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_tunnel" ]
     }
   }

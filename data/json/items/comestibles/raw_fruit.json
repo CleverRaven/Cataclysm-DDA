@@ -19,7 +19,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -40,7 +40,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 17 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -62,7 +62,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 138 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 138 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -106,7 +106,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 24 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -151,7 +151,7 @@
     "charges": 3,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 27 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 27 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -195,7 +195,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,7 +239,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 61 ], [ "calcium", 6 ], [ "iron", 14 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -261,7 +261,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 32 ], [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 634 ], [ "calcium", 23 ], [ "iron", 8 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -326,7 +326,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 84 ], [ "calcium", 5 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 84 ], [ "calcium", 5 ], [ "iron", 1 ] ],
     "fun": 2
   },
   {
@@ -460,7 +460,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -485,7 +485,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -510,7 +510,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 30 ], [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -532,7 +532,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -556,7 +556,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 70 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 70 ], [ "calcium", 2 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -602,7 +602,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 13 ], [ "vitC", 164 ], [ "calcium", 5 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 164 ], [ "calcium", 5 ], [ "iron", 3 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -624,7 +624,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 80 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -647,7 +647,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 17 ], [ "vitC", 18 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 18 ], [ "calcium", 2 ], [ "iron", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -669,7 +669,7 @@
     "fun": 6,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 18 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 18 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -690,6 +690,6 @@
     "volume": "250 ml",
     "fun": -1,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
   }
 ]

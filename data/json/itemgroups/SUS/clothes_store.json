@@ -104,10 +104,10 @@
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
       { "item": "rag", "count": [ 10, 40 ], "prob": 75 },
-      { "item": "sheet_cotton", "count": [ 1, 5 ], "prob": 70 },
-      { "item": "sheet_felt", "count": [ 1, 5 ], "prob": 40 },
-      { "item": "sheet_lycra", "count": [ 1, 5 ], "prob": 20 },
-      { "item": "sheet_nylon", "count": [ 1, 5 ], "prob": 20 }
+      { "item": "sheet_cotton", "count": [ 10, 35 ], "prob": 70 },
+      { "item": "sheet_felt", "count": [ 10, 25 ], "prob": 40 },
+      { "item": "sheet_lycra", "count": [ 10, 35 ], "prob": 20 },
+      { "item": "sheet_nylon", "count": [ 10, 35 ], "prob": 20 }
     ]
   },
   {
@@ -119,8 +119,8 @@
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
       { "item": "rag", "count": [ 5, 15 ], "prob": 75 },
-      { "item": "sheet_cotton", "count": [ 1, 2 ], "prob": 70 },
-      { "item": "tanned_pelt", "count": [ 1, 7 ], "prob": 70 }
+      { "item": "sheet_cotton", "count": [ 10, 25 ], "prob": 70 },
+      { "item": "tanned_pelt", "count": [ 5, 35 ], "prob": 70 }
     ]
   }
 ]

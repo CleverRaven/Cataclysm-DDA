@@ -26,6 +26,15 @@
 static const itype_id itype_candle_wax( "candle_wax" );
 static const itype_id itype_dress_shirt( "dress_shirt" );
 static const itype_id itype_match( "match" );
+static const itype_id itype_test_armor_chitin( "test_armor_chitin" );
+static const itype_id itype_test_armor_chitin_copy( "test_armor_chitin_copy" );
+static const itype_id itype_test_armor_chitin_copy_prop( "test_armor_chitin_copy_prop" );
+static const itype_id itype_test_armor_chitin_copy_rel( "test_armor_chitin_copy_rel" );
+static const itype_id itype_test_armor_chitin_copy_w_armor( "test_armor_chitin_copy_w_armor" );
+static const itype_id
+itype_test_armor_chitin_copy_w_armor_prop( "test_armor_chitin_copy_w_armor_prop" );
+static const itype_id
+itype_test_armor_chitin_copy_w_armor_rel( "test_armor_chitin_copy_w_armor_rel" );
 static const itype_id itype_textbook_chemistry( "textbook_chemistry" );
 static const itype_id itype_tshirt( "tshirt" );
 static const itype_id itype_zentai( "zentai" );
@@ -1249,7 +1258,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Negligible Protection\n" );
+               "  Negligible Protection\n"
+               "  Breathability: <color_c_yellow>50</color>\n"
+             );
     }
 
     SECTION( "moderate protection from physical and environmental damage" ) {
@@ -1269,14 +1280,16 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>4.00</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
-               "  Environmental: <color_c_yellow>20</color>\n" );
+               "  Environmental: <color_c_yellow>20</color>\n"
+               "  Breathability: <color_c_yellow>0</color>\n"
+             );
     }
 
     SECTION( "complex protection from physical and environmental damage" ) {
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 14, 18, 14.4f, 10.66667f );
+        expected_armor_values( super_tanktop, 14, 14, 11.2f, 8.66667f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
@@ -1286,8 +1299,10 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Default:  <color_c_yellow>100</color>\n"
                "<color_c_white>Torso Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
                "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
-               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>27.00</color>\n"
-               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>16.00</color>\n" );
+               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
+               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>13.00</color>\n"
+               "  Breathability: <color_c_yellow>2</color>\n"
+             );
     }
 
     SECTION( "pet armor with good physical and environmental protection" ) {
@@ -1306,7 +1321,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
-               "  Environmental: <color_c_yellow>10</color>\n" );
+               "  Environmental: <color_c_yellow>10</color>\n"
+               "  Breathability: <color_c_yellow>50</color>\n"
+             );
     }
 }
 
@@ -1838,7 +1855,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
+               "Vitamins (RDA): Calcium (9%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1855,8 +1872,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), "
-               "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-79%)\n" );
+               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), and Vitamin C (1-79%)\n" );
     }
 }
 
@@ -2513,7 +2529,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
-        player_character.worn.emplace_back( "backpack" );
+        player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
         item &iodine = player_character.i_add( item( "iodine" ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );
@@ -2676,6 +2692,7 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050</color> L\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"
+           "This is a <color_c_cyan>holster</color>, it only holds <color_c_cyan>one item at a time</color>.\n"
            "<color_c_white>Restrictions</color>:\n"
            "* Item must clip onto a belt loop\n"
            "* <color_c_white>or</color> Item must fit in a sheath\n" );
@@ -2880,4 +2897,75 @@ TEST_CASE( "item debug info", "[iteminfo][debug][!mayfail][.]" )
                "latent heat: <color_c_yellow>20</color>\n"
                "Freeze point: <color_c_yellow>32</color>\n" );
     }
+}
+
+TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protection]" )
+{
+    // Normal item definition, no copy
+    item armor( itype_test_armor_chitin );
+    // Copied item definition, no explicit "armor" field
+    item armor_copy( itype_test_armor_chitin_copy );
+    // Copied item definition, explicit "armor" field defined
+    item armor_copy_w_armor( itype_test_armor_chitin_copy_w_armor );
+    // Copied item definition, no explicit "armor" field, using "proportional"
+    item armor_copy_prop( itype_test_armor_chitin_copy_prop );
+    // Copied item definition, explicit "armor" field defined, using "proportional"
+    item armor_copy_w_armor_prop( itype_test_armor_chitin_copy_w_armor_prop );
+    // Copied item definition, no explicit "armor" field, using "relative"
+    item armor_copy_rel( itype_test_armor_chitin_copy_rel );
+    // Copied item definition, explicit "armor" field defined, using "relative"
+    item armor_copy_w_armor_rel( itype_test_armor_chitin_copy_w_armor_rel );
+
+    std::vector<iteminfo_parts> infoparts = { iteminfo_parts::ARMOR_PROTECTION };
+
+    std::string a_str = item_info_str( armor, infoparts );
+    std::string a_copy_str = item_info_str( armor_copy, infoparts );
+    std::string a_copy_w_armor_str = item_info_str( armor_copy_w_armor, infoparts );
+    std::string a_copy_prop_str = item_info_str( armor_copy_prop, infoparts );
+    std::string a_copy_w_armor_prop_str = item_info_str( armor_copy_w_armor_prop, infoparts );
+    std::string a_copy_rel_str = item_info_str( armor_copy_rel, infoparts );
+    std::string a_copy_w_armor_rel_str = item_info_str( armor_copy_w_armor_rel, infoparts );
+
+    const std::string info_str =
+        "--\n"
+        "<color_c_white>Protection</color>:\n"
+        "  Bash: <color_c_yellow>12.00</color>\n"
+        "  Cut: <color_c_yellow>16.00</color>\n"
+        "  Ballistic: <color_c_yellow>4.00</color>\n"
+        "  Acid: <color_c_yellow>3.60</color>\n"
+        "  Fire: <color_c_yellow>1.20</color>\n"
+        "  Environmental: <color_c_yellow>6</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
+
+    CHECK( a_str == info_str );
+    CHECK( a_copy_str == info_str );
+    CHECK( a_copy_w_armor_str == info_str );
+
+    const std::string info_prop_str =
+        "--\n"
+        "<color_c_white>Protection</color>:\n"
+        "  Bash: <color_c_yellow>14.40</color>\n"
+        "  Cut: <color_c_yellow>19.20</color>\n"
+        "  Ballistic: <color_c_yellow>4.80</color>\n"
+        "  Acid: <color_c_yellow>4.20</color>\n"
+        "  Fire: <color_c_yellow>1.40</color>\n"
+        "  Environmental: <color_c_yellow>7</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
+
+    CHECK( a_copy_prop_str == info_prop_str );
+    CHECK( a_copy_w_armor_prop_str == info_prop_str );
+
+    const std::string info_rel_str =
+        "--\n"
+        "<color_c_white>Protection</color>:\n"
+        "  Bash: <color_c_yellow>18.00</color>\n"
+        "  Cut: <color_c_yellow>24.00</color>\n"
+        "  Ballistic: <color_c_yellow>6.00</color>\n"
+        "  Acid: <color_c_yellow>4.80</color>\n"
+        "  Fire: <color_c_yellow>1.60</color>\n"
+        "  Environmental: <color_c_yellow>8</color>\n"
+        "  Breathability: <color_c_yellow>0</color>\n";
+
+    CHECK( a_copy_rel_str == info_rel_str );
+    CHECK( a_copy_w_armor_rel_str == info_rel_str );
 }

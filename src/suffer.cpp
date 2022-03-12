@@ -168,7 +168,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const vitamin_id vitamin_vitA( "vitA" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
@@ -807,7 +806,6 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1 );
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
@@ -855,19 +853,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0f;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
-        // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
-        for( const bodypart_id &bp : all_body_parts )  {
-            if( !covered.test( bp.id() ) ) {
-                continue;
-            }
-            // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
-            // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            bp_exposure[bp] *= part_exposure;
-        }
-    }
+    worn.bodypart_exposure( bp_exposure, all_body_parts );
     return bp_exposure;
 }
 
@@ -1289,9 +1275,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
 {
     // Stim +250 kills
     if( current_stim > 210 ) {
-        if( one_turn_in( 2_minutes ) && !you.has_effect( effect_downed ) ) {
+        if( one_turn_in( 2_minutes ) && !you.is_on_ground() ) {
             you.add_msg_if_player( m_bad, _( "Your muscles spasm!" ) );
-            if( !you.has_effect( effect_downed ) ) {
+            if( !you.is_on_ground() ) {
                 you.add_msg_if_player( m_bad, _( "You fall to the ground!" ) );
                 you.add_effect( effect_downed, rng( 6_turns, 20_turns ) );
             }
@@ -1321,7 +1307,9 @@ void suffer::from_stimulants( Character &you, const int current_stim )
         if( one_turn_in( 3_minutes ) && !you.in_sleep_state() ) {
             you.add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
-            you.add_effect( effect_downed, dur );
+            if( !you.is_on_ground() ) {
+                you.add_effect( effect_downed, dur );
+            }
             you.add_effect( effect_blind, dur );
             you.fall_asleep( dur );
         }
@@ -1336,7 +1324,7 @@ void suffer::from_stimulants( Character &you, const int current_stim )
         if( one_turn_in( 15_seconds ) && !you.has_effect( effect_sleep ) ) {
             you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             you.mod_moves( -rng( 10, 30 ) );
-            if( one_in( 3 ) && !you.has_effect( effect_downed ) ) {
+            if( one_in( 3 ) && !you.is_on_ground() ) {
                 you.add_msg_if_player( m_bad, _( "You stumble and fall over!" ) );
                 you.add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
@@ -1516,7 +1504,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
             you.moves -= 10;
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
-            if( !you.has_effect( effect_downed ) && one_in( 10 ) ) {
+            if( !you.is_on_ground() && one_in( 10 ) ) {
                 you.add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
                 you.add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
@@ -1658,8 +1646,8 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             // If the color hasn't changed, don't print anything.
-            const std::string &col_before = display::rad_badge_color_name( before );
-            const std::string &col_after = display::rad_badge_color_name( it->irradiation );
+            const std::string &col_before = rad_badge_color( before ).first;
+            const std::string &col_after = rad_badge_color( it->irradiation ).first;
             if( col_before == col_after ) {
                 continue;
             }
@@ -1863,7 +1851,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
         if( curr_wetness < wetness_max ) {
-            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment ) );
+            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment * 100 ) );
         }
     }
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
@@ -1900,7 +1888,7 @@ void Character::apply_wetness_morale( int temperature )
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = get_part_wetness( bp );
+        const int part_drench = get_part_wetness( bp ) / 100;
         if( part_drench == 0 ) {
             continue;
         }

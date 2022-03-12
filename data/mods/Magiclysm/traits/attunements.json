@@ -748,6 +748,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "KELVINIST", "MAGUS" ],
+    "spells_learned": [ [ "cold_energy", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -1188,7 +1189,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT", "HEATPROOF" ]
+    "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
   },
   {
     "id": "WITHER_MAGE",

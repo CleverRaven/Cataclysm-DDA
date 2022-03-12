@@ -270,7 +270,7 @@
     "id": "manual_medievalpole",
     "copy-from": "book_martial",
     "type": "BOOK",
-    "name": { "str_sp": "Fior Di Battaglia" },
+    "name": { "ctxt": "book", "str_sp": "Fior Di Battaglia" },
     "price_postapoc": 3000,
     "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
     "martial_art": "style_medievalpole"

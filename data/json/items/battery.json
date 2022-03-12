@@ -158,6 +158,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 300 } } ]
   },
   {
+    "id": "light_dry_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "light dry battery", "str_pl": "light dry batteries" },
+    "description": "This is a light battery cell, universally compatible with all kinds of small devices.  The battery's chemistry doesn't provides high energy capacity, and it cannot be recharged.",
+    "weight": "20 g",
+    "volume": "35 ml",
+    "price_postapoc": 100,
+    "material": [ "iron", "charcoal" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "count": 100,
+    "capacity": 100,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
+  },
+  {
     "id": "medium_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -236,6 +255,25 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1200 } } ]
+  },
+  {
+    "id": "medium_dry_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "medium dry battery", "str_pl": "medium dry batteries" },
+    "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry doesn't provides high energy capacity, and it cannot be recharged.",
+    "weight": "350 g",
+    "volume": "525 ml",
+    "price_postapoc": 250,
+    "material": [ "iron", "charcoal" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "count": 500,
+    "capacity": 500,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } } ]
   },
   {
     "id": "heavy_battery_cell",
@@ -336,5 +374,24 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ]
+  },
+  {
+    "id": "heavy_dry_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "heavy dry battery", "str_pl": "heavy dry batteries" },
+    "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools.  The battery's chemistry doesn't provides high energy capacity, and it cannot be recharged.",
+    "weight": "900 g",
+    "volume": "1500 ml",
+    "price_postapoc": 375,
+    "material": [ "iron", "charcoal" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "count": 1000,
+    "capacity": 1000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
   }
 ]

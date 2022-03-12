@@ -228,7 +228,7 @@
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -278,7 +278,7 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
@@ -434,7 +434,7 @@
     "type": "ARMOR",
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
-    "weight": "11 g",
+    "weight": "115 g",
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 10,
@@ -1176,7 +1176,7 @@
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
-    "weight": "74 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "price": 6500,
     "price_postapoc": 50,

@@ -368,7 +368,7 @@
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "You have no idea how interesting this diary is.  I have two very promising leads… First things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
+      "offer": "You have no idea how interesting this diary is.  I have two very promising leads… first things first, the Catholic Church has been performing its own investigations into global cult phenomenon and it appears to have become very interested in a local cult as of recently.  Could you investigate a location for me?  I'm not sure what was going on here but the priest seemed fairly worried about it.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path… You may need it this time more than the past excursions you have gone on.  There is a note about potential human sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed to be the Church of Starry Wisdom but it is noted that accounts differ.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I doubt the site is still occupied but I'd carry a firearm at least… I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
@@ -761,7 +761,7 @@
       "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
       "inquire": "How is it going?  Do you have them?",
       "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
-      "success_lie": "Well…  where are they?",
+      "success_lie": "Well… where are they?",
       "failure": "I'm so disappointed in you kid…"
     }
   },

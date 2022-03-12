@@ -79,8 +79,20 @@ window_panel::window_panel(
     const std::string &id, const translation &nm, const int ht, const int wd,
     const bool default_toggle_, const std::function<bool()> &render_func,
     const bool force_draw )
-    : draw( draw_func ), render( render_func ), toggle( default_toggle_ ),
-      always_draw( force_draw ), height( ht ), width( wd ), id( id ), name( nm )
+    : draw( [draw_func]( const draw_args & d ) -> int { draw_func( d ); return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
+{
+    wgt = widget_id::NULL_ID();
+}
+
+window_panel::window_panel(
+    const std::string &id, const translation &nm, const int ht, const int wd,
+    const bool default_toggle_, const std::function<bool()> &render_func,
+    const bool force_draw )
+    : draw( []( const draw_args & ) -> int { return 0; } ),
+      render( render_func ), toggle( default_toggle_ ), always_draw( force_draw ),
+      height( ht ), width( wd ), id( id ), name( nm )
 {
     wgt = widget_id::NULL_ID();
 }
@@ -168,6 +180,11 @@ const widget_id &window_panel::get_widget() const
     return wgt;
 }
 
+void window_panel::set_draw_func( const std::function<int( const draw_args & )> &draw_func )
+{
+    draw = draw_func;
+}
+
 panel_layout::panel_layout( const translation &_name, const std::vector<window_panel> &_panels )
     : _name( _name ), _panels( _panels )
 {
@@ -214,7 +231,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
             // omp is the current overmap point, at the current z-level
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
             // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
@@ -318,17 +335,6 @@ static nc_color value_color( int stat )
         valuecolor = c_magenta;
     }
     return valuecolor;
-}
-
-static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
-        }
-    }
-    return "-";
 }
 
 // ===============================
@@ -563,7 +569,7 @@ static void draw_time( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -861,14 +867,13 @@ static void draw_loc_labels( const draw_args &args, bool minimap )
     const catacurses::window &w = args._win;
 
     werase( w );
-    // display location
-    const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
-    wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    wprintz( w, c_white, utf8_truncate( display::current_position_text( u.global_omt_location() ),
+                                        getmaxx( w ) - 13 ) );
     map &here = get_map();
     // display weather
-    if( here.get_abs_sub().z < 0 ) {
+    if( here.get_abs_sub().z() < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
@@ -1086,10 +1091,10 @@ static void draw_env_compact( const draw_args &args )
     mvwprintz( w, point( text_left, 1 ), c_light_gray, "%s",
                u.martial_arts_data->selected_style_name( u ) );
     // location
-    mvwprintz( w, point( text_left, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, point( text_left, 2 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 8 ) );
     // weather
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
@@ -1254,16 +1259,16 @@ static void draw_armor_padding( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1283,16 +1288,16 @@ static void draw_armor( const draw_args &args )
     const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
-    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
-                    bodypart_id( "head" ) ) );
-    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
-                    bodypart_id( "torso" ) ) );
-    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
-                    bodypart_id( "arm_r" ) ) );
-    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
-                    bodypart_id( "leg_r" ) ) );
-    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
-                    bodypart_id( "foot_r" ) ) );
+    trim_and_print( w, point( heading_length, 0 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color,
+                    u.worn.get_armor_display( bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1426,7 +1431,7 @@ static void draw_ai_goal( const draw_args &args )
     behavior::character_oracle_t player_oracle( &u );
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
+    mvwprintz( w, point( 0, 0 ), c_light_gray, _( "Goal : %s" ), current_need );
     wnoutrefresh( w );
 }
 
@@ -1438,8 +1443,8 @@ static void draw_location_classic( const draw_args &args )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
-    mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
+    mvwprintz( w, point( 10, 0 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 13 ) );
 
     wnoutrefresh( w );
 }
@@ -1450,7 +1455,7 @@ static void draw_weather_classic( const draw_args &args )
 
     werase( w );
 
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
@@ -1519,7 +1524,7 @@ static void draw_time_classic( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( get_map().get_abs_sub().z() >= 0 ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -1904,7 +1909,7 @@ static void draw_custom_hint( const draw_args &args )
     mvwprintz( w, point( 1, 1 ), c_light_gray,
                _( "Edit sidebar.json to adjust." ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See SIDEBAR_MOD.md for help." ) );
+               _( "See WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }
@@ -1955,7 +1960,7 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
     // Add panel layout for each "sidebar" widget
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
-            ret.emplace( wgt._label.translated(),
+            ret.emplace( wgt.getId().str(),
                          panel_layout( wgt._label, initialize_default_custom_panels( wgt ) ) );
         }
     }
@@ -2073,9 +2078,23 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
+    if( layouts.find( current_layout_id ) == layouts.end() ) {
+        // Layout id updated between loads.
+        // Shouldn't happen unless custom sidebar id's were modified or removed.
+        joLayouts.allow_omitted_members();
+        current_layout_id = "labels";
+        return;
+    }
+
     for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
-        auto &layout = layouts.find( layout_id )->second.panels();
+        const auto &cur_layout = layouts.find( layout_id );
+        if( cur_layout == layouts.end() ) {
+            joLayout.allow_omitted_members();
+            continue;
+        }
+
+        auto &layout = cur_layout->second.panels();
         auto it = layout.begin();
 
         for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {

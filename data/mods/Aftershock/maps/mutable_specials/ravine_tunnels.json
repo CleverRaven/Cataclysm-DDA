@@ -63,9 +63,9 @@
       "river_crossroads": {
         "overmap": "afs_tunnel_river_nesw",
         "north": "river_to_river",
-        "east": { "id": "tunnel_to_tunnel", "type": "available" },
-        "south": { "id": "tunnel_to_tunnel", "type": "available" },
-        "west": { "id": "tunnel_to_tunnel", "type": "available" }
+        "east": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] },
+        "south": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] },
+        "west": { "id": "tunnel_to_tunnel", "type": "available", "alternatives": [ "river_to_river" ] }
       },
       "afs_tunnel_lake1": { "overmap": "afs_tunnel_lake1_north", "south": "lake_to_lake", "east": "lake_to_lake" },
       "afs_tunnel_lake2": { "overmap": "afs_tunnel_lake2_north", "south": "lake_to_lake", "east": "lake_to_lake", "west": "lake_to_lake" },
