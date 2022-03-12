@@ -114,16 +114,15 @@
     "name": { "str": "XL fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_coat_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
-    "looks_like": "coat_fur",
     "name": { "str": "XS fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "coat_faux_fur",
@@ -143,16 +142,15 @@
     "name": { "str": "XL faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_faux_fur",
-    "looks_like": "coat_faux_fur",
     "name": { "str": "XS faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "coat_fur_sf",
@@ -528,16 +526,15 @@
     "name": { "str": "XL fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_duster_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "looks_like": "duster_fur",
     "name": { "str": "XS fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "xl_duster",
@@ -545,22 +542,20 @@
     "name": { "str": "XL duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_duster",
     "type": "ARMOR",
     "copy-from": "duster",
-    "looks_like": "duster",
     "name": { "str": "XS duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "looks_like": "duster_fur",
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
@@ -573,7 +568,7 @@
     "name": { "str": "XL faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_duster_faux_fur",
@@ -582,7 +577,7 @@
     "looks_like": "duster_faux_fur",
     "name": { "str": "XS faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "duster_leather",
@@ -664,16 +659,15 @@
     "name": { "str": "XL leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_duster_leather",
     "type": "ARMOR",
     "copy-from": "duster_leather",
-    "looks_like": "duster_leather",
     "name": { "str": "XS leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "greatcoat",
