@@ -11,7 +11,7 @@
     "quench": 5,
     "price_postapoc": "250 USD",
     "price": "250 USD",
-    "description": "A chalky-white powder that when mixed with a saline solution can be injected for emergency medical use due to its ability to efficiently deliver oxygen throughout the body.  While synthetic blood is unperishable in its powder form, once injected, it is highly unstable as its molecules decay and over the course of several hours the body purges it from the bloodstream. ",
+    "description": "A chalk white blood analogue for emergency medical use.  Far more efficient at oxygenation than natural blood, it can also be used as a general performance enhancer.  Once injected, it will be metabolized or otherwise expunged from the the body in around 8 hours.",
     "material": [ "blood" ],
     "volume": "250 ml",
     "phase": "liquid",
