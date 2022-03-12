@@ -1985,6 +1985,7 @@
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
+    "ascii_picture": "mobile_memory_card",
     "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED" ],
     "weight": "5 g",
     "volume": "1 ml"
@@ -2000,6 +2001,7 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
+    "ascii_picture": "mobile_memory_card",
     "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
     "weight": "5 g",
     "volume": "1 ml"

@@ -86,7 +86,7 @@
         "op": "==",
         "value": 4,
         "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that I'll take the merch up front and start taking some very invasive measurements.",
-        "no": "Alright, so it'll be <u_val:umber_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as some help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
+        "no": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as some help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that I'll take the merch up front and start taking some very invasive measurements."
       }
     },
     "responses": [
