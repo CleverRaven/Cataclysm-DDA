@@ -92,7 +92,6 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "throw", 1 ] ],
     "time": "3 h",
     "autolearn": true,
     "reversible": true,
