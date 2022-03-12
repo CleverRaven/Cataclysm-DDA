@@ -115,7 +115,11 @@ static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
 
 static const oter_str_id oter_looted_house( "looted_house" );
+static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
+static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
 static const oter_str_id oter_looted_hospital( "looted_hospital" );
+static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
+static const oter_str_id oter_open_air( "open_air" );
 
 //  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
 static const std::string camp_upgrade_npc_string = "_faction_upgrade_camp";
@@ -1746,17 +1750,39 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    //The loot value needs to be added to the faction - what the player is paid
     tripoint_abs_omt loot_location = player_character.global_omt_location();
-    // Only check at the ground floor.
-    loot_location.z() = 0;
     std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                          loot_location, "house", 0, false, ot_match_type::prefix );
-        overmap_buffer.reveal( site, 2 );
-        std::set<item> returned_items = loot_building( site, oter_looted_house );
-        all_returned_items.insert( returned_items.begin(), returned_items.end() );
+        tripoint_abs_omt site = overmap_buffer.find_closest(
+                                    loot_location, "house", 0, false, ot_match_type::prefix );
+        // Search the entire height of the house, including the basement and roof
+        for( int z = -1; z <= OVERMAP_HEIGHT; z++ ) {
+            site.z() = z;
+
+            const oter_id &omt_ref = overmap_buffer.ter( site );
+            // We're past the roof, so we can stop
+            if( omt_ref == oter_open_air ) {
+                break;
+            }
+            const std::string om_cur = omt_ref.id().c_str();
+
+            oter_str_id looted_replacement = oter_looted_house;
+            if( om_cur.find( "_roof" ) != std::string::npos ) {
+                looted_replacement = oter_looted_house_roof;
+            }
+
+            if( z == -1 ) {
+                if( om_cur.find( "basement" ) != std::string::npos ) {
+                    looted_replacement = oter_looted_house_basement;
+                } else {
+                    continue;
+                }
+            }
+
+            overmap_buffer.reveal( site, 2 );
+            std::set<item> returned_items = loot_building( site, looted_replacement );
+            all_returned_items.insert( returned_items.begin(), returned_items.end() );
+        }
     }
 
     int merch_amount = rng( 50, 100 );
@@ -1821,17 +1847,26 @@ bool talk_function::hospital_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    //The loot value needs to be added to the faction - what the player is paid
     tripoint_abs_omt loot_location = player_character.global_omt_location();
-    // Only check at the ground floor.
-    loot_location.z() = 0;
     std::set<item> all_returned_items;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint_abs_omt site = overmap_buffer.find_closest(
-                                          loot_location, "hospital", 0, false, ot_match_type::prefix );
-        overmap_buffer.reveal( site, 2 );
-        std::set<item> returned_items = loot_building( site, oter_looted_hospital );
-        all_returned_items.insert( returned_items.begin(), returned_items.end() );
+        tripoint_abs_omt site = overmap_buffer.find_closest(
+                                    loot_location, "hospital", 0, false, ot_match_type::prefix );
+        if( site == overmap::invalid_tripoint ) {
+            debugmsg( "No hospitals found." );
+        } else {
+            // Check the ground level
+            site.z() = 0;
+            overmap_buffer.reveal( site, 2 );
+            std::set<item> returned_items = loot_building( site, oter_looted_hospital );
+            all_returned_items.insert( returned_items.begin(), returned_items.end() );
+
+            // Check the roof
+            site.z() = 1;
+            overmap_buffer.reveal( site, 2 );
+            std::set<item> returned_items_roof = loot_building( site, oter_looted_hospital_roof );
+            all_returned_items.insert( returned_items_roof.begin(), returned_items_roof.end() );
+        }
     }
 
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
@@ -2674,9 +2709,9 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         //Hoover up tasty items!
         map_stack items = bay.i_at( p );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            if( !it->made_of(phase_id::LIQUID) && 
+            if( !it->made_of( phase_id::LIQUID ) &&
                 ( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
-                ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) ) {
+                  ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) ) {
                 return_items.insert( *it );
                 it = items.erase( it );
             } else {
