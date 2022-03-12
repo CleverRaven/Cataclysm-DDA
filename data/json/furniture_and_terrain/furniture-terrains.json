@@ -796,7 +796,7 @@
     "symbol": "]",
     "color": "light_gray",
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "NOCOLLIDE", "BRIDGE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": 10 },
