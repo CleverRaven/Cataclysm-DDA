@@ -170,8 +170,12 @@ static const material_id fuel_type_muscle( "muscle" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
 static const material_id material_budget_steel( "budget_steel" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_iron( "iron" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
@@ -995,7 +999,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_magnet ) {
         add_msg_activate();
         static const std::set<material_id> affected_materials =
-        { material_iron, material_steel, material_hardsteel, material_budget_steel };
+        { material_iron, material_steel, material_lc_steel, material_mc_steel, material_hc_steel, material_ch_steel, material_qt_steel, material_budget_steel };
         // Remember all items that will be affected, then affect them
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
@@ -1701,13 +1705,8 @@ float Character::get_effective_efficiency( const bionic &bio, float fuel_efficie
         int coverage = 0;
         const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
-            for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                    !i.has_flag( flag_SEMITANGIBLE ) &&
-                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage( elem.first.id() );
-                }
-            }
+            coverage += worn.coverage_with_flags_exclude( elem.first.id(),
+            { flag_ALLOWS_NATURAL_ATTACKS, flag_SEMITANGIBLE, flag_PERSONAL, flag_AURA } );
         }
         effective_efficiency = fuel_efficiency * ( 1.0 - ( coverage / ( 100.0 *
                                occupied_bodyparts.size() ) )
@@ -1731,11 +1730,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
     if( power_cost > 0_kJ ) {
         if( info.has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
-            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
-            []( const item & w ) {
-                return w.active && w.is_power_armor();
-            } );
-            if( !powered_armor ) {
+            if( !p.worn.is_wearing_active_power_armor() ) {
                 const units::energy armor_power_cost = 1_kJ;
                 power_cost -= armor_power_cost;
             }
@@ -2387,7 +2382,7 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 bool Character::uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
@@ -2687,7 +2682,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     map &here = get_map();
-    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

@@ -68,7 +68,7 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },
@@ -112,29 +112,23 @@
     "id": "destroyed_large_ceramic_plate",
     "type": "ARMOR",
     "copy-from": "esapi_plate",
-    "name": { "str": "shattered ceramic front plate" },
-    "description": "The remains of a ceramic front plate after taking a strong impact.  No longer provides functional protection just weight.",
+    "name": { "str": "compromised ceramic front plate" },
+    "description": "The remains of a ceramic front plate after taking a strong impact.  No longer provides great protection but still is heavy.",
     "price": 0,
     "price_postapoc": 1,
     "looks_like": "esapi_plate",
-    "material": [ "ceramic" ],
-    "material_thickness": 2,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 2, "coverage": 0, "covers": [ "torso" ] } ]
+    "material": [ "damaged_ceramic" ]
   },
   {
     "id": "destroyed_medium_ceramic_plate",
     "type": "ARMOR",
     "copy-from": "esbi_plate",
-    "name": { "str": "shattered ceramic side plate" },
-    "description": "The remains of a ceramic side plate after taking a strong impact.  No longer provides functional protection just weight.",
+    "name": { "str": "compromised ceramic side plate" },
+    "description": "The remains of a ceramic side plate after taking a strong impact.  No longer provides great protection but still is heavy.",
     "price": 0,
     "price_postapoc": 1,
     "looks_like": "esbi_plate",
-    "material": [ "ceramic" ],
-    "material_thickness": 2,
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
-    "armor": [ { "encumbrance": 1, "coverage": 0, "covers": [ "torso" ] } ]
+    "material": [ "damaged_ceramic" ]
   },
   {
     "id": "ballistic_vest_heavy",
@@ -198,7 +192,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -249,7 +243,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -288,7 +282,7 @@
         "coverage": 100,
         "cover_vitals": 100,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       },
       {
         "material": [
@@ -354,7 +348,7 @@
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "volume_encumber_modifier": 0.5
+        "volume_encumber_modifier": 0.3
       }
     ]
   },

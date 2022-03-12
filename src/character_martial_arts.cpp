@@ -26,9 +26,9 @@ character_martial_arts::character_martial_arts()
     };
 }
 
-bool character_martial_arts::selected_allow_melee() const
+bool character_martial_arts::selected_allow_all_weapons() const
 {
-    return style_selected->allow_melee;
+    return style_selected->allow_all_weapons;
 }
 
 bool character_martial_arts::selected_strictly_melee() const
@@ -44,6 +44,11 @@ bool character_martial_arts::selected_has_weapon( const itype_id &weap ) const
 bool character_martial_arts::selected_force_unarmed() const
 {
     return style_selected->force_unarmed;
+}
+
+bool character_martial_arts::selected_prevent_weapon_blocking() const
+{
+    return style_selected->prevent_weapon_blocking;
 }
 
 bool character_martial_arts::knows_selected_style() const

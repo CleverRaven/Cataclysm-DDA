@@ -173,6 +173,7 @@
       { "item": "ceramic_cup", "prob": 15 },
       { "item": "ceramic_bowl", "prob": 15 },
       { "item": "ceramic_plate", "prob": 15 },
+      { "item": "oil_lamp_clay", "prob": 10 },
       { "group": "tinware", "prob": 25 },
       { "item": "bowling_ball", "prob": 12 },
       { "item": "spiral_stone", "prob": 1 },

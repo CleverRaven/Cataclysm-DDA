@@ -169,7 +169,7 @@
     "type": "furniture",
     "id": "f_moxie_tube",
     "name": "breather",
-    "description": "On the ground here lays several colorless coral reefs, the black veins are noticeably more engorged as they breathe.",
+    "description": "On the ground here lay several colorless coral reefs, the black veins are noticeably more engorged as they breathe.",
     "symbol": "+",
     "color": "light_gray",
     "move_cost_mod": 8,

@@ -43,6 +43,7 @@
         "w....w",
         "wwdfww"
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 6 ], "y": [ 0, 6 ] } ],
       "palettes": [ "fbml_migo_resin_palette" ]
     }
   },
@@ -89,6 +90,7 @@
         "w..Fbb",
         "wwwwww"
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 6 ], "y": [ 0, 6 ] } ],
       "palettes": [ "fbml_migo_resin_palette" ]
     }
   },
@@ -112,6 +114,7 @@
         "w..Fb.",
         "w..D.."
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 6 ], "y": [ 0, 6 ] } ],
       "palettes": [ "fbml_migo_resin_palette" ]
     }
   },
@@ -135,6 +138,7 @@
         "w..Fb.",
         "w..D.."
       ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 6 ], "y": [ 0, 6 ] } ],
       "palettes": [ "fbml_migo_resin_palette" ]
     }
   },

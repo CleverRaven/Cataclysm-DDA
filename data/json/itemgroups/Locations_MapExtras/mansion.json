@@ -486,7 +486,7 @@
     "id": "soa_mail",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_mail" }, [ "chainmail_suit", 100 ] ]
+    "items": [ { "group": "soa_weapons_mail" }, [ "chainmail_junk_suit", 100 ] ]
   },
   {
     "id": "soa_weapons_mail",

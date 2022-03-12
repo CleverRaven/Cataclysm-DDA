@@ -296,6 +296,11 @@ struct armor_portion_data {
     // this is to test if the armor has unique layering information
     bool has_unique_layering = false; // NOLINT(cata-serialize)
 
+    // how breathable this part of the armor is
+    // cached from the material data
+    // only tracked for amalgamized body parts entries
+    int breathability = 0; // NOLINT(cata-serialize)
+
     /**
      * Returns the amount all sublocations this item covers could possibly
      * cover the specific body part.
@@ -1003,6 +1008,7 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+        friend struct mod_tracker;
 
         using FlagsSetType = std::set<flag_id>;
 

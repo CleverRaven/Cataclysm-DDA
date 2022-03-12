@@ -165,11 +165,15 @@ static const limb_score_id limb_score_reaction( "reaction" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_budget_steel( "budget_steel" );
+static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
-static const material_id material_hardsteel( "hardsteel" );
+static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_hflesh( "hflesh" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_iron( "iron" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
@@ -905,10 +909,15 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
         const item &weapon = foe->get_wielded_item();
-        const int metal_portion = weapon.made_of( material_iron ) +
-                                  weapon.made_of( material_hardsteel ) +
-                                  weapon.made_of( material_steel ) +
-                                  weapon.made_of( material_budget_steel );
+        const int metal_portion = weapon.made_of( material_budget_steel ) +
+                                  weapon.made_of( material_ch_steel ) +
+                                  weapon.made_of( material_hc_steel ) +
+                                  weapon.made_of( material_iron ) +
+                                  weapon.made_of( material_lc_steel ) +
+                                  weapon.made_of( material_mc_steel ) +
+                                  weapon.made_of( material_qt_steel ) +
+                                  weapon.made_of( material_steel );
+
         // Take the total portion of metal in the item into account
         const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
         if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
@@ -2914,11 +2923,6 @@ bool mattack::grab( monster *z )
         }
         return true;
     }
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
@@ -2983,11 +2987,6 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
 
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
@@ -6125,12 +6124,7 @@ bool mattack::dsa_drone_scan( monster *z )
                 weapons_count += 1;
             }
         } else {
-            for( const item &worn_item : target->worn ) {
-                if( worn_item.is_gun() ) {
-                    weapons_count += 1;
-                    break;
-                }
-            }
+            weapons_count += target->worn.worn_guns();
         }
         summon_reinforcements = weapons_count >= 3;
     }

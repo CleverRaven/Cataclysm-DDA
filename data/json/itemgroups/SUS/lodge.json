@@ -59,12 +59,7 @@
     "type": "item_group",
     "//": "archery ammo",
     "subtype": "collection",
-    "entries": [
-      { "item": "arrow_metal", "prob": 20 },
-      { "item": "arrow_metal_bodkin", "prob": 20 },
-      { "item": "arrow_metal_target", "prob": 30 },
-      { "item": "arrow_cf", "prob": 10 }
-    ]
+    "entries": [ { "item": "arrow_metal", "prob": 20 }, { "item": "arrow_cf", "prob": 10 } ]
   },
   {
     "id": "cannibal_food",
