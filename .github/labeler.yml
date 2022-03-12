@@ -15,7 +15,7 @@
 "Code: Tooling":
   - tools/**/*
 
-"Code: Test":
+"Code: Tests":
   - tests/**/*
 
 "SDL: Tiles / Sound":
