@@ -713,7 +713,7 @@ static void assert_maximum_density_for_material( const item &target )
                               ( to_milliliter( target.volume() ) );
         double max_density = 0;
         for( const auto &m : mats ) {
-        // this test will NOT pass right now so for now check but allow failing
+            // this test will NOT pass right now so for now check but allow failing
             max_density += m.first.obj().density() * m.second / target.type->mat_portion_total;
         }
         INFO( target.type_name() );
