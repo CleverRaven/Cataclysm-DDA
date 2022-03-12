@@ -3082,7 +3082,7 @@ static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
         return;
     }
 
-    const std::string space = "  ";
+    const std::string space = " ";
     const Character &c = get_player_character();
     const translation &to_display = combine_opposites ? bp.obj().name_as_heading_multiple :
                                     bp.obj().name_as_heading;
