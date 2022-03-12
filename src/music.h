@@ -14,6 +14,7 @@ enum music_id {
 
 extern std::vector<std::pair<music_id, bool>> music_id_list;
 
+bool is_active_music_id( music_id data );
 std::string enum_to_string( music_id data );
 music_id string_to_enum( std::string data );
 music_id get_music_id();

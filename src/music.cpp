@@ -6,6 +6,17 @@ namespace music
 
 std::vector<std::pair<music_id, bool>> music_id_list { std::make_pair( mp3, false ), std::make_pair( instrument, false ), std::make_pair( sound, false ), std::make_pair( title, true ) };
 
+bool is_active_music_id( music_id data )
+{
+    for( std::pair<music_id, bool> &pair : music_id_list ) {
+        if( pair.first == data ) {
+            return pair.second;
+        }
+    }
+
+    return false;
+}
+
 std::string enum_to_string( music_id data )
 {
     switch( data ) {
