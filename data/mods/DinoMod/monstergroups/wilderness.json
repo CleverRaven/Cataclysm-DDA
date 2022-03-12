@@ -20,13 +20,6 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_kosmoceratops",
-        "weight": 21,
-        "cost_multiplier": 25,
-        "pack_size": [ 4, 9 ],
-        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
         "monster": "mon_eoraptor",
         "weight": 3,
         "cost_multiplier": 0,
@@ -213,6 +206,13 @@
       },
       {
         "monster": "mon_pentaceratops",
+        "weight": 20,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_kosmoceratops",
         "weight": 20,
         "cost_multiplier": 25,
         "pack_size": [ 1, 2 ],
@@ -407,6 +407,20 @@
       {
         "monster": "mon_albertonykus",
         "weight": 200,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_nothronychus",
+        "weight": 150,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_anzu",
+        "weight": 150,
         "cost_multiplier": 0,
         "pack_size": [ 1, 2 ],
         "conditions": [ "WINTER" ]
