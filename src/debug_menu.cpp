@@ -345,7 +345,7 @@ static int game_uilist()
 static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
