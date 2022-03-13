@@ -42,10 +42,7 @@
             {
               "not": { "u_has_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" }
             }
-          ],
-          "type": "general",
-          "context": "meeting",
-          "value": "yes"
+          ]
         },
         "topic": "TALK_GLOOSCAP_HUNTER"
       },
