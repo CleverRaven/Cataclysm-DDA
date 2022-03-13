@@ -37,10 +37,10 @@ def parse_terrain(json, origin):
         if "message" in json["prying"]:
             write_text(json["prying"]["message"], origin,
                        comment="Prying message of terrain \"{}\"".format(name))
-        if "prying_data" in json["prying"]:
-            if "failure" in json["prying_data"]:
-                write_text(json["prying_data"]["failure"], origin,
-                          comment="Prying failure of terrain \"{}\"".format(name))
+#        if "prying_data" in json["prying"]:
+#            if "failure" in json["prying_data"]:
+#                write_text(json["prying_data"]["failure"], origin,
+#                          comment="Prying failure of terrain \"{}\"".format(name))
     if "lockpick_message" in json:
         write_text(json["lockpick_message"], origin,
                    comment="Lockpick message of terrain \"{}\"".format(name))
