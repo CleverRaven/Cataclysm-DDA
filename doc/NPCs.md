@@ -189,7 +189,7 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON they are found in the npctalk function parse_tags. They are as follows:
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
 `<yrwp>` | displays avatar's wielded item
 `<mywp>` | displays npc's wielded item
 `<u_name>` | displays avatar's name
