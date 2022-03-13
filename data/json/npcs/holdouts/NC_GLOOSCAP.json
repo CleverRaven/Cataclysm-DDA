@@ -18,20 +18,13 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": {
-        "u_has_var": "u_befriended_glooscap",
-        "type": "general",
-        "context": "meeting",
-        "value": "yes",
-        "yes": [
-          "Good to see you again, how can I help you?",
-          "They say I turned a man into a cedar tree once.  That's a terrible thing to say.",
-          "You like maple syrup?  That was me.  Not the syrup, that was the trees, but I figured out how to make it much harder to concentrate it, used to be way too easy.  Pretty nice right?",
-          "Did I tell you the one about the beavers?  Used to be way too big.  Like giant beavers, it was a mess.  I fixed that.  Of course there seem to be a bunch of new giant things out here now.  I'll have to think about that.",
-          "You know storms?  Used to be more.  Took me a lot of work, but there aren't as many now.  That was me, I did that.  Fewer storms, pretty good.  There's a big eagle, it's a long story really.  I'm good with rope though."
-        ],
-        "no": "Hello again survivor."
-      },
+      "yes": [
+        "Good to see you again, how can I help you?",
+        "They say I turned a man into a cedar tree once.  That's a terrible thing to say.",
+        "You like maple syrup?  That was me.  Not the syrup, that was the trees, but I figured out how to make it much harder to concentrate it, used to be way too easy.  Pretty nice right?",
+        "Did I tell you the one about the beavers?  Used to be way too big.  Like giant beavers, it was a mess.  I fixed that.  Of course there seem to be a bunch of new giant things out here now.  I'll have to think about that.",
+        "You know storms?  Used to be more.  Took me a lot of work, but there aren't as many now.  That was me, I did that.  Fewer storms, pretty good.  There's a big eagle, it's a long story really.  I'm good with rope though."
+      ],
       "no": "It's decided then.  I will be Glooscap.  Who will you be?"
     },
     "responses": [
