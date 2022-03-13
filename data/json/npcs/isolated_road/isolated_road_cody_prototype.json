@@ -399,7 +399,7 @@
     "id": "TALK_BLACKSMITH_PULVERIZER",
     "//": "Pulverizer sledge hammer",
     "type": "talk_topic",
-    "dynamic_line": "The Pulverizer is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot... BOOM.  I'll need a sledge hammer, 80 merch and at least 20 .22 LR rounds.  Fabrication will definitely take 2 weeks on this one.",
+    "dynamic_line": "The Pulverizer is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… BOOM.  I'll need a sledge hammer, 80 merch and at least 20 .22 LR rounds.  Fabrication will definitely take 2 weeks on this one.",
     "responses": [
       {
         "text": "[sledge hammer, 80 merch, 20 .22 LR] See you in 2 weeks.",
