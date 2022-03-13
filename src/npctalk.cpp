@@ -4025,7 +4025,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
         const mission *miss = d.actor( true )->selected_mission();
         for( const talk_effect_fun_t &effect : effects ) {
-            if (!effect(d)) {
+            if( !effect( d ) ) {
                 break;
             }
         }
@@ -4046,7 +4046,7 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         }
     } else {
         for( const talk_effect_fun_t &effect : effects ) {
-            if (!effect(d)) {
+            if( !effect( d ) ) {
                 break;
             }
         }
