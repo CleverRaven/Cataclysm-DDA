@@ -142,6 +142,10 @@ class outfit
         ret_val<bool> only_one_conflicts( const item &clothing ) const;
         bool one_per_layer_change_side( item &it, const Character &guy ) const;
         void one_per_layer_sidedness( item &clothing ) const;
+        ret_val<bool> check_rigid_conflicts( const item &clothing, side s ) const;
+        ret_val<bool> check_rigid_conflicts( const item &clothing ) const;
+        bool check_rigid_change_side( item &it, const Character &guy ) const;
+        void check_rigid_sidedness( item &clothing ) const;
         int amount_worn( const itype_id &clothing ) const;
         int worn_guns() const;
         int clatter_sound() const;

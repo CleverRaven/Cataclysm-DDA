@@ -301,6 +301,12 @@ struct armor_portion_data {
     // only tracked for amalgamized body parts entries
     int breathability = 0; // NOLINT(cata-serialize)
 
+    // if this item is rigid, can't be worn with other rigid items
+    bool rigid = false;
+
+    // if this item is comfortable to wear without other items bellow it
+    bool comfortable = true;
+
     /**
      * Returns the amount all sublocations this item covers could possibly
      * cover the specific body part.

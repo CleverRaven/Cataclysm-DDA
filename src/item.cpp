@@ -12669,8 +12669,81 @@ bool item::is_soft() const
     } );
 }
 
+bool item::is_rigid() const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return false;
+    } else if( has_flag( flag_HARD ) ) {
+        return true;
+    }
+
+    // if the item has no armor data it isn't rigid
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return false;
+    }
+
+    for( const armor_portion_data &portion : armor->sub_data ) {
+        if( portion.rigid ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool item::is_comfortable() const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
+    // if the item has no armor data it isn't rigid
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return true;
+    }
+
+    for( const armor_portion_data &portion : armor->sub_data ) {
+        if( portion.comfortable ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 template <typename T>
-bool item::is_bp_soft( const T &bp ) const
+bool item::is_bp_rigid( const T &bp ) const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return false;
+    } else if( has_flag( flag_HARD ) ) {
+        return true;
+    }
+
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return false;
+    }
+
+    return portion->rigid;
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_rigid<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_rigid<bodypart_id>( const bodypart_id &bp ) const;
+
+template <typename T>
+bool item::is_bp_comfortable( const T &bp ) const
 {
     // overrides for the item overall
     if( has_flag( flag_SOFT ) ) {
@@ -12686,16 +12759,13 @@ bool item::is_bp_soft( const T &bp ) const
         return true;
     }
 
-    return std::all_of( portion->materials.begin(),
-    portion->materials.end(), []( const part_material & mid ) {
-        return mid.id->soft();
-    } );
+    return portion->comfortable;
 }
 
 // initialize for sub_bodyparts and body parts
-template bool item::is_bp_soft<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+template bool item::is_bp_comfortable<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
 
-template bool item::is_bp_soft<bodypart_id>( const bodypart_id &bp ) const;
+template bool item::is_bp_comfortable<bodypart_id>( const bodypart_id &bp ) const;
 
 bool item::is_reloadable() const
 {

@@ -1548,8 +1548,15 @@ class item : public visitable
          * Is this item flexible enough to be worn on body parts like antlers?
          */
         bool is_soft() const;
+
+        // is any bit of the armor rigid
+        bool is_rigid() const;
+        // is any bit of the armor comfortable
+        bool is_comfortable() const;
         template <typename T>
-        bool is_bp_soft( const T &bp ) const;
+        bool is_bp_rigid( const T &bp ) const;
+        template <typename T>
+        bool is_bp_comfortable( const T &bp ) const;
 
         /**
          * Set the snippet text (description) of this specific item, using the snippet library.

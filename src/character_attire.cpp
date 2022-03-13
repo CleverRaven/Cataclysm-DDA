@@ -162,6 +162,14 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    // if the item is rigid make sure other rigid items aren't already equipped
+    if( it.is_rigid() ) {
+        ret_val<bool> conflict = worn.check_rigid_conflicts( it );
+        if( !conflict.success() ) {
+            return conflict;
+        }
+    }
+
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
@@ -239,6 +247,7 @@ Character::wear( item_location item_wear, bool interactive )
         was_weapon = false;
     }
 
+    worn.check_rigid_sidedness( to_wear_copy );
     worn.one_per_layer_sidedness( to_wear_copy );
 
     auto result = wear_item( to_wear_copy, interactive );
@@ -636,6 +645,21 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
     return true;
 }
 
+bool outfit::check_rigid_change_side( item &it, const Character &guy ) const
+{
+    if( !check_rigid_conflicts( it ).success() ) {
+        const std::string player_msg = string_format(
+                                           _( "Your %s conflicts with hard armor on your other side so you can't swap it." ),
+                                           it.tname() );
+        const std::string npc_msg = string_format(
+                                        _( "<npcname>'s %s conflicts with hard armor on your other side so they can't swap it." ),
+                                        it.tname() );
+        guy.add_msg_player_or_npc( m_info, player_msg, npc_msg );
+        return false;
+    }
+    return true;
+}
+
 bool Character::change_side( item &it, bool interactive )
 {
     if( !it.swap_side() ) {
@@ -649,6 +673,10 @@ bool Character::change_side( item &it, bool interactive )
     }
 
     if( !worn.one_per_layer_change_side( it, *this ) ) {
+        return false;
+    }
+
+    if( !worn.check_rigid_change_side( it, *this ) ) {
         return false;
     }
 
@@ -1155,6 +1183,55 @@ ret_val<bool> outfit::only_one_conflicts( const item &clothing ) const
     return ret_val<bool>::make_success();
 }
 
+ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) const
+{
+
+    std::vector<sub_bodypart_id> to_test;
+
+    // if not overridden get the actual side of the item
+    if( s == side::num_sides ) {
+        s = clothing.get_side();
+    }
+
+    // figure out which sublimbs need to be tested
+    for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts( s ) ) {
+        if( clothing.is_bp_rigid( sbp ) ) {
+            to_test.push_back( sbp );
+        }
+    }
+
+    // go through all worn and see if already wearing something rigid
+    for( const item &i : worn ) {
+        // check each sublimb individually
+        for( const sub_bodypart_id &sbp : to_test ) {
+            if( i.is_bp_rigid( sbp ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
+            }
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+ret_val<bool> outfit::check_rigid_conflicts( const item &clothing ) const
+{
+    if( !clothing.is_sided() ) {
+        return check_rigid_conflicts( clothing, side::BOTH );
+    }
+
+    ret_val<bool> ls = check_rigid_conflicts( clothing, side::LEFT );
+    ret_val<bool> rs = check_rigid_conflicts( clothing, side::RIGHT );
+
+
+    if( !ls.success() && !rs.success() ) {
+        return ls;
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+
+
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
     const bool item_one_per_layer = clothing.has_flag( json_flag_ONE_PER_LAYER );
@@ -1169,6 +1246,21 @@ void outfit::one_per_layer_sidedness( item &clothing ) const
                 clothing.set_side( side::LEFT );
             }
         }
+    }
+}
+
+void outfit::check_rigid_sidedness( item &clothing ) const
+{
+    if( !clothing.is_sided() ) {
+        //nothing to do
+        return;
+    }
+
+    // we can assume both isn't an option because it'll be caught in can_wear
+    if( check_rigid_conflicts( clothing, side::LEFT ).success() ) {
+        clothing.set_side( side::LEFT );
+    } else {
+        clothing.set_side( side::RIGHT );
     }
 }
 
