@@ -37,7 +37,7 @@ Format:
 ```
 There are a couple of items in the above template that may not be self explanatory:
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
-* `"sells_belongings" false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
+* `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 
 ##### Shopkeeper item groups
