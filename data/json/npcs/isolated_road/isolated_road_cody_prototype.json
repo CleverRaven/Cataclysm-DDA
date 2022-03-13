@@ -214,7 +214,9 @@
     "responses": [
       {
         "text": "[Mosin-Nagant M44, 50 merch] See you in a week.",
-        "condition": { "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ] },
+        "condition": {
+          "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
+        },
         "effect": [
           { "u_consume_item": "mosin44", "count": 1 },
           { "u_consume_item": "FMCNote", "count": 50 },
@@ -266,7 +268,7 @@
     "id": "TALK_BLACKSMITH_PRESSIN",
     "//": "Pressin Pistol Knife",
     "type": "talk_topic",
-    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breachloaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a: SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch and a week.",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a: SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch and a week.",
     "responses": [
       {
         "text": "[P230, Switchblade, 20 merch] See you in a week.",
