@@ -18,12 +18,7 @@
       "dispersion": 180,
       "barrel_volume": "-500 ml"
     },
-    "valid_mod_locations": [
-      [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "underbarrel mount", 1 ] ],
     "bashing": 40,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -51,7 +46,14 @@
     "charges_per_use": 100,
     "extend": { "flags": [ "FIRESTARTER" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
-    "use_action": { "type": "cast_spell", "spell_id": "bring_the_sun", "no_fail": true, "level": 1, "need_wielding": true, "mundane": true }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "bring_the_sun",
+      "no_fail": true,
+      "level": 1,
+      "need_wielding": true,
+      "mundane": true
+    }
   },
   {
     "id": "bring_the_sun",
@@ -90,10 +92,8 @@
     "longest_side": "15 cm",
     "price": 23000,
     "price_postapoc": 3000,
-    "relative": {
-      "dispersion": 180
-    },
-    "valid_mod_locations": [],
+    "relative": { "dispersion": 180 },
+    "valid_mod_locations": [  ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],

@@ -54,11 +54,7 @@
       },
       {
         "text": "I'd like to know more about some of your 'special' projects.",
-        "condition": {
-          "and": [
-            { "u_has_var": "blacksmith_can_prototype", "type": "dialogue", "context": "artisans", "value": "yes" }
-          ]
-        },
+        "condition": { "and": [ { "u_has_var": "blacksmith_can_prototype", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
         "topic": "TALK_BLACKSMITH_PROTOTYPE"
       },
       {
