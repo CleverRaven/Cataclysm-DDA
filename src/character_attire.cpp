@@ -458,6 +458,16 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return worn.wearing_something_on( bp );
 }
 
+cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
+{
+    for( const item &i : worn ) {
+        if( i.invlet == invlet ) {
+            return &i;
+        }
+    }
+    return cata::nullopt;
+}
+
 side outfit::is_wearing_shoes( const bodypart_id &bp ) const
 {
     bool any_left_foot_is_covered = false;
@@ -1709,6 +1719,9 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
         double warmth_val = 0.0;
         const float wetness_pct = guy.get_part_wetness_percentage( bp );
         for( const item &clothing : worn ) {
+            if( !clothing.covers( bp ) ) {
+                continue;
+            }
             warmth_val = clothing.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
