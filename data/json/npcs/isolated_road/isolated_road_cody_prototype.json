@@ -182,7 +182,7 @@
               "op": "<",
               "time": "14 d"
             },
-            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pulverizer" }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
@@ -198,7 +198,7 @@
               "op": ">",
               "time": "14 d"
             },
-            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pulverizer" }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
           ]
         },
         "topic": "TALK_BLACKSMITH_PULVERIZER_COMPLETE"
@@ -249,7 +249,7 @@
     "id": "TALK_BLACKSMITH_OBREZ_COMPLETE",
     "//": "making the obrez",
     "type": "talk_topic",
-    "dynamic_line": "The guns done, looking pretty sleak if you ask me.  All loaded and ready to cave in a zombie.",
+    "dynamic_line": "The guns done, looking pretty sleek if you ask me.  All loaded and ready to cave in a zombie.",
     "responses": [
       {
         "text": "Thanks.",
