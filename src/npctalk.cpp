@@ -2236,15 +2236,20 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
     function = [is_npc, item_name, count, charges]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
         const auto consume_item = [&]( talker & p, const itype_id & item_name, int count, int charges ) {
-            item old_item( item_name );
+            if( charges == 0 && item::count_by_charges( item_name ) ) {
+                charges = count;
+                count = 0;
+            }
+
             if( count == 0 && charges > 0 && p.has_charges( item_name, charges ) ) {
-                p.use_charges(item_name, charges);
+                p.use_charges( item_name, charges );
             } else if( p.has_amount( item_name, count ) ) {
                 if( charges > 0 && p.has_charges( item_name, charges ) ) {
                     p.use_charges( item_name, charges );
                 }
                 p.use_amount( item_name, count );
             } else {
+                item old_item( item_name );
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
                 popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item.tname() );
             }
@@ -4041,10 +4046,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         }
         int count = 0;
         int charges = 0;
-        if (jo.has_int("charges")) {
-            charges = jo.get_int("charges");
-        }
-        else {
+        if( jo.has_int( "charges" ) ) {
+            charges = jo.get_int( "charges" );
+        } else {
             count = 1;
         }
 
