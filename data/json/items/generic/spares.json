@@ -227,7 +227,7 @@
     "material": [ "steel" ],
     "weight": "300 kg",
     "volume": "200 L",
-	"longest_side": "300 cm",
+    "longest_side": "300 cm",
     "price": 200000,
     "price_postapoc": 2000
   },
@@ -240,7 +240,7 @@
     "material": [ "steel" ],
     "weight": "30 kg",
     "volume": "10 L",
-	"longest_side": "40 cm",
+    "longest_side": "40 cm",
     "price": 200000,
     "price_postapoc": 2000
   },
