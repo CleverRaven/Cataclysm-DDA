@@ -103,6 +103,8 @@ static const std::string var_PURCHASED_FIELD_1_FENCE =
     "npctalk_var_dialogue_tacoma_ranch_purchased_field_1_fence";
 static const std::string var_SCAVENGER_HOSPITAL_RAID =
     "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid";
+static const std::string var_SCAVENGER_HOSPITAL_RAID_STARTED =
+    "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid_started";
 static const std::string var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED =
     "npctalk_var_mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
 
@@ -588,35 +590,37 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry =
-        _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
-           "Scavenging raid targeting a hospital to search for hospital equipment and as many "
-           "valuable items as possible before being surrounded by the undead.  "
-           "Combat is to be expected and assistance from the rest of the party "
-           "can't be guaranteed.  This will be an extremely dangerous mission, "
-           "so make sure everyone is prepared before they go." );
     const mission_id miss_id = {Hospital_Raid_Job, "", cata::nullopt};
-    mission_key.add_start( miss_id, _( "Assign Hospital Raid" ), entry );
+    if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
+        const std::string entry_assign =
+            _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
+               "Scavenging raid targeting a hospital to search for hospital equipment and as many "
+               "valuable items as possible before being surrounded by the undead.  "
+               "Combat is to be expected and assistance from the rest of the party "
+               "can't be guaranteed.  This will be an extremely dangerous mission, "
+               "so make sure everyone is prepared before they go." );
+        mission_key.add_start( miss_id, _( "Assign Hospital Raid" ), entry_assign );
+    }
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: hospital materials\nDanger: High\nTime: 20 hour missions\n\n"
-                   "Raid Roster:\n" );
+        std::string entry_return = _( "Profit: hospital materials\nDanger: High\nTime: 20 hour missions\n\n"
+                                      "Raid Roster:\n" );
         bool avail = false;
 
         for( auto &elem : npc_list ) {
             const bool done = calendar::turn >= elem->companion_mission_time + 20_hours;
             avail |= done;
             if( done ) {
-                entry += "  " + elem->get_name() + _( " [DONE]\n" );
+                entry_return += "  " + elem->get_name() + _( " [DONE]\n" );
             } else {
-                entry += "  " + elem->get_name() + " [" + std::to_string( to_hours<int>( calendar::turn -
-                         elem->companion_mission_time ) ) + _( " hours / 20 hours]\n" );
+                entry_return += "  " + elem->get_name() + " [" + std::to_string( to_hours<int>( calendar::turn -
+                                elem->companion_mission_time ) ) + _( " hours / 20 hours]\n" );
             }
         }
         if( avail ) {
-            entry += _( return_ally_question_string );
+            entry_return += _( return_ally_question_string );
         }
-        mission_key.add_return( miss_id, _( "Retrieve Hospital Raid" ), entry, avail );
+        mission_key.add_return( miss_id, _( "Retrieve Hospital Raid" ), entry_return, avail );
     }
 }
 
@@ -1086,7 +1090,10 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             if( cur_key.id.ret ) {
                 hospital_raid_return( p );
             } else {
-                individual_mission( p, _( "departs on the hospital raid…" ), cur_key.id.id );
+                npc_ptr npc = individual_mission( p, _( "departs on the hospital raid…" ), cur_key.id.id );
+                if( npc != nullptr ) {
+                    get_player_character().set_value( var_SCAVENGER_HOSPITAL_RAID_STARTED, "yes" );
+                }
             }
             break;
 
@@ -1850,6 +1857,9 @@ bool talk_function::hospital_raid_return( npc &p )
             } else {
                 popup( _( "Unfortunately they were overpowered by the undead…  I'm sorry." ) );
                 overmap_buffer.remove_npc( comp->getID() );
+
+                // Let the player retry if everybody dies
+                get_player_character().set_value( var_SCAVENGER_HOSPITAL_RAID_STARTED, "no" );
                 return false;
             }
         }
