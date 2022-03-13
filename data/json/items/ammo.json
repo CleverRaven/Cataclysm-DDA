@@ -887,7 +887,7 @@
     "type": "AMMO",
     "id": "carbon_electrode",
     "category": "spare_parts",
-    "name": { "str": "Carbon electrode rod" },
+    "name": { "str": "carbon electrode rod" },
     "description": "This carbon electrode is basically made from wood and sugar, and it actually works.",
     "price_postapoc": 50,
     "material": [ "charcoal" ],

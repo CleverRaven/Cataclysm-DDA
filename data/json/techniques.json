@@ -153,8 +153,11 @@
     "name": "Sweet Spot Hit",
     "melee_allowed": true,
     "crit_tec": true,
+    "needs_ammo": true,
     "stun_dur": 1,
     "knockback_dist": 2,
+    "//": "this should basically always happen if you get the crit",
+    "weighting": 10,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 1.1 },
       { "stat": "damage", "type": "bash", "scale": 3 },
@@ -162,7 +165,7 @@
       { "stat": "damage", "type": "stab", "scale": 3 }
     ],
     "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
-    "description": "Stun 1 turn, knockback 1 tile, crit only, requires ammo",
+    "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -699,7 +702,7 @@
     "type": "technique",
     "id": "tec_dragon_strike",
     "name": "Dragon Strike",
-    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname> descends upon %s with a powerful Dragon Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,

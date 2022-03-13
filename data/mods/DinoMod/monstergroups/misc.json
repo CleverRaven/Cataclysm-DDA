@@ -25,6 +25,7 @@
     "is_safe": true,
     "monsters": [
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_albertonykus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dimorphodon", "weight": 50, "pack_size": [ 2, 4 ] }
@@ -35,6 +36,7 @@
     "name": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100 },
+      { "monster": "mon_anzu", "weight": 50 },
       { "monster": "mon_eoraptor", "weight": 100 },
       { "monster": "mon_dimorphodon", "weight": 100 }
     ]

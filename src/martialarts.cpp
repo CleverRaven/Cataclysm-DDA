@@ -238,6 +238,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
