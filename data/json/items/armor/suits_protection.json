@@ -1196,7 +1196,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap suit" },
-    "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but uncomfortable protection.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings to cloth wraps; the loose collection of plates provides decent but uncomfortable protection.",
     "weight": "9534 g",
     "volume": "15500 ml",
     "price": 60000,
@@ -1217,9 +1217,6 @@
         ],
         "covers": [ "torso" ],
         "coverage": 95,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
         "encumbrance": 18
       },
       {
@@ -1228,10 +1225,7 @@
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "coverage": 98,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
+        "coverage": 95,
         "encumbrance": 15
       },
       {
@@ -1241,12 +1235,25 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
         "encumbrance": 15
       }
     ]
+  },
+  {
+    "id": "armor_xl_scrapsuit",
+    "type": "ARMOR",
+    "copy-from": "armor_scrapsuit",
+    "name": { "str": "XL scrap suit" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_xs_scrapsuit",
+    "type": "ARMOR",
+    "copy-from": "armor_scrapsuit",
+    "name": { "str": "XS scrap suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "OUTER", "UNDERSIZE" ]
   },
   {
     "id": "armor_tiresuit",

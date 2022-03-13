@@ -750,13 +750,18 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
+    "flags": [ "OUTER" ],
     "armor": [
-      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
-    ],
-    "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "OUTER" ]
+	{
+	"material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+		  ]
+        "covers": [ "head" ],
+        "coverage": 80,
+        "encumbrance": 35
+		}
+        ]
   },
   {
     "id": "xl_helmet_scrap",

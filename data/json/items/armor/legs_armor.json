@@ -774,7 +774,6 @@
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 2,
     "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [
       {
@@ -784,9 +783,6 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
         "encumbrance": 15
       }
     ]

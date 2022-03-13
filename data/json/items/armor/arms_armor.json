@@ -396,7 +396,6 @@
     "looks_like": "armguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 2,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
@@ -407,9 +406,6 @@
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 6,
         "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ]
