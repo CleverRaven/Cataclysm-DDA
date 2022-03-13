@@ -2797,7 +2797,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 }
             }
             if( !display ) {
-                return false;
+                return true;
             }
         }
         if( popup_msg ) {
