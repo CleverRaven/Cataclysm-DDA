@@ -1435,6 +1435,13 @@
   },
   {
     "type": "keybinding",
+    "id": "REMOVE",
+    "category": "APP_INTERACT",
+    "name": "Take down appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",

@@ -31,6 +31,7 @@ struct effect_on_condition {
         /* If this is true it will be run on the player and every npc.  Deactivate conditions will work based on the player.  */
         bool global = false;
         effect_on_condition_id id;
+        std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
         std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
@@ -41,7 +42,7 @@ struct effect_on_condition {
         bool has_false_effect = false;
         duration_or_var recurrence;
         bool activate( dialogue &d ) const;
-        bool check_deactivate() const;
+        bool check_deactivate( dialogue &d ) const;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

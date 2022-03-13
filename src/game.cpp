@@ -790,8 +790,7 @@ bool game::start_game()
         omtstart = start_loc.find_player_initial_location();
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
-                    _( "Try again?  Warning: all savegames in current world will be deleted!\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
-                world_generator->delete_world( world_generator->active_world->world_name, false );
+                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
@@ -2117,7 +2116,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '+':
                     if( !bHPR ) {
-                        get_auto_pickup().add_rule( &oThisItem );
+                        get_auto_pickup().add_rule( &oThisItem, true );
                         add_msg( m_info, _( "'%s' added to character pickup rules." ), oThisItem.tname( 1,
                                  false ) );
                     }
@@ -5204,7 +5203,7 @@ bool game::npc_menu( npc &who )
         trade
     };
 
-    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
 
@@ -5300,7 +5299,7 @@ bool game::npc_menu( npc &who )
         if( who.is_hallucination() ) {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         } else {
-            who.sort_armor();
+            who.worn.sort_armor( who );
             u.mod_moves( -100 );
         }
     } else if( choice == attack ) {
@@ -5592,23 +5591,24 @@ void game::peek()
     if( !p ) {
         return;
     }
-
+    tripoint new_pos = u.pos() + *p;
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
         vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
+            new_pos = u.pos();
             vertical_move( p->z * -1, false, true );
         } else {
             return;
         }
     }
 
-    if( m.impassable( u.pos() + *p ) ) {
+    if( m.impassable( new_pos ) ) {
         return;
     }
 
-    peek( u.pos() + *p );
+    peek( new_pos );
 }
 
 void game::peek( const tripoint &p )
@@ -6829,13 +6829,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-            std::string pixel_minimap_text = string_format( _( "%s - %s" ),
-                                             ctxt.get_desc( "toggle_pixel_minimap" ),
-                                             ctxt.get_action_name( "toggle_pixel_minimap" ) );
             mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
-            right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
-                         pixel_minimap_text );
+
+            if( !ctxt.keys_bound_to( "toggle_pixel_minimap" ).empty() ) {
+                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
+                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
+                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
+                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
+                             pixel_minimap_text );
+            }
 
             int first_line = 1;
             const int last_line = getmaxy( w_info ) - 2;
@@ -9095,9 +9098,7 @@ void game::wield( item_location loc )
                 break;
             case item_location::type::character:
                 if( worn_index != INT_MIN ) {
-                    auto it = u.worn.begin();
-                    std::advance( it, worn_index );
-                    u.worn.insert( it, to_wield );
+                    u.worn.insert_item_at_index( to_wield, worn_index );
                 } else {
                     u.i_add( to_wield, true, nullptr, loc.get_item() );
                 }
@@ -9963,6 +9964,7 @@ point game::place_player( const tripoint &dest_loc )
     }
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
+        !m.has_flag_furn( "BRIDGE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
@@ -10781,8 +10783,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                 return;
             }
-            ///\EFFECT_STR increases breath-holding capacity while diving
-            u.set_oxygen();
             u.set_underwater( true );
             add_msg( _( "You dive underwater!" ) );
         } else {
@@ -10806,6 +10806,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+            return;
+        }
+
+        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
+            add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
             return;
         }
 
@@ -11954,7 +11959,8 @@ bool game::slip_down( bool check_for_traps )
     bool wet_feet = false;
     bool wet_hands = false;
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::foot,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Foot %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );
@@ -11963,7 +11969,8 @@ bool game::slip_down( bool check_for_traps )
         }
     }
 
-    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+    for( const bodypart_id &bp : u.get_all_body_parts_of_type( body_part_type::type::hand,
+            get_body_part_flags::primary_type ) ) {
         if( u.get_part_wetness( bp ) > 0 ) {
             add_msg_debug( debugmode::DF_GAME, "Hand %s %.1f wet", body_part_name( bp ),
                            u.get_part( bp )->get_wetness_percentage() );

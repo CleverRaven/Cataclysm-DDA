@@ -192,6 +192,8 @@ class spell_type
         bool was_loaded = false;
 
         spell_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<spell_id, mod_id>> src;
         // spell name
         translation name;
         // spell description

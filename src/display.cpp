@@ -11,6 +11,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "timed_event.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -917,17 +918,6 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, 0 );
-        }
-    }
-    return "-";
-}
-
 // Single-letter move mode (W, R, C, P)
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
@@ -1165,6 +1155,14 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
     point_om_omt omt;
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
+std::string display::current_position_text( const tripoint_abs_omt &loc )
+{
+    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return _( e->string_id );
+    }
+    return overmap_buffer.ter( loc )->get_name();
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

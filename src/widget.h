@@ -191,8 +191,10 @@ class widget
 {
     private:
         friend class generic_factory<widget>;
+        friend struct mod_tracker;
 
         widget_id id;
+        std::vector<std::pair<widget_id, mod_id>> src;
         bool was_loaded = false;
 
         const widget_clause *get_clause( const std::string &clause_id = "" ) const;

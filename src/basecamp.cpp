@@ -544,13 +544,14 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
 }
 
 // get the subset of companions working on a specific task
-comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contains )
 {
     comp_list available;
     for( const auto &elem : camp_workers ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( ( c_mission.mission_id == mission_id ) ||
-            ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
+        if( is_equal( c_mission.miss_id, miss_id ) ||
+            ( contains && c_mission.miss_id.id == miss_id.id &&
+              c_mission.miss_id.dir == miss_id.dir ) ) {
             available.push_back( elem );
         }
     }

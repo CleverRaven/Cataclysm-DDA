@@ -559,8 +559,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
             npc_companion_mission c_mission = get_companion_mission();
-            mission_string = _( "Current Mission: " ) +
-                             get_mission_action_string( c_mission.mission_id );
+            mission_string = _( "Current Mission: " ) + action_of( c_mission.miss_id.id );
         }
         fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
 

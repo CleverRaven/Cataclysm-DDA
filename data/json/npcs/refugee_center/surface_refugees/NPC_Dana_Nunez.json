@@ -194,7 +194,7 @@
       },
       {
         "//": "Regular sourdough, trade merch, regular price",
-        "text": "I got two merch for you.",
+        "text": "[2 merch] I got two merch for you.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
@@ -221,7 +221,7 @@
       },
       {
         "//": "Regular sourdough, trade merch, barter price",
-        "text": "All right, one merch as agreed.",
+        "text": "[1 merch] All right, one merch as agreed.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
@@ -249,7 +249,7 @@
       },
       {
         "//": "Special sourdough, trade merch, regular price",
-        "text": "I got two merch for you.",
+        "text": "[2 merch] I got two merch for you.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
@@ -275,7 +275,7 @@
       },
       {
         "//": "Special sourdough, trade merch, barter price",
-        "text": "All right, one merch as agreed.",
+        "text": "[1 merch] All right, one merch as agreed.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [

@@ -1636,7 +1636,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_EDIT_VARS
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
@@ -1664,6 +1664,7 @@ static void character_edit_menu()
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprat[U]re" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
@@ -1702,9 +1703,7 @@ static void character_edit_menu()
             if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
-            for( auto &it : you.worn ) {
-                it.on_takeoff( you );
-            }
+            you.worn.on_takeoff( you );
             you.worn.clear();
             you.inv->clear();
             you.remove_weapon();
@@ -1717,7 +1716,7 @@ static void character_edit_menu()
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 you.on_item_wear( to_wear );
-                you.worn.push_back( to_wear );
+                you.worn.wear_item( you, to_wear, false, false );
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
@@ -1877,6 +1876,13 @@ static void character_edit_menu()
         break;
         case D_ADD_EFFECT: {
             wisheffect( you );
+            break;
+        }
+        case D_CHECK_TEMP: {
+            for( const bodypart_id &bp : you.get_all_body_parts() ) {
+                add_msg( string_format( "%s: temperature: %d, temperature conv: %d, wetness: %d", bp->name,
+                                        you.get_part_temp_cur( bp ), you.get_part_temp_conv( bp ), you.get_part_wetness( bp ) ) );
+            }
             break;
         }
         case D_ASTHMA: {

@@ -53,6 +53,7 @@
         ";;;;;;;;;;;;;;;;;;;;    ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbmw_2_common_palette" ]
     }
   },

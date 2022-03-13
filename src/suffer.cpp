@@ -168,7 +168,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 
-static const vitamin_id vitamin_vitA( "vitA" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
@@ -807,7 +806,6 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitA, 1 );
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
@@ -855,19 +853,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0f;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
-        // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
-        for( const bodypart_id &bp : all_body_parts )  {
-            if( !covered.test( bp.id() ) ) {
-                continue;
-            }
-            // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
-            // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            bp_exposure[bp] *= part_exposure;
-        }
-    }
+    worn.bodypart_exposure( bp_exposure, all_body_parts );
     return bp_exposure;
 }
 
@@ -1865,7 +1851,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
         if( curr_wetness < wetness_max ) {
-            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment ) );
+            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment * 100 ) );
         }
     }
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
@@ -1902,7 +1888,7 @@ void Character::apply_wetness_morale( int temperature )
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = get_part_wetness( bp );
+        const int part_drench = get_part_wetness( bp ) / 100;
         if( part_drench == 0 ) {
             continue;
         }
