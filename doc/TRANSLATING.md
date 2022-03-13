@@ -145,12 +145,13 @@ General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
-The more translators there are, the easier it becomes 😄.
+Cataclysm: DDA has more than 50000 translatable strings, including all mods shipped
+with the game but don't be discouraged. The more translators there are, the easier it
+becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
+Cataclysm: DDA uses a modified version of [GNU gettext][5] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -347,12 +348,13 @@ To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It 
 
 Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
 
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run cataclysm.
+After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run Cataclysm.
 
 If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
+You can also change the langue in game options if both are installed.
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
