@@ -87,7 +87,7 @@ struct talk_topic {
 
 struct talk_effect_fun_t {
     private:
-        std::function<void( const dialogue &d )> function;
+        std::function<bool( const dialogue &d )> function;
         std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
@@ -171,9 +171,9 @@ struct talk_effect_fun_t {
         void set_open_dialogue();
         void set_take_control();
         void set_take_control_menu();
-        void operator()( const dialogue &d ) const {
+        bool operator()( const dialogue &d ) const {
             if( !function ) {
-                return;
+                return true;
             }
             return function( d );
         }

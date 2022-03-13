@@ -1969,6 +1969,7 @@ talk_effect_fun_t::talk_effect_fun_t( const talkfunction_ptr &ptr )
         if( d.actor( true )->get_npc() ) {
             ptr( *d.actor( true )->get_npc() );
         }
+        return true;
     };
 }
 
@@ -1978,6 +1979,7 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( npc &p )> &ptr )
         if( d.actor( true )->get_npc() ) {
             ptr( *d.actor( true )->get_npc() );
         }
+        return true;
     };
 }
 
@@ -1985,6 +1987,7 @@ talk_effect_fun_t::talk_effect_fun_t( const std::function<void( const dialogue &
 {
     function = [fun]( const dialogue & d ) {
         fun( d );
+        return true;
     };
 }
 
@@ -1992,6 +1995,7 @@ void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
 {
     function = [role_id]( const dialogue & d ) {
         d.actor( true )->set_companion_mission( role_id );
+        return true;
     };
 }
 
@@ -2025,6 +2029,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
                                        dov_duration.evaluate( d.actor( dov_duration.is_npc() ) ),
                                        target, permanent, force,
                                        iov_intensity.evaluate( d.actor( iov_intensity.is_npc() ) ) );
+        return true;
     };
 }
 
@@ -2034,6 +2039,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
     std::string old_effect = jo.get_string( member );
     function = [is_npc, old_effect]( const dialogue & d ) {
         d.actor( is_npc )->remove_effect( efftype_id( old_effect ) );
+        return true;
     };
 }
 
@@ -2043,6 +2049,7 @@ void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &
     std::string new_trait = jo.get_string( member );
     function = [is_npc, new_trait]( const dialogue & d ) {
         d.actor( is_npc )->set_mutation( trait_id( new_trait ) );
+        return true;
     };
 }
 
@@ -2052,6 +2059,7 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     std::string old_trait = jo.get_string( member );
     function = [is_npc, old_trait]( const dialogue & d ) {
         d.actor( is_npc )->unset_mutation( trait_id( old_trait ) );
+        return true;
     };
 }
 
@@ -2062,6 +2070,7 @@ void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &mem
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
     function = [is_npc, highest_cat, use_vitamins]( const dialogue & d ) {
         d.actor( is_npc )->mutate( highest_cat.evaluate( d.actor( highest_cat.is_npc() ) ), use_vitamins );
+        return true;
     };
 }
 
@@ -2073,6 +2082,7 @@ void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::st
     function = [is_npc, mut_cat, use_vitamins]( const dialogue & d ) {
         d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d.actor(
                                                 mut_cat.is_npc() ) ) ), use_vitamins );
+        return true;
     };
 }
 
@@ -2082,6 +2092,7 @@ void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string 
     std::string new_bionic = jo.get_string( member );
     function = [is_npc, new_bionic]( const dialogue & d ) {
         d.actor( is_npc )->add_bionic( bionic_id( new_bionic ) );
+        return true;
     };
 }
 
@@ -2091,6 +2102,7 @@ void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string
     std::string old_bionic = jo.get_string( member );
     function = [is_npc, old_bionic]( const dialogue & d ) {
         d.actor( is_npc )->remove_bionic( bionic_id( old_bionic ) );
+        return true;
     };
 }
 
@@ -2112,6 +2124,7 @@ void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &me
             int index = rng( 0, possible_values.size() - 1 );
             actor->set_value( var_name, possible_values[index] );
         }
+        return true;
     };
 }
 
@@ -2121,6 +2134,7 @@ void talk_effect_fun_t::set_remove_var( const JsonObject &jo, const std::string 
     const std::string var_name = get_talk_varname( jo, member, false );
     function = [is_npc, var_name]( const dialogue & d ) {
         d.actor( is_npc )->remove_value( var_name );
+        return true;
     };
 }
 
@@ -2138,6 +2152,7 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
         }
 
         d.actor( is_npc )->set_value( var_name, std::to_string( adjusted_value ) );
+        return true;
     };
 }
 
@@ -2184,6 +2199,7 @@ void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
 {
     function = [item_name, count, container_name]( const dialogue & d ) {
         receive_item( item_name, count, container_name, d );
+        return true;
     };
     likely_rewards.emplace_back( count, item_name );
 }
@@ -2194,9 +2210,10 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
     function = [item_name, cost, count, container_name]( const dialogue & d ) {
         if( !d.actor( true )->buy_from( cost ) ) {
             popup( _( "You can't afford it!" ) );
-            return;
+            return false;
         }
         receive_item( item_name, count, container_name, d );
+        return true;
     };
 }
 
@@ -2214,7 +2231,7 @@ void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, in
         } else {
             //~ %1$s is a translated item name
             popup( _( "You don't have a %1$s!" ), item::nname( item_name ) );
-            return;
+            return false;
         }
         if( count == 1 ) {
             //~ %1%s is the NPC name, %2$s is an item
@@ -2225,6 +2242,7 @@ void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, in
                    item::nname( item_name, count ) );
         }
         d.actor( true )->add_debt( cost );
+        return true;
     };
 }
 
@@ -2252,6 +2270,7 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
         } else {
             consume_item( *d.actor( false ), item_name, count );
         }
+        return true;
     };
 }
 
@@ -2264,13 +2283,14 @@ void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::s
         d.actor( is_npc )->remove_items_with( [item_id]( const item & it ) {
             return it.typeId() == item_id;
         } );
+        return true;
     };
 }
 
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
-        d.actor( true )->buy_from( amount );
+        return d.actor( true )->buy_from( amount );
     };
 }
 
@@ -2278,6 +2298,7 @@ void talk_effect_fun_t::set_npc_change_faction( const std::string &faction_name 
 {
     function = [faction_name]( const dialogue & d ) {
         d.actor( true )->set_fac( faction_id( faction_name ) );
+        return true;
     };
 }
 
@@ -2285,6 +2306,7 @@ void talk_effect_fun_t::set_npc_change_class( const std::string &class_name )
 {
     function = [class_name]( const dialogue & d ) {
         d.actor( true )->set_class( npc_class_id( class_name ) );
+        return true;
     };
 }
 
@@ -2292,6 +2314,7 @@ void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
         d.actor( true )->add_faction_rep( rep_change );
+        return true;
     };
 }
 
@@ -2307,6 +2330,7 @@ void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> &debt_modifie
             }
         }
         d.actor( true )->add_debt( debt );
+        return true;
     };
 }
 
@@ -2314,6 +2338,7 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
 {
     function = [rule]( const dialogue & d ) {
         d.actor( true )->toggle_ai_rule( "ally_rule", rule );
+        return true;
     };
 }
 
@@ -2321,6 +2346,7 @@ void talk_effect_fun_t::set_set_npc_rule( const std::string &rule )
 {
     function = [rule]( const dialogue & d ) {
         d.actor( true )->set_ai_rule( "ally_rule", rule );
+        return true;
     };
 }
 
@@ -2328,6 +2354,7 @@ void talk_effect_fun_t::set_clear_npc_rule( const std::string &rule )
 {
     function = [rule]( const dialogue & d ) {
         d.actor( true )->clear_ai_rule( "ally_rule", rule );
+        return true;
     };
 }
 
@@ -2335,6 +2362,7 @@ void talk_effect_fun_t::set_npc_engagement_rule( const std::string &setting )
 {
     function = [setting]( const dialogue & d ) {
         d.actor( true )->set_ai_rule( "engagement_rule", setting );
+        return true;
     };
 }
 
@@ -2342,6 +2370,7 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
 {
     function = [setting]( const dialogue & d ) {
         d.actor( true )->set_ai_rule( "aim_rule", setting );
+        return true;
     };
 }
 
@@ -2349,6 +2378,7 @@ void talk_effect_fun_t::set_npc_cbm_reserve_rule( const std::string &setting )
 {
     function = [setting]( const dialogue & d ) {
         d.actor( true )->set_ai_rule( "cbm_reserve_rule", setting );
+        return true;
     };
 }
 
@@ -2356,6 +2386,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
 {
     function = [setting]( const dialogue & d ) {
         d.actor( true )->set_ai_rule( "cbm_recharge_rule", setting );
+        return true;
     };
 }
 
@@ -2400,7 +2431,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                 }
             }
             if( !found ) {
-                return;
+                return false;
             }
         }
         if( z_override ) {
@@ -2411,6 +2442,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                                 iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
         }
         write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
+        return true;
     };
 }
 
@@ -2445,6 +2477,7 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
             get_map().transform_radius( transform, radius, target_pos );
             get_map().invalidate_map_cache( target_pos.z );
         }
+        return true;
     };
 }
 
@@ -2458,6 +2491,7 @@ void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::str
                                 calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                 -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d.actor( new_place.is_npc() ) ) );
+        return true;
     };
 }
 
@@ -2509,6 +2543,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             get_map().invalidate_map_cache( omt_pos.z() );
         }
+        return true;
     };
 }
 
@@ -2537,6 +2572,7 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
                                         sm->get_revert_submap() );
             }
         }
+        return true;
     };
 }
 
@@ -2555,12 +2591,13 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &m
                 guy->omt_path.empty() ) {
                 guy->goal = npc::no_goal_point;
                 guy->omt_path.clear();
-                return;
+                return false;
             }
             guy->set_mission( NPC_MISSION_TRAVELLING );
             guy->guard_pos = cata::nullopt;
             guy->set_attitude( NPCATT_NULL );
         }
+        return true;
     };
 }
 
@@ -2625,6 +2662,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, int quantity, bool
             seller->use_amount( d.cur_item, seller_has );
         }
         buyer->i_add( tmp );
+        return true;
     };
 }
 
@@ -2632,6 +2670,7 @@ void talk_effect_fun_t::set_npc_gets_item( bool to_use )
 {
     function = [to_use]( const dialogue & d ) {
         d.reason = d.actor( true )->give_item_to( to_use );
+        return true;
     };
 }
 
@@ -2639,6 +2678,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
 {
     function = [mission_id]( const dialogue & d ) {
         d.actor( true )->add_mission( mission_type_id( mission_id ) );
+        return true;
     };
 }
 
@@ -2653,7 +2693,7 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
 
     function = [monster_type_id, cost, count, pacified, name]( const dialogue & d ) {
         const mtype_id mtype( monster_type_id );
-        d.actor( false )->buy_monster( *d.actor( true ), mtype, cost, count, pacified, name );
+        return d.actor( false )->buy_monster( *d.actor( true ), mtype, cost, count, pacified, name );
     };
 }
 
@@ -2663,6 +2703,7 @@ void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id
         const recipe &r = recipe_id( learned_recipe_id ).obj();
         get_player_character().learn_recipe( &r );
         popup( _( "You learn how to craft %s." ), r.result_name() );
+        return true;
     };
 }
 
@@ -2670,6 +2711,7 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
 {
     function = [chat_topic]( const dialogue & d ) {
         d.actor( true )->set_first_topic( chat_topic );
+        return true;
     };
 }
 
@@ -2715,7 +2757,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
              is_npc]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
-            return;
+            return false;
         }
         std::string translated_message;
         if( snippet ) {
@@ -2755,7 +2797,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
                 }
             }
             if( !display ) {
-                return;
+                return false;
             }
         }
         if( popup_msg ) {
@@ -2783,7 +2825,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             target->add_msg_if_player( type, translated_message );
         }
-
+        return true;
     };
 }
 
@@ -2797,6 +2839,8 @@ void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::st
         if( target ) {
             target->assign_activity( act, to_moves<int>( dov.evaluate( d.actor( dov.is_npc() ) ) ) );
         }
+
+        return true;
     };
 }
 
@@ -2809,6 +2853,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
         if( target ) {
             wet_character( *target, iov.evaluate( d.actor( iov.is_npc() ) ) );
         }
+        return true;
     };
 }
 
@@ -2816,7 +2861,7 @@ void talk_effect_fun_t::set_open_dialogue()
 {
     function = []( const dialogue & d ) {
         if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
-            return;
+            return false;
         } else if( d.actor( true )->get_character() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_character() ) );
         } else if( d.actor( true )->get_creature() != nullptr ) {
@@ -2828,6 +2873,7 @@ void talk_effect_fun_t::set_open_dialogue()
         } else if( d.actor( true )->get_computer() != nullptr ) {
             get_avatar().talk_to( get_talker_for( d.actor( true )->get_computer() ), false, true );
         }
+        return true;
     };
 }
 
@@ -2835,10 +2881,11 @@ void talk_effect_fun_t::set_take_control()
 {
     function = []( const dialogue & d ) {
         if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
-            return;
+            return false;
         } else if( d.actor( true )->get_npc() != nullptr ) {
             get_avatar().control_npc( *d.actor( true )->get_npc() );
         }
+        return true;
     };
 }
 
@@ -2846,6 +2893,7 @@ void talk_effect_fun_t::set_take_control_menu()
 {
     function = []( const dialogue & ) {
         get_avatar().control_npc_menu();
+        return true;
     };
 }
 
@@ -2873,6 +2921,7 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
                 sfx::play_variant_sound( id, variant, local_volume, random_direction() );
             }
         }
+        return true;
     };
 }
 
@@ -2885,6 +2934,7 @@ void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string
     function = [is_npc, iov_amount, iov_cap]( const dialogue & d ) {
         d.actor( is_npc )->mod_healthy_mod( iov_amount.evaluate( d.actor( iov_amount.is_npc() ) ),
                                             iov_cap.evaluate( d.actor( iov_cap.is_npc() ) ) );
+        return true;
     };
 }
 
@@ -2897,6 +2947,7 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell." );
+            return false;
         } else {
             spell sp = fake.get_spell( 0 );
             if( targeted ) {
@@ -2909,6 +2960,7 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
                 caster->add_msg_if_player( fake.trigger_message );
             }
         }
+        return true;
     };
 }
 
@@ -2918,6 +2970,7 @@ void talk_effect_fun_t::set_lightning()
         if( get_player_character().posz() >= 0 ) {
             get_weather().lightning_active = true;
         }
+        return true;
     };
 }
 
@@ -2925,6 +2978,7 @@ void talk_effect_fun_t::set_next_weather()
 {
     function = []( const dialogue & ) {
         get_weather().set_nextweather( calendar::turn );
+        return true;
     };
 }
 
@@ -3253,42 +3307,52 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         if( op == "*" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) * get_second_int( d ) );
+                return true;
             };
         } else if( op == "/" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) / get_second_int( d ) );
+                return true;
             };
         } else if( op == "+" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) + get_second_int( d ) );
+                return true;
             };
         } else if( op == "-" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) - get_second_int( d ) );
+                return true;
             };
         } else if( op == "%" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) % get_second_int( d ) );
+                return true;
             };
         } else if( op == "&" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) & get_second_int( d ) );
+                return true;
             };
         } else if( op == "|" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) | get_second_int( d ) );
+                return true;
             };
         } else if( op == "<<" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) << get_second_int( d ) );
+                return true;
             };
         } else if( op == ">>" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) >> get_second_int( d ) );
+                return true;
             };
         } else if( op == "^" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) ^ get_second_int( d ) );
+                return true;
             };
         } else {
             jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
@@ -3311,6 +3375,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         if( op == "~" ) {
             function = [get_first_int, set_int]( const dialogue & d ) {
                 set_int( d, ~get_first_int( d ) );
+                return true;
             };
         } else {
             jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
@@ -3329,26 +3394,32 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         if( result == "+=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) + get_second_int( d ) );
+                return true;
             };
         } else if( result == "-=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) - get_second_int( d ) );
+                return true;
             };
         } else if( result == "*=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) * get_second_int( d ) );
+                return true;
             };
         } else if( result == "/=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) / get_second_int( d ) );
+                return true;
             };
         } else if( result == "%=" ) {
             function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) % get_second_int( d ) );
+                return true;
             };
         } else if( result == "=" ) {
             function = [get_second_int, set_int]( const dialogue & d ) {
                 set_int( d, get_second_int( d ) );
+                return true;
             };
         } else {
             jo.throw_error( "unexpected result " + result + " in " + jo.str() );
@@ -3364,10 +3435,12 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         if( op == "++" ) {
             function = [get_first_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) + 1 );
+                return true;
             };
         } else if( op == "--" ) {
             function = [get_first_int, set_int]( const dialogue & d ) {
                 set_int( d, get_first_int( d ) - 1 );
+                return true;
             };
         } else {
             jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
@@ -3399,6 +3472,7 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::str
         int index = rng( 0, values.size() - 1 );
         write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ),
                          values[index].evaluate( d.actor( values[index].is_npc() ) ) );
+        return true;
     };
 }
 
@@ -3411,6 +3485,7 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         const mission_type_id &mission_type = mission_type_id( mission_name );
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
+        return true;
     };
 }
 
@@ -3441,6 +3516,7 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
                 break;
             }
         }
+        return true;
     };
 }
 
@@ -3512,6 +3588,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
             translated_message = _( message );
         }
         sounds::sound( get_map().getlocal( target_pos ), volume, type, translated_message );
+        return true;
     };
 }
 
@@ -3542,6 +3619,7 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
         for( const effect_on_condition_id &eoc : eocs ) {
             eoc->activate( newDialog );
         }
+        return true;
     };
 }
 
@@ -3579,6 +3657,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
                 eoc->activate( newDialog );
             }
         }
+        return true;
     };
 }
 
@@ -3614,6 +3693,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }
         }
+        return true;
     };
 }
 
@@ -3645,6 +3725,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
                 item_beta ) : nullptr
         );
         picked_eoc->activate( newDialog );
+        return true;
     };
 }
 
@@ -3665,6 +3746,7 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
                                        dov_duration.evaluate( d.actor( dov_duration.is_npc() ) ),
                                        dov_decay_start.evaluate( d.actor( dov_decay_start.is_npc() ) ),
                                        capped );
+        return true;
     };
 }
 
@@ -3674,6 +3756,7 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     std::string old_morale = jo.get_string( member );
     function = [is_npc, old_morale]( const dialogue & d ) {
         d.actor( is_npc )->remove_morale( morale_type( old_morale ) );
+        return true;
     };
 }
 
@@ -3682,6 +3765,7 @@ void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::
     int_or_var iov = get_int_or_var( jo, member );
     function = [iov]( const dialogue & d ) {
         d.actor( true )->get_faction()->trusts_u += iov.evaluate( d.actor( iov.is_npc() ) );
+        return true;
     };
 }
 
@@ -3691,6 +3775,7 @@ void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
     int_or_var iov = get_int_or_var( jo, member );
     function = [iov]( const dialogue & d ) {
         d.actor( true )->get_faction()->trusts_u -= iov.evaluate( d.actor( iov.is_npc() ) );
+        return true;
     };
 }
 
@@ -3704,6 +3789,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
                                 calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
+        return true;
     };
 }
 
@@ -3734,6 +3820,7 @@ void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::str
         if( npc *p = d.actor( true )->get_npc() ) {
             talk_function::give_equipment_allowance( *p, debt );
         }
+        return true;
     };
 }
 
@@ -3783,7 +3870,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                 return not_self && in_range && valid_target;
             } );
             if( copy == nullptr ) {
-                return;
+                return false;
             }
             target_monster = *copy->as_monster();
         } else {
@@ -3832,6 +3919,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         } else if( visible_spawns > 0 && !spawn_message.empty() ) {
             get_avatar().add_msg_if_player( m_bad, spawn_message );
         }
+        return true;
     };
 }
 
@@ -3867,6 +3955,7 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
                                      hit_player );
             }
         }
+        return true;
     };
 }
 
@@ -3890,6 +3979,7 @@ void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &m
                 teleporter->add_msg_if_player( _( fail_message ) );
             }
         }
+        return true;
     };
 }
 
@@ -3935,7 +4025,9 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
         const mission *miss = d.actor( true )->selected_mission();
         for( const talk_effect_fun_t &effect : effects ) {
-            effect( d );
+            if (!effect(d)) {
+                break;
+            }
         }
         d.actor( true )->add_opinion( opinion );
         if( miss && ( mission_opinion.trust || mission_opinion.fear ||
@@ -3954,7 +4046,9 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         }
     } else {
         for( const talk_effect_fun_t &effect : effects ) {
-            effect( d );
+            if (!effect(d)) {
+                break;
+            }
         }
     }
     // TODO: this is a hack, it should be in clear_mission or so, but those functions have

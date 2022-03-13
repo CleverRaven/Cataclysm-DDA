@@ -80,17 +80,17 @@ std::vector<skill_id> talker_avatar::skills_offered_to( const talker &student ) 
     return ret;
 }
 
-void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,
+bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,
                                  int count, bool pacified, const translation &name )
 {
     npc *seller_guy = seller.get_npc();
     if( !seller_guy ) {
         popup( _( "%s can't sell you any %s" ), seller.disp_name(), mtype.obj().nname( 2 ) );
-        return;
+        return false;
     }
     if( cost > 0 && !npc_trading::pay_npc( *seller_guy, cost ) ) {
         popup( _( "You can't afford it!" ) );
-        return;
+        return false;
     }
 
     for( int i = 0; i < count; i++ ) {
@@ -111,7 +111,6 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         if( !name.empty() ) {
             tmp.unique_name = name.translated();
         }
-
     }
 
     if( name.empty() ) {
@@ -120,4 +119,6 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     } else {
         popup( _( "%1$s gives you %2$s." ), seller_guy->get_name(), name );
     }
+
+    return true;
 }
