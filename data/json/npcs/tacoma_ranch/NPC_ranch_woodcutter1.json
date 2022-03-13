@@ -38,13 +38,13 @@
       {
         "text": "[$2000, 1d] 10 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_10_logs", { "u_spend_cash": 200000 } ],
+        "effect": [ { "u_spend_cash": 200000 }, "buy_10_logs" ],
         "condition": { "npc_service": true }
       },
       {
         "text": "[$12000, 7d] 100 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_100_logs", { "u_spend_cash": 1200000 } ],
+        "effect": [ { "u_spend_cash": 1200000 }, "buy_100_logs" ],
         "condition": { "npc_service": true }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },

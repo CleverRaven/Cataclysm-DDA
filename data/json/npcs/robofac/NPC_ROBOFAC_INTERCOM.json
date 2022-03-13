@@ -592,12 +592,12 @@
     "dynamic_line": "We'll need at least a day to verify what is on the disk.",
     "speaker_effect": {
       "effect": [
+        { "u_sell_item": "template_armor", "count": 1 },
         { "u_add_faction_trust": 2 },
         { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
         { "u_add_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
         { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "u_sell_item": "template_armor", "count": 1 }
+        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" }
       ]
     },
     "responses": [

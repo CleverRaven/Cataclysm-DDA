@@ -264,8 +264,8 @@
         "text": "[6 HGC] I'll take it now.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
         "effect": [
-          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_sell_item": "RobofacCoin", "count": 6 },
+          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
           { "u_spawn_item": "robofac_military_greaves" },

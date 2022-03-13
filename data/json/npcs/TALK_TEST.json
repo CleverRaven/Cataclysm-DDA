@@ -469,11 +469,11 @@
         "text": "This is a multi-effect response",
         "topic": "TALK_DONE",
         "effect": [
+          { "u_spend_cash": 1000 },
           { "u_add_effect": "infected", "duration": 10 },
           { "npc_add_effect": "infected", "duration": "PERMANENT" },
           { "u_add_trait": "PROF_SWAT" },
           { "npc_add_trait": "PROF_SWAT" },
-          { "u_spend_cash": 1000 },
           { "u_spawn_item": "manual_speech" },
           { "u_spawn_item": "dnd_handbook" },
           "hostile"

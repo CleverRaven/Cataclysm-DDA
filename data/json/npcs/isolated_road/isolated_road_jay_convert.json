@@ -48,8 +48,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" },
-          { "u_sell_item": "556", "count": 200 }
+          { "u_sell_item": "556", "count": 200 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -68,8 +68,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" },
-          { "u_sell_item": "556", "count": 800 }
+          { "u_sell_item": "556", "count": 800 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "556" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -88,8 +88,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" },
-          { "u_sell_item": "762_51", "count": 200 }
+          { "u_sell_item": "762_51", "count": 200 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -108,8 +108,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" },
-          { "u_sell_item": "762_51", "count": 800 }
+          { "u_sell_item": "762_51", "count": 800 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -128,8 +128,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" },
-          { "u_sell_item": "762_m87", "count": 200 }
+          { "u_sell_item": "762_m87", "count": 200 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -148,8 +148,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" },
-          { "u_sell_item": "762_m87", "count": 800 }
+          { "u_sell_item": "762_m87", "count": 800 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -168,8 +168,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" },
-          { "u_sell_item": "545", "count": 200 }
+          { "u_sell_item": "545", "count": 200 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -188,8 +188,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" },
-          { "u_sell_item": "545", "count": 800 }
+          { "u_sell_item": "545", "count": 800 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -208,8 +208,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" },
-          { "u_sell_item": "300blk", "count": 200 }
+          { "u_sell_item": "300blk", "count": 200 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
@@ -228,8 +228,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" },
-          { "u_sell_item": "300blk", "count": 800 }
+          { "u_sell_item": "300blk", "count": 800 },
+          { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
