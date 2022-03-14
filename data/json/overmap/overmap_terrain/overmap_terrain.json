@@ -307,15 +307,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_2ndfloor_glooscap1", "lodge_2ndfloor_glooscap2" ],
-    "name": "second floor hunting lodge",
-    "copy-from": "generic_forest",
-    "sym": "L",
-    "see_cost": 4,
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "lodge_roof1", "lodge_roof2" ],
     "name": "hunting lodge roof",
     "copy-from": "generic_forest",
