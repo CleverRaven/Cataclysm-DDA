@@ -532,10 +532,14 @@ class Tilesheet:
         def filtered_tree(excluded):
             for root, dirs, filenames in os.walk(self.subdir_path):
                 # replace dirs in-place to prevent walking down excluded paths
-                dirs[:] = [d for d in dirs if d not in excluded]
+                dirs[:] = [Path(root).joinpath(d)
+                           for d in dirs if d not in excluded]
                 yield [root, dirs, filenames]
 
-        sorted_files = sorted(filtered_tree(self.exclude), key=lambda d: d[0])
+        sorted_files = sorted(
+            filtered_tree(map(self.subdir_path.joinpath, self.exclude)),
+            key=lambda d: d[0]
+        )
         mode = sorted_files if no_tqdm or run_silent else tqdm(sorted_files)
         for subdir_fpath, dirs, filenames in mode:
             subdir_fpath = Path(subdir_fpath)
