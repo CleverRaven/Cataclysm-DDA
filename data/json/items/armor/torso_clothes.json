@@ -986,7 +986,13 @@
       {
         "id": "ceiling_cthulhu_tshirt",
         "name": { "str_sp": "ceiling cthulhu tshirt" },
-        "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  He looks quizzical.",
+        "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
+        "weight": 1
+      },
+      {
+        "id": "pumpkin_time",
+        "name": { "str_sp": "pumpkin time tshirt" },
+        "description": "Popping out of the top of a jack o'lantern is a tiny smiling black bat.",
         "weight": 1
       },
       {
@@ -1039,8 +1045,12 @@
         "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
       },
       { "id": "anxiety_superpower", "text": "A t-shirt with text 'Anxiety is my super power'." },
+      { "id": "visitryleh", "text": "A t-shirt with text 'Greetings from R'YLEH home of Cthulhu'." },
       { "id": "robot_finds_kitten", "text": "A t-shirt with text 'Play Robot Finds Kitten today'." },
-      { "id": "survived_apocalypse", "text": "A t-shirt with text 'I survived the apocalypse and all I got was this lousy T-shirt?'" },
+      {
+        "id": "survived_apocalypse",
+        "text": "A t-shirt with text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
+      },
       { "id": "zombiebelief", "text": "A t-shirt with text 'Zombies don't care whether or not you believe.'" },
       { "id": "cthulhuprez1", "text": "A t-shirt with text 'Cthulhu for President: Why vote for the lesser evil'." },
       { "id": "cthulhuprez2", "text": "A t-shirt with text 'Cthulhu for President: This time the stars are right'." }
