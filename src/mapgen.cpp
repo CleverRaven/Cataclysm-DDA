@@ -2405,6 +2405,7 @@ class jmapgen_spawn_item : public jmapgen_piece
     public:
         mapgen_value<itype_id> type;
         std::string variant;
+        std::string faction;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -2415,6 +2416,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
             if( jsi.has_string( "variant" ) ) {
                 variant = jsi.get_string( "variant" );
+            }
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -2435,7 +2439,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags, variant );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant, faction );
             }
         }
 
@@ -3751,7 +3755,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings, c );
     new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings, c );
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
-    // with the items entry with refers to item groups.
+    // with the items entry which refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
