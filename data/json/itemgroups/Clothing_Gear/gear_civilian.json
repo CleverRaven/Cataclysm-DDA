@@ -14,6 +14,7 @@
       [ "joint", 10 ],
       { "item": "ref_lighter", "prob": 50, "charges-min": 0 },
       { "item": "matches", "prob": 50, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 50, "charges": [ 0, 32 ] },
       { "group": "tobacco_products", "prob": 60 },
       { "item": "permanent_marker", "prob": 10, "charges-min": 0 },
       [ "dog_whistle", 5 ],
