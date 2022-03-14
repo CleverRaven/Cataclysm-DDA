@@ -4007,6 +4007,17 @@ HWND getWindowHandle()
 }
 #endif
 
+background_pane::background_pane()
+{
+    ui.on_screen_resize( []( ui_adaptor & ui ) {
+        ui.position( point_zero, point( WindowWidth, WindowHeight ) );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( []( const ui_adaptor & ) {
+        ClearScreen();
+    } );
+}
+
 #endif // TILES
 
 bool window_contains_point_relative( const catacurses::window &win, const point &p )

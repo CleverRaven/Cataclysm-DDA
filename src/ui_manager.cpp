@@ -298,17 +298,19 @@ void ui_adaptor::screen_resized()
     redraw();
 }
 
+#if !defined( TILES )
 background_pane::background_pane()
 {
     ui.on_screen_resize( []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     } );
-    ui.position_from_window( catacurses::stdscr );
+    ui.mark_resize();
     ui.on_redraw( []( const ui_adaptor & ) {
         catacurses::erase();
         wnoutrefresh( catacurses::stdscr );
     } );
 }
+#endif
 
 namespace ui_manager
 {
