@@ -58,7 +58,8 @@
       {
         "text": "Have you had any luck out there?",
         "condition": { "u_has_var": "u_befriended_glooscap", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "start_trade"
+        "effect": "start_trade",
+        "topic": "TALK_GLOOSCAP"
       },
       {
         "text": "Whatever, I don't have time for whatever this is.  Try not to get your face eaten I guess.",
