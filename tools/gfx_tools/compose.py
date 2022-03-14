@@ -528,21 +528,28 @@ class Tilesheet:
         '''
         Find and process all JSON and PNG files within sheet directory
         '''
-        all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
+
         excluded_paths = [  # TODO: dict by parent dirs
             self.subdir_path.joinpath(ignored_path)
             for ignored_path in self.exclude
         ]
-        mode = all_files if no_tqdm or run_silent else tqdm(all_files)
-        for subdir_fpath, dirs, filenames in mode:
-            subdir_fpath = Path(subdir_fpath)
-            if excluded_paths:
+
+        if excluded_paths:
+            all_files = []
+            for root, dirs, files in os.walk(self.subdir_path):
                 # replace dirs in-place to prevent walking down excluded paths
                 dirs[:] = [
                     d for d in dirs
-                    if subdir_fpath.joinpath(d) not in excluded_paths
+                    if Path(root).joinpath(d) not in excluded_paths
                 ]
+        else:
+            all_files = os.walk(self.subdir_path)
 
+        all_files = sorted(all_files, key=lambda d: d[0])
+
+        mode = all_files if no_tqdm or run_silent else tqdm(all_files)
+        for subdir_fpath, dirs, filenames in mode:
+            subdir_fpath = Path(subdir_fpath)
             for filename in sorted(filenames):
                 filepath = subdir_fpath.joinpath(filename)
 
