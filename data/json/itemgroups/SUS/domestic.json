@@ -126,7 +126,11 @@
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       {
-        "distribution": [ { "item": "matches", "charges-min": 1 }, { "item": "lighter", "charges-min": 1 }, { "item": "ref_matches", "charges-min": 1 } ],
+        "distribution": [
+          { "item": "matches", "charges-min": 1 },
+          { "item": "lighter", "charges-min": 1 },
+          { "item": "ref_matches", "charges-min": 1 }
+        ],
         "prob": 90
       }
     ]
@@ -792,7 +796,11 @@
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 1 },
       {
-        "collection": [ { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 }, { "item": "matches", "charges-min": 1 }, { "item": "ref_matches", "charges-min": 1 } ],
+        "collection": [
+          { "item": "candle", "count": [ 1, 2 ], "charges-min": 10 },
+          { "item": "matches", "charges-min": 1 },
+          { "item": "ref_matches", "charges-min": 1 }
+        ],
         "prob": 20
       },
       { "item": "toilet_paper", "prob": 80 },
