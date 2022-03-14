@@ -175,33 +175,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
     }
 
-    if( ( ( it.covers( body_part_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
-          ( it.covers( body_part_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
-        ( !it.has_flag( flag_OVERSIZE ) || !it.has_flag( flag_OUTER ) ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_BELTED ) && !it.has_flag( flag_PERSONAL ) && !it.has_flag( flag_AURA ) &&
-        !it.has_flag( flag_SEMITANGIBLE ) ) {
-        // Checks to see if the player is wearing shoes
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You're already wearing footwear!" )
-                                              : string_format( _( "%s is already wearing footwear!" ), get_name() ) ) );
-    }
-
-    if( it.covers( body_part_head ) &&
-        !it.has_flag( flag_HELMET_COMPAT ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_PERSONAL ) &&
-        !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
-        is_wearing_helmet() ) {
-        return ret_val<bool>::make_failure( wearing_something_on( body_part_head ),
-                                            ( is_avatar() ? _( "You can't wear that with other headgear!" )
-                                              : string_format( _( "%s can't wear that with other headgear!" ), get_name() ) ) );
-    }
-
-    if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-        ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this, body_part_head ) > 40 ) ) {
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You can't wear that much on your head!" )
-                                              : string_format( _( "%s can't wear that much on their head!" ), get_name() ) ) );
-    }
-
     return ret_val<bool>::make_success();
 }
 
@@ -1193,12 +1166,27 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         s = clothing.get_side();
     }
 
-    // figure out which sublimbs need to be tested
-    for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts( s ) ) {
-        if( clothing.is_bp_rigid( sbp ) ) {
-            to_test.push_back( sbp );
+    // if the clothing is sided and not on the side we want to test
+    // create a copy that is swapped in side to test on
+    if( clothing.is_sided() && clothing.get_side() != s ) {
+        item swapped_item( clothing );
+        swapped_item.swap_side();
+        // figure out which sublimbs need to be tested
+        for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts( s ) ) {
+            if( swapped_item.is_bp_rigid( sbp ) ) {
+                to_test.push_back( sbp );
+            }
+        }
+    } else {
+        // figure out which sublimbs need to be tested
+        for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts( s ) ) {
+            if( clothing.is_bp_rigid( sbp ) ) {
+                to_test.push_back( sbp );
+            }
         }
     }
+
+
 
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {

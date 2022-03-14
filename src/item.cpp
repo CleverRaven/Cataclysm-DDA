@@ -3570,6 +3570,12 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         info.emplace_back( "ARMOR", coverage );
     }
+    // if the item has no armor data it doesn't cover that part
+    const islot_armor *armor = find_armor_data();
+    if( armor->rigid ) {
+        std::string coverage = _( "<bold>This armor is rigid</bold>" );
+        info.emplace_back( "ARMOR", coverage );
+    }
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
         std::string layering = _( "Layer:" );
@@ -4894,14 +4900,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
+                                   _( "* This items pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() ) {
             info.emplace_back( "BASE",
-                               _( "* This item is <info>not rigid</info>.  Its"
+                               _( "* This items pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }
