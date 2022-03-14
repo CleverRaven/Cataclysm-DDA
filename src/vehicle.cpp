@@ -2281,6 +2281,8 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
         std::vector<point> split_mounts = new_mounts[ i ];
         did_split = true;
+        // Once a vehicle is split, we treat it differently, mostly for fake parts.
+        add_tag( "wreckage" );
 
         vehicle *new_vehicle = nullptr;
         if( i < new_vehicles.size() ) {
@@ -2322,6 +2324,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
         }
+        new_vehicle->add_tag( "wreckage" );
 
         std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
@@ -5730,7 +5733,8 @@ void vehicle::refresh( const bool remove_fakes )
     if( no_refresh ) {
         return;
     }
-    if( remove_fakes ) {
+    bool wreck = has_tag( "wreckage" );
+    if( remove_fakes || wreck ) {
         remove_fake_parts();
     }
 
@@ -5974,7 +5978,7 @@ void vehicle::refresh( const bool remove_fakes )
     };
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
-    if( remove_fakes ) {
+    if( remove_fakes && !wreck ) {
         // add all the obstacles first
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
