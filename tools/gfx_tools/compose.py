@@ -536,17 +536,17 @@ class Tilesheet:
 
         if excluded_paths:
             all_files = []
-            for root, dirs, files in os.walk(self.subdir_path):
+            for root, dirs, filenames in os.walk(self.subdir_path):
                 # replace dirs in-place to prevent walking down excluded paths
                 dirs[:] = [
                     d for d in dirs
                     if Path(root).joinpath(d) not in excluded_paths
                 ]
+                all_files.append([root, dirs, filenames])
         else:
             all_files = os.walk(self.subdir_path)
 
         all_files = sorted(all_files, key=lambda d: d[0])
-
         mode = all_files if no_tqdm or run_silent else tqdm(all_files)
         for subdir_fpath, dirs, filenames in mode:
             subdir_fpath = Path(subdir_fpath)
