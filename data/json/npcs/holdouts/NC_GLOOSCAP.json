@@ -28,11 +28,20 @@
       "no": "It's decided then.  I will be Glooscap.  Who will you be?"
     },
     "responses": [
-      { "text": "Glooscap?  That's a funny name.  Is it foreign?", "topic": "TALK_GLOOSCAP_WHERE" },
+      {
+        "text": "Glooscap?  That's a funny name.  Is it foreign?",
+        "condition": { "not": { "u_has_var": "u_met_glooscap", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GLOOSCAP_WHERE"
+      },
       {
         "text": "[INT 11]  Like the Abenaki myth?",
         "topic": "TALK_GLOOSCAP_MYTH",
-        "condition": { "u_has_intelligence": 11 }
+        "condition": {
+          "and": [
+            { "u_has_intelligence": 11 },
+            { "not": { "u_has_var": "u_accused_malsumis", "type": "general", "context": "meeting", "value": "yes" } }
+          ]
+        }
       },
       {
         "text": "So.  You're dressed like a hunter.  Are you a hunter?",
