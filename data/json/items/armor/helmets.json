@@ -259,7 +259,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_chitin",
+    "id": "helmet_chitin_xs",
     "type": "ARMOR",
     "copy-from": "helmet_chitin",
     "name": { "str": "XS chitinous helmet" },
@@ -298,7 +298,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_conical",
+    "id": "helmet_conical_xs",
     "type": "ARMOR",
     "copy-from": "helmet_conical",
     "name": { "str": "XS conical helm" },
@@ -330,7 +330,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_acidchitin",
+    "id": "helmet_acidchitin_xs",
     "type": "ARMOR",
     "copy-from": "helmet_acidchitin",
     "name": { "str": "XS biosilicified chitin helmet" },
@@ -393,7 +393,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_galea",
+    "id": "helmet_galea_xs",
     "type": "ARMOR",
     "copy-from": "helmet_galea",
     "name": { "str": "galea XS", "str_pl": "galeae XS" },
@@ -438,7 +438,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_kabuto",
+    "id": "helmet_kabuto_xs",
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "name": { "str": "kabuto XS" },
@@ -476,7 +476,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_larmor",
+    "id": "helmet_larmor_xs",
     "type": "ARMOR",
     "copy-from": "helmet_larmor",
     "name": { "str": "XS leather armor helmet" },
@@ -641,7 +641,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_nasal",
+    "id": "helmet_nasal_xs",
     "type": "ARMOR",
     "copy-from": "helmet_nasal",
     "name": { "str": "XS nasal helm" },
@@ -685,7 +685,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_plate",
+    "id": "helmet_plate_xs",
     "type": "ARMOR",
     "copy-from": "helmet_plate",
     "name": { "str": "XS great helm" },
@@ -759,7 +759,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_scrap",
+    "id": "helmet_scrap_xs",
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
     "name": { "str": "XS scrap helmet" },
@@ -846,7 +846,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_helmet_corinthian",
+    "id": "helmet_corinthian_xs",
     "type": "ARMOR",
     "copy-from": "helmet_corinthian",
     "name": { "str": "XS Corinthian helm" },
@@ -855,7 +855,7 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "xl_pot_helmet",
+    "id": "pot_xlhelmet",
     "type": "ARMOR",
     "name": { "str": "XL pot helmet" },
     "description": "A huge makeshift helmet made from a canning pot.  For the truly desperate man-bear-pig.",
