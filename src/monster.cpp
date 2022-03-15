@@ -1999,7 +1999,6 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 18 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 200 ) ) {
                 remove_effect( effect_beartrap );
-                here.spawn_item( pos(), "beartrap" );
                 if( u_see_me ) {
                     add_msg( _( "The %s escapes the bear trap!" ), name() );
                 }

@@ -144,17 +144,24 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_velociraptor",
-    "name": "velociraptor egg",
-    "copy-from": "egg_dino_theropod",
-    "rot_spawn": "GROUP_EGG_velociraptor"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_nothronychus",
     "name": "nothronychus egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_nothronychus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_anzu",
+    "name": "anzu egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_anzu"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_velociraptor",
+    "name": "velociraptor egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_velociraptor"
   },
   {
     "type": "COMESTIBLE",

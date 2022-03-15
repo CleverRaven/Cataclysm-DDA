@@ -458,6 +458,16 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return worn.wearing_something_on( bp );
 }
 
+cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
+{
+    for( const item &i : worn ) {
+        if( i.invlet == invlet ) {
+            return &i;
+        }
+    }
+    return cata::nullopt;
+}
+
 side outfit::is_wearing_shoes( const bodypart_id &bp ) const
 {
     bool any_left_foot_is_covered = false;
