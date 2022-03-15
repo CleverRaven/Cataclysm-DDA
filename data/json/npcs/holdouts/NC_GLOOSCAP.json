@@ -376,5 +376,14 @@
       },
       { "text": "We are not good and I'm done talking to you.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GLOOSCAP_POWERS",
+    "dynamic_line": "I don't think so.  I'm pretty good at hunting though.",
+    "responses": [
+      { "text": "I guess that's something.", "topic": "TALK_GLOOSCAP" },
+      { "text": "I need to move on.", "topic": "TALK_DONE" }
+    ]
   }
 ]
