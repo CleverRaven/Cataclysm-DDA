@@ -106,7 +106,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT", "UNDERSIZE" ]
   },
   {
-    "id": "hood_xlsurvivor",
+    "id": "xl_hood_survivor",
     "type": "ARMOR",
     "copy-from": "hood_survivor",
     "looks_like": "hood_survivor",
@@ -116,7 +116,7 @@
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
-    "id": "hood_xssurvivor",
+    "id": "xs_hood_survivor",
     "type": "ARMOR",
     "copy-from": "hood_survivor",
     "looks_like": "hood_survivor",
@@ -255,7 +255,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_scavenger_xs",
+    "id": "xs_helmet_scavenger",
     "type": "ARMOR",
     "copy-from": "helmet_scavenger",
     "looks_like": "helmet_scavenger",

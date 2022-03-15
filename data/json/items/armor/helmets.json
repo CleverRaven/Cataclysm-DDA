@@ -260,7 +260,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_chitin_xs",
+    "id": "xs_helmet_chitin",
     "type": "ARMOR",
     "copy-from": "helmet_chitin",
     "looks_like": "helmet_chitin",
@@ -300,7 +300,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_conical_xs",
+    "id": "xs_helmet_conical",
     "type": "ARMOR",
     "copy-from": "helmet_conical",
     "looks_like": "helmet_conical",
@@ -333,7 +333,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_acidchitin_xs",
+    "id": "xs_helmet_acidchitin",
     "type": "ARMOR",
     "copy-from": "helmet_acidchitin",
     "looks_like": "helmet_acidchitin",
@@ -397,7 +397,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_galea_xs",
+    "id": "xs_helmet_galea",
     "type": "ARMOR",
     "copy-from": "helmet_galea",
     "looks_like": "helmet_galea",
@@ -443,7 +443,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_kabuto_xs",
+    "id": "xs_helmet_kabuto",
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
@@ -482,7 +482,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_larmor_xs",
+    "id": "xs_helmet_larmor",
     "type": "ARMOR",
     "copy-from": "helmet_larmor",
     "looks_like": "helmet_larmor",
@@ -648,7 +648,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_nasal_xs",
+    "id": "xs_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "helmet_nasal",
     "looks_like": "helmet_nasal",
@@ -693,7 +693,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_plate_xs",
+    "id": "xs_helmet_plate",
     "type": "ARMOR",
     "copy-from": "helmet_plate",
     "looks_like": "helmet_plate",
@@ -768,7 +768,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_scrap_xs",
+    "id": "xs_helmet_scrap",
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
     "looks_like": "helmet_scrap",
@@ -856,7 +856,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "helmet_corinthian_xs",
+    "id": "xs_helmet_corinthian",
     "type": "ARMOR",
     "copy-from": "helmet_corinthian",
     "looks_like": "helmet_corinthian",
@@ -866,7 +866,7 @@
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
-    "id": "pot_xlhelmet",
+    "id": "xl_pot_helmet",
     "type": "ARMOR",
     "name": { "str": "XL pot helmet" },
     "description": "A huge makeshift helmet made from a canning pot.  For the truly desperate man-bear-pig.",

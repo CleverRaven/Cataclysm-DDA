@@ -61,7 +61,7 @@
     "armor": [ { "encumbrance": 24, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "boots_xlsurvivor",
+    "id": "xl_boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
@@ -83,7 +83,7 @@
     "armor": [ { "encumbrance": 38, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "boots_xssurvivor",
+    "id": "xs_boots_survivor",
     "type": "ARMOR",
     "copy-from": "boots_survivor",
     "looks_like": "boots_survivor",

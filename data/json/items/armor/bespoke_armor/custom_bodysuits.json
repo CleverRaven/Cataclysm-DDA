@@ -411,7 +411,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xlsurvivor_jumpsuit",
+    "id": "xl_survivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XL kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
@@ -419,7 +419,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xssurvivor_jumpsuit",
+    "id": "xs_survivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XS kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",

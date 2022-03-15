@@ -279,7 +279,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xlhsurvivor_suit",
+    "id": "xl_hsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
     "looks_like": "hsurvivor_suit",
@@ -289,7 +289,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "xshsurvivor_suit",
+    "id": "xs_hsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
     "looks_like": "hsurvivor_suit",
@@ -413,7 +413,7 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
-    "id": "xlsurvivor_suit",
+    "id": "xl_survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL survivor suit" },

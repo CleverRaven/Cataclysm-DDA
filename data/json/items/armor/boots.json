@@ -1453,7 +1453,7 @@
     "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlnomex_socks",
+    "id": "xl_nomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
@@ -1463,7 +1463,7 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "xsnomex_socks",
+    "id": "xs_nomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
     "looks_like": "nomex_socks",
@@ -1491,7 +1491,7 @@
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlsocks",
+    "id": "xl_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
     "description": "Socks.  Big ones.  Put 'em on your feet.",
@@ -1501,7 +1501,7 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
-    "id": "xssocks",
+    "id": "xs_socks",
     "type": "ARMOR",
     "copy-from": "socks",
     "looks_like": "socks",
@@ -1581,7 +1581,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlsocks_wool",
+    "id": "xl_socks_wool",
     "type": "ARMOR",
     "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
     "description": "Warm socks made of wool for a human larger than previously thought possible.",
@@ -1591,7 +1591,7 @@
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
-    "id": "xssocks_wool",
+    "id": "xs_socks_wool",
     "type": "ARMOR",
     "copy-from": "socks_wool",
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
