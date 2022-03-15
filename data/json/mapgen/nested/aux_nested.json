@@ -198,7 +198,11 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "destroyed_furniture",
-    "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ],
+      "place_items": [ { "item": "loose_ammo", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
+    }
   },
   {
     "type": "mapgen",

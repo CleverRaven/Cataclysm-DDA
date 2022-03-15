@@ -91,6 +91,7 @@ class outfit
         bool is_wearing_helmet() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
+        cata::optional<const item *> item_worn_with_inv_let( const char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly

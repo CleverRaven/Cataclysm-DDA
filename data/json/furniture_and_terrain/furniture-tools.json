@@ -522,7 +522,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
     "bash": {
@@ -1436,7 +1436,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {
@@ -1457,7 +1457,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "ALLOW_ON_OPEN_AIR" ],
+    "flags": [ "CLIMBABLE", "TRANSPARENT", "SEEN_FROM_ABOVE", "ALLOW_ON_OPEN_AIR", "DIFFICULT_Z" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "rope_30",
     "bash": {
