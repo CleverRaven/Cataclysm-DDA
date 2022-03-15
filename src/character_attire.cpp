@@ -259,7 +259,7 @@ Character::wear( item_location item_wear, bool interactive )
 }
 
 cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
-        bool interactive, bool do_calc_encumbrance, bool do_sort_items )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
@@ -279,33 +279,35 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
     if( interactive ) {
-        guy.add_msg_player_or_npc(
-            _( "You put on your %s." ),
-            _( "<npcname> puts on their %s." ),
-            to_wear.tname() );
+        if( !quiet ) {
+            guy.add_msg_player_or_npc(
+                _( "You put on your %s." ),
+                _( "<npcname> puts on their %s." ),
+                to_wear.tname() );
+        }
         guy.moves -= guy.item_wear_cost( to_wear );
 
         for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-            if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 ) {
+            if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 && !quiet ) {
                 guy.add_msg_if_player( m_warning,
                                        bp == body_part_eyes ?
                                        _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
                                        body_part_name( bp ), encumb_text( bp ) );
             }
         }
-        if( !was_deaf && guy.is_deaf() ) {
+        if( !was_deaf && guy.is_deaf() && !quiet ) {
             guy.add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
-        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) ) {
+        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
             guy.add_msg_if_player( m_warning,
                                    _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
-        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) ) {
+        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
             guy.add_msg_if_player( m_warning,
                                    _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
         }
-    } else if( guy.is_npc() && get_player_view().sees( guy ) ) {
+    } else if( guy.is_npc() && get_player_view().sees( guy ) && !quiet ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
