@@ -2923,11 +2923,6 @@ bool mattack::grab( monster *z )
         }
         return true;
     }
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
@@ -2992,11 +2987,6 @@ bool mattack::grab_drag( monster *z )
                                        _( "<npcname> resist the %s as it tries to drag them!" ), z->name() );
     }
 
-    // if too many entities grab a player they can suffocate
-    // if this is the first monster to grab you set the players oxygen levels
-    if( target->is_npc() || target->is_avatar() ) {
-        target->as_character()->set_oxygen();
-    }
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     z->add_effect( effect_grabbing, 2_turns );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
@@ -6134,12 +6124,7 @@ bool mattack::dsa_drone_scan( monster *z )
                 weapons_count += 1;
             }
         } else {
-            for( const item &worn_item : target->worn ) {
-                if( worn_item.is_gun() ) {
-                    weapons_count += 1;
-                    break;
-                }
-            }
+            weapons_count += target->worn.worn_guns();
         }
         summon_reinforcements = weapons_count >= 3;
     }

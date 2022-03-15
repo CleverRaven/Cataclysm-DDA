@@ -3461,6 +3461,7 @@
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
