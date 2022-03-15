@@ -738,7 +738,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap helmet" },
-    "description": "A helmet made from scraps of metal secured by simple strings to cloth wraps; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "1692 g",
     "volume": "2750 ml",
     "price": 35000,
