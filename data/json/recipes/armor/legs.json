@@ -523,8 +523,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
     "components": [ [ [ "rag", 6 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "xs_legguard_scrap",

@@ -761,7 +761,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings to cloth wraps.",
     "weight": "3104 g",
     "volume": "5 L",
     "price": 20000,
