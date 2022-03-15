@@ -44,16 +44,15 @@
     "name": { "str": "pair of XL boots", "str_pl": "pairs of XL boots" },
     "copy-from": "boots",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots",
     "type": "ARMOR",
     "copy-from": "boots",
-    "looks_like": "boots",
     "name": { "str": "pair of XS boots", "str_pl": "pairs of XS boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_bone",
@@ -124,16 +123,15 @@
     "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_chitin",
     "type": "ARMOR",
     "copy-from": "boots_chitin",
-    "looks_like": "boots_chitin",
     "name": { "str": "pair of XS chitinous boots", "str_pl": "pairs of XS chitinous boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_acidchitin",
@@ -154,16 +152,15 @@
     "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
     "copy-from": "boots_acidchitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
-    "looks_like": "boots_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_combat",
@@ -252,16 +249,15 @@
     "name": { "str": "pair of XL fur boots", "str_pl": "pairs of XL fur boots" },
     "copy-from": "boots_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "looks_like": "boots_fur",
     "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_hiking",
@@ -313,16 +309,15 @@
     "name": { "str": "pair of XL leather armor boots", "str_pl": "pairs of XL leather armor boots" },
     "copy-from": "boots_larmor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
-    "looks_like": "boots_larmor",
     "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_plate",
@@ -352,16 +347,15 @@
     "name": { "str": "pair of XL armored boots", "str_pl": "pairs of XL armored boots" },
     "copy-from": "boots_plate",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
-    "looks_like": "boots_plate",
     "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_rubber",
@@ -411,16 +405,15 @@
     "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
     "copy-from": "boots_scrap",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
-    "looks_like": "boots_scrap",
     "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_steel",
@@ -514,16 +507,15 @@
     "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
     "copy-from": "boots_winter",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
-    "looks_like": "boots_winter",
     "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "cleats",
@@ -1227,16 +1219,15 @@
     "name": { "str": "pair of XL chainmail chausses", "str_pl": "pairs of XL chainmail chausses" },
     "copy-from": "chainmail_feet",
     "proportional": { "weight": 2, "volume": 2 },
-    "flags": [ "VARSIZE", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "chainmail_feet",
-    "looks_like": "chainmail_feet",
     "name": { "str": "pair of XS chainmail chausses", "str_pl": "pairs of XS chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_junk_feet",
@@ -1298,7 +1289,6 @@
     "id": "xs_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "looks_like": "chainmail_feet",
     "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1331,7 +1321,6 @@
     "id": "xs_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
-    "looks_like": "chainmail_feet",
     "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1453,24 +1442,23 @@
     "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlnomex_socks",
+    "id": "xl_nomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xsnomex_socks",
+    "id": "xs_nomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
-    "looks_like": "nomex_socks",
     "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "socks",
@@ -1491,24 +1479,23 @@
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlsocks",
+    "id": "xl_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
     "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xssocks",
+    "id": "xs_socks",
     "type": "ARMOR",
     "copy-from": "socks",
-    "looks_like": "socks",
     "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
     "description": "Socks.  Put 'em on your feet.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "socks_ankle",
@@ -1581,23 +1568,23 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "xlsocks_wool",
+    "id": "xl_socks_wool",
     "type": "ARMOR",
     "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
     "description": "Warm socks made of wool for a human larger than previously thought possible.",
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xssocks_wool",
+    "id": "xs_socks_wool",
     "type": "ARMOR",
     "copy-from": "socks_wool",
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
     "description": "Warm socks made of wool for a human smaller than previously thought possible.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ] }
   },
   {
     "id": "stockings",
