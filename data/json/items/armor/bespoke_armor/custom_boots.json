@@ -62,6 +62,7 @@
   {
     "id": "boots_xlsurvivor",
     "type": "ARMOR",
+    "copy-from": "boots_survivor",
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
     "description": "A massive pair of customized leather boots armored with Kevlar.  Balancing comfort and protection, these boots will keep you alive even when knee-deep in the dead.",
     "weight": "2460 g",
