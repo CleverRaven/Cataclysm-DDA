@@ -49,7 +49,7 @@
     "time": "80 m",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
-    "byproducts": [ [  "cotton_patchwork", 6  ], [ "scrap_cotton", 2 ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "electric_blanket",
@@ -65,7 +65,7 @@
     "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ],
-	"byproducts": [ [  "cotton_patchwork", 6  ], [ "scrap_cotton", 2 ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "gold_ring",
@@ -165,9 +165,9 @@
     "difficulty": 1,
     "time": "85 m",
     "autolearn": true,
-	"using": [ [ "tailoring_cotton_patchwork", 33 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 33 ] ],
     "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 160 ] ] ],
-	"byproducts": [ [  "cotton_patchwork", 6  ], [ "scrap_cotton", 2 ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ] ]
   },
   {
     "result": "fur_blanket",
@@ -183,7 +183,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 33 ], [ "tailoring_fur_patchwork", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "byproducts": [ [  "cotton_patchwork", 6  ], [ "scrap_cotton", 2 ],  ["fur", 3 ] ]
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 2 ], [ "fur", 3 ] ]
   },
   {
     "result": "fur_cat_tail",
@@ -412,7 +412,6 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 28 ] ]
-   
   },
   {
     "result": "sleeping_bag_fur_roll",
@@ -429,7 +428,7 @@
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 17 ], [ "tailoring_fur_patchwork", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-    "byproducts": [ [ "cotton_patchwork", 1 ] , [ "fur", 4 ] ]
+    "byproducts": [ [ "cotton_patchwork", 1 ], [ "fur", 4 ] ]
   },
   {
     "result": "survivor_belt_notools",
