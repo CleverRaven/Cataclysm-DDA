@@ -1231,7 +1231,7 @@
     "id": "NOHEAL",
     "name": { "str": "Irreparable" },
     "points": -12,
-    "description": "Whatever caused the end of the world affected you in a horrible way. Your wounds will never heal on their own and your broken limbs will never mend.",
+    "description": "Whatever caused the end of the world affected you in a horrible way.  Your wounds will never heal on their own and your broken limbs will never mend.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
