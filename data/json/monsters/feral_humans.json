@@ -290,7 +290,7 @@
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
-    "color": "magenta",
+    "color": "i_magenta",
     "aggression": 30,
     "morale": 100,
     "melee_skill": 6,
