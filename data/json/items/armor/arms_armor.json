@@ -405,7 +405,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 6,
-        "coverage": 80,
+        "coverage": 95,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ]

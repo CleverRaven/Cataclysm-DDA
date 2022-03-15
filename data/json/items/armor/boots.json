@@ -396,9 +396,11 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "light_gray",
+    "warmth": 10,
     "flags": [ "VARSIZE" ],
     "armor": [
       {

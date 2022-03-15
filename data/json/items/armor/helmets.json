@@ -750,6 +750,7 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
+    "warmth": 10,
     "flags": [ "OUTER" ],
     "armor": [
       {

@@ -1204,10 +1204,12 @@
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
     "longest_side": "40 cm",
+    "warmth": 10,
     "flags": [ "OUTER" ],
     "armor": [
       {

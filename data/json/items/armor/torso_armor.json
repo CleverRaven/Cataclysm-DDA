@@ -495,10 +495,12 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 3,
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "longest_side": "40 cm",
+    "warmth": 10,
     "flags": [ "OUTER" ],
     "armor": [
       {
@@ -508,9 +510,6 @@
         ],
         "covers": [ "torso" ],
         "coverage": 95,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
         "encumbrance": 18
       }
     ]
