@@ -163,41 +163,21 @@
   {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
+    "copy-from": "jumpsuit",
     "name": { "str": "XL jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
     "weight": "810 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
-    "to_hit": -3,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "jumpsuit",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
-    ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
-    ],
-    "warmth": 15,
-    "material_thickness": 1,
     "flags": [ "POCKETS", "OVERSIZE" ]
   },
   {
     "id": "jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
     "name": { "str": "XS jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_jumpsuit",
