@@ -1631,7 +1631,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of tentacle stockings", "str_pl": "pairs of tentacle stockings" },
     "description": "Six long cotton tubes sized to fit over tentacles and help protect them from the cold.",
-    "weight": "270 g",
+    "weight": "300 g",
     "volume": "1500 ml",
     "price": 1200,
     "price_postapoc": 250,

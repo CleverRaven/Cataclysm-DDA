@@ -872,13 +872,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_blanket, 175, 0, true );
+            test_skill_progression( recipe_blanket, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 50, true );
+            test_skill_progression( recipe_blanket, 172, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 100, true );
+            test_skill_progression( recipe_blanket, 172, 100, true );
         }
     }
     SECTION( "lvl 1 -> 2" ) {
