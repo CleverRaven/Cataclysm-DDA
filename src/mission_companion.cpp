@@ -121,64 +121,64 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     {
         //  No_Mission
         "",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Patrol_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Raid_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Menial_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Carpentry_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Forage_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Caravan_Commune_Center_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Purchase_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Upgrade_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Plant_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Harvest_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     //  Faction camp missions
     {
         "Camp_Distribute_Food",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Jobs",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Workers",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Abandon",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Upgrade ",  //  Want to add the blueprint after the space
