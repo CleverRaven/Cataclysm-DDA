@@ -281,7 +281,7 @@
     "id": "lemat_revolver_shotgun",
     "type": "GUNMOD",
     "name": { "str": "LeMat revolver shotgun" },
-    "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
+    "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "install_time": "0 s",

@@ -1848,6 +1848,33 @@ class forage_activity_actor : public activity_actor
         int moves;
 };
 
+class gunmod_add_activity_actor : public activity_actor
+{
+    public:
+        gunmod_add_activity_actor() = default;
+        gunmod_add_activity_actor( int moves, std::string name ) : moves( moves ),
+            name( std::move( name ) ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GUNMOD_ADD" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<gunmod_add_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        std::string name;
+};
+
 class longsalvage_activity_actor : public activity_actor
 {
     public:
