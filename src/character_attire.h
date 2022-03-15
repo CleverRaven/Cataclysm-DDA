@@ -173,6 +173,8 @@ class outfit
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true );
+        /** Calculate and return any bodyparts that are currently uncomfortable. */
+        std::unordered_set<bodypart_id> where_discomfort() const;
         // used in game::wield
         void insert_item_at_index( item clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );

@@ -305,7 +305,7 @@ struct armor_portion_data {
     bool rigid = false;
 
     // if this item is comfortable to wear without other items bellow it
-    bool comfortable = true;
+    bool comfortable = false;
 
     /**
      * Returns the amount all sublocations this item covers could possibly

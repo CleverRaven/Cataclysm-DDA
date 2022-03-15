@@ -302,6 +302,7 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
     if( do_calc_encumbrance ) {
         guy.recalc_sight_limits();
         guy.calc_encumbrance();
+        guy.calc_discomfort();
     }
 
     return new_item_it;
@@ -393,6 +394,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
 
         recalc_sight_limits();
         calc_encumbrance();
+        calc_discomfort();
         return true;
     } else {
         return false;
@@ -661,6 +663,7 @@ bool Character::change_side( item &it, bool interactive )
 
     mod_moves( -250 );
     calc_encumbrance();
+    calc_discomfort();
 
     return true;
 }
@@ -1813,6 +1816,28 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
     return total_warmth;
+}
+
+std::unordered_set<bodypart_id> outfit::where_discomfort() const
+{
+    // get all rigid body parts to begin with
+    std::unordered_set<sub_bodypart_id> covered_sbps;
+    std::unordered_set<bodypart_id> uncomfortable_bps;
+
+    for( const item &i : worn ) {
+        // check each sublimb individually
+        for( const sub_bodypart_id &sbp : i.get_covered_sub_body_parts() ) {
+            if( i.is_bp_comfortable( sbp ) ) {
+                covered_sbps.insert( sbp );
+            }
+            // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
+            if( i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+                uncomfortable_bps.insert( sbp->parent );
+            }
+        }
+    }
+
+    return uncomfortable_bps;
 }
 
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
