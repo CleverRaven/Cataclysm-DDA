@@ -12,7 +12,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "flags": [ "BLIND_HARD" ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },
@@ -30,7 +30,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_HARD" ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },
