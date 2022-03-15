@@ -1656,6 +1656,27 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "tardis_case",
+        "name": { "str_sp": "Police Call Box Case" },
+        "description": "This waterproof phone case has a drawing on it that makes it look like an old English police call box.",
+        "weight": 1
+      },
+      {
+        "id": "hello_kitty_case",
+        "name": { "str_sp": "Hello Kitty Case" },
+        "description": "This waterproof phone case has numerous versions of Hello Kitty posing on it.",
+        "weight": 1
+      },
+      {
+        "id": "zombie_case",
+        "name": { "str_sp": "Zombie Case" },
+        "description": "This waterproof phone case has a green zombie on it's rear side.  Would using this be in poor taste now?",
+        "weight": 1
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
