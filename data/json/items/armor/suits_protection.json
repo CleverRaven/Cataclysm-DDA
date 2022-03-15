@@ -76,10 +76,9 @@
     "id": "armor_chitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_chitin",
-    "looks_like": "armor_chitin",
     "name": { "str": "XS chitinous armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "STURDY", "OUTER", "UNDERSIZE" ] }
   },
   {
     "id": "armor_acidchitin",
@@ -108,10 +107,9 @@
     "id": "armor_acidchitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_acidchitin",
-    "looks_like": "armor_acidchitin",
     "name": { "str": "XS biosilicified chitin armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_farmor",
@@ -168,10 +166,9 @@
     "id": "armor_farmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_farmor",
-    "looks_like": "armor_farmor",
     "name": { "str": "XS fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_larmor",
@@ -227,10 +224,9 @@
     "id": "armor_larmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_larmor",
-    "looks_like": "armor_larmor",
     "name": { "str": "XS leather body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_lightplate",
@@ -260,16 +256,15 @@
     "name": { "str": "XL plate armor" },
     "copy-from": "armor_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lightplate",
-    "looks_like": "armor_lightplate",
     "name": { "str": "XS plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_junk_lightplate",
@@ -1107,10 +1102,9 @@
     "id": "armor_plarmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_plarmor",
-    "looks_like": "armor_plarmor",
     "name": { "str": "XS plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_plate",
@@ -1140,16 +1134,15 @@
     "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_plate",
     "type": "ARMOR",
     "copy-from": "armor_plate",
-    "looks_like": "armor_plate",
     "name": { "str": "XS ornamental plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_junk_plate",
@@ -1323,7 +1316,6 @@
     "id": "chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "chainmail_hauberk",
-    "looks_like": "chainmail_hauberk",
     "name": { "str": "XS chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1563,7 +1555,6 @@
     "id": "chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "chainmail_suit",
-    "looks_like": "chainmail_suit",
     "name": { "str": "XS chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1792,7 +1783,6 @@
     "id": "chainmail_suit_faraday_xs",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
-    "looks_like": "chainmail_suit_faraday",
     "name": { "str": "XS faraday chainmail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "ELECTRIC_IMMUNE", "UNDERSIZE" ] }
@@ -1862,10 +1852,9 @@
     "id": "entry_suit_xs",
     "type": "ARMOR",
     "copy-from": "entry_suit",
-    "looks_like": "entry_suit",
     "name": { "str": "XS entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -2118,10 +2107,9 @@
     "id": "gambeson_xs",
     "type": "ARMOR",
     "copy-from": "gambeson",
-    "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2143,10 +2131,9 @@
     "id": "gambeson_vest_xs",
     "type": "ARMOR",
     "copy-from": "gambeson_vest",
-    "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2222,19 +2209,17 @@
     "id": "k_gambeson_xs",
     "type": "ARMOR",
     "copy-from": "k_gambeson",
-    "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "k_gambeson_vest_xs",
     "type": "ARMOR",
     "copy-from": "k_gambeson_vest",
-    "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2345,10 +2330,9 @@
     "id": "nomex_suit_xs",
     "type": "ARMOR",
     "copy-from": "nomex_suit",
-    "looks_like": "nomex_suit",
     "name": { "str": "XS flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
