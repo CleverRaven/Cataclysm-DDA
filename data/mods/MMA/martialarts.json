@@ -110,7 +110,7 @@
       {
         "id": "mma_buff_diamond_mind_onpause",
         "name": "Quicksilver Motion",
-        "description": "Taking a moment to concentrate, you surge foward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
+        "description": "Taking a moment to concentrate, you surge forward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1,

@@ -19,7 +19,6 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_webbed( "webbed" );
 
-static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
@@ -48,14 +47,12 @@ void Character::try_remove_bear_trap()
     */
     /** @EFFECT_STR increases chance to escape bear trap */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-    map &here = get_map();
     if( is_avatar() && is_mounted() ) {
         auto *mon = mounted_creature.get();
         if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 remove_effect( effect_beartrap );
-                here.spawn_item( pos(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 add_msg_if_player( m_bad,
@@ -67,8 +64,6 @@ void Character::try_remove_bear_trap()
             remove_effect( effect_beartrap );
             add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                    _( "<npcname> frees themselves from the bear trap!" ) );
-            item beartrap( "beartrap", calendar::turn );
-            here.add_item_or_charges( pos(), beartrap );
         } else {
             add_msg_if_player( m_bad,
                                _( "You try to free yourself from the bear trap, but can't get loose!" ) );
@@ -219,19 +214,7 @@ bool Character::try_remove_grab()
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
-            // when you break out of a grab you have a chance to lose some things from your pockets
-            // that are hanging off your character
-            std::vector<item_pocket *> pd;
-            for( item &i : worn ) {
-                // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
-                if( i.has_ripoff_pockets() ) {
-                    for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
-                        if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
-                            pd.push_back( pocket );
-                        }
-                    }
-                }
-            }
+            std::vector<item_pocket *> pd = worn.grab_drop_pockets();
             // if we have items that can be pulled off
             if( !pd.empty() ) {
                 // choose an item to be ripped off

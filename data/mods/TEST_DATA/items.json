@@ -1283,6 +1283,23 @@
     ]
   },
   {
+    "id": "test_jug_large_open",
+    "type": "GENERIC",
+    "name": "TEST gallon jug with large opening",
+    "copy-from": "test_jug_plastic",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3750 ml",
+        "max_item_volume": "300 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 100
+      }
+    ]
+  },
+  {
     "id": "test_waterskin",
     "type": "GENERIC",
     "category": "container",
