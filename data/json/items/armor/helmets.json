@@ -781,7 +781,7 @@
     "name": { "str": "XS scrap helmet" },
     "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_skid",

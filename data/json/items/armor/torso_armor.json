@@ -520,7 +520,7 @@
     "name": { "str": "XL scrap cuirass", "str_pl": "XL scrap cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_cuirass_scrap",
@@ -529,7 +529,7 @@
     "looks_like": "cuirass_scrap",
     "name": { "str": "XS scrap cuirass", "str_pl": "XS scrap cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "cuirass_tire",

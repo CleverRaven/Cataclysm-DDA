@@ -794,7 +794,7 @@
     "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_scrap",
@@ -804,7 +804,7 @@
     "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_tire",

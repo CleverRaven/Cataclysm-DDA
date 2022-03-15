@@ -420,7 +420,7 @@
     "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
     "copy-from": "boots_scrap",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_scrap",
@@ -429,7 +429,7 @@
     "looks_like": "boots_scrap",
     "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_steel",
