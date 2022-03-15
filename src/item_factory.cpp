@@ -42,6 +42,7 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
+#include "martialarts.h"
 #include "optional.h"
 #include "options.h"
 #include "proficiency.h"
@@ -676,15 +677,23 @@ void Item_factory::finalize_post( itype &obj )
         pocket.name = obj.name;
     }
 
+
     if( obj.comestible ) {
         for( const std::pair<const diseasetype_id, int> &elem : obj.comestible->contamination ) {
             const diseasetype_id dtype = elem.first;
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
-            }
+                        }
+                    }
+                }
+    // go through any weapons and add their base category moves
+    for( const weapon_category_id &cat : obj.weapon_category ) {
+        for( const matec_id &ma : cat.obj().get_default_moves() ) {
+            obj.techniques.insert( ma );
         }
     }
+
 
     // if we haven't set what the item can be repaired with calculate it now
     if( obj.repairs_with.empty() ) {

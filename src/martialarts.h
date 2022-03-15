@@ -45,6 +45,10 @@ class weapon_category
             return name_;
         }
 
+        const std::vector<matec_id> &get_default_moves() const {
+            return default_techniques;
+        }
+
     private:
         friend class generic_factory<weapon_category>;
         friend struct mod_tracker;
@@ -54,6 +58,8 @@ class weapon_category
         bool was_loaded = false;
 
         translation name_;
+
+        std::vector<matec_id> default_techniques;
 };
 
 matype_id martial_art_learned_from( const itype & );
@@ -185,6 +191,7 @@ class ma_technique
         bool stunned_target = false;// only works on stunned enemies
         bool wall_adjacent = false; // only works near a wall
         bool human_target = false;  // only works on humanoid enemies
+        bool reach_attack = false;  // only works as a reach attack
 
         bool needs_ammo = false;    // technique only works if the item is loaded with ammo
 

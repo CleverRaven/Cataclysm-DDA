@@ -77,7 +77,8 @@
   {
     "type": "weapon_category",
     "id": "POLEARMS",
-    "name": "POLEARMS"
+    "name": "POLEARMS",
+    "default_techniques": [ "POKE" ]
   },
   {
     "type": "weapon_category",

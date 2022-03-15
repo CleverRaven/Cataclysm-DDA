@@ -85,6 +85,7 @@ void weapon_category::reset()
 void weapon_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "default_techniques", default_techniques );
 }
 
 const std::vector<weapon_category> &weapon_category::get_all()
@@ -236,6 +237,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "human_target", human_target, false );
+    optional( jo, was_loaded, "reach_attack", reach_attack, false );
 
     optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
 
@@ -1859,6 +1861,10 @@ std::string ma_technique::get_description() const
 
     if( human_target ) {
         dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
+    }
+
+    if( reach_attack ) {
+        dump += _( "* Only works as a <info>reach attack</info>" ) + std::string( "\n" );
     }
 
     if( powerful_knockback ) {

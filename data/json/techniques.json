@@ -75,6 +75,23 @@
   },
   {
     "type": "technique",
+    "id": "POKE",
+    "name": "Ranged Strike",
+    "melee_allowed": true,
+    "crit_ok": true,
+    "reach_attack": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.9 },
+      { "stat": "damage", "type": "bash", "scale": 0.01 },
+      { "stat": "damage", "type": "cut", "scale": 0.01 },
+      { "stat": "damage", "type": "stab", "scale": 1 }
+    ],
+    "messages": [ "You jab at the %s from a distance", "<npcname> jabs at %s" ],
+    "description": "Ranged, pierce damage only",
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "IMPALE",
     "name": "Impaling Strike",
     "melee_allowed": true,
