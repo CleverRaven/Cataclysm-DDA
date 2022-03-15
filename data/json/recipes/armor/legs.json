@@ -1006,7 +1006,7 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "stockings", 3 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "stockings", 3 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "stockings_tent_legs",
@@ -1018,8 +1018,8 @@
     "difficulty": 1,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_cotton_patchwork", 24 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 9 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ] ]
   },
   {
     "result": "under_armor_shorts",
@@ -1033,7 +1033,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
-    "using": [ [ "tailoring_lycra", 3 ] ]
+    "using": [ [ "tailoring_lycra_patchwork", 3 ] ]
   },
   {
     "result": "chainmail_legs",
