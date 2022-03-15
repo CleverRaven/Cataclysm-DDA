@@ -39,12 +39,11 @@
   {
     "type": "overmap_special",
     "id": "Boat Rental",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north", "locations": [ "lake_shore" ] } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
-    "locations": [ "water" ],
-    "city_distance": [ 5, 15 ],
+    "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
