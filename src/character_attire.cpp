@@ -1170,11 +1170,12 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
     // create a copy that is swapped in side to test on
     if( clothing.is_sided() && clothing.get_side() != s ) {
         item swapped_item( clothing );
-        swapped_item.swap_side();
+        swapped_item.set_side( s );
         // figure out which sublimbs need to be tested
         for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts( s ) ) {
             if( swapped_item.is_bp_rigid( sbp ) ) {
                 to_test.push_back( sbp );
+                debugmsg( "%s, %d", sbp->name, static_cast<int>( s ) );
             }
         }
     } else {
