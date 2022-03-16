@@ -800,22 +800,21 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 2,
     "flags": [ "OUTER", "ALLOWS_TAIL" ],
     "armor": [
       {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
         "covers": [ "leg_l", "leg_r" ],
-        "encumbrance": 6,
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+        "coverage": 95,
+        "encumbrance": 15
       }
     ]
   },
@@ -826,7 +825,7 @@
     "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_scrap",
@@ -836,7 +835,7 @@
     "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_tire",

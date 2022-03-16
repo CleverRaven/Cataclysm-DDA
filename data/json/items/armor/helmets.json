@@ -746,17 +746,23 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 2,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
-    ],
     "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 80,
+        "encumbrance": 35
+      }
+    ]
   },
   {
     "id": "xl_helmet_scrap",
@@ -775,7 +781,7 @@
     "name": { "str": "XS scrap helmet" },
     "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_skid",

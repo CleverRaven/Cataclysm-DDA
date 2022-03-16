@@ -383,7 +383,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of scrap arm guards", "str_pl": "pairs of scrap arm guards" },
-    "description": "A pair of arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of arm guards made from scraps of metal secured by simple strings.",
     "weight": "3064 g",
     "volume": "4750 ml",
     "price": 20000,
@@ -391,21 +391,21 @@
     "to_hit": 1,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 2,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 6,
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 80,
-        "cover_vitals": 0,
+        "coverage": 95,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ]
@@ -418,7 +418,7 @@
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_scrap",
@@ -428,7 +428,7 @@
     "name": { "str": "pair of XS scrap arm guards", "str_pl": "pairs of XS scrap arm guards" },
     "description": "A pair of undersized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_tire",
