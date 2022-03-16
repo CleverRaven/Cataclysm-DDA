@@ -572,11 +572,11 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
+        valid_pockets.emplace_back( &pocket );
         if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
         }
-        valid_pockets.emplace_back( &pocket );
         if( !pocket.can_contain( it ).success() || ( nested && !pocket.rigid() ) ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
@@ -585,23 +585,22 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
         }
     }
-    if( !ret.second ) {
-        for( item_pocket *pocket : valid_pockets ) {
-            item_pocket *const nested_content_pocket =
-                pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
-            if( nested_content_pocket != nullptr ) {
-                // item fits in pockets contents, no need to check the pocket itself.
-                // this gives nested pockets priority over parent pockets.
+    const bool parent_pkt_selected = !!ret.second;
+    for( item_pocket *pocket : valid_pockets ) {
+        item_pocket *const nested_content_pocket =
+            pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
+        if( parent_pkt_selected ) {
+            if( !!nested_content_pocket && (
+                    !nested_content_pocket->settings.get_category_whitelist().empty() ||
+                    !nested_content_pocket->settings.get_item_whitelist().empty() ) ) {
                 ret.second = nested_content_pocket;
-                continue;
             }
-            if( !pocket->can_contain( it ).success() || ( nested && !pocket->rigid() ) ) {
-                // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
-                continue;
-            }
-            if( ret.second == nullptr || ret.second->better_pocket( *pocket, it, nested ) ) {
-                ret.second = pocket;
-            }
+            continue;
+        }
+        if( nested_content_pocket != nullptr ) {
+            // item fits in pockets contents, no need to check the pocket itself.
+            // this gives nested pockets priority over parent pockets.
+            ret.second = nested_content_pocket;
         }
     }
     return ret;

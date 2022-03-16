@@ -1763,9 +1763,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
     item_location cont2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
     item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
     item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
-    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos() );
+    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
     player_activity act( act_actor );
-    act.auto_resume = autopickup; // true = implies autopickup
     u.assign_activity( act );
 
     item_location pack;
