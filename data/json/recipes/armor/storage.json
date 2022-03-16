@@ -159,7 +159,7 @@
     "time": "10 h",
     "autolearn": true,
     "using": [ [ "tailoring_nylon_patchwork", 16 ], [ "fastener_large", 2 ] ],
-	"byproducts": [ [ "nylon", 1 ] ],
+    "byproducts": [ [ "nylon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -323,7 +323,14 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "sheet_cotton_patchwork", 1 ], [ "sheet_cotton", 1 ], [ "sheet_fur_patchwork", 1 ], ["tanned_pelt", 1 ], [ "tanned_hide", 1], [ "sheet_leather_patchwork", 6 ] ],
+      [
+        [ "sheet_cotton_patchwork", 1 ],
+        [ "sheet_cotton", 1 ],
+        [ "sheet_fur_patchwork", 1 ],
+        [ "tanned_pelt", 1 ],
+        [ "tanned_hide", 1 ],
+        [ "sheet_leather_patchwork", 6 ]
+      ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ], [ "mop", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
@@ -1380,7 +1387,12 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "cotton_patchwork", 6 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 3 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "result": "xs_survivor_vest",
@@ -1388,7 +1400,12 @@
     "copy-from": "survivor_vest",
     "time": "12 h",
     "using": [ [ "sewing_standard", 75 ], [ "tailoring_leather_small", 4 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 5 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 2 ] ], [ [ "duct_tape", 38 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 5 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 2 ] ],
+      [ [ "duct_tape", 38 ] ]
+    ]
   },
   {
     "result": "xl_survivor_vest",
@@ -1396,7 +1413,12 @@
     "copy-from": "survivor_vest",
     "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_small", 9 ], [ "fastener_large", 2 ] ],
-    "components": [ [ [ "cotton_patchwork", 8 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 80 ] ] ]
+    "components": [
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [ [ "leather_pouch", 3 ] ],
+      [ [ "duct_tape", 80 ] ]
+    ]
   },
   {
     "result": "swag_bag",

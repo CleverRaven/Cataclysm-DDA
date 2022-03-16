@@ -484,5 +484,10 @@
     "type": "recipe",
     "result": "xl_fsurvivor_suit",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_case_xs_soft_leather",
+    "obsolete": true
   }
 ]
