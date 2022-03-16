@@ -529,7 +529,7 @@
     "name": { "str": "pair of XL fur gloves", "str_pl": "pairs of XL fur gloves" },
     "copy-from": "gloves_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
-    "flags": [ "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_fur",
@@ -538,7 +538,7 @@
     "looks_like": "gloves_fur",
     "name": { "str": "pair of XS fur gloves", "str_pl": "pairs of XS fur gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "glove_jackson",
@@ -586,7 +586,7 @@
     "name": { "str": "pair of XL leather gloves", "str_pl": "pairs of XL leather gloves" },
     "copy-from": "gloves_leather",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "OVERSIZE", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_leather",
@@ -595,7 +595,7 @@
     "looks_like": "gloves_leather",
     "name": { "str": "pair of XS leather gloves", "str_pl": "pairs of XS leather gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_light",
@@ -622,7 +622,7 @@
     "name": { "str": "pair of XL light gloves", "str_pl": "pairs of XL light gloves" },
     "copy-from": "gloves_light",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_light",
@@ -631,7 +631,7 @@
     "looks_like": "gloves_light",
     "name": { "str": "pair of XS light gloves", "str_pl": "pairs of XS light gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_liner",
@@ -658,7 +658,7 @@
     "name": { "str": "pair of XL glove liners", "str_pl": "pairs of XL glove liners" },
     "copy-from": "gloves_liner",
     "proportional": { "weight": 2, "volume": 2 },
-    "flags": [ "SKINTIGHT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_liner",
@@ -667,7 +667,7 @@
     "looks_like": "gloves_liner",
     "name": { "str": "pair of XS glove liners", "str_pl": "pairs of XS glove liners" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_medical",
@@ -882,7 +882,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -901,7 +901,7 @@
     "color": "brown",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -920,7 +920,7 @@
     "color": "brown",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -939,7 +939,7 @@
     "color": "blue",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
     "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
