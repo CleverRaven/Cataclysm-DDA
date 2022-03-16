@@ -514,7 +514,7 @@
     "name": { "str": "lobster cake" },
     "copy-from": "fish_fried",
     "weight": "150 g",
-    "calories": 572,
+    "calories": 765,
     "description": "A delicious deep-fried biscuit loaded with lobster meat.",
     "volume": "175 ml",
     "looks_like": "fish_fried",
