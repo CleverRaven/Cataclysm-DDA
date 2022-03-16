@@ -2104,12 +2104,16 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         item_group_id group_id;
         jmapgen_int chance;
+        std::string faction;
         jmapgen_item_group( const JsonObject &jsi, const std::string &context ) :
             chance( jsi, "chance", 1, 1 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void check( const std::string &context, const mapgen_parameters &,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/ ) const override {
@@ -2120,7 +2124,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               calendar::start_of_cataclysm );
+                               calendar::start_of_cataclysm, 0, 0, faction );
         }
 };
 
@@ -6489,7 +6493,8 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
-    const bool ongrass, const time_point &turn, const int magazine, const int ammo )
+    const bool ongrass, const time_point &turn, const int magazine, const int ammo,
+    const std::string &faction )
 {
     std::vector<item *> res;
 
@@ -6541,6 +6546,8 @@ std::vector<item *> map::place_items(
                 e->ammo_set( e->ammo_default() );
             }
         }
+
+        e->set_owner( faction_id( faction ) );
     }
     return res;
 }
