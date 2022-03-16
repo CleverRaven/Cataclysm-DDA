@@ -1862,7 +1862,7 @@
     "type": "keybinding",
     "id": "APPLY",
     "category": "MEDICAL",
-    "name": "Apply or Use Item",
+    "name": "Apply and/or Use Item",
     "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
