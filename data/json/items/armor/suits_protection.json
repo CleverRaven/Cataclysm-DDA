@@ -111,7 +111,7 @@
     "looks_like": "armor_acidchitin",
     "name": { "str": "XS biosilicified chitin armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_farmor",
