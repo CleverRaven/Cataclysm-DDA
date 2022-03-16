@@ -26,6 +26,7 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "messages.h"
+#include "music.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
@@ -190,6 +191,13 @@ void musicFinished()
     Mix_FreeMusic( current_music );
     current_music = nullptr;
 
+    std::string new_playlist = music::get_music_id_string();
+
+    if( current_playlist != new_playlist ) {
+        play_music( new_playlist );
+        return;
+    }
+
     const auto iter = playlists.find( current_playlist );
     if( iter == playlists.end() ) {
         return;
@@ -215,17 +223,19 @@ void musicFinished()
 
 void play_music( const std::string &playlist )
 {
+    // Don't interrupt playlist that's already playing.
+    if( playlist == current_playlist ) {
+        return;
+    } else {
+        stop_music();
+    }
+
     const auto iter = playlists.find( playlist );
     if( iter == playlists.end() ) {
         return;
     }
     const music_playlist &list = iter->second;
     if( list.entries.empty() ) {
-        return;
-    }
-
-    // Don't interrupt playlist that's already playing.
-    if( playlist == current_playlist ) {
         return;
     }
 
@@ -259,6 +269,7 @@ void stop_music()
     Mix_HaltMusic();
     current_music = nullptr;
 
+    playlist_indexes.clear();
     current_playlist.clear();
     current_playlist_at = 0;
     absolute_playlist_at = 0;
@@ -270,21 +281,18 @@ void update_music_volume()
         return;
     }
 
+    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+
+    bool sound_enabled_old = sounds::sound_enabled;
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
         stop_music();
+        music::deactivate_music_id_all();
         return;
+    } else if( !sound_enabled_old ) {
+        play_music( music::get_music_id_string() );
     }
-
-    Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
-    // Start playing music, if we aren't already doing so (if
-    // SOUND_ENABLED was toggled.)
-
-    // needs to be changed to something other than a static string when
-    // #28018 is resolved, as this function may be called from places
-    // other than the main menu.
-    play_music( "title" );
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
@@ -379,17 +387,17 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 
     for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         sfx_args preload_key = {
-            jsobj.get_string( "id" ),
-            jsobj.get_string( "variant", "default" ),
-            jsobj.get_string( "season", "" ),
+            aobj.get_string( "id" ),
+            aobj.get_string( "variant", "default" ),
+            aobj.get_string( "season", "" ),
             cata::optional<bool>(),
             cata::optional<bool>()
         };
-        if( jsobj.has_bool( "is_indoors" ) ) {
-            preload_key.indoors = jsobj.get_bool( "is_indoors" );
+        if( aobj.has_bool( "is_indoors" ) ) {
+            preload_key.indoors = aobj.get_bool( "is_indoors" );
         }
-        if( jsobj.has_bool( "is_night" ) ) {
-            preload_key.indoors = jsobj.get_bool( "is_night" );
+        if( aobj.has_bool( "is_night" ) ) {
+            preload_key.indoors = aobj.get_bool( "is_night" );
         }
         sfx_preload.push_back( preload_key );
     }
