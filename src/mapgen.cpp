@@ -2356,6 +2356,7 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<units::angle> rotation;
         int fuel;
         int status;
+        std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string &/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
@@ -2370,6 +2371,10 @@ class jmapgen_vehicle : public jmapgen_piece
             } else {
                 rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
             }
+
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
@@ -2381,7 +2386,7 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
-                               fuel, status );
+                               fuel, status, true, faction );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -6586,25 +6591,26 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
+                        faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6621,6 +6627,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
+    if( !faction.empty() ) {
+        veh->set_owner( faction_id( faction ) );
+    }
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
