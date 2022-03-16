@@ -1180,7 +1180,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -1208,7 +1208,6 @@
     "copy-from": "lc_demi_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str_sp": "medium steel demi-gauntlet" },
-    "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
