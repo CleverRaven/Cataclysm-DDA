@@ -138,7 +138,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_leather_patchwork", 8 ], [ "clasps", 3 ] ],
-    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ],],
+    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
