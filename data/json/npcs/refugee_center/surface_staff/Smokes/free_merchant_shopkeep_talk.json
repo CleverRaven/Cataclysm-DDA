@@ -117,7 +117,7 @@
       { "text": "Who's in charge here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin" },
       {
-        "text": "What's with these 'free merchant certified notes'?",
+        "text": "What's with these 'Free Merchant certified notes'?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
         "condition": { "u_has_item": "FMCNote" },
         "effect": { "u_add_var": "u_knows_about_merch", "type": "general", "context": "free_merchants", "value": "yes" }

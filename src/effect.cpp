@@ -645,9 +645,9 @@ std::string effect::disp_desc( bool reduced ) const
         timestr = string_format( _( "%s ago" ),
                                  debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
     }
-    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    ret += string_format( _( "Effect started: <color_white>%s</color>" ), timestr );
     if( debug_mode ) {
-        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+        ret += string_format( _( "Effect ends in: <color_white>%s</color>" ), to_string( duration ) );
     }
     //Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
@@ -657,33 +657,33 @@ std::string effect::disp_desc( bool reduced ) const
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>; " ), tmp );
     }
     // Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
