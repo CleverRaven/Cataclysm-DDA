@@ -1811,13 +1811,16 @@ item_pocket *item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     item_pocket *ret = nullptr;
+    // If the current pocket blacklists the item,
+    // try the nested pocket regardless of whether it's soft or rigid.
+    const bool ignore_rigidity = !settings.accepts_item( it );
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
         item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+                                     allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity ).second;
         if( nested_pocket != nullptr &&
             ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
             ret = nested_pocket;

@@ -203,7 +203,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
-               !player_character.can_stash_partial( newit, !autopickup ) ) {
+               !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
         stash_successful = false;
     } else if( newit.is_bucket_nonempty() ) {
@@ -243,17 +243,17 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
         // Intentional fallthrough
         case STASH: {
             item &added_it = player_character.i_add( newit, true, nullptr, &it,
-                             /*allow_drop=*/false, /*allow_wield=*/false, !autopickup );
+                             /*allow_drop=*/false, /*allow_wield=*/false, false );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
                     item &weapon = player_character.get_wielded_item();
                     if( weapon.can_contain_partial( newit ) ) {
-                        int used_charges = weapon.fill_with( newit, remaining_charges, false, false, !autopickup );
+                        int used_charges = weapon.fill_with( newit, remaining_charges, false, false, false );
                         remaining_charges -= used_charges;
                     }
-                    player_character.worn.pickup_stash( newit, remaining_charges, !autopickup );
+                    player_character.worn.pickup_stash( newit, remaining_charges, false );
                     newit.charges -= remaining_charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
