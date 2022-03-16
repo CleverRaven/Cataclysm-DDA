@@ -149,7 +149,7 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     },
     {
         "Hospital_Raid_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Menial_Job",
