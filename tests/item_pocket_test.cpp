@@ -1805,8 +1805,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none" : "pickup all" ) ) {
-                test_pickup_autoinsert_results( u, wear, {}, autopickup ? 4 : 2, autopickup ? 0 : 2, 0 );
+            THEN( "pickup none" ) {
+                test_pickup_autoinsert_results( u, wear, {}, 4, 0, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1845,8 +1845,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 1, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1858,8 +1858,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 45, 0 );
             }
         }
     }
@@ -1870,8 +1870,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 1, 2 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1880,8 +1880,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 45, 2 );
             }
         }
     }
@@ -1902,8 +1902,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 45, 0 );
             }
         }
     }
@@ -1933,8 +1933,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c2, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 1, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1958,8 +1958,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c2, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 1, 2 );
             }
         }
         WHEN( "no space available in backpack" ) {
