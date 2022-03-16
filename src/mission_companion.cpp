@@ -77,6 +77,13 @@ static const itype_id itype_FMCNote( "FMCNote" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
+static const oter_str_id oter_looted_hospital( "looted_hospital" );
+static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
+static const oter_str_id oter_looted_house( "looted_house" );
+static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
+static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
+static const oter_str_id oter_open_air( "open_air" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -113,13 +120,6 @@ static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
-
-static const oter_str_id oter_looted_hospital( "looted_hospital" );
-static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
-static const oter_str_id oter_looted_house( "looted_house" );
-static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
-static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
-static const oter_str_id oter_open_air( "open_air" );
 
 //  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
 static const std::string camp_upgrade_npc_string = "_faction_upgrade_camp";
