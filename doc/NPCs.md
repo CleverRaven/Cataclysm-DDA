@@ -189,10 +189,15 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON they are found in the npctalk function parse_tags. They are as follows:
-`<yrwp>` | displays avatars wielded item
-`<ammo>` | displays avatars ammo
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+`<yrwp>` | displays avatar's wielded item
+`<mywp>` | displays npc's wielded item
+`<u_name>` | displays avatar's name
+`<npc_name>` | displays npc's name
+`<ammo>` | displays avatar's ammo
 `<current_activity>` | displays npc's current activity
+`<punc>` | displays a random punctuation from: `.`, `…`, `!`
+`<mypronoun>` | displays npc's pronoun
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
