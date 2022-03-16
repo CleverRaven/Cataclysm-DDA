@@ -42,27 +42,7 @@
       "mma_tec_desert_wind_spin",
       "mma_tec_desert_wind_wide"
     ],
-    "weapons": [
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "mace_simple",
-      "mace_trench",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_pipe",
-      "spear_forked",
-      "spear_steel",
-      "spear_wood",
-      "spear_copper",
-      "spear_homemade_halfpike",
-      "sword_wood"
-    ]
+    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS" ]
   },
   {
     "type": "martial_art",
@@ -210,27 +190,7 @@
       }
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "cudgel",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "ladle",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sickle",
-      "stick",
-      "sword_wood",
-      "torch",
-      "torch_lit",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ],
+    "weapons": [ "cudgel", "ladle", "sickle", "stick", "torch", "torch_lit" ],
     "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
   },
   {
@@ -424,20 +384,7 @@
       }
     ],
     "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
-    "weapons": [
-      "i_staff",
-      "kris",
-      "kris_fake",
-      "shock_staff",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_xiphos",
-      "q_staff",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ],
+    "weapons": [ "kris", "kris_fake", "sword_crude", "sword_nail", "sword_wood" ],
     "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS" ]
   },
   {
@@ -612,19 +559,6 @@
       }
     ],
     "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
-    "weapons": [
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "mace_simple",
-      "mace_trench",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ],
     "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES" ]
   },
   {
