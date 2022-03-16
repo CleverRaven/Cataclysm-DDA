@@ -105,7 +105,7 @@
     "professions": [ "afs_espatier", "afs_captain_bearman", "afs_holo_fighter", "afs_mastadon_swat", "afs_bio_operator" ],
     "start_name": "Last stop for Truth and Reconciliation",
     "allowed_locs": [ "sloc_forest" ],
-    "map_extra": "mx_truth&reconciliation",
+    "map_extra": "mx_truth_reconciliation",
     "missions": [ "MISSION_LAST_DANCE" ],
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "custom_initial_date": { "hour": 20, "day": 10, "season": "spring", "year": 1 },

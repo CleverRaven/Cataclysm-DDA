@@ -57,5 +57,11 @@
     },
     "toilets": { ";": {  } },
     "items": { "d": { "item": "office", "chance": 70 } }
-  }
+  },
+  {
+    "type": "palette",
+    "id": "mx_gunship_palette",
+    "terrain": {
+      "|": "t_afs_gun_ship_hull_wall",
+      "/": "t_afs_gun_ship_locker_wall",
 ]

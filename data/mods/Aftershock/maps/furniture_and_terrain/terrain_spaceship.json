@@ -24,6 +24,123 @@
   },
   {
     "type": "terrain",
+    "id": "t_afs_gun_ship_hull_wall",
+    "name": "gunship hull",
+    "description": "A hull segment from a combat rated civilian gunship.  Provides some defense against weapons fire.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "bash": {
+      "str_min": 350,
+      "str_max": 800,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_locker_wall",
+    "name": "gunship locker",
+    "description": "A locker built into the hull of a ship.  May contain equipment.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "SUPPORTS_ROOF", "CONTAINER", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_ruined_hull_wall",
+    "name": "ruined hull",
+    "description": "This patch of hull has more holes in it than an ancient terran cheese.  It may provide some cover or it might get shot through.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "WALL", "MINEABLE" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "bash": {
+      "str_min": 50,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 0, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 17 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_hull_hatch_c",
+    "name": "gunship hull",
+    "description": "A closed hatch in the wall of a spaceship.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "open": "t_afs_gun_ship_hull_hatch_o",
+    "bash": {
+      "str_min": 150,
+      "str_max": 500,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_gun_ship_hull_hatch_o",
+    "name": "gunship hull",
+    "description": "An open hatch in the wall of a spaceship.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "MINEABLE" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "close": "t_afs_gun_ship_hull_hatch_c",
+    "bash": {
+      "str_min": 150,
+      "str_max": 500,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "afs_material_2", "count": [ 2, 4 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_afs_escapepod_g",
     "name": "escape pod guidance system",
     "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  It apparently broke during the descent.",
