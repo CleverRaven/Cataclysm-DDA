@@ -2396,8 +2396,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SUICIDE:
-            if( query_yn( _( "Commit suicide?" ) ) ) {
-                if( query_yn( _( "REALLY commit suicide?" ) ) ) {
+            if( query_yn( _( "Abandon this character?" ) ) ) {
+                if( query_yn( _( "REALLY abandon this character?" ) ) ) {
                     player_character.moves = 0;
                     player_character.place_corpse();
                     uquit = QUIT_SUICIDE;
