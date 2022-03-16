@@ -171,7 +171,7 @@
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_brandy", "om_terrain": "ranch_camp_51" },
-          { "u_message": "[NPC NAME] sets a shot and a token on the counter…", "type": "good", "popup": true }
+          { "u_message": "<npc_name> sets a shot and a token on the counter…", "type": "good", "popup": true }
         ]
       },
       {
@@ -180,7 +180,7 @@
         "effect": [
           { "u_spend_cash": 1200 },
           { "mapgen_update": "tacoma_commune_shot_rum", "om_terrain": "ranch_camp_51" },
-          { "u_message": "[NPC NAME] sets a shot and a token on the counter…", "type": "good", "popup": true }
+          { "u_message": "<npc_name> sets a shot and a token on the counter…", "type": "good", "popup": true }
         ]
       },
       {
@@ -189,7 +189,7 @@
         "effect": [
           { "u_spend_cash": 1500 },
           { "mapgen_update": "tacoma_commune_shot_whiskey", "om_terrain": "ranch_camp_51" },
-          { "u_message": "[NPC NAME] sets a shot and a token on the counter…", "type": "good", "popup": true }
+          { "u_message": "<npc_name> sets a shot and a token on the counter…", "type": "good", "popup": true }
         ]
       },
       { "text": "On second thought, don't bother.", "topic": "TALK_RANCH_BARKEEP" }

@@ -166,7 +166,7 @@
           { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
           {
-            "u_message": "[NPC NAME] jots your name down on a ledger and yells out to nearby laborers to begin plowing your new field.",
+            "u_message": "<npc_name> jots your name down on a ledger and yells out to nearby laborers to begin plowing your new field.",
             "type": "good",
             "popup": true
           }
@@ -226,7 +226,7 @@
           { "u_add_trait": "NPC_CONSTRUCTION_LEV_2" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy", "om_terrain": "ranch_camp_63" },
           {
-            "u_message": "After counting your money, [NPC NAME] directs a nearby laborer to begin constructing a fence around your plot…",
+            "u_message": "After counting your money, <npc_name> directs a nearby laborer to begin constructing a fence around your plot…",
             "type": "good",
             "popup": true
           }
@@ -260,7 +260,7 @@
           { "u_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence", "om_terrain": "ranch_camp_63" },
           {
-            "u_message": "After counting your money, [NPC NAME] directs a nearby laborer to begin constructing a fence around your plot…",
+            "u_message": "After counting your money, <npc_name> directs a nearby laborer to begin constructing a fence around your plot…",
             "type": "good",
             "popup": true
           }
