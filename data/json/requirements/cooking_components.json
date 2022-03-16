@@ -511,7 +511,7 @@
     ]
   },
   {
-    "id": "lobster_soup_ingredients",
+    "id": "lobster_stew_ingredients",
     "type": "requirement",
     "components": [
       [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
