@@ -164,7 +164,7 @@
       { "item": "soup_veggy", "prob": 1 },
       { "item": "soup_meat", "prob": 1 },
       { "item": "soup_fish", "prob": 1 },
-      { "item": "lobster_stew", "prob": 1 },
+      { "item": "soup_lobsterstew", "prob": 1 },
       { "item": "curry_veggy", "prob": 1 },
       { "item": "curry_meat", "prob": 1 },
       { "item": "soup_woods", "prob": 1 },
