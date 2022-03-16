@@ -38,7 +38,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "OVERSIZE", "UNARMED_WEAPON", "STURDY" ],
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -318,7 +318,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "STURDY", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -428,7 +428,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 4, "coverage": 60, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -502,7 +502,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [ { "encumbrance": 3, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -708,7 +708,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE" ],
+    "flags": [ "VARSIZE", "STURDY", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -882,7 +882,7 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -901,7 +901,7 @@
     "color": "brown",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -920,7 +920,7 @@
     "color": "brown",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -939,7 +939,7 @@
     "color": "blue",
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNARMED_WEAPON" ],
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1328,7 +1328,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
         "material": [
