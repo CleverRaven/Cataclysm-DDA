@@ -501,16 +501,6 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
 
 void outfit::sort_armor( Character &guy )
 {
-    /* Define required height of the right pane:
-    * + 3 - horizontal lines;
-    * + 1 - caption line;
-    * + 2 - innermost/outermost string lines;
-    * + num_of_parts - sub-categories (torso, head, eyes, etc.);
-    * + 1 - gap;
-    * number of lines required for displaying all items is calculated dynamically,
-    * because some items can have multiple entries (i.e. cover a few parts of body).
-    */
-
     // FIXME: get_all_body_parts() doesn't return a sorted list
     //        and bodypart_id is not compatible with std::sort()
     //        so let's use a dirty hack
@@ -520,23 +510,6 @@ void outfit::sort_armor( Character &guy )
     }
     armor_cat.insert( bodypart_id( "bp_null" ) );
     const int num_of_parts = guy.get_all_body_parts().size();
-    int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
-    for( const bodypart_id &cover : armor_cat ) {
-        for( const item &elem : worn ) {
-            if( elem.covers( cover ) ) {
-                req_right_h++;
-            }
-        }
-    }
-
-    /* Define required height of the mid pane:
-    * + 3 - horizontal lines;
-    * + 1 - caption line;
-    * + 8 - general properties
-    * + 13 - ASSUMPTION: max possible number of flags @ item
-    * + num_of_parts+1 - warmth & enc block
-    */
-    const int req_mid_h = 3 + 1 + 8 + 13 + num_of_parts + 1;
 
     int win_h = 0;
     int win_w = 0;
@@ -572,7 +545,7 @@ void outfit::sort_armor( Character &guy )
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        win_h = std::min( TERMY, std::max( { FULL_SCREEN_HEIGHT, req_right_h, req_mid_h } ) );
+        win_h = TERMY;
         win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) * 3 / 4;
         win.x = TERMX / 2 - win_w / 2;
         win.y = TERMY / 2 - win_h / 2;

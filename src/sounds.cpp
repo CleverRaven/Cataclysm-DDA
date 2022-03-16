@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "music.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -619,6 +620,10 @@ void sounds::process_sound_markers( Character *you )
                 guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
+        }
+
+        if( sound.category == sound_t::music ) {
+            music::activate_music_id( music::music_id::sound );
         }
 
         // don't print our own noise or things without descriptions
