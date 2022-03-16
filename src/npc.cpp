@@ -217,11 +217,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
         wear_item( item( e ), false );
     }
 
-    for( item &e : worn ) {
-        if( e.has_flag( flag_VARSIZE ) ) {
-            e.set_flag( flag_FIT );
-        }
-    }
+    worn.set_fitted();
 }
 
 npc::npc( npc && ) noexcept( map_is_noexcept ) = default;
@@ -962,9 +958,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         ret.push_back( random_item_from( type, "extra" ) );
     }
 
-    for( item &it : who.worn ) {
-        it.on_takeoff( who );
-    }
+    who.worn.on_takeoff( who );
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( flag_VARSIZE ) ) {
@@ -972,7 +966,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
-            who.worn.push_back( it );
+            who.worn.wear_item( who, it, false, false );
             it.set_owner( who );
         }
     }
@@ -1386,13 +1380,10 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
                 continue;
             }
             // Find an item that covers the same body part as the new item
-            auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
-                return armor.covers( bp );
-            } );
-            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
+            item_location armor_covering = worn.first_item_covering_bp( *this, bp );
+            if( armor_covering && !( is_limb_broken( bp ) && armor_covering->has_flag( flag_SPLINT ) ) ) {
                 //create an item_location for player::takeoff to handle.
-                item_location loc_for_takeoff = item_location( *this, &*iter );
-                took_off = takeoff( loc_for_takeoff );
+                took_off = takeoff( armor_covering );
                 break;
             }
         }
@@ -1560,17 +1551,7 @@ void npc::form_opinion( const Character &you )
             continue;
         }
         u_ugly += bp->ugliness_mandatory;
-        int covered = 0;
-        for( const item &i : you.worn ) {
-            if( i.covers( bp ) ) {
-                if( covered >= 100 ) {
-                    covered = 100;
-                    continue;
-                }
-                covered += i.get_coverage( bp );
-            }
-        }
-        u_ugly += bp->ugliness - ( bp->ugliness * covered / 100 );
+        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
     }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;

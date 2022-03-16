@@ -73,6 +73,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -3443,10 +3444,15 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info,
+                                  _( "The material is too hard for you to even make a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -3554,10 +3560,15 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info,
+                                  _( "The material is too hard for you to even make a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -4355,6 +4366,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
+            music::activate_music_id( music::music_id::mp3 );
         }
     } else { // Turning it off
         if( it->typeId() == itype_mp3_on ) {
@@ -4371,6 +4383,8 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        music::deactivate_music_id( music::music_id::mp3 );
+
         return 0;
     }
     return it->type->charges_to_use();
@@ -9748,7 +9762,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
         auto to_string = []( int val ) -> std::string {
             if( val == INT_MAX )
             {
-                return "inf";
+                return pgettext( "short for infinity", "inf" );
             }
             return string_format( "%3d", val );
         };

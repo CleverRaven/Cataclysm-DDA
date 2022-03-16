@@ -560,6 +560,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
     std::pair<item_location, item_pocket *> ret = { parent, nullptr };
+    std::vector<item_pocket *> valid_pockets;
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
@@ -575,20 +576,32 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // Item forbidden by whitelist / blacklist
             continue;
         }
-        item_pocket *const nested_content_pocket =
-            pocket.best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
-        if( nested_content_pocket != nullptr ) {
-            // item fits in pockets contents, no need to check the pocket itself.
-            // this gives nested pockets priority over parent pockets.
-            ret.second = nested_content_pocket;
-            continue;
-        }
+        valid_pockets.emplace_back( &pocket );
         if( !pocket.can_contain( it ).success() || ( nested && !pocket.rigid() ) ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
         }
         if( ret.second == nullptr || ret.second->better_pocket( pocket, it, /*nested=*/nested ) ) {
             ret.second = &pocket;
+        }
+    }
+    if( !ret.second ) {
+        for( item_pocket *pocket : valid_pockets ) {
+            item_pocket *const nested_content_pocket =
+                pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
+            if( nested_content_pocket != nullptr ) {
+                // item fits in pockets contents, no need to check the pocket itself.
+                // this gives nested pockets priority over parent pockets.
+                ret.second = nested_content_pocket;
+                continue;
+            }
+            if( !pocket->can_contain( it ).success() || ( nested && !pocket->rigid() ) ) {
+                // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
+                continue;
+            }
+            if( ret.second == nullptr || ret.second->better_pocket( *pocket, it, nested ) ) {
+                ret.second = pocket;
+            }
         }
     }
     return ret;
@@ -1658,7 +1671,7 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             // item in it or is a pocket that has normal pickup disabled
             // instead of returning the volume return the volume of things contained
             if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                pocket.settings.is_disabled() || ( pocket.holster_full() ) ) {
+                pocket.settings.is_disabled() || pocket.holster_full() ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
