@@ -124,7 +124,6 @@
     "time": "8 h",
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork", 14 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
     "byproducts": [ [ "fur", 2 ] ]
   },
@@ -141,8 +140,8 @@
     "type": "recipe",
     "copy-from": "armor_farmor",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 96 ], [ "tailoring_fur_patchwork", 12 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+    "using": [  [ "tailoring_fur_patchwork", 16 ] ],
+    "byproducts": [ [ "fur", 6 ] ]
   },
   {
     "result": "armor_larmor",
