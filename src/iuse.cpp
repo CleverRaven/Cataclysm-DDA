@@ -2170,7 +2170,8 @@ class exosuit_interact
             }
 
             const item_filter filter = [&flags, pkt, it]( const item & i ) {
-                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) );
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) ) &&
+                       pkt->can_contain( i ).success();
             };
 
             std::vector<item_location> candidates;
@@ -2212,14 +2213,14 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-
-            if( pkt->insert_item( *candidates[ret] ).success() ) {
+            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );
                 return moves;
             }
-            debugmsg( "Could not insert item \"%s\" into pocket \"%s\"", candidates[ret]->type_name(),
-                      get_pocket_name( pkt ) );
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\": %s",
+                      candidates[ret]->type_name(), get_pocket_name( pkt ), rval.str() );
             return moves;
         }
 };

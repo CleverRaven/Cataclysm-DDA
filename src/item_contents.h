@@ -61,9 +61,10 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it ) const;
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**

@@ -1811,9 +1811,11 @@ item_pocket *item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     item_pocket *ret = nullptr;
-    // If the current pocket blacklists the item,
+    // If the current pocket has restrictions or blacklists the item,
     // try the nested pocket regardless of whether it's soft or rigid.
-    const bool ignore_rigidity = !settings.accepts_item( it );
+    const bool ignore_rigidity = !settings.accepts_item( it ) || is_holster() ||
+                                 ( !get_pocket_data()->get_flag_restrictions().empty() ) ||
+                                 ( !item_type_restrictions().empty() && item_type_restrictions().count( it.typeId() ) <= 0 );
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
