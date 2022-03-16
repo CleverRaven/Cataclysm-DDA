@@ -1436,6 +1436,12 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         result = false;
     }
 
+    if( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+        if( current_submap->get_ter( l ) == t_dirtmound ) {
+            ter_set( p, t_dirt );
+        }
+    }
+
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
