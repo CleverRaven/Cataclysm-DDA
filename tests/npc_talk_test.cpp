@@ -1090,6 +1090,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.dex_cur = 4;
     player_character.int_cur = 4;
     player_character.per_cur = 4;
+    beta.str_cur = 8;
+    beta.dex_cur = 8;
+    beta.int_cur = 8;
+    beta.per_cur = 8;
     player_character.kill_xp = 50;
     for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );

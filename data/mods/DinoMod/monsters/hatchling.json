@@ -151,7 +151,24 @@
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+  },
+  {
+    "id": "mon_nothronychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
+  },
+  {
+    "id": "mon_anzu_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "anzu_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_anzu_juvenile" },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
   },
   {
     "id": "mon_velociraptor_hatchling",
@@ -160,13 +177,6 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "velociraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
-  },
-  {
-    "id": "mon_nothronychus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
-    "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
   },
   {
     "id": "mon_deinonychus_hatchling",

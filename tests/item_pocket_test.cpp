@@ -2019,3 +2019,176 @@ TEST_CASE( "picking up items respects pocket autoinsert settings", "[pocket][ite
         test_pickup_autoinsert( false );
     }
 }
+
+TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
+{
+    map &m = get_map();
+    Character &u = get_player_character();
+    clear_character( u, true );
+    item water( "water" );
+    item cont_jug( "test_jug_plastic" );
+    item cont_suit( "test_robofac_armor_rig" );
+
+    // Place a container at the character's feet
+    item_location jug_w_water( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
+
+    GIVEN( "character wearing a multipocket liquid container" ) {
+        item_location suit( u, & **u.wear_item( cont_suit, false ) );
+        REQUIRE( !!suit );
+        REQUIRE( suit->is_container_empty() );
+
+        WHEN( "unloading liquid from a full container into worn container" ) {
+            jug_w_water->fill_with( water );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            THEN( "liquid fills the worn container's pockets, some left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 3 );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    CHECK( it->charges == 6 );
+                    total += it->charges;
+                }
+                total += jug_w_water->only_item().charges;
+                CHECK( total == 15 );
+            }
+        }
+
+        WHEN( "unloading liquid from a full container into partly filled worn container" ) {
+            suit->fill_with( water, 4 );
+            jug_w_water->fill_with( water );
+            REQUIRE( suit->only_item().charges == 4 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            THEN( "liquid fills the worn container's pockets, some left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 7 );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    CHECK( it->charges == 6 );
+                    total += it->charges;
+                }
+                total += jug_w_water->only_item().charges;
+                CHECK( total == 19 );
+            }
+        }
+
+        WHEN( "unloading liquid from an almost empty container into worn container" ) {
+            jug_w_water->fill_with( water, 2 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            m.make_active( jug_w_water );
+            CHECK( jug_w_water->only_item().charges == 0 );
+            jug_w_water->remove_item( jug_w_water->only_item() );
+            THEN( "liquid fills one of the worn container's pockets, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( jug_w_water->is_container_empty() );
+                CHECK( suit->all_items_top().size() == 1 );
+                CHECK( suit->all_items_top().front()->charges == 2 );
+            }
+        }
+
+        WHEN( "unloading liquid from an almost empty container into partly filled worn container" ) {
+            suit->fill_with( water, 5 );
+            jug_w_water->fill_with( water, 2 );
+            REQUIRE( suit->only_item().charges == 5 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            m.make_active( jug_w_water );
+            CHECK( jug_w_water->only_item().charges == 0 );
+            jug_w_water->remove_item( jug_w_water->only_item() );
+            THEN( "liquid fills one of the worn container's pockets, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( jug_w_water->is_container_empty() );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    total += it->charges;
+                    CHECK( it->charges > 0 );
+                    CHECK( it->charges <= 6 );
+                }
+                CHECK( total == 7 );
+            }
+        }
+
+        WHEN( "unloading liquid from worn container into empty container" ) {
+            REQUIRE( jug_w_water->is_container_empty() );
+            suit->fill_with( water );
+            REQUIRE( suit->all_items_top().size() == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = suit.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = jug_w_water;
+            for( auto &it : suit->all_items_top() ) {
+                u.moves = 100;
+                REQUIRE( it->charges == 6 );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                CHECK( u.moves == 0 );
+                CHECK( it->charges == 0 );
+                suit->remove_item( *it );
+            }
+            THEN( "liquid fills most of the empty container, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 12 );
+                CHECK( suit->is_container_empty() );
+            }
+        }
+
+        WHEN( "unloading liquid from worn container into partly filled container" ) {
+            suit->fill_with( water );
+            jug_w_water->fill_with( water, 8 );
+            REQUIRE( suit->all_items_top().size() == 2 );
+            REQUIRE( jug_w_water->only_item().charges == 8 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = suit.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = jug_w_water;
+            for( auto &it : suit->all_items_top() ) {
+                u.moves = 100;
+                REQUIRE( it->charges == 6 );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                if( u.moves == 0 && it->charges == 0 ) {
+                    suit->remove_item( *it );
+                }
+            }
+            THEN( "liquid fills the container, some left over" ) {
+                CHECK( jug_w_water->only_item().charges == 15 );
+                CHECK( suit->all_items_top().size() == 1 );
+                CHECK( suit->all_items_top().front()->charges == 5 );
+            }
+        }
+    }
+}
