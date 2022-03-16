@@ -1788,7 +1788,9 @@ void Item_factory::check_definitions() const
 
                     if( !found ) {
                         msg += string_format( "at least 1 material for any armor entry should have proportional coverage 100.  Consider dropping overall coverage to compensate." );
-
+                    }
+                }
+            }
             // check each original definition had a valid material thickness
             // valid thickness is a multiple of sheet thickness
             for( const armor_portion_data &portion : type->armor->sub_data ) {
