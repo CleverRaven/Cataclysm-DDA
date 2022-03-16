@@ -63,6 +63,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -2192,6 +2193,14 @@ void musical_instrument_actor::load( const JsonObject &obj )
 cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( !p.is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
+        music::deactivate_music_id( music::music_id::instrument );
+        // Because musical instrument creates musical sound too
+        if( music::is_active_music_id( music::music_id::sound ) ) {
+            music::deactivate_music_id( music::music_id::sound );
+        }
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
@@ -2249,6 +2258,10 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
 
     // We can play the music now
+    if( !p.is_npc() ) {
+        music::activate_music_id( music::music_id::instrument );
+    }
+
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
