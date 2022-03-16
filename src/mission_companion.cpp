@@ -73,9 +73,9 @@ static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_npc_weapon_random( "npc_weapon_random" );
 
+static const itype_id itype_FMCNote( "FMCNote" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
-static const itype_id itype_FMCNote( "FMCNote" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -97,16 +97,14 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 
-static const std::string var_PURCHASED_FIELD_1 =
-    "npctalk_var_dialogue_tacoma_ranch_purchased_field_1";
+static const std::string var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED =
+    "npctalk_var_mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
 static const std::string var_PURCHASED_FIELD_1_FENCE =
     "npctalk_var_dialogue_tacoma_ranch_purchased_field_1_fence";
 static const std::string var_SCAVENGER_HOSPITAL_RAID =
     "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid";
 static const std::string var_SCAVENGER_HOSPITAL_RAID_STARTED =
     "npctalk_var_mission_tacoma_ranch_scavenger_hospital_raid_started";
-static const std::string var_DOCTOR_ANESTHETIC_SCAVENGERS_HELPED =
-    "npctalk_var_mission_tacoma_ranch_doctor_anesthetic_scavengers_helped";
 
 static const std::string role_id_faction_camp = "FACTION_CAMP";
 
@@ -116,11 +114,11 @@ static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 static const std::string return_ally_question_string =
     "\n\nDo you wish to bring your allies back into your party?";
 
+static const oter_str_id oter_looted_hospital( "looted_hospital" );
+static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
 static const oter_str_id oter_looted_house( "looted_house" );
 static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
 static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
-static const oter_str_id oter_looted_hospital( "looted_hospital" );
-static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
 static const oter_str_id oter_open_air( "open_air" );
 
 //  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
