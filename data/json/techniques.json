@@ -160,9 +160,9 @@
     "weighting": 10,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 1.1 },
-      { "stat": "damage", "type": "bash", "scale": 3 },
-      { "stat": "damage", "type": "cut", "scale": 3 },
-      { "stat": "damage", "type": "stab", "scale": 3 }
+      { "stat": "damage", "type": "bash", "scale": 2.5 },
+      { "stat": "damage", "type": "cut", "scale": 2.5 },
+      { "stat": "damage", "type": "stab", "scale": 2.5 }
     ],
     "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
     "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",

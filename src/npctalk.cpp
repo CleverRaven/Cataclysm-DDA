@@ -1551,6 +1551,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             } else {
                 phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
+        } else if( tag == "<u_name>" ) {
+            phrase.replace( fa, l, u.get_name() );
+        } else if( tag == "<npc_name>" ) {
+            phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );

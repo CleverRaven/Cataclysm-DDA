@@ -951,9 +951,9 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
+    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 4 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 30 ] ] ],
     "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 } ]
   },
   {
@@ -961,17 +961,16 @@
     "type": "recipe",
     "copy-from": "helmet_scrap",
     "time": "1 h 30 m",
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "scrap", 23 ] ] ]
+    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 2 ] ] ]
   },
   {
     "result": "xl_helmet_scrap",
     "type": "recipe",
     "copy-from": "helmet_scrap",
     "time": "1 h 40 m",
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 45 ] ] ]
+    "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "rag", 6 ] ] ]
   },
   {
     "result": "hood_fsurvivor",
