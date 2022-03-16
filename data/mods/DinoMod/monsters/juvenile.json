@@ -235,7 +235,7 @@
       [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 5 ]
     ],
-    "harvest": "mammal_large_leather",
+    "harvest": "dino_sauropod",
     "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
