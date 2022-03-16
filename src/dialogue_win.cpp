@@ -248,7 +248,8 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
             // account for multi-line options
             ycurrent -= std::max( 0, static_cast<int>( folded.size() ) - 1 );
         }
-        folded_txt.emplace_back( std::make_tuple( hotkey_text, folded.size(), folded ) );
+        folded_txt.emplace_back( std::make_tuple( hotkey_text, static_cast<int>( folded.size() ),
+                                 folded ) );
     }
     for( size_t i = 0; i < responses.size() && ycurrent <= ymax; i++ ) {
         nc_color color = is_computer ? default_color() : responses[i].color;
