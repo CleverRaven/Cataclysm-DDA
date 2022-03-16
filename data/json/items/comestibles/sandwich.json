@@ -456,7 +456,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lobster_roll",
-    "name": { "str": "lobster roll", "str_pl": "lobster rolls" },
+    "name": { "str": "lobster roll" },
     "copy-from": "fish_sandwich",
     "color": "pink",
     "description": "A delicious authentic lobster roll.",
