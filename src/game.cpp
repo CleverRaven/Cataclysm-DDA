@@ -9309,6 +9309,10 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
+    if( u.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
     if( !harmful_stuff.empty() &&
