@@ -1803,6 +1803,7 @@
   {
     "result": "tshirt",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",

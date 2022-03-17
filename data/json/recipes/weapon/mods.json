@@ -513,6 +513,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "pistol_stock",
+    "id_suffix": "with_plastic_molding",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
