@@ -15,6 +15,7 @@
       { "monster": "mon_zyrannosaurus", "weight": 80, "cost_multiplier": 80, "starts": "6 days" },
       { "monster": "mon_zallimimus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zothronychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zanzu", "weight": 30, "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zeinonychus", "weight": 30, "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zutahraptor", "weight": 50, "cost_multiplier": 60, "starts": "6 days" },
       { "monster": "mon_zamargasaurus", "weight": 5, "cost_multiplier": 50, "starts": "3 days" },
@@ -129,6 +130,15 @@
       { "monster": "mon_sothronychus", "weight": 400 },
       { "monster": "mon_zothronychus_shady", "weight": 300 },
       { "monster": "mon_zothronychus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zanzu_UPGRADE",
+    "monsters": [
+      { "monster": "mon_sanzu", "weight": 400 },
+      { "monster": "mon_zanzu_shady", "weight": 300 },
+      { "monster": "mon_zanzu_brute", "weight": 300 }
     ]
   },
   {
@@ -298,6 +308,7 @@
       { "monster": "mon_zorgosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zallimimus", "starts": "3 days" },
+      { "monster": "mon_zanzu", "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zutahraptor", "cost_multiplier": 60, "starts": "6 days" },
       { "monster": "mon_zyoplosaurus", "cost_multiplier": 40, "starts": "3 days" },

@@ -97,7 +97,7 @@
     "price": 7500,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "material": [ "kevlar_layered", "leather" ],
+    "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "glasses_bal",
     "color": "dark_gray",

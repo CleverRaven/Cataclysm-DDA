@@ -4026,7 +4026,7 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        //Picking up bubblewrap continuously could powerlevel trap proficiencies, with no risk involved.
+        //Picking up bubble wrap continuously could powerlevel trap proficiencies, with no risk involved.
         if( difficulty != 0 ) {
             player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
             // Disarming a trap gives you a token bonus to learning to set them properly.
@@ -4822,16 +4822,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
                 g->vertical_move( -1, true );
-                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                    you.set_oxygen();
-                    you.set_underwater( true );
-                    g->water_affect_items( you );
-                    you.add_msg_if_player( _( "You climb down and dive underwater." ) );
-                }
             } else {
                 return;
             }
-            here.creature_on_trap( you );
+            if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                you.set_underwater( true );
+                g->water_affect_items( you );
+                you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+            }
+
             break;
         }
         case 3: {
@@ -4841,6 +4840,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             } else {
                 you.setpos( examp );
                 g->vertical_move( -1, false );
+                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                    you.set_underwater( true );
+                    g->water_affect_items( you );
+                    you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
+                }
             }
             break;
         }

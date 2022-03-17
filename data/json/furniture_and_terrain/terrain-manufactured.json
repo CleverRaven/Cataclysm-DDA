@@ -1261,7 +1261,7 @@
   {
     "type": "terrain",
     "id": "t_covered_salt_water_well",
-    "name": "covered salt_water well",
+    "name": "covered salt water well",
     "description": "Deep well collecting water from a surrounding swamp.  Requires a method to draw water from.",
     "symbol": "#",
     "color": "dark_gray",
