@@ -243,6 +243,32 @@
     ]
   },
   {
+    "id": "leather_stone_pouch",
+    "type": "ARMOR",
+    "name": { "str": "leather stone pouch", "str_pl": "leather stone pouches" },
+    "description": "A medium-sized pouch for storing rocks, made of heavy leather, with straps for attaching it to your belt or other webbing.",
+    "weight": "380 g",
+    "volume": "500 ml",
+    "price": 5900,
+    "price_postapoc": 750,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "ammo_satchel",
+    "color": "dark_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
     "id": "grenadebandolier",
     "type": "ARMOR",
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },

@@ -73,6 +73,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -4365,6 +4366,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
+            music::activate_music_id( music::music_id::mp3 );
         }
     } else { // Turning it off
         if( it->typeId() == itype_mp3_on ) {
@@ -4381,6 +4383,8 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        music::deactivate_music_id( music::music_id::mp3 );
+
         return 0;
     }
     return it->type->charges_to_use();

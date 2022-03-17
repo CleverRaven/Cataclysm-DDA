@@ -1035,7 +1035,7 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 4.4,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

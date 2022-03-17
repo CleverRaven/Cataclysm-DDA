@@ -4822,15 +4822,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
                 g->vertical_move( -1, true );
-                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                    you.set_underwater( true );
-                    g->water_affect_items( you );
-                    you.add_msg_if_player( _( "You climb down and dive underwater." ) );
-                }
             } else {
                 return;
             }
-            here.creature_on_trap( you );
+            if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                you.set_underwater( true );
+                g->water_affect_items( you );
+                you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+            }
+
             break;
         }
         case 3: {
@@ -4840,6 +4840,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             } else {
                 you.setpos( examp );
                 g->vertical_move( -1, false );
+                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                    you.set_underwater( true );
+                    g->water_affect_items( you );
+                    you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
+                }
             }
             break;
         }
