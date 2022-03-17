@@ -869,7 +869,7 @@
     "name": { "str": "XS Corinthian helm" },
     "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "pot_xlhelmet",
@@ -896,7 +896,7 @@
     "name": { "str": "XS pot helmet" },
     "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_helm_close",
