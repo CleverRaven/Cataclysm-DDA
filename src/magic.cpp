@@ -38,6 +38,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -290,7 +291,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
-    const auto targeted_monster_species_reader = string_id_reader<::species_id> {};
+    const auto targeted_monster_species_reader = string_id_reader<::species_type> {};
     optional( jo, was_loaded, "targeted_monster_species", targeted_monster_species,
               targeted_monster_species_reader );
 
@@ -1301,7 +1302,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
                            is_valid_target( spell_target::ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
-        valid = valid && target_by_monster_id( p );
+        valid = valid && ( target_by_monster_id( p ) || target_by_species_id( p ) );
     } else {
         valid = is_valid_target( spell_target::ground );
     }
@@ -1317,6 +1318,23 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
         if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
             valid = true;
+        }
+    }
+    return valid;
+}
+
+bool spell::target_by_species_id( const tripoint &p ) const
+{
+    if( type->targeted_monster_species.empty() ) {
+        return true;
+    }
+    bool valid = false;
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
+        for( const species_id &spc : target->type->species ) {
+            if( type->targeted_monster_species.find( spc ) != type->targeted_monster_species.end() ) {
+                valid = true;
+                break;
+            }
         }
     }
     return valid;
@@ -1451,18 +1469,26 @@ std::string spell::enumerate_targets() const
 
 std::string spell::list_targeted_monster_names() const
 {
-    if( type->targeted_monster_ids.empty() ) {
-        return "";
-    }
     std::vector<std::string> all_valid_monster_names;
     for( const mtype_id &mon_id : type->targeted_monster_ids ) {
         all_valid_monster_names.emplace_back( mon_id->nname() );
     }
+    if( !type->targeted_monster_species.empty() ) {
+        for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
+            for( const species_id &spc : mon.species ) {
+                if( type->targeted_monster_species.find( spc ) != type->targeted_monster_species.end() ) {
+                    all_valid_monster_names.emplace_back( mon.nname() );
+                }
+            }
+        }
+    }
+    if( all_valid_monster_names.empty() ) {
+        return "";
+    }
     //remove repeat names
     all_valid_monster_names.erase( std::unique( all_valid_monster_names.begin(),
                                    all_valid_monster_names.end() ), all_valid_monster_names.end() );
-    std::string ret = enumerate_as_string( all_valid_monster_names );
-    return ret;
+    return enumerate_as_string( all_valid_monster_names );
 }
 
 damage_type spell::dmg_type() const

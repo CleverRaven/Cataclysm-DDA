@@ -189,7 +189,7 @@
           "condition": { "u_query": "Do you want to overload the ship's drive?", "default": true },
           "effect": [
             { "u_message": "You hear a high pitched whine start and increase in volume.", "popup": true },
-            { "u_cast_spell": "gunship_drive_overload" }
+            { "u_cast_spell": { "id": "gunship_drive_overload" } }
           ]
         }
       ]
