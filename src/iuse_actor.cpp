@@ -293,12 +293,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
-    if( it.is_comestible() ) {
-        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
-        obj = &obj_it;
-        p.i_add_or_drop( *obj );
-        result = 1;
-    } else if( container.is_empty() ) {
+    if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -2482,17 +2477,33 @@ void cast_spell_actor::load( const JsonObject &obj )
     spell_level = obj.get_int( "level" );
     need_worn = obj.get_bool( "need_worn", false );
     need_wielding = obj.get_bool( "need_wielding", false );
+    mundane = obj.get_bool( "mundane", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    //~ %1$s: spell name, %2$i: spell level
-    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
-                                item_spell->name, spell_level );
-    dump.emplace_back( "DESCRIPTION", message );
-    if( no_fail ) {
-        dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+    if( mundane ) {
+        const std::string message = string_format( _( "This item when activated: %1$s" ),
+                                    item_spell->description );
+        dump.emplace_back( "DESCRIPTION", message );
+    } else {
+        //~ %1$s: spell name, %2$i: spell level
+        const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
+                                    item_spell->name, spell_level );
+        dump.emplace_back( "DESCRIPTION", message );
+        if( no_fail ) {
+            dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+        }
     }
+}
+
+std::string cast_spell_actor::get_name() const
+{
+    if( mundane ) {
+        return string_format( _( "Activate" ) );
+    }
+
+    return string_format( _( "Cast spell" ) );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
