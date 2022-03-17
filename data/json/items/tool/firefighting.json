@@ -198,7 +198,7 @@
     "cutting": 6,
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ] ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "ny_hook",
