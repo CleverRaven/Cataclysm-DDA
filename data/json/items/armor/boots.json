@@ -523,7 +523,7 @@
     "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
     "copy-from": "boots_winter",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OV" ] }
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_boots_winter",
