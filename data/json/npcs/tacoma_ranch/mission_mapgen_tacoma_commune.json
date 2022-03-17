@@ -439,7 +439,8 @@
         "                   ",
         "                   "
       ],
-      "terrain": { "w": "t_wall_half", ".": "t_dirt" }
+      "terrain": { "w": "t_wall_half", ".": "t_dirt" },
+      "place_item": [ { "item": "hammer_sledge", "x": 12, "y": 18 } ]
     }
   },
   {
@@ -502,7 +503,8 @@
       ],
       "terrain": { "w": "t_wall", ".": "t_floor", "+": "t_door_c", "[": "t_window_boarded_noglass", "c": "t_floor", "t": "t_floor" },
       "furniture": { "c": "f_cupboard", "t": "f_table" },
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 5, "y": 6 } ]
+      "place_npcs": [ { "class": "ranch_nurse_1", "x": 5, "y": 6 } ],
+      "place_item": [ { "item": "hoe", "x": 14, "y": 18 } ]
     }
   },
   {
