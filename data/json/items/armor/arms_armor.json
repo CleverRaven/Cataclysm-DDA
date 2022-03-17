@@ -881,7 +881,7 @@
   {
     "id": "armguard_bronze",
     "type": "ARMOR",
-    "//": "Tests are frozen. Please remove this comment prior to merging."
+    "//": "Tests are frozen. Please remove this comment prior to merging.",
     "category": "armor",
     "name": { "str": "pair of bronze vambraces", "str_pl": "pairs of bronze vambraces" },
     "description": "A pair of bronze arm guards with a simple leather lining.",
