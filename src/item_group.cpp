@@ -205,7 +205,6 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( container_item ) {
         tmp = tmp.in_container( *container_item, tmp.charges, sealed );
     }
-
     return tmp;
 }
 
