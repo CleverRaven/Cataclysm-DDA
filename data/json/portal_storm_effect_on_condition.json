@@ -288,11 +288,11 @@
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 3 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
         [ "EOC_PORTAL_PAIN", { "const": 3 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
         [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 7 } ]
       ]
@@ -318,9 +318,9 @@
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 1 } ],
-        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
@@ -380,22 +380,6 @@
           }
         }
       ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_NETHER_SPAWN",
-    "effect": {
-      "u_spawn_monster": "GROUP_NETHER_PORTAL",
-      "group": true,
-      "real_count": 1,
-      "hallucination_count": [ 1, 2 ],
-      "outdoor_only": true,
-      "min_radius": 3,
-      "max_radius": 20,
-      "lifespan": [ "10 seconds", "1 minutes" ],
-      "spawn_message": "Several large portals open and before they close a monster leaves.",
-      "spawn_message_plural": "Several large portals open and before they close monsters pour through."
     }
   },
   {
@@ -479,6 +463,19 @@
       "max_radius": 20,
       "lifespan": [ "45 seconds", "5 minutes" ],
       "spawn_message": "The very notion of empty space is made a cruel joke. Nearby nothing becomes even less."
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SWARM_STRUCTURE",
+    "effect": {
+      "u_spawn_monster": "mon_swarm_structure",
+      "real_count": 1,
+      "outdoor_only": true,
+      "min_radius": 3,
+      "max_radius": 20,
+      "lifespan": [ "10 minutes", "30 minutes" ],
+      "spawn_message": "The swarm structure was always there, right?"
     }
   },
   {

@@ -253,6 +253,7 @@
       { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
       [ "hose", 15 ],
       [ "string_36", 40 ],
+      { "item": "22_blank", "prob": 30, "count": [ 1, 4 ] },
       [ "frame", 20 ],
       [ "hdframe", 10 ],
       [ "metal_tank", 10 ],

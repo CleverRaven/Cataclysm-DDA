@@ -6,8 +6,6 @@
 #include "map_selector.h"
 #include "vehicle_selector.h"
 
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
-
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
@@ -212,7 +210,7 @@ void Character::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
-    assign_activity( ACT_GUNMOD_ADD, moves, -1, 0, tool );
+    assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
     activity.targets.emplace_back( *this, &gun );
     activity.targets.emplace_back( *this, &mod );
     activity.values.push_back( 0 ); // dummy value

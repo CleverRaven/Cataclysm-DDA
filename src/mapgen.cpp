@@ -232,12 +232,18 @@ void map::generate( const tripoint &p, const time_point &when )
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].
-                    region_extras[terrain_type->get_extras()].filtered_by( dat );
-    if( ex.chance > 0 && one_in( ex.chance ) ) {
+    map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+    map_extras ex = this_ex.filtered_by( dat );
+    if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+        DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                         " (extra type \"" << terrain_type->get_extras() <<
+                                         "\") zlevel = " << abs_omt.z() <<
+                                         " is out of range of all assigned map extras.  Skipping map extra generation.";
+    } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
         if( extra == nullptr ) {
-            debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
+            debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                      terrain_type->get_type_id().str() );
         } else {
             MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
         }
