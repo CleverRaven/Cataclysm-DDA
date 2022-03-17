@@ -17,7 +17,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": [ [ "haggis", 2 ] ],
+    "result": "haggis",
     "id_suffix": "sauropod",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -26,7 +26,7 @@
     "skills_required": [ "tailor", 1 ],
     "time": "110 m",
     "book_learn": [ [ "survival_book", 6 ], [ "scots_cookbook", 3 ] ],
-    "result_mult": 2,
+    "result_mult": 4,
     "batch_time_factors": [ 50, 4 ],
     "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
