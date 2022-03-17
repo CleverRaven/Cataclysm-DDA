@@ -64,4 +64,10 @@
     "terrain": {
       "|": "t_afs_gun_ship_hull_wall",
       "/": "t_afs_gun_ship_locker_wall",
+      "I": "t_afs_gun_ship_hull_hatch_c",
+      "O": "t_afs_gun_ship_hull_hatch_o",
+      "+": "t_afs_gun_ship_engine",
+      "//": "TBD"
+    }
+  }
 ]

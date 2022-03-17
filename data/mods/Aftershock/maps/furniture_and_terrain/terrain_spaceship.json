@@ -140,6 +140,81 @@
     }
   },
   {
+    "type": "furniture",
+    "id": "t_afs_gun_ship_engine",
+    "name": "Iblis Interplanetary Drive",
+    "looks_like": "t_plut_generator",
+    "description": "The housing and guts of an Interplanetary drive engine.  It is plastered with warning signs.  If it's not working you could probably try to break into it for parts.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
+        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "t_afs_gun_ship_engine_console",
+    "name": "Iblis Interplanetary Drive Console",
+    "looks_like": "t_console",
+    "description": "The control panel for the engines and generators that power the drive.  It would likely render the ship permanently unfixable but it might do some damage to any robots near or in the ship.",
+    "symbol": "0",
+    "color": "green_red",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_AFS_GUNSHIP_DRIVE_OVERLOAD",
+          "condition": { "u_query": "Do you want to overload the ship's drive?", "default": true },
+          "effect": [
+            { "u_message": "You hear a high pitched whine start and increase in volume.", "popup": true },
+            { "u_cast_spell": "gunship_drive_overload" }
+          ]
+        }
+      ]
+    },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_circuitry_3", "charges": [ 0, 1 ] },
+        { "item": "afs_heat_2", "charges": [ 0, 1 ] },
+        { "item": "afs_energy_storage_2", "charges": [ 1, 6 ] },
+        { "item": "afs_energy_storage_4", "charges": [ 0, 1 ] },
+        { "item": "afs_material_1", "charges": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
     "type": "terrain",
     "id": "t_afs_escapepod_g",
     "name": "escape pod guidance system",

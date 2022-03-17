@@ -79,6 +79,23 @@
     "damage_type": "biological"
   },
   {
+    "id": "gunship_drive_overload",
+    "type": "SPELL",
+    "name": { "str": "Damage Robots EMP" },
+    "description": "Damages all robots",
+    "valid_targets": [ "hostile", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "targeted_monster_species": [ "ROBOT" ],
+    "damage_type": "pure",
+    "min_damage": 4,
+    "max_damage": 24,
+    "min_aoe": 48,
+    "max_aoe": 48,
+    "aoe_increment": 48,
+    "flags": [ "SILENT" ]
+  },
+  {
     "id": "afs_generic_free_turn",
     "type": "SPELL",
     "name": "Aftershock Extra Turn",

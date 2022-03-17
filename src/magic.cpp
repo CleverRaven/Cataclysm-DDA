@@ -290,6 +290,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
+    const auto targeted_monster_species_reader = string_id_reader<::species_id> {};
+    optional( jo, was_loaded, "targeted_monster_species", targeted_monster_species,
+              targeted_monster_species_reader );
+
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
@@ -388,6 +392,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
+    json.member( "targeted_monster_species", targeted_monster_species, std::set<species_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
         json.member( "affected_body_parts", affected_bps );
