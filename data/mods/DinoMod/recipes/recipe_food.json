@@ -12,7 +12,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "sauropod_stomach", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "stomach_sauropod", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -33,7 +33,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "sauropod_stomach", 1 ] ],
+      [ [ "stomach_sauropod", 1 ] ],
       [ [ "meat_offal", 4, "LIST" ] ],
       [ [ "oatmeal", 16 ], [ "buckwheat", 4 ] ]
     ]
