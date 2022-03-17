@@ -147,7 +147,8 @@
     "description": "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
     "volume": "10 ml",
-    "weight": "4 g",
+    "weight": "135 mg",
+    "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
     "count": 200
   },
@@ -929,7 +930,8 @@
     "material": [ "coal" ],
     "phase": "solid",
     "volume": "250 ml",
-    "weight": "44 g",
+    "weight": "1500 mg",
+    "//": "Density somewhere around 1.5 g/cm3 (solid anthracite)",
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10
