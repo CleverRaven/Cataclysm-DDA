@@ -140,7 +140,7 @@
     "type": "recipe",
     "copy-from": "armor_farmor",
     "time": "9 h",
-    "using": [  [ "tailoring_fur_patchwork", 16 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 16 ] ],
     "byproducts": [ [ "fur", 6 ] ]
   },
   {
