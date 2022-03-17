@@ -4310,10 +4310,6 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         modifier.variant = obj.get_string( "variant" );
         use_modifier = true;
     }
-    if( obj.has_string( "faction" ) ) {
-        modifier.faction = obj.get_string( "faction" );
-        use_modifier = true;
-    }
 
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );

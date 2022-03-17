@@ -135,9 +135,8 @@ class Item_spawn_data
             last
         };
 
-        Item_spawn_data( int _probability, const std::string &context, holiday _event = holiday::none,
-                         const std::string &_faction = "" ) :
-            probability( _probability ), context_( context ), event( _event ), faction( _faction ) { }
+        Item_spawn_data( int _probability, const std::string &context, holiday _event = holiday::none ) :
+            probability( _probability ), context_( context ), event( _event ) { }
         virtual ~Item_spawn_data() = default;
         /**
          * Create a list of items. The create list might be empty.
@@ -186,14 +185,6 @@ class Item_spawn_data
             return event != holiday::none;
         }
 
-        std::string get_faction() const {
-            return faction;
-        }
-
-        void set_faction( const std::string &_faction ) {
-            faction = _faction;
-        }
-
         /**
          * The group spawns contained in this item
          */
@@ -221,8 +212,6 @@ class Item_spawn_data
         std::string context_;
         // If defined, only spawn this item during the specified event
         holiday event = holiday::none;
-        // Faction the items belong to
-        std::string faction = "";
 };
 
 template<>
@@ -278,11 +267,6 @@ class Item_modifier
          * gun variant id, for guns with variants
          */
         std::string variant;
-
-        /**
-         * faction id
-         */
-        std::string faction = "";
 
         /**
          * Custom sub set of snippets to be randomly chosen from and then applied to the item.

@@ -206,7 +206,6 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp = tmp.in_container( *container_item, tmp.charges, sealed );
     }
 
-    tmp.set_owner( faction_id( faction ) );
     return tmp;
 }
 
