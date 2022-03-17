@@ -1816,7 +1816,7 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 20,
-	"sheet_thickness": 1.2
+	"sheet_thickness": 1.2,
     "breathability": "GOOD",
     "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
