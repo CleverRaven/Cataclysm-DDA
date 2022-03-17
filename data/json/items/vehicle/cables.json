@@ -23,7 +23,7 @@
     "type": "TOOL",
     "id": "extension_cable",
     "name": { "str": "extension cord" },
-    "description": "A long 30-ft (or about 9 m) orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
+    "description": "A long 30-ft (or about 10 m) orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
     "copy-from": "jumper_cable",
     "max_charges": 10,
     "initial_charges": 10,
