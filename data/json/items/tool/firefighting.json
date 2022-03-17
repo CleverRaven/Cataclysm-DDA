@@ -20,7 +20,8 @@
     "to_hit": -2,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ],
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
+    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "extinguisher",
@@ -196,7 +197,8 @@
     "bashing": 20,
     "cutting": 6,
     "to_hit": -1,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "ny_hook",
@@ -217,6 +219,7 @@
     "cutting": 13,
     "to_hit": -1,
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [ "HAMMER", "CROWBAR" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   }
 ]
