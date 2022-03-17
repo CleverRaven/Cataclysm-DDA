@@ -1734,6 +1734,9 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
     }
     if( !!nested ) {
         CHECK( nested->all_items_top().size() == in_nested );
+        item *top_it = wear ? &u.worn.front() : &u.get_wielded_item();
+        // top-level container still contains nested container
+        CHECK( !!top_it->contained_where( *nested.get_item() ) );
     }
 }
 
@@ -1908,6 +1911,60 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
         }
     }
 
+    WHEN( "nested rigid container present, nested container whitelisting 1 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup all, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 2, 1 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 44, false, false, true );
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup one, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 2, 45, 1 );
+            }
+        }
+    }
+
+    WHEN( "nested rigid container present, nested container whitelisting 2 items" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 44, false, false, true );
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 45, 2 );
+            }
+        }
+    }
+
     WHEN( "nested soft container present, all autoinsert settings as normal" ) {
         WHEN( "space available in backpack" ) {
             item_location c2 = give_item_to_char( u, cont2 );
@@ -1989,6 +2046,60 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             item_location c2 = give_item_to_char( u, cont2 );
             for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
+            }
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 60, 0 );
+            }
+        }
+    }
+
+    WHEN( "nested soft container present, nested container whitelisting 1 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup all, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 2, 1 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 59, false, false, true );
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 60, 0 );
+            }
+        }
+    }
+
+    WHEN( "nested soft container present, nested container whitelisting 2 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 59, false, false, true );
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
             }
             THEN( "pickup none, nested empty" ) {
                 test_pickup_autoinsert_results( u, wear, c2, 3, 60, 0 );

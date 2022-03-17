@@ -577,6 +577,11 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // Item forbidden by whitelist / blacklist
             continue;
         }
+        if( !pocket.rigid() && (
+                !pocket.settings.get_item_whitelist().empty() ||
+                !pocket.settings.get_category_whitelist().empty() ) ) {
+            ignore_rigidity = true;
+        }
         if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
