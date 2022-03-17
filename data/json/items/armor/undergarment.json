@@ -312,7 +312,7 @@
     "name": { "str_sp": "XS boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "bra",
