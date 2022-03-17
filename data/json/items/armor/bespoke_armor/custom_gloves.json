@@ -163,7 +163,7 @@
     "name": { "str": "pair of XS survivor gloves", "str_pl": "pairs of XS survivor gloves" },
     "description": "A pair of customized, Kevlar-armored leather gloves.  These strike a balance between comfort and protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_wsurvivor",
