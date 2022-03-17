@@ -72,11 +72,5 @@
         [ "egg_mosasaurus", 1 ]
       ]
     ]
-  },
-  {
-    "id": "meat_stomach_large",
-    "type": "requirement",
-    "//": "Anything you might consider a large raw stomach.",
-    "components": [ [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach_large", 1 ], [ "stomach_sauropod", 0.5 ] ] ]
   }
 ]
