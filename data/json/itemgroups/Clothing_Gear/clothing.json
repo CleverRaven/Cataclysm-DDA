@@ -179,7 +179,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 90 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -205,7 +205,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest_broken", "prob": 100 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -231,7 +231,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest_heavy", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -258,7 +258,7 @@
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "military_ballistic_vest", "prob": 90 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
