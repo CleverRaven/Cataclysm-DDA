@@ -722,11 +722,10 @@
     "id": "h2o_pouch",
     "repairs_like": "legrig",
     "type": "ARMOR",
-    "//": " stats taken from: https://www.patriotoutfitters.com/condor-h2o-pouch?PMSRCH=MOLLE%20GEAR",
-    "name": { "str": "H2O pouch", "str_pl": "H2O pouches" },
-    "description": "A pouch designed to hold a water bottle with an additional front tactical pocket.  Has MOLLE straps for attaching to a belt or vest.",
-    "weight": "250 g",
-    "volume": "400 ml",
+    "name": { "str": "str": "canteen pouch", "str_pl": "canteen pouches" },
+    "description": "A pouch designed to keep your canteen accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "weight": "190 g",
+    "volume": "500 ml",
     "price": 2000,
     "price_postapoc": 250,
     "material": [ "nylon" ],
@@ -736,19 +735,12 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2048 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "254 mm",
-        "moves": 80,
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "426 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "165 mm",
-        "moves": 80,
-        "volume_encumber_modifier": 0.3
+	    	"holster": true,
+        "max_contains_volume": "1751 ml",
+        "max_contains_weight": "1800 g",
+        "max_item_length": "13 cm",
+        "moves": 40,
+        "volume_encumber_modifier": 0.2
       }
     ],
     "material_thickness": 0.5,
