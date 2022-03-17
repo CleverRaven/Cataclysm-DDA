@@ -293,6 +293,34 @@
   {
     "id": "webbing_belt",
     "type": "ARMOR",
+    "name": { "str": "webbing belt" },
+    "description": "A 2-inch nylon webbing belt commonly used by military forces.",
+    "weight": "210 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "nylon", "steel" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "yellow",
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "molle_webbing_belt",
+    "type": "ARMOR",
     "name": { "str": "MOLLE webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",
     "weight": "210 g",
