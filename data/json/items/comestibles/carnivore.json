@@ -668,7 +668,7 @@
     "type": "COMESTIBLE",
     "copy-from": "lung",
     "looks_like": "lung",
-    "name": { "str": "piece of raw demihuman lung", "str_pl": "pieces of raw demihuman lung"  },
+    "name": { "str": "piece of raw demihuman lung", "str_pl": "pieces of raw demihuman lung" },
     "description": "A portion of lung from a demihuman being.  It's spoogy and pink, and spoils very quickly.",
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
@@ -808,7 +808,7 @@
     "copy-from": "brain",
     "looks_like": "brain",
     "name": { "str_sp": "raw demihuman brains" },
-    "description": "A chunk of brain from a demihuman being.",
+    "description": "A chunk of brain from a demihuman being.  Don't prion diseases cross species barriers?",
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
@@ -872,7 +872,7 @@
     "copy-from": "kidney",
     "looks_like": "kidney",
     "name": { "str": "raw demihuman kidney" },
-    "description": "Kidney extracted from a demihuman being.",
+    "description": "This is probably a kidney extracted from a demihuman being.",
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
@@ -938,7 +938,7 @@
     "copy-from": "sweetbread",
     "looks_like": "sweetbread",
     "name": { "str": "raw demihuman sweetbread" },
-    "description": "Thymus or pancreas extracted from a demihuman being.",
+    "description": "The consistency of this organ suggests possibly a thymus or pancreas equivalent.",
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
