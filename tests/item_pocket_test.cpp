@@ -16,6 +16,7 @@
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -29,10 +30,29 @@
 #include "value_ptr.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
+
+static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
+static const item_group_id Item_spawn_data_wallet_full( "wallet_full" );
+static const item_group_id Item_spawn_data_wallet_industrial_full( "wallet_industrial_full" );
+static const item_group_id
+Item_spawn_data_wallet_industrial_leather_full( "wallet_industrial_leather_full" );
+static const item_group_id Item_spawn_data_wallet_large_full( "wallet_large_full" );
+static const item_group_id Item_spawn_data_wallet_leather_full( "wallet_leather_full" );
+static const item_group_id Item_spawn_data_wallet_military_full( "wallet_military_full" );
+static const item_group_id
+Item_spawn_data_wallet_military_leather_full( "wallet_military_leather_full" );
+static const item_group_id Item_spawn_data_wallet_science_full( "wallet_science_full" );
+static const item_group_id
+Item_spawn_data_wallet_science_leather_full( "wallet_science_leather_full" );
+static const item_group_id
+Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
+static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
+
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 // Pocket Tests
@@ -2299,6 +2319,51 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
                 CHECK( suit->all_items_top().size() == 1 );
                 CHECK( suit->all_items_top().front()->charges == 5 );
             }
+        }
+    }
+}
+
+static bool test_wallet_filled( Item_spawn_data *wallet_group )
+{
+    itype_id wallet_t( wallet_group->container_item.value() );
+    Item_spawn_data::ItemList dummy;
+    dummy.reserve( 20 );
+    wallet_group->create( dummy, calendar::turn, spawn_flags::maximized );
+    REQUIRE( dummy.size() == 1 );
+    int wallets = 0;
+    for( const item &it : dummy ) {
+        if( it.typeId() == wallet_t ) {
+            wallets++;
+            CHECK( !it.empty_container() );
+        }
+    }
+    return wallets == 1;
+}
+
+TEST_CASE( "full wallet spawn test", "[pocket][item]" )
+{
+    const int iters = 100;
+    const std::vector<Item_spawn_data *> groups = {
+        item_controller->get_group( Item_spawn_data_wallet_duct_tape_full ),
+        item_controller->get_group( Item_spawn_data_wallet_full ),
+        item_controller->get_group( Item_spawn_data_wallet_industrial_full ),
+        item_controller->get_group( Item_spawn_data_wallet_industrial_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_large_full ),
+        item_controller->get_group( Item_spawn_data_wallet_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_military_full ),
+        item_controller->get_group( Item_spawn_data_wallet_military_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_stylish_full ),
+        item_controller->get_group( Item_spawn_data_wallet_stylish_full )
+    };
+    for( Item_spawn_data *wg : groups ) {
+        REQUIRE( wg->container_item.has_value() );
+    }
+
+    for( int i = 0; i < iters; i++ ) {
+        for( Item_spawn_data *wg : groups ) {
+            CHECK( test_wallet_filled( wg ) );
         }
     }
 }

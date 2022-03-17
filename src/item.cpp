@@ -9455,9 +9455,8 @@ ret_val<bool> item::can_contain( const item &it, const bool nested,
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
         const bool ignore_rigidity =
-            pkt->is_holster() || !pkt->get_pocket_data()->get_flag_restrictions().empty() ||
-            ( !pkt->item_type_restrictions().empty() &&
-              pkt->item_type_restrictions().count( it.typeId() ) <= 0 );
+            !pkt->settings.accepts_item( it ) ||
+            !pkt->get_pocket_data()->get_flag_restrictions().empty();
         for( const item *internal_it : pkt->all_items_top() ) {
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings ).success() ) {
                 return ret_val<bool>::make_success();
