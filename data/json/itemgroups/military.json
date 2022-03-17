@@ -123,7 +123,7 @@
     "id": "molle_packs",
     "subtype": "distribution",
     "entries": [
-          {"item": "molle_pack", "prob": 70 },
+          {"item": "molle_assault_pack", "prob": 70 },
           {"item": "molle_medium_rucksack", "prob": 15 },
           {"item": "molle_large_rucksack", "prob": 15 }
 	] 
