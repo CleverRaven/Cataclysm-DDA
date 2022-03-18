@@ -325,7 +325,7 @@
       } ]
   },
   {
-    "id": "webbing_belt",
+    "id": "molle_webbing_belt",
     "type": "ARMOR",
     "name": { "str": "MOLLE webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.",
