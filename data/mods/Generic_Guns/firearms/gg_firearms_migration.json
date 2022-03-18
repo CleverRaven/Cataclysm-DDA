@@ -188,7 +188,7 @@
     "replace": "pistol_tiny_rifle"
   },
   {
-    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk" ],
+    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "pressin" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
   },
@@ -291,7 +291,8 @@
       "famas",
       "aksemi",
       "fs2000",
-      "robofac_gun"
+      "robofac_gun",
+      "obrez"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
