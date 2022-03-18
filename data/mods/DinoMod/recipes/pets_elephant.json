@@ -25,10 +25,10 @@
   {
     "result": "chainmail_armor_elephant",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
-    "skill_used": "fabrication",
     "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
     "time": "700 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
