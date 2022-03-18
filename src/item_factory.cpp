@@ -649,9 +649,14 @@ void Item_factory::finalize_post( itype &obj )
                 for( const auto &m : obj.materials ) {
                     if( skip_scale ) {
                         part_material pm( m.first, 100, obj.materials.size() * data.avg_thickness );
+                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                        pm.ignore_sheet_thickness = true;
                         data.materials.push_back( pm );
                     } else {
-                        part_material pm( m.first, 100, m.second / obj.mat_portion_total * data.avg_thickness );
+                        part_material pm( m.first, 100,
+                                          static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total ) * data.avg_thickness );
+                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                        pm.ignore_sheet_thickness = true;
                         data.materials.push_back( pm );
                     }
                 }

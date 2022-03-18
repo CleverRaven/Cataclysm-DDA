@@ -12734,7 +12734,7 @@ bool item::is_rigid() const
 bool item::is_comfortable() const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) ) {
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;
@@ -12784,7 +12784,7 @@ template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const
 {
     // overrides for the item overall
-    if( has_flag( flag_SOFT ) ) {
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
         return true;
     } else if( has_flag( flag_HARD ) ) {
         return false;

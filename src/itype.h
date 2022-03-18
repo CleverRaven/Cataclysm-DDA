@@ -303,10 +303,10 @@ struct armor_portion_data {
     int breathability = 0; // NOLINT(cata-serialize)
 
     // if this item is rigid, can't be worn with other rigid items
-    bool rigid = false;
+    bool rigid = false; // NOLINT(cata-serialize)
 
     // if this item is comfortable to wear without other items bellow it
-    bool comfortable = false;
+    bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly

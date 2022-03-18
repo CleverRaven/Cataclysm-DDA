@@ -624,7 +624,7 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
 
 bool outfit::check_rigid_change_side( item &it, const Character &guy ) const
 {
-    if( !check_rigid_conflicts( it ).success() ) {
+    if( !check_rigid_conflicts( it, it.get_side() ).success() ) {
         const std::string player_msg = string_format(
                                            _( "Your %s conflicts with hard armor on your other side so you can't swap it." ),
                                            it.tname() );
@@ -650,10 +650,14 @@ bool Character::change_side( item &it, bool interactive )
     }
 
     if( !worn.one_per_layer_change_side( it, *this ) ) {
+        // revert the side swap since it isn't valid
+        it.swap_side();
         return false;
     }
 
     if( !worn.check_rigid_change_side( it, *this ) ) {
+        // revert the side swap since it isn't valid
+        it.swap_side();
         return false;
     }
 
@@ -1197,6 +1201,11 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
     for( const item &i : worn ) {
         // check each sublimb individually
         for( const sub_bodypart_id &sbp : to_test ) {
+            // skip if the item doesn't currently cover the bp
+            if( !i.covers( sbp ) ) {
+                continue;
+            }
+
             if( i.is_bp_rigid( sbp ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
             }

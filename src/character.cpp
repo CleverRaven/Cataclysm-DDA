@@ -3428,7 +3428,9 @@ void Character::calc_discomfort()
     // clear all instances of discomfort
     remove_effect( effect_chafing );
     for( const bodypart_id &bp : worn.where_discomfort() ) {
-        add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        if( bp->feels_discomfort ) {
+            add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
     }
 }
 
