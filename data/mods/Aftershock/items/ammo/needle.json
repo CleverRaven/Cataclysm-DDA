@@ -28,7 +28,7 @@
     "weight": "6 g",
     "price": 1688,
     "material": [ "ceramic" ],
-    "relative": { "range": -1, "damage": { "damage_type": "bullet", "amount": 14, "armor_penetration": 2 }, "dispersion": 20 },
+    "relative": { "range": -1, "damage": { "damage_type": "bullet", "amount": 14, "armor_penetration": -18 }, "dispersion": 20 },
     "proportional": { "recoil": 0.9 }
   }
 ]

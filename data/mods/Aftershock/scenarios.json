@@ -101,7 +101,7 @@
     "id": "last_dance",
     "name": "One Last Dance on the Ice",
     "points": 1,
-    "description": "You've chased your quarry from the tragedies they left behind in the core of civilized space; all the way out here to the fringes of inhabited space.   You caught up with their ship here in the Salus system, and heavily damaged it, but the combat didn't leave your ship unscathed.  Opportunistic scavengers or pirates you don't know which ambushed you as you were harrying your mark's ship and forcing it to ground.  You know they'll have crash landed somewhere on this planet but your ship, Truth and Reconciliation will never fly again.   You won't even walk away from this icy wreck if you can't destroy the squad of drones and scavenger bots that have dropped in to finish you off.",
+    "description": "You've chased your quarry from the tragedies they left behind in the core of civilized space; all the way out here to the fringes of inhabited space.  You caught up with their ship here in the Salus system, and heavily damaged it, but the combat didn't leave your ship unscathed.  Opportunistic scavengers or pirates you don't know which ambushed you as you were harrying your mark's ship and forcing it to ground.  You know they'll have crash landed somewhere on this planet but your ship, Truth and Reconciliation will never fly again.   You won't even walk away from this icy wreck if you can't destroy the squad of drones and scavenger bots that have dropped in to finish you off.",
     "professions": [ "afs_espatier", "afs_captain_bearman", "afs_holo_fighter", "afs_mastadon_swat", "afs_bio_operator" ],
     "start_name": "Last stop for Truth and Reconciliation",
     "allowed_locs": [ "sloc_forest" ],
