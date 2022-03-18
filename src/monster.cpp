@@ -1646,7 +1646,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), u_see_me ? name() : _( "something" );
+                         target.disp_name(), u_see_me ? name() : _( "something" ) );
             } else {
                 add_msg( _( "%1$s misses %2$s!" ),
                          u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
