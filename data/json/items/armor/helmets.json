@@ -547,8 +547,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -561,7 +561,8 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
       },
       {
         "material": [
@@ -570,7 +571,8 @@
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
       }
     ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
@@ -600,8 +602,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "encumbrance": 25,
         "coverage": 100,
