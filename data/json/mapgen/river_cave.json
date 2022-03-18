@@ -52,12 +52,15 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "river_cave_up_to_surface",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         ">>",
         ">>"
-      ], "terrain": { ">": "t_slope_up" },
-    "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
-   }
+      ],
+      "terrain": { ">": "t_slope_up" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
   },
   {
     "//": "walls of river cave that can shift from side to side to make the tunnel wind",
