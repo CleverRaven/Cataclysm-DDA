@@ -82,6 +82,93 @@
     ]
   },
   {
+    "id": "on_hand_44paper",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "44army", "prob": 100, "charges": [ 1, 25 ] },
+      { "item": "44army", "prob": 75, "charges": [ 27, 50 ] },
+      { "item": "44army", "prob": 30, "charges": [ 54, 100 ] }
+    ]
+  },
+  {
+    "id": "on_hand_flintlock",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "flintlock_ammo", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "flintlock_ammo", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "flintlock_ammo", "prob": 30, "charges": [ 66, 120 ] }
+    ]
+  },
+  {
+    "id": "on_hand_454",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "454_Casull", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "454_Casull", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "454_Casull", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_5x50",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "5x50dart", "prob": 100, "charges": [ 1, 100 ] },
+      { "item": "5x50dart", "prob": 75, "charges": [ 110, 200 ] },
+      { "item": "5x50dart", "prob": 30, "charges": [ 220, 400 ] },
+      { "item": "5x50heavy", "prob": 30, "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "id": "on_hand_8x40",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "8mm_bootleg", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_bootleg", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_bootleg", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_caseless", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_caseless", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_caseless", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_civilian", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_civilian", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_civilian", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_fmj", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_fmj", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_fmj", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_jhp", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "8mm_jhp", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "8mm_jhp", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "8mm_hvp", "prob": 30, "charges": [ 1, 40 ] },
+      { "item": "8mm_inc", "prob": 30, "charges": [ 1, 40 ] }
+    ]
+  },
+  {
+    "id": "on_hand_9x18",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "9x18mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9x18mmP2", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9x18mm", "prob": 75, "charges": [ 55, 100 ] },
+      { "item": "9x18mmP2", "prob": 75, "charges": [ 55, 100 ] },
+      { "item": "9x18mm", "prob": 30, "charges": [ 110, 200 ] },
+      { "item": "9x18mmP2", "prob": 30, "charges": [ 110, 200 ] },
+      { "item": "9x18mmfmj", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9x18mmfmj", "prob": 75, "charges": [ 55, 100 ] },
+      { "item": "9x18mmfmj", "prob": 30, "charges": [ 110, 200 ] }
+    ]
+  },
+  {
     "id": "on_hand_45",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded civilian gun.",
@@ -111,6 +198,21 @@
     ]
   },
   {
+    "id": "on_hand_762x25",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "762_25", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "762_25hot", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "762_25", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "762_25hot", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "762_25", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "762_25hot", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "762_25typeP", "prob": 30, "charges": [ 1, 40 ] }
+    ]
+  },
+  {
     "id": "on_hand_40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded civilian gun.",
@@ -136,6 +238,20 @@
       { "item": "44magnum", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "44fmj", "prob": 30, "charges": [ 44, 80 ] },
       { "item": "44magnum", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_460",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "460_fmj", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "460_rowland", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "460_fmj", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "460_rowland", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "460_fmj", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "460_rowland", "prob": 30, "charges": [ 44, 80 ] }
     ]
   },
   {
@@ -200,6 +316,23 @@
       { "item": "22_ratshot", "prob": 75, "charges": [ 165, 300 ] },
       { "item": "22_lr", "prob": 30, "charges": [ 330, 600 ] },
       { "item": "22_ratshot", "prob": 30, "charges": [ 330, 600 ] }
+    ]
+  },
+  {
+    "id": "on_hand_4570",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "4570_sp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "4570_pen", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "4570_sp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "4570_pen", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "4570_sp", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "4570_pen", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "4570_low", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "4570_low", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "4570_low", "prob": 30, "charges": [ 44, 80 ] }
     ]
   }
 ]
