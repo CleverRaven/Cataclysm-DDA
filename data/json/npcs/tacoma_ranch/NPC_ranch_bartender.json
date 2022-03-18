@@ -170,7 +170,7 @@
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The drinks we brew here have become a major draw for visitors and the occasional trader.  Our batches have become larger, but we are still running out of storage space between trading runs.  I've been able to get a few volunteers to help me build a set of standing tanks but I still need 12 60-liter metal tanks to build them.  I've talked with the scrappers, but we are a low priority at the moment.",
+      "offer": "The drinks we brew here have become a major draw for visitors and the occasional trader.  Our batches have become larger, but we are still running out of storage space between trading runs.  I've been able to get a few volunteers to help me build a set of standing tanks, but I still need 12 60-liter metal tanks to build them.  I've talked with the scrappers, but we are a low priority at the moment.",
       "accepted": "Thank you for your assistance.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Scrapping vehicles might be your best bet.",

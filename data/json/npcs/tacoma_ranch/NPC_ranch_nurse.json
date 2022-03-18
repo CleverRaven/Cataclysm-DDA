@@ -181,7 +181,7 @@
     "followup": "MISSION_RANCH_NURSE_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Despite my recommendations, we continue to have travelers come in with illnesses that I've been able to trace back to contaminated drinking water.  When boiling water isn't an option they need some form of charcoal water filter that they can use.  If you could build me four charcoal water filters, I'll distribute them to groups as they pass through.",
+      "offer": "Despite my recommendations, we continue to have travelers come in with illnesses that I've been able to trace back to contaminated drinking water.  When boiling water isn't an option, they need some form of charcoal water filter that they can use.  If you could build me four charcoal water filters, I'll distribute them to groups as they pass through.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "With some basic survival and crafting skills, you should be able to make them with little effort.",

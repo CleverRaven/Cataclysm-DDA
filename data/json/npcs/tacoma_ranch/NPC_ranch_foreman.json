@@ -56,19 +56,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_OUTPOST",
-    "dynamic_line": "Ya, that representative from the Old Guard asked the two of us to come out here and begin fortifying this place as a refugee camp.  I'm not sure how fast he expects the two of us to get setup but we were assured additional men were coming out here to assist us. ",
+    "dynamic_line": "Ya, that representative from the Old Guard asked the two of us to come out here and begin fortifying this place as a refugee camp.  I'm not sure how fast he expects the two of us to get setup, but we were assured additional men were coming out here to assist us. ",
     "responses": [ { "text": "How many refugees are you expecting?", "topic": "TALK_RANCH_FOREMAN_REFUGEES" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_REFUGEES",
-    "dynamic_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
+    "dynamic_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something, but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
     "responses": [ { "text": "Hopefully moving out here was worth it…", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_JOB",
-    "dynamic_line": "I'm the engineer in charge of turning this place into a working camp.  This is going to be an uphill battle, we used most of our initial supplies getting here and boarding up the windows.  I've got a huge list of tasks that need to get done so if you could help us keep supplied I'd appreciate it.  If you have material to drop off you can just back your vehicle into here and dump it on the ground, we'll sort it.",
+    "dynamic_line": "I'm the engineer in charge of turning this place into a working camp.  This is going to be an uphill battle, we used most of our initial supplies getting here and boarding up the windows.  I've got a huge list of tasks that need to get done, so if you could help us keep supplied I'd appreciate it.  If you have material to drop off you can just back your vehicle into here and dump it on the ground, we'll sort it.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
@@ -146,7 +146,7 @@
     "followup": "MISSION_RANCH_FOREMAN_3",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "With the barn entrances enclosed, the refugees moving in there should feel safer, but the weather can be bitter here.  We're going to need to build makeshift beds in the stalls to ward off disease and frostbite.  We can take care of the frames but will need your help looting blankets.  We'd need 25 blankets to provide the most basic sleeping accommodations.",
+      "offer": "With the barn entrances enclosed, the refugees moving in there should feel safer, but the weather can be bitter here.  We're going to need to build makeshift beds in the stalls to ward off disease and frostbite.  We can take care of the frames, but will need your help looting blankets.  We'd need 25 blankets to provide the most basic sleeping accommodations.",
       "accepted": "I'd start with looting hotels or you could sew them together… but that would be a last resort.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Avoid destroying the furniture here, we'll be needing it.",
@@ -268,8 +268,8 @@
     "followup": "MISSION_RANCH_FOREMAN_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300… we were hoping you might have access to a source.",
-      "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now but I imagine we'll need to send you out to get more in the future.",
+      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up, but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300… we were hoping you might have access to a source.",
+      "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now, but I imagine we'll need to send you out to get more in the future.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "If you can find a source of salt water you should be able to boil it down.",
       "inquire": "Do you have the salt?",
@@ -332,8 +332,8 @@
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Well, our first crop will be planted shortly but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output.",
-      "accepted": "I don't know the exact recipe but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
+      "offer": "Well, our first crop will be planted shortly, but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output.",
+      "accepted": "I don't know the exact recipe, but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
       "inquire": "Do you have the liquid fertilizer?",
@@ -572,7 +572,7 @@
     "followup": "MISSION_RANCH_FOREMAN_10",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We've started planning a medical clinic, but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare but they have all the basic supplies that I'm uncertain of.  If you could bring in thirty-six bandages I'm sure we could supplement them to make theirs last a bit longer.",
+      "offer": "We've started planning a medical clinic, but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare, but they have all the basic supplies that I'm uncertain of.  If you could bring in thirty-six bandages I'm sure we could supplement them to make theirs last a bit longer.",
       "accepted": "We'll do our best to make them last…",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",
@@ -595,7 +595,7 @@
     "followup": "MISSION_RANCH_FOREMAN_11",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We've started planning a medical clinic, but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 bottles of antiseptic, I'm sure we could supplement them to make theirs last a bit longer.",
+      "offer": "We've started planning a medical clinic, but we are going to need a lot more supplies if we hope to warrant sending one of the few people with medical experience from the refugee center to our outpost.  I know first aid equipment is rare, but they have all the basic supplies that I'm uncertain of.  If you could bring in 6 bottles of antiseptic, I'm sure we could supplement them to make theirs last a bit longer.",
       "accepted": "We'll do our best to make them last…",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Homes, hospitals, labs, and doctor offices would be where I'd check.",
