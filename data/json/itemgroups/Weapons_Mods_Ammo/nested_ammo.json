@@ -38,6 +38,50 @@
     ]
   },
   {
+    "id": "on_hand_45colt",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "45colt_jhp", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "45colt_jhp", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "45colt_jhp", "prob": 30, "charges": [ 88, 160 ] }
+    ]
+  },
+  {
+    "id": "on_hand_38super",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "38super_fmj", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "38super_fmj", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "38super_fmj", "prob": 30, "charges": [ 88, 160 ] }
+    ]
+  },
+  {
+    "id": "on_hand_57",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "57mm", "prob": 100, "charges": [ 1, 60 ] },
+      { "item": "57mm", "prob": 75, "charges": [ 66, 120 ] },
+      { "item": "57mm", "prob": 30, "charges": [ 132, 240 ] }
+    ]
+  },
+  {
+    "id": "on_hand_500",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "500_Magnum", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "500_Magnum", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "500_Magnum", "prob": 30, "charges": [ 22, 40 ] }
+    ]
+  },
+  {
     "id": "on_hand_45",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded civilian gun.",
@@ -53,6 +97,20 @@
     ]
   },
   {
+    "id": "on_hand_762",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "762_m43", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "762_m87", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "762_m43", "prob": 75, "charges": [ 35, 60 ] },
+      { "item": "762_m87", "prob": 75, "charges": [ 35, 60 ] },
+      { "item": "762_m43", "prob": 30, "charges": [ 70, 120 ] },
+      { "item": "762_m87", "prob": 30, "charges": [ 70, 120 ] }
+    ]
+  },
+  {
     "id": "on_hand_40",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded civilian gun.",
@@ -64,6 +122,20 @@
       { "item": "40sw", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "40fmj", "prob": 30, "charges": [ 88, 160 ] },
       { "item": "40sw", "prob": 30, "charges": [ 88, 160 ] }
+    ]
+  },
+  {
+    "id": "on_hand_44",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "44fmj", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "44magnum", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "44fmj", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "44magnum", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "44fmj", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "44magnum", "prob": 30, "charges": [ 44, 80 ] }
     ]
   },
   {
