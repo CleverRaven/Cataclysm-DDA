@@ -772,7 +772,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-	    	"holster": true,
+        "holster": true,
         "max_contains_volume": "1751 ml",
         "max_contains_weight": "1800 g",
         "max_item_length": "13 cm",

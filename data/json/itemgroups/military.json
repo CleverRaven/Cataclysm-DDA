@@ -124,21 +124,21 @@
     "id": "molle_packs",
     "subtype": "distribution",
     "entries": [
-          {"item": "molle_assault_pack", "prob": 70 },
-          {"item": "molle_medium_rucksack", "prob": 15 },
-          {"item": "molle_large_rucksack", "prob": 15 }
-	] 
+      { "item": "molle_assault_pack", "prob": 70 },
+      { "item": "molle_medium_rucksack", "prob": 15 },
+      { "item": "molle_large_rucksack", "prob": 15 }
+    ]
   },
   {
     "type": "item_group",
     "id": "molle_backpacks_and_accessories",
     "subtype": "collection",
     "entries": [
-		      {"group": "molle_packs" },
-		      {"group": "molle_accessories" },
-          {"group": "molle_accessories", "prob": 60 },
-          {"group": "molle_accessories", "prob": 20 }
-	]
+      { "group": "molle_packs" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
