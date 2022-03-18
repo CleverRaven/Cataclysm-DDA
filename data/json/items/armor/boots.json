@@ -1231,23 +1231,6 @@
     ]
   },
   {
-    "id": "xl_chainmail_feet",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL chainmail chausses", "str_pl": "pairs of XL chainmail chausses" },
-    "copy-from": "chainmail_feet",
-    "proportional": { "weight": 2, "volume": 2 },
-    "flags": [ "VARSIZE", "OVERSIZE" ]
-  },
-  {
-    "id": "xs_chainmail_feet",
-    "type": "ARMOR",
-    "copy-from": "chainmail_feet",
-    "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS chainmail chausses", "str_pl": "pairs of XS chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
-  },
-  {
     "id": "chainmail_junk_feet",
     "type": "ARMOR",
     "category": "armor",
