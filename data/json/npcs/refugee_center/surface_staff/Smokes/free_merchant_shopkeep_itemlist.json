@@ -19,6 +19,6 @@
     "type": "item_group",
     "id": "NC_FREE_MERCHANTS_MERCHANT_carried",
     "subtype": "collection",
-    "items": [ { "item": "halligan" } ]
+    "items": [ { "item": "ny_hook" } ]
   }
 ]
