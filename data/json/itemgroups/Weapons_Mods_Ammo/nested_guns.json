@@ -108,6 +108,18 @@
     ]
   },
   {
+    "id": "nested_m1911_MEU",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m1911", "variant": "m1911_MEU", "charges-min": 0, "charges-max": 7 },
+      { "item": "m1911mag" },
+      { "item": "m1911mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
     "id": "nested_m1911_10",
     "type": "item_group",
     "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
