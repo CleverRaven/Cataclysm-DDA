@@ -419,7 +419,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "quench": 0,
     "calories": 280,
     "description": "A soggy and virtually tasteless bread product that has soaked up enough water that it won't hurt your teeth chewing.",
     "price": 125,
