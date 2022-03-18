@@ -825,7 +825,7 @@
         { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
         { "item": "log", "x": 3, "y": 2 }
       ],
-      "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 7 } ]
+      "place_npcs": [ { "class": "ranch_woodcutter_2", "x": 4, "y": 7 } ]
     }
   },
   {
