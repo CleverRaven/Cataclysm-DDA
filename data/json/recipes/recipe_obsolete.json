@@ -561,15 +561,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "xl_chainmail_hood",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "xs_chainmail_hood",
-    "obsolete": true
-  },
   {
     "type": "recipe",
     "result": "chainmail_legs",
@@ -608,16 +599,6 @@
   {
     "type": "recipe",
     "result": "chainmail_suit_xs",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "xl_chainmail_suit",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "chainmail_suit",
     "obsolete": true
   },
   {
