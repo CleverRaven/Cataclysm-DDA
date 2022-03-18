@@ -3253,7 +3253,7 @@
     "price": 160000,
     "price_postapoc": 1000,
     "symbol": "[",
-    "material": [ "nylon", "kevlar_layered" ],
+    "material": [ "nylon", "kevlar" ],
     "color": "light_gray",
     "warmth": 15,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
@@ -3304,7 +3304,7 @@
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "encumbrance": 6,
         "coverage": 100,
