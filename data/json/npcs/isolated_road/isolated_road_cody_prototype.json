@@ -167,7 +167,7 @@
         "topic": "TALK_BLACKSMITH_LOUVERTURE_COMPLETE"
       },
       {
-        "text": "[motion to the sledgehammer] What's the 'DISORDER'?",
+        "text": "[motion to the sledge hammer] What's the 'DISORDER'?",
         "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
         "topic": "TALK_BLACKSMITH_DISORDER"
       },
