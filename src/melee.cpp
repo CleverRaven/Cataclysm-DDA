@@ -1939,6 +1939,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         const itype_id current_ammo = cur_weapon.ammo_current();
         // if the weapon needs ammo we now expend it
         cur_weapon.ammo_consume( 1, pos(), this );
+        // thing going off should be as loud as the ammo
+        sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, "Crack!", true );
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
             cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),

@@ -10,4 +10,4 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           # I don't want no bot removing stuff for me
-          # sync-labels: true
+          sync-labels: ""
