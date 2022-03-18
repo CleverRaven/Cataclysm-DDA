@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "bonuses.h"
+#include "effect_on_condition.h"
 #include "calendar.h"
 #include "flat_set.h"
 #include "translations.h"
@@ -199,6 +200,8 @@ class ma_technique
         float move_cost_multiplier( const Character &u ) const;
         float move_cost_penalty( const Character &u ) const;
         float armor_penetration( const Character &u, damage_type type ) const;
+
+        std::vector<effect_on_condition_id> eocs;
 };
 
 class ma_buff
@@ -310,6 +313,31 @@ class martialart
 
         void apply_onkill_buffs( Character &u ) const;
 
+        void activate_eocs( Character &u, const std::vector<effect_on_condition_id> &eocs ) const;
+
+        // activates eocs when conditions are met
+        void apply_static_eocs( Character &u ) const;
+
+        void apply_onmove_eocs( Character &u ) const;
+
+        void apply_onpause_eocs( Character &u ) const;
+
+        void apply_onhit_eocs( Character &u ) const;
+
+        void apply_onattack_eocs( Character &u ) const;
+
+        void apply_ondodge_eocs( Character &u ) const;
+
+        void apply_onblock_eocs( Character &u ) const;
+
+        void apply_ongethit_eocs( Character &u ) const;
+
+        void apply_onmiss_eocs( Character &u ) const;
+
+        void apply_oncrit_eocs( Character &u ) const;
+
+        void apply_onkill_eocs( Character &u ) const;
+
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
@@ -354,6 +382,17 @@ class martialart
         std::vector<mabuff_id> onmiss_buffs;
         std::vector<mabuff_id> oncrit_buffs;
         std::vector<mabuff_id> onkill_buffs;
+        std::vector<effect_on_condition_id> static_eocs; // all eocs triggered by each condition
+        std::vector<effect_on_condition_id> onmove_eocs;
+        std::vector<effect_on_condition_id> onpause_eocs;
+        std::vector<effect_on_condition_id> onhit_eocs;
+        std::vector<effect_on_condition_id> onattack_eocs;
+        std::vector<effect_on_condition_id> ondodge_eocs;
+        std::vector<effect_on_condition_id> onblock_eocs;
+        std::vector<effect_on_condition_id> ongethit_eocs;
+        std::vector<effect_on_condition_id> onmiss_eocs;
+        std::vector<effect_on_condition_id> oncrit_eocs;
+        std::vector<effect_on_condition_id> onkill_eocs;
 };
 
 class ma_style_callback : public uilist_callback
