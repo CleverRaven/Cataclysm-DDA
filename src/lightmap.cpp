@@ -1029,17 +1029,15 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } );
 
         for( const Creature *mon : moncams ) {
-            const tripoint camera_pos = mon->pos();
-
-            int offsetDistance = mon->as_monster()->type->vision_day;
-
-            camera_cache[camera_pos.x][camera_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-
-            castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
+            const tripoint camera_pos = mon->pos();            
+            if( camera_pos.z == target_z ) {
+                int offsetDistance = mon->as_monster()->type->vision_day;
+                camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
+                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+                    camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
+            }
         }
     }
-
 
     const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
