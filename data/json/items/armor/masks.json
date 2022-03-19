@@ -13,9 +13,9 @@
     "looks_like": "hat_cotton",
     "color": "dark_gray",
     "warmth": 30,
-    "material_thickness": 0.5,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "head", "mouth" ] } ]
   },
   {
     "id": "balaclava_cut_resistant",
@@ -24,7 +24,9 @@
     "description": "A face covering garment that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
     "price": 7600,
-    "material": [ "kevlar" ]
+    "material_thickness": 0.5,
+    "material": [ "kevlar" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
   },
   {
     "id": "bandana",

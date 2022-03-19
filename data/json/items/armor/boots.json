@@ -1495,7 +1495,7 @@
     "looks_like": "socks_wool",
     "color": "white",
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
@@ -1507,7 +1507,7 @@
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xssocks",
@@ -1517,7 +1517,7 @@
     "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
     "description": "Socks.  Put 'em on your feet.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "socks_ankle",
@@ -1587,7 +1587,7 @@
     "warmth": 30,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "xlsocks_wool",
@@ -1597,7 +1597,7 @@
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xssocks_wool",
@@ -1606,7 +1606,7 @@
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
     "description": "Warm socks made of wool for a human smaller than previously thought possible.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "stockings",
