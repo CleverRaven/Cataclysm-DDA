@@ -214,7 +214,10 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 0 } ] },
       "next_weather",
-      { "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…", "type": "good" },
+      {
+        "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
+        "type": "good"
+      },
       { "run_eocs": "EOC_WORSEN_PORTAL_STORM" }
     ]
   },

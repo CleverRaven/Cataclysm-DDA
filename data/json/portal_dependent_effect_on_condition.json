@@ -218,10 +218,7 @@
     "//": "Your mind losses focus as an effect of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      {
-        "u_message": "You try to recall what you were about to do, but you can't focus…",
-        "type": "bad"
-      },
+      { "u_message": "You try to recall what you were about to do, but you can't focus…", "type": "bad" },
       { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 10 } ] }
     ]
   },
@@ -334,10 +331,7 @@
     "//": "Your body is being strongly rejected for a few minutes.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      {
-        "u_message": "Your vision suddenly fills with cold sparks.  You feel so alone…",
-        "type": "bad"
-      },
+      { "u_message": "Your vision suddenly fills with cold sparks.  You feel so alone…", "type": "bad" },
       { "u_add_effect": "pd_rejection", "duration": "15 minutes", "intensity": 2 }
     ]
   },
