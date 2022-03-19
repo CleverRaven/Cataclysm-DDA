@@ -115,6 +115,8 @@ A playlist can be included with a format like this:
 
 Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different. 
 
+Playlists are governed mainly by their id, which dictate in which situation a given playlist will be activated. Different situations trigger different ids, and if more than one ids are active at the same time, then the conflict is resolved by a priority model. Basically, each music id are given a hard-coded priority, where ids with higher priority takes precedent.
+
 ## Playlists List
 
 A full list and priority of playlist ids is given in the following.
@@ -130,8 +132,6 @@ This id is assigned with the third highest priority value. Playlists that has th
 
 * `title`
 This id is assigned with the lowest priority value. It will be played only when all other playlists are inactive.
-
- If a sound effect is played with a variant that does not exist in the json files, but a variant "default" exists, then the "default" variant is played instead. The file name of the sound effect is relative to the soundpack directory, so if the file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed at `data/sound/mypack/sfx.wav`.
 
 ## JSON Format Sound Effects List
 
