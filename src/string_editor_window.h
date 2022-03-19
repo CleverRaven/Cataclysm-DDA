@@ -11,6 +11,8 @@
 #include "ui.h"
 #include "ui_manager.h"
 
+class folded_text;
+
 /// <summary>
 /// Editor, to let the player edit text.
 ///
@@ -30,22 +32,20 @@ class string_editor_window
         point _max;
         /*current text*/
         utf8_wrapper _utext;
-        /*foldedtext for display*/
-        std::vector<std::string> _foldedtext;
+        /*folded text for display*/
+        std::unique_ptr<folded_text> _folded;
 
-        /*position of cursor in _utext or as coordinates */
-        int _position = 0;
-        int _xposition = 0;
-        int _yposition = 0;
+        /*codepoint index of cursor in _utext*/
+        int _position = -1;
+        /*display coordinates of cursor*/
+        point _cursor_display;
 
         std::unique_ptr<input_context> ctxt;
-        bool _handled = false;
 
     public:
         string_editor_window( const std::function<catacurses::window()> &create_window,
                               const std::string &text );
-
-        bool handled() const;
+        ~string_editor_window();
 
         /*loop, user input is handled. returns the modified string*/
         const std::string &query_string();
@@ -63,6 +63,6 @@ class string_editor_window
         void cursor_down();
 
         /*returns line and position in folded text for position in text*/
-        std::pair<int, int> get_line_and_position();
+        point get_line_and_position();
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H
