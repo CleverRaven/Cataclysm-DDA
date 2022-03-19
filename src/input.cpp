@@ -1887,6 +1887,9 @@ input_event hotkey_queue::next( const input_event &prev ) const
 
 const hotkey_queue &hotkey_queue::alphabets()
 {
+    // NOTE: if you want to add any parameters to this function, remove the static
+    // modifier of `queue` and return by value instead of by reference.
+    // NOTE: Removal of conflicting keys is handled by `input_context::next_unassigned_key`.
     static std::unique_ptr<hotkey_queue> queue;
     if( !queue ) {
         queue = std::make_unique<hotkey_queue>();
@@ -1905,6 +1908,9 @@ const hotkey_queue &hotkey_queue::alphabets()
 
 const hotkey_queue &hotkey_queue::alpha_digits()
 {
+    // NOTE: if you want to add any parameters to this function, remove the static
+    // modifier of `queue` and return by value instead of by reference.
+    // NOTE: Removal of conflicting keys is handled by `input_context::next_unassigned_key`.
     static std::unique_ptr<hotkey_queue> queue;
     if( !queue ) {
         queue = std::make_unique<hotkey_queue>();
