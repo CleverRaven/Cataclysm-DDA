@@ -433,7 +433,6 @@ class uilist // NOLINT(cata-xy)
 
     private:
         report_color_error _color_error = report_color_error::yes;
-        input_context ctxt;
 
     public:
         // Iternal states
