@@ -10,8 +10,10 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "display.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -22,15 +24,6 @@
 #include "type_id.h"
 
 diary_page::diary_page() = default;
-
-std::vector<std::string> diary::get_pages_list()
-{
-    std::vector<std::string> result;
-    for( std::unique_ptr<diary_page> &n : pages ) {
-        result.push_back( to_string( n->turn ) );
-    }
-    return result;
-}
 
 int diary::set_opened_page( int pagenum )
 {
@@ -579,31 +572,105 @@ std::string diary::get_page_text()
     return "";
 }
 
+static std::string get_time_since_str( const time_duration &turn_diff, int acc )
+{
+    const int days = to_days<int>( turn_diff );
+    const int hours = to_hours<int>( turn_diff ) % 24;
+    const int minutes = to_minutes<int>( turn_diff ) % 60;
+    std::string days_text;
+    std::string hours_text;
+    std::string minutes_text;
+    if( acc >= 2 ) {
+        // full accuracy
+        if( days > 0 ) {
+            days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
+        }
+        if( hours > 0 ) {
+            hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
+        }
+        minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
+    } else if( acc == 1 ) {
+        // partial accuracy, able to see the sky
+        if( days > 0 ) {
+            days_text = string_format( n_gettext( "%d day", "%d days", days ), days );
+        } else if( hours > 0 ) {
+            //~ Estimate of how much time has passed since the last entry
+            days_text = _( "Less than a day" );
+        } else {
+            //~ Estimate of how much time has passed since the last entry
+            days_text = _( "Not long" );
+        }
+    } else {
+        // no idea what time it is
+        //~ Estimate of how much time has passed since the last entry
+        days_text = days > 0 ? _( "A long while" ) : hours > 0 ? _( "A while" ) : _( "A short while" );
+    }
+    //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+    return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
+}
+
+static std::string get_time_approx_str( const time_point &turn, int acc )
+{
+    if( acc >= 2 ) {
+        // full accuracy
+        return to_string( turn );
+    } else {
+        const int year = to_turns<int>( turn - calendar::turn_zero ) /
+                         to_turns<int>( calendar::year_length() ) + 1;
+        const int day = day_of_season<int>( turn ) + 1;
+        if( acc < 1 ) {
+            // normalized to 100 day seasons
+            const int day_norm = ( day * 100 ) / to_days<int>( calendar::season_length() );
+            // no idea what time it is
+            std::string seas_point;
+            if( day_norm < 33 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Early" );
+            } else if( day_norm < 66 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Mid" );
+            } else {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Late" );
+            }
+            //~ Estimated day-of-season string: $1 = Early/Mid/Late, $2 = Spring/Summer/Fall/Winter
+            std::string season = string_format( _( "%1$s %2$s" ), seas_point,
+                                                calendar::name_season( season_of_year( turn ) ) );
+            //~ Time of year: $1 = year since Cataclysm, $2 = season
+            return string_format( "Year %1$d, %2$s", year, season );
+        } else {
+            // partial accuracy, able to see the sky
+            //~ Time of year:
+            //~ $1 = year since Cataclysm
+            //~ $2 = season
+            //~ $3 = day of season
+            //~ $4 = approximate time of day
+            return string_format( "Year %1$d, %2$s, day %3$d, %4$s", year,
+                                  calendar::name_season( season_of_year( turn ) ), day, display::time_approx() );
+        }
+    }
+}
+
+std::vector<std::string> diary::get_pages_list()
+{
+    std::vector<std::string> result;
+    for( std::unique_ptr<diary_page> &n : pages ) {
+        result.push_back( get_time_approx_str( n->turn, n->time_accuracy ) );
+    }
+    return result;
+}
+
 std::string diary::get_head_text()
 {
 
     if( !pages.empty() ) {
         const diary_page *prevpageptr = get_page_ptr( -1 );
+        const diary_page *currpageptr = get_page_ptr();
         const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn : calendar::turn_zero;
-        const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
-        const int days = to_days<int>( turn_diff );
-        const int hours = to_hours<int>( turn_diff ) % 24;
-        const int minutes = to_minutes<int>( turn_diff ) % 60;
+        const time_duration turn_diff = currpageptr->turn - prev_turn;
         std::string time_diff_text;
         if( opened_page != 0 ) {
-            std::string days_text;
-            std::string hours_text;
-            std::string minutes_text;
-            if( days > 0 ) {
-                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
-            }
-            if( hours > 0 ) {
-                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
-            }
-            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
-            //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
-                                            days_text, hours_text, minutes_text );
+            time_diff_text = get_time_since_str( turn_diff, currpageptr->time_accuracy );
         }
         //~ Head text of a diary page
         //~ %1$d is the current page number, %2$d is the number of pages in total
@@ -611,7 +678,7 @@ std::string diary::get_head_text()
         //~ %4$s is time relative to the previous page
         return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
                               opened_page + 1, pages.size(),
-                              to_string( get_page_ptr()->turn ),
+                              get_time_approx_str( currpageptr->turn, currpageptr->time_accuracy ),
                               time_diff_text );
     }
     return "";
@@ -643,6 +710,7 @@ void diary::new_page()
     page -> kills = g ->get_kill_tracker().kills;
     page -> npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
+    page -> time_accuracy = u->has_watch() ? 2 : get_map().get_abs_sub().z() >= 0 ? 1 : 0;
     page -> mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page -> mission_active = mission::to_uid_vector( u->get_active_missions() );
     page -> mission_failed = mission::to_uid_vector( u->get_failed_missions() );
@@ -728,6 +796,7 @@ void diary::serialize( JsonOut &jsout )
         jsout.start_object();
         jsout.member( "text", n->m_text );
         jsout.member( "turn", n->turn );
+        jsout.member( "time_acc", n->time_accuracy );
         jsout.member( "completed", n->mission_completed );
         jsout.member( "active", n->mission_active );
         // TODO: migrate "faild" to "failed"?
@@ -781,6 +850,7 @@ void diary::deserialize( JsonIn &jsin )
             std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );
+            elem.read( "time_acc", page->time_accuracy );
             elem.read( "active", page->mission_active );
             elem.read( "completed", page->mission_completed );
             // TODO: migrate "faild" to "failed"?
