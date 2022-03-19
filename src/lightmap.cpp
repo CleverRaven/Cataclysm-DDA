@@ -1029,7 +1029,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         } );
 
         for( const Creature *mon : moncams ) {
-            const tripoint camera_pos = mon->pos();            
+            const tripoint camera_pos = mon->pos();
             if( camera_pos.z == target_z ) {
                 int offsetDistance = mon->as_monster()->type->vision_day;
                 camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
