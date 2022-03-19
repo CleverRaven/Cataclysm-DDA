@@ -10,7 +10,8 @@ enum music_id {
     mp3,
     instrument,
     sound,
-    title
+    title,
+    _LAST
 };
 
 extern std::map<music_id, bool> music_id_list;
@@ -29,5 +30,5 @@ void deactivate_music_id_all();
 // Use io::string_to_enum<music_id>( music_id ) to convert a string to music_id.
 template<>
 struct enum_traits<music::music_id> {
-    static constexpr music::music_id last = music::music_id::title;
+    static constexpr music::music_id last = music::music_id::_LAST;
 };

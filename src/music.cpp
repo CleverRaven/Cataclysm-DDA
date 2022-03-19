@@ -16,6 +16,8 @@ std::string enum_to_string<music::music_id>( music::music_id data )
             return "sound";
         case music::music_id::title:
             return "title";
+        case music::music_id::_LAST:
+            break;
     }
 
     cata_fatal( "Invalid music_id in enum_to_string" );
