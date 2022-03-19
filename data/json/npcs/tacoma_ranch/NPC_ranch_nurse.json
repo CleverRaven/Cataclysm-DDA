@@ -72,19 +72,19 @@
     "dynamic_line": {
       "npc_has_effect": "currently_busy",
       "yes": "Come back later, I need to take care of a few things first.",
-      "no": "I can take a look at you or your companions if you are injured."
+      "no": "I can take a look at you or your companions if you have any small injuries.  Anything more than some bleeding and you'll need to get a doctor to take a look."
     },
     "responses": [
       {
-        "text": "[$200, 30m] I need you to patch me up.",
+        "text": "[$100, 15m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
+        "effect": [ "lesser_give_aid", { "u_spend_cash": 10000 } ],
         "condition": { "npc_service": true }
       },
       {
-        "text": "[$500, 1h] I need you to patch me up.",
+        "text": "[$250, 30h] I need you to patch my friends up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
+        "effect": [ "lesser_give_all_aid", { "u_spend_cash": 25000 } ],
         "condition": { "npc_service": true }
       },
       { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
@@ -117,6 +117,9 @@
       "success": "We'll go through this pretty quickly but it does help.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [ { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12" ], "x": 17, "y": 7 } ] } ]
     }
   },
   {
@@ -128,7 +131,6 @@
     "value": 50000,
     "item": "hotplate",
     "count": 3,
-    "start": "ranch_nurse_1",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_3",
     "dialogue": {
@@ -141,6 +143,18 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "set": [
+            { "square": "furniture", "id": "f_rack", "x": 3, "y": 4, "x2": 3, "y2": 5 },
+            { "square": "furniture", "id": "f_counter", "x": 5, "y": 5, "x2": 7, "y2": 5 }
+          ],
+          "place_item": [ { "item": "manual_first_aid", "x": 3, "y": 4 } ]
+        }
+      ]
     }
   },
   {
@@ -152,7 +166,6 @@
     "value": 50000,
     "item": "vitamins",
     "count": 200,
-    "start": "ranch_nurse_2",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_4",
     "dialogue": {
@@ -165,6 +178,25 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 2, "y": 16, "x2": 9, "y2": 23 },
+            { "square": "terrain", "id": "t_dirt", "x": 13, "y": 16, "x2": 20, "y2": 23 },
+            { "square": "terrain", "id": "t_dirt", "x": 10, "y": 17, "x2": 12, "y2": 23 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 4, "y": 0, "x2": 18, "y2": 2 },
+            { "square": "terrain", "id": "t_dirt", "x": 10, "y": 3, "x2": 12, "y2": 4 }
+          ]
+        }
+      ]
     }
   },
   {
@@ -176,7 +208,6 @@
     "value": 50000,
     "item": "char_purifier",
     "count": 4,
-    "start": "ranch_nurse_3",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_5",
     "dialogue": {
@@ -189,6 +220,15 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_50", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13a" ], "x": 2, "y": 5 } ] },
+        {
+          "om_terrain": "ranch_camp_59",
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13b" ], "x": 4, "y": 0 } ]
+        }
+      ]
     }
   },
   {
@@ -199,7 +239,6 @@
     "difficulty": 5,
     "value": 50000,
     "item": "chemistry_set",
-    "start": "ranch_nurse_4",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_6",
     "dialogue": {
@@ -212,6 +251,25 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ],
+          "set": [
+            { "point": "terrain", "id": "t_window_empty", "x": 2, "y": 18 },
+            { "point": "terrain", "id": "t_window_empty", "x": 2, "y": 21 },
+            { "point": "terrain", "id": "t_window_empty", "x": 20, "y": 18 },
+            { "point": "terrain", "id": "t_window_empty", "x": 20, "y": 21 },
+            { "point": "terrain", "id": "t_window_empty", "x": 11, "y": 17 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ]
+        }
+      ]
     }
   },
   {
@@ -223,7 +281,6 @@
     "value": 50000,
     "item": "mask_filter",
     "count": 10,
-    "start": "ranch_nurse_5",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_7",
     "dialogue": {
@@ -236,6 +293,31 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "translate_ter": [
+            { "from": "t_window_empty", "to": "t_window_boarded_noglass", "x": 0, "y": 0 },
+            { "from": "t_door_frame", "to": "t_door_c", "x": 0, "y": 0 }
+          ],
+          "set": [
+            { "square": "terrain", "id": "t_dirtfloor", "x": 3, "y": 17, "x2": 8, "y2": 22 },
+            { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 17, "x2": 19, "y2": 22 },
+            { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "translate_ter": [ { "from": "t_door_frame", "to": "t_door_c", "x": 0, "y": 0 } ],
+          "set": [
+            { "square": "terrain", "id": "t_dirtfloor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
+            { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
+            { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 0, "x2": 17, "y2": 2 }
+          ]
+        }
+      ]
     }
   },
   {
@@ -247,7 +329,6 @@
     "value": 50000,
     "item": "gloves_rubber",
     "count": 4,
-    "start": "ranch_nurse_6",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_8",
     "dialogue": {
@@ -260,6 +341,27 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "set": [
+            { "square": "terrain", "id": "t_floor", "x": 3, "y": 17, "x2": 8, "y2": 22 },
+            { "square": "terrain", "id": "t_floor", "x": 14, "y": 17, "x2": 19, "y2": 22 },
+            { "square": "terrain", "id": "t_floor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "set": [
+            { "square": "terrain", "id": "t_floor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
+            { "square": "terrain", "id": "t_floor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
+            { "square": "terrain", "id": "t_floor", "x": 14, "y": 0, "x2": 17, "y2": 2 },
+            { "square": "furniture", "id": "f_rack", "x": 17, "y": 0, "x2": 17, "y2": 2 }
+          ]
+        }
+      ]
     }
   },
   {
@@ -271,7 +373,6 @@
     "value": 50000,
     "item": "scalpel",
     "count": 2,
-    "start": "ranch_nurse_7",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_9",
     "dialogue": {
@@ -284,6 +385,30 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "place_nested": [
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 4, "y": 21 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 7, "y": 21 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 15, "y": 21 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 18, "y": 21 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 4, "y": 17 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 7, "y": 17 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 15, "y": 17 },
+            { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 18, "y": 17 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "place_items": [
+            { "chance": 75, "item": "cleaning", "x": [ 17, 17 ], "y": [ 0, 2 ] },
+            { "chance": 75, "item": "surgery", "x": [ 15, 18 ], "y": [ 4, 4 ] }
+          ]
+        }
+      ]
     }
   },
   {
@@ -294,7 +419,6 @@
     "difficulty": 5,
     "value": 50000,
     "item": "emergency_book",
-    "start": "ranch_nurse_8",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
@@ -307,6 +431,29 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_50",
+          "set": [
+            { "point": "furniture", "id": "f_dresser", "x": 3, "y": 22 },
+            { "point": "furniture", "id": "f_dresser", "x": 8, "y": 22 },
+            { "point": "furniture", "id": "f_dresser", "x": 14, "y": 22 },
+            { "point": "furniture", "id": "f_dresser", "x": 19, "y": 22 },
+            { "point": "furniture", "id": "f_dresser", "x": 3, "y": 17 },
+            { "point": "furniture", "id": "f_dresser", "x": 8, "y": 17 },
+            { "point": "furniture", "id": "f_dresser", "x": 14, "y": 17 },
+            { "point": "furniture", "id": "f_dresser", "x": 19, "y": 17 }
+          ],
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ],
+          "place_npcs": [ { "class": "ranch_doctor", "x": 16, "y": 19 } ]
+        },
+        {
+          "om_terrain": "ranch_camp_59",
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ]
+        }
+      ]
     }
   },
   {
@@ -318,7 +465,6 @@
     "value": 50000,
     "item": "syringe",
     "count": 10,
-    "start": "ranch_nurse_9",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
     "dialogue": {
