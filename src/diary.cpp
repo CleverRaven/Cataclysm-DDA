@@ -13,7 +13,6 @@
 #include "display.h"
 #include "filesystem.h"
 #include "game.h"
-#include "map.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -637,7 +636,7 @@ static std::string get_time_approx_str( const time_point &turn, int acc )
             std::string season = string_format( _( "%1$s %2$s" ), seas_point,
                                                 calendar::name_season( season_of_year( turn ) ) );
             //~ Time of year: $1 = year since Cataclysm, $2 = season
-            return string_format( "Year %1$d, %2$s", year, season );
+            return string_format( _( "Year %1$d, %2$s" ), year, season );
         } else {
             // partial accuracy, able to see the sky
             //~ Time of year:
@@ -645,7 +644,7 @@ static std::string get_time_approx_str( const time_point &turn, int acc )
             //~ $2 = season
             //~ $3 = day of season
             //~ $4 = approximate time of day
-            return string_format( "Year %1$d, %2$s, day %3$d, %4$s", year,
+            return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
                                   calendar::name_season( season_of_year( turn ) ), day, display::time_approx() );
         }
     }
@@ -710,7 +709,7 @@ void diary::new_page()
     page -> kills = g ->get_kill_tracker().kills;
     page -> npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
-    page -> time_accuracy = u->has_watch() ? 2 : get_map().get_abs_sub().z() >= 0 ? 1 : 0;
+    page -> time_accuracy = u->has_watch() ? 2 : is_creature_outside( *u ) ? 1 : 0;
     page -> mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page -> mission_active = mission::to_uid_vector( u->get_active_missions() );
     page -> mission_failed = mission::to_uid_vector( u->get_failed_missions() );

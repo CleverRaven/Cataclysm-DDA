@@ -27,7 +27,8 @@ struct diary_page {
     std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
-    /*accuracy of time recorded in journal entry*/
+    /*accuracy of time recorded in journal entry:
+    2 = player has a watch; 1 = player is able to see the sky; 0 = no idea what time is it now*/
     int time_accuracy = 0;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
