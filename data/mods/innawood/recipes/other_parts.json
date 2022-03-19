@@ -30,8 +30,8 @@
       { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 1.5 }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
- },
- {
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "well_pump",
@@ -50,8 +50,10 @@
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ],
+      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "pipe", 2 ] ],
       [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
   }
 ]
