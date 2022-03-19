@@ -9,13 +9,12 @@
 #include "options.h"
 #endif
 
-string_editor_window::string_editor_window( catacurses::window &win, const std::string &text )
+string_editor_window::string_editor_window(
+    const std::function<catacurses::window()> &create_window,
+    const std::string &text )
 {
-    _win = win;
-    _max.x = getmaxx( win );
-    _max.y =  getmaxy( win );
+    _create_window = create_window;
     _utext = utf8_wrapper( text );
-    _foldedtext = foldstring( _utext.str(), _max.x - 1 );
 }
 
 std::pair<int, int> string_editor_window::get_line_and_position()
@@ -91,7 +90,7 @@ bool string_editor_window::handled() const
 
 void string_editor_window::create_context()
 {
-    ctxt = std::make_unique<input_context>();
+    ctxt = std::make_unique<input_context>( "default", keyboard_mode::keychar );
     ctxt->register_action( "ANY_INPUT" );
 }
 
@@ -144,7 +143,7 @@ void string_editor_window::cursor_down()
     _position = _position % _utext.size();
 }
 
-const std::string &string_editor_window::query_string( bool loop )
+const std::string &string_editor_window::query_string()
 {
     if( !ctxt ) {
         create_context();
@@ -155,6 +154,24 @@ const std::string &string_editor_window::query_string( bool loop )
         _position = _utext.length();
     }
 
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        _win = _create_window();
+        _max.x = getmaxx( _win );
+        _max.y =  getmaxy( _win );
+        _foldedtext = foldstring( _utext.str(), _max.x - 1 );
+        const auto line_position = get_line_and_position();
+        _xposition = line_position.second;
+        _yposition = line_position.first;
+        ui.position_from_window( _win );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( _win );
+        print_editor();
+        wnoutrefresh( _win );
+    } );
+
     int ch = 0;
     do {
         _foldedtext = foldstring( _utext.str(), _max.x - 1 );
@@ -162,9 +179,7 @@ const std::string &string_editor_window::query_string( bool loop )
         _xposition = line_position.second;
         _yposition = line_position.first;
 
-        werase( _win );
-        print_editor();
-        wnoutrefresh( _win );
+        ui_manager::redraw();
 
         const std::string action = ctxt->handle_input();
         const input_event ev = ctxt->get_raw_input();
@@ -253,7 +268,7 @@ const std::string &string_editor_window::query_string( bool loop )
         } else {
             _handled = false;
         }
-    } while( loop );
+    } while( true );
 
     return _utext.str();
 }

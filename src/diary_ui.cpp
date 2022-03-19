@@ -200,10 +200,10 @@ void diary::show_diary_ui( diary *c_diary )
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
 
         std::string desc = string_format( _( "%s, %s, %s, %s" ),
-                                          ctxt.get_desc( "NEW_PAGE", "new page", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "CONFIRM", "Edit text", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "DELETE PAGE", "Delete page", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_DIARY", "Export diary", input_context::allow_all_keys )
+                                          ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
                                         );
         center_print( w_desc, 1,  c_white, desc );
 
@@ -279,7 +279,9 @@ void diary::show_diary_ui( diary *c_diary )
 
         } else if( action == "CONFIRM" ) {
             if( !c_diary->pages.empty() ) {
-                c_diary->edit_page_ui( w_text );
+                c_diary->edit_page_ui( [&]() {
+                    return w_text;
+                } );
             }
         } else if( action == "NEW_PAGE" ) {
             c_diary->new_page();
@@ -349,14 +351,16 @@ void diary::edit_page_ui()
 
 }
 
-void diary::edit_page_ui( catacurses::window &win )
+void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
     const std::string old_text = get_page_ptr()->m_text;
     std::string new_text = old_text;
 
-    string_editor_window ed = string_editor_window( win, get_page_ptr()->m_text );
+    string_editor_window ed = string_editor_window( [&]() {
+        return create_window();
+    }, get_page_ptr()->m_text );
 
-    new_text = ed.query_string( true );
+    new_text = ed.query_string();
 
     if( new_text.empty() && !old_text.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {

@@ -101,7 +101,7 @@ class diary
         because its just one line*/
         void edit_page_ui();
         /*Uses editor window class to edit the text.*/
-        void edit_page_ui( catacurses::window &win );
+        void edit_page_ui( const std::function<catacurses::window()> &create_window );
         /*set page to be be shown in ui*/
         int set_opened_page( int pagenum );
         /*create a new page and adds current character progression*/

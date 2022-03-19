@@ -15,8 +15,8 @@
 /// Editor, to let the player edit text.
 ///
 /// Example:
-/// string_editor_window ed = string_editor_window(win, text);
-/// new_text = ed.query_string(true);
+/// string_editor_window ed = string_editor_window( create_window, text );
+/// new_text = ed.query_string();
 ///
 /// </summary>
 class string_editor_window
@@ -24,6 +24,8 @@ class string_editor_window
     private:
         /*window it is shown in*/
         catacurses::window _win;
+        /*callback to create a window during initialization and after screen resize*/
+        std::function<catacurses::window()> _create_window;
         /*max X and Y size*/
         point _max;
         /*current text*/
@@ -40,12 +42,13 @@ class string_editor_window
         bool _handled = false;
 
     public:
-        string_editor_window( catacurses::window &win, const std::string &text );
+        string_editor_window( const std::function<catacurses::window()> &create_window,
+                              const std::string &text );
 
         bool handled() const;
 
         /*loop, user input is handled. returns the modified string*/
-        const std::string &query_string( bool loop );
+        const std::string &query_string();
 
     private:
         /*print the editor*/
