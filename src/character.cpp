@@ -8482,6 +8482,26 @@ int Character::get_painkiller() const
     return pkill;
 }
 
+void Character::remove_moncam( mtype_id moncam_id )
+{
+    moncams.erase( moncam_id );
+}
+
+void Character::add_moncam( std::pair<mtype_id, int> moncam )
+{
+    moncams.insert( moncam );
+}
+
+void Character::set_moncams( std::map<mtype_id, int> nmoncams )
+{
+    moncams = nmoncams;
+}
+
+std::map<mtype_id, int> Character::get_moncams() const
+{
+    return moncams;
+}
+
 void Character::use_fire( const int quantity )
 {
     //Okay, so checks for nearby fires first,
