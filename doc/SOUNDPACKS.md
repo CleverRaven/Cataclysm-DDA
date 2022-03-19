@@ -35,11 +35,32 @@ Sound effects can be included with a format like this:
     "variant": "bio_laser_gun",
     "season": "summer",
     "files": [ "guns/energy_generic/weapon_fire_laser.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "open_door",
+    "volume": 75,
+    "variant": "t_door_c",
+    "season": "summer",
+    "is_indoors": true,
+    "is_night": false,
+    "files": [ "indoors/open_door_daytime.ogg" ]
   }
 ]
 ```
 
-Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played. An optional `season` may also be defined to only play that sound during the specified season (possible values are `spring`, `summer`, `autumn`, and `winter`).
+##### Adding variety
+
+Several optional fields can be defined to target specific situations:
+
+| Field        | Purpose
+|---           |---
+| `variant`    | Defines a specific subset of the id's sound group. (ex: `"id": "environment", "variant": "WEATHER_DRIZZLE"`)
+| `season`     | If defined, the sound will only play on the specified season. (possible values are `spring`, `summer`, `autumn`, and `winter`).
+| `is_indoors` | If defined, the sound will only play if the player is indoors/outdoors when true/false.
+| `is_night`   | If defined, the sound will only play if the current time is night/day when true/false.
+
+If multiple `files` are defined for the sound effect, one will be chosen at random when the sound is played.
 
 The volume key may range from 0-100.
 
@@ -54,7 +75,7 @@ Sound effects can be included for preloading with a format like this:
   {
     "type": "sound_effect_preload",
     "preload": [
-      { "id": "environment", "variant": "daytime", "season": "spring" },
+      { "id": "environment", "variant": "thunder_near", "season": "spring", "is_night": false },
       { "id": "environment" }
     ]
   }

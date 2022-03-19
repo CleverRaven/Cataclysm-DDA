@@ -229,7 +229,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = get_container( from_vehicle );
             }
             if( it ) {
-                canputitems = it->is_watertight_container();
+                canputitems = true;
             }
             break;
         }

@@ -36,6 +36,7 @@
     "name": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100 },
+      { "monster": "mon_anzu", "weight": 50 },
       { "monster": "mon_eoraptor", "weight": 100 },
       { "monster": "mon_dimorphodon", "weight": 100 }
     ]

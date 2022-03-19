@@ -39,12 +39,11 @@
   {
     "type": "overmap_special",
     "id": "Boat Rental",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north", "locations": [ "lake_shore" ] } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
-    "locations": [ "water" ],
-    "city_distance": [ 5, 15 ],
+    "city_distance": [ 5, 40 ],
     "occurrences": [ 0, 5 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -285,6 +284,28 @@
       { "point": [ 1, 0, 0 ], "overmap": "lodge_ground2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
       { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "existing": true, "from": [ 0, 0, 0 ] } ],
+    "locations": [ "land", "swamp" ],
+    "city_distance": [ 15, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Hunting Lodge Glooscap",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground_glooscap1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lodge_ground_glooscap2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential1_north" },
       { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential2_north" }
     ],

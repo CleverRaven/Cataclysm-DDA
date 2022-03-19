@@ -2100,7 +2100,11 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->symbol;
+                if( !tmp->is_linear() ) {
+                    sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
+                } else {
+                    sym = tmp->symbol;
+                }
                 col = tmp->color;
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
