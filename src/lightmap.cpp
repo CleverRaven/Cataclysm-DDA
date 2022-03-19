@@ -51,9 +51,6 @@
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
-static const trait_id trait_bodycam( "bodycam" );
-static const trait_id trait_camera_hud( "camera_hud" );
-
 static constexpr int LIGHTMAP_CACHE_X = MAPSIZE_X;
 static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 
