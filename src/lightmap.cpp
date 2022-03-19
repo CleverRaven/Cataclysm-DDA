@@ -1021,27 +1021,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0, directions_to_cast );
     }
 
-    // if the character can see through others view
-    if( get_avatar().has_trait( trait_camera_hud ) ) {
-        const std::vector<npc *> followers = g->get_npcs_if( [&]( const npc & guy ) {
-            // if the person has a bodycam and is nearby
-            return guy.is_player_ally() && guy.has_trait( trait_bodycam ) &&
-                   ( square_dist( get_avatar().pos(), guy.pos() ) < 50 );
-        } );
-
-        for( const npc *guy : followers ) {
-            const tripoint camera_pos = guy->pos();
-
-            // fixed for now maybe should be unhardcoded
-            int offsetDistance = 30;
-
-            camera_cache[camera_pos.x][camera_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-
-            castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
-        }
-    }
-
     for( const std::pair<mtype_id, int> moncam : get_avatar().get_moncams() ) {
         const std::vector<Creature *> moncams = g->get_creatures_if( [&]( const Creature & c ) {
             if( !c.is_monster() ) {
