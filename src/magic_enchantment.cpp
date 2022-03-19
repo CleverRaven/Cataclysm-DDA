@@ -72,6 +72,7 @@ namespace io
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
+            case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
