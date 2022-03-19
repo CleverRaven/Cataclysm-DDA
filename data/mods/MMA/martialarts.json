@@ -250,24 +250,7 @@
       "mma_tec_iron_heart_wide",
       "mma_tec_iron_heart_wide_crit"
     ],
-    "weapons": [
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "hand_axe",
-      "hatchet",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "makeshift_axe",
-      "sword_wood"
-    ]
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
