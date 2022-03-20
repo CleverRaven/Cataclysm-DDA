@@ -5,7 +5,7 @@
     "id": "animal",
     "symbol": "?",
     "color": "white",
-    "name": { "str": "animal"},
+    "name": { "str": "animal" },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
