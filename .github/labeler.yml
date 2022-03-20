@@ -21,6 +21,13 @@
 "NPC / Factions":
   - data/json/npcs/**/*
 
+"Monsters":
+  - data/json/monsters/**/*
+
+"Spawn":
+  - data/json/itemgroups/**/*
+  - data/json/monster`groups/**/*
+
 "Bionics":
   - "data/json/bionics.json"
 
