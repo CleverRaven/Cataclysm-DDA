@@ -18,26 +18,26 @@
     },
     "place_loot": {
       "a": [
-        { "item": "tools_anvil", "chance": 75, "repeat": [ 1, 2 ] },
-        { "item": "mithril_ingot", "chance": 10 },
-        { "item": "scrap_copper", "chance": 40 }
+        { "item": "tools_anvil", "x": [ 0, 24 ], "y": [ 0, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "item": "mithril_ingot", "x": [ 0, 23 ], "y": [ 0, 25 ], "chance": 10 },
+        { "item": "scrap_copper", "x": [ 0, 22 ], "y": [ 0, 21 ], "chance": 40 }
       ],
       "m": [
-        { "item": "tools_anvil", "chance": 25 },
-        { "item": "clamp", "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "metal_file", "chance": 50 },
-        { "item": "pin_reamer", "chance": 25 },
-        { "item": "mithril_ingot", "chance": 10 },
-        { "item": "scrap_copper", "chance": 80, "repeat": [ 1, 3 ] }
+        { "group": "tools_anvil", "x": [ 0, 13 ], "y": [ 0, 22 ], "chance": 25 },
+        { "item": "clamp", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "x": [ 0, 23 ], "y": [ 0, 15 ], "metal_file", "chance": 50 },
+        { "item": "x": [ 0, 23 ], "y": [ 0, 21 ],"pin_reamer", "chance": 25 },
+        { "item": "mithril_ingot", "x": [ 0, 15 ], "y": [ 0, 21 ], "chance": 10 },
+        { "item": "scrap_copper", "x": [ 0, 23 ], "y": [ 0, 12 ], "chance": 80, "repeat": [ 1, 3 ] }
       ],
       "w": [
-        { "item": "misc_repairkit", "chance": 25 },
-        { "item": "hammer", "chance": 90 },
-        { "item": "sandpaper", "chance": 90 },
-        { "item": "clamp", "chance": 90, "repeat": [ 2, 4 ] },
-        { "item": "xacto", "chance": 10 }
+        { "item": "misc_repairkit", "x": [ 0, 23 ], "y": [ 0, 14 ], "chance": 25 },
+        { "item": "hammer", "x": [ 0, 23 ], "y": [ 0, 17 ],"chance": 90 },
+        { "item": "sandpaper", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 90 },
+        { "item": "clamp", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 90, "repeat": [ 2, 4 ] },
+        { "item": "xacto", "x": [ 0, 23 ], "y": [ 0, 13 ], "chance": 10 }
       ],
-      "f": [ { "item": "alumentum" } ]
+      "f": [ { "item": "alumentum" }, "x": [ 0, 23 ], "y": [ 0, 21 ], "chance": 25  ]
     }
   },
   {
