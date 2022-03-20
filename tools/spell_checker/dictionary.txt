@@ -1692,6 +1692,7 @@ testbed
 tetradrachm
 th
 thawb
+thawbs
 thermochemistry
 thermoplastics
 thonged
@@ -1719,6 +1720,7 @@ toolmaking
 toolmod
 toolset
 toolshelf
+topazes
 toroids
 torosaurus
 totipotent
