@@ -4579,7 +4579,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
-        as_m.entries.emplace_back( 1, true, '1', _( "Robot finds Kitten" ) );
+        as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
