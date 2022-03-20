@@ -3824,10 +3824,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                     if( get_avatar().sees( *spawned ) ) {
                         visible_spawns++;
                     }
-                }
-                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
-                if( lifespan.value() > 0_seconds ) {
-                    spawned->set_summon_time( lifespan.value() );
+                    lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
+                    if( lifespan.value() > 0_seconds ) {
+                        spawned->set_summon_time( lifespan.value() );
+                    }
                 }
             }
         }
