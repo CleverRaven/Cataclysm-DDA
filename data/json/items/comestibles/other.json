@@ -265,7 +265,7 @@
     "symbol": "%",
     "calories": 6,
     "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
-    "description": "Fresh gellatine.  Not vegan-friendly!",
+    "description": "Fresh gelatin.  Not vegan-friendly!",
     "price": 150,
     "price_postapoc": 50,
     "material": [ "flesh" ],
