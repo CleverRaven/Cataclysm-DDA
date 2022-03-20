@@ -420,7 +420,7 @@
     "stack_size": 10,
     "fun": 30,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
