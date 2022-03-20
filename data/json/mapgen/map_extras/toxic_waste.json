@@ -26,7 +26,7 @@
     "nested_mapgen_id": "toxic_gas_vent",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 1, "age": 10 } ],
+      "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 0 } ],
       "set": [ { "point": "terrain", "id": "t_pit", "x": 0, "y": 0 } ]
     }
   },
@@ -53,14 +53,14 @@
         "                        ",
         "                        ",
         "                        ",
-        "         ^-!-           ",
+        "         ^--!           ",
         "         ---~-          ",
         "        -~-~---^        ",
         "        -~~~~~--        ",
         "     !   -~~---         ",
         "        -~----          ",
-        "       ----^!-          ",
-        "         -              ",
+        "       ----^--          ",
+        "         -   !          ",
         "                        ",
         "                        ",
         "                        ",
