@@ -457,28 +457,29 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
         }
 
         for( const character_modifier &mod : character_modifier::get_all() ) {
-            const limb_score_id &sc = mod.use_limb_score();
-            if( sc.is_null() || !part->has_limb_score( sc ) ) {
-                continue;
-            }
-            std::string desc = mod.description().translated();
-            float injury_score = bp->get_limb_score( sc, 0, 0, 1 );
-            float max_score = part->get_limb_score( sc );
-            nc_color score_c;
+            for( const auto &sc : mod.use_limb_scores() ) {
+                if( sc.first.is_null() || !part->has_limb_score( sc.first ) ) {
+                    continue;
+                }
+                std::string desc = mod.description().translated();
+                float injury_score = bp->get_limb_score( sc.first, 0, 0, 1 );
+                float max_score = part->get_limb_score( sc.first );
+                nc_color score_c;
 
-            if( injury_score < max_score * 0.4f ) {
-                score_c = c_red;
-            } else if( injury_score < max_score * 0.6f ) {
-                score_c = c_light_red;
-            } else if( injury_score < max_score * 0.75f ) {
-                score_c = c_yellow;
-            } else {
-                score_c = c_white;
-            }
+                if( injury_score < max_score * 0.4f ) {
+                    score_c = c_red;
+                } else if( injury_score < max_score * 0.6f ) {
+                    score_c = c_light_red;
+                } else if( injury_score < max_score * 0.75f ) {
+                    score_c = c_yellow;
+                } else {
+                    score_c = c_white;
+                }
 
-            std::string valstr = colorize( string_format( "%.2f", mod.modifier( *player->as_character() ) ),
-                                           score_c );
-            detail_str += string_format( "%s: %s%s\n", desc, mod.mod_type_str(), valstr );
+                std::string valstr = colorize( string_format( "%.2f", mod.modifier( *player->as_character() ) ),
+                                               score_c );
+                detail_str += string_format( "%s: %s%s\n", desc, mod.mod_type_str(), valstr );
+            }
         }
 
         line.set_detail( string_format( _( "%s STATS" ), to_upper_case( bp_name ) ), detail_str );
