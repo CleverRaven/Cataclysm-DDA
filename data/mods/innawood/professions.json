@@ -3,7 +3,7 @@
     "type": "profession",
     "id": "goat_man",
     "name": { "male": "Goat Man", "female": "Goat Lady" },
-    "description": "Nobody around?  Oh well, it doesn't matter. Your beloved goats are all you need!",
+    "description": "Nobody around?  Oh well, it doesn't matter.  Your beloved goats are all you need!",
     "points": 2,
     "skills": [ { "level": 2, "name": "cooking" } ],
     "pets": [ { "name": "mon_goat", "amount": 2 } ],
