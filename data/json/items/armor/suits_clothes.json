@@ -197,7 +197,7 @@
     "name": { "str": "XS jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_jumpsuit",

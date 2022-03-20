@@ -54,7 +54,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1" ],
-    "emit_fields": [ { "emit_id": "emit_shock_burst", "delay": "5 s" } ]
+    "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
   {
     "id": "mon_tunnel_rat",

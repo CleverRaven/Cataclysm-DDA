@@ -536,7 +536,7 @@
     "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
     "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_bronze",
@@ -546,7 +546,7 @@
     "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
     "description": "A pair of tiny bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_hard",
@@ -616,7 +616,7 @@
     "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
     "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "STURDY", "OVERSIZE", "VARSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_lightplate",
@@ -626,7 +626,7 @@
     "name": { "str": "pair of XS steel leg guards", "str_pl": "pairs of XS steel leg guards" },
     "description": "A full assembly of medieval leg protection for the smallest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_metal",
@@ -665,7 +665,7 @@
     "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
     "description": "A pair of extra large iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_metal",
@@ -675,7 +675,7 @@
     "name": { "str": "pair of XS iron greaves", "str_pl": "pairs of XS iron greaves" },
     "description": "A pair of extra small iron leg guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_metal_sheets",
@@ -715,7 +715,7 @@
     "name": { "str": "pair of XL metal leg guards", "str_pl": "pairs of XL metal leg guards" },
     "description": "A pair of extra large hammered metal plates tied to your legs.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE", "ALLOWS_TAIL" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_metal_sheets",
@@ -725,7 +725,7 @@
     "name": { "str": "pair of XS metal leg guards", "str_pl": "pairs of XS metal leg guards" },
     "description": "A pair of extra small leg guards hammered out of metal shaped to strap on to the upper and lower leg avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "legguard_paper",
@@ -874,7 +874,7 @@
     "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_legguard_tire",
@@ -884,7 +884,7 @@
     "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "ALLOWS_TAIL", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "motorbike_pants",
