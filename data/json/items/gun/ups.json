@@ -33,6 +33,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
@@ -137,6 +138,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],

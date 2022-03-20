@@ -65,7 +65,8 @@
       ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
-      "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ]
+      "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -81,7 +82,8 @@
         "hhh_",
         "____"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -98,7 +100,8 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "items": { "^": { "item": "hardware", "chance": 10 } }
+      "items": { "^": { "item": "hardware", "chance": 10 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {

@@ -243,7 +243,7 @@
       {
         "id": "SPAS_12",
         "name": { "str": "Franchi SPAS-12" },
-        "description": "Mean and intimidating looking, the SPAS 12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
+        "description": "Mean and intimidating looking, the SPAS-12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
       }
     ],
     "ascii_picture": "mossberg590",
@@ -269,7 +269,7 @@
       {
         "id": "mossberg_930",
         "name": { "str": "Mossberg 930 SPX" },
-        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
+        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed Picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
         "weight": 1
       },
       {

@@ -46,14 +46,16 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene" ],
     "symbol": "[",
-    "looks_like": "wetsuit_spring",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 14 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 11, 13 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+      {
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 11, 11 ]
+      }
     ],
     "pocket_data": [
       {
@@ -71,9 +73,8 @@
         "moves": 130
       }
     ],
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 2,
+    "warmth": 30,
+    "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
@@ -85,7 +86,7 @@
     "volume": "1 L",
     "price": 4500,
     "price_postapoc": 250,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene" ],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "dark_gray",

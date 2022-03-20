@@ -175,7 +175,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
-      [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ] ],
+      [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_bathroom", 5 ], [ "bottle_plastic_small", 10 ] ],
       [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 5 ] ]
@@ -246,7 +246,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
-    "skills_required": [ "computer", 1 ],
+    "skills_required": [ "computer", 5 ],
     "difficulty": 4,
     "time": "35 m",
     "reversible": true,
@@ -259,6 +259,7 @@
       { "proficiency": "prof_elec_integrated_circuits" }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {

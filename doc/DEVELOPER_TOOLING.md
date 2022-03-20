@@ -98,6 +98,16 @@ We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
 `clang-tidy` as distributed by LLVM doesn't support plugins, so making this
 work requires some extra steps.
 
+#### Extreme tl;dr for Ubuntu Focal (including WSL)
+The following set of commands should take you from zero to running clang-tidy equivalent to the CI job. This will lint all sources in a random order.
+```sh
+sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-dev llvm-12-tools pip
+sudo pip install compiledb lit
+test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
+# The following command invokes clang-tidy exactly like CI does
+COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/build.sh
+```
+
 #### Ubuntu Focal
 
 If you are on Ubuntu Focal then you might be able to get it working the same
@@ -145,7 +155,9 @@ lit -v build/tools/clang-tidy-plugin/test
 
 ##### Build LLVM
 
-To build LLVM on Windows, you'll first need to get some tools installed.
+It is probably faster and easier to install WSL and follow the steps described above in [Extreme tl;dr for Ubuntu Focal (including WSL)](<#extreme-tldr-for-ubuntu-focal-including-wsl>).
+
+To build LLVM natively on Windows, you'll first need to get some tools installed.
 - Cmake
 - Python 3
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be

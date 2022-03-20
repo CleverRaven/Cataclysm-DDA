@@ -22,6 +22,7 @@ class start_location
 {
     public:
         start_location_id id;
+        std::vector<std::pair<start_location_id, mod_id>> src;
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();

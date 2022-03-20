@@ -154,6 +154,8 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual void mutate( const int &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
@@ -371,6 +373,9 @@ class talker
             return false;
         }
         virtual void set_class( const npc_class_id & ) {}
+        virtual int get_activity_level() const {
+            return 0;
+        }
         virtual int get_fatigue() const {
             return 0;
         }
@@ -490,6 +495,15 @@ class talker
             return move_mode_id::NULL_ID();
         }
         virtual int get_fine_detail_vision_mod() const {
+            return 0;
+        }
+        virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
             return 0;
         }
 };

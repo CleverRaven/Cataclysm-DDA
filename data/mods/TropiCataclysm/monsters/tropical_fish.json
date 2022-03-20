@@ -3,7 +3,7 @@
     "id": "mon_shark",
     "type": "MONSTER",
     "name": { "str": "bull shark" },
-    "description": "The bull shark is one of the few known species of shark capable of living in both fresh and salty waters.  With the advent of the cataclysm many of them have migrated up river to exploit the new food sources in the waters.",
+    "description": "The bull shark is one of the few known species of shark capable of living in both fresh and salty waters.  With the advent of the Cataclysm many of them have migrated up river to exploit the new food sources in the waters.",
     "default_faction": "fish",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],

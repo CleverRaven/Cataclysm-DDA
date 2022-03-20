@@ -116,7 +116,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "grape seeds" },
     "description": "Some grape seeds.",
-    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "grape", "fruit": "grapes", "byproducts": [ "grape_leaves", "withered" ], "grow": "91 days" }
   },
   {
     "id": "seed_rose",

@@ -113,6 +113,32 @@
   },
   {
     "type": "GENERIC",
+    "id": "exodii_micro_computer",
+    "name": { "str": "small unfamiliar electronic thingy", "str_pl": "unfamiliar electronic thingies" },
+    "description": "The wiring and general shape suggest to you that this is a tiny computer, or at least some sort of electronic device, but what it is and what role it serves is lost on you.  It's small enough to fit into your palm.",
+    "symbol": "p",
+    "color": "dark_gray",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "material": [ "plastic", "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_micro_module",
+    "name": { "str_sp": "inscribed metal rings" },
+    "description": "This device looks electronic, but is unfamiliar.  It is a series of tightly fitted coppery-looking nuts, set concentrically.  Wires run from each ring to an axis in the middle.",
+    "symbol": "i",
+    "color": "dark_gray",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "material": [ "copper", "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "exodii_sensor",
     "name": { "str": "cybernetic sensor" },
     "description": "From the large glassy eye - the size of a small dinner plate - in the front, you deduce this is some sort of camera.  None of the inner workings make any sense to you nor resemble any camera you've seen before.",
@@ -260,5 +286,37 @@
     "material": [ "lead" ],
     "symbol": "#",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_wire_kit",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "CBM interface wire kit" },
+    "category": "spare_parts",
+    "description": "A collection of hand sautered wires leading to plugs and what looks like an exotic micro controller.  The plugs look like they could be attached to you, assuming you have an SNI (Standard Neurobionic Interface).",
+    "price": 2000,
+    "price_postapoc": 2000,
+    "material": [ "aluminum", "plastic", "copper" ],
+    "weight": "250 g",
+    "volume": "1 L",
+    "bashing": 5,
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_ac_kit",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "external climate control kit" },
+    "category": "spare_parts",
+    "description": "A collection of mismatched pipes, wires, and a central device that looks like an exotic micro controller.  Almost looks like it could be used for some form of central cooling.",
+    "price": 2000,
+    "price_postapoc": 2000,
+    "material": [ "aluminum", "plastic", "copper" ],
+    "weight": "500 g",
+    "volume": "1 L",
+    "bashing": 5,
+    "to_hit": -1
   }
 ]

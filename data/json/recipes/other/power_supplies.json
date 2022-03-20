@@ -733,13 +733,8 @@
     "skills_required": [ "chemistry", 2 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [
-      [ [ "mortar_pestle", -1 ] ],
-      [ [ "tongs", -1 ] ],
-      [ [ "surface_heat", 10, "LIST" ] ],
-      [ [ "paper", -1 ], [ "aluminum_foil", -1 ] ]
-    ],
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "paper", -1 ], [ "aluminum_foil", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "sugar", 2 ] ], [ [ "charcoal", 3 ] ] ]
   },
   {
@@ -753,8 +748,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_zinc_powder", 200 ] ], [ [ "chem_manganese_dioxide", 262 ] ] ]
   }
 ]

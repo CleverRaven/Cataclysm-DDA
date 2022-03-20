@@ -68,6 +68,7 @@ static const furn_str_id furn_f_console_broken( "f_console_broken" );
 
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_blood( "blood" );
+static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4( "c4" );
 static const itype_id itype_cobalt_60( "cobalt_60" );
 static const itype_id itype_mininuke( "mininuke" );
@@ -578,7 +579,7 @@ void computer_session::action_research()
     map &here = get_map();
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
-    const int seed = std::hash<tripoint> {}( here.get_abs_sub() ) + comp.alerts;
+    const int seed = std::hash<tripoint_abs_sm> {}( here.get_abs_sub() ) + comp.alerts;
     cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
@@ -712,9 +713,9 @@ void computer_session::action_miss_launch()
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
-    for( int level = get_map().get_abs_sub().z; level <= 0; level++ ) {
+    for( int level = get_map().get_abs_sub().z(); level <= 0; level++ ) {
         map tmpmap;
-        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().x, get_map().get_abs_sub().y, level ),
+        tmpmap.load( tripoint_abs_sm( get_map().get_abs_sub().xy(), level ),
                      false );
 
         if( level < 0 ) {
@@ -792,8 +793,8 @@ void computer_session::action_amigara_log()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
-    point abs_sub = get_map().get_abs_sub().xy();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
+    point_abs_sm abs_sub = get_map().get_abs_sub().xy();
+    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -801,7 +802,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
+    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -809,7 +810,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
+    print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -830,10 +831,10 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    tripoint abs_loc = get_map().get_abs_sub();
+    tripoint_abs_sm abs_loc = get_map().get_abs_sub();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                abs_loc.x, abs_loc.y, std::abs( abs_loc.z ) );
+                abs_loc.x(), abs_loc.y(), std::abs( abs_loc.z() ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();
@@ -925,7 +926,8 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
                 const item &blood = items.only_item().legacy_front();
@@ -1494,7 +1496,7 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( get_map().get_abs_sub().z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
+    if( get_map().get_abs_sub().z() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
         get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                 player_character.global_sm_location() );
     }
@@ -1585,9 +1587,9 @@ void computer_session::failure_amigara()
     get_player_character().add_effect( effect_amigara, 2_minutes );
     map &here = get_map();
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
-                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
+                                            here.get_abs_sub().z() ), 10, 0.7, false, 10 );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
-                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
+                                            here.get_abs_sub().z() ), 10, 0.7, false, 10 );
     comp.remove_option( COMPACT_AMIGARA_START );
 }
 
@@ -1606,7 +1608,8 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood &&
+                       items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );

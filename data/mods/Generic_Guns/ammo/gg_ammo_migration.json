@@ -30,6 +30,11 @@
     "replace": "bp_tiny_pistol_jhp"
   },
   {
+    "id": [ "22_blank" ],
+    "type": "MIGRATION",
+    "replace": "small_powder_blank"
+  },
+  {
     "id": [
       "10mm_fmj",
       "357sig_fmj",
