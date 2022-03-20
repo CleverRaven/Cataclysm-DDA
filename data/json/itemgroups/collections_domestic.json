@@ -652,6 +652,7 @@
       { "item": "water_clean", "prob": 90 },
       { "item": "water_mineral", "prob": 10 },
       { "item": "oj", "prob": 50 },
+      { "item": "pineapple_juice", "prob": 50 },
       { "item": "cranberry_juice", "prob": 50 },
       { "item": "sports_drink", "prob": 30 },
       { "item": "lemonade", "prob": 50 },

@@ -110,6 +110,13 @@
               },
               {
                 "collection": [
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 50
+              },
+              {
+                "collection": [
                   { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   {
                     "item": "cranberry_juice",
@@ -569,6 +576,13 @@
           },
           {
             "collection": [
+              { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+              { "item": "pineapple_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+            ],
+            "prob": 50
+          },
+          {
+            "collection": [
               { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
               { "item": "cranberry_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
             ],
@@ -720,6 +734,13 @@
               },
               {
                 "collection": [
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 50
+              },
+              {
+                "collection": [
                   { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   {
                     "item": "cranberry_juice",
@@ -827,6 +848,7 @@
           {
             "distribution": [
               { "item": "oj", "count": [ 1, 6 ], "prob": 50 },
+              { "item": "pineapple_juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "cranberry_juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "sports_drink", "count": [ 1, 6 ], "prob": 30 },

@@ -227,7 +227,9 @@
     "entries": [
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
+      { "item": "grenadine_syrup", "prob": 40 },
       { "item": "oj", "prob": 40 },
+      { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "tomato_juice", "prob": 25 },
       { "item": "cranberry_juice", "prob": 35 },
