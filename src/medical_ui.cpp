@@ -42,7 +42,7 @@ class selection_line
         selection_line( const std::string text, const std::string &desc_str, const int max_width )
             : desc_str( desc_str ) {
             std::vector<std::string> textformatted = foldstring( text, max_width,
-                    static_cast<char>( 93 ) );
+                    ']' );
             row_count = textformatted.size();
             if( row_count > 1 ) {
                 //If there are too many tags, display them neatly on a new line.
@@ -819,7 +819,7 @@ void avatar::disp_medical()
 
         if( !desc_str.empty() ) {
             // Number of display rows required by the highlighted line.
-            std::vector<std::string> textformatted = foldstring( desc_str, WIDTH - 2, static_cast<char>( 32 ) );
+            std::vector<std::string> textformatted = foldstring( desc_str, WIDTH - 2, ' ' );
 
             // Beginning row of description text [0-6] (w_description)
             const int DESCRIPTION_TEXT_Y = DESC_W_HEIGHT - std::min( DESC_W_HEIGHT,
@@ -855,7 +855,7 @@ void avatar::disp_medical()
 
             const int info_width = WIDTH - third_column_x - 3;
             std::vector<std::string> textformatted = foldstring( detail_str.second, info_width,
-                    static_cast<char>( 32 ) );
+                    ' ' );
             info_lines = textformatted.size();
             int i = 0;
             for( std::string &line : textformatted ) {
