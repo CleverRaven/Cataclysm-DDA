@@ -1088,7 +1088,7 @@
     "symbol": "~",
     "quench": 40,
     "calories": 1,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant \"Camellia sinensis\".",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
@@ -1209,7 +1209,7 @@
     "color": "green",
     "fatigue_mod": 7,
     "stim": 2,
-    "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
+    "description": "Made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
   },
   {
     "type": "COMESTIBLE",
@@ -1240,7 +1240,7 @@
     "copy-from": "tea",
     "name": { "str": "sweetened tea" },
     "calories": 21,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/. Added sweetener for a better taste.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\". Added sweetener for a better taste.",
     "price": 100,
     "price_postapoc": 35,
     "fun": 10
