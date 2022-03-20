@@ -1047,7 +1047,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
+    "name": { "str": "Pieces of Junk", "str_pl": "Pieces of Junk" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
