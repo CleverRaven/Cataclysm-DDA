@@ -1110,7 +1110,7 @@
     "looks_like": "armor_plarmor",
     "name": { "str": "XS plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_plate",
@@ -1140,7 +1140,7 @@
     "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_plate",
@@ -1149,7 +1149,7 @@
     "looks_like": "armor_plate",
     "name": { "str": "XS ornamental plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_junk_plate",
@@ -1270,7 +1270,7 @@
     "copy-from": "armor_scrapsuit",
     "name": { "str": "XS scrap suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_tiresuit",
@@ -1908,7 +1908,7 @@
     "looks_like": "entry_suit",
     "name": { "str": "XS entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -2164,7 +2164,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2189,7 +2189,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2268,7 +2268,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "k_gambeson_vest_xs",
@@ -2277,7 +2277,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2391,7 +2391,7 @@
     "looks_like": "nomex_suit",
     "name": { "str": "XS flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -2688,7 +2688,7 @@
         "encumbrance": 15
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2706,7 +2706,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2755,7 +2755,6 @@
         "encumbrance": 10
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2773,7 +2772,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2822,7 +2821,6 @@
         "encumbrance": 20
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2840,7 +2838,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,

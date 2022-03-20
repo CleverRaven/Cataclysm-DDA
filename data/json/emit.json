@@ -172,6 +172,15 @@
     "qty": 10
   },
   {
+    "id": "emit_shock_burst_rat",
+    "type": "emit",
+    "//": "small cloud of lightning",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 5,
+    "qty": 10
+  },
+  {
     "id": "emit_shock_cloud",
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",
