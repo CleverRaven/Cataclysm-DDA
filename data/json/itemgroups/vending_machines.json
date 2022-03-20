@@ -85,6 +85,7 @@
       { "group": "softdrinks_canned", "prob": 70 },
       { "item": "cola", "prob": 70, "container-item": "bottle_plastic", "sealed": false },
       { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
       { "item": "creamsoda", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
       { "item": "lemonlime", "prob": 60, "container-item": "bottle_plastic", "sealed": false },
       { "item": "orangesoda", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
