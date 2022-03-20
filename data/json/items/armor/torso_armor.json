@@ -968,7 +968,7 @@
         "coverage": 100,
         "encumbrance": 15
       },
-	  {
+      {
         "material": [
           { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1005,7 +1005,7 @@
         "coverage": 100,
         "encumbrance": 15
       },
-	  {
+      {
         "material": [
           { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1042,7 +1042,7 @@
         "coverage": 100,
         "encumbrance": 15
       },
-	  {
+      {
         "material": [
           { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1079,7 +1079,7 @@
         "coverage": 100,
         "encumbrance": 15
       },
-	  {
+      {
         "material": [
           { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1116,7 +1116,7 @@
         "coverage": 100,
         "encumbrance": 15
       },
-	  {
+      {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1166,7 +1166,7 @@
         "coverage": 100,
         "encumbrance": 20
       },
-	  {
+      {
         "material": [
           { "type": "lc_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1203,7 +1203,7 @@
         "coverage": 100,
         "encumbrance": 20
       },
-	  {
+      {
         "material": [
           { "type": "mc_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1240,7 +1240,7 @@
         "coverage": 100,
         "encumbrance": 20
       },
-	  {
+      {
         "material": [
           { "type": "hc_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1277,7 +1277,7 @@
         "coverage": 100,
         "encumbrance": 20
       },
-	  {
+      {
         "material": [
           { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1314,7 +1314,7 @@
         "coverage": 100,
         "encumbrance": 20
       },
-	  {
+      {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1364,7 +1364,7 @@
         "coverage": 100,
         "encumbrance": 25
       },
-	  {
+      {
         "material": [
           { "type": "lc_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1401,7 +1401,7 @@
         "coverage": 100,
         "encumbrance": 25
       },
-	  {
+      {
         "material": [
           { "type": "mc_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1438,7 +1438,7 @@
         "coverage": 100,
         "encumbrance": 25
       },
-	  {
+      {
         "material": [
           { "type": "hc_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1475,7 +1475,7 @@
         "coverage": 100,
         "encumbrance": 25
       },
-	  {
+      {
         "material": [
           { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
@@ -1512,7 +1512,7 @@
         "coverage": 100,
         "encumbrance": 25
       },
-	  {
+      {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
