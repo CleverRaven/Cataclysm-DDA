@@ -31,7 +31,7 @@
     "pocket_mods": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike", "medium_storage_battery" ] }
     ],
-    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike", "medium_storage_battery", ] ] ]
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike", "medium_storage_battery" ] ] ]
   },
   {
     "id": "magazine_battery_light_mod",
