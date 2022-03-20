@@ -486,7 +486,7 @@ void check_encoding()
 
 void set_title( const std::string & )
 {
-    // cureses does not seem to have a portable way of setting the window title.
+    // curses does not seem to have a portable way of setting the window title.
 }
 
 #endif
