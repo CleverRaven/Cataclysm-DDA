@@ -895,5 +895,17 @@
       "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor", ".": "t_dirtfloor" },
       "furniture": { "c": "f_counter" }
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_woodcutter_10_logs",
+    "method": "json",
+    "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_commune_woodcutter_100_logs",
+    "method": "json",
+    "object": { "place_item": [ { "item": "log", "x": 7, "y": 15, "amount": 100 } ] }
   }
 ]
