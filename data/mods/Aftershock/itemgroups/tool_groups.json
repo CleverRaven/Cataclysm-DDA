@@ -1,0 +1,111 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_tools_robot_maintenance",
+    "//": "tools used for fixing robots.",
+    "items": [
+      { "group": "afs_robotics_scrapgroup", "prob": 10 },
+      [ "glasses_safety", 5 ],
+      { "group": "afs_tools_electric_repair", "prob": 10 },
+      { "group": "afs_tools_welding", "prob": 5 },
+      [ "vac_mold", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
+      { "group": "tools_lighting_industrial", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_electric_repair",
+    "//": "Keeps your solar panels, lights and well everything going.",
+    "items": [
+      [ "screwdriver_set", 20 ],
+      [ "superglue", 30 ],
+      [ "pliers", 10 ],
+      [ "multitool", 20 ],
+      [ "voltmeter", 20 ],
+      [ "jumper_cable", 10 ],
+      [ "hd_tow_cable", 5 ],
+      [ "recharge_station", 10 ],
+      [ "magnifying_glass", 10 ],
+      { "item": "gloves_work", "prob": 10 },
+      { "group": "ammo_any_batteries_full", "prob": 20 },
+      { "group": "tools_lighting_industrial", "prob": 10 },
+      { "item": "UPS_off", "prob": 10, "charges": [ 0, 1000 ] },
+      { "group": "writing_utensils", "prob": 10 },
+      { "item": "soldering_iron", "prob": 30, "charges": [ 0, 50 ] },
+      { "item": "solder_wire", "prob": 30 },
+      { "item": "duct_tape", "prob": 30, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_structural_repair",
+    "//": "Fixes up spaceships, habitats and probably more.",
+    "items": [
+      {
+        "distribution": [
+          { "group": "afs_tools_welding", "prob": 20 },
+          {
+            "collection": [
+              { "item": "afs_foamgun", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30, "prob": 100, "count": [ 1, 2 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [ { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] }, { "item": "duct_tape", "prob": 100, "count": [ 1, 5 ] } ],
+            "prob": 60
+          }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_welding",
+    "//": "tools used for sci-fi and not sci-fi welding.",
+    "ammo": 75,
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "welder", "prob": 40 },
+          {
+            "collection": [
+              { "item": "oxy_torch", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] },
+              { "item": "weldtank", "prob": 50, "count": [ 1, 2 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "afs_40g_plasma_civ", "prob": 100, "count": [ 1, 2 ] },
+              { "item": "afs_plasma_torch", "prob": 50, "count": [ 1, 2 ] }
+            ],
+            "prob": 40
+          }
+        ],
+        "prob": 30
+      },
+      { "item": "polisher", "prob": 20 },
+      { "item": "angle_grinder", "prob": 20 },
+      [ "clamp", 10 ],
+      [ "metal_file", 10 ],
+      [ "sandpaper", 10 ],
+      [ "goggles_welding", 30 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_tools_programing",
+    "//": "tools used by legitimate and illegitimate programmers.",
+    "items": [
+      { "item": "laptop", "prob": 50, "charges": [ 0, 500 ] },
+      { "item": "electrohack", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "control_laptop", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "afs_wrist_computer", "prob": 20 }
+    ]
+  }
+]

@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "cata_void.h"
 #include "debug.h"
@@ -238,6 +239,8 @@ class generic_factory
                     jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
                                                    abstract_member_name, id_member_name, legacy_id_member_name ) );
                 }
+                restore_on_out_of_scope<check_plural_t> restore_check_plural( check_plural );
+                check_plural = check_plural_t::none;
                 def.load( jo, src );
                 abstracts[jo.get_string( abstract_member_name )] = def;
             }
@@ -265,7 +268,7 @@ class generic_factory
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
-                assign_src( def, src );
+                mod_tracker::assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -286,7 +289,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    assign_src( def, src );
+                    mod_tracker::assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -297,7 +300,7 @@ class generic_factory
 
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
-                assign_src( def, src );
+                mod_tracker::assign_src( def, src );
                 def.load( jo, src );
                 insert( def );
 
@@ -318,7 +321,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    assign_src( def, src );
+                    mod_tracker::assign_src( def, src );
                     def.load( jo, src );
                     insert( def );
                 }
@@ -346,6 +349,7 @@ class generic_factory
             inc_version();
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
+                mod_tracker::check_duplicate_entries( obj, list[iter->second.to_i()] );
                 T &result = list[iter->second.to_i()];
                 result = obj;
                 result.id.set_cid_version( iter->second.to_i(), version );
@@ -449,7 +453,7 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return id.to_i() >= 0 && static_cast<size_t>( id.to_i() ) < list.size();
+            return static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -701,7 +705,8 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
         JsonObject proportional = jo.get_object( "proportional" );
         proportional.allow_omitted_members();
         if( proportional.has_member( name ) ) {
-            debugmsg( "Member %s of type %s does not support proportional", name, typeid( MemberType ).name() );
+            debugmsg( "Member %s of type %s does not support proportional", name,
+                      demangle( typeid( MemberType ).name() ) );
         }
     }
     return false;
@@ -751,7 +756,8 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
         if( !relative.has_member( name ) ) {
             return false;
         }
-        debugmsg( "Member %s of type %s does not support relative", name, typeid( MemberType ).name() );
+        debugmsg( "Member %s of type %s does not support relative", name,
+                  demangle( typeid( MemberType ).name() ) );
     }
     return false;
 }
@@ -1098,7 +1104,7 @@ class generic_typed_reader
                 if( !relative.has_member( name ) ) {
                     return false;
                 }
-                debugmsg( "Member %s of type %s does not support relative", name, typeid( C ).name() );
+                debugmsg( "Member %s of type %s does not support relative", name, demangle( typeid( C ).name() ) );
             }
             return false;
         }
@@ -1219,7 +1225,7 @@ template<typename T>
 class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 {
     private:
-        using map_t = std::map<std::string, T>;
+        using map_t = std::unordered_map<std::string, T>;
 
     private:
         const map_t &flag_map;
@@ -1228,6 +1234,11 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
     public:
         typed_flag_reader( const map_t &flag_map, const std::string &flag_type )
             : flag_map( flag_map )
+            , flag_type( flag_type ) {
+        }
+
+        explicit typed_flag_reader( const std::string &flag_type )
+            : flag_map( io::get_enum_lookup_map<T>() )
             , flag_type( flag_type ) {
         }
 
@@ -1244,9 +1255,10 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
 };
 
 template<typename T>
-typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
+typed_flag_reader<T> make_flag_reader( const std::unordered_map<std::string, T> &m,
+                                       const std::string &e )
 {
-    return typed_flag_reader<T> { m, e };
+    return typed_flag_reader<T>( m, e );
 }
 
 /**

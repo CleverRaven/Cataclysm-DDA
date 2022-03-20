@@ -27,9 +27,14 @@
     "type": "item_group",
     "id": "car_kit",
     "items": [
-      [ "tire_iron", 20 ],
-      [ "jack", 18 ],
-      [ "wheel", 14 ],
+      {
+        "collection": [
+          { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 100 },
+          { "item": "jack", "prob": 80 },
+          { "item": "tire_iron", "prob": 50 }
+        ],
+        "prob": 50
+      },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 3 ],
       [ "hose", 7 ],

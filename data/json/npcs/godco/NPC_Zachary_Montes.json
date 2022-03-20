@@ -1,0 +1,179 @@
+[
+  {
+    "type": "npc",
+    "id": "godco_zachary",
+    "name_unique": "Zachary Montes",
+    "name_suffix": "joinee",
+    "gender": "male",
+    "class": "NC_godco_zachary",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_GODCO_Zachary_1",
+    "faction": "gods_community"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_godco_zachary",
+    "name": { "str": "Joinee" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -1, 1 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "worn_override": "GODCO_zachary_worn",
+    "carry_override": "GODCO_zachary_carried",
+    "weapon_override": "GODCO_zachary_wield",
+    "proficiencies": [ "prof_carpentry_basic", "prof_carving" ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "FACIAL_HAIR_BEARD" } ],
+    "skills": [
+      { "bonus": 1, "skill": "melee" },
+      { "bonus": 2, "skill": "cutting" },
+      { "bonus": 2, "skill": "survival" },
+      { "bonus": 3, "skill": "bashing" },
+      { "bonus": 4, "skill": "fabrication" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "boxer_shorts" },
+      { "item": "jeans" },
+      { "item": "undershirt" },
+      { "item": "leather_belt" },
+      { "item": "gloves_work" },
+      { "item": "gold_ear" },
+      { "item": "hat_hard_hooded" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "nail" }, { "item": "hammer" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "GODCO_zachary_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "fire_ax" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_GODCO_Zachary_2",
+      "TALK_GODCO_Zachary_Story",
+      "TALK_GODCO_Zachary_Mood",
+      "TALK_GODCO_Zachary_Result_rewardIcon",
+      "TALK_GODCO_Zachary_Result_rewardRation",
+      "TALK_GODCO_Zachary_Community",
+      "TALK_GODCO_Zachary_Firstmeet",
+      "TALK_GODCO_Zachary_Story1"
+    ],
+    "responses": [
+      { "text": "So, how did you get here?", "topic": "TALK_GODCO_Zachary_Story" },
+      { "text": "How are things, living here?", "topic": "TALK_GODCO_Zachary_Mood" },
+      { "text": "Are the non-joinees treating you fairly?", "topic": "TALK_GODCO_Zachary_Community" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_1",
+    "dynamic_line": "I got my rights to be here, chum.  Squatter's rights!",
+    "responses": [
+      {
+        "text": "Don't worry, I'm not going to hurt you.",
+        "effect": { "u_add_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_GODCO_Zachary_Firstmeet"
+      },
+      {
+        "text": "Hey, good to see you're still around.",
+        "condition": { "u_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_GODCO_Zachary_2"
+      },
+      { "text": "…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Firstmeet",
+    "dynamic_line": "I got here first, therefore this place belongs to me.  Them's the rules in the Cataclysm.",
+    "responses": [ { "text": "Now that's an archaic belief.  I'll see you around.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_2",
+    "dynamic_line": [ "I ain't leaving, bruv.  Not until that eldritch screechin' nightmare is dead 'n buried." ],
+    "responses": [ { "text": "I'll see you around then.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Story",
+    "dynamic_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a goddamn nuisance.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Zachary_Story1" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Story1",
+    "dynamic_line": "Who I was is gone, dead… died when I put down the monsters wearing the face of my friends.  Ever since then, I've felt nothing but disgust for myself.  Let's not fuckin' reminisce.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Community",
+    "dynamic_line": "They are nice people, lettin' us crash here 'n all.  I got friends here.  We may not be members but we belong here.  We'll fight together if they ever try to kick us out.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Mood",
+    "dynamic_line": "It ain't so bad.  I got shelter, heat, and people to defend me if any <zombie> shuffles its way here.  If I want to eat then I'll be doin' construction work from dusk till dawn.",
+    "responses": [
+      {
+        "text": "How have things changed after that deal with Helena?",
+        "topic": "TALK_GODCO_Zachary_Result_rewardIcon",
+        "condition": { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "icon" }
+      },
+      {
+        "text": "How have things changed after that deal with Helena?",
+        "topic": "TALK_GODCO_Zachary_Result_rewardRation",
+        "condition": { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "ration" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Result_rewardRation",
+    "dynamic_line": "Food is the only thing a starving man needs.  Thanks for the help, bruv.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Zachary_Result_rewardIcon",
+    "dynamic_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work.  The system's broken!",
+    "responses": [
+      { "text": "Sorry to hear that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "No rest for the weary…", "topic": "TALK_DONE" }
+    ]
+  }
+]

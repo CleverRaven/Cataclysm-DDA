@@ -13,6 +13,12 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_darkness( "darkness" );
+
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+
 // Tests of Character vision and sight
 //
 // Functions tested:
@@ -135,8 +141,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "boomered" ) {
-        dummy.add_effect( efftype_id( "boomered" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
+        dummy.add_effect( effect_boomered, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_boomered ) );
 
         THEN( "impaired sight, with 1 tile of range" ) {
             dummy.recalc_sight_limits();
@@ -146,8 +152,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "nearsighted" ) {
-        dummy.toggle_trait( trait_id( "MYOPIC" ) );
-        REQUIRE( dummy.has_trait( trait_id( "MYOPIC" ) ) );
+        dummy.toggle_trait( trait_MYOPIC );
+        REQUIRE( dummy.has_trait( trait_MYOPIC ) );
 
         WHEN( "without glasses" ) {
             dummy.worn.clear();
@@ -173,8 +179,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     GIVEN( "darkness effect" ) {
-        dummy.add_effect( efftype_id( "darkness" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "darkness" ) ) );
+        dummy.add_effect( effect_darkness, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_darkness ) );
 
         THEN( "impaired sight, with 10 tiles of range" ) {
             dummy.recalc_sight_limits();
@@ -210,8 +216,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
     float light_here = 0.0f;
 
     GIVEN( "character with ursine eyes and no eyeglasses" ) {
-        dummy.toggle_trait( trait_id( "URSINE_EYE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "URSINE_EYE" ) ) );
+        dummy.toggle_trait( trait_URSINE_EYE );
+        REQUIRE( dummy.has_trait( trait_URSINE_EYE ) );
 
         dummy.worn.clear();
         REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );

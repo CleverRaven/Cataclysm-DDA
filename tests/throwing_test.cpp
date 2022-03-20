@@ -21,6 +21,8 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const skill_id skill_throw( "throw" );
+
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
     const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
@@ -45,11 +47,9 @@ struct throw_test_pstats {
 
 static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &pstats )
 {
-    return( stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
-            " PER: " << pstats.per << " SKL: " << pstats.skill_lvl );
+    return stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
+           " PER: " << pstats.per << " SKL: " << pstats.skill_lvl;
 }
-
-static const skill_id skill_throw = skill_id( "throw" );
 
 static void reset_player( Character &you, const throw_test_pstats &pstats, const tripoint &pos )
 {
@@ -257,13 +257,13 @@ static void test_player_kills_monster(
 
             ++turns;
             mon.process_turn();
-            mon.set_dest( you.pos() );
+            mon.set_dest( you.get_location() );
             while( mon.moves > 0 ) {
                 mon.move();
             }
 
             // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( you.pos(), mon.pos() ) ) <= dist_thresh ) {
+            if( ( last_range = rl_dist( you.get_location(), mon.get_location() ) ) <= dist_thresh ) {
                 break;
             }
 

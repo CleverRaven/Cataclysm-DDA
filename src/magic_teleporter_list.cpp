@@ -31,6 +31,8 @@
 #include "type_id.h"
 #include "ui.h"
 
+static const efftype_id effect_ignore_fall_damage( "ignore_fall_damage" );
+
 static bool popup_string( std::string &result, std::string &title )
 {
     string_input_popup popup;
@@ -77,7 +79,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
-    tinymap omt_dest( 2, true );
+    tinymap omt_dest;
     tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
     omt_dest.load( sm_dest, true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
@@ -85,7 +87,7 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
         return false;
     }
     tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
-    you.add_effect( efftype_id( "ignore_fall_damage" ), 1_seconds, false, 0, true );
+    you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
     g->place_player( local_dest );
     return true;
@@ -144,10 +146,8 @@ void teleporter_list::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void teleporter_list::deserialize( JsonIn &jsin )
+void teleporter_list::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
-
     for( JsonObject jo : data.get_array( "known_teleporters" ) ) {
         tripoint_abs_omt temp_pos;
         jo.read( "position", temp_pos );

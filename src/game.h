@@ -17,13 +17,14 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -138,7 +139,6 @@ bool is_valid_in_w_terrain( const point &p );
 namespace turn_handler
 {
 bool cleanup_at_end();
-void update_stair_monsters();
 } // namespace turn_handler
 
 // There is only one game instance, so losing a few bytes of memory
@@ -165,6 +165,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend global_variables &get_globals();
     public:
         game();
         ~game();
@@ -218,7 +219,7 @@ class game
         bool save();
 
         /** Returns a list of currently active character saves. */
-        std::vector<std::string> list_active_characters();
+        std::vector<std::string> list_active_saves();
         void write_memorial_file( std::string sLastWords );
         void start_calendar();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
@@ -275,8 +276,10 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking );
-        /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
-        void vertical_shift( int z_after );
+        /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
+         *  Returns true if the z-level changed.
+         */
+        bool vertical_shift( int z_after );
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
@@ -337,7 +340,8 @@ class game
          */
         size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
-        bool update_zombie_pos( const monster &critter, const tripoint &pos );
+        bool update_zombie_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                                const tripoint_abs_ms &new_pos );
         void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
@@ -480,6 +484,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
+        bool portal_storm_query( const distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -554,10 +559,11 @@ class game
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close( bool dangerous = false );
+        field_entry *is_in_dangerous_field();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( Character &p );
-        point update_map( int &x, int &y );
+        point update_map( Character &p, bool z_level_changed = false );
+        point update_map( int &x, int &y, bool z_level_changed = false );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
@@ -621,6 +627,8 @@ class game
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
+        void zoom_in_overmap();
+        void zoom_out_overmap();
         void zoom_in();
         void zoom_out();
         void reset_zoom();
@@ -635,6 +643,11 @@ class game
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
         bool take_screenshot( const std::string &file_path ) const;
+        /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot() const;
 
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
@@ -712,6 +725,9 @@ class game
          */
         bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
         void set_safe_mode( safe_mode_type mode );
+
+        /** open appliance interaction screen */
+        void exam_appliance( vehicle &veh, const point &cp = point_zero );
 
         /** open vehicle interaction screen */
         void exam_vehicle( vehicle &veh, const point &cp = point_zero );
@@ -795,15 +811,17 @@ class game
         bool grabbed_veh_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
-        void examine( const tripoint &p ); // Examine nearby terrain  'e'
-        void examine();
+        // Examine nearby terrain 'e', with or without picking up items
+        void examine( const tripoint &p, bool with_pickup = false );
+        void examine( bool with_pickup = true );
 
-        void pickup(); // Pickup nearby items 'g', min 0
-        void pickup( const tripoint &p );
-        void pickup_feet(); // Pick items at player position ',', min 1
+        // Pick up items from a single nearby tile (prompting first)
+        void pickup();
+        // Pick up items from all nearby tiles
+        void pickup_all();
 
-        void drop(); // Drop an item  'd'
-        void drop_in_direction(); // Drop w/ direction  'D'
+        void unload_container(); // Unload a container w/ direction  'd'
+        void drop_in_direction( const tripoint &pnt ); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
 
@@ -817,7 +835,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint_abs_omt &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
 
         unsigned int get_seed() const;
 
@@ -825,13 +843,13 @@ class game
         void set_npcs_dirty();
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
-        void mon_info( const catacurses::window &,
-                       int hor_padding = 0 ); // Prints a list of nearby monsters
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        // Pick up items from the given point
+        void pickup( const tripoint &p );
     private:
         void wield();
         void wield( item_location loc );
@@ -844,6 +862,8 @@ class game
         void print_terrain_info( const tripoint &lp, const catacurses::window &w_look,
                                  const std::string &area_name, int column,
                                  int &line );
+        void print_furniture_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                   int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
@@ -982,7 +1002,13 @@ class game
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
         achievements_tracker &achievements();
         memorial_logger &memorial();
+
+        global_variables global_variables_instance;
     public:
+        std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+        queued_global_effect_on_conditions;
+
         // setting that specifies which reachability zone cache to display
         struct debug_reachability_zones_display {
             public:
@@ -1000,9 +1026,6 @@ class game
         quit_status uquit; // NOLINT(cata-serialize)
         /** True if the game has just started or loaded, else false. */
         bool new_game = false; // NOLINT(cata-serialize)
-
-        std::vector<monster> coming_to_stairs;
-        int monstairz = 0;
 
         tripoint ter_view_p; // NOLINT(cata-serialize)
         catacurses::window w_terrain; // NOLINT(cata-serialize)
@@ -1036,6 +1059,7 @@ class game
         bool fullscreen = false; // NOLINT(cata-serialize)
         bool was_fullscreen = false; // NOLINT(cata-serialize)
         bool auto_travel_mode = false;
+        bool queue_screenshot = false; // NOLINT(cata-serialize)
         safe_mode_type safe_mode;
 
         // tracks time since last monster seen to allow automatically
@@ -1046,9 +1070,6 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
-
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
@@ -1094,6 +1115,7 @@ class game
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom = 0; // NOLINT(cata-serialize)
+        int overmap_tileset_zoom = DEFAULT_TILESET_ZOOM; // NOLINT(cata-serialize)
 
         /** Seed for all the random numbers that should have consistent randomness (weather). */
         unsigned int seed = 0; // NOLINT(cata-serialize)

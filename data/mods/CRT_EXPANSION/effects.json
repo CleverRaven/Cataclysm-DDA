@@ -4,7 +4,7 @@
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
-      "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication ()."
+      "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication (antiparasitic)."
     ],
     "apply_memorial_log": "Caught blood spiders.",
     "remove_memorial_log": "Eradicated the spiders in his blood.",

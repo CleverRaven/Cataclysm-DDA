@@ -36,7 +36,7 @@
       "traps": { "(": "tr_rollmat" },
       "terrain": { "¥": "t_card_science_maintenance_yellow" },
       "furniture": { "!": "f_exercise", "}": [ "f_ergometer", "f_ergometer_mechanical" ], "{": "f_punching_bag" },
-      "place_traps": [ { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] } ],
+      "place_traps": [ { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ] } ],
       "place_nested": [ { "chunks": [ "lab_17x17_shop" ], "x": 1, "y": 0 }, { "chunks": [ "lab_maintenance_6x6_open" ], "x": 1, "y": 18 } ],
       "place_monsters": [
         { "monster": "GROUP_LAB_RESEARCHERS", "x": [ 13, 22 ], "y": [ 8, 22 ], "density": 0.08 },
@@ -232,7 +232,7 @@
         "H": "t_carpet_concrete_yellow",
         "l": "t_carpet_concrete_yellow"
       },
-      "place_traps": [ { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] } ],
+      "place_traps": [ { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ] } ],
       "place_nested": [
         { "chunks": [ "lab_17x17_shop_2" ], "x": 17, "y": 0 },
         { "chunks": [ "lab_maintenance_6x6_open" ], "x": 17, "y": 18 }
@@ -299,7 +299,7 @@
       ],
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 4 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_monster": [ { "monster": "mon_lab_security_drone_YM", "x": [ 8, 20 ], "y": [ 10, 11 ], "chance": 100, "repeat": [ 1, 2 ] } ],
-      "place_traps": [ { "trap": "tr_light_on_res_8_SW", "x": [ 8, 23 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
+      "place_traps": [ { "trap": "tr_light_on_res_8_SW", "x": [ 8, 23 ], "y": [ 10, 12 ] } ]
     }
   },
   {
@@ -351,7 +351,7 @@
         { "chunks": [ [ "lab_wall_chain_5x5", 50 ], [ "lab_wall_door_5x5", 50 ], [ "null", 50 ] ], "x": 18, "y": 6 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 19, 21 ], "y": [ 1, 22 ], "density": 0.1 } ],
-      "place_traps": [ { "trap": "tr_light_on_res_8_SE", "x": [ 2, 23 ], "y": [ 10, 12 ], "repeat": [ 3, 4 ] } ]
+      "place_traps": [ { "trap": "tr_light_on_res_8_SE", "x": [ 0, 14 ], "y": [ 10, 12 ] } ]
     }
   }
 ]

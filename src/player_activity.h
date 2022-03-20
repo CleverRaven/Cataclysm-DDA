@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
 #include "enums.h"
@@ -21,7 +22,7 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class avatar;
 class monster;
@@ -41,7 +42,7 @@ class player_activity
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
-        int moves_left = 0;
+        int moves_left = calendar::INDEFINITELY_LONG;
         /** Controls whether this activity can be cancelled at all */
         bool interruptable = true;
         /** Controls whether this activity can be cancelled with 'pause' action */
@@ -133,7 +134,7 @@ class player_activity
         bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         // used to migrate the item indices to item_location
         // obsolete after 0.F stable
         void migrate_item_position( Character &guy );
@@ -166,12 +167,19 @@ class player_activity
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
         bool is_interruptible() const;
+        bool is_interruptible_with_kb() const;
         bool is_distraction_ignored( distraction_type ) const;
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 
         float exertion_level() const;
+
+        bool do_drop_invalid_inventory() const {
+            return !actor || actor->do_drop_invalid_inventory();
+        }
+
+        std::map<distraction_type, std::string> get_distractions();
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

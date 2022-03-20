@@ -434,13 +434,13 @@
         { "item": "long_undertop", "x": 58, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "long_underpants", "x": 57, "y": 71, "chance": 75, "repeat": [ 250, 300 ] },
         { "item": "socks", "x": 56, "y": 71, "chance": 75, "repeat": [ 100, 200 ] },
-        { "item": "socks_wool", "x": [ 55, 54 ], "y": 71, "chance": 75, "repeat": [ 250, 500 ] },
+        { "item": "socks_wool", "x": [ 54, 55 ], "y": 71, "chance": 75, "repeat": [ 250, 500 ] },
         { "item": "sports_bra", "x": 53, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boy_shorts", "x": 52, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "briefs", "x": 51, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boxer_briefs", "x": 50, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "boxer_shorts", "x": 49, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "jacket_army", "x": 46, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "jacket_army_modern", "x": 46, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "winter_jacket_army", "x": 45, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "pants_army", "x": 44, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "winter_pants_army", "x": 43, "y": 71, "chance": 75, "repeat": [ 50, 150 ] },
@@ -541,7 +541,9 @@
         { "item": "powder_eggs", "x": [ 39, 40 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "milk_UHT", "x": 37, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "water_clean", "x": 38, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] }
+        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 }
       ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 4, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },

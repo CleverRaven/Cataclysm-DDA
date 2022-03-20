@@ -147,7 +147,7 @@
       {
         "text": "Bye.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_buy_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
+        "effect": [ { "u_spawn_item": "adv_chemistry" }, "stop_following", { "npc_first_topic": "TALK_meteorologist_safe" } ]
       }
     ]
   },
@@ -251,7 +251,7 @@
     "end": {
       "effect": [
         { "npc_add_var": "meteorologist_wait", "type": "time", "context": "mission", "time": true },
-        { "u_buy_item": "textbook_electronics" }
+        { "u_spawn_item": "textbook_electronics" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

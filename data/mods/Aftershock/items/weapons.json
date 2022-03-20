@@ -16,7 +16,7 @@
     "longest_side": "90 cm",
     "price": 100000,
     "price_postapoc": 2000,
-    "material": [ "superalloy", "hardsteel" ],
+    "material": [ "superalloy", "qt_steel" ],
     "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "symbol": "[",
     "looks_like": "PR24-extended",
@@ -89,7 +89,7 @@
     "description": "A delicate strand of light links the antipodes of this crescent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
     "price": 1000000,
     "price_postapoc": 20000,
-    "material": [ "superalloy", "hardsteel" ],
+    "material": [ "superalloy", "qt_steel" ],
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "SLOW_WIELD", "WATERPROOF_GUN", "NEVER_JAMS" ],
     "skill": "archery",
     "min_strength": 4,
@@ -127,7 +127,7 @@
     "volume": "2 L",
     "price": 10000000,
     "price_postapoc": 20000,
-    "material": [ "hardsteel" ],
+    "material": [ "qt_steel" ],
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_gray",
@@ -185,7 +185,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ],
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
@@ -239,7 +239,7 @@
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
   },
   {
@@ -271,7 +271,7 @@
     "name": { "str": "aztlani bow" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.  .\n\nWith its drawing aid system currently disabled, firing it will require truly superhuman strength.  It can be activated to toggle it drawing assist functionality.",
     "price": 50000,
-    "material": [ "superalloy", "hardsteel", "wood" ],
+    "material": [ "superalloy", "qt_steel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
@@ -282,7 +282,20 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -309,7 +322,7 @@
     "name": { "str": "aztlani bow (active)", "str_pl": "aztlani bows (active)" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.  .\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
     "price": 50000,
-    "material": [ "superalloy", "hardsteel", "wood" ],
+    "material": [ "superalloy", "qt_steel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
@@ -320,7 +333,20 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -340,7 +366,7 @@
     "description": "An ornate, single-handed sword used by Aztlani hunters to finish injured game.  Made from gleaming composite alloy, its tip and frontal blade have been sharpened to a monomolecular point, while its back features a serrated saw edge.",
     "price": 100000,
     "price_postapoc": 450000,
-    "material": [ "superalloy", "hardsteel", "wood" ],
+    "material": [ "superalloy", "qt_steel", "wood" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1360 g",
@@ -373,7 +399,19 @@
     "longest_side": "152 cm",
     "price_postapoc": 2000,
     "bashing": 12,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 5,
+          "covers": [ "torso" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },

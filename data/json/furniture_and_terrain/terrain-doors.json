@@ -254,6 +254,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": { "result": "t_door_o", "message": "You notice the door is unlocked, so you simply open it.", "prying_data": {  } },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1082,6 +1083,7 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": { "result": "t_door_o_peep", "message": "You notice the door is unlocked, so you simply open it.", "prying_data": {  } },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1459,6 +1461,11 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1501,6 +1508,11 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
@@ -1545,6 +1557,11 @@
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_o_peep",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
   {
@@ -1586,6 +1603,11 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "alarm": true, "failure": "You pry, but can't pry open the door." }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
   },
@@ -1681,6 +1703,71 @@
         { "item": "rag", "count": [ 2, 5 ] },
         { "item": "stick", "count": 1 },
         { "item": "withered", "count": [ 2, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_grass_curtain_c",
+    "name": "closed grass curtain",
+    "description": "Grass yarn sheets acting as a door.  Could be easily taken down for supplies or placed somewhere else.",
+    "symbol": "+",
+    "looks_like": "t_door_curtain_c",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT" ],
+    "open": "t_door_grass_curtain_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": 1 }, { "item": "grass_sheet", "count": 2 }, { "item": "cordage_6", "count": 6 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "grass_sheet", "count": [ 0, 1 ] },
+        { "item": "grass_yarn", "count": [ 2, 5 ] },
+        { "item": "stick", "count": 1 },
+        { "item": "cordage_6", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_grass_curtain_o",
+    "name": "open grass curtain",
+    "description": "Grass yarn sheets acting as a door.  Could be easily taken down for supplies or placed somewhere else.  These curtains are open, bundled and tied next to the doorway.",
+    "symbol": "'",
+    "looks_like": "t_door_curtain_o",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": 1 }, { "item": "grass_sheet", "count": 2 }, { "item": "cordage_6", "count": 6 } ]
+    },
+    "close": "t_door_grass_curtain_c",
+    "bash": {
+      "str_min": 1,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 5,
+      "sound_fail_vol": 2,
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "grass_sheet", "count": [ 0, 1 ] },
+        { "item": "grass_yarn", "count": [ 2, 5 ] },
+        { "item": "stick", "count": 1 },
+        { "item": "cordage_6", "count": [ 2, 5 ] }
       ]
     }
   },
@@ -1850,6 +1937,13 @@
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_c",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
@@ -1878,6 +1972,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_b",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
@@ -1908,6 +2009,13 @@
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     },
+    "prying": {
+      "result": "t_door_c_peep",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
   {
@@ -1937,6 +2045,13 @@
         { "item": "splinter", "count": 1 }
       ]
     },
+    "prying": {
+      "result": "t_rdoor_c",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
+    },
     "shoot": { "reduce_damage": [ 25, 40 ], "reduce_damage_laser": [ 15, 40 ], "destroy_damage": [ 40, 100 ] }
   },
   {
@@ -1965,6 +2080,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 0, 1 ] }
       ]
+    },
+    "prying": {
+      "result": "t_rdoor_b",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 20, 35 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 90 ] }
   },
@@ -1996,6 +2118,13 @@
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
+    },
+    "prying": {
+      "result": "t_door_b_peep",
+      "duration": "30 seconds",
+      "message": "You pry the boards from the door.",
+      "byproducts": [ { "item": "nail", "count": 8 }, { "item": "2x4", "count": 4 } ],
+      "prying_data": { "prying_nails": true }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 70 ] }
   },
@@ -2355,6 +2484,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
+    "prying": {
+      "result": "t_door_metal_o",
+      "message": "You pry open the metal door.",
+      "prying_data": { "difficulty": 8, "prying_level": 4, "noisy": true, "failure": "The metal door is too thick." }
+    },
     "examine_action": "locked_object_pickable",
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2386,6 +2520,12 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "open": "t_door_bar_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2447,6 +2587,12 @@
     "roof": "t_flat_roof",
     "lockpick_result": "t_door_bar_o",
     "lockpick_message": "The door swings open…",
+    "hacksaw": {
+      "result": "t_mdoor_frame",
+      "duration": "15 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 12 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
     "oxytorch": {

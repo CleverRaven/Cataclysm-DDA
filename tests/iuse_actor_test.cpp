@@ -31,6 +31,13 @@
 #include "type_id.h"
 #include "units.h"
 
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_bot_manhack( "bot_manhack" );
+static const itype_id itype_light_battery_cell( "light_battery_cell" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+
 static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
@@ -66,12 +73,12 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player_character.invoke_item( &test_item );
 
     REQUIRE( !player_character.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_id( "bot_manhack" );
+        return it.typeId() == itype_bot_manhack;
     } ) );
 
     new_manhack = find_adjacent_monster( player_character.pos() );
     REQUIRE( new_manhack != nullptr );
-    REQUIRE( new_manhack->type->id == mtype_id( "mon_manhack" ) );
+    REQUIRE( new_manhack->type->id == mon_manhack );
     g->clear_zombies();
 }
 
@@ -83,10 +90,10 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
         item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.is_reloadable_with( itype_id( "light_battery_cell" ) ) );
+        REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
 
         // Charge the battery
-        const int bat_charges = bat_cell.ammo_capacity( ammotype( "battery" ) );
+        const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
         bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
@@ -130,11 +137,14 @@ static void cut_up_yields( const std::string &target )
     salvage_actor test_actor;
     item cut_up_target{ target };
     item tool{ "knife_butcher" };
-    const std::vector<material_id> &target_materials = cut_up_target.made_of();
+    const std::map<material_id, int> &target_materials = cut_up_target.made_of();
+    const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
+                            cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
-    for( const material_id &mater : target_materials ) {
-        if( const cata::optional<itype_id> item_id = mater->salvaged_into() ) {
-            smallest_yield_mass = std::min( smallest_yield_mass, item_id->obj().weight );
+    for( const auto &mater : target_materials ) {
+        if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
+            units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
+            smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
     }
     REQUIRE( smallest_yield_mass != units::mass_max );

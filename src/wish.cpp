@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "memory_fast.h"
 #include "monster.h"
@@ -346,12 +347,12 @@ void debug_menu::wisheffect( Character &p )
             descstr << eff.disp_name() << '\n';
         }
 
-        descstr << "Intensity threshold: ";
+        descstr << _( "Intensity threshold: " );
         descstr <<  colorize( std::to_string( to_seconds<int>( efft.intensity_duration() ) ),
                               c_yellow );
         descstr << "s | ";
 
-        descstr << "Max: ";
+        descstr << _( "Max: " );
         int max_duration = to_seconds<int>( eff.get_max_duration() );
         descstr << colorize( std::to_string( max_duration ), c_yellow );
         descstr << "s\n";
@@ -416,8 +417,10 @@ void debug_menu::wisheffect( Character &p )
             only_active = !only_active;
             for( uilist_entry &entry : efmenu.entries ) {
                 if( only_active ) {
-                    const int duration = to_seconds<int>( effects[entry.retval - offset].get_duration() );
-                    entry.enabled = duration > 0 || entry.retval < offset;
+                    if( entry.retval >= offset ) {
+                        const int duration = to_seconds<int>( effects[entry.retval - offset].get_duration() );
+                        entry.enabled = duration > 0 || entry.retval < offset;
+                    }
                 } else {
                     entry.enabled = true;
                 }
@@ -470,6 +473,9 @@ void debug_menu::wisheffect( Character &p )
                 }
             } else {
                 eff.set_duration( 0_seconds );
+                if( only_active ) {
+                    entry.enabled = false;
+                }
             }
 
             entry.ctxt.clear();
@@ -562,7 +568,7 @@ class wish_monster_callback: public uilist_callback
             if( valid_entnum ) {
                 tmp.print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.str(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -775,7 +781,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     for( const itype *i : item_controller->all() ) {
         item option( i, calendar::turn_zero );
         // Only display the generic name if it has variants
-        option.clear_gun_variant();
+        option.clear_itype_variant();
         opts.emplace_back( option.tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
@@ -880,12 +886,14 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
 
 /*
  * Set skill on any Character object; player character or NPC
+ * Can change skill theory level
  */
-void debug_menu::wishskill( Character *you )
+void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
     uilist skmenu;
-    skmenu.text = _( "Select a skill to modify" );
+    skmenu.text = change_theory ?
+                  _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
     skmenu.additional_actions = {
         { "LEFT", to_translation( "Decrease skill" ) },
@@ -897,11 +905,16 @@ void debug_menu::wishskill( Character *you )
         return localized_compare( a.name(), b.name() );
     } );
 
+    auto get_level = [&change_theory, &you]( const Skill & skill ) -> int {
+        return change_theory ?
+        you->get_knowledge_level( skill.ident() ) : you->get_skill_level( skill.ident() );
+    };
+
     std::vector<int> origskills;
     origskills.reserve( sorted_skills.size() );
 
-    for( const auto &s : sorted_skills ) {
-        const int level = you->get_skill_level( s->ident() );
+    for( const Skill *s : sorted_skills ) {
+        const int level = get_level( *s );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
                          s->name() );
         origskills.push_back( level );
@@ -918,16 +931,15 @@ void debug_menu::wishskill( Character *you )
                                               skmenu.ret_act == "RIGHT" ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
-                skset = you->get_skill_level( sorted_skills[skill_id]->ident() ) +
+                skset = get_level( *sorted_skills[skill_id] ) +
                         ( skmenu.ret_act == "LEFT" ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
                    sksel < static_cast<int>( sorted_skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = *sorted_skills[skill_id];
-            const int NUM_SKILL_LVL = 21;
             uilist sksetmenu;
-            sksetmenu.w_height_setup = NUM_SKILL_LVL + 4;
+            sksetmenu.w_height_setup = MAX_SKILL + 5;
             sksetmenu.w_x_setup = [&]( int ) -> int {
                 return skmenu.w_x + skmenu.w_width + 1;
             };
@@ -935,9 +947,9 @@ void debug_menu::wishskill( Character *you )
                 return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
             };
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
-            const int skcur = you->get_skill_level( skill.ident() );
+            const int skcur = get_level( skill );
             sksetmenu.selected = skcur;
-            for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
+            for( int i = 0; i <= MAX_SKILL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();
@@ -946,15 +958,19 @@ void debug_menu::wishskill( Character *you )
 
         if( skill_id >= 0 && skset >= 0 ) {
             const Skill &skill = *sorted_skills[skill_id];
-            you->set_skill_level( skill.ident(), skset );
+            if( change_theory ) {
+                you->set_knowledge_level( skill.ident(), skset );
+            } else {
+                you->set_skill_level( skill.ident(), skset );
+            }
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       skill.name(),
-                                      you->get_skill_level( skill.ident() ) ).substr( 0, skmenu.w_width - 4 );
+                                      get_level( skill ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                    you->get_skill_level( skill.ident() ),
+                    get_level( skill ),
                     skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                you->get_skill_level( skill.ident() ) == origskills[skill_id] ?
+                get_level( skill ) == origskills[skill_id] ?
                 skmenu.text_color : c_yellow;
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             const int ret = uilist( _( "Alter all skill values" ), {
@@ -972,15 +988,21 @@ void debug_menu::wishskill( Character *you )
                 }
                 for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
                     const Skill &skill = *sorted_skills[skill_id];
-                    int changeto = skmod != 0 ? you->get_skill_level( skill.ident() ) + skmod :
+                    int changeto = skmod != 0 ? get_level( skill ) + skmod :
                                    skset != -1 ? skset : origskills[skill_id];
-                    you->set_skill_level( skill.ident(), std::max( 0, changeto ) );
+
+                    if( change_theory ) {
+                        you->set_knowledge_level( skill.ident(), std::max( 0, changeto ) );
+                    } else {
+                        you->set_skill_level( skill.ident(), std::max( 0, changeto ) );
+                    }
+
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                            you->get_skill_level( skill.ident() ),
-                            skill.name() );
+                            get_level( skill ), skill.name() );
+
                     you->get_skill_level_object( skill.ident() ).practice();
                     skmenu.entries[skill_id + skoffset].text_color =
-                        you->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
+                        get_level( skill ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }
             }
         }

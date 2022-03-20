@@ -58,7 +58,8 @@
       "KEEP_DISTANCE",
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "ELECTRONIC"
     ]
   }
 ]

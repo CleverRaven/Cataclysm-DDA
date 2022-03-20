@@ -32,6 +32,7 @@
         "                        ",
         "                       ,"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": {
         "-": "t_afs_space_ship_hull_wall",
         "+": "t_afs_space_ship_hatch_c",

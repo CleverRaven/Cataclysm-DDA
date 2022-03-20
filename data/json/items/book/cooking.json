@@ -2,6 +2,7 @@
   {
     "id": "brewing_cookbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Homebrewer's Bible", "str_pl": "copies of The Homebrewer's Bible" },
     "description": "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting.  It even smells faintly of booze.",
     "weight": "1587 g",
@@ -27,6 +28,7 @@
   {
     "id": "cookbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Cooking on a Budget", "str_pl": "copies of Cooking on a Budget" },
     "description": "A nice cook book that goes beyond recipes and into the chemistry of food.",
     "weight": "454 g",
@@ -51,6 +53,7 @@
   {
     "id": "cookbook_human",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "To Serve Man", "str_pl": "copies of To Serve Man" },
     "//": "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
     "description": "It's… it's a cookbook!",
@@ -72,6 +75,7 @@
   {
     "id": "cookbook_italian",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Cucina Italiana", "str_pl": "copies of Cucina Italiana" },
     "description": "This cookbook is written in Italian, but handily illustrated with step by step photo instructions.",
     "weight": "454 g",
@@ -90,6 +94,7 @@
   {
     "id": "cookbook_sushi",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Sushi Made Easy", "str_pl": "copies of Sushi Made Easy" },
     "description": "A simple text for the aspiring sushi lover, this easy to read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
     "weight": "921 g",
@@ -109,6 +114,7 @@
   {
     "id": "family_cookbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "family cookbook" },
     "description": "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
     "weight": "1887 g",
@@ -135,6 +141,7 @@
   {
     "id": "mag_cooking",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Bon Appetit", "str_pl": "issues of Bon Appetit" },
     "description": "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
     "weight": "60 g",
@@ -153,6 +160,7 @@
   {
     "id": "mag_glam",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
     "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "weight": "160 g",
@@ -171,6 +179,7 @@
   {
     "id": "scots_cookbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": {
       "//~": "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
       "str": "Ye Scots Beuk o Cuikery",
@@ -195,6 +204,7 @@
   {
     "id": "vinegar_maker",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Vinegar Maker's Handbook", "str_pl": "copies of Vinegar Maker's Handbook" },
     "description": "This book describes in detail all the ways that one can make vinegar.  You would have thought that there wasn't much to making vinegar, but the girth of this book tells you otherwise.",
     "weight": "454 g",
@@ -232,6 +242,7 @@
   {
     "id": "offalcooking",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Offal Holiday Cooking", "str_pl": "copies of Offal Holiday Cooking" },
     "description": "Offal Holiday Cooking, by Evelyn Turncoat, is a book of holiday recipes that utilize organ meats from various animals.  For the true nose-to-tail cook.",
     "weight": "454 g",
@@ -252,6 +263,7 @@
   {
     "id": "dairy_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Things to do with Milk", "str_pl": "copies of Things to do with Milk" },
     "description": "Whatever you want to do with milk, you will probably find it in this book.",
     "weight": "478 g",
@@ -275,6 +287,7 @@
   {
     "id": "cookbook_liverforkids",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Liver-Licious Recipes Your Kids Will Love", "str_pl": "copies of Liver-Licious Recipes" },
     "description": "This cookbook is written by liver enthusiast Tamsyn Beckerleg.  Inside you'll find a great deal of anecdotes about the near-certain ruination of children who refuse to eat their liver.",
     "weight": "600 g",
@@ -286,6 +299,22 @@
     "intelligence": 5,
     "time": "10 m",
     "chapters": 12,
+    "copy-from": "book_nonf_hard_cook_tpl"
+  },
+  {
+    "id": "cookbook_bloodforgood",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Blood for the Greater Good", "str_pl": "copies of Blood for the Greater Good" },
+    "description": "A recipe book compiled by blood-as-food advocate Alžbeta Bátoriová.  The consumption of blood is a taboo among members of many Abrahamic religions, but they aren't going to stop you now.  This book has bonus material for those with particular tastes.",
+    "weight": "600 g",
+    "volume": "800 ml",
+    "price": 1999,
+    "price_postapoc": 500,
+    "required_level": 1,
+    "max_level": 2,
+    "intelligence": 5,
+    "time": "10 m",
     "copy-from": "book_nonf_hard_cook_tpl"
   },
   {
@@ -304,6 +333,7 @@
   {
     "id": "cookbook_eatyrway",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Eat Your Way to a Fit Physique", "str_pl": "copies of Eat Your Way" },
     "description": "This self-help book, by \"acclaimed nutrition and health guru Amar de Freitas,\" is as dubious as its title.  Worse, it is boring.  It does, however, contain a few basic cooking instructions.",
     "volume": "1100 ml",
@@ -330,6 +360,7 @@
   {
     "id": "winemaking_beginner",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Winemaking for Beginners", "str_pl": "copies of Winemaking for Beginners" },
     "description": "Winemaking, is an art form.  This book teaches you how to crayon within the lines.",
     "weight": "454 g",
@@ -377,8 +408,18 @@
     "copy-from": "mag_cooking"
   },
   {
+    "id": "vacuum_sealing",
+    "type": "BOOK",
+    "name": { "str": "Vacuum Sealer Instructions", "str_pl": "copies of Vacuum Sealer Instructions" },
+    "description": "This dry guide to a home-use vacuum sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
+    "price_postapoc": 1500,
+    "proficiencies": [ { "proficiency": "prof_preservation", "time_factor": 0.05, "fail_factor": 0.1 } ],
+    "copy-from": "mag_cooking"
+  },
+  {
     "id": "baking_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Baker's Companion", "str_pl": "copies of The Baker's Companion" },
     "description": "This book promises to teach you the ways of baking, from cakes to souffles.",
     "weight": "1587 g",
@@ -406,6 +447,7 @@
   {
     "id": "fermenting_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Fermenting Culture", "str_pl": "copies of Fermenting Culture" },
     "description": "Fermenting as a cooking practice only recently came back into vogue before the Cataclysm.  Here is a book with dozens of recipes, many of which you are unlikely to ever see the ingredients for again.",
     "weight": "1587 g",
@@ -431,6 +473,7 @@
   {
     "id": "distilling_cookbook",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Out of the Holler and into the Home: A guide to home distillation", "str_pl": "copies of Out of the Holler" },
     "description": "A book describing the history of at home distillation by liquor.  Each chapter contains a complete recipe for its namesake.",
     "weight": "454 g",
@@ -459,6 +502,7 @@
   {
     "id": "sweets_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Sweets for your Sweet Child", "str_pl": "copies of Sweets for Sweet" },
     "description": "Sweets for your Sweet Child is the best selling cooking book to the parents of young children.  Every recipe uses oversized text, easy words and diagram instructions for children learning to cook with their parents.",
     "weight": "600 g",
@@ -482,6 +526,7 @@
   {
     "id": "survivalflavor_book",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Pocket Survival Cookbook", "str_pl": "copies of Pocket Survival Cookbook" },
     "description": "The smallest cookbook on the market, marketed exclusively to the outdoorsman.  Packs a surprising number of recipes for its tiny size.",
     "weight": "100 g",
@@ -503,6 +548,7 @@
   {
     "id": "cookbook_indian",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Tasting India", "str_pl": "copies of Tasting India" },
     "//": "Statistics derived from a real book.",
     "description": "A thick hardcover book as much about Indian culture as it is a cookbook, clearly written with adoration.",

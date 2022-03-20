@@ -9,6 +9,7 @@
 
 #include "enums.h"
 #include "flat_set.h"
+#include "json.h"
 #include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -71,7 +72,7 @@ struct advanced_inv_save_state {
             pane_right.serialize( json, prefix + "pane_right_" );
         }
 
-        void deserialize( JsonObject &jo, const std::string &prefix ) {
+        void deserialize( const JsonObject &jo, const std::string &prefix ) {
             jo.read( prefix + "exit_code", exit_code );
             jo.read( prefix + "re_enter_move_all", re_enter_move_all );
             jo.read( prefix + "aim_all_location", aim_all_location );
@@ -253,8 +254,7 @@ class uistatedata
             json.end_object();
         }
 
-        void deserialize( JsonIn &jsin ) {
-            JsonObject jo = jsin.get_object();
+        void deserialize( const JsonObject &jo ) {
             jo.allow_omitted_members();
 
             transfer_save.deserialize( jo, "transfer_save_" );

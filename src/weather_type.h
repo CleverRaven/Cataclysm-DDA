@@ -13,13 +13,13 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "dialogue.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
+struct dialogue;
 template<typename T>
 class generic_factory;
 
@@ -58,6 +58,10 @@ enum weather_sound_category : int {
     flurries,
     snowstorm,
     snow,
+    portal_storm,
+    clear,
+    sunny,
+    cloudy,
     last
 };
 
@@ -83,6 +87,7 @@ struct weather_type {
         friend class generic_factory<weather_type>;
         bool was_loaded = false;
         weather_type_id id;
+        std::vector<std::pair<weather_type_id, mod_id>> src;
         // UI name of weather type.
         translation name;
         // UI color of weather type.

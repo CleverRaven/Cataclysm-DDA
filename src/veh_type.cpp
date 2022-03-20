@@ -39,6 +39,11 @@
 
 class npc;
 
+static const itype_id itype_null( "null" );
+
+static const quality_id qual_JACK( "JACK" );
+static const quality_id qual_LIFT( "LIFT" );
+
 static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
@@ -64,6 +69,7 @@ static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
+    { "APPLIANCE", VPFLAG_APPLIANCE },
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },
@@ -89,6 +95,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "FREEZER", VPFLAG_FREEZER },
+    { "ARCADE", VPFLAG_ARCADE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -97,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "HEATED_TANK", VPFLAG_HEATED_TANK, },
     { "COOLER", VPFLAG_COOLER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
@@ -234,6 +242,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
         reqs.clear();
         // Construct a requirement to capture "components", "qualities", and
         // "tools" that might be listed.
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
         requirement_data::load_requirement( src, req_id );
         reqs.emplace_back( req_id, 1 );
@@ -269,7 +278,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         for( const std::string line : fuel_opts ) {
             e_info.fuel_opts.emplace_back( line );
         }
-    } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
+    } else if( e_info.fuel_opts.empty() && fuel_type != itype_null ) {
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
@@ -890,12 +899,10 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     // borrowed from item.cpp and adjusted
-    const quality_id quality_jack( "JACK" );
-    const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg += string_format(
                    _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
-        if( qual.first == quality_jack || qual.first == quality_lift ) {
+        if( qual.first == qual_JACK || qual.first == qual_LIFT ) {
             msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
                                   static_cast<int>( convert_weight( lifting_quality_to_mass( qual.second ) ) ),
                                   weight_units() );

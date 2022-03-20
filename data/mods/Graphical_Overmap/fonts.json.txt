@@ -1,15 +1,15 @@
 {
   "typeface": [
-    "data/font/Terminus.ttf",
+    "data/font/VecTerminus12Medium.otf",
     "data/font/unifont.ttf"
   ],
   "map_typeface": [
-    "data/font/Terminus.ttf",
+    "data/font/VecTerminus12Medium.otf",
     "data/font/unifont.ttf"
   ],
   "overmap_typeface": [
     "data/font/map_font_LARWICK.png",
-    "data/font/Terminus.ttf",
+    "data/font/VecTerminus12Medium.otf",
     "data/font/unifont.ttf"
   ]
 }

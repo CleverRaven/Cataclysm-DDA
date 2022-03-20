@@ -24,7 +24,7 @@
       [ "seasoning_salt", 5 ],
       [ "vinegar", 10 ],
       { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 20, "charges": 4, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "con_milk", 10 ],
       [ "milk_evap", 10 ],
       [ "instant_coffee", 25 ],

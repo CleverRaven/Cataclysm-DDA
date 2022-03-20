@@ -15,7 +15,9 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "mtype.h"
 #include "point.h"
+#include "projectile.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
@@ -27,6 +29,39 @@
 enum class outcome_type {
     Kill, Casualty
 };
+
+static float get_damage_vs_target( const std::string &target_id )
+{
+    projectile proj;
+    proj.speed = 1000;
+    // Arbitrary damage, we only care about scaling.
+    proj.impact = damage_instance( damage_type::BULLET, 10 );
+    proj.proj_effects.insert( "NULL_SOURCE" );
+    dealt_projectile_attack frag;
+    frag.proj = proj;
+
+    int damaging_hits = 0;
+    int non_damaging_hits = 0;
+    int damage_taken = 0;
+    tripoint monster_position( 30, 30, 0 );
+    clear_map_and_put_player_underground();
+    int hits = 10000;
+    for( int i = 0; i < hits; ++i ) {
+        clear_creatures();
+        monster &target_monster = spawn_test_monster( target_id, monster_position );
+        //REQUIRE( target_monster.type->armor_bullet == 0 );
+        // This mirrors code in explosion::shrapnel() that scales hit rate with size and avoids crits.
+        frag.missed_by = rng_float( 0.05, 1.0 / target_monster.ranged_target_size() );
+        target_monster.deal_projectile_attack( nullptr, frag, false );
+        if( frag.dealt_dam.total_damage() > 0 ) {
+            damaging_hits++;
+            damage_taken += frag.dealt_dam.total_damage();
+        } else {
+            non_damaging_hits++;
+        }
+    }
+    return static_cast<float>( damage_taken ) / static_cast<float>( damaging_hits );
+}
 
 static void check_lethality( const std::string &explosive_id, const int range, float lethality,
                              float margin, outcome_type expected_outcome )
@@ -140,6 +175,28 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     INFO( vehicle_id );
     CHECK( after_hp_total >= floor( before_hp_total * damage_lower_bound ) );
     CHECK( after_hp_total <= ceil( before_hp_total * damage_upper_bound ) );
+}
+
+TEST_CASE( "grenade_lethality_scaling_with_size", "[grenade],[explosion],[balance]" )
+{
+    // We want monsters of different sizes with the same armor to test that we aren't scaling damage with size.
+    float tiny = get_damage_vs_target( "mon_spawn_raptor" );
+    float small = get_damage_vs_target( "mon_dog_thing" );
+    float medium = get_damage_vs_target( "mon_zombie" );
+    float large = get_damage_vs_target( "mon_thing" );
+    float huge = get_damage_vs_target( "mon_flying_polyp" );
+    CHECK( tiny == Approx( small ).margin( 1.0 ) );
+    CHECK( small == Approx( medium ).margin( 1.0 ) );
+    CHECK( medium == Approx( large ).margin( 1.0 ) );
+    CHECK( large == Approx( huge ).margin( 1.0 ) );
+
+    float small_armored = get_damage_vs_target( "mon_skittering_plague" );
+    float medium_armored = get_damage_vs_target( "mon_spider_trapdoor_giant" );
+    float large_armored = get_damage_vs_target( "mon_mutant_evolved" );
+    float huge_armored = get_damage_vs_target( "mon_jabberwock" );
+    CHECK( small_armored == Approx( medium_armored ).margin( 1.0 ) );
+    CHECK( medium_armored == Approx( large_armored ).margin( 1.0 ) );
+    CHECK( large_armored == Approx( huge_armored ).margin( 1.0 ) );
 }
 
 TEST_CASE( "grenade_lethality", "[grenade],[explosion],[balance],[slow]" )

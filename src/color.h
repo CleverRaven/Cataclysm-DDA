@@ -375,7 +375,7 @@ class nc_color
         bool is_blink() const;
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int value );
 
         friend bool operator==( const nc_color &l, const nc_color &r ) {
             return l.attribute_value == r.attribute_value;

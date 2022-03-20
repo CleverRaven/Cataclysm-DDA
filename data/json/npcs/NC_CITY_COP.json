@@ -34,6 +34,7 @@
     "entries": [
       { "item": "boots", "prob": 70 },
       { "item": "boots_steel", "prob": 50 },
+      { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 20 },
       { "item": "boots_western", "prob": 5 },
       { "item": "boots_combat", "prob": 10 }

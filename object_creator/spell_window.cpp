@@ -17,7 +17,7 @@ static spell_type default_spell_type()
 {
     spell_type ret;
     ret.sound_type = sounds::sound_t::combat;
-    ret.sound_description = to_translation( "an explosion" );
+    ret.sound_description = to_translation( "an explosion." );
     ret.sound_variant = "default";
     ret.message = to_translation( "You cast %s!" );
     ret.skill = skill_id( "spellcraft" );

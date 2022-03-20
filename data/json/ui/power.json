@@ -1,0 +1,9 @@
+[
+  {
+    "id": "power_desc",
+    "type": "widget",
+    "label": "Bionic Power",
+    "style": "text",
+    "var": "power_text"
+  }
+]

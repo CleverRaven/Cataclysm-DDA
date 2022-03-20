@@ -23,7 +23,7 @@
   {
     "type": "proficiency",
     "id": "prof_welding",
-    "name": { "str": "Welding" },
+    "name": { "str": "Skilled Welding" },
     "description": "You are an experienced welder.",
     "can_learn": true,
     "default_time_multiplier": 2,
@@ -106,5 +106,25 @@
     "default_fail_multiplier": 1.5,
     "time_to_learn": "10 h",
     "required_proficiencies": [ "prof_metalworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_case_hardening",
+    "name": { "str": "Case Hardening" },
+    "description": "Heating steel packed in charcoal at high temperatures to cause a hard case of higher carbon steel around the lower carbon core.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_quenching",
+    "name": { "str": "Quenching" },
+    "description": "Quenching involves repeatedly heating the steel, quenching it in water, then tempering it to create extremely tough metal.",
+    "can_learn": true,
+    "default_time_multiplier": 3,
+    "default_fail_multiplier": 1.75,
+    "time_to_learn": "20 h"
   }
 ]

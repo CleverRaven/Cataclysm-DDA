@@ -326,7 +326,7 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.1 },
     "dispersion": 285,
     "loudness": 0,
-    "effects": [ "EXPLOSIVE_SMALL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ]
   },
   {
     "type": "GENERIC",
@@ -340,7 +340,7 @@
     "price_postapoc": 250,
     "material": [ "steel" ],
     "weight": "562 g",
-    "volume": "250 ml",
+    "volume": "90 ml",
     "bashing": 10,
     "to_hit": -1
   },
@@ -399,12 +399,24 @@
     "longest_side": "140 cm",
     "price_postapoc": 50,
     "bashing": 6,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 20,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "range": 8,
     "dispersion": 1250,
+    "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -437,15 +449,27 @@
     "longest_side": "132 cm",
     "price_postapoc": 500,
     "bashing": 6,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 4 },
     "range": 10,
     "dispersion": 1000,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -475,6 +499,7 @@
     "ranged_damage": { "damage_type": "stab", "amount": 10 },
     "range": 18,
     "dispersion": 850,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
@@ -486,6 +511,7 @@
       "msg": "You tighten the limbs, increasing the strength of the bow.",
       "ammo_scale": 0
     },
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -554,15 +580,30 @@
     "longest_side": "152 cm",
     "price_postapoc": 3000,
     "bashing": 8,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 8 },
     "range": 12,
     "dispersion": 950,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -595,15 +636,27 @@
     "longest_side": "183 cm",
     "price_postapoc": 2000,
     "bashing": 12,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 12,
     "dispersion": 950,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -636,15 +689,30 @@
     "longest_side": "152 cm",
     "price_postapoc": 2000,
     "bashing": 12,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [
+            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+          ],
+          "encumbrance": 20,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 14,
     "dispersion": 850,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -676,15 +744,27 @@
     "longest_side": "183 cm",
     "price_postapoc": 3000,
     "bashing": 10,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 20,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 18,
     "dispersion": 1000,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -700,7 +780,17 @@
     "volume": "6250 ml",
     "longest_side": "198 cm",
     "price_postapoc": 2000,
-    "armor_data": { "material_thickness": 2, "armor": [ { "encumbrance": 25, "coverage": 7, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 25,
+          "coverage": 14,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "durability": 8,
     "loudness": 16,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
@@ -733,8 +823,10 @@
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
     "range": 22,
     "dispersion": 1000,
+    "sight_dispersion": 3000,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
@@ -767,15 +859,27 @@
     "longest_side": "150 cm",
     "price_postapoc": 6000,
     "bashing": 12,
-    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 14, "coverage": 5, "covers": [ "torso" ] } ] },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "range": 18,
     "dispersion": 950,
+    "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

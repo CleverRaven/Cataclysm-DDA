@@ -35,7 +35,7 @@
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
       "terrain": { "¥": "t_card_science_security_magenta" },
       "place_traps": [
-        { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] },
+        { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ] },
         { "trap": "tr_concrete_wall_door_lab_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] }
       ],
       "place_loot": [
@@ -98,7 +98,7 @@
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
       "terrain": { "¥": "t_card_science_maintenance_yellow" },
       "place_traps": [
-        { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] },
+        { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ] },
         { "trap": "tr_concrete_wall_door_lab_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] }
       ],
       "place_nested": [
@@ -171,7 +171,7 @@
         { "chunks": [ [ "lab_cargo_5x5", 100 ] ], "x": 2, "y": 7 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 4 ], "y": [ 1, 22 ], "density": 0.1 } ],
-      "place_traps": [ { "trap": "tr_light_on_res_8_SW", "x": [ 8, 23 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
+      "place_traps": [ { "trap": "tr_light_on_res_8_SW", "x": [ 8, 23 ], "y": [ 10, 12 ] } ]
     }
   },
   {
@@ -223,7 +223,7 @@
         { "chunks": [ [ "lab_cargo_5x5", 100 ] ], "x": 18, "y": 1 }
       ],
       "place_monsters": [ { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 19, 21 ], "y": [ 1, 22 ], "density": 0.1 } ],
-      "place_traps": [ { "trap": "tr_light_on_res_8_SE", "x": [ 2, 23 ], "y": [ 10, 12 ], "repeat": [ 3, 4 ] } ]
+      "place_traps": [ { "trap": "tr_light_on_res_8_SE", "x": [ 0, 14 ], "y": [ 10, 12 ] } ]
     }
   }
 ]

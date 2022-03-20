@@ -126,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_END",
-    "dynamic_line": "The return of the great eaters was fortold by a prophet.  We faithful have been waiting and preparing since the revelation.",
+    "dynamic_line": "The return of the great eaters was foretold by a prophet.  We faithful have been waiting and preparing since the revelation.",
     "responses": [
       { "text": "I guess it must be nice to be proven right.", "topic": "TALK_SWAMPER_JOIN" },
       { "text": "This is crazy.", "topic": "TALK_SWAMPER_INSULT" }
@@ -141,7 +141,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_INSULT",
-    "dynamic_line": "You deny what you see right in front of you.  This world is what was fortold.",
+    "dynamic_line": "You deny what you see right in front of you.  This world is what was foretold.",
     "responses": [ { "text": "Yeah, alright.", "topic": "TALK_SWAMPER" } ]
   },
   {
@@ -274,7 +274,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_SWAMPER_PRETENDER",
-    "dynamic_line": "It was fortold that as the great eaters returned, so too would the pretenders, who would come to steal the meat.  Very little is asked of us, except that we do all we can to ensure that the true great eaters received as much meat as possible and the pretenders go hungry.",
+    "dynamic_line": "It was foretold that as the great eaters returned, so too would the pretenders, who would come to steal the meat.  Very little is asked of us, except that we do all we can to ensure that the true great eaters received as much meat as possible and the pretenders go hungry.",
     "responses": [
       { "text": "Yes CEO Baronyx, very good CEO Baronyx.", "topic": "TALK_NONE" },
       { "text": "This makes no sense and I'm done talking about it.", "topic": "TALK_DONE" }

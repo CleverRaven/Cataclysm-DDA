@@ -77,7 +77,7 @@
         { "chance": 65, "item": "barbecue", "x": 1, "y": [ 13, 14 ] },
         { "chance": 55, "item": "hand_tools", "x": 3, "y": 5 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 13, "y": 20 } ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "__________----__________",
@@ -182,9 +182,9 @@
         { "chance": 45, "item": "trash", "x": 1, "y": 7 },
         { "chance": 45, "item": "trash", "x": 11, "y": 2 }
       ],
-      "place_monsters": [
-        { "chance": 3, "density": 1, "monster": "GROUP_MALL", "x": 8, "y": 9 },
-        { "chance": 4, "density": 0, "monster": "GROUP_FOOTBALL", "x": 21, "y": 10 }
+      "place_monster": [
+        { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] },
+        { "group": "GROUP_FOOTBALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] }
       ],
       "rows": [
         "-.....|...|#_#_#_r_GGggg",
@@ -276,10 +276,7 @@
         { "chance": 45, "item": "trash", "x": 13, "y": 5 },
         { "chance": 45, "item": "trash", "x": 9, "y": 3 }
       ],
-      "place_monsters": [
-        { "chance": 3, "density": 1, "monster": "GROUP_MALL", "x": 14, "y": 13 },
-        { "chance": 4, "density": 1, "monster": "GROUP_ARCADE", "x": 3, "y": 13 }
-      ],
+      "place_monster": [ { "group": "GROUP_MALL", "x": 14, "y": 13 }, { "group": "GROUP_ARCADE", "x": 3, "y": 13 } ],
       "rows": [
         "-.....|...|#_#_#_r_GGggg",
         "-....l|..{|#_#_#_r_Ggggg",
@@ -371,10 +368,10 @@
         { "chance": 45, "item": "hardware", "x": [ 16, 19 ], "y": 22 },
         { "chance": 45, "item": "hardware", "x": 1, "y": [ 13, 14 ] }
       ],
-      "place_monster": [ { "monster": "mon_zombie_technician", "x": 13, "y": 15 } ],
-      "place_monsters": [
-        { "chance": 5, "density": 1, "monster": "GROUP_MALL", "x": 4, "y": 4 },
-        { "chance": 4, "density": 1, "monster": "GROUP_MALL", "x": 14, "y": 3 }
+      "place_monster": [
+        { "monster": "mon_zombie_technician", "x": 13, "y": 15 },
+        { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] },
+        { "group": "GROUP_MALL", "x": [ 4, 20 ], "y": [ 4, 20 ], "repeat": [ 4, 10 ] }
       ],
       "rows": [
         "-.........|#_#_#_r_GGggg",
@@ -434,7 +431,7 @@
     "method": "json",
     "object": {
       "furniture": { "#": "f_bench", "&": "f_trashcan", ".": "f_null", "_": "f_null", "g": "f_null", "p": "f_null" },
-      "place_items": [ { "chance": 65, "item": "trash", "x": 17, "y": 20 } ],
+      "place_items": [ { "chance": 3, "item": "trash", "x": 17, "y": 20 } ],
       "rows": [
         "gggg.....gggg.....gggggg",
         "gggg.....gggg.....gggggg",
@@ -489,13 +486,13 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 35, "item": "office", "x": 2, "y": 7 },
-        { "chance": 35, "item": "office", "x": 8, "y": [ 6, 7 ] },
-        { "chance": 35, "item": "office", "x": 13, "y": 5 },
-        { "chance": 65, "item": "vending_food", "x": 18, "y": 10 },
-        { "chance": 65, "item": "vending_drink", "x": 19, "y": 10 }
+        { "chance": 4, "item": "office", "x": 2, "y": 7 },
+        { "chance": 4, "item": "office", "x": 8, "y": [ 6, 7 ] },
+        { "chance": 4, "item": "office", "x": 13, "y": 5 },
+        { "chance": 2, "item": "vending_food", "x": 18, "y": 10 },
+        { "chance": 2, "item": "vending_drink", "x": 19, "y": 10 }
       ],
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 12, "y": 19 } ],
+      "place_monster": [ { "chance": 2, "group": "GROUP_FOOTBALL", "x": 12, "y": 19, "repeat": [ 4, 10 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         ".........bb.....ssssssss",
@@ -550,7 +547,7 @@
     "object": {
       "place_item": [ { "item": "football", "repeat": 1, "x": 3, "y": 5 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": 11, "y": 12, "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -588,7 +585,7 @@
     "object": {
       "place_item": [ { "item": "football", "repeat": 1, "x": 19, "y": 6 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": 11, "y": 12, "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -655,9 +652,9 @@
         { "chance": 45, "item": "sports", "x": 10, "y": 14 },
         { "chance": 5, "item": "guns_pistol_common", "x": 10, "y": 19 }
       ],
-      "place_monsters": [
-        { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 },
-        { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 13, "y": 1 }
+      "place_monster": [
+        { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] },
+        { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] }
       ],
       "place_toilets": [ { "x": 2, "y": 22 }, { "x": 4, "y": 22 }, { "x": 6, "y": 22 }, { "x": 8, "y": 22 } ],
       "rows": [
@@ -713,7 +710,7 @@
     "method": "json",
     "object": {
       "furniture": { "#": "f_bench", "&": "f_trashcan", ".": "f_null", "_": "f_null", "g": "f_null", "p": "f_null" },
-      "place_items": [ { "chance": 65, "item": "trash", "x": 6, "y": 20 } ],
+      "place_items": [ { "chance": 3, "item": "trash", "x": 6, "y": 20 } ],
       "rows": [
         "gggg.....gggg.....gggggg",
         "gggg.....gggg.....gggggg",
@@ -765,11 +762,11 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 65, "item": "trash", "x": 7, "y": 8 },
-        { "chance": 65, "item": "trash", "x": 22, "y": 7 },
-        { "chance": 65, "item": "trash", "x": 9, "y": 7 }
+        { "chance": 3, "item": "trash", "x": 7, "y": 8 },
+        { "chance": 3, "item": "trash", "x": 22, "y": 7 },
+        { "chance": 3, "item": "trash", "x": 9, "y": 7 }
       ],
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 12, "y": 19 } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssss.BB.............",
@@ -821,7 +818,7 @@
     "object": {
       "place_item": [ { "item": "football", "repeat": 1, "x": 19, "y": 6 }, { "item": "cleats", "repeat": 1, "x": 16, "y": 17 } ],
       "furniture": { ".": "f_null" },
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -858,8 +855,8 @@
     "method": "json",
     "object": {
       "furniture": { ".": "f_null" },
-      "place_items": [ { "chance": 45, "item": "trash", "x": 4, "y": 12 } ],
-      "place_monsters": [ { "chance": 2, "density": 1, "monster": "GROUP_FOOTBALL", "x": 11, "y": 12 } ],
+      "place_items": [ { "chance": 4, "item": "trash", "x": 4, "y": 12 } ],
+      "place_monster": [ { "group": "GROUP_FOOTBALL", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "........................",
         "........................",
@@ -910,17 +907,17 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 65, "item": "trash", "x": 5, "y": 6 },
-        { "chance": 65, "item": "trash", "x": 21, "y": 4 },
-        { "chance": 45, "item": "sports", "x": 19, "y": 22 },
-        { "chance": 45, "item": "sports", "x": [ 15, 16 ], "y": 22 },
-        { "chance": 45, "item": "sports", "x": 3, "y": 22 },
-        { "chance": 45, "item": "sports", "x": 17, "y": 20 },
-        { "chance": 45, "item": "sports", "x": 10, "y": 20 },
-        { "chance": 45, "item": "sports", "x": 3, "y": 19 },
-        { "chance": 45, "item": "sports", "x": 4, "y": 17 }
+        { "chance": 3, "item": "trash", "x": 5, "y": 6 },
+        { "chance": 3, "item": "trash", "x": 21, "y": 4 },
+        { "chance": 4, "item": "sports", "x": 19, "y": 22 },
+        { "chance": 4, "item": "sports", "x": [ 15, 16 ], "y": 22 },
+        { "chance": 4, "item": "sports", "x": 3, "y": 22 },
+        { "chance": 4, "item": "sports", "x": 17, "y": 20 },
+        { "chance": 4, "item": "sports", "x": 10, "y": 20 },
+        { "chance": 4, "item": "sports", "x": 3, "y": 19 },
+        { "chance": 4, "item": "sports", "x": 4, "y": 17 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "________________________",
         "________________________",
@@ -1031,18 +1028,18 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 65, "item": "groce_frozen", "x": 22, "y": 21 },
-        { "chance": 55, "item": "groce_softdrink", "x": 17, "y": 20 },
-        { "chance": 65, "item": "trash", "x": 10, "y": 22 },
-        { "chance": 65, "item": "trash", "x": 19, "y": 12 },
-        { "chance": 65, "item": "trash", "x": 6, "y": 11 },
-        { "chance": 65, "item": "trash", "x": 14, "y": 7 },
-        { "chance": 65, "item": "trash", "x": 12, "y": 7 },
-        { "chance": 55, "item": "bowling_food", "x": 22, "y": 19 },
-        { "chance": 55, "item": "bowling_food", "x": 22, "y": 15 },
-        { "chance": 55, "item": "bowling_food", "x": 17, "y": 15 }
+        { "chance": 3, "item": "groce_frozen", "x": 22, "y": 21 },
+        { "chance": 3, "item": "groce_softdrink", "x": 17, "y": 20 },
+        { "chance": 3, "item": "trash", "x": 10, "y": 22 },
+        { "chance": 3, "item": "trash", "x": 19, "y": 12 },
+        { "chance": 3, "item": "trash", "x": 6, "y": 11 },
+        { "chance": 3, "item": "trash", "x": 14, "y": 7 },
+        { "chance": 3, "item": "trash", "x": 12, "y": 7 },
+        { "chance": 3, "item": "bowling_food", "x": 22, "y": 19 },
+        { "chance": 3, "item": "bowling_food", "x": 22, "y": 15 },
+        { "chance": 3, "item": "bowling_food", "x": 17, "y": 15 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "place_toilets": [
         { "x": 5, "y": 4 },
         { "x": 7, "y": 4 },
@@ -1133,19 +1130,19 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 55, "item": "bar_fridge", "x": 22, "y": [ 17, 18 ] },
-        { "chance": 55, "item": "bar_fridge", "x": 17, "y": 13 },
-        { "chance": 65, "item": "bowling_fridge", "x": 22, "y": 3 },
-        { "chance": 65, "item": "trash", "x": 5, "y": 17 },
-        { "chance": 65, "item": "trash", "x": 8, "y": 15 },
-        { "chance": 65, "item": "trash", "x": 12, "y": 12 },
-        { "chance": 65, "item": "trash", "x": 10, "y": 7 },
-        { "chance": 65, "item": "trash", "x": 5, "y": 6 },
-        { "chance": 55, "item": "bowling_food", "x": 18, "y": 6 },
-        { "chance": 55, "item": "bowling_food", "x": 18, "y": 4 },
-        { "chance": 65, "item": "bar_food", "x": 17, "y": 19 }
+        { "chance": 2, "item": "bar_fridge", "x": 22, "y": [ 17, 18 ] },
+        { "chance": 2, "item": "bar_fridge", "x": 17, "y": 13 },
+        { "chance": 2, "item": "bowling_fridge", "x": 22, "y": 3 },
+        { "chance": 2, "item": "trash", "x": 5, "y": 17 },
+        { "chance": 2, "item": "trash", "x": 8, "y": 15 },
+        { "chance": 2, "item": "trash", "x": 12, "y": 12 },
+        { "chance": 2, "item": "trash", "x": 10, "y": 7 },
+        { "chance": 2, "item": "trash", "x": 5, "y": 6 },
+        { "chance": 2, "item": "bowling_food", "x": 18, "y": 6 },
+        { "chance": 2, "item": "bowling_food", "x": 18, "y": 4 },
+        { "chance": 2, "item": "bar_food", "x": 17, "y": 19 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ggggG_r_#_#_#|...|.....-",
         "gggGG_r_#_#_#|...|.....-",
@@ -1220,23 +1217,23 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 55, "item": "coffee_shop", "x": 17, "y": 19 },
-        { "chance": 55, "item": "coffee_shop", "x": 22, "y": [ 17, 18 ] },
-        { "chance": 55, "item": "coffee_shop", "x": 17, "y": [ 13, 14 ] },
-        { "chance": 65, "item": "vending_drink", "x": 20, "y": 22 },
-        { "chance": 65, "item": "vending_drink", "x": 14, "y": 1 },
-        { "chance": 65, "item": "vending_food", "x": 19, "y": 22 },
-        { "chance": 65, "item": "vending_food", "x": 14, "y": 2 },
-        { "chance": 65, "item": "bowling_fridge", "x": 22, "y": 3 },
-        { "chance": 65, "item": "trash", "x": 5, "y": 17 },
-        { "chance": 65, "item": "trash", "x": 8, "y": 15 },
-        { "chance": 65, "item": "trash", "x": 12, "y": 12 },
-        { "chance": 65, "item": "trash", "x": 10, "y": 7 },
-        { "chance": 65, "item": "trash", "x": 5, "y": 6 },
-        { "chance": 55, "item": "bowling_food", "x": 18, "y": 6 },
-        { "chance": 55, "item": "bowling_food", "x": 18, "y": 4 }
+        { "chance": 2, "item": "coffee_shop", "x": 17, "y": 19 },
+        { "chance": 2, "item": "coffee_shop", "x": 22, "y": [ 17, 18 ] },
+        { "chance": 2, "item": "coffee_shop", "x": 17, "y": [ 13, 14 ] },
+        { "chance": 2, "item": "vending_drink", "x": 20, "y": 22 },
+        { "chance": 2, "item": "vending_drink", "x": 14, "y": 1 },
+        { "chance": 2, "item": "vending_food", "x": 19, "y": 22 },
+        { "chance": 2, "item": "vending_food", "x": 14, "y": 2 },
+        { "chance": 2, "item": "bowling_fridge", "x": 22, "y": 3 },
+        { "chance": 2, "item": "trash", "x": 5, "y": 17 },
+        { "chance": 2, "item": "trash", "x": 8, "y": 15 },
+        { "chance": 2, "item": "trash", "x": 12, "y": 12 },
+        { "chance": 2, "item": "trash", "x": 10, "y": 7 },
+        { "chance": 2, "item": "trash", "x": 5, "y": 6 },
+        { "chance": 2, "item": "bowling_food", "x": 18, "y": 6 },
+        { "chance": 2, "item": "bowling_food", "x": 18, "y": 4 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "rows": [
         "ggggG_r_#_#_#R...|o..Ct-",
         "gggGG_r_#_#_#R{..|....t-",
@@ -1312,23 +1309,23 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 75, "item": "bar_alcohol", "x": 15, "y": 22 },
-        { "chance": 75, "item": "bar_alcohol", "x": 11, "y": 21 },
-        { "chance": 75, "item": "bar_alcohol", "x": [ 17, 18 ], "y": 17 },
-        { "chance": 75, "item": "bar_alcohol", "x": 16, "y": [ 13, 17 ] },
-        { "chance": 65, "item": "trash", "x": 10, "y": 7 },
-        { "chance": 65, "item": "trash", "x": 5, "y": 6 },
-        { "chance": 45, "item": "sports", "x": 4, "y": [ 20, 22 ] },
-        { "chance": 45, "item": "sports", "x": 2, "y": 18 },
-        { "chance": 45, "item": "sports", "x": 4, "y": [ 17, 18 ] },
-        { "chance": 45, "item": "sports", "x": 4, "y": 14 },
-        { "chance": 45, "item": "sports", "x": 3, "y": 13 },
-        { "chance": 65, "item": "bar_food", "x": 21, "y": 21 },
-        { "chance": 65, "item": "bar_food", "x": 15, "y": 21 },
-        { "chance": 45, "item": "shoes", "x": 4, "y": 19 },
-        { "chance": 45, "item": "shoes", "x": 4, "y": 15 }
+        { "chance": 2, "item": "bar_alcohol", "x": 15, "y": 22 },
+        { "chance": 2, "item": "bar_alcohol", "x": 11, "y": 21 },
+        { "chance": 2, "item": "bar_alcohol", "x": [ 17, 18 ], "y": 17 },
+        { "chance": 2, "item": "bar_alcohol", "x": 16, "y": [ 13, 17 ] },
+        { "chance": 2, "item": "trash", "x": 10, "y": 7 },
+        { "chance": 2, "item": "trash", "x": 5, "y": 6 },
+        { "chance": 2, "item": "sports", "x": 4, "y": [ 20, 22 ] },
+        { "chance": 2, "item": "sports", "x": 2, "y": 18 },
+        { "chance": 2, "item": "sports", "x": 4, "y": [ 17, 18 ] },
+        { "chance": 2, "item": "sports", "x": 4, "y": 14 },
+        { "chance": 2, "item": "sports", "x": 3, "y": 13 },
+        { "chance": 2, "item": "bar_food", "x": 21, "y": 21 },
+        { "chance": 2, "item": "bar_food", "x": 15, "y": 21 },
+        { "chance": 2, "item": "shoes", "x": 4, "y": 19 },
+        { "chance": 2, "item": "shoes", "x": 4, "y": 15 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_HOUSE", "x": 14, "y": 13 } ],
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 4, 10 ] } ],
       "place_toilets": [ { "x": 18, "y": 2 }, { "x": 22, "y": 2 } ],
       "rows": [
         "ggggG_R_b_b_b|.........-",

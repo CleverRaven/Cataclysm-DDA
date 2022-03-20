@@ -304,7 +304,8 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "g": [ "t_wall_glass" ] }
+      "terrain": { "g": [ "t_wall_glass" ] },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -367,7 +368,8 @@
         { "ter": "t_rock", "x": 0, "y": 2 },
         { "ter": "t_rock", "x": 1, "y": 2 },
         { "ter": "t_rock", "x": 2, "y": 2 }
-      ]
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -401,7 +403,8 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 10 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 10, "y2": 10 }
       ],
-      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -415,7 +418,8 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 9, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 10, "y2": 10 }
       ],
-      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -429,7 +433,8 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 10, "y": 0, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 10, "x2": 10, "y": 0, "y2": 9 }
       ],
-      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -442,7 +447,8 @@
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 9, "y": 0, "y2": 0 },
         { "line": "terrain", "id": "t_concrete_wall", "x": 0, "x2": 0, "y": 1, "y2": 9 }
       ],
-      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ "lab_rock_9x9" ], "x": 1, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -477,7 +483,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette" ]
+      "palettes": [ "lab_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -512,7 +519,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette" ]
+      "palettes": [ "lab_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -547,7 +555,8 @@
         "          ####          ",
         "########################"
       ],
-      "palettes": [ "lab_palette" ]
+      "palettes": [ "lab_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -582,7 +591,8 @@
         "                       #",
         "                       #"
       ],
-      "palettes": [ "lab_palette" ]
+      "palettes": [ "lab_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -649,7 +659,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -684,7 +695,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -719,7 +731,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -754,7 +767,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -789,7 +803,8 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -824,7 +839,8 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -859,7 +875,8 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -894,7 +911,8 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
 ]

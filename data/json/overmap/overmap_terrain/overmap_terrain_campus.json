@@ -19,7 +19,7 @@
     "sym": "A",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "SOURCE_CHEMISTRY", "RISK_HIGH" ]
+    "flags": [ "SOURCE_CHEMISTRY", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -52,7 +52,8 @@
     "name": "campus commons building",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -93,7 +94,8 @@
     "name": "campus media building",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -118,7 +120,8 @@
     "name": "campus health building",
     "sym": "C",
     "color": "red",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -145,7 +148,8 @@
     "name": "campus lecture hall",
     "sym": "C",
     "color": "light_blue",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -181,6 +185,7 @@
     "name": "campus pedestrian area ",
     "sym": ".",
     "color": "light_green",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]

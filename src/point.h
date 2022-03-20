@@ -229,6 +229,13 @@ struct tripoint {
         return point( x, y );
     }
 
+    /**
+     * Rotates just the x,y component of the tripoint. See point::rotate()
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    tripoint rotate( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     std::string to_string() const;
     std::string to_string_writable() const;
 

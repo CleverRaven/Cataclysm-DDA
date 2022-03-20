@@ -98,7 +98,7 @@
         { "item": "camping", "x": [ 13, 14 ], "y": [ 13, 13 ], "chance": 70 },
         { "item": "homebooks", "x": [ 10, 11 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "kitchen", "x": [ 2, 2 ], "y": [ 9, 12 ], "chance": 70 },
-        { "item": "fridge", "x": [ 5, 5 ], "y": [ 9, 9 ], "chance": 70 },
+        { "item": "SUS_fridge_survivor", "x": [ 5, 5 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "dining", "x": [ 17, 19 ], "y": [ 10, 11 ], "chance": 70 },
         { "item": "magazines", "x": [ 7, 8 ], "y": [ 16, 17 ], "chance": 50 }
       ],

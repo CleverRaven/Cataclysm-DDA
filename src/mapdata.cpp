@@ -26,6 +26,8 @@
 #include "trap.h"
 #include "type_id.h"
 
+static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
 namespace
 {
 
@@ -177,6 +179,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
         case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
         case ter_furn_flag::TFLAG_NO_FLOOR: return "NO_FLOOR";
+        case ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR: return "ALLOW_ON_OPEN_AIR";
         case ter_furn_flag::TFLAG_SEEN_FROM_ABOVE: return "SEEN_FROM_ABOVE";
         case ter_furn_flag::TFLAG_RAMP_DOWN: return "RAMP_DOWN";
         case ter_furn_flag::TFLAG_RAMP_UP: return "RAMP_UP";
@@ -247,13 +250,13 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_BLOCKSDOOR: return "BLOCKSDOOR";
         case ter_furn_flag::TFLAG_NO_SELF_CONNECT: return "NO_SELF_CONNECT";
         case ter_furn_flag::TFLAG_BURROWABLE: return "BURROWABLE";
+        case ter_furn_flag::TFLAG_MURKY: return "MURKY";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
             break;
     }
-    debugmsg( "Invalid ter_furn_flag" );
-    abort();
+    cata_fatal( "Invalid ter_furn_flag" );
 }
 
 } // namespace io
@@ -269,6 +272,17 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "RAIL",                     TERCONN_RAIL },
         { "COUNTER",                  TERCONN_COUNTER },
         { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
+        { "SAND",                     TERCONN_SAND },
+        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
+        { "LINOLEUM",                 TERCONN_LINOLEUM },
+        { "CARPET",                   TERCONN_CARPET },
+        { "CONCRETE",                 TERCONN_CONCRETE },
+        { "CLAY",                     TERCONN_CLAY },
+        { "DIRT",                     TERCONN_DIRT },
+        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
+        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
+        { "METALFLOOR",               TERCONN_METALFLOOR },
+        { "WOODFLOOR",               TERCONN_WOODFLOOR },
     }
 };
 
@@ -284,7 +298,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     str_min_supported( -1 ), str_max_supported( -1 ),
     explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
     collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
-    drop_group( "EMPTY_GROUP" ),
+    drop_group( Item_spawn_data_EMPTY_GROUP ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
 bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
@@ -339,7 +353,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
         drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
                      "map_bash_info for " + context );
     } else {
-        drop_group = item_group_id( "EMPTY_GROUP" );
+        drop_group = Item_spawn_data_EMPTY_GROUP;
     }
 
     if( j.has_array( "tent_centers" ) ) {
@@ -467,7 +481,8 @@ ter_t null_terrain_t()
 }
 
 template<typename C, typename F>
-void load_season_array( const JsonObject &jo, const std::string &key, C &container, F load_func )
+void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
+                        C &container, F load_func )
 {
     if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
@@ -486,8 +501,11 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
             jo.throw_error( "Incorrect number of entries", key );
         }
 
+    } else if( jo.has_member( key ) ) {
+        jo.throw_error( string_format( "Expected '%s' member to be string or array", key ), key );
     } else {
-        jo.throw_error( "Expected string or array", key );
+        jo.throw_error(
+            string_format( "Expected '%s' member in %s but none was found", key, context ) );
     }
 }
 
@@ -498,7 +516,7 @@ std::string map_data_common_t::name() const
 
 bool map_data_common_t::can_examine( const tripoint &examp ) const
 {
-    return examine_func.can_examine( examp );
+    return examine_actor || examine_func.can_examine( examp );
 }
 
 bool map_data_common_t::has_examine( iexamine_examine_function func ) const
@@ -525,14 +543,14 @@ void map_data_common_t::examine( Character &you, const tripoint &examp ) const
     examine_actor->call( you, examp );
 }
 
-void map_data_common_t::load_symbol( const JsonObject &jo )
+void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &context )
 {
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
     jo.read( "looks_like", looks_like );
 
-    load_season_array( jo, "symbol", symbol_, [&jo]( const std::string & str ) {
+    load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
         } else if( str == "LINE_OXOX" ) {
@@ -548,12 +566,12 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, []( const std::string & str ) {
+        load_season_array( jo, "color", context, color_, []( const std::string & str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
     } else if( has_bgcolor ) {
-        load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
+        load_season_array( jo, "bgcolor", context, color_, bgcolor_from_string );
     } else {
         jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
@@ -1069,7 +1087,6 @@ void set_ter_ids()
     t_railroad_track_h_on_tie = ter_id( "t_railroad_track_h_on_tie" );
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
     t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
-
     for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
@@ -1086,7 +1103,7 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-furn_id f_null,
+furn_id f_null, f_clear,
         f_hay,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
         f_barricade_road, f_sandbag_half, f_sandbag_wall,
@@ -1134,6 +1151,7 @@ furn_id f_null,
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
+    f_clear = furn_id( "f_clear" );
     f_hay = furn_id( "f_hay" );
     f_rubble = furn_id( "f_rubble" );
     f_rubble_rock = furn_id( "f_rubble_rock" );
@@ -1267,8 +1285,7 @@ std::string enum_to_string<season_type>( season_type data )
         case season_type::NUM_SEASONS:
             break;
     }
-    debugmsg( "Invalid season_type" );
-    abort();
+    cata_fatal( "Invalid season_type" );
 }
 } // namespace io
 
@@ -1293,6 +1310,7 @@ static cata::clone_ptr<iexamine_actor> iexamine_actor_from_jsobj( const JsonObje
 void init_mapdata()
 {
     add_actor( std::make_unique<cardreader_examine_actor>() );
+    add_actor( std::make_unique<eoc_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
@@ -1303,6 +1321,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
+        examine_func = iexamine_functions_from_string( "invalid" );
     } else {
         examine_func = iexamine_functions_from_string( "none" );
     }
@@ -1346,10 +1365,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
-
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
 
-    load_symbol( jo );
+    load_symbol( jo, "terrain " + id.str() );
 
     trap = tr_null;
     transparent = false;
@@ -1383,6 +1403,16 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_ter>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
+    }
+
+    prying = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "prying" ) ) {
+        prying->load( jo.get_object( "prying" ) );
     }
 
     optional( jo, was_loaded, "emissions", emissions );
@@ -1507,7 +1537,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
-    load_symbol( jo );
+    load_symbol( jo, "furniture " + id.str() );
     transparent = false;
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
@@ -1538,6 +1568,16 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
+    }
+
+    prying = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "prying" ) ) {
+        prying->load( jo.get_object( "prying" ) );
     }
 
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
@@ -1598,20 +1638,39 @@ void activity_byproduct::load( const JsonObject &jo )
     }
 }
 
+void activity_byproduct::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void pry_data::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "prying_nails", prying_nails );
+
+    optional( jo, was_loaded, "difficulty", difficulty );
+    optional( jo, was_loaded, "prying_level", prying_level );
+
+    optional( jo, was_loaded, "noisy", noisy );
+    optional( jo, was_loaded, "alarm", alarm );
+    optional( jo, was_loaded, "breakable", breakable );
+
+    optional( jo, was_loaded, "failure", failure );
+}
+
+void pry_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 void activity_data_common::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "duration", duration_, 1_seconds );
     optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "sound", sound_ );
 
-    if( jo.has_array( "byproducts" ) ) {
-        std::vector<activity_byproduct> entries;
-        for( JsonObject activity_entry : jo.get_array( "byproducts" ) ) {
-            struct activity_byproduct entry {};
-            entry.load( activity_entry );
-            byproducts_.push_back( entry );
-        }
-    }
+    optional( jo, was_loaded, "byproducts", byproducts_ );
+
+    optional( jo, was_loaded, "prying_data", prying_data_ );
 }
 
 void activity_data_ter::load( const JsonObject &jo )

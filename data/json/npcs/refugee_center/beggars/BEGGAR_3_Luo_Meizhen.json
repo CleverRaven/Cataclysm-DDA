@@ -522,7 +522,7 @@
     "dynamic_line": "No, no I don't, and I'd appreciate you not leaving me hanging on that.  There are fungal zombies?",
     "responses": [
       {
-        "text": "Encroaching alien mushrooms, fungal towers, tough mycelium invading ground and trees, zombies taken over by aggressive mold…  Yeah.  It's ugly stuff.",
+        "text": "Encroaching alien mushrooms, fungal towers, tough mycelium invading ground and trees, zombies taken over by aggressive mold… Yeah.  It's ugly stuff.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS2"
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },

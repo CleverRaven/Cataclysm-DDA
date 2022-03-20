@@ -2,61 +2,61 @@
   {
     "name": "GROUP_EGG_MARSHMALLOW",
     "type": "monstergroup",
-    "default": "mon_marshmallow_kid"
+    "monsters": [ { "monster": "mon_marshmallow_kid" } ]
   },
   {
     "name": "GROUP_EGG_SMORES",
     "type": "monstergroup",
-    "default": "mon_marshmallow_kid_armored"
+    "monsters": [ { "monster": "mon_marshmallow_kid_armored" } ]
   },
   {
     "name": "GROUP_EGG_GUMMY",
     "type": "monstergroup",
-    "default": "mon_gummy_cub"
+    "monsters": [ { "monster": "mon_gummy_cub" } ]
   },
   {
     "name": "GROUP_EGG_GUMMY_GATOR",
     "type": "monstergroup",
-    "default": "mon_gummy_gator"
+    "monsters": [ { "monster": "mon_gummy_gator" } ]
   },
   {
     "name": "GROUP_EGG_CRACKER",
     "type": "monstergroup",
-    "default": "mon_small_cracker"
+    "monsters": [ { "monster": "mon_small_cracker" } ]
   },
   {
     "name": "GROUP_EGG_CRACKER_ROE",
     "type": "monstergroup",
-    "default": "mon_cracker_lbass"
+    "monsters": [ { "monster": "mon_cracker_lbass" } ]
   },
   {
     "name": "GROUP_EGG_COOKIE",
     "type": "monstergroup",
-    "default": "mon_cookie"
+    "monsters": [ { "monster": "mon_cookie" } ]
   },
   {
     "name": "GROUP_EGG_COOKIE_EGG",
     "type": "monstergroup",
-    "default": "mon_cookie_hydra_youth"
+    "monsters": [ { "monster": "mon_cookie_hydra_youth" } ]
   },
   {
     "name": "GROUP_EGG_GUM",
     "type": "monstergroup",
-    "default": "mon_spider_gum"
+    "monsters": [ { "monster": "mon_spider_gum" } ]
   },
   {
     "name": "GROUP_EGG_CAFFGUM",
     "type": "monstergroup",
-    "default": "mon_gum_spider_wolf"
+    "monsters": [ { "monster": "mon_gum_spider_wolf" } ]
   },
   {
     "name": "GROUP_EGG_CHOC_COW",
     "type": "monstergroup",
-    "default": "mon_cow_calf_choc"
+    "monsters": [ { "monster": "mon_cow_calf_choc" } ]
   },
   {
     "name": "GROUP_EGG_LICORICE",
     "type": "monstergroup",
-    "default": "mon_licorice_snake_hatchling"
+    "monsters": [ { "monster": "mon_licorice_snake_hatchling" } ]
   }
 ]

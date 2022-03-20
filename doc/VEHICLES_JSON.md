@@ -70,6 +70,6 @@ TYPE and DATA may be one of:
 ```
 the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
 
-If a single item is specified through `"items"`, a gun variant for it can be specified through `"variant"`.
+If a single item is specified through `"items"`, an itype variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.

@@ -26,6 +26,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
+  "min_accuracy" -20,                                       // the accuracy bonus of the spell. around -15 and it gets blocked all the time
+  "max_accuracy": 20,                                       // around 20 accuracy and it's basically impossible to block
+  "accuracy_increment": 1.5
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)
 	"max_damage": 100,                                        // maximum damage the spell can achieve
 	"damage_increment": 2.5,                                  // to get damage (and any of the other below stats) multiply this by spell's level and add to minimum damage
@@ -123,11 +126,13 @@ Below is a table of currently implemented effects, along with special rules for 
 | `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
 | `upgrade` | Immediately upgrades a target monster
+| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
 | `guilt` | The target gets the guilt morale as if it killed the caster
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
+| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
 | `emit` | Causes an emit at the target
 | `fungalize` | Fungalizes the target
-| `effect_on_condition` | Runs the effect_on_condition found in `effect_str` on all valid targets.  `effect_str` can be either a string id or an effect_on_condition object.  For the run eoc the target will be u and the caster will be npc.
+| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
@@ -178,6 +183,8 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
+| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
+| `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
 
@@ -425,7 +432,7 @@ You can assign a spell as a special attack for a monster.
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
 | `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
+| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "DIALOG_CONDITION" - ACTIVE whenever the dialog condition in `condition` is true * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
 | `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.

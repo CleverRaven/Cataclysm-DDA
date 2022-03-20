@@ -26,9 +26,11 @@
 #include "get_version.h"
 #include "help.h"
 #include "loading_ui.h"
+#include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
+#include "music.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -140,21 +142,23 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    switch( current_holiday ) {
-        case holiday::new_year:
-        case holiday::easter:
-            break;
-        case holiday::halloween:
-            fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
-            fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
-                                 25, 0, c_white, halloween_graves() );
-            break;
-        case holiday::thanksgiving:
-        case holiday::christmas:
-        case holiday::none:
-        case holiday::num_holiday:
-        default:
-            break;
+    if( get_option<bool>( "SEASONAL_TITLE" ) ) {
+        switch( current_holiday ) {
+            case holiday::new_year:
+            case holiday::easter:
+                break;
+            case holiday::halloween:
+                fold_and_print_from( w_open, point_zero, 30, 0, c_white, halloween_spider() );
+                fold_and_print_from( w_open, point( getmaxx( w_open ) - 25, offset.y - 8 ),
+                                     25, 0, c_white, halloween_graves() );
+                break;
+            case holiday::thanksgiving:
+            case holiday::christmas:
+            case holiday::none:
+            case holiday::num_holiday:
+            default:
+                break;
+        }
     }
 
     if( mmenu_title.size() > 1 ) {
@@ -208,86 +212,9 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
-/* compare against table of easter dates */
-bool main_menu::is_easter( int day, int month, int year )
-{
-    if( month == 3 ) {
-        switch( year ) {
-            // *INDENT-OFF*
-            case 2024: return day == 31;
-            case 2027: return day == 28;
-            default: break;
-            // *INDENT-ON*
-        }
-    } else if( month == 4 ) {
-        switch( year ) {
-            // *INDENT-OFF*
-            case 2021: return day == 4;
-            case 2022: return day == 17;
-            case 2023: return day == 9;
-            case 2025: return day == 20;
-            case 2026: return day == 5;
-            case 2028: return day == 16;
-            case 2029: return day == 1;
-            case 2030: return day == 21;
-            default: break;
-            // *INDENT-ON*
-        }
-    }
-    return false;
-}
-
 holiday main_menu::get_holiday_from_time()
 {
-    bool success = false;
-
-    std::tm local_time;
-    std::time_t current_time = std::time( nullptr );
-
-    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
-#if defined(_WIN32)
-
-    errno_t err = localtime_s( &local_time, &current_time );
-    if( err == 0 ) {
-        success = true;
-    }
-
-#else
-
-    success = !!localtime_r( &current_time, &local_time );
-
-#endif
-
-    if( success ) {
-
-        const int month = local_time.tm_mon + 1;
-        const int day = local_time.tm_mday;
-        const int wday = local_time.tm_wday;
-        const int year = local_time.tm_year + 1900;
-
-        /* check date against holidays */
-        if( month == 1 && day == 1 ) {
-            return holiday::new_year;
-        }
-        // only run easter date calculation if currently March or April
-        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
-            return holiday::easter;
-        } else if( month == 7 && day == 4 ) {
-            return holiday::independence_day;
-        }
-        // 13 days seems appropriate for Halloween
-        else if( month == 10 && day >= 19 ) {
-            return holiday::halloween;
-        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
-            return holiday::thanksgiving;
-        }
-        // For the 12 days of Christmas, my true love gave to me...
-        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
-            return holiday::christmas;
-        }
-    }
-    // fall through to here if localtime fails, or none of the day tests hit
-    return holiday::none;
+    return ::get_holiday_from_time( 0, true );
 }
 
 void main_menu::init_windows()
@@ -441,8 +368,11 @@ bool main_menu::opening_screen()
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
 
-    // Play title music, whoo!
-    play_music( "title" );
+    if( music::get_music_id() != music::music_id::title ) {
+        music::deactivate_music_id_all();
+    } else {
+        play_music( music::get_music_id_string() );
+    }
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
@@ -990,7 +920,7 @@ bool main_menu::load_character_tab( bool transfer )
 
         const size_t last_character_pos = std::find_if( savegames.begin(), savegames.end(),
         []( const save_t &it ) {
-            return it.player_name() == world_generator->last_character_name;
+            return it.decoded_name() == world_generator->last_character_name;
         } ) - savegames.begin();
         if( last_character_pos < savegames.size() ) {
             sel3 = last_character_pos;
@@ -1045,9 +975,9 @@ bool main_menu::load_character_tab( bool transfer )
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
+                    mvwprintz( w_open, point( ( 16 + wn.length() ) + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
-                               "%s", savename.player_name() );
+                               "%s", savename.decoded_name() );
                 }
             }
             wnoutrefresh( w_open );
@@ -1095,7 +1025,7 @@ bool main_menu::load_character_tab( bool transfer )
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
                 []( const save_t &str ) {
-                    return str.player_name() != MAP_SHARING::getUsername();
+                    return str.decoded_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -1133,7 +1063,7 @@ bool main_menu::load_character_tab( bool transfer )
                     g->gamemode = nullptr;
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2] );
                     world_generator->last_world_name = world->world_name;
-                    world_generator->last_character_name = savegames[sel3].player_name();
+                    world_generator->last_character_name = savegames[sel3].decoded_name();
                     world_generator->save_last_world_info();
                     world_generator->set_active_world( world );
 

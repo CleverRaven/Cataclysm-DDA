@@ -8,12 +8,14 @@
 #include "units_fwd.h"
 #include <list>
 
+class computer;
 class faction;
 class item;
 class item_location;
 class mission;
 class monster;
 class npc;
+struct npc_opinion;
 class Character;
 class recipe;
 struct tripoint;
@@ -32,7 +34,7 @@ class talker
         virtual Character *get_character() {
             return nullptr;
         }
-        virtual Character *get_character() const {
+        virtual const Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -56,7 +58,13 @@ class talker
         virtual Creature *get_creature() {
             return nullptr;
         }
-        virtual Creature *get_creature() const {
+        virtual const Creature *get_creature() const {
+            return nullptr;
+        }
+        virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual const computer *get_computer() const {
             return nullptr;
         }
         // identity and location
@@ -106,6 +114,9 @@ class talker
         virtual int trial_chance_mod( const std::string & ) const {
             return 0;
         }
+        virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
@@ -124,16 +135,16 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
-        virtual int get_str_max() {
+        virtual int get_str_max() const {
             return 0;
         }
-        virtual int get_dex_max() {
+        virtual int get_dex_max() const {
             return 0;
         }
-        virtual int get_int_max() {
+        virtual int get_int_max() const {
             return 0;
         }
-        virtual int get_per_max() {
+        virtual int get_per_max() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -143,10 +154,12 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual void mutate( const int &, const bool & ) {}
+        virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void set_fatigue( int ) {};
-        virtual bool has_trait_flag( const json_character_flag & ) const {
+        virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
         virtual bool crossed_threshold() const {
@@ -168,6 +181,12 @@ class talker
             return false;
         }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::vector<skill_id> skills_teacheable() const {
+            return {};
+        }
+        virtual std::string skill_seminar_text( const skill_id & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
@@ -214,6 +233,8 @@ class talker
         virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
+        virtual void add_bionic( const bionic_id & ) {}
+        virtual void remove_bionic( const bionic_id & ) {}
         virtual std::string get_value( const std::string & ) const {
             return "";
         }
@@ -252,7 +273,15 @@ class talker
             return 0;
         }
         virtual void add_debt( int ) {}
+        virtual int sold() const {
+            return 0;
+        }
+        virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
+            return {};
+        }
+        virtual std::vector<const item *> const_items_with( const std::function<bool( const item & )> & )
+        const {
             return {};
         }
         virtual void i_add( const item & ) {}
@@ -344,6 +373,9 @@ class talker
             return false;
         }
         virtual void set_class( const npc_class_id & ) {}
+        virtual int get_activity_level() const {
+            return 0;
+        }
         virtual int get_fatigue() const {
             return 0;
         }
@@ -377,8 +409,7 @@ class talker
         virtual std::string opinion_text() const {
             return "";
         }
-        virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
-                                  int /*debt*/ ) {}
+        virtual void add_opinion( const npc_opinion & ) {}
         virtual void set_first_topic( const std::string & ) {}
         virtual bool is_safe() const {
             return true;
@@ -387,10 +418,13 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
-        virtual bool worn_with_flag( const flag_id & ) const {
+        virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }
         virtual bool wielded_with_flag( const flag_id & ) const {
+            return false;
+        }
+        virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
         }
         virtual units::energy power_cur() const {
@@ -442,5 +476,35 @@ class talker
         virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
+        virtual void set_kill_xp( int ) {}
+        virtual int get_kill_xp() const {
+            return 0;
+        }
+        virtual void set_age( int ) {}
+        virtual int get_age() const {
+            return 0;
+        }
+        virtual void set_height( int ) {}
+        virtual int get_height() const {
+            return 0;
+        }
+        virtual int get_bmi_permil() const {
+            return 0;
+        }
+        virtual const move_mode_id &get_move_mode() const {
+            return move_mode_id::NULL_ID();
+        }
+        virtual int get_fine_detail_vision_mod() const {
+            return 0;
+        }
+        virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_body_temp() const {
+            return 0;
+        }
+        virtual int get_body_temp_delta() const {
+            return 0;
+        }
 };
 #endif // CATA_SRC_TALKER_H

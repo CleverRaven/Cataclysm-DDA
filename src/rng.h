@@ -73,6 +73,9 @@ inline double rng_exponential( double mean )
 
 double exponential_roll( double lambda );
 
+// Return a random string of [A-Za-z] characters of the given length
+std::string random_string( size_t length );
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.

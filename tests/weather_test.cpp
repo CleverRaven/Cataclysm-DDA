@@ -41,80 +41,139 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
-TEST_CASE( "weather realism" )
+static constexpr int n_hours = to_hours<int>( 1_days );
+static constexpr int n_minutes = to_minutes<int>( 1_days );
+
+struct year_of_weather_data {
+    explicit year_of_weather_data( int n_days )
+        : temperature( n_days, std::vector<double>( n_minutes, 0 ) )
+        , hourly_precip( n_days * n_hours, 0 )
+        , highs( n_days )
+        , lows( n_days )
+    {}
+
+    std::vector<std::vector<double>> temperature;
+    std::vector<double> hourly_precip;
+    std::vector<double> highs;
+    std::vector<double> lows;
+};
+
+static year_of_weather_data collect_weather_data( unsigned seed )
+{
+    scoped_weather_override null_weather( WEATHER_NULL );
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+
+    const time_point begin = calendar::turn_zero;
+    const time_point end = begin + calendar::year_length();
+    const int n_days = to_days<int>( end - begin );
+    year_of_weather_data result( n_days );
+
+    // Collect generated weather data for a single year.
+    for( time_point i = begin ; i < end ; i += 1_minutes ) {
+        w_point w = wgen.get_weather( tripoint_zero, i, seed );
+        int day = to_days<int>( time_past_new_year( i ) );
+        int minute = to_minutes<int>( time_past_midnight( i ) );
+        result.temperature[day][minute] = w.temperature;
+        int hour = to_hours<int>( time_past_new_year( i ) );
+        *get_weather().weather_precise = w;
+        result.hourly_precip[hour] +=
+            precip_mm_per_hour(
+                wgen.get_weather_conditions( w )->precip )
+            / 60;
+    }
+
+    // Collect daily highs and lows.
+    for( int do_highs = 0 ; do_highs < 2 ; ++do_highs ) {
+        std::vector<double> &t = do_highs ? result.highs : result.lows;
+        std::transform( result.temperature.begin(), result.temperature.end(), t.begin(),
+        [&]( std::vector<double> const & day ) {
+            return do_highs
+                   ? *std::max_element( day.begin(), day.end() )
+                   : *std::min_element( day.begin(), day.end() );
+        } );
+    }
+
+    return result;
+}
+
+// Try a few randomly selected seeds.
+static const std::array<unsigned, 3> seeds = { {317'024'741, 870'078'684, 1'192'447'748} };
+
+TEST_CASE( "weather realism", "[weather]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
 // are based on NOAA's Local Climatological Data (LCD). Analysis code
 // can be found at:
 // https://gist.github.com/Kodiologist/e2f1e6685e8fd865650f97bb6a67ad07
 {
-    // Try a few randomly selected seeds.
-    const std::vector<unsigned> seeds = {317'024'741, 870'078'684, 1'192'447'748};
-
-    scoped_weather_override null_weather( WEATHER_NULL );
-    const weather_generator &wgen = get_weather().get_cur_weather_gen();
-    const time_point begin = calendar::turn_zero;
-    const time_point end = begin + calendar::year_length();
-    const int n_days = to_days<int>( end - begin );
-    const int n_hours = to_hours<int>( 1_days );
-    const int n_minutes = to_minutes<int>( 1_days );
-
     for( unsigned int seed : seeds ) {
-        std::vector<std::vector<double>> temperature;
-        temperature.resize( n_days, std::vector<double>( n_minutes, 0 ) );
-        std::vector<double> hourly_precip;
-        hourly_precip.resize( n_days * n_hours, 0 );
+        year_of_weather_data data = collect_weather_data( seed );
 
-        // Collect generated weather data for a single year.
-        for( time_point i = begin ; i < end ; i += 1_minutes ) {
-            w_point w = wgen.get_weather( tripoint_zero, i, seed );
-            int day = to_days<int>( time_past_new_year( i ) );
-            int minute = to_minutes<int>( time_past_midnight( i ) );
-            temperature[day][minute] = w.temperature;
-            int hour = to_hours<int>( time_past_new_year( i ) );
-            *get_weather().weather_precise = w;
-            hourly_precip[hour] +=
-                precip_mm_per_hour(
-                    wgen.get_weather_conditions( w )->precip )
-                / 60;
-        }
-
-        // Collect daily highs and lows.
-        std::vector<double> highs( n_days );
-        std::vector<double> lows( n_days );
-        for( int do_highs = 0 ; do_highs < 2 ; ++do_highs ) {
-            std::vector<double> &t = do_highs ? highs : lows;
-            std::transform( temperature.begin(), temperature.end(), t.begin(),
-            [&]( std::vector<double> const & day ) {
-                return do_highs
-                       ? *std::max_element( day.begin(), day.end() )
-                       : *std::min_element( day.begin(), day.end() );
-            } );
-
-            // Check the mean absolute difference between the highs or lows
-            // of adjacent days (Fahrenheit).
-            const double d = mean_abs_running_diff( t );
-            CHECK( d >= ( do_highs ? 5.5 : 4 ) );
-            CHECK( d <= ( do_highs ? 7.5 : 7 ) );
-        }
+        // Check the mean absolute difference between the highs or lows
+        // of adjacent days (Fahrenheit).
+        const double mad_highs = mean_abs_running_diff( data.highs );
+        CHECK( mad_highs >= 5.5 );
+        CHECK( mad_highs <= 7.5 );
+        const double mad_lows = mean_abs_running_diff( data.lows );
+        CHECK( mad_lows >= 4 );
+        CHECK( mad_lows <= 7 );
 
         // Check the daily mean of the range in temperatures (Fahrenheit).
-        const double mean_of_ranges = mean_pairwise_diffs( highs, lows );
+        const double mean_of_ranges = mean_pairwise_diffs( data.highs, data.lows );
         CHECK( mean_of_ranges >= 14 );
         CHECK( mean_of_ranges <= 25 );
 
+        // Check that summer and winter temperatures are very different.
+        size_t half = data.highs.size() / 4;
+        double summer_low = data.lows[half];
+        double winter_high = data.highs[0];
+        {
+            CAPTURE( summer_low );
+            CAPTURE( winter_high );
+            CHECK( summer_low - winter_high >= 10 );
+        }
+
         // Check the proportion of hours with light precipitation
         // or more, counting snow (mm of rain equivalent per hour).
-        const double at_least_light_precip = proportion_gteq_x(
-                hourly_precip, 1 );
+        const double at_least_light_precip = proportion_gteq_x( data.hourly_precip, 1 );
         CHECK( at_least_light_precip >= .025 );
         CHECK( at_least_light_precip <= .05 );
 
         // Likewise for heavy precipitation.
-        const double heavy_precip = proportion_gteq_x(
-                                        hourly_precip, 2.5 );
+        const double heavy_precip = proportion_gteq_x( data.hourly_precip, 2.5 );
         CHECK( heavy_precip >= .005 );
         CHECK( heavy_precip <= .02 );
+    }
+}
+
+TEST_CASE( "eternal_season", "[weather]" )
+{
+    on_out_of_scope restore_eternal_season( []() {
+        calendar::set_eternal_season( false );
+    } );
+    calendar::set_eternal_season( true );
+    override_option override_eternal_season( "ETERNAL_SEASON", "true" );
+
+    for( unsigned int seed : seeds ) {
+        year_of_weather_data data = collect_weather_data( seed );
+
+        // Check that summer and winter temperatures are very similar.
+        size_t half = data.highs.size() / 4;
+        double summer_low = data.lows[half];
+        double winter_high = data.highs[0];
+        {
+            CAPTURE( summer_low );
+            CAPTURE( winter_high );
+            CHECK( summer_low - winter_high <= -10 );
+        }
+
+        // Check the temperatures still vary from day to day.
+        const double mad_highs = mean_abs_running_diff( data.highs );
+        CHECK( mad_highs >= 5.5 );
+        CHECK( mad_highs <= 7.5 );
+        const double mad_lows = mean_abs_running_diff( data.lows );
+        CHECK( mad_lows >= 4 );
+        CHECK( mad_lows <= 7 );
     }
 }
 

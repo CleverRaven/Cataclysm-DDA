@@ -14,6 +14,8 @@
 #include "projectile.h"
 #include "ranged.h"
 
+static const bionic_id bio_hydraulics( "bio_hydraulics" );
+
 namespace npc_attack_constants
 {
 // if you are attacking your target, multiply potential by this number
@@ -93,7 +95,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -154,7 +156,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 {
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_item().has_flag( flag_MAGIC_FOCUS ) &&
         !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
@@ -251,7 +253,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
             } else if( source.path.size() == 1 ) {
                 if( critter != nullptr ) {
                     if( source.can_use_offensive_cbm() ) {
-                        source.activate_bionic_by_id( bionic_id( "bio_hydraulics" ) );
+                        source.activate_bionic_by_id( bio_hydraulics );
                     }
                     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a melee attack",
                                    source.disp_name() );
@@ -324,7 +326,7 @@ std::vector<npc_attack_rating> npc_attack_melee::all_evaluations( const npc &sou
 bool npc_attack_melee::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( weapon ).success();
+    return source.is_wielding( weapon ) || source.can_wield( weapon ).success();
 }
 
 int npc_attack_melee::base_time_penalty( const npc &source ) const
@@ -393,9 +395,14 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
-        source.aim();
+        source.aim( Target_attributes( source.pos(), location ) );
     } else {
-        source.fire_gun( location );
+        if( source.is_hallucination() ) {
+            gun_mode mode = source.get_wielded_item().gun_current_mode();
+            source.pretend_fire( &source, mode.qty, *mode );
+        } else {
+            source.fire_gun( location );
+        }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
     }
@@ -563,8 +570,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( source.weapon ) ) {
-        if( !source.wield( source.weapon ) ) {
+    if( !source.is_wielding( source.get_wielded_item() ) ) {
+        if( !source.wield( source.get_wielded_item() ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -582,10 +589,10 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
     }
 
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   source.weapon.display_name() );
-    item thrown( source.weapon );
-    if( source.weapon.count_by_charges() && source.weapon.charges > 1 ) {
-        source.weapon.mod_charges( -1 );
+                   source.get_wielded_item().display_name() );
+    item thrown( source.get_wielded_item() );
+    if( source.get_wielded_item().count_by_charges() && source.get_wielded_item().charges > 1 ) {
+        source.get_wielded_item().mod_charges( -1 );
         thrown.charges = 1;
     } else {
         source.remove_weapon();
@@ -595,11 +602,16 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
 bool npc_attack_throw::can_use( const npc &source ) const
 {
+    // Don't throw anything if we're hallucination
+    // TODO: make an analogue of pretend_fire function
+    if( source.is_hallucination() ) {
+        return false;
+    }
+
     item single_item( thrown_item );
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-
 
     // Always allow throwing items that are flagged as throw now to
     // get rid of dangerous items ASAP, even if ranged attacks aren't allowed
@@ -650,11 +662,7 @@ tripoint_range<tripoint> npc_attack_throw::targetable_points( const npc &source 
 npc_attack_rating npc_attack_throw::evaluate(
     const npc &source, const Creature *target ) const
 {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
     npc_attack_rating effectiveness( cata::nullopt, source.pos() );
-#pragma GCC diagnostic pop
     if( !can_use( source ) ) {
         // please don't throw your pants...
         return effectiveness;

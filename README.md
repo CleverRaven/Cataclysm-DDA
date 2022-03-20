@@ -69,8 +69,7 @@ GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 
 IRC:
-`irc.libera.chat` ; `#CataclysmDDA`
-https://kiwiirc.com/nextclient/irc.libera.chat#CataclysmDDA
+`#CataclysmDDA` on [Libera Chat](https://libera.chat), https://web.libera.chat/#CataclysmDDA
 
 Official Discord:
 https://discord.gg/jFEc7Yp

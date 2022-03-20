@@ -49,5 +49,19 @@
     "subtype": "distribution",
     "ammo": 100,
     "items": [ [ "afs_4g_plasma", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_common",
+    "//": "Added until blacklists are implemented.",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_any_laser_mag", "prob": 100 }, { "group": "afs_any_plasma_mag", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_common",
+    "//": "Added until blacklists are implemented.",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_any_laser_mag", "prob": 100 }, { "group": "afs_any_plasma_mag", "prob": 50 } ]
   }
 ]

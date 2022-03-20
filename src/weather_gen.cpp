@@ -47,20 +47,21 @@ struct weather_gen_common {
     season_type season = season_type::SPRING;
 };
 
-static weather_gen_common get_common_data( const tripoint &location, const time_point &t,
+static weather_gen_common get_common_data( const tripoint &location, const time_point &real_t,
         unsigned seed )
 {
+    season_effective_time t( real_t );
     weather_gen_common result;
     // Integer x position / widening factor of the Perlin function.
     result.x = location.x / 2000.0;
     // Integer y position / widening factor of the Perlin function.
     result.y = location.y / 2000.0;
     // Integer turn / widening factor of the Perlin function.
-    result.z = to_days<double>( t - calendar::turn_zero );
+    result.z = to_days<double>( real_t - calendar::turn_zero );
     // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
     // Windows has a rand limit of 32768, other operating systems can have higher limits
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
-    const double year_fraction( time_past_new_year( t ) /
+    const double year_fraction( time_past_new_year( t.t ) /
                                 calendar::year_length() ); // [0,1)
 
     result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
@@ -68,13 +69,13 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     // midwinter and -1 at midsummer. (Cataclsym DDA years
     // start when spring starts. Gregorian years start when
     // winter starts.)
-    result.season = season_of_year( t );
+    result.season = season_of_year( t.t );
 
     return result;
 }
 
 static double weather_temperature_from_common_data( const weather_generator &wg,
-        const weather_gen_common &common, const time_point &t )
+        const weather_gen_common &common, const season_effective_time &t )
 {
     const double x( common.x );
     const double y( common.y );
@@ -84,7 +85,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double seasonality = -common.cyf;
     // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
-    const double dayFraction = time_past_midnight( t ) / 1_days;
+    const double dayFraction = time_past_midnight( t.t ) / 1_days;
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
 
@@ -102,15 +103,17 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     return T * 9 / 5 + 32;
 }
 
-double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
-        unsigned seed ) const
+double weather_generator::get_weather_temperature(
+    const tripoint &location, const time_point &real_t, unsigned seed ) const
 {
-    return weather_temperature_from_common_data( *this, get_common_data( location, t, seed ), t );
+    return weather_temperature_from_common_data( *this, get_common_data( location, real_t, seed ),
+            season_effective_time( real_t ) );
 }
-w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
+w_point weather_generator::get_weather( const tripoint &location, const time_point &real_t,
                                         unsigned seed ) const
 {
-    const weather_gen_common common = get_common_data( location, t, seed );
+    season_effective_time t( real_t );
+    const weather_gen_common common = get_common_data( location, real_t, seed );
 
     const double x( common.x );
     const double y( common.y );
@@ -178,8 +181,16 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
     return wt;
 }
 
-weather_type_id weather_generator::get_weather_conditions( const w_point & ) const
+weather_type_id weather_generator::get_weather_conditions( const w_point &w ) const
 {
+    // We're being asked for the weather condition given a set of parameters (humidity, pressure, etc),
+    // but the dialogue condition system which drives that logic has no way for us to provide them
+    // directly; it can only reference the current game state. Until it's overhauled, we'll just hack
+    // the current game state while checking the conditions.
+    const weather_manager &game_weather = get_weather_const();
+    w_point original_weather_precise = *game_weather.weather_precise;
+    *game_weather.weather_precise = w;
+
     weather_type_id current_conditions = WEATHER_CLEAR;
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const std::string &weather_type : weather_types ) {
@@ -200,6 +211,9 @@ weather_type_id weather_generator::get_weather_conditions( const w_point & ) con
             continue;
         }
     }
+
+    // Cleanup our conditional hack.
+    *game_weather.weather_precise = original_weather_precise;
     return current_conditions;
 }
 
@@ -239,9 +253,10 @@ int weather_generator::get_water_temperature() const
     source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
     **/
 
+    season_effective_time t( calendar::turn );
     int season_length = to_days<int>( calendar::season_length() );
-    int day = to_days<int>( time_past_new_year( calendar::turn ) );
-    int hour = hour_of_day<int>( calendar::turn );
+    int day = to_days<int>( time_past_new_year( t.t ) );
+    int hour = hour_of_day<int>( t.t );
 
     int water_temperature = 0;
 
@@ -266,8 +281,6 @@ void weather_generator::test_weather( unsigned seed ) const
     // Usage:
     // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
-    const weather_manager &weather = get_weather_const();
-    w_point weatherPoint = *weather.weather_precise;
     write_to_file( "weather.output", [&]( std::ostream & testfile ) {
         testfile <<
                  "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
@@ -278,7 +291,6 @@ void weather_generator::test_weather( unsigned seed ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w );
-            *weather.weather_precise = w;
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -297,7 +309,6 @@ void weather_generator::test_weather( unsigned seed ) const
         }
 
     }, "weather test file" );
-    *weather.weather_precise = weatherPoint;
 }
 
 weather_generator weather_generator::load( const JsonObject &jo )

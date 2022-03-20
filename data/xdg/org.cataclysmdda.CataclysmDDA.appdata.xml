@@ -56,7 +56,7 @@
   <url type="translate">
     https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
   </url>
-  <launchable type="desktop-id">cataclysm-dda.desktop</launchable>
+  <launchable type="desktop-id">org.cataclysmdda.CataclysmDDA.desktop</launchable>
   <provides>
     <binary>cataclysm-tiles</binary>
   </provides>

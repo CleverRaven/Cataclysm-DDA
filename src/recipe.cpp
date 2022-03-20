@@ -36,8 +36,8 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
+static const itype_id itype_hotplate( "hotplate" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -309,10 +309,18 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" ) {
 
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        assign( jo, "reversible", reversible, strict );
+
+        if( jo.has_bool( "reversible" ) ) {
+            assign( jo, "reversible", reversible, strict );
+        } else if( jo.has_object( "reversible" ) ) {
+            reversible = true;
+            // Convert duration to time in moves
+            uncraft_time = to_moves<int>( read_from_json_string<time_duration>
+                                          ( jo.get_object( "reversible" ).get_member( "time" ), time_duration::units ) );
+        }
 
         if( jo.has_member( "byproducts" ) ) {
             if( this->reversible ) {
@@ -325,7 +333,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
         }
         assign( jo, "construction_blueprint", blueprint );
-        if( !blueprint.empty() ) {
+        if( !blueprint.is_empty() ) {
             assign( jo, "blueprint_name", bp_name );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
@@ -377,10 +385,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
-        assign( jo, "category", category, strict );
-        assign( jo, "subcategory", subcategory, strict );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
         assign( jo, "description", description, strict );
-        mandatory( jo, false, "practice_data", practice_data );
+        mandatory( jo, was_loaded, "practice_data", practice_data );
 
         if( jo.has_member( "byproducts" ) ) {
             byproducts.clear();
@@ -941,10 +949,20 @@ std::function<bool( const item & )> recipe::get_component_filter(
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
         static_cast<bool>( flags & recipe_filter_flags::no_rotten );
+    const bool flags_forbid_favorites =
+        static_cast<bool>( flags & recipe_filter_flags::no_favorite );
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
             return !component.rotten();
+        };
+    }
+
+    // Disallow crafting using favorited items as components
+    std::function<bool( const item & )> favorite_filter = return_true<item>;
+    if( flags_forbid_favorites ) {
+        favorite_filter = []( const item & component ) {
+            return !component.is_favorite;
         };
     }
 
@@ -971,9 +989,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+    return [ rotten_filter, favorite_filter, frozen_filter,
+                   magazine_filter ]( const item & component ) {
         return is_crafting_component( component ) &&
                rotten_filter( component ) &&
+               favorite_filter( component ) &&
                frozen_filter( component ) &&
                magazine_filter( component );
     };
@@ -986,10 +1006,10 @@ bool recipe::is_practice() const
 
 bool recipe::is_blueprint() const
 {
-    return !blueprint.empty();
+    return !blueprint.is_empty();
 }
 
-const std::string &recipe::get_blueprint() const
+const update_mapgen_id &recipe::get_blueprint() const
 {
     return blueprint;
 }
@@ -1141,9 +1161,9 @@ void recipe::incorporate_build_reqs()
     reqs_internal.emplace_back( req_id, 1 );
 }
 
-void recipe_proficiency::deserialize( JsonIn &jsin )
+void recipe_proficiency::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void recipe_proficiency::load( const JsonObject &jo )
@@ -1156,9 +1176,9 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "max_experience", max_experience );
 }
 
-void book_recipe_data::deserialize( JsonIn &jsin )
+void book_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void book_recipe_data::load( const JsonObject &jo )
@@ -1168,9 +1188,9 @@ void book_recipe_data::load( const JsonObject &jo )
     jo.read( "hidden", hidden );
 }
 
-void practice_recipe_data::deserialize( JsonIn &jsin )
+void practice_recipe_data::deserialize( const JsonObject &jo )
 {
-    load( jsin.get_object() );
+    load( jo );
 }
 
 void practice_recipe_data::load( const JsonObject &jo )

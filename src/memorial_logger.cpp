@@ -80,9 +80,8 @@ std::string memorial_log_entry::to_string() const
     }
 }
 
-void memorial_log_entry::deserialize( JsonIn &jsin )
+void memorial_log_entry::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     if( jo.read( "preformatted", preformatted_ ) ) {
         return;
     }
@@ -353,19 +352,13 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
+    const item &weapon = u.get_wielded_item();
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
-        file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
-    }
+    u.worn.write_text_memorial( file, indent, eol );
     file << eol;
 
     //Inventory

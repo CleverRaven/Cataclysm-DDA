@@ -31,11 +31,13 @@
 #include "game_constants.h"
 #include "input.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
@@ -64,7 +66,6 @@
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 namespace io
 {
@@ -81,8 +82,7 @@ std::string enum_to_string<aim_exit>( const aim_exit v )
         case aim_exit::last:
             break;
     }
-    debugmsg( "Invalid aim_exit" );
-    abort();
+    cata_fatal( "Invalid aim_exit" );
 }
 
 template<>
@@ -98,8 +98,7 @@ std::string enum_to_string<aim_entry>( const aim_entry v )
         case aim_entry::last:
             break;
     }
-    debugmsg( "Invalid aim_entry" );
-    abort();
+    cata_fatal( "Invalid aim_entry" );
 }
 
 } // namespace io
@@ -762,6 +761,45 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
+void outfit::adv_inv_move_all_items( Character &player_character, advanced_inventory_pane &spane,
+                                     drop_locations &dropped, drop_locations &dropped_favorite )
+{
+    if( spane.get_area() == AIM_INVENTORY ) {
+        //add all solid top level items
+        for( item &cloth : worn ) {
+            for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( !it->made_of_from_type( phase_id::SOLID ) ) {
+                    continue;
+                }
+                if( !spane.is_filtered( *it ) ) {
+                    if( it->is_favorite ) {
+                        dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ),
+                                                       it->count() );
+                    } else {
+                        dropped.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
+                    }
+                }
+            }
+
+        }
+    } else if( spane.get_area() == AIM_WORN ) {
+        // do this in reverse, to account for vector item removal messing with future indices
+        auto iter = worn.rbegin();
+        for( size_t idx = 0; idx < player_character.worn.size(); ++idx, ++iter ) {
+            item &it = *iter;
+
+            if( !spane.is_filtered( it ) ) {
+                item_location loc( player_character, &it );
+                if( it.is_favorite ) {
+                    dropped_favorite.emplace_back( loc, it.count() );
+                } else {
+                    dropped.emplace_back( loc, it.count() );
+                }
+            }
+        }
+    }
+}
+
 bool advanced_inventory::move_all_items()
 {
     advanced_inventory_pane &spane = panes[src];
@@ -913,40 +951,8 @@ bool advanced_inventory::move_all_items()
         // keep a list of favorites separated, only drop non-fav first if they exist
         drop_locations dropped_favorite;
 
-        if( spane.get_area() == AIM_INVENTORY ) {
-            //add all solid top level items
-            for( item &cloth :  player_character.worn ) {
-                for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    if( !it->made_of_from_type( phase_id::SOLID ) ) {
-                        continue;
-                    }
-                    if( !spane.is_filtered( *it ) ) {
-                        if( it->is_favorite ) {
-                            dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ),
-                                                           it->count() );
-                        } else {
-                            dropped.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
-                        }
-                    }
-                }
+        player_character.worn.adv_inv_move_all_items( player_character, spane, dropped, dropped_favorite );
 
-            }
-        } else if( spane.get_area() == AIM_WORN ) {
-            // do this in reverse, to account for vector item removal messing with future indices
-            auto iter = player_character.worn.rbegin();
-            for( size_t idx = 0; idx < player_character.worn.size(); ++idx, ++iter ) {
-                item &it = *iter;
-
-                if( !spane.is_filtered( it ) ) {
-                    item_location loc( player_character, &it );
-                    if( it.is_favorite ) {
-                        dropped_favorite.emplace_back( loc, it.count() );
-                    } else {
-                        dropped.emplace_back( loc, it.count() );
-                    }
-                }
-            }
-        }
         if( dropped.empty() ) {
             if( !query_yn( _( "Really drop all your favorite items?" ) ) ) {
                 return false;
@@ -1156,11 +1162,14 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RIGHT" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "TOGGLE_TAB" );
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
+    ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1276,53 +1285,43 @@ void advanced_inventory::start_activity(
     const bool by_charges = sitem->items.front()->count_by_charges();
 
     Character &player_character = get_player_character();
-    if( destarea == AIM_WORN ) {
-        player_character.assign_activity( ACT_WEAR );
 
-        if( by_charges ) {
-            player_character.activity.targets.emplace_back( sitem->items.front() );
-            player_character.activity.values.push_back( amount_to_move );
-        } else {
-            for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                 it != sitem->items.end(); ++it ) {
-                player_character.activity.targets.emplace_back( *it );
-                player_character.activity.values.push_back( 0 );
-                --amount_to_move;
-            }
-        }
+    // Find target items and quantities thereof for the new activity
+    std::vector<item_location> target_items;
+    std::vector<int> quantities;
+    if( by_charges ) {
+        target_items.emplace_back( sitem->items.front() );
+        quantities.push_back( amount_to_move );
     } else {
-        // Find target items and quantities thereof for the new activity
-        std::vector<item_location> target_items;
-        std::vector<int> quantities;
-        if( by_charges ) {
-            target_items.emplace_back( sitem->items.front() );
-            quantities.push_back( amount_to_move );
-        } else {
-            for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
-                 it != sitem->items.end(); ++it ) {
-                target_items.emplace_back( *it );
-                quantities.push_back( 0 );
-                --amount_to_move;
-            }
+        for( std::vector<item_location>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
+             it != sitem->items.end(); ++it ) {
+            target_items.emplace_back( *it );
+            quantities.push_back( 0 );
+            --amount_to_move;
         }
+    }
 
-        if( destarea == AIM_INVENTORY ) {
-            player_character.assign_activity( player_activity( pickup_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
-                                              ) ) );
-        } else {
-            // Stash the destination
-            const tripoint relative_destination = squares[destarea].off;
+    if( destarea == AIM_WORN ) {
+        player_character.assign_activity( player_activity( wear_activity_actor(
+                                              target_items,
+                                              quantities
+                                          ) ) );
+    } else if( destarea == AIM_INVENTORY ) {
+        player_character.assign_activity( player_activity( pickup_activity_actor(
+                                              target_items,
+                                              quantities,
+                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
+                                          ) ) );
+    } else {
+        // Stash the destination
+        const tripoint relative_destination = squares[destarea].off;
 
-            player_character.assign_activity( player_activity( move_items_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  to_vehicle,
-                                                  relative_destination
-                                              ) ) );
-        }
+        player_character.assign_activity( player_activity( move_items_activity_actor(
+                                              target_items,
+                                              quantities,
+                                              to_vehicle,
+                                              relative_destination
+                                          ) ) );
     }
 }
 
@@ -1375,11 +1374,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        player_character.assign_activity( ACT_WEAR );
-
-        player_character.activity.targets.emplace_back( sitem->items.front() );
-        player_character.activity.values.push_back( amount_to_move );
-
+        player_character.assign_activity( player_activity( wear_activity_actor( { sitem->items.front() }, { amount_to_move } ) ) );
         // exit so that the activity can be carried out
         exit = true;
 
@@ -1672,7 +1667,7 @@ void advanced_inventory::display()
                 get_auto_pickup().remove_rule( &*sitem->items.front() );
                 sitem->autopickup = false;
             } else {
-                get_auto_pickup().add_rule( &*sitem->items.front() );
+                get_auto_pickup().add_rule( &*sitem->items.front(), true );
                 sitem->autopickup = true;
             }
             recalc = true;
@@ -1681,12 +1676,27 @@ void advanced_inventory::display()
                 continue;
             }
             action_examine( sitem, spane );
+        } else if( action == "EXAMINE_CONTENTS" ) {
+            if( sitem == nullptr ) {
+                continue;
+            }
+            item_location sitem_location = sitem->items.front();
+            inventory_examiner examine_contents( player_character, sitem_location );
+            examine_contents.add_contained_items( sitem_location );
+            int examine_result = examine_contents.execute();
+            if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
+                action_examine( sitem, spane );
+            }
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
             spane.scroll_page( linesPerPage, +1 );
         } else if( action == "PAGE_UP" ) {
             spane.scroll_page( linesPerPage, -1 );
+        } else if( action == "HOME" ) {
+            spane.scroll_to_start();
+        } else if( action == "END" ) {
+            spane.scroll_to_end();
         } else if( action == "DOWN" ) {
             if( inCategoryMode ) {
                 spane.scroll_category( +1 );
