@@ -2,7 +2,7 @@
   {
     "id": "mon_bear_mutant_3headed",
     "type": "MONSTER",
-    "name": { "str": "Cerbearus", "str_pl": "Cerberuses" },
+    "name": { "str": "Cerbearus", "str_pl": "Cerbearuses" },
     "description": "Sometime between the Cataclysm and now, this black bear has gained two extra heads.  This doesn't seem to have improved its disposition.",
     "default_faction": "bear",
     "bodytype": "bear",
