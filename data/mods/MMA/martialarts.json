@@ -42,27 +42,7 @@
       "mma_tec_desert_wind_spin",
       "mma_tec_desert_wind_wide"
     ],
-    "weapons": [
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "mace_simple",
-      "mace_trench",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_pipe",
-      "spear_forked",
-      "spear_steel",
-      "spear_wood",
-      "spear_copper",
-      "spear_homemade_halfpike",
-      "sword_wood"
-    ]
+    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS" ]
   },
   {
     "type": "martial_art",
