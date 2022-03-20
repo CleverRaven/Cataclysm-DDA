@@ -233,7 +233,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 
 ### Player death and end-game
 
-* `clean_up_at_end game_over|death_m|death_f`
+* `clean_up_at_end death_m|death_f`
 
 ### Various bionics
 
