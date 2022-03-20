@@ -119,7 +119,14 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "update_mapgen": [ { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12" ], "x": 17, "y": 7 } ] } ]
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "set": [ { "square": "furniture", "id": "f_rack", "x": 17, "y": 7, "x2": 18, "y2": 7 } ],
+          "place_items": [ { "item": "ranch_nurse_clinic_aspirin", "chance": 100, "x": 18, "y": 7, "repeat": [ 1, 2 ] } ],
+          "place_item": [ { "item": "bandages", "x": 17, "y": 7, "amount": [ 1, 3 ] } ]
+        }
+      ]
     }
   },
   {
@@ -150,9 +157,10 @@
           "om_terrain": "ranch_camp_59",
           "set": [
             { "square": "furniture", "id": "f_rack", "x": 3, "y": 4, "x2": 3, "y2": 5 },
-            { "square": "furniture", "id": "f_counter", "x": 5, "y": 5, "x2": 7, "y2": 5 }
+            { "square": "furniture", "id": "f_counter", "x": 5, "y": 5, "x2": 7, "y2": 5 },
+            { "point": "furniture", "id": "f_stool", "x": 7, "y": 6 }
           ],
-          "place_item": [ { "item": "manual_first_aid", "x": 3, "y": 4 } ]
+          "place_item": [ { "item": "hotplate", "x": 7, "y": 5, "amount": 3 }, { "item": "manual_first_aid", "x": 3, "y": 4 } ]
         }
       ]
     }
@@ -194,7 +202,8 @@
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 4, "y": 0, "x2": 18, "y2": 2 },
             { "square": "terrain", "id": "t_dirt", "x": 10, "y": 3, "x2": 12, "y2": 4 }
-          ]
+          ],
+          "place_item": [ { "item": "vitamins", "x": 17, "y": 7, "amount": [ 1, 3 ] } ]
         }
       ]
     }
@@ -223,10 +232,11 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_50", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13a" ], "x": 2, "y": 5 } ] },
+        { "om_terrain": "ranch_camp_50", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12a" ], "x": 2, "y": 5 } ] },
         {
           "om_terrain": "ranch_camp_59",
-          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_13b" ], "x": 4, "y": 0 } ]
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12b" ], "x": 3, "y": 0 } ],
+          "place_item": [ { "item": "char_purifier", "x": 15, "y": 4, "amount": [ 1, 2 ] } ]
         }
       ]
     }
@@ -267,7 +277,8 @@
         },
         {
           "om_terrain": "ranch_camp_59",
-          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ]
+          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ],
+          "place_item": [ { "item": "chemistry_set", "x": 5, "y": 5 } ]
         }
       ]
     }
@@ -315,7 +326,8 @@
             { "square": "terrain", "id": "t_dirtfloor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 0, "x2": 17, "y2": 2 }
-          ]
+          ],
+          "place_item": [ { "item": "mask_filter", "x": 15, "y": 4, "amount": [ 2, 6 ] } ]
         }
       ]
     }
@@ -359,7 +371,9 @@
             { "square": "terrain", "id": "t_floor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
             { "square": "terrain", "id": "t_floor", "x": 14, "y": 0, "x2": 17, "y2": 2 },
             { "square": "furniture", "id": "f_rack", "x": 17, "y": 0, "x2": 17, "y2": 2 }
-          ]
+          ],
+          "place_items": [ { "chance": 100, "item": "cleaning", "x": 17, "y": [ 0, 2 ], "repeat": [ 1, 3 ] } ],
+          "place_item": [ { "item": "gloves_rubber", "x": 17, "y": 0, "amount": [ 2, 3 ] } ]
         }
       ]
     }
@@ -399,14 +413,17 @@
             { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 7, "y": 17 },
             { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 15, "y": 17 },
             { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 18, "y": 17 }
-          ]
+          ],
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_59",
+          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ],
           "place_items": [
-            { "chance": 75, "item": "cleaning", "x": [ 17, 17 ], "y": [ 0, 2 ] },
-            { "chance": 75, "item": "surgery", "x": [ 15, 18 ], "y": [ 4, 4 ] }
-          ]
+            { "chance": 100, "item": "cleaning", "x": 17, "y": [ 0, 2 ], "repeat": [ 1, 3 ] },
+            { "chance": 100, "item": "ranch_nurse_clinic_surgery", "x": [ 15, 18 ], "y": 4, "repeat": [ 2, 4 ] }
+          ],
+          "place_item": [ { "item": "scalpel", "x": 15, "y": 4, "amount": 2 } ]
         }
       ]
     }
@@ -446,13 +463,9 @@
             { "point": "furniture", "id": "f_dresser", "x": 14, "y": 17 },
             { "point": "furniture", "id": "f_dresser", "x": 19, "y": 17 }
           ],
-          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ],
           "place_npcs": [ { "class": "ranch_doctor", "x": 16, "y": 19 } ]
         },
-        {
-          "om_terrain": "ranch_camp_59",
-          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ]
-        }
+        { "om_terrain": "ranch_camp_59", "place_item": [ { "item": "emergency_book", "x": 3, "y": 5 } ] }
       ]
     }
   },
@@ -477,6 +490,18 @@
       "success": "Thank you for your assistance.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_59",
+          "place_items": [
+            { "chance": 100, "item": "cleaning", "x": 17, "y": [ 0, 2 ], "repeat": [ 1, 3 ] },
+            { "chance": 100, "item": "ranch_nurse_clinic_surgery", "x": [ 15, 18 ], "y": 4, "repeat": [ 2, 4 ] }
+          ],
+          "place_item": [ { "item": "syringe", "x": 15, "y": 4, "amount": [ 4, 8 ] } ]
+        }
+      ]
     }
   }
 ]
