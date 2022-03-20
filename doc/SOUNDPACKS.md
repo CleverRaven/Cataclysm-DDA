@@ -213,7 +213,6 @@ Triggered by seeing large numbers of zombies.
 * `mon_death zombie_death|zombie_gibbed`
 * `mon_bite bite_miss|bite_hit`
 * `melee_attack monster_melee_hit`
-* `player_laugh laugh_f|laugh_m`
 
 ### Player movement sfx
 
