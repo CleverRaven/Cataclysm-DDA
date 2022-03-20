@@ -246,7 +246,7 @@
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "RAW" ],
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
-    "use_action": { "type": "transform", "target": "empty_corn_cob", "moves": 500 }
+    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
   },
   {
     "type": "COMESTIBLE",

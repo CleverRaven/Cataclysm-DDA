@@ -223,6 +223,7 @@ struct part_material {
     material_id id; //material type
     int cover; //portion coverage % of this material
     float thickness; //portion thickness of this material
+    bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
     part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :

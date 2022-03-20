@@ -5420,7 +5420,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
 {
     std::string err;
-    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
         if( !container.has_item_with( [&liquid]( const item & it ) {
@@ -5433,6 +5433,11 @@ bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
                                liquid.tname() );
         }
         return false;
+    }
+
+    // get_remaining_capacity_for_liquid doesn't consider the current amount of liquid
+    if( liquid.count_by_charges() ) {
+        amount = std::min( amount, liquid.charges );
     }
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
