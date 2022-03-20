@@ -1951,7 +1951,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
-    "pre_flags": { "flag": "DIGGABLE", "force_ter": true },
+    "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
     "pre_terrain": "f_coffin_c",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
