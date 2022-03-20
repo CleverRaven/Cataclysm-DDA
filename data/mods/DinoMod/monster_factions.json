@@ -44,6 +44,21 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "insectivore_young",
+    "base_faction": "small_animal",
+    "neutral": "small_animal",
+    "friendly": "insectivore_dino"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "insectivore_dino",
+    "base_faction": "very_small_predator",
+    "neutral": "herbivore",
+    "hate": "insect",
+    "friendly": "insectivore_young"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "very_small_mixed",
     "base_faction": "very_small_predator",
     "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
@@ -326,6 +341,24 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "anzu",
+    "base_faction": "medium_mixed",
+    "friendly": [ "anzu_hatchling", "anzu_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "anzu_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "anzu", "anzu_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "anzu_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "anzu", "anzu_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "eoraptor",
     "//": "omnivore",
     "base_faction": "very_small_predator"
@@ -420,13 +453,13 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "copy-from": "small_animal",
-    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino" ]
+    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino", "insectivore_young" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "copy-from": "herbivore",
-    "neutral": "herbivore_dino"
+    "neutral": [ "herbivore_dino", "insectivore_dino" ]
   },
   {
     "type": "MONSTER_FACTION",

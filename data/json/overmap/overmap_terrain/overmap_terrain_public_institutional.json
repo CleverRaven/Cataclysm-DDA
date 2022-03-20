@@ -118,10 +118,6 @@
       "police_dept_u011",
       "police_dept_u101",
       "police_dept_u111",
-      "police_dept_u002",
-      "police_dept_u012",
-      "police_dept_u102",
-      "police_dept_u112",
       "police_dept_d000",
       "police_dept_d010",
       "police_dept_d100",
@@ -129,11 +125,7 @@
       "police_dept_d001",
       "police_dept_d011",
       "police_dept_d101",
-      "police_dept_d111",
-      "police_dept_d002",
-      "police_dept_d012",
-      "police_dept_d102",
-      "police_dept_d112"
+      "police_dept_d111"
     ],
     "name": "police department",
     "copy-from": "generic_city_building",
@@ -519,10 +511,10 @@
     "type": "overmap_terrain",
     "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
     "name": "town hall",
-    "sym": ".",
-    "color": "light_blue",
+    "sym": "^",
+    "color": "i_black",
     "see_cost": 2,
-    "mondensity": 2
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",

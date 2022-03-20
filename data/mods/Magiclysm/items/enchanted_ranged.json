@@ -145,7 +145,7 @@
     "id": "boreal_mosin",
     "copy-from": "mosin91_30",
     "type": "GUN",
-    "name": { "str_sp": "Mosin-Nagant 91/30 Boreal" },
+    "name": { "str_sp": "Mosin-Nagant 1891/30 Boreal" },
     "description": "A modernized version of the Mosin-Nagant 1891/30 by Cannith Industries, chambered in 7.62x51 NATO.  The barrel is enchanted to give bullets a minor freezing property.",
     "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "cold", "amount": 3 },
@@ -166,7 +166,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 }, "allowed_speedloaders": [ "borealmosin_clip" ] } ],
-    "proportional": { "price": 3, "price_postaopoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
+    "proportional": { "price": 3, "price_postapoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {

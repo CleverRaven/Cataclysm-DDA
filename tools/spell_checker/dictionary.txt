@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+aberrance
 aboveground
 abso
 acausal
@@ -32,6 +33,7 @@ alate
 alates
 alay
 albertosaurus
+albertonykus
 aldosterone
 alembic
 alexandrites
@@ -72,6 +74,7 @@ antimateriel
 antipodes
 antlered
 antlion
+anzu
 apatosaurus
 aposematic
 applet
@@ -229,7 +232,6 @@ brewable
 brimless
 bronchodilator
 bronchospasm
-bubblewrap
 bubblicious
 buchner
 bucka
@@ -291,6 +293,8 @@ chasin
 chausses
 cheapshot
 cheescutter
+chelator
+chelators
 chestpiece
 chestrig
 chestwrap
@@ -426,7 +430,7 @@ deinonychus
 deles
 delsihous
 demihuman
-denatonuim
+denatonium
 deployer
 dermatik
 derring
@@ -584,6 +588,7 @@ firemask
 firepit
 firestarters
 firesuit
+firesuits
 fireweed
 fishfolk
 fishily
@@ -688,6 +693,7 @@ glyceride
 goooood
 gooorge
 goops
+gorget
 gorgosaurus
 gowod
 gozu
@@ -1065,7 +1071,6 @@ mountable
 mouthgear
 mouthpart
 mouthwear
-movecost
 movestr
 mph
 mr
@@ -1458,6 +1463,7 @@ sandleather
 sapience
 sarracenia
 satirizes
+sautered
 savetest
 sawblade
 sawblades
@@ -1553,6 +1559,7 @@ sp
 spacebar
 spadelike
 spak
+spall
 spasmically
 spearcat
 spearhand
@@ -1757,6 +1764,7 @@ uncleaned
 uncoils
 underbarrel
 undercovering
+undergrown
 underprepared
 underslung
 undersuit

@@ -2,7 +2,6 @@
   {
     "type": "ter_furn_transform",
     "id": "move_earth",
-    "fail_message": "The earth here does not listen to your command to move.",
     "terrain": [
       { "result": "t_hole", "valid_terrain": [ "t_pit", "t_slope_down" ], "message": "The pit has deepened further." },
       {

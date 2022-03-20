@@ -210,7 +210,7 @@ static nc_color limb_score_current_color( float cur_score, float bp_score )
 
 static std::string get_score_text( const std::string &sc_name, float cur_score, float bp_score )
 {
-    if( bp_score <= std::numeric_limits<float>::epsilon() ) {
+    if( std::abs( bp_score ) <= std::numeric_limits<float>::epsilon() ) {
         return std::string();
     }
 
@@ -245,14 +245,16 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
     }
     for( const character_modifier &mod : character_modifier::get_all() ) {
-        const limb_score_id &sc = mod.use_limb_score();
-        if( sc.is_null() || !bp->has_limb_score( sc ) ) {
-            continue;
+        for( const auto &sc : mod.use_limb_scores() ) {
+            if( sc.second == 0.0f || sc.first.is_null() || !bp->has_limb_score( sc.first ) ) {
+                continue;
+            }
+            std::string desc = mod.description().translated();
+            std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
+                                           limb_score_current_color( part->get_limb_score( sc.first ) * sc.second,
+                                                   bp->get_limb_score( sc.first ) * sc.second ) );
+            s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
         }
-        std::string desc = mod.description().translated();
-        std::string valstr = colorize( string_format( "%.2f", mod.modifier( you ) ),
-                                       limb_score_current_color( part->get_limb_score( sc ), bp->get_limb_score( sc ) ) );
-        s.emplace_back( string_format( "%s: %s%s", desc, mod.mod_type_str(), valstr ) );
     }
     return s;
 }

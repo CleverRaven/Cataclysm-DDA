@@ -356,6 +356,10 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
 
+    if( !get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+        return _( "Cataclysm: Dark Days Ahead" );
+    }
+
     if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
         theme_extension = ".alt1";
         theme_fallback = datadir_value + "title/" + "en.alt1";

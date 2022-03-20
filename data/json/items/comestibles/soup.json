@@ -74,7 +74,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 43 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
     "fun": 1
   },
   {
@@ -104,7 +104,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 80 ], [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "vitB", 20 ] ],
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ] ],
     "fun": 1
   },
   {
@@ -129,7 +129,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ], [ "vitB", 20 ] ],
+    "vitamins": [ [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ] ],
     "fun": 1
   },
   {
@@ -154,7 +154,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 178 ], [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
     "fun": 5
   },
   {
@@ -180,7 +180,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 19 ], [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "vitB", 24 ] ],
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ] ],
     "fun": 8
   },
   {
@@ -206,7 +206,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
     "fun": 1
   },
   {
@@ -232,8 +232,31 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
     "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hellfire_stew",
+    "looks_like": "soup_woods",
+    "name": { "str": "hellfire stew" },
+    "weight": "250 g",
+    "color": "brown",
+    "spoils_in": "5 days",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "o",
+    "quench": 2,
+    "calories": 504,
+    "description": "An old recipe from the American Civil War.  First you crush your hardtack into chunks with whatever object you have at hand then combine it with the water to make the tack soggy.  You're going to want to melt down your fat.  Add salt and pepper.  Then you'll fry up the soggy chunks in the fat til the fat is absorbed into the chunks and browned.  It's edible.",
+    "price": 50,
+    "price_postapoc": 100,
+    "material": [ "flesh", "wheat" ],
+    "volume": "500 ml",
+    "charges": 4,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 6 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -258,7 +281,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 9 ] ],
     "fun": 2
   },
   {
@@ -313,6 +336,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "soup_blood_wheat_free",
+    "looks_like": "soup_blood",
+    "name": { "str_sp": "wheat-free blood soup" },
+    "weight": "266 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 15,
+    "healthy": 1,
+    "calories": 318,
+    "description": "A mushy, brown semi-liquid soup made from blood and wheat-free flour.",
+    "price": 350,
+    "price_postapoc": 25,
+    "material": [ "blood", "veggy" ],
+    "primary_material": "blood",
+    "volume": "500 ml",
+    "phase": "liquid",
+    "charges": 2,
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "soup_tomato",
     "looks_like": "tomato_juice",
     "name": { "str": "tomato soup" },
@@ -333,7 +381,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
     "fun": 2
   },
   {
@@ -359,7 +407,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 81 ], [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "vitB", 20 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ] ],
     "fun": 3
   },
   {
@@ -384,7 +432,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ] ],
     "fun": 3
   },
   {
@@ -407,7 +455,7 @@
     "volume": "170 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ] ],
     "fun": 1
   },
   {
@@ -429,7 +477,7 @@
     "material": [ "powder", "flesh", "wheat" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitA", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ] ],
     "fun": -10
   },
   {

@@ -4,6 +4,7 @@
 enum class jmapgen_flags {
     allow_terrain_under_other_data,
     erase_all_before_placing_terrain,
+    no_underlying_rotate,
     last
 };
 

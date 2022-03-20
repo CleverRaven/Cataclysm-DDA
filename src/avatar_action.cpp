@@ -404,8 +404,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr;
@@ -605,8 +607,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
-            ///\EFFECT_STR increases breath-holding capacity while sinking
-            you.set_oxygen();
             you.set_underwater( true );
         }
     }

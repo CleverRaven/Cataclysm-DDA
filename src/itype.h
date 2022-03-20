@@ -223,6 +223,7 @@ struct part_material {
     material_id id; //material type
     int cover; //portion coverage % of this material
     float thickness; //portion thickness of this material
+    bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
     part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :
@@ -295,6 +296,11 @@ struct armor_portion_data {
 
     // this is to test if the armor has unique layering information
     bool has_unique_layering = false; // NOLINT(cata-serialize)
+
+    // how breathable this part of the armor is
+    // cached from the material data
+    // only tracked for amalgamized body parts entries
+    int breathability = 0; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -1003,6 +1009,7 @@ class islot_milling
 
 struct itype {
         friend class Item_factory;
+        friend struct mod_tracker;
 
         using FlagsSetType = std::set<flag_id>;
 

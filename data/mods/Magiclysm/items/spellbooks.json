@@ -437,7 +437,7 @@
     "type": "BOOK",
     "name": { "str": "Forbidden Tome" },
     "//": "1 Magus spell, 1 Druid spell, 1 Animist spell",
-    "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existance, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
+    "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existence, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
     "weight": "2400 g",
     "volume": "5000 ml",
     "price": 7500,
