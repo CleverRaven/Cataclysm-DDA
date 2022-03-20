@@ -1004,7 +1004,7 @@
     "type": "ARMOR",
     "//": " stats taken from: https://condoroutdoor.com/ma12-shotgun-ammo-pouch.html",
     "name": { "str": "tactical shotshell pouch", "str_pl": "tactical shotshell pouches" },
-    "description": "A pouch designed to hold shotgun shells or 308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
+    "description": "A pouch designed to hold shotgun shells or .308 rounds keeping them accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": 2000,

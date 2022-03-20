@@ -1051,7 +1051,7 @@
   {
     "id": "xl_mc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm", "str_pl": "XL medium steel close helms (raised)" },
+    "name": { "str": "XL medium steel close helm" },
     "copy-from": "mc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
