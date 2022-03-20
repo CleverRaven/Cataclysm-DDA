@@ -420,6 +420,8 @@ void sfx::load_playlist( const JsonObject &jsobj )
         }
 
         playlists[playlist_id] = std::move( playlist_to_load );
+
+        music::update_music_id_is_empty_flag( playlist_id, true );
     }
 }
 
