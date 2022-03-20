@@ -58,7 +58,7 @@
   {
     "id": "bring_the_sun",
     "type": "SPELL",
-    "name": { "str": "Ignite gasoline" },
+    "name": { "str": "Ignite Gasoline" },
     "description": "Releases a blast of ignited gasoline directly in front of you.",
     "effect": "attack",
     "shape": "cone",
