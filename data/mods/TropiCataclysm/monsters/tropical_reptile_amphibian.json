@@ -409,7 +409,7 @@
     "id": "mon_turtle_snapper",
     "type": "MONSTER",
     "name": { "str": "snapping turtle" },
-    "description": "Known worldwide due to the famous Alligator Snapping Turtle, this genus of turtles is present beyond US borders from Mexico to some parts of South America.",
+    "description": "Known worldwide due to the famous alligator snapping turtle, this genus of turtles is present beyond US borders from Mexico to some parts of South America.",
     "default_faction": "turtle",
     "bodytype": "lizard",
     "categories": [ "WILDLIFE" ],
