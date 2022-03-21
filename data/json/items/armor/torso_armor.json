@@ -1342,7 +1342,7 @@
     "name": { "str": "XL tempered chestplate" },
     "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }`
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "armor_lc_heavy_chestplate",
