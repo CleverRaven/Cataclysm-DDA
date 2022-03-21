@@ -36,8 +36,8 @@
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "initial_charges": 500,
+    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
     "flags": [ "FIRESTARTER" ]
@@ -54,8 +54,8 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "initial_charges": 500,
+    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
     "flags": [ "FIRESTARTER" ]
