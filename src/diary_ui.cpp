@@ -23,7 +23,8 @@ namespace
 {
 /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border )
+                            int entries_per_page, int xoffset, int width, bool active, bool border,
+                            const report_color_error color_error )
 {
     if( *selection < 0 && !list.empty() ) {
         *selection = static_cast<int>( list.size() ) - 1;
@@ -45,7 +46,8 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
         const int y = i - top_of_page;
         trim_and_print( *win, point( xoffset + 1, y + borderspace ), width - 1 - borderspace,
                         ( static_cast<int>( *selection ) == i && active ) ? hilite( col ) : col,
-                        ( static_cast<int>( *selection ) == i && active ) ? remove_color_tags( list[i] ) : list[i] );
+                        ( static_cast<int>( *selection ) == i && active ) ? remove_color_tags( list[i] ) : list[i],
+                        color_error );
     }
     if( border ) {
         draw_border( *win );
@@ -58,23 +60,27 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 }
 
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            bool active, bool border )
+                            bool active, bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border );
+    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
+                           color_error );
 }
 
 void print_list_scrollable( catacurses::window *win, std::string text, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border )
+                            int entries_per_page, int xoffset, int width, bool active, bool border,
+                            const report_color_error color_error )
 {
     int borderspace = border ? 1 : 0;
     std::vector<std::string> list = foldstring( text, width - 1 - borderspace * 2 );
-    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border );
+    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
+                           color_error );
 }
 
 void print_list_scrollable( catacurses::window *win, std::string text, int *selection, bool active,
-                            bool border )
+                            bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border );
+    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
+                           color_error );
 }
 
 void draw_diary_border( catacurses::window *win, const nc_color &color = c_white )
@@ -191,9 +197,9 @@ void diary::show_diary_ui( diary *c_diary )
         draw_diary_border( &w_border );
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
-                               currwin == window_mode::CHANGE_WIN, false );
+                               currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
         print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
-                               currwin == window_mode::TEXT_WIN, false );
+                               currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
         trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
                         c_diary->get_head_text() );
@@ -221,7 +227,7 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_pages );
 
         print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
-                               currwin == window_mode::PAGE_WIN, true );
+                               currwin == window_mode::PAGE_WIN, true, report_color_error::yes );
         center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
                       c_diary->get_pages_list().size() ) );
 
