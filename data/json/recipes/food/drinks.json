@@ -106,7 +106,6 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "result_mult": 2,
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],

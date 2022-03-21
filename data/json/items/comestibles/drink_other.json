@@ -234,7 +234,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 1,
-    "calories": 86,
+    "calories": 64,
     "description": "Extremely sweet syrup made from sugar and pomegranate juice.  Better mix it with other drinks rather than drink it as is.",
     "price": 80,
     "price_postapoc": 50,
