@@ -344,6 +344,10 @@
           "derelict_property_south",
           "derelict_property_east",
           "derelict_property_west",
+          "homelesscamp_north",
+          "homelesscamp_south",
+          "homelesscamp_east",
+          "homelesscamp_west",
           "spider_pit_north",
           "spider_pit_south",
           "spider_pit_east",
@@ -382,7 +386,8 @@
           "natural_spring_south",
           "natural_spring_east",
           "natural_spring_west",
-          "cave"
+          "cave",
+          "special_forest"
         ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",
