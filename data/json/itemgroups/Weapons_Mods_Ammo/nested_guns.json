@@ -1224,6 +1224,13 @@
     "entries": [ { "item": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
+    "id": "nested_mosin91_30",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [ { "item": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+  },
+  {
     "id": "nested_remington700_270",
     "type": "item_group",
     "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
