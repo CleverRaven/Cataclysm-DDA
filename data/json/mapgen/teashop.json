@@ -51,7 +51,7 @@
         "z": "t_region_shrub_decorative",
         "4": "t_gutter_downspout",
         "|": "t_wall_w",
-        "b": "t_bamboo_tall"
+        "b": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall" ]
       },
       "furniture": {
         "6": "f_console_broken",
