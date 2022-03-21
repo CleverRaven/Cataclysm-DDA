@@ -345,5 +345,90 @@
       { "item": "4570_low", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "4570_low", "prob": 30, "charges": [ 44, 80 ] }
     ]
+  },
+  {
+    "id": "on_hand_308",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "308", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "762_51", "prob": 80, "charges": [ 1, 20 ] },
+      { "item": "308", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "762_51", "prob": 60, "charges": [ 22, 40 ] },
+      { "item": "308", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "762_51", "prob": 24, "charges": [ 44, 80 ] },
+      { "item": "308", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "762_51_incendiary", "prob": 80, "charges": [ 1, 20 ] },
+      { "item": "762_51_incendiary", "prob": 60, "charges": [ 22, 40 ] },
+      { "item": "762_51_incendiary", "prob": 24, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_223",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "223", "prob": 200, "charges": [ 1, 30 ] },
+      { "item": "223", "prob": 150, "charges": [ 33, 60 ] },
+      { "item": "223", "prob": 60, "charges": [ 66, 120 ] },
+      { "item": "556", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "556", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "556", "prob": 30, "charges": [ 66, 120 ] },
+      { "item": "556_m855a1", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "556_m855a1", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "556_m855a1", "prob": 30, "charges": [ 66, 120 ] },
+      { "item": "556_incendiary", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "556_incendiary", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "556_incendiary", "prob": 30, "charges": [ 66, 120 ] }
+    ]
+  },
+  {
+    "id": "on_hand_3006",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "3006", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "3006", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "3006", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "3006_incendiary", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "3006_incendiary", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "3006_incendiary", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_762R",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "762_54R", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "762_54R", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "762_54R", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_270win",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "270win_jsp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "270win_jsp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "270win_jsp", "prob": 30, "charges": [ 44, 80 ] }
+    ]
+  },
+  {
+    "id": "on_hand_300",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "300_winmag", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "300_winmag", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "300_winmag", "prob": 30, "charges": [ 22, 40 ] }
+    ]
   }
 ]
