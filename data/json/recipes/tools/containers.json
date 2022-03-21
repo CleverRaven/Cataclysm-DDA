@@ -516,6 +516,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "bucket_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jug_plastic",
     "id_suffix": "with_plastic_molding",
