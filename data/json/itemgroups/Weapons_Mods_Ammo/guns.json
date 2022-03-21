@@ -239,9 +239,16 @@
     "id": "guns_smg_common",
     "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "nested_mp40semi", "prob": 200 }, { "group": "nested_hk_mp5_semi_pistol", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_common_worn",
+    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
+    "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
     "items": [
-      { "item": "mp40semi", "prob": 200, "charges-min": 0, "charges-max": 32 },
-      { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 30 }
+      { "item": "mp40semi", "charges-min": 0, "charges-max": 32, "prob": 200 },
+      { "item": "hk_mp5_semi_pistol", "charges-min": 0, "charges-max": 30, "prob": 70 }
     ]
   },
   {
@@ -261,21 +268,21 @@
     "//": "Less common SMGs including those only used by police/paramilitary forces.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 50 },
-      { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 50 },
-      { "item": "mp40", "prob": 185, "charges-min": 0, "charges-max": 32 },
-      { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
-      { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
-      { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 32 },
-      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
-      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
-      { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 30 },
-      { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 32 },
-      { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 100 },
-      { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 32 }
+      { "group": "nested_calico", "prob": 30 },
+      { "group": "nested_fn_p90", "prob": 50 },
+      { "group": "nested_mp40", "prob": 185 },
+      { "group": "nested_tommygun", "prob": 70 },
+      { "group": "nested_sten", "prob": 100 },
+      { "group": "nested_uzi", "prob": 100 },
+      { "group": "nested_hk_mp5", "prob": 100 },
+      { "group": "nested_hk_mp5sd", "prob": 5 },
+      { "group": "nested_hk_ump45", "prob": 30 },
+      { "group": "nested_mac_10", "prob": 40 },
+      { "group": "nested_mac_11", "prob": 20 },
+      { "group": "nested_TDI", "prob": 10 },
+      { "group": "nested_american_180", "prob": 50 },
+      { "group": "nested_briefcase_smg", "prob": 5 },
+      { "group": "nested_tec9", "prob": 50 }
     ]
   },
   {
@@ -306,12 +313,12 @@
     "id": "guns_smg_milspec",
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
-      { "item": "hk_mp7", "prob": 100, "charges-min": 0, "charges-max": 20 },
-      { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
-      { "item": "rm2000_smg", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
-      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
-      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 }
+      { "group": "nested_hk_mp7", "prob": 100 },
+      { "group": "nested_needlegun", "prob": 30 },
+      { "group": "nested_rm2000_smg", "prob": 50 },
+      { "group": "nested_hk_mp5", "prob": 100 },
+      { "group": "nested_hk_mp5k", "prob": 10 },
+      { "group": "nested_hk_mp5sd", "prob": 5 }
     ]
   },
   {

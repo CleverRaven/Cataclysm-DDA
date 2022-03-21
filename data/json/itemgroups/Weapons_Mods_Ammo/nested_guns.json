@@ -860,5 +860,257 @@
     "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
     "subtype": "collection",
     "entries": [ { "item": "colt_saa", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_45colt" } ]
+  },
+  {
+    "id": "nested_mp40semi",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mp40semi", "charges-min": 0, "charges-max": 32 },
+      { "item": "mp40mag_32rd" },
+      { "item": "mp40mag_32rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp5_semi_pistol",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5_semi_pistol", "charges-min": 0, "charges-max": 30 },
+      { "item": "mp5mag_10rd" },
+      { "item": "mp5mag_10rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_calico",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "calico", "charges-min": 0, "charges-max": 50 },
+      { "item": "calicomag" },
+      { "item": "calicomag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_fn_p90",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "fn_p90", "charges-min": 0, "charges-max": 50 },
+      { "item": "fnp90mag" },
+      { "item": "fnp90mag", "prob": 50 },
+      { "group": "on_hand_57" }
+    ]
+  },
+  {
+    "id": "nested_mp40",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mp40", "charges-min": 0, "charges-max": 32 },
+      { "item": "mp40mag_32rd" },
+      { "item": "mp40mag_32rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_tommygun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tommygun", "charges-min": 0, "charges-max": 20 },
+      { "item": "thompson_mag" },
+      { "item": "thompson_mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_sten",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sten", "charges-min": 0, "charges-max": 32 },
+      { "item": "stenmag" },
+      { "item": "stenmag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_uzi",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "uzi", "charges-min": 0, "charges-max": 32 },
+      { "item": "uzimag" },
+      { "item": "uzimag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp5",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5", "charges-min": 0, "charges-max": 30 },
+      { "item": "mp5mag" },
+      { "item": "mp5mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp5sd",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5", "charges-min": 0, "charges-max": 30 },
+      { "item": "mp5mag" },
+      { "item": "mp5mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_hk_ump45",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_ump45", "charges-min": 0, "charges-max": 25 },
+      { "item": "ump45mag" },
+      { "item": "ump45mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_mac_10",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mac_10", "charges-min": 0, "charges-max": 30 },
+      { "item": "mac10mag" },
+      { "item": "mac10mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_mac_11",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mac_11", "charges-min": 0, "charges-max": 32 },
+      { "item": "mac11mag" },
+      { "item": "mac11mag", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
+    "id": "nested_TDI",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "TDI", "charges-min": 0, "charges-max": 30 },
+      { "item": "tdi_mag" },
+      { "item": "tdi_mag", "prob": 50 },
+      { "group": "on_hand_45" }
+    ]
+  },
+  {
+    "id": "nested_american_180",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "american_180", "charges-min": 0, "charges-max": 100 },
+      { "item": "a180mag" },
+      { "item": "a180mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
+    "id": "nested_briefcase_smg",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "briefcase_smg", "charges-min": 0, "charges-max": 30 },
+      { "item": "mp5mag_10rd" },
+      { "item": "mp5mag_10rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_tec9",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tec9", "charges-min": 0, "charges-max": 30 },
+      { "item": "tec9mag" },
+      { "item": "tec9mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp7",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp7", "charges-min": 0, "charges-max": 20 },
+      { "item": "hk46mag" },
+      { "item": "hk46mag", "prob": 50 },
+      { "group": "on_hand_46" }
+    ]
+  },
+  {
+    "id": "nested_needlegun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "needlegun", "charges-min": 0, "charges-max": 50 },
+      { "item": "5x50_50_mag" },
+      { "item": "5x50_50_mag", "prob": 50 },
+      { "group": "on_hand_5x50" }
+    ]
+  },
+  {
+    "id": "nested_rm2000_smg",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rm2000_smg", "charges-min": 0, "charges-max": 10 },
+      { "item": "8x40_10_mag" },
+      { "item": "8x40_10_mag", "prob": 50 },
+      { "group": "on_hand_8x40" }
+    ]
+  },
+  {
+    "id": "nested_hk_mp5k",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5k", "charges-min": 0, "charges-max": 30 },
+      { "item": "mp5mag" },
+      { "item": "mp5mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
   }
 ]
