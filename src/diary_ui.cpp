@@ -356,9 +356,7 @@ void diary::edit_page_ui( const std::function<catacurses::window()> &create_wind
     const std::string old_text = get_page_ptr()->m_text;
     std::string new_text = old_text;
 
-    string_editor_window ed( [&]() {
-        return create_window();
-    }, get_page_ptr()->m_text );
+    string_editor_window ed( create_window, get_page_ptr()->m_text );
 
     new_text = ed.query_string();
 

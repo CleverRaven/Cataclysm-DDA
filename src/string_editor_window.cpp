@@ -80,7 +80,7 @@ folded_text::folded_text( const std::string &str, const int line_width )
         if( width > width_start + line_width
             || ( width == width_start + line_width && linebreak ) ) {
             if( src_break > src_start ) {
-                // break after previous space in the line if any
+                // break after previous breaking character in the line if any
                 lines.emplace_back( folded_line {
                     cpts_start, cpts_break,
                     std::string( src_start, src_break )
@@ -101,6 +101,7 @@ folded_text::folded_text( const std::string &str, const int line_width )
                 width_start = width_curr;
             }
         }
+        // always break on line breaks
         if( linebreak ) {
             lines.emplace_back( folded_line {
                 cpts_start, cpts,
@@ -111,7 +112,10 @@ folded_text::folded_text( const std::string &str, const int line_width )
             cpts_start = cpts;
             width_start = width;
         }
+        // record position of breaking and non-breaking characters
         if( is_breaking( uc ) ) {
+            // only record a breaking character if it follows at least one
+            // non-breaking character after the start of the line
             if( src_nonbreak > src_start ) {
                 src_break = src;
                 bytes_break = bytes;
@@ -140,6 +144,8 @@ point folded_text::codepoint_coordinates( const int cpt_idx ) const
     if( lines.empty() ) {
         return point_zero;
     }
+    // use upper_bound so the cursor after a full line the width of the window
+    // is placed at the start of the next line
     auto it = std::upper_bound( lines.begin(), lines.end(), cpt_idx,
     []( const int p, const folded_line & l ) {
         return p < l.cpts_end;
@@ -148,6 +154,7 @@ point folded_text::codepoint_coordinates( const int cpt_idx ) const
         // past the last codepoint
         const point pos = point( utf8_wrapper( lines.back().str ).display_width(),
                                  lines.size() - 1 );
+        // if the cursor does not fit into the last line, warp to next line instead
         if( pos.x >= line_width ) {
             return point( 0, pos.y + 1 );
         }
@@ -211,10 +218,13 @@ void string_editor_window::print_editor()
                 const char *src = line.str.c_str();
                 int len = line.str.length();
                 int cpts = line.cpts_start;
+                // display the cursor as the first non-zero-width character after
+                // the cursor position if any
                 while( len > 0 && ( cpts <= _position || mk_wcwidth( c_cursor ) < 1 ) ) {
                     c_cursor = UTF8_getch( &src, &len );
                     cpts += 1;
                 }
+                // but display cursor as space at end of line
                 if( cpts <= _position || c_cursor == 0
                     || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
                     c_cursor = ' ';
@@ -222,7 +232,7 @@ void string_editor_window::print_editor()
                 mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
             }
         } else if( i == _cursor_display.y ) {
-            // cursor past the end
+            // cursor past the end of text
             mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, " " );
         }
     }
@@ -262,6 +272,7 @@ void string_editor_window::cursor_right()
 
 void string_editor_window::cursor_up()
 {
+    // move cursor up while trying to keep the x coordinate
     if( _cursor_display.y > 0 ) {
         const folded_line &prev_line = _folded->get_lines()[_cursor_display.y - 1];
         _position = prev_line.cpts_start;
@@ -281,6 +292,7 @@ void string_editor_window::cursor_up()
 
 void string_editor_window::cursor_down()
 {
+    // move cursor down while trying to keep the x coordinate
     if( static_cast<size_t>( _cursor_display.y + 2 ) == _folded->get_lines().size() ) {
         const folded_line &last_line = _folded->get_lines().back();
         _position = last_line.cpts_start;
