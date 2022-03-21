@@ -31,6 +31,7 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 // game::reset_light_level
 // game::is_in_sunlight
 // map::build_map_cache
+// map::build_lightmap
 // map::ambient_light_at
 
 // Character::fine_detail_vision_mod() returns a floating-point number that acts as a multiplier for
@@ -59,8 +60,9 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     SECTION( "full daylight" ) {
         // Set clock to noon
         calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
-        // Build map cache including lightmap
-        here.build_map_cache( 0, false );
+        // Build map cache and lightmap
+        here.build_map_cache( 0 );
+        here.build_lightmap( 0, dummy.pos() );
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
         // ambient_light_at is ~100.0 at this time of day (this fails if lightmap cache is not built)
         REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ).margin( 1 ) );
@@ -84,7 +86,8 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 
     SECTION( "midnight with a new moon" ) {
         calendar::turn = calendar::turn_zero;
-        here.build_map_cache( 0, false );
+        here.build_map_cache( 0 );
+        here.build_lightmap( 0, dummy.pos() );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
         REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
@@ -120,7 +123,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 
     GIVEN( "it is midnight with a new moon" ) {
         calendar::turn = calendar::turn_zero;
-        here.build_map_cache( 0, false );
+        here.build_map_cache( 0 );
+        here.build_lightmap( 0, dummy.pos() );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
 
         THEN( "sight limit is 60 tiles away" ) {
@@ -224,7 +228,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
 
         WHEN( "under a new moon" ) {
             calendar::turn = calendar::turn_zero;
-            here.build_map_cache( 0, false );
+            here.build_map_cache( 0 );
+            here.build_lightmap( 0, dummy.pos() );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
@@ -238,7 +243,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
 
         WHEN( "under a half moon" ) {
             calendar::turn = calendar::turn_zero + 7_days;
-            here.build_map_cache( 0, false );
+            here.build_map_cache( 0 );
+            here.build_lightmap( 0, dummy.pos() );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_DIM ).margin( 1.0f ) );
 
@@ -252,7 +258,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
 
         WHEN( "under a full moon" ) {
             calendar::turn = calendar::turn_zero + 14_days;
-            here.build_map_cache( 0, false );
+            here.build_map_cache( 0 );
+            here.build_lightmap( 0, dummy.pos() );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( 7 ) );
 
@@ -266,7 +273,8 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
 
         WHEN( "under the noonday sun" ) {
             calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
-            here.build_map_cache( 0, false );
+            here.build_map_cache( 0 );
+            here.build_lightmap( 0, dummy.pos() );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
             REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );

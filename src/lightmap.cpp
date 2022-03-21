@@ -778,7 +778,8 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
+    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.7 >
+        LIGHT_AMBIENT_LIT ) {
         return true;
     }
 
