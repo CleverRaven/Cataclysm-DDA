@@ -817,11 +817,6 @@ class input_context
         void set_timeout( int val );
         void reset_timeout();
 
-
-        void set_category( std::string c ) {
-            category = c;
-        }
-
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
@@ -906,7 +901,13 @@ class hotkey_queue
          */
         static const hotkey_queue &alphabets();
 
-        static const hotkey_queue &create_from_available_hotkeys( input_context &ctxt );
+        /**
+         * In keychar mode:
+         *   1-0, a-z, A-Z
+         * In keycode mode:
+         *   1-0, a-z, shift 1-0, shift a-z
+         */
+        static const hotkey_queue &alpha_digits();
 
     private:
         std::vector<int> codes_keychar;
