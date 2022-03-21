@@ -731,7 +731,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         if( map_cache.camera_cache[p.x][p.y] > 0.0f ) {
             if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
                 return lit_level::BRIGHT;
-            } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.7 >
+            } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
                        LIGHT_AMBIENT_LIT ) {
                 return lit_level::LOW;
             } else {
@@ -778,7 +778,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const auto &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.7 >
+    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
         LIGHT_AMBIENT_LIT ) {
         return true;
     }
