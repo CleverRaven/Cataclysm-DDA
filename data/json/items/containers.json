@@ -2124,7 +2124,7 @@
     "id": "stirling_kit_box",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "name": { "str": "STEM kit box", "str_pl": "STEM kit boxes" },
     "description": "A small box with an image of a children building things.",
     "weight": "400 g",
     "volume": "3200 ml",
