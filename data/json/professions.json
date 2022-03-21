@@ -2419,9 +2419,7 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
-    "flags": [
-      "SCEN_ONLY"
-    ]
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
