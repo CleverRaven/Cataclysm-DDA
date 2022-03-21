@@ -862,7 +862,7 @@
     "name": "utility shelf",
     "symbol": "{",
     "looks_like": "f_rack",
-    "description": "A simple heavy-duty plastic and metal shelving unit, intended to store tools and materials for easy access to workers.",
+    "description": "A simple heavy duty plastic and metal shelving unit, intended to store tools and materials for easy access to workers.",
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 55,

@@ -111,7 +111,7 @@
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "large electric motor" },
-    "description": "A heavy-duty electrical motor, capable of propelling a full-size car or SUV through electric power alone, provided you have the battery capacity.",
+    "description": "A heavy duty electrical motor, capable of propelling a full-size car or SUV through electric power alone, provided you have the battery capacity.",
     "item": "motor_large",
     "durability": 400,
     "power": 150000,

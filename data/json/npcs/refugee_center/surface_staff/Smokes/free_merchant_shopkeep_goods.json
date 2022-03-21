@@ -122,7 +122,7 @@
     "items": [ { "group": "survivor_melee", "count": [ 3, 5 ] } ]
   },
   {
-    "//": "Tools you might find in a house or construction site. They have a ton of common stuff to go around, and quite a bit of heavy-duty hardware as well.",
+    "//": "Tools you might find in a house or construction site. They have a ton of common stuff to go around, and quite a bit of heavy duty hardware as well.",
     "//2": "Groups like home_hw and similar are deliberately excluded here since they spawn things that the merchants would definitely want to hold onto for themselves instead of selling.",
     "type": "item_group",
     "id": "FREE_MERCHANTS_Shop_Hardware",

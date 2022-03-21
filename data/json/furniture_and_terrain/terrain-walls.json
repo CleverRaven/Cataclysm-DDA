@@ -1634,7 +1634,7 @@
     "id": "t_support_l",
     "name": "large metal support",
     "looks_like": "t_wall_metal",
-    "description": "A heavy-duty metal support beam.",
+    "description": "A heavy duty metal support beam.",
     "symbol": "T",
     "color": "light_gray",
     "move_cost": 0,

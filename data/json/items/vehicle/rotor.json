@@ -3,7 +3,7 @@
     "id": "heavy_duty_military_rotor",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": { "str": "heavy-duty military rotors", "str_pl": "sets of heavy-duty military rotors" },
+    "name": { "str": "heavy duty military rotors", "str_pl": "sets of heavy duty military rotors" },
     "description": "A set of four rotor blades from a military attack helicopter.",
     "price": 23400,
     "price_postapoc": 500,
