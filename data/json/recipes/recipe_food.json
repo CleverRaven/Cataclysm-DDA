@@ -7777,6 +7777,7 @@
         [ "seed_weed", 30 ],
         [ "seed_thyme", 60 ],
         [ "seed_canola", 60 ],
+        [ "seed_watermelon", 60 ],
         [ "seed_pumpkin", 30 ],
         [ "seed_sunflower", 30 ],
         [ "seed_dogbane", 60 ],
