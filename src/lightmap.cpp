@@ -737,24 +737,25 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
             } else {
                 return lit_level::DARK;
             }
-        } else if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return lit_level::BRIGHT_ONLY;
-        } else {
-            return lit_level::DARK;
-        }
-    }
-    if( a.obstructed ) {
-        if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-            if( a.apparent_light > cache.g_light_level ) {
-                // This represents too hazy to see detail,
-                // but enough light getting through to illuminate.
+        } else if( !a.obstructed ) {
+            if( map_cache.sm[p.x][p.y] > 0.0 ) {
                 return lit_level::BRIGHT_ONLY;
             } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return lit_level::LOW;
+                return lit_level::DARK;
             }
         } else {
-            return lit_level::BLANK;
+            if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
+                if( a.apparent_light > cache.g_light_level ) {
+                    // This represents too hazy to see detail,
+                    // but enough light getting through to illuminate.
+                    return lit_level::BRIGHT_ONLY;
+                } else {
+                    // If it's not brighter than the surroundings, it just ends up shadowy.
+                    return lit_level::LOW;
+                }
+            } else {
+                return lit_level::BLANK;
+            }
         }
     }
     // Then we just search for the light level in descending order.
