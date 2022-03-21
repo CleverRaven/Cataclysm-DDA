@@ -1840,7 +1840,7 @@ bool mattack::fungus( monster *z )
 bool mattack::fungus_corporate( monster *z )
 {
     if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
             get_map().add_item( z->pos(), item( "sporeos" ) );
