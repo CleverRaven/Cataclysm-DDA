@@ -1551,6 +1551,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             } else {
                 phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
+        } else if( tag == "<u_name>" ) {
+            phrase.replace( fa, l, u.get_name() );
+        } else if( tag == "<npc_name>" ) {
+            phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
@@ -4310,8 +4314,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_shave ),
             WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
-            WRAP( buy_10_logs ),
-            WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( drop_items_in_place ),

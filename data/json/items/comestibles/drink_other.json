@@ -101,7 +101,7 @@
     "looks_like": "mayonnaise",
     "symbol": "~",
     "color": "yellow",
-    "name": { "str_sp": "mustard" },
+    "name": { "str_sp": "mustard", "ctxt": "condiment" },
     "description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
     "price": 50,
     "price_postapoc": 100,

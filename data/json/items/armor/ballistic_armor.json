@@ -61,8 +61,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "encumbrance": 6,
         "coverage": 100,
@@ -185,8 +185,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "encumbrance": 6,
         "coverage": 100,
@@ -196,8 +196,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 5,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
@@ -211,8 +211,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 2,
         "coverage": 75,
@@ -236,8 +236,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "encumbrance": 6,
         "coverage": 100,
@@ -247,8 +247,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 5,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
@@ -275,8 +275,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "encumbrance": 6,
         "coverage": 100,
@@ -286,8 +286,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 2,
         "coverage": 75,
@@ -343,7 +343,10 @@
     ],
     "armor": [
       {
-        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
         "encumbrance": 1,
         "coverage": 90,
         "covers": [ "torso" ],

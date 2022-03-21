@@ -1235,6 +1235,13 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         you->impact( height * 30, where );
     }
+
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
+        you->set_underwater( true );
+        g->water_affect_items( *you );
+        you->add_msg_player_or_npc( _( "You dive into water." ), _( "<npcname> dives into water." ) );
+    }
+
     return true;
 }
 
