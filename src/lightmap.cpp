@@ -726,9 +726,18 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources.
-    if( dist > player_character.unimpaired_range() ) {
-        if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+    // but the player can still see light sources.  Cameras are based on their own positions.
+    if( dist > player_character.unimpaired_range() || a.obstructed ) {
+        if( map_cache.camera_cache[p.x][p.y] > 0.0f ) {
+            if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
+                return lit_level::BRIGHT;
+            } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.7 >
+                       LIGHT_AMBIENT_LIT ) {
+                return lit_level::LOW;
+            } else {
+                return lit_level::DARK;
+            }
+        } else if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
         } else {
             return lit_level::DARK;
@@ -768,12 +777,16 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
+    const auto &map_cache = get_cache_ref( t.z );
+    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
+        return true;
+    }
+
     Character &player_character = get_player_character();
     if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range ) {
         return false;    // Out of range!
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
     const apparent_light_info a = apparent_light_helper( map_cache, t );
     const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
     return !a.obstructed &&
@@ -787,15 +800,18 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
+    const auto &map_cache = get_cache_ref( t.z );
+    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
+        return true;
+    }
+
     if( max_range >= 0 && square_dist( t, get_player_character().pos() ) > max_range ) {
         // Out of range!
         return false;
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
     // Any epsilon > 0 is fine - it means lightmap processing visited the point
-    return map_cache.seen_cache[t.x][t.y] > 0.0f ||
-           map_cache.camera_cache[t.x][t.y] > 0.0f;
+    return map_cache.seen_cache[t.x][t.y] > 0.0f;
 }
 
 // For a direction vector defined by x, y, return the quadrant that's the
@@ -1031,8 +1047,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         for( const Creature *mon : moncams ) {
             const tripoint camera_pos = mon->pos();
             if( camera_pos.z == target_z ) {
-                int offsetDistance = mon->as_monster()->type->vision_day;
+                int offsetDistance = std::max( 60 - mon->as_monster()->type->vision_day, 0 );
                 camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
+                map_cache.seen_cache_dirty = true;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
                     camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
             }
@@ -1067,6 +1084,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
     }
 
+    const int avatar_sight_max = get_avatar().sight_max;
     for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
@@ -1079,7 +1097,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = rl_dist( origin, mirror_pos );
+            offsetDistance = std::max( 60 - avatar_sight_max + rl_dist( origin, mirror_pos ), 0 );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;

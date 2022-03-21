@@ -830,6 +830,7 @@ bool do_turn()
         if( g->first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
+                m.build_lightmap( levz, u.pos() );
                 ui_manager::redraw();
             }
 
@@ -842,6 +843,7 @@ bool do_turn()
             g->first_redraw_since_waiting_started = false;
         }
     } else {
+        m.build_lightmap( levz, u.pos() );
         // Nothing to wait for now
         g->wait_popup.reset();
         g->first_redraw_since_waiting_started = true;

@@ -5052,7 +5052,7 @@
     "prereqs2": [ "INT_SLIME" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
-    "moncams": [ [ "mon_slime_ocularium", 32 ], [ "mon_player_blob", 8 ] ]
+    "moncams": [ [ "mon_slime_ocularium", 32 ], [ "mon_player_blob", 16 ] ]
   },
   {
     "type": "mutation",

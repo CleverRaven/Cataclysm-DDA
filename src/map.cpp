@@ -8370,13 +8370,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     // Initial value is illegal player position.
     const tripoint p = get_player_character().pos();
     static tripoint player_prev_pos;
-    if( seen_cache_dirty || player_prev_pos != p ) {
+    if( ( seen_cache_dirty && !skip_lightmap ) || player_prev_pos != p ) {
         build_seen_cache( p, zlev );
         player_prev_pos = p;
     }
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }
+}
+
+void map::build_lightmap( const int zlev, const tripoint p )
+{
+    skew_vision_cache.clear();
+    build_seen_cache( p, zlev );
+    generate_lightmap( zlev );
 }
 
 //////////

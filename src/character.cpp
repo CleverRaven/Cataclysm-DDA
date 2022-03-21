@@ -9629,10 +9629,6 @@ bool Character::sees( const tripoint &t, bool, int ) const
         return true;
     }
 
-    if( can_see && wanted_range > unimpaired_range() ) {
-        can_see = false;
-    }
-
     return can_see;
 }
 
