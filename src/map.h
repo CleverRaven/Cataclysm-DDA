@@ -1611,7 +1611,7 @@ class map
         void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
-        void build_map_cache( int zlev, bool skip_lightmap = false );
+        void build_map_cache( int zlev );
         void build_lightmap( const int zlev, const tripoint p );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,

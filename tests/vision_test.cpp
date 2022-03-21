@@ -183,9 +183,11 @@ struct vision_test_case {
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );
+            here.build_lightmap( zlev );
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );
+            here.build_lightmap( zlev );
 
             INFO( vision_test_info( t ) );
             t.for_each_tile( assert_tile_light_level );

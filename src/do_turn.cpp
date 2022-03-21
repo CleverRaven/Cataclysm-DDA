@@ -776,7 +776,7 @@ bool do_turn()
     const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz, true );
+    m.build_map_cache( levz );
     monmove();
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();

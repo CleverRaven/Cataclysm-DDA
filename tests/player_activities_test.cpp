@@ -1757,9 +1757,11 @@ static void update_cache( map &m )
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
+    m.build_lightmap( 0 );
     m.update_visibility_cache( 0 );
     m.invalidate_map_cache( 0 );
     m.build_map_cache( 0 );
+    m.build_lightmap( 0 );
 }
 
 TEST_CASE( "activity interruption by distractions", "[activity][interruption]" )
