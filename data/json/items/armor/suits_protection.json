@@ -2331,6 +2331,76 @@
     }
   },
   {
+    "id": "linothorax",
+    "type": "ARMOR",
+	"category": "armor",
+    "name": { "str": "linothorax", "str_pl": "linothorakes" },
+    "description": "Ancient Greek armor made from laminated linen. Lighter and more comfortable than bronze while providing similar protection.",
+    "weight": "2.9 kg",
+    "volume": "8 L",
+	"price": 10000,
+    "price_postapoc": 1750,
+	"to_hit": -5,
+    "bashing": 2,
+    "material": [ "linen_laminated" ],
+	"symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+	"warmth": 15,
+	"longest_side": "76 cm",
+    "material_thickness": 10,
+    "flags": [ "STURDY", "OUTER" ]
+    "armor": [
+      {
+        "material": [
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
+          { "type": "linen_laminated", "covered_by_mat": 10, "thickness": 10.0 }
+        ],
+        "encumbrance": 10,
+		"//": "The yoke is attached over the tube",
+        "coverage": 95,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+		"specifically_covers": [ "torso_upper", "torso_lower" ]
+      },
+	  {
+        "material": [
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
+        ],
+        "encumbrance": 1,
+        "coverage": 50,
+        "cover_vitals": 50,
+        "covers": [ "torso" ],
+		"specifically_covers": [ "torso_neck" ]
+      },
+      {
+        "material": [
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 }
+        ],
+        "encumbrance": 2,
+        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "coverage": 90,
+        "cover_melee": 80,
+        "cover_ranged": 100,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "material": [
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 4.0 }
+        ],
+        "encumbrance": 5,
+		"//": "Two pteruges could overlap to block attacks",
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
+  },
+  {
     "id": "hazmat_suit",
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
