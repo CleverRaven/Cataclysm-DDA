@@ -1096,7 +1096,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = std::max( 60 - avatar_sight_offset + rl_dist( origin, mirror_pos ), 0 );
+            offsetDistance = ( avatar_sight_offset + rl_dist( origin, mirror_pos ) * 4 ) * 2;
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
