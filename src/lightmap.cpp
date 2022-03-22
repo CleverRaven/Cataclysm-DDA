@@ -725,37 +725,33 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const auto &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
-    // Unimpaired range is an override to strictly limit vision range based on various conditions,
-    // but the player can still see light sources.  Cameras are based on their own positions.
-    if( dist > player_character.unimpaired_range() || a.obstructed ) {
-        if( map_cache.camera_cache[p.x][p.y] > 0.0f ) {
-            if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
-                return lit_level::BRIGHT;
-            } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
-                       LIGHT_AMBIENT_LIT ) {
-                return lit_level::LOW;
-            } else {
-                return lit_level::DARK;
-            }
-        } else if( !a.obstructed ) {
-            if( map_cache.sm[p.x][p.y] > 0.0 ) {
+    // Cameras are based on their own positions.
+    if( ( dist > player_character.unimpaired_range() || a.obstructed ) &&
+        map_cache.camera_cache[p.x][p.y] > 0.0f ) {
+        if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
+            return lit_level::BRIGHT;
+        } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
+                   LIGHT_AMBIENT_LIT ) {
+            return lit_level::LOW;
+        } else {
+            return lit_level::DARK;
+        }
+    }
+    if( ( dist > player_character.unimpaired_range() ) ) {
+        return lit_level::BLANK;
+    }
+    if( a.obstructed ) {
+        if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
+            if( a.apparent_light > cache.g_light_level ) {
+                // This represents too hazy to see detail,
+                // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
             } else {
-                return lit_level::DARK;
+                // If it's not brighter than the surroundings, it just ends up shadowy.
+                return lit_level::LOW;
             }
         } else {
-            if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-                if( a.apparent_light > cache.g_light_level ) {
-                    // This represents too hazy to see detail,
-                    // but enough light getting through to illuminate.
-                    return lit_level::BRIGHT_ONLY;
-                } else {
-                    // If it's not brighter than the surroundings, it just ends up shadowy.
-                    return lit_level::LOW;
-                }
-            } else {
-                return lit_level::BLANK;
-            }
+            return lit_level::BLANK;
         }
     }
     // Then we just search for the light level in descending order.
@@ -996,6 +992,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
+    const int avatar_sight_offset = std::max( 60 - get_avatar().unimpaired_range(), 0 );
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
@@ -1008,7 +1005,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             if( z == target_z ) {
                 seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    seen_cache, transparency_cache, origin.xy(), 0 );
+                    seen_cache, transparency_cache, origin.xy(), avatar_sight_offset );
             }
         }
     } else {
@@ -1033,7 +1030,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0, directions_to_cast );
+            seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
+            directions_to_cast );
     }
 
     for( const std::pair<mtype_id, int> moncam : get_avatar().get_moncams() ) {
@@ -1043,7 +1041,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             }
             const monster *mon = c.as_monster();
             return mon->type->id == moncam.first && mon->friendly != 0 &&
-                   ( square_dist( get_avatar().pos(), mon->pos() ) < moncam.second );
+                   ( rl_dist( get_avatar().pos(), mon->pos() ) < moncam.second );
         } );
 
         for( const Creature *mon : moncams ) {
@@ -1086,7 +1084,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
     }
 
-    const int avatar_sight_max = get_avatar().sight_max;
     for( int mirror : mirrors ) {
         bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
@@ -1099,7 +1096,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = std::max( 60 - avatar_sight_max + rl_dist( origin, mirror_pos ), 0 );
+            offsetDistance = std::max( 60 - avatar_sight_offset + rl_dist( origin, mirror_pos ), 0 );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
