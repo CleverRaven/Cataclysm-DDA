@@ -1147,7 +1147,7 @@
     "latent_heat": 205,
     "soft": true,
 	"reinforces": true,
-    "bash_resist": 2,
+    "bash_resist": 1.8,
     "cut_resist": 1.8,
     "bullet_resist": 1.6,
     "acid_resist": 3,
@@ -1162,9 +1162,9 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut"
 	"burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 1, "burn": 1 },	
-      { "fuel": 1, "smoke": 1, "burn": 2 }
+      { "fuel": 2, "smoke": 1, "burn": 1, "volume_per_turn": "1100 ml" },
+      { "fuel": 2, "smoke": 1, "burn": 1 },	
+      { "fuel": 2, "smoke": 1, "burn": 2 }
     ]
   },
   {
