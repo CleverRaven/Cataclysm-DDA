@@ -26,7 +26,7 @@
     "name": { "str": "pair of XL light survivor gloves", "str_pl": "pairs of XL light survivor gloves" },
     "copy-from": "gloves_lsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_lsurvivor",
@@ -35,7 +35,7 @@
     "looks_like": "gloves_lsurvivor",
     "name": { "str": "pair of XS light survivor gloves", "str_pl": "pairs of XS light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_lsurvivor_fingerless",
@@ -64,7 +64,7 @@
     "name": { "str": "pair of XL fingerless light survivor gloves", "str_pl": "pairs of XL fingerless light survivor gloves" },
     "copy-from": "gloves_lsurvivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_lsurvivor_fingerless",
@@ -73,7 +73,7 @@
     "looks_like": "gloves_lsurvivor_fingerless",
     "name": { "str": "pair of XS fingerless light survivor gloves", "str_pl": "pairs of XS fingerless light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_survivor_fingerless",
@@ -102,7 +102,7 @@
     "name": { "str": "pair of XL fingerless survivor gloves", "str_pl": "pairs of XL fingerless survivor gloves" },
     "copy-from": "gloves_survivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_survivor_fingerless",
@@ -111,7 +111,7 @@
     "looks_like": "gloves_survivor_fingerless",
     "name": { "str": "pair of XS fingerless survivor gloves", "str_pl": "pairs of XS fingerless survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_survivor",
@@ -152,7 +152,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -163,7 +163,7 @@
     "name": { "str": "pair of XS survivor gloves", "str_pl": "pairs of XS survivor gloves" },
     "description": "A pair of customized, Kevlar-armored leather gloves.  These strike a balance between comfort and protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_wsurvivor",
@@ -192,7 +192,7 @@
     "name": { "str": "pair of XL winter survivor gloves", "str_pl": "pairs of XL winter survivor gloves" },
     "copy-from": "gloves_wsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_wsurvivor",
@@ -201,7 +201,7 @@
     "looks_like": "gloves_wsurvivor",
     "name": { "str": "pair of XS winter survivor gloves", "str_pl": "pairs of XS winter survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_wsurvivor_nofur",
@@ -224,7 +224,7 @@
     "description": "A pair of customized and oversized Kevlar-armored gloves.  These are lined with faux-fur.",
     "color": "pink",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_wsurvivor_nofur",
@@ -234,7 +234,7 @@
     "name": { "str": "pair of XS faux fur winter survivor gloves", "str_pl": "pairs of XS faux fur winter survivor gloves" },
     "description": "A pair of customized, Kevlar-armored gloves.  These are lined with faux-fur.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_h20survivor",

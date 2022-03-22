@@ -264,7 +264,7 @@
     "id": "dairy_book",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Things to do with Milk", "str_pl": "copies of Things to do with Milk" },
+    "name": { "str": "Things to Do with Milk", "str_pl": "copies of Things to Do with Milk" },
     "description": "Whatever you want to do with milk, you will probably find it in this book.",
     "weight": "478 g",
     "volume": "1 L",

@@ -644,7 +644,7 @@
     "fun": -5,
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
-    "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
+    "description": "Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
     "extend": { "flags": [ "EATEN_HOT" ] }
   },

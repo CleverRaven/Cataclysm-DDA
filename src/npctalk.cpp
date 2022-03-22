@@ -3824,10 +3824,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                     if( get_avatar().sees( *spawned ) ) {
                         visible_spawns++;
                     }
-                }
-                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
-                if( lifespan.value() > 0_seconds ) {
-                    spawned->set_summon_time( lifespan.value() );
+                    lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
+                    if( lifespan.value() > 0_seconds ) {
+                        spawned->set_summon_time( lifespan.value() );
+                    }
                 }
             }
         }
@@ -4314,8 +4314,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_shave ),
             WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
-            WRAP( buy_10_logs ),
-            WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( drop_items_in_place ),

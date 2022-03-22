@@ -256,6 +256,7 @@
   {
     "result": "xs_armor_lightplate",
     "type": "recipe",
+    "id_suffix": "assembly",
     "copy-from": "armor_lightplate",
     "time": "20 m",
     "flags": [ "NO_RESIZE" ],
@@ -454,6 +455,7 @@
   },
   {
     "result": "armor_scrapsuit",
+    "id_suffix": "assembly",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -473,6 +475,7 @@
   },
   {
     "result": "armor_tiresuit",
+    "id_suffix": "assembly",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
@@ -1476,6 +1479,7 @@
   {
     "result": "gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1503,6 +1507,7 @@
   {
     "result": "gambeson_vest_xs",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1569,6 +1574,7 @@
   {
     "result": "k_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1597,6 +1603,7 @@
   {
     "result": "k_gambeson_vest_xs",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1631,6 +1638,7 @@
   {
     "result": "xl_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1667,6 +1675,7 @@
   {
     "result": "xl_k_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",

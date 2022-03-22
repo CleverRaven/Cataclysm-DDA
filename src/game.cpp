@@ -9601,7 +9601,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
-                                dest_loc ); //fungal furniture has no slowing effect on mycus characters
+                                dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
