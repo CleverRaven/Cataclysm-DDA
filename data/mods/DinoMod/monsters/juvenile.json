@@ -352,19 +352,19 @@
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
-    "id": "mon_maiasaura_juvenile",
+    "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "gray and magenta two-legged juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "yellow",
-    "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
+    "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
     "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "gray and magenta two-legged juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
@@ -372,11 +372,20 @@
   {
     "id": "mon_corythosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "name": "gray and magenta two-legged juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
+  },
+  {
+    "id": "mon_maiasaura_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta two-legged juvenile",
+    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "yellow",
+    "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
   },
   {
     "id": "mon_edmontosaurus_juvenile",
