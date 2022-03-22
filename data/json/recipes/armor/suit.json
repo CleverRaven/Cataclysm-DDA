@@ -1712,7 +1712,7 @@
     "time": "4 h",
     "autolearn": true,
 	"book_learn": [ [ "textbook_armwest", 2 ], [ "tailor_portfolio", 2 ] ],
-    "using": [ ["strap_small", 2], [ "fastener_large", 2 ], [ "fastener_large", 1 ], [ "sewing_standard", 10 ] ],
+    "using": [ ["strap_small", 2], [ "fastener_small", 2 ], [ "fastener_large", 1 ], [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
 	"components": [
