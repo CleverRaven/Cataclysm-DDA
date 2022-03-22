@@ -293,7 +293,9 @@ void string_editor_window::cursor_up()
 void string_editor_window::cursor_down()
 {
     // move cursor down while trying to keep the x coordinate
-    if( static_cast<size_t>( _cursor_display.y + 2 ) == _folded->get_lines().size() ) {
+    if( _folded->get_lines().empty() ) {
+        // do nothing
+    } else if( static_cast<size_t>( _cursor_display.y + 2 ) == _folded->get_lines().size() ) {
         const folded_line &last_line = _folded->get_lines().back();
         _position = last_line.cpts_start;
         _position += utf8_wrapper( last_line.str ).substr_display( 0, _cursor_display.x ).size();
@@ -326,17 +328,30 @@ const std::string &string_editor_window::query_string()
         _position = _utext.length();
     }
 
+    // fold the text
+    bool refold = true;
+    // calculate the cursor position
+    bool reposition = true;
+
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         _win = _create_window();
         _max.x = getmaxx( _win );
         _max.y =  getmaxy( _win );
-        _folded = std::make_unique<folded_text>( _utext.str(), _max.x - 1 );
-        _cursor_display = get_line_and_position();
+        refold = true;
         ui.position_from_window( _win );
     } );
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( refold ) {
+            _folded = std::make_unique<folded_text>( _utext.str(), _max.x - 1 );
+            refold = false;
+            reposition = true;
+        }
+        if( reposition ) {
+            _cursor_display = get_line_and_position();
+            reposition = false;
+        }
         werase( _win );
         print_editor();
         wnoutrefresh( _win );
@@ -364,27 +379,36 @@ const std::string &string_editor_window::query_string()
             return _utext.str();
         } else if( ch == KEY_UP ) {
             cursor_up();
+            reposition = true;
         } else if( ch == KEY_DOWN ) {
             cursor_down();
+            reposition = true;
         } else if( ch == KEY_RIGHT ) {
             cursor_right();
+            reposition = true;
         } else if( ch == KEY_LEFT ) {
             cursor_left();
+            reposition = true;
         } else if( ch == 0x15 ) {                   // ctrl-u: delete all the things
             _position = 0;
             _utext.erase( 0 );
+            refold = true;
         } else if( ch == KEY_BACKSPACE ) {
             if( _position > 0 && _position <= static_cast<int>( _utext.size() ) ) {
                 _position--;
                 _utext.erase( _position, 1 );
+                refold = true;
             }
         } else if( ch == KEY_HOME ) {
             _position = 0;
+            reposition = true;
         } else if( ch == KEY_END ) {
             _position = _utext.size();
+            reposition = true;
         } else if( ch == KEY_DC ) {
             if( _position < static_cast<int>( _utext.size() ) ) {
                 _utext.erase( _position, 1 );
+                refold = true;
             }
         } else if( ch == 0x16 || ch == KEY_F( 2 ) || !ev.text.empty() || ch == KEY_ENTER || ch == '\n' ) {
             // ctrl-v, f2, or _utext input
@@ -422,6 +446,7 @@ const std::string &string_editor_window::query_string()
                 }
                 _utext.insert( _position, insertion );
                 _position += insertion.length();
+                refold = true;
                 edit = utf8_wrapper();
                 ctxt->set_edittext( std::string() );
             }
@@ -429,9 +454,6 @@ const std::string &string_editor_window::query_string()
             edit = utf8_wrapper( ev.edit );
             ctxt->set_edittext( ev.edit );
         }
-
-        _folded = std::make_unique<folded_text>( _utext.str(), _max.x - 1 );
-        _cursor_display = get_line_and_position();
     } while( true );
 
     return _utext.str();
