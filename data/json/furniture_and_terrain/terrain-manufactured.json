@@ -669,8 +669,8 @@
     "name": "water pump",
     "looks_like": "f_machinery_heavy",
     "description": "Deep well collecting ground water.  Installed water pump allows to draw water from it.",
-    "symbol": "#",
-    "color": "c_brown",
+    "symbol": "&",
+    "color": "light_gray",
     "move_cost": 6,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
@@ -696,14 +696,14 @@
     "name": "wooden well",
     "looks_like": "t_water_pump",
     "description": "Deep well collecting ground water.  A wooden frame with a rope and bucket allows to draw water from it, with some elbow grease.",
-    "symbol": "&",
-    "color": "light_gray",
+    "symbol": "#",
+    "color": "c_brown",
     "move_cost": 6,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
     "deconstruct": {
       "ter_set": "t_covered_well",
-      "items": [ { "item": "rope_30", "count": 1 }, { "item": "bucket", "count": 1 }, { "item": "stick", "count": 4 } ]
+      "items": [ { "item": "rope_30", "count": 1 }, { "item": "bucket_wood", "count": 1 }, { "item": "stick", "count": 4 } ]
     },
     "bash": {
       "str_min": 15,

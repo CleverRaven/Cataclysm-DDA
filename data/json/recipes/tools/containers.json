@@ -524,11 +524,10 @@
     "difficulty": 5,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ] ]
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "log", 1 ] ] ]
   },
   {
     "type": "recipe",

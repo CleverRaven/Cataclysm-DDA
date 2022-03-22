@@ -715,7 +715,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wooden bucket" },
-    "description": "A wooden bucket. Made of wooden planks, secured by metal bands and sealed with wax or pitch. Holds 5 liters of water and has wooden handle for carry.",
+    "description": "A wooden bucket.  Carefully chiseled out of hardwood log section, almost like a dugout canoe.  Holds 5 liters of water and has wooden handle for carry.",
     "ascii_picture": "bucket_wood",
     "weight": "1250 g",
     "volume": "7500 ml",
