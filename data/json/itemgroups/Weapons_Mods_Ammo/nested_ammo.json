@@ -430,5 +430,16 @@
       { "item": "300_winmag", "prob": 75, "charges": [ 11, 20 ] },
       { "item": "300_winmag", "prob": 30, "charges": [ 22, 40 ] }
     ]
+  },
+  {
+    "id": "on_hand_300BLK",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "300blk", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "300blk", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "300blk", "prob": 30, "charges": [ 66, 120 ] }
+    ]
   }
 ]
