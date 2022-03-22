@@ -284,10 +284,10 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_maiasaura",
-    "name": "maiasaura egg",
+    "id": "egg_hadrosaurus",
+    "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_maiasaura"
+    "rot_spawn": "GROUP_EGG_hadrosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -302,6 +302,13 @@
     "name": "corythosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_corythosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_maiasaura",
+    "name": "maiasaura egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_maiasaura"
   },
   {
     "type": "COMESTIBLE",
