@@ -737,7 +737,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
             return lit_level::DARK;
         }
     }
-    if( ( dist > player_character.unimpaired_range() ) ) {
+    if( dist > player_character.unimpaired_range() ) {
         return lit_level::BLANK;
     }
     if( a.obstructed ) {
