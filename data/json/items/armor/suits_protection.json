@@ -2392,7 +2392,7 @@
     "name": { "str": "drying linothorax", "str_pl": "drying linothorakes" },
 	"description": "Ancient Greek armor made from laminated cloth. Lighter and more comfortable than bronze while providing similar protection. The glue will need two days to dry before it can be worn.",
     "copy-from": "linothorax",
-	"extend": { "flags": [ "CANT_WEAR" ] },
+	"extend": { "flags": [ "CANT_WEAR", "SPAWN_ACTIVE" ] },
 	"countdown_interval": 172800,
 	"countdown_action": { "type": "transform", "target": "linothorax", "msg": "The glue finishes curing, readying the linothorax for use." }
   },
