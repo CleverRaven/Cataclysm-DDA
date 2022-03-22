@@ -2332,6 +2332,7 @@
   },
   {
     "id": "linothorax",
+	"repairs_like": "drying_linothorax",
     "type": "ARMOR",
 	"category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
