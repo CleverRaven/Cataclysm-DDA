@@ -1899,10 +1899,110 @@
     "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "arx160", "charges-min": 0, "charges-max": 1 },
+      { "item": "arx160", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
       { "item": "akmag10", "prob": 50 },
       { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_mossberg_500",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossberg_500", "charges-min": 0, "charges-max": 6 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_remington_870",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "remington_870", "charges-min": 0, "charges-max": 5 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_mossberg_500_security",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "charges-min": 0, "charges-max": 6 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_remington_870_express",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "remington_870_express", "charges-min": 0, "charges-max": 6 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_browning_a5",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "remington_870", "variant": "browning_a5", "charges-min": 0, "charges-max": 5 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_remington_1100",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "remington_870", "variant": "remington_1100", "charges-min": 0, "charges-max": 5 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_mossberg_930",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossberg_930", "charges-min": 0, "charges-max": 6 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_shotgun_410",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shotgun_410", "charges-min": 0, "charges-max": 1 },
+      { "group": "on_hand_410shot" }
+    ]
+  },
+  {
+    "id": "nested_shotgun_d",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shotgun_d", "charges-min": 0, "charges-max": 2 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_shotgun_s",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "shotgun_s", "charges-min": 0, "charges-max": 1 },
+      { "group": "on_hand_shot" }
     ]
   }
 ]

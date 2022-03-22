@@ -485,5 +485,34 @@
       { "item": "700nx", "prob": 75, "charges": [ 11, 20 ] },
       { "item": "700nx", "prob": 30, "charges": [ 22, 40 ] }
     ]
+  },
+  {
+    "id": "on_hand_shot",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "shot_00", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "shot_00", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "shot_beanbag", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "shot_bird", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "shot_bird", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "shot_dragon", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "shot_he", "prob": 30, "charges": [ 1, 20 ] },
+      { "item": "shot_flechette", "prob": 30, "charges": [ 1, 20 ] }
+    ]
+  },
+  {
+    "id": "on_hand_410shot",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "410shot_000", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "410shot_000", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "410shot_000", "prob": 30, "charges": [ 44, 80 ] }
+    ]
   }
 ]

@@ -596,23 +596,23 @@
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
-      { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
-      { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
-      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
-      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
-      { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 1 },
-      { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
-      { "item": "shotgun_s", "prob": 30 }
+      { "group": "nested_mossberg_500", "prob": 33 },
+      { "group": "nested_remington_870", "prob": 35 },
+      { "group": "nested_mossberg_500_security", "prob": 17 },
+      { "group": "nested_remington_870_express", "prob": 18 },
+      { "group": "nested_browning_a5",  "prob": 14 },
+      { "group": "nested_remington_1100",  "prob": 17 },
+      { "group": "nested_mossberg_930", "prob": 15 },
+      { "group": "nested_shotgun_410", "prob": 30 },
+      { "group": "nested_shotgun_d", "prob": 30 },
+      { "group": "nested_shotgun_s", "prob": 30 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_common_worn",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "//2": "ammo handled elsewhere so these can be worn.",
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 5 },
@@ -649,6 +649,20 @@
     "id": "guns_shotgun_rare",
     "//": "Uncommon or rare shotguns in civilian possession.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
+      { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
+      { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 5 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_worn",
+    "//": "Uncommon or rare shotguns in civilian possession.",
+    "//2": "ammo handled elsewhere so these can be worn.",
     "subtype": "distribution",
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
