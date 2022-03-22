@@ -2363,16 +2363,6 @@
         "covers": [ "torso" ],
 		"specifically_covers": [ "torso_upper", "torso_lower" ]
       },
-	  {
-        "material": [
-          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 }
-        ],
-        "encumbrance": 2,
-        "coverage": 40,
-        "cover_vitals": 40,
-        "covers": [ "torso" ],
-		"specifically_covers": [ "torso_neck" ]
-      },
       {
         "material": [
           { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 }
