@@ -462,5 +462,28 @@
       { "item": "50ss", "prob": 30, "charges": [ 22, 40 ] },
       { "item": "50_mk211", "prob": 30, "charges": [ 1, 10 ] }
     ]
+  },
+  {
+    "id": "on_hand_545x39",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "545", "prob": 100, "charges": [ 1, 30 ] },
+      { "item": "545", "prob": 75, "charges": [ 33, 60 ] },
+      { "item": "545", "prob": 30, "charges": [ 66, 120 ] },
+      { "item": "545_ap", "prob": 30, "charges": [ 1, 30 ] }
+    ]
+  },
+  {
+    "id": "on_hand_700nx",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded civilian gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "700nx", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "700nx", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "700nx", "prob": 30, "charges": [ 22, 40 ] }
+    ]
   }
 ]

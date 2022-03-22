@@ -1772,5 +1772,137 @@
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_300BLK" }
     ]
+  },
+  {
+    "id": "nested_ak47",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ak47", "charges-min": 0, "charges-max": 30 },
+      { "item": "akmag10" },
+      { "item": "akmag10", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_ak74",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ak74", "charges-min": 0, "charges-max": 30 },
+      { "item": "ak74mag" },
+      { "item": "ak74mag", "prob": 50 },
+      { "group": "on_hand_545x39" }
+    ]
+  },
+  {
+    "id": "nested_bh_m89",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bh_m89", "charges-min": 0, "charges-max": 7 },
+      { "group": "on_hand_500" }
+    ]
+  },
+  {
+    "id": "nested_bfg50",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bh_m89", "charges-min": 0, "charges-max": 1 },
+      { "group": "on_hand_50" }
+    ]
+  },
+  {
+    "id": "nested_carbine_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "carbine_flintlock", "charges-min": 0, "charges-max": 1 },
+      { "group": "on_hand_flintlock" }
+    ]
+  },
+  {
+    "id": "nested_famas",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "famas", "charges-min": 0, "charges-max": 25 },
+      { "item": "famasmag" },
+      { "item": "famasmag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_m60_semi",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m60_semi", "charges-min": 0, "charges-max": 100 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_rifle_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rifle_flintlock" },
+      { "group": "on_hand_flintlock" }
+    ]
+  },
+  {
+    "id": "nested_oa93",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "oa93", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_steyr_aug",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "steyr_aug", "charges-min": 0, "charges-max": 30 },
+      { "item": "augmag_10rd" },
+      { "item": "augmag_10rd", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_trex_gun",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "trex_gun", "charges-min": 0, "charges-max": 1 },
+      { "group": "on_hand_700nx" }
+    ]
+  },
+  {
+    "id": "nested_arx160",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "arx160", "charges-min": 0, "charges-max": 1 },
+      { "item": "akmag10" },
+      { "item": "akmag10", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
   }
 ]
