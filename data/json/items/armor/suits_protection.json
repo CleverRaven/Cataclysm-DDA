@@ -2335,14 +2335,14 @@
     "type": "ARMOR",
 	"category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
-    "description": "Ancient Greek armor made from laminated linen. Lighter and more comfortable than bronze while providing similar protection.",
+    "description": "Ancient Greek armor made from laminated cloth. Lighter and more comfortable than bronze while providing similar protection.",
     "weight": "5000 g",
     "volume": "8 L",
 	"price": 10000,
     "price_postapoc": 1750,
 	"to_hit": -5,
     "bashing": 2,
-    "material": [ "linen_laminated" ],
+    "material": [ "cotton_laminated" ],
 	"symbol": "[",
     "looks_like": "gambeson",
     "color": "light_gray",
@@ -2353,8 +2353,8 @@
     "armor": [
       {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
-          { "type": "linen_laminated", "covered_by_mat": 10, "thickness": 10.0 }
+          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 },
+          { "type": "cotton_laminated", "covered_by_mat": 10, "thickness": 10.0 }
         ],
         "encumbrance": 20,
 		"//": "The yoke is attached over the tube",
@@ -2365,7 +2365,7 @@
       },
 	  {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
+          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 },
         ],
         "encumbrance": 2,
         "coverage": 40,
@@ -2375,7 +2375,7 @@
       },
       {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 }
+          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 }
         ],
         "encumbrance": 4,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
@@ -2388,8 +2388,8 @@
       },
       {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 3.0 }
+          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "cotton_laminated", "covered_by_mat": 60, "thickness": 3.0 }
         ],
         "encumbrance": 8,
 		"//": "Two pteruges could overlap to block attacks",
@@ -2404,6 +2404,7 @@
     "id": "drying_linothorax",
     "type": "ARMOR",
     "name": { "str": "drying linothorax)", "str_pl": "drying linothorakes" },
+	"description": "Ancient Greek armor made from laminated cloth. Lighter and more comfortable than bronze while providing similar protection. The glue will need to dry before it can be worn.",
     "copy-from": "linothorax",
 	"extend": { "flags": [ "CANT_WEAR" ] },
 	"countdown_interval": 172800,
