@@ -41,6 +41,13 @@ class folded_text
         point codepoint_coordinates( const int cpt_idx ) const;
 };
 
+struct ime_preview_range {
+    int begin;
+    int end;
+    point display_first;
+    point display_last;
+};
+
 folded_text::folded_text( const std::string &str, const int line_width )
     : line_width( line_width )
 {
@@ -183,26 +190,27 @@ string_editor_window::string_editor_window(
 
 string_editor_window::~string_editor_window() = default;
 
-point string_editor_window::get_line_and_position()
+point string_editor_window::get_line_and_position( const int position )
 {
-    return _folded->codepoint_coordinates( _position );
+    return _folded->codepoint_coordinates( position );
 }
 
 void string_editor_window::print_editor()
 {
+    const point focus = _ime_preview_range ? _ime_preview_range->display_last : _cursor_display;
     const int ftsize = std::max( static_cast<int>( _folded->get_lines().size() ),
-                                 _cursor_display.y + 1 );
+                                 focus.y + 1 );
     const int middleofpage = _max.y / 2;
 
     int topoflist = 0;
     int bottomoflist = std::min( topoflist + _max.y, ftsize );
 
     if( _max.y <= ftsize ) {
-        if( _cursor_display.y > middleofpage ) {
-            topoflist = _cursor_display.y - middleofpage;
+        if( focus.y > middleofpage ) {
+            topoflist = focus.y - middleofpage;
             bottomoflist = topoflist + _max.y;
         }
-        if( _cursor_display.y + middleofpage >= ftsize ) {
+        if( focus.y + middleofpage >= ftsize ) {
             bottomoflist = ftsize ;
             topoflist = bottomoflist - _max.y;
         }
@@ -230,6 +238,16 @@ void string_editor_window::print_editor()
                     c_cursor = ' ';
                 }
                 mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
+            }
+            if( _ime_preview_range && i >= _ime_preview_range->display_first.y
+                && i <= _ime_preview_range->display_last.y ) {
+                const int beg = std::max( 0, _ime_preview_range->begin - line.cpts_start );
+                const int end = std::min( _ime_preview_range->end, line.cpts_end ) - line.cpts_start;
+                const utf8_wrapper preview = utf8_wrapper( line.str ).substr( beg, end - beg );
+                const point disp = i == _ime_preview_range->display_first.y
+                                   ? point( _ime_preview_range->display_first.x + 1, y )
+                                   : point( 1, y );
+                mvwprintz( _win, disp, c_dark_gray_white, "%s", preview.str() );
             }
         } else if( i == _cursor_display.y ) {
             // cursor past the end of text
@@ -344,12 +362,24 @@ const std::string &string_editor_window::query_string()
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( refold ) {
-            _folded = std::make_unique<folded_text>( _utext.str(), _max.x - 1 );
+            utf8_wrapper text = _utext;
+            if( !edit.empty() ) {
+                text.insert( _position, edit );
+            }
+            _folded = std::make_unique<folded_text>( text.str(), _max.x - 1 );
             refold = false;
             reposition = true;
         }
         if( reposition ) {
-            _cursor_display = get_line_and_position();
+            _cursor_display = get_line_and_position( _position );
+            if( edit.empty() ) {
+                _ime_preview_range.reset();
+            } else {
+                _ime_preview_range = std::make_unique<ime_preview_range>( ime_preview_range {
+                    _position, _position + static_cast<int>( edit.size() ),
+                    _cursor_display, get_line_and_position( _position + edit.size() - 1 )
+                } );
+            }
             reposition = false;
         }
         werase( _win );
@@ -378,17 +408,25 @@ const std::string &string_editor_window::query_string()
 #endif
             return _utext.str();
         } else if( ch == KEY_UP ) {
-            cursor_up();
-            reposition = true;
+            if( edit.empty() ) {
+                cursor_up();
+                reposition = true;
+            }
         } else if( ch == KEY_DOWN ) {
-            cursor_down();
-            reposition = true;
+            if( edit.empty() ) {
+                cursor_down();
+                reposition = true;
+            }
         } else if( ch == KEY_RIGHT ) {
-            cursor_right();
-            reposition = true;
+            if( edit.empty() ) {
+                cursor_right();
+                reposition = true;
+            }
         } else if( ch == KEY_LEFT ) {
-            cursor_left();
-            reposition = true;
+            if( edit.empty() ) {
+                cursor_left();
+                reposition = true;
+            }
         } else if( ch == 0x15 ) {                   // ctrl-u: delete all the things
             _position = 0;
             _utext.erase( 0 );
@@ -400,11 +438,15 @@ const std::string &string_editor_window::query_string()
                 refold = true;
             }
         } else if( ch == KEY_HOME ) {
-            _position = 0;
-            reposition = true;
+            if( edit.empty() ) {
+                _position = 0;
+                reposition = true;
+            }
         } else if( ch == KEY_END ) {
-            _position = _utext.size();
-            reposition = true;
+            if( edit.empty() ) {
+                _position = _utext.size();
+                reposition = true;
+            }
         } else if( ch == KEY_DC ) {
             if( _position < static_cast<int>( _utext.size() ) ) {
                 _utext.erase( _position, 1 );
@@ -446,12 +488,13 @@ const std::string &string_editor_window::query_string()
                 }
                 _utext.insert( _position, insertion );
                 _position += insertion.length();
-                refold = true;
                 edit = utf8_wrapper();
+                refold = true;
                 ctxt->set_edittext( std::string() );
             }
         } else if( ev.edit_refresh ) {
             edit = utf8_wrapper( ev.edit );
+            refold = true;
             ctxt->set_edittext( ev.edit );
         }
     } while( true );

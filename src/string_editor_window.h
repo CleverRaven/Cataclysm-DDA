@@ -13,6 +13,8 @@
 
 class folded_text;
 
+struct ime_preview_range;
+
 /// <summary>
 /// Editor, to let the player edit text.
 ///
@@ -39,6 +41,8 @@ class string_editor_window
         int _position = -1;
         /*display coordinates of cursor*/
         point _cursor_display;
+        /*IME preview range*/
+        std::unique_ptr<ime_preview_range> _ime_preview_range;
 
         std::unique_ptr<input_context> ctxt;
 
@@ -63,6 +67,6 @@ class string_editor_window
         void cursor_down();
 
         /*returns line and position in folded text for position in text*/
-        point get_line_and_position();
+        point get_line_and_position( const int position );
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H
