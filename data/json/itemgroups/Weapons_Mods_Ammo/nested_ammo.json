@@ -441,5 +441,26 @@
       { "item": "300blk", "prob": 75, "charges": [ 33, 60 ] },
       { "item": "300blk", "prob": 30, "charges": [ 66, 120 ] }
     ]
+  },
+  {
+    "id": "on_hand_50",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "50bmg", "prob": 100, "charges": [ 1, 25 ] },
+      { "item": "50bmg", "prob": 75, "charges": [ 27, 50 ] },
+      { "item": "50bmg", "prob": 30, "charges": [ 55, 100 ] },
+      { "item": "50_incendiary", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "50_incendiary", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "50_incendiary", "prob": 30, "charges": [ 22, 40 ] },
+      { "item": "50match", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "50match", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "50match", "prob": 30, "charges": [ 22, 40 ] },
+      { "item": "50ss", "prob": 100, "charges": [ 1, 10 ] },
+      { "item": "50ss", "prob": 75, "charges": [ 11, 20 ] },
+      { "item": "50ss", "prob": 30, "charges": [ 22, 40 ] },
+      { "item": "50_mk211", "prob": 30, "charges": [ 1, 10 ] }
+    ]
   }
 ]
