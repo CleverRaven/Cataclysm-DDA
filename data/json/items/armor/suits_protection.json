@@ -2398,11 +2398,7 @@
     "copy-from": "linothorax",
 	"extend": { "flags": [ "CANT_WEAR" ] },
 	"countdown_interval": 172800,
-	"countdown_action": {
-      "type": "transform",
-	  "target": "linothorax",
-	  "msg": "The glue finishes curing, readying the linothorax for use."
-    }
+	"countdown_action": { "type": "transform", "target": "linothorax", "msg": "The glue finishes curing, readying the linothorax for use." },
   },
   {
     "id": "hazmat_suit",
