@@ -105,7 +105,7 @@
     "color": "dark_gray",
     "move_cost_mod": 0,
     "coverage": 20,
-    "required_str": 1,
+    "required_str": -1,
     "flags": [ "EASY_DECONSTRUCT", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
