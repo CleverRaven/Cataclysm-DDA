@@ -2365,7 +2365,7 @@
       },
 	  {
         "material": [
-          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 },
+          { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 }
         ],
         "encumbrance": 2,
         "coverage": 40,
