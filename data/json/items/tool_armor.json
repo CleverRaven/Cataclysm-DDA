@@ -3018,7 +3018,7 @@
     "id": "solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "solar backpack (folded)", "str_pl": "solar backpacks (folded)" },
-    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system CBM.",
+    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has standard power connections as well as an integrated cable to plug it into a cable charger system CBM.",
     "weight": "7500 g",
     "volume": "5 L",
     "price": 500000,
@@ -3030,7 +3030,7 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK", "IS_UPS" ],
     "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
@@ -3038,7 +3038,7 @@
     "type": "TOOL_ARMOR",
     "repairs_like": "solarpack",
     "name": { "str": "solar backpack (unfolded)", "str_pl": "solar backpacks (unfolded)" },
-    "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system CBM.",
+    "description": "Unfolded array of portable solar panels ready to push some power into UPS devices or an active cable charger system CBM.",
     "weight": "7500 g",
     "volume": "15 L",
     "price": 500000,
@@ -3051,7 +3051,7 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON", "IS_UPS" ],
     "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
