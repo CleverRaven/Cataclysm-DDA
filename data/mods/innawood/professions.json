@@ -10,7 +10,11 @@
     "items": {
       "both": {
         "items": [ "jeans", "leather_belt", "socks", "boots", "pockknife", "diving_watch" ],
-        "entries": [ { "item": "rope_6", "count": 2 }, { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "rope_6", "count": 2 },
+          { "group": "charged_smart_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
