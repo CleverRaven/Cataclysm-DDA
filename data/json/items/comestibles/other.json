@@ -265,7 +265,7 @@
     "symbol": "%",
     "calories": 6,
     "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
-    "description": "Fresh ",
+    "description": "Fresh gelatin.  Not vegan-friendly!",
     "price": 150,
     "price_postapoc": 50,
     "material": [ "flesh" ],
@@ -351,7 +351,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_beans",
-    "name": { "str": "canned beans", "str_pl": "beans" },
+    "name": { "str_sp": "canned beans" },
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
