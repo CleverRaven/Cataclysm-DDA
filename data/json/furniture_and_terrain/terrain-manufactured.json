@@ -694,7 +694,7 @@
     "type": "terrain",
     "id": "t_wooden_well",
     "name": "wooden well",
-    "looks_like": "t_water_pump",
+    "looks_like": "t_covered_well",
     "description": "Deep well collecting ground water.  A wooden frame with a rope and bucket allows to draw water from it, with some elbow grease.",
     "symbol": "#",
     "color": "c_brown",
