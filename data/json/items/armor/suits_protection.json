@@ -2331,11 +2331,11 @@
     }
   },
   {
-    "id": "linothorax",
+    "id": "drying_linothorax",
     "type": "ARMOR",
 	"category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
-    "description": "Ancient Greek armor made from laminated linen. Lighter and more comfortable than bronze while providing similar protection.",
+    "description": "Ancient Greek armor made from laminated linen. The glue will need to dry before it can be worn.",
     "weight": "5000 g",
     "volume": "8 L",
 	"price": 10000,
@@ -2349,6 +2349,13 @@
 	"warmth": 15,
 	"longest_side": "76 cm",
     "material_thickness": 10,
+	 "//": "transforms over two days",
+	"countdown_interval": 172800,
+	"countdown_action": {
+		"type": "transform",
+		"target": "linothorax",
+		"msg": "The glue finishes curing, readying the linothorax for use."
+	},
     "flags": [ "VARSIZE", "STURDY", "OUTER" ]
     "armor": [
       {
@@ -2388,8 +2395,8 @@
       },
       {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 4.0 }
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 3.0 }
         ],
         "encumbrance": 10,
 		"//": "Two pteruges could overlap to block attacks",
