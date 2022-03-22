@@ -20,6 +20,7 @@
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "make_static.h"
 #include "options.h"
@@ -539,6 +540,11 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         Item_spawn_data::ItemList contentitems;
         contents->create( contentitems, new_item.birthday() );
         for( const item &it : contentitems ) {
+            // custom code for directly attaching pockets to MOLLE vests
+            const use_function *attach = new_item.get_use( "attach_molle" );
+            if( attach != nullptr && it.can_attach_as_pocket() ) {
+
+            }
             const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
             new_item.put_in( it, pk_type );
         }

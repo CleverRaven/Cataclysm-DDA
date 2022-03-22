@@ -883,6 +883,11 @@ class item : public visitable
         // used for attaching to molle items
         int get_pocket_size() const;
 
+        /**
+         * Returns true if the item can be attached with PALS straps
+         */
+        bool can_attach_as_pocket() const;
+
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
         // player inventory handling penalties from traits

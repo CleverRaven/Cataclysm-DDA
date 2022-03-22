@@ -13077,6 +13077,11 @@ int item::get_pocket_size() const
     }
 }
 
+bool item::can_attach_as_pocket() const
+{
+    return has_flag( flag_PALS_SMALL ) || has_flag( flag_PALS_MEDIUM ) || has_flag( flag_PALS_LARGE );
+}
+
 units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const
 {
     auto stack = without.find( this );
