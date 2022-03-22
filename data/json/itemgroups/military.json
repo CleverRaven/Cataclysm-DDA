@@ -81,22 +81,11 @@
   {
     "type": "item_group",
     "id": "loaded_lbv",
-    "subtype": "collection",
-    "entries": [
-      { "group": "lbv" },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories", "prob": 60 },
-      { "group": "molle_accessories", "prob": 20 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "lbv",
     "subtype": "distribution",
     "entries": [
-      { "item": "load_bearing_vest", "prob": 60 },
-      { "item": "light_load_bearing_vest", "prob": 20 },
-      { "item": "heavy_load_bearing_vest", "prob": 20 }
+      { "item": "load_bearing_vest", "prob": 60, "contents-group": "custom_medium_lbv" },
+      { "item": "light_load_bearing_vest", "prob": 20, "contents-group": "custom_light_lbv" },
+      { "item": "heavy_load_bearing_vest", "prob": 20, "contents-group": "custom_heavy_lbv" }
     ]
   },
   {
@@ -116,6 +105,45 @@
       { "item": "grenade_pouch", "prob": 10 },
       { "item": "triple_stacker_pouch", "prob": 10 },
       { "item": "dump_pouch", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_light_lbv",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_medium_lbv",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_heavy_lbv",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
     ]
   },
   {
