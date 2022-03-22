@@ -70,7 +70,7 @@
     "name": { "str": "pair of XL chitin arm guards", "str_pl": "pairs of XL chitin arm guards" },
     "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.23 },
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_chitin",
@@ -80,7 +80,7 @@
     "name": { "str": "pair of XS chitin arm guards", "str_pl": "pairs of XS chitin arm guards" },
     "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_acidchitin",
@@ -154,7 +154,7 @@
     "weight": "550 g",
     "volume": "4 L",
     "copy-from": "armguard_hard",
-    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_hard",
@@ -164,7 +164,7 @@
     "name": { "str": "pair of XS hard arm guards", "str_pl": "pairs of XS hard arm guards" },
     "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Tiny sized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_larmor",
@@ -205,7 +205,7 @@
     "weight": "730 g",
     "volume": "3 L",
     "copy-from": "armguard_larmor",
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_larmor",
@@ -215,7 +215,7 @@
     "name": { "str": "pair of XS leather arm guards", "str_pl": "pairs of XS leather arm guards" },
     "description": "A pair of tiny, tough leather arm guards.  Light and comfortable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_lightplate",
@@ -255,7 +255,7 @@
     "weight": "3243 g",
     "volume": "7 L",
     "copy-from": "armguard_lightplate",
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_lightplate",
@@ -265,7 +265,7 @@
     "name": { "str": "pair of XS steel arm guards", "str_pl": "pairs of XS steel arm guards" },
     "description": "A full assembly of medieval arm protection.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_metal",
@@ -306,7 +306,7 @@
     "weight": "1380 g",
     "volume": "3250 ml",
     "copy-from": "armguard_metal",
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_metal",
@@ -316,7 +316,7 @@
     "name": { "str": "pair of XS metal arm guards", "str_pl": "pairs of XS metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_paper",
@@ -467,7 +467,7 @@
     "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "OVERSIZE", "NONCONDUCTIVE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_tire",
@@ -477,7 +477,7 @@
     "name": { "str": "pair of XS tire arm guards", "str_pl": "pairs of XS tire arm guards" },
     "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_soft",
@@ -508,7 +508,7 @@
     "weight": "330 g",
     "volume": "1750 ml",
     "copy-from": "armguard_soft",
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armguard_soft",
@@ -518,7 +518,7 @@
     "name": { "str": "pair of XS neoprene arm sleeves", "str_pl": "pairs of XS neoprene arm sleeves" },
     "description": "A pair of extra small soft neoprene arm sleeves.  Often used in contact sports.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson_sleeve",
@@ -548,7 +548,7 @@
     "description": "A pair of extra large sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gambeson_sleeve",
@@ -557,7 +557,7 @@
     "description": "A pair of extra large sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "k_gambeson_sleeve",
@@ -609,7 +609,7 @@
     "description": "A pair of extra large sleeves made from layers of kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_k_gambeson_sleeve",
@@ -618,7 +618,7 @@
     "description": "A pair of extra small sleeves made from heavy quilted fabric and kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_arms",
@@ -939,7 +939,7 @@
     "weight": "531 g",
     "volume": "1250 ml",
     "copy-from": "vambrace_larmor",
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_vambrace_larmor",
@@ -949,7 +949,7 @@
     "name": { "str": "pair of XS leather vambraces", "str_pl": "pairs of XS leather vambraces" },
     "description": "A pair of light leather arm guards, made for archery.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armguard_cut_resistant",

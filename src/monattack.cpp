@@ -2100,7 +2100,7 @@ bool mattack::fungus_fortify( monster *z )
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 add_msg( m_good,
-                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
+                         _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
                 add_msg( m_good,
                          //~ Beginning to hear the Mycus while conscious: this is it speaking
                          _( "assistance, on an arduous quest.  unity.  together we have reached the door.  now to pass through…" ) );
