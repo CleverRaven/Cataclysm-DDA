@@ -2398,7 +2398,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
-    ],
+    ]
   },
   {
     "id": "drying_linothorax",
