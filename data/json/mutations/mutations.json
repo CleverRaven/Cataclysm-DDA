@@ -7578,7 +7578,7 @@
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "mycus friend" },
+    "name": { "str": "Mycus friend" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
@@ -7587,7 +7587,7 @@
   {
     "type": "mutation",
     "id": "MUTE",
-    "name": { "str": "mute" },
+    "name": { "str": "Mute" },
     "points": 0,
     "valid": false,
     "description": "Trait that makes it impossible to say anything."

@@ -107,7 +107,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": { "str": "marloss berry", "str_pl": "marloss berries" },
+    "name": { "str": "Marloss berry", "str_pl": "Marloss berries" },
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
@@ -130,7 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": { "str_sp": "marloss gelatin" },
+    "name": { "str_sp": "Marloss gelatin" },
     "weight": "177 g",
     "color": "yellow",
     "addiction_type": "marloss_y",
@@ -152,7 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": { "str": "mycus fruit" },
+    "name": { "str": "Mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": [ "MYCUS" ],
