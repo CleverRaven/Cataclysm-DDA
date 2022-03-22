@@ -2357,9 +2357,8 @@
           { "type": "cotton_laminated", "covered_by_mat": 10, "thickness": 10.0 }
         ],
         "encumbrance": 20,
-		"//": "The yoke is attached over the tube",
+		"//": "The yoke is attached over the tube, providing a chance of two layers taking a strike",
         "coverage": 95,
-        "cover_vitals": 100,
         "covers": [ "torso" ],
 		"specifically_covers": [ "torso_upper", "torso_lower" ]
       },
@@ -2368,11 +2367,9 @@
           { "type": "cotton_laminated", "covered_by_mat": 100, "thickness": 10.0 }
         ],
         "encumbrance": 4,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
+        "//": "ranged shots should hit the sides of the shoulder panels less than melee attacks",
         "coverage": 90,
-        "cover_melee": 90,
-        "cover_ranged": 100,
-        "cover_vitals": 100,
+        "cover_ranged": 95,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
@@ -2384,7 +2381,6 @@
         "encumbrance": 8,
 		"//": "Two pteruges could overlap to block attacks",
         "coverage": 100,
-        "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
