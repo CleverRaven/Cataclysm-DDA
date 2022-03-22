@@ -627,7 +627,7 @@
     "looks_like": "juice",
     "name": { "str_sp": "pineapple juice" },
     "conditional_names": [  ],
-    "calories": 39,
+    "calories": 66,
     "description": "Freshly-squeezed from real pineapples!  Tasty and nutritious.",
     "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
