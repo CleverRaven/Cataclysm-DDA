@@ -2368,8 +2368,8 @@
           { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
         ],
         "encumbrance": 2,
-        "coverage": 50,
-        "cover_vitals": 50,
+        "coverage": 40,
+        "cover_vitals": 40,
         "covers": [ "torso" ],
 		"specifically_covers": [ "torso_neck" ]
       },
@@ -2380,7 +2380,7 @@
         "encumbrance": 4,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
         "coverage": 90,
-        "cover_melee": 80,
+        "cover_melee": 90,
         "cover_ranged": 100,
         "cover_vitals": 100,
         "covers": [ "arm_l", "arm_r" ],
@@ -2388,10 +2388,10 @@
       },
       {
         "material": [
-          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 4.0 },
-          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 4.0 }
+          { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 3.0 }
         ],
-        "encumbrance": 10,
+        "encumbrance": 8,
 		"//": "Two pteruges could overlap to block attacks",
         "coverage": 100,
         "cover_vitals": 100,
@@ -2399,6 +2399,19 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
     ],
+  },
+  {
+    "id": "drying_linothorax",
+    "type": "ARMOR",
+    "name": { "str": "drying linothorax)", "str_pl": "drying linothorakes" },
+    "copy-from": "linothorax",
+	"extend": { "flags": [ "CANT_WEAR" ] },
+	"countdown_interval": 172800,
+	"countdown_action": {
+      "type": "transform",
+	  "target": "linothorax",
+	  "msg": "The glue finishes curing, readying the linothorax for use."
+    }
   },
   {
     "id": "hazmat_suit",
