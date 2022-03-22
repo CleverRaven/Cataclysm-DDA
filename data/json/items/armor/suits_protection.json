@@ -2356,7 +2356,7 @@
           { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
           { "type": "linen_laminated", "covered_by_mat": 10, "thickness": 10.0 }
         ],
-        "encumbrance": 10,
+        "encumbrance": 20,
 		"//": "The yoke is attached over the tube",
         "coverage": 95,
         "cover_vitals": 100,
@@ -2367,7 +2367,7 @@
         "material": [
           { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 },
         ],
-        "encumbrance": 1,
+        "encumbrance": 2,
         "coverage": 50,
         "cover_vitals": 50,
         "covers": [ "torso" ],
@@ -2377,7 +2377,7 @@
         "material": [
           { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 10.0 }
         ],
-        "encumbrance": 2,
+        "encumbrance": 4,
         "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
         "coverage": 90,
         "cover_melee": 80,
@@ -2391,7 +2391,7 @@
           { "type": "linen_laminated", "covered_by_mat": 100, "thickness": 4.0 },
           { "type": "linen_laminated", "covered_by_mat": 60, "thickness": 4.0 }
         ],
-        "encumbrance": 5,
+        "encumbrance": 10,
 		"//": "Two pteruges could overlap to block attacks",
         "coverage": 100,
         "cover_vitals": 100,
