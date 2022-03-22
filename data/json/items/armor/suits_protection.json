@@ -2336,7 +2336,7 @@
 	"category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
     "description": "Ancient Greek armor made from laminated cloth. Lighter and more comfortable than bronze while providing similar protection.",
-    "weight": "5000 g",
+    "weight": "5 kg",
     "volume": "8 L",
 	"price": 10000,
     "price_postapoc": 1750,
