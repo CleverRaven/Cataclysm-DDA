@@ -2335,7 +2335,7 @@
     "type": "ARMOR",
 	"category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
-    "description": "Ancient Greek armor made from laminated linen and made water-resistant. Lighter than bronze while providing capable protection.",
+    "description": "Ancient Greek armor made from laminated linen. Lighter and more comfortable than bronze while providing similar protection.",
     "weight": "5000 g",
     "volume": "8 L",
 	"price": 10000,
