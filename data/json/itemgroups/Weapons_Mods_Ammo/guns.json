@@ -651,11 +651,11 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "subtype": "distribution",
     "entries": [
-      { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
-      { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
-      { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 }
+      { "group": "nested_ksg", "prob": 50 },
+      { "group": "nested_ksg-25", "prob": 8 },
+      { "group": "nested_tavor_12", "prob": 5 },
+      { "group": "nested_m1014", "prob": 10 },
+      { "group": "nested_SPAS_12", "prob": 2 }
     ]
   },
   {
@@ -689,7 +689,7 @@
     "id": "guns_shotgun_rare_readied",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_readied" },
+      { "group": "guns_shotgun_rare_worn", "prob": 22, "contents-group": "sights_shotgun_readied" },
       { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
     ]
@@ -699,7 +699,7 @@
     "id": "guns_shotgun_rare_static",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_shotgun_rare", "prob": 22, "contents-group": "sights_shotgun_static" },
+      { "group": "guns_shotgun_rare_worn", "prob": 22, "contents-group": "sights_shotgun_static" },
       { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 }
     ]

@@ -2004,5 +2004,55 @@
       { "item": "shotgun_s", "charges-min": 0, "charges-max": 1 },
       { "group": "on_hand_shot" }
     ]
+  },
+  {
+    "id": "nested_ksg",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ksg", "charges-min": 0, "charges-max": 7 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_ksg-25",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ksg", "charges-min": 0, "charges-max": 12 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_tavor_12",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tavor_12", "charges-min": 0, "charges-max": 5 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_m1014",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossberg_930", "variant": "m1014", "charges-min": 0, "charges-max": 8 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
+    "id": "nested_SPAS_12",
+    "type": "item_group",
+    "//": "this is a distribution for the gun reasonable number of backup mags and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mossberg_590", "variant": "SPAS_12", "charges-min": 0, "charges-max": 9 },
+      { "group": "on_hand_shot" }
+    ]
   }
 ]
