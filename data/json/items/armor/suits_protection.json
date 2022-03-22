@@ -2349,7 +2349,7 @@
 	"warmth": 15,
 	"longest_side": "76 cm",
     "material_thickness": 10,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [
