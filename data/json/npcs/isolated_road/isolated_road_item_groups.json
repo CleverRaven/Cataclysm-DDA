@@ -27,6 +27,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "gambeson", "prob": 2 },
+      { "item": "linothorax", "prob": 2 },
       { "item": "armor_lamellar", "prob": 2 },
       { "item": "cuirass_lightplate", "prob": 2 },
       { "item": "armguard_lightplate", "prob": 2 },
