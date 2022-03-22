@@ -38,11 +38,7 @@
       ],
       "place_nested": [
         {
-          "chunks": [
-            [ "mass_grave_abandoned", 30 ],
-            [ "mass_grave_partial", 20 ],
-            [ "mass_grave_finished", 10 ]
-          ],
+          "chunks": [ [ "mass_grave_abandoned", 30 ], [ "mass_grave_partial", 20 ], [ "mass_grave_finished", 10 ] ],
           "x": 0,
           "y": 0
         }
