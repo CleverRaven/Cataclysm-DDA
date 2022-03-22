@@ -577,7 +577,7 @@
     "salvaged_into": "sheet_cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
-    "cut_dmg_verb": "cut"
+    "cut_dmg_verb": "cut",
 	"burn_data": [
       { "fuel": 2, "smoke": 1, "burn": 1, "volume_per_turn": "1100 ml" },
       { "fuel": 2, "smoke": 1, "burn": 1 },	
