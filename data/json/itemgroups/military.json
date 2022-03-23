@@ -17,6 +17,19 @@
     ]
   },
   {
+  "id": "armor_plates",
+  "type": "item_group",
+  "//": "a list of all plates that could be sold in stores",
+  "subtype": "distribution",
+  "entries": [
+    { "item": "esapi_plate", "prob": 50 },
+    { "item": "stab_plate", "prob": 50 },
+    { "item": "steel_ballistic_plate", "prob": 50 },
+    { "item": "heavy_steel_ballistic_plate", "prob": 50 },
+    { "item": "esbi_plate", "prob": 50 }
+  ]
+  },
+  {
   "id": "maybe_esapi_plate",
   "type": "item_group",
   "//": "plate that is either broken or working",
