@@ -87,7 +87,7 @@
     "id": "bronze_pickaxe",
     "type": "TOOL",
     "name": { "str": "bronze pick" },
-    "description": "A heavy-headed cast and worked tool with a pointed wedge on one side for breaking stone and flat wedge on the other for prying it out. You could mine with this",
+    "description": "A heavy-headed cast and worked tool with a pointed wedge on one side for breaking stone and flat wedge on the other for prying it out.  You could mine with this.",
     "weight": "6000 g",
     "volume": "4000 mL",
     "longest_side": "140 cm",
