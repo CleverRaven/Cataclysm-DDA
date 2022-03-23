@@ -971,8 +971,8 @@
   {
     "id": "mon_shifting_mass",
     "type": "MONSTER",
-    "name": { "str": "shade" },
-    "description": "A small, grotesque jellyfish-like creature floating in midair, possessed of long appendages that look like a cross between cilia and tentacles.  Its sphere-like head flickers with sparks of unearthly light.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
+    "name": { "str": "shifting mass", "str_pl": "shifting mass" },
+    "description": "An erratic, animate blotch of incomplete shapes, floating in midair.  It's not even real enough to hold a stable shape, and its form is constantly fluid.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "1000 ml",
@@ -989,7 +989,7 @@
         "type": "spell",
         "spell_data": { "id": "shifting_mass", "min_level": 1 },
         "cooldown": 1,
-        "monster_message": "The shade brushes you with its appendages, and a wave of fatigue washes over you."
+        "monster_message": "The shifting mass passes through you as if you were an illusion, and a slight wave of fatigue washes over you."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
@@ -1053,7 +1053,7 @@
     "id": "mon_giant_appendage",
     "type": "MONSTER",
     "name": { "str": "giant appendage" },
-    "description": "A gigantic, probing appendage the size of a truck.  It seems to be jutting through a portal, suggesting that it's merely a smaller extension of something much larger.",
+    "description": "A gigantic, probing appendage blindly feeling the area around it.  All of your senses scream at you that it's the size of a truck, and yet it only takes up about as much space in the world as you do.  It seems to be jutting through a portal, suggesting that it's merely a smaller extension of something much larger.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1076,7 +1076,7 @@
     "id": "mon_memory",
     "type": "MONSTER",
     "name": { "str": "memory", "str_pl": "memories" },
-    "description": "The silhouette of a human body, reaching towards you like it needs help.  Though it has no eyes, you feel an intense sense of being watched.",
+    "description": "The silhouette of a human body, reaching towards you like it needs help.  It has no eyes, but you can still feel it staring through you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
