@@ -1454,7 +1454,7 @@
       [ "manual_survival", 1 ],
       [ "survival_book", 1 ]
     ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "dahlia_root", 1 ] ] ]
@@ -1476,7 +1476,7 @@
       [ "manual_survival", 1 ],
       [ "survival_book", 1 ]
     ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "salsify_raw", 1 ] ] ]
@@ -3268,7 +3268,7 @@
     "time": "18 m",
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "cornmeal", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
@@ -3285,7 +3285,7 @@
     "time": "1 h 15 m",
     "batch_time_factors": [ 85, 1 ],
     "book_learn": [ [ "baking_book", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 6, "LIST" ] ],
@@ -4383,7 +4383,7 @@
     "difficulty": 3,
     "time": "25 m",
     "book_learn": [ [ "baking_book", 3 ], [ "family_cookbook", 3 ], [ "sweets_book", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 2 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4403,7 +4403,7 @@
     "charges": 4,
     "time": "25 m",
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 2 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4422,7 +4422,7 @@
     "charges": 4,
     "time": "25 m",
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 2 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4585,7 +4585,7 @@
     "difficulty": 3,
     "time": "20 m",
     "book_learn": [ [ "cookbook_italian", 2 ], [ "cookbook_eatyrway", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4625,7 +4625,7 @@
     "difficulty": 3,
     "time": "30 m",
     "book_learn": [ [ "cookbook_italian", 3 ] ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4700,7 +4700,7 @@
     "difficulty": 3,
     "time": "20 m",
     "book_learn": [ [ "cookbook_italian", 2 ] ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
@@ -4719,7 +4719,7 @@
     "difficulty": 3,
     "time": "20 m",
     "book_learn": [ [ "cookbook_italian", 2 ] ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
