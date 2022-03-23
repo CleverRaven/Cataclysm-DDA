@@ -100,7 +100,7 @@
     "type": "COMESTIBLE",
     "id": "egg_coelophysis",
     "name": "coelophysis egg",
-    "copy-from": "egg_dino_theropod",
+    "copy-from": "egg_dino_theropod_small",
     "rot_spawn": "GROUP_EGG_coelophysis"
   },
   {
@@ -191,7 +191,7 @@
     "type": "COMESTIBLE",
     "id": "egg_albertonykus",
     "name": "albertonykus egg",
-    "copy-from": "egg_dino_theropod",
+    "copy-from": "egg_dino_theropod_small",
     "rot_spawn": "GROUP_EGG_albertonykus"
   },
   {
