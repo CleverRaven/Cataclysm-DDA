@@ -36,7 +36,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "archery (beginner)",
-    "description": "Practice firing unfletched arrows at a spot on the wall until the arrows are destroyed.",
+    "description": "Practice firing unfletched arrows at a spot on the wall.",
     "skill_used": "archery",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
@@ -58,7 +58,8 @@
         "reflexrecurvebow"
       ]
     ],
-    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ]
+    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ],
+	"byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 4 ] } ]
   },
   {
     "id": "prac_archery_intermediate",
@@ -89,17 +90,7 @@
         "reflexrecurvebow"
       ]
     ],
-    "using": [
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ],
-      [ "practice_arrows", -1 ]
-    ]
+	"components": [ [ [ "arrow_wood_heavy", 10 ] ] ],
+	"byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 8, 10 ] } ]
   }  
 ]
