@@ -354,66 +354,21 @@ void diary::show_diary_ui( diary *c_diary )
 
     }
 }
-//isn´t needed anymore, because of string_editor_window edition
-void diary::edit_page_ui()
-{
-    std::string title = _( "Text:" );
-    static constexpr int max_note_length = 20000;
-
-    const std::string old_text = get_page_ptr()->m_text;
-    std::string new_text = old_text;
-
-    bool esc_pressed = false;
-    string_input_popup input_popup;
-    input_popup
-    .title( title )
-    .width( max_note_length )
-    .text( new_text )
-    .description( "What happened today?" )
-    .title_color( c_white )
-    .desc_color( c_light_gray )
-    .string_color( c_yellow )
-    .identifier( "diary" );
-
-
-    do {
-        new_text = input_popup.query_string( false );
-        if( input_popup.canceled() ) {
-            new_text = old_text;
-            esc_pressed = true;
-            break;
-        } else if( input_popup.confirmed() ) {
-            break;
-        }
-
-    } while( true );
-
-    if( !esc_pressed && new_text.empty() && !old_text.empty() ) {
-        if( query_yn( _( "Really delete note?" ) ) ) {
-            get_page_ptr()->m_text = "";
-        }
-    } else if( !esc_pressed && old_text != new_text ) {
-        get_page_ptr()->m_text = new_text;
-    }
-
-}
 
 void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
-    const std::string old_text = get_page_ptr()->m_text;
-    std::string new_text = old_text;
+    // Modify the stored text so the new text is displayed after exiting from
+    // the editor window and before confirming or canceling the y/n query.
+    std::string &new_text = get_page_ptr()->m_text;
+    const std::string old_text = new_text;
 
-    string_editor_window ed( create_window, get_page_ptr()->m_text );
+    string_editor_window ed( create_window, new_text );
 
     new_text = ed.query_string();
 
-    if( new_text.empty() && !old_text.empty() ) {
-        if( query_yn( _( "Really delete note?" ) ) ) {
-            get_page_ptr()->m_text = "";
-        }
-    } else if( old_text != new_text ) {
-        if( query_yn( _( "Save entry?" ) ) ) {
-            get_page_ptr()->m_text = new_text;
+    if( old_text != new_text ) {
+        if( !query_yn( _( "Save entry?" ) ) ) {
+            new_text = old_text;
         }
     }
 }

@@ -97,9 +97,6 @@ class diary
         void serialize( JsonOut &jsout );
 
     private:
-        /*uses string_popup_window to edit the text on a page. Is not optimal,
-        because its just one line*/
-        void edit_page_ui();
         /*Uses editor window class to edit the text.*/
         void edit_page_ui( const std::function<catacurses::window()> &create_window );
         /*set page to be be shown in ui*/
