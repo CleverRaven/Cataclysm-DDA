@@ -15,7 +15,7 @@
     "color": "light_gray",
     "warmth": 15,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
-    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -139,7 +139,7 @@
     "weight": "7 kg",
     "volume": "8 L",
     "material": [ "nylon", "kevlar_layered" ],
-    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -231,8 +231,6 @@
     "description": "Heavy ballistic armor with specialized pockets on the front, back and sides for armored plates.  This configuration adds shoulder protectors as well as neck protection.",
     "weight": "5 kg",
     "volume": "7 L",
-    "material": [ "nylon", "kevlar_layered" ],
-    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
         "material": [
@@ -270,8 +268,6 @@
     "description": "Heavy ballistic armor with specialized pockets on the front, back and sides for armored plates.  This configuration adds groin and neck protection.",
     "weight": "5 kg",
     "volume": "7 L",
-    "material": [ "nylon", "kevlar_layered" ],
-    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "armor": [
       {
         "material": [
@@ -309,7 +305,7 @@
     "volume": "4 L",
     "warmth": 0,
     "material": [ "nylon" ],
-    "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
