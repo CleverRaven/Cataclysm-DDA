@@ -28,10 +28,7 @@
     "type": "item_group",
     "id": "cop_items",
     "//": "combination of armor and tools",
-    "items": [
-      { "group": "cop_armor", "prob": 30 },
-      { "group": "cop_gear", "prob": 70 }
-    ]
+    "items": [ { "group": "cop_armor", "prob": 30 }, { "group": "cop_gear", "prob": 70 } ]
   },
   {
     "type": "item_group",
@@ -39,7 +36,12 @@
     "items": [
       [ "armor_riot", 20 ],
       [ "kevlar", 35 ],
-      { "item": "level_3_vest", "variant": "police_armor_vest", "contents-group": "some_steel_front_plates", "prob": 75 }
+      {
+        "item": "level_3_vest",
+        "variant": "police_armor_vest",
+        "contents-group": "some_steel_front_plates",
+        "prob": 75
+      }
     ]
   },
   {

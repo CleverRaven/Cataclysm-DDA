@@ -9,20 +9,20 @@
     "weight": "2911 g",
     "volume": "6 L",
     "variant_type": "generic",
-"variants": [
-  {
-    "id": "us_ballistic_vest",
-    "name": { "str": "US ballistic vest" },
-    "description": "Tan colored ballistic armor with specialized pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
-    "weight": 1
-  },
-  {
-    "id": "swat_ballistic_vest",
-    "name": { "str": "SWAT ballistic vest" },
-    "description": "High quality black ballistic armor used by specialized police forces with pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
-    "weight": 1
-  }
-],
+    "variants": [
+      {
+        "id": "us_ballistic_vest",
+        "name": { "str": "US ballistic vest" },
+        "description": "Tan colored ballistic armor with specialized pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
+        "weight": 1
+      },
+      {
+        "id": "swat_ballistic_vest",
+        "name": { "str": "SWAT ballistic vest" },
+        "description": "High quality black ballistic armor used by specialized police forces with pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
+        "weight": 1
+      }
+    ],
     "price": 160000,
     "price_postapoc": 1000,
     "symbol": "[",
@@ -121,11 +121,18 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
-    "armor": [ { "material": [
-      { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-      { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 }
-    ],
-    "encumbrance": 0, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 }
+        ],
+        "encumbrance": 0,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "steel_ballistic_plate",
@@ -145,11 +152,18 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
-    "armor": [ { "material": [
-      { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-      { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.5 }
-    ],
-    "encumbrance": 1, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 1,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "heavy_steel_ballistic_plate",
@@ -169,11 +183,18 @@
     "color": "dark_gray",
     "material_thickness": 5,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
-    "armor": [ { "material": [
-      { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-      { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4.5 }
-    ],
-    "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4.5 }
+        ],
+        "encumbrance": 2,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "esbi_plate",
@@ -387,44 +408,44 @@
     "name": { "str": "light ballistic vest (mag pouches)" },
     "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
     "variant_type": "generic",
-"variants": [
-  {
-    "id": "ballistic_vest_light_olive",
-    "name": { "str": "olive light ballistic vest (mag pouches)" },
-    "description": "An army olive, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 4
-  },
-  {
-    "id": "ballistic_vest_light_tan",
-    "name": { "str": "tan light ballistic vest (mag pouches)" },
-    "description": "A tan colored, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 4
-  },
-  {
-    "id": "ballistic_vest_light_black",
-    "name": { "str": "black light ballistic vest (mag pouches)" },
-    "description": "A dark grey, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 4
-  },
-  {
-    "id": "ballistic_vest_light_future",
-    "name": { "str": "hexagonal light ballistic vest (mag pouches)" },
-    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  It's decorated in a pattern of spiraling hexagons that screams style over substance.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 1
-  },
-  {
-    "id": "ballistic_vest_light_punisher",
-    "name": { "str": "skull light ballistic vest (mag pouches)" },
-    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  Someone has spray-painted a large white skull on the front.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 1
-  },
-  {
-    "id": "ballistic_vest_light_meme",
-    "name": { "str": "gaudy light ballistic vest (mag pouches)" },
-    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
-    "weight": 1
-  }
-],
+    "variants": [
+      {
+        "id": "ballistic_vest_light_olive",
+        "name": { "str": "olive light ballistic vest (mag pouches)" },
+        "description": "An army olive, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_tan",
+        "name": { "str": "tan light ballistic vest (mag pouches)" },
+        "description": "A tan colored, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_black",
+        "name": { "str": "black light ballistic vest (mag pouches)" },
+        "description": "A dark grey, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_future",
+        "name": { "str": "hexagonal light ballistic vest (mag pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  It's decorated in a pattern of spiraling hexagons that screams style over substance.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_punisher",
+        "name": { "str": "skull light ballistic vest (mag pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  Someone has spray-painted a large white skull on the front.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_meme",
+        "name": { "str": "gaudy light ballistic vest (mag pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "weight": 1
+      }
+    ],
     "weight": "900 g",
     "volume": "4 L",
     "warmth": 0,
@@ -646,20 +667,20 @@
     "//": "Based on security vests like https://www.bodyarmourcanada.com/shop-bullet-resistant-or-stab-resistant/vector-nij-ii-security-bullet-resistant-vest",
     "name": { "str": "stab vest" },
     "variant_type": "generic",
-"variants": [
-  {
-    "id": "security_stab_vest",
-    "name": { "str": "security stab vest" },
-    "description": "Lightweight, black, mediocre vest used by mall cops.  At least gives enough protection to keep insurance costs down.  Has \"SECURITY\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
-    "weight": 1
-  },
-  {
-    "id": "airsoft_stab_vest",
-    "name": { "str": "airsoft vest" },
-    "description": "Lightweight, urban camo, mediocre vest used by cosplayers.  Wearing this makes you shrug off airsoft pellets like a badass.  Has a morale patch of an anime girl on the front lapel and a pocket for a marker flag.",
-    "weight": 1
-  }
-],
+    "variants": [
+      {
+        "id": "security_stab_vest",
+        "name": { "str": "security stab vest" },
+        "description": "Lightweight, black, mediocre vest used by mall cops.  At least gives enough protection to keep insurance costs down.  Has \"SECURITY\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
+        "weight": 1
+      },
+      {
+        "id": "airsoft_stab_vest",
+        "name": { "str": "airsoft vest" },
+        "description": "Lightweight, urban camo, mediocre vest used by cosplayers.  Wearing this makes you shrug off airsoft pellets like a badass.  Has a morale patch of an anime girl on the front lapel and a pocket for a marker flag.",
+        "weight": 1
+      }
+    ],
     "description": "a simple Level II protection vest.",
     "weight": "1814 g",
     "volume": "6 L",
