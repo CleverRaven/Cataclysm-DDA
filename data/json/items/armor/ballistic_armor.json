@@ -384,8 +384,47 @@
     "type": "ARMOR",
     "copy-from": "ballistic_vest_esapi",
     "//": "based on smaller thorax only plate carriers",
-    "name": { "str": "light ballistic vest" },
+    "name": { "str": "light ballistic vest (mag pouches)" },
     "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "variant_type": "generic",
+"variants": [
+  {
+    "id": "ballistic_vest_light_olive",
+    "name": { "str": "olive light ballistic vest (mag pouches)" },
+    "description": "An army olive, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 4
+  },
+  {
+    "id": "ballistic_vest_light_tan",
+    "name": { "str": "tan light ballistic vest (mag pouches)" },
+    "description": "A tan colored, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 4
+  },
+  {
+    "id": "ballistic_vest_light_black",
+    "name": { "str": "black light ballistic vest (mag pouches)" },
+    "description": "A dark grey, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 4
+  },
+  {
+    "id": "ballistic_vest_light_future",
+    "name": { "str": "hexagonal light ballistic vest (mag pouches)" },
+    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  It's decorated in a pattern of spiraling hexagons that screams style over substance.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 1
+  },
+  {
+    "id": "ballistic_vest_light_punisher",
+    "name": { "str": "skull light ballistic vest (mag pouches)" },
+    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  Someone has spray-painted a large white skull on the front.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 1
+  },
+  {
+    "id": "ballistic_vest_light_meme",
+    "name": { "str": "gaudy light ballistic vest (mag pouches)" },
+    "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+    "weight": 1
+  }
+],
     "weight": "900 g",
     "volume": "4 L",
     "warmth": 0,
@@ -426,13 +465,176 @@
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
         "encumbrance": 1,
         "coverage": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_light_pouches",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_light",
+    "//": "based on smaller thorax only plate carriers",
+    "name": { "str": "light ballistic vest (storage pouches)" },
+    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_light_olive",
+        "name": { "str": "olive light ballistic vest (storage pouches)" },
+        "description": "An army olive, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_tan",
+        "name": { "str": "tan light ballistic vest (storage pouches)" },
+        "description": "A tan colored, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_black",
+        "name": { "str": "black light ballistic vest (storage pouches)" },
+        "description": "A dark grey, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_future",
+        "name": { "str": "hexagonal light ballistic vest (storage pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  It's decorated in a pattern of spiraling hexagons that screams style over substance.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_punisher",
+        "name": { "str": "skull light ballistic vest (storage pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  Someone has spray-painted a large white skull on the front.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_meme",
+        "name": { "str": "gaudy light ballistic vest (storage pouches)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "weight": 1
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "moves": 50,
+        "description": "Low profile zipper storage pouch"
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_light_operator",
+    "type": "ARMOR",
+    "copy-from": "ballistic_vest_light",
+    "//": "based on smaller thorax only plate carriers",
+    "name": { "str": "light ballistic vest (shoulder pouch)" },
+    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_light_olive",
+        "name": { "str": "olive light ballistic vest (shoulder pouch)" },
+        "description": "An army olive, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_tan",
+        "name": { "str": "tan light ballistic vest (shoulder pouch)" },
+        "description": "A tan colored, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_black",
+        "name": { "str": "black light ballistic vest (shoulder pouch)" },
+        "description": "A dark grey, lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 4
+      },
+      {
+        "id": "ballistic_vest_light_future",
+        "name": { "str": "hexagonal light ballistic vest (shoulder pouch)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  It's decorated in a pattern of spiraling hexagons that screams style over substance.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_punisher",
+        "name": { "str": "skull light ballistic vest (shoulder pouch)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  Someone has spray-painted a large white skull on the front.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 1
+      },
+      {
+        "id": "ballistic_vest_light_meme",
+        "name": { "str": "gaudy light ballistic vest (shoulder pouch)" },
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "weight": 1
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 40,
+        "description": "shoulder radio pouch"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "40 g",
+        "max_item_length": "15 cm",
+        "holster": true,
+        "moves": 20,
+        "description": "glowstick hook"
       }
     ]
   },
