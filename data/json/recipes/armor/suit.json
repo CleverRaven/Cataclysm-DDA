@@ -1708,7 +1708,7 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 1 ] ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 2 ] ],
     "using": [ [ "strap_small", 2 ], [ "fastener_small", 2 ], [ "fastener_large", 1 ], [ "sewing_standard", 10 ] ],
