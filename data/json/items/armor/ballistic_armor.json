@@ -510,7 +510,7 @@
     "copy-from": "ballistic_vest_light",
     "//": "based on smaller thorax only plate carriers",
     "name": { "str": "light ballistic vest (storage pouches)", "str_pl": "light ballistic vests (storage pouches)" },
-    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.  This version has a MOLLE panel with a zipper on the front to store stuff.",
     "variant_type": "generic",
     "variants": [
       {
@@ -596,7 +596,7 @@
     "copy-from": "ballistic_vest_light",
     "//": "based on smaller thorax only plate carriers",
     "name": { "str": "light ballistic vest (shoulder pouch)", "str_pl": "light ballistic vests (shoulder pouch)" },
-    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.",
+    "description": "A lightweight simple plate carrier just covering the thorax with front and back pockets for ESAPI ceramic armor plates.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
     "variant_type": "generic",
     "variants": [
       {
