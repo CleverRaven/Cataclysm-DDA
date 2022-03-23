@@ -67,7 +67,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "archery (intermediate)",
+    "name": "archery (beginner)",
     "description": "Practice firing fletched arrows accurately into a target. Requires a decent quality bow.",
     "skill_used": "archery",
     "time": "1 h",
@@ -90,16 +90,16 @@
       ]
     ],
     "using": [
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ],
-      [ "practice_arrows", 1 ]
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ]
     ]
   }  
 ]
