@@ -20,12 +20,14 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "music.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "popup.h"
 #include "scent_map.h"
+#include "sdlsound.h"
 #include "string_input_popup.h"
 #include "timed_event.h"
 #include "ui_manager.h"
@@ -598,6 +600,8 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    play_music( music::get_music_id_string() );
+
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -655,12 +659,15 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
+
+    music::deactivate_music_id( music::music_id::sound );
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );

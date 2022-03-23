@@ -149,8 +149,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "volume_encumber_modifier": 0.2,
         "encumbrance": 15,
@@ -160,8 +160,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 80, "thickness": 4.4 }
         ],
         "encumbrance": 15,
         "volume_encumber_modifier": 0,
@@ -172,7 +172,7 @@
       {
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 3.0 }
+          { "type": "kevlar_layered", "covered_by_mat": 80, "thickness": 4.4 }
         ],
         "volume_encumber_modifier": 0.1,
         "encumbrance": 10,
@@ -296,12 +296,12 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "light kevlar jumpsuit" },
-    "description": "A lightweight, hand-built combination armor made from a jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
+    "description": "A lightweight, hand-built combination armor made from a jumpsuit padded with thin layers of kevlar.  Protects from the elements as well as from harm.",
     "weight": "5100 g",
     "volume": "10500 ml",
     "price": 110000,
     "price_postapoc": 5000,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar", "cotton" ],
     "to_hit": -3,
     "bashing": 6,
     "symbol": "[",
@@ -311,8 +311,8 @@
       {
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
@@ -363,12 +363,12 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kevlar jumpsuit" },
-    "description": "A hand-built combination armor made from a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
+    "description": "A hand-built combination armor made from a jumpsuit padded with layers of kevlar.  Protects from the elements as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": 150000,
     "price_postapoc": 5000,
-    "material": [ "kevlar_layered", "leather" ],
+    "material": [ "kevlar", "leather" ],
     "to_hit": -3,
     "bashing": 6,
     "symbol": "[",
@@ -378,9 +378,9 @@
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
@@ -431,14 +431,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "steel-plated kevlar jumpsuit" },
-    "description": "A heavy, hand-built combination armor made from tempered steel plates and a leather jumpsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
+    "description": "A heavy, hand-built combination armor made from tempered steel plates and a jumpsuit padded with layers of kevlar.  Protects from the elements as well as from harm.",
     "weight": "15500 g",
     "volume": "12 L",
     "price": 200000,
     "price_postapoc": 7000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered", "qt_steel", "leather" ],
+    "material": [ "kevlar", "qt_steel", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -446,7 +446,7 @@
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
           { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 },
           { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 }
         ],
@@ -484,14 +484,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "fur kevlar jumpsuit" },
-    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layered kevlar and fur.  Protects from the elements as well as from harm.",
+    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layers of kevlar and fur.  Protects from the elements as well as from harm.",
     "weight": "7800 g",
     "volume": "14 L",
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered", "fur", "leather" ],
+    "material": [ "kevlar", "fur", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
@@ -500,8 +500,8 @@
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "fur", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
@@ -536,16 +536,16 @@
     "id": "wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
     "name": { "str": "faux fur kevlar jumpsuit" },
-    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layered kevlar and faux fur.  Protects from the elements as well as from harm.",
+    "description": "A warm and heavy hand-built combination armor made from a jumpsuit padded with layers of kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
-    "material": [ "kevlar_layered", "faux_fur", "leather" ],
+    "material": [ "kevlar", "faux_fur", "leather" ],
     "armor": [
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
@@ -575,12 +575,12 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kevlar wetsuit" },
-    "description": "A hand-built combination armor made from a wetsuit padded with layered kevlar.  Protects from the elements as well as from harm.",
+    "description": "A hand-built combination armor made from a wetsuit padded with thin layers of kevlar.  Protects from the elements as well as from harm.",
     "weight": "6400 g",
     "volume": "7000 ml",
     "price": 110000,
     "price_postapoc": 5000,
-    "material": [ "neoprene", "kevlar_layered" ],
+    "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
     "to_hit": -3,
     "bashing": 6,
@@ -590,7 +590,7 @@
       {
         "material": [
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
@@ -640,14 +640,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kevlar firesuit" },
-    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layered kevlar.  Protects from the fire as well as from harm.",
+    "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of kevlar.  Protects from the fire as well as from harm.",
     "weight": "6800 g",
     "volume": "11500 ml",
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "nomex", "kevlar_layered" ],
+    "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
@@ -655,8 +655,8 @@
       {
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,

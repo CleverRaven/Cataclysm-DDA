@@ -121,64 +121,64 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     {
         //  No_Mission
         "",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Patrol_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Raid_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Menial_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Carpentry_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Forage_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Caravan_Commune_Center_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Purchase_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Upgrade_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Plant_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Harvest_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     //  Faction camp missions
     {
         "Camp_Distribute_Food",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Jobs",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Workers",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Abandon",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Upgrade ",  //  Want to add the blueprint after the space
@@ -1204,18 +1204,18 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
 npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::map<skill_id, int> &required_skills )
+        const std::map<skill_id, int> &required_skills, bool silent_failure )
 {
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
-                               equipment, required_skills );
+                               equipment, required_skills, silent_failure );
 }
 npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
         const mission_id &miss_id, bool group, const std::vector<item *> &equipment,
-        const std::map<skill_id, int> &required_skills )
+        const std::map<skill_id, int> &required_skills, bool silent_failure )
 {
-    npc_ptr comp = companion_choose( required_skills );
+    npc_ptr comp = companion_choose( required_skills, silent_failure );
     if( comp == nullptr ) {
         return comp;
     }
@@ -1957,7 +1957,7 @@ bool talk_function::forage_return( npc &p )
         if( skill_1 > rng( -2, 8 ) ) {
             popup( _( "Alerted by a rustle, %s fled to the safety of the outpost!" ), comp->get_name() );
         } else if( skill_2 > rng( -2, 8 ) ) {
-            popup( _( "As soon as the cougar sprang %s darted to the safety of the outpost!" ),
+            popup( _( "As soon as the cougar sprang, %s darted to the safety of the outpost!" ),
                    comp->get_name() );
         } else {
             popup( _( "%s was caught unaware and was forced to fight the creature at close "
@@ -1973,11 +1973,11 @@ bool talk_function::forage_return( npc &p )
                 }
             } else {
                 if( one_in( 2 ) ) {
-                    popup( _( "%s was able to hold off the first wolf but the others that were "
+                    popup( _( "%s was able to hold off the first wolf, but the others that were "
                               "skulking in the tree line caught up…" ), comp->get_name() );
                     popup( _( "I'm sorry, there wasn't anything we could do…" ) );
                 } else {
-                    popup( _( "We… we don't know what exactly happened but we found %s's gear "
+                    popup( _( "We… we don't know what exactly happened, but we found %s's gear "
                               "ripped and bloody…" ), comp->get_name() );
                     popup( _( "I fear your companion won't be returning." ) );
                 }
@@ -2412,7 +2412,8 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     return adjusted;
 }
 
-npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills )
+npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills,
+        bool silent_failure )
 {
     Character &player_character = get_player_character();
     std::vector<npc_ptr> available;
@@ -2457,7 +2458,9 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         }
     }
     if( available.empty() ) {
-        popup( _( "You don't have any companions to send out…" ) );
+        if( !silent_failure ) {
+            popup( _( "You don't have any companions to send out…" ) );
+        }
         return nullptr;
     }
     std::vector<uilist_entry> npc_menu;
@@ -2465,7 +2468,14 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     std::vector<comp_rank> rankings = companion_rank( available );
 
     int x = 0;
-    std::string menu_header = left_justify( _( "Who do you want to send?" ), 51 );
+    std::string menu_header;
+
+    if( silent_failure ) {
+        menu_header = left_justify( _( "Do you want to send someone else?" ), 51 );
+    } else {
+        menu_header = left_justify( _( "Who do you want to send?" ), 51 );
+    }
+
     if( required_skills.empty() ) {
         menu_header += _( "[ COMBAT : SURVIVAL : INDUSTRY ]" );
     }
@@ -2514,7 +2524,9 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     }
     const size_t npc_choice = uilist( menu_header, npc_menu );
     if( npc_choice >= available.size() ) {
-        popup( _( "You choose to send no one…" ), npc_choice );
+        if( !silent_failure ) {
+            popup( _( "You choose to send no one…" ), npc_choice );
+        }
         return nullptr;
     }
 

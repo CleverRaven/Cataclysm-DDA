@@ -107,7 +107,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_berry",
-    "name": { "str": "marloss berry", "str_pl": "marloss berries" },
+    "name": { "str": "Marloss berry", "str_pl": "Marloss berries" },
     "weight": "177 g",
     "color": "pink",
     "addiction_type": "marloss_r",
@@ -130,7 +130,7 @@
   {
     "type": "COMESTIBLE",
     "id": "marloss_gel",
-    "name": { "str_sp": "marloss gelatin" },
+    "name": { "str_sp": "Marloss gelatin" },
     "weight": "177 g",
     "color": "yellow",
     "addiction_type": "marloss_y",
@@ -152,7 +152,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mycus_fruit",
-    "name": { "str": "mycus fruit" },
+    "name": { "str": "Mycus fruit" },
     "weight": "354 g",
     "color": "light_gray",
     "use_action": [ "MYCUS" ],
@@ -265,7 +265,7 @@
     "symbol": "%",
     "calories": 6,
     "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
-    "description": "Fresh ",
+    "description": "Fresh gelatin.  Not vegan-friendly!",
     "price": 150,
     "price_postapoc": 50,
     "material": [ "flesh" ],
@@ -351,7 +351,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_beans",
-    "name": { "str": "canned beans", "str_pl": "beans" },
+    "name": { "str_sp": "canned beans" },
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -1040,5 +1040,14 @@
     "quench": -15,
     "fun": -15,
     "freezing_point": -274
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_pancakes_wheat_free",
+    "copy-from": "blood_pancakes",
+    "name": { "str": "wheat-free blodplättar" },
+    "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
+    "material": [ "veggy", "blood" ],
+    "primary_material": "veggy"
   }
 ]

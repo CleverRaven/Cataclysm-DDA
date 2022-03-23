@@ -491,9 +491,10 @@ bool avatar::read( item_location &book, item_location ereader )
     }
 
     int learner_id = -1;
+    const bool is_martialarts = book->type->use_methods.count( "MA_MANUAL" );
 
     //only show the menu if there's useful information or multiple options
-    if( skill || !nonlearners.empty() || !fun_learners.empty() ) {
+    if( ( skill || !nonlearners.empty() || !fun_learners.empty() ) && !is_martialarts ) {
         uilist menu;
 
         // Some helpers to reduce repetition:
@@ -574,7 +575,6 @@ bool avatar::read( item_location &book, item_location ereader )
         }
     }
 
-    const bool is_martialarts = book->type->use_methods.count( "MA_MANUAL" );
     if( is_martialarts ) {
 
         if( martial_arts_data->has_martialart( martial_art_learned_from( *book->type ) ) ) {

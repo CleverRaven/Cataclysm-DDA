@@ -1551,6 +1551,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             } else {
                 phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
+        } else if( tag == "<u_name>" ) {
+            phrase.replace( fa, l, u.get_name() );
+        } else if( tag == "<npc_name>" ) {
+            phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
@@ -1599,54 +1603,13 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
-            phrase.replace( fa, l, u.get_value( var ) );
+            phrase.replace( fa, l, u.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
             //adding a npc variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
-            phrase.replace( fa, l, me.get_value( var ) );
-        } else if( tag.find( "<global_val:" ) != std::string::npos ) {
-            //adding a global variable to the string
-            std::string var = tag.substr( tag.find( ':' ) + 1 );
-            // remove the trailing >
-            var.pop_back();
-            global_variables &globvars = get_globals();
-            phrase.replace( fa, l, globvars.get_global_value( var ) );
-        } else if( !tag.empty() ) {
-            debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
-            phrase.replace( fa, fb - fa + 1, "????" );
-        }
-    } while( fa != std::string::npos && fb != std::string::npos );
-}
-
-static void parse_var_tags( std::string &phrase, const dialogue &d )
-{
-    size_t fa;
-    size_t fb;
-    std::string tag;
-    do {
-        fa = phrase.find( '<' );
-        fb = phrase.find( '>' );
-        int l = fb - fa + 1;
-        if( fa != std::string::npos && fb != std::string::npos ) {
-            tag = phrase.substr( fa, fb - fa + 1 );
-        } else {
-            return;
-        }
-
-        if( tag.find( "<u_val:" ) != std::string::npos ) {
-            //adding a user variable to the string
-            std::string var = tag.substr( tag.find( ':' ) + 1 );
-            // remove the trailing >
-            var.pop_back();
-            phrase.replace( fa, l, d.actor( false )->get_value( "npctalk_var_" + var ) );
-        } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
-            //adding a npc variable to the string
-            std::string var = tag.substr( tag.find( ':' ) + 1 );
-            // remove the trailing >
-            var.pop_back();
-            phrase.replace( fa, l, d.actor( true )->get_value( "npctalk_var_" + var ) );
+            phrase.replace( fa, l, me.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<global_val:" ) != std::string::npos ) {
             //adding a global variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
@@ -2451,7 +2414,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
             target_pos = target_pos + tripoint( 0, 0,
                                                 iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
         }
-        write_var_value( type, var_name, target, target_pos.to_string() );
+        write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
     };
 }
 
@@ -2776,7 +2739,15 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             translated_message = _( message );
         }
-        parse_var_tags( translated_message, d );
+        Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+        if( !alpha ) {
+            alpha = &get_player_character();
+        }
+        Character *beta = d.has_beta ? d.actor( true )->get_character() : nullptr;
+        if( !beta ) {
+            beta = &get_player_character();
+        }
+        parse_tags( translated_message, *alpha, *beta );
         if( sound ) {
             bool display = false;
             map &here = get_map();
@@ -3853,10 +3824,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                     if( get_avatar().sees( *spawned ) ) {
                         visible_spawns++;
                     }
-                }
-                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
-                if( lifespan.value() > 0_seconds ) {
-                    spawned->set_summon_time( lifespan.value() );
+                    lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
+                    if( lifespan.value() > 0_seconds ) {
+                        spawned->set_summon_time( lifespan.value() );
+                    }
                 }
             }
         }
@@ -4343,8 +4314,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_shave ),
             WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
-            WRAP( buy_10_logs ),
-            WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( drop_items_in_place ),

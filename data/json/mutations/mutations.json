@@ -1037,7 +1037,7 @@
     "id": "MARTIAL_ARTS5",
     "name": { "str": "Melee Weapon Training" },
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
       "style_bojutsu",
@@ -3461,6 +3461,7 @@
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
@@ -7577,7 +7578,7 @@
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "mycus friend" },
+    "name": { "str": "Mycus friend" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
@@ -7586,7 +7587,7 @@
   {
     "type": "mutation",
     "id": "MUTE",
-    "name": { "str": "mute" },
+    "name": { "str": "Mute" },
     "points": 0,
     "valid": false,
     "description": "Trait that makes it impossible to say anything."

@@ -365,17 +365,11 @@ void veh_app_interact::remove()
     bool can_remove = reqs.can_make_with_inventory( inv, is_crafting_component );
     if( !can_remove ) {
         msg += _( "Insufficient components/tools!\n" );
-    }
-    for( const auto &sk : vpinfo.removal_skills ) {
-        if( you.get_knowledge_level( sk.first ) < sk.second ) {
-            can_remove = false;
-            //~ 1$ = skill name (ex: mechanics), 2$ = skill level
-            msg += string_format( _( "Removal requires %1$s %2$d!\n" ), sk.first->name(), sk.second );
-        }
+        msg += reqs.list_missing();
     }
 
     int time = vpinfo.removal_time( you );
-    if( trait_DEBUG_HS ) {
+    if( you.has_trait( trait_DEBUG_HS ) ) {
         can_remove = true;
         time = 1;
     }
