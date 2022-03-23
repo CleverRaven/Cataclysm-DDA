@@ -3,7 +3,8 @@
     "id": "bronze_axe",
     "type": "TOOL",
     "name": { "str": "bronze axe" },
-    "description": "This is socketed bronze axe with a work-hardened edge, tightly bound to the haft with cords like your ancestors",
+    "description": "This is socketed bronze axe with a work-hardened edge, tightly bound to the shaft with cords like your ancestors.",
+
     "weight": "3600 g",
     "volume": "2500 ml",
     "longest_side": "96 cm",
