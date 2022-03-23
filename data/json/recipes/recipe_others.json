@@ -636,7 +636,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -650,7 +650,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "mc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "mc_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -664,7 +664,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "hc_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "hc_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -678,7 +678,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "ch_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -692,7 +692,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "qt_steel_chunk", 1 ] ] ]
+    "components": [ [ [ "qt_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
