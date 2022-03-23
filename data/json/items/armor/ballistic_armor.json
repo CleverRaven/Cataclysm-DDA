@@ -805,6 +805,12 @@
         "name": { "str": "police ballistic vest" },
         "description": "Lightweight, charcoal colored armored vest issued to police officers.  Armored panels give this vest solid defense against small caliber firearms and front and back pockets for hard armor panels give protection from higher calibers.  Has \"POLICE\" written on the front lapel and across the back.",
         "weight": 1
+      },
+      {
+        "id": "national_guard_armor_vest",
+        "name": { "str": "national guard ballistic vest" },
+        "description": "Lightweight, urban camo colored armored vest issued to soldiers and volunteers as things got worse.  Armored panels give this vest solid defense against small caliber firearms and front and back pockets for hard armor panels give protection from higher calibers.  Has \"ARMY\" written on the front lapel and across the back.",
+        "weight": 1
       }
     ],
     "variant_type": "generic",

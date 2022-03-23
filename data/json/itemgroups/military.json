@@ -119,7 +119,7 @@
   "id": "some_front_plates",
   "type": "item_group",
   "//": "random collection of two matching plates",
-  "subtype": "collection",
+  "subtype": "distribution",
   "entries": [
     { "group": "some_esapi_front_plates", "prob": 20 },
     { "group": "some_steel_front_plates", "prob": 50 },
@@ -133,7 +133,8 @@
     "//": "ESAPI vest plus plates",
     "subtype": "distribution",
     "entries": [
-      { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "some_esapi_plates", "prob": 90 },
+      { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "some_esapi_plates", "prob": 40 },
+      { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "some_esapi_front_plates", "prob": 50 },
       { "group": "military_ballistic_vest_light", "prob": 10 }
     ]
   },
