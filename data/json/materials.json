@@ -557,7 +557,7 @@
     "type": "material",
     "id": "cotton_laminated",
     "name": "Laminated Cotton",
-	"//": "This should really be linen",
+    "//": "This should really be linen",
     "density": 10,
     "specific_heat_liquid": 0.02,
     "specific_heat_solid": 0.02,
