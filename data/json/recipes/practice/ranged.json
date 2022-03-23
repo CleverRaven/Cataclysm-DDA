@@ -36,7 +36,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "archery (beginner)",
-    "description": "Practice firing unfletched arrows at a spot on the wall.",
+    "description": "Practice firing unfletched arrows at a spot on the wall until the arrows are destroyed.",
     "skill_used": "archery",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
@@ -60,4 +60,36 @@
     ],
     "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ]
   }
+  {
+    "id": "prac_archery_intermediate",
+    "type": "practice",
+    "//": "variable arrow byproducts would be ideal, but the functionality isn't available",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "archery (beginner)",
+    "description": "Practice firing fletched arrows accurately into a target.",
+    "skill_used": "archery",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 4, "skill_limit": 5 },
+    "autolearn": [ [ "archery", 0 ] ],
+    "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
+    "tools": [
+      [
+        "selfbow",
+        "shortbow",
+        "compbow",
+        "compbow_high",
+        "compbow_low",
+        "compositebow",
+        "reflexbow",
+        "recurbow",
+        "longbow",
+        "woodgreatbow",
+        "compgreatbow",
+        "reflexrecurvebow"
+      ]
+    ],
+    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ]
+  }  
 ]
