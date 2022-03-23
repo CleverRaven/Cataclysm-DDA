@@ -17,8 +17,8 @@
     "weight": 1
   },
   {
-    "id": "riot_ballistic_vest",
-    "name": { "str": "RIOT ballistic vest" },
+    "id": "swat_ballistic_vest",
+    "name": { "str": "SWAT ballistic vest" },
     "description": "High quality black ballistic armor used by specialized police forces with pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": 1
   }
