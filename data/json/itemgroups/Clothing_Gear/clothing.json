@@ -2211,6 +2211,7 @@
       [ "sleeveless_duster", 2 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "kevlar", 30 ],
+      [ "stab_vest", 30 ],
       { "group": "military_ballistic_vest", "prob": 8 },
       [ "dump_pouch", 20 ],
       [ "mask_bal", 5 ],

@@ -169,6 +169,7 @@
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80, "charges": [ 0, 50 ] },
       { "item": "powered_earplugs", "prob": 60, "charges": [ 0, 50 ] },
+      { "item": "stab_vest", "variant": "airsoft_stab_vest", "prob": 10 },
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 5 }
     ]
