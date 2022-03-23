@@ -179,7 +179,7 @@
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "Thick leather body armor.  Light and comfortable.",
-    "weight": "1498 g",
+    "weight": "4400 g",
     "volume": "7 L",
     "price": 12000,
     "price_postapoc": 2500,

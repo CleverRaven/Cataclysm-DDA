@@ -153,26 +153,23 @@
     "difficulty": 5,
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 52 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 16 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ]
   },
   {
     "result": "armor_larmor_xs",
     "type": "recipe",
     "copy-from": "armor_larmor",
     "time": "8 h",
-    "using": [ [ "sewing_standard", 39 ] ],
-    "components": [ [ [ "leather", 23 ], [ "tanned_hide", 3 ], [ "fur", 23 ], [ "tanned_pelt", 3 ] ] ]
+    "using": [ [ "tailoring_leather_patchwork", 12 ] ]
   },
   {
     "result": "xl_armor_larmor",
     "type": "recipe",
     "copy-from": "armor_larmor",
     "time": "9 h",
-    "using": [ [ "sewing_standard", 76 ], [ "fabric_leather_fur_hide", 7 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
+    "using": [ [ "tailoring_leather_patchwork", 18 ] ],
   },
   {
     "result": "armor_lightplate",
