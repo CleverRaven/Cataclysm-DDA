@@ -3,7 +3,7 @@
     "id": "arrow_practice",
     "type": "requirement",
     "//": "A selection of fletched, retrievable arrows, used when training archery",
-    "components": [
+    "tools": [
       [
         [ "arrow_field_point_fletched", -1 ],
         [ "arrow_plastic", -1 ],
