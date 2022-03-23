@@ -481,6 +481,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_watermelon",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "watermelon seeds" },
+    "description": "Some watermelon seeds.",
+    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
