@@ -46,7 +46,7 @@
     "id": "bronze_shears",
     "type": "TOOL",
     "name": { "str_sp": "bronze shears" },
-    "description": "This is a set of forged single-piece bronze shears for cutting fabrics. Made of 2 painstakingly sharpened blades connected by a carefully tempered twisted bridge.",
+    "description": "This is a set of forged single-piece bronze shears for cutting fabrics.  Made of two painstakingly sharpened blades connected by a carefully tempered twisted bridge.",
     "weight": "600 g",
     "volume": "250 ml",
     "price": 500,
