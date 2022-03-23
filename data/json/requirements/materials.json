@@ -12,28 +12,6 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
-    "id": "arrow_practice",
-    "type": "requirement",
-    "//": "A selection of arrows, used when training archery",
-    "components": [
-      [
-        [ "arrow_fire_hardened_fletched", 1 ],
-        [ "arrow_field_point_fletched", 1 ],
-        [ "arrow_plastic", 1 ],
-        [ "arrow_small_game_fletched", 1 ],
-        [ "arrow_wood", 1 ],
-        [ "arrow_heavy_fire_hardened_fletched", 1 ],
-        [ "arrow_heavy_field_point_fletched", 1 ],
-        [ "arrow_wood_heavy", 1 ],
-        [ "arrow_metal_sharpened_fletched", 1 ],
-        [ "arrow_metal", 1 ],
-        [ "arrow_metal_bodkin", 1 ],
-        [ "arrow_metal_target", 1 ],
-        [ "arrow_cf", 1 ]
-      ]
-    ]
-  },
-  {
     "id": "bone_edible",
     "type": "requirement",
     "//": "Any kind of non-poisonous bones, human or not.",

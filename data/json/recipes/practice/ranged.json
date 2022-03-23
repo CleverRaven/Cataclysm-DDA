@@ -90,6 +90,6 @@
         "reflexrecurvebow"
       ]
     ],
-    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ]
+	"using": [ [ "archery_practice", 10 ] ]
   }  
 ]
