@@ -271,8 +271,8 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
 {
     SECTION( "staves" ) { // typical value around 18
         CHECK( calc_expected_dps( "i_staff" ) == 20.62 );
-        CHECK( calc_expected_dps( "staff_sling" ) == 15 );
-        CHECK( calc_expected_dps( "q_staff" ) == 18.75 );
+        CHECK( calc_expected_dps( "staff_sling" ) == 12.15 );
+        CHECK( calc_expected_dps( "q_staff" ) == 14.11 );
         CHECK( calc_expected_dps( "l-stick_on" ) == 17.5 );
         CHECK( calc_expected_dps( "l-stick" ) == 17.5 );
         CHECK( calc_expected_dps( "shock_staff" ) == 19.61 );

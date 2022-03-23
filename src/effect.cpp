@@ -645,9 +645,9 @@ std::string effect::disp_desc( bool reduced ) const
         timestr = string_format( _( "%s ago" ),
                                  debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
     }
-    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    ret += string_format( _( "Effect started: <color_white>%s</color>" ), timestr );
     if( debug_mode ) {
-        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+        ret += string_format( _( "Effect ends in: <color_white>%s</color>" ), to_string( duration ) );
     }
     //Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
@@ -657,33 +657,33 @@ std::string effect::disp_desc( bool reduced ) const
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>; " ), tmp );
     }
     // Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
@@ -825,14 +825,30 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
+static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
+{
+    for( auto &eff_grp : eff_map ) {
+        for( auto &eff : eff_grp.second ) {
+            for( const efftype_id &block : eff.second.get_blocks_effects() ) {
+                if( block == e ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
-                    const time_point &time, const bool player )
+                    const time_point &time, const bool player, const effects_map &eff_map )
 {
     // Decay intensity if supposed to do so, removing effects at zero intensity
     if( intensity > 0 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
         get_max_duration() > get_duration() ) {
-        set_intensity( intensity + eff_type->int_decay_step, player );
+        if( eff_type->int_decay_step <= 0 || !effect_is_blocked( eff_type->id, eff_map ) ) {
+            set_intensity( intensity + eff_type->int_decay_step, player );
+        }
         if( intensity <= 0 ) {
             rem_ids.push_back( get_id() );
             rem_bps.push_back( bp.id() );

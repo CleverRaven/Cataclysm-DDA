@@ -288,11 +288,11 @@
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 3 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
         [ "EOC_PORTAL_PAIN", { "const": 3 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
         [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 7 } ]
       ]
@@ -318,9 +318,9 @@
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 1 } ],
-        [ "EOC_PORTAL_NETHER_SPAWN", { "const": 3 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
       ]
     }
@@ -380,22 +380,6 @@
           }
         }
       ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_NETHER_SPAWN",
-    "effect": {
-      "u_spawn_monster": "GROUP_NETHER_PORTAL",
-      "group": true,
-      "real_count": 1,
-      "hallucination_count": [ 1, 2 ],
-      "outdoor_only": true,
-      "min_radius": 3,
-      "max_radius": 20,
-      "lifespan": [ "10 seconds", "1 minutes" ],
-      "spawn_message": "Several large portals open and before they close a monster leaves.",
-      "spawn_message_plural": "Several large portals open and before they close monsters pour through."
     }
   },
   {
@@ -483,6 +467,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SWARM_STRUCTURE",
+    "effect": {
+      "u_spawn_monster": "mon_swarm_structure",
+      "real_count": 1,
+      "outdoor_only": true,
+      "min_radius": 3,
+      "max_radius": 20,
+      "lifespan": [ "10 minutes", "30 minutes" ],
+      "spawn_message": "The swarm structure was always there, right?"
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_PAIN",
     "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": [
@@ -505,7 +502,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "global": true,
     "condition": { "not": "u_driving" },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
@@ -749,7 +745,13 @@
       {
         "result": [ "t_door_curtain_o" ],
         "valid_terrain": [ "t_door_curtain_c" ],
-        "message": " A door flies open!",
+        "message": " A curtain flies open!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_o" ],
+        "valid_terrain": [ "t_door_grass_curtain_c" ],
+        "message": " A curtain flies open!",
         "message_good": false
       },
       {
@@ -906,7 +908,13 @@
       {
         "result": [ "t_door_curtain_c" ],
         "valid_terrain": [ "t_door_curtain_o" ],
-        "message": " A door slams shut!",
+        "message": " A curtain suddenly shuts!",
+        "message_good": false
+      },
+      {
+        "result": [ "t_door_grass_curtain_c" ],
+        "valid_terrain": [ "t_door_grass_curtain_o" ],
+        "message": " A curtain suddenly shuts!",
         "message_good": false
       },
       {

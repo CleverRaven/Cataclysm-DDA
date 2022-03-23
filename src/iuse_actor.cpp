@@ -63,6 +63,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -113,6 +114,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
@@ -220,7 +223,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     int result = 0;
 
     const bool possess = p.has_item( it ) ||
-                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) == 1 );
+                         ( it.has_flag( flag_ALLOWS_REMOTE_USE ) && square_dist( p.pos(), pos ) <= 1 );
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -2185,6 +2188,14 @@ void musical_instrument_actor::load( const JsonObject &obj )
 cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( !p.is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
+        music::deactivate_music_id( music::music_id::instrument );
+        // Because musical instrument creates musical sound too
+        if( music::is_active_music_id( music::music_id::sound ) ) {
+            music::deactivate_music_id( music::music_id::sound );
+        }
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
@@ -2242,6 +2253,10 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
 
     // We can play the music now
+    if( !p.is_npc() ) {
+        music::activate_music_id( music::music_id::instrument );
+    }
+
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
@@ -2462,17 +2477,33 @@ void cast_spell_actor::load( const JsonObject &obj )
     spell_level = obj.get_int( "level" );
     need_worn = obj.get_bool( "need_worn", false );
     need_wielding = obj.get_bool( "need_wielding", false );
+    mundane = obj.get_bool( "mundane", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    //~ %1$s: spell name, %2$i: spell level
-    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
-                                item_spell->name, spell_level );
-    dump.emplace_back( "DESCRIPTION", message );
-    if( no_fail ) {
-        dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+    if( mundane ) {
+        const std::string message = string_format( _( "This item when activated: %1$s" ),
+                                    item_spell->description );
+        dump.emplace_back( "DESCRIPTION", message );
+    } else {
+        //~ %1$s: spell name, %2$i: spell level
+        const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
+                                    item_spell->name, spell_level );
+        dump.emplace_back( "DESCRIPTION", message );
+        if( no_fail ) {
+            dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+        }
     }
+}
+
+std::string cast_spell_actor::get_name() const
+{
+    if( mundane ) {
+        return string_format( _( "Activate" ) );
+    }
+
+    return string_format( _( "Cast spell" ) );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
@@ -4272,6 +4303,77 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
 {
     if( !item::find_type( my_item_type )->gun ) {
         debugmsg( "Item %s has detach_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
+    }
+}
+
+cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
+        const tripoint &pnt ) const
+{
+
+    std::vector<item *> mods;
+    for( item *mod : it.gunmods() ) {
+        if( mod->is_transformable() ) {
+            mods.push_back( mod );
+        }
+    }
+
+    uilist prompt;
+    prompt.text = _( "Modify which part" );
+
+    for( size_t i = 0; i != mods.size(); ++i ) {
+        prompt.addentry( i, true, -1, string_format( "%s: %s", mods[i]->tname(),
+                         mods[i]->get_use( "transform" )->get_name() ) );
+    }
+
+    prompt.query();
+
+    if( prompt.ret >= 0 ) {
+        // set gun to default incase this changes anything
+        it.gun_set_mode( gun_mode_DEFAULT );
+        p.invoke_item( mods[prompt.ret], "transform", pnt );
+        return 0;
+    }
+
+    p.add_msg_if_player( _( "Never mind." ) );
+    return cata::nullopt;
+}
+
+ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+        const tripoint & ) const
+{
+    if( !p.is_wielding( it ) ) {
+        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+    }
+    const auto mods = it.gunmods();
+
+    if( mods.empty() ) {
+        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+    }
+
+    const bool modifiables = std::any_of( mods.begin(), mods.end(),
+                                          std::bind( &item::is_transformable, std::placeholders::_1 ) );
+
+    if( !modifiables ) {
+        return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
+    }
+
+    if( p.is_worn(
+            it ) ) { // I don't know if modifying really needs this but its for future proofing.
+        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> modify_gunmods_actor::modify_gunmods_actor::clone() const
+{
+    return std::make_unique<modify_gunmods_actor>( *this );
+}
+
+void modify_gunmods_actor::finalize( const itype_id &my_item_type )
+{
+    if( !item::find_type( my_item_type )->gun ) {
+        debugmsg( "Item %s has modify_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
     }
 }
 

@@ -79,7 +79,7 @@
     "points": 0,
     "player_display": false,
     "category": [ "HUMAN" ],
-    "types": [ "LEGS", "RUNNING", "FEET" ],
+    "types": [ "LEGS", "RUNNING", "FEET", "SOLES" ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3" ],
     "description": "You have human legs."
   },
@@ -578,6 +578,7 @@
     "points": 1,
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
+    "types": [ "SOLES" ],
     "category": [ "GASTROPOD" ]
   },
   {
@@ -917,10 +918,11 @@
     "id": "ROBUST",
     "name": { "str": "Robust Genetics" },
     "points": 3,
-    "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
+    "description": "Your genetics have rapidly adapted to the chaos of the Cataclysm, and the genetic damage caused by mutations will fade much quicker.",
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ]
+    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ],
+    "vitamin_rates": [ [ "instability", 3600 ] ]
   },
   {
     "type": "mutation",
@@ -1035,7 +1037,7 @@
     "id": "MARTIAL_ARTS5",
     "name": { "str": "Melee Weapon Training" },
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "player_display": false,
     "initial_ma_styles": [
       "style_bojutsu",
@@ -1710,12 +1712,13 @@
     "type": "mutation",
     "id": "CHAOTIC_BAD",
     "name": { "str": "Genetic Downward Spiral" },
-    "points": -12,
+    "points": -8,
     "purifiable": false,
-    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
+    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and your genetic instability is rapidly climbing.",
     "starting_trait": true,
     "cancels": [ "ROBUST" ],
-    "valid": false
+    "valid": false,
+    "vitamin_rates": [ [ "instability", -60 ] ]
   },
   {
     "type": "mutation",
@@ -3389,7 +3392,7 @@
     "points": 1,
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
-    "types": [ "FEET" ],
+    "types": [ "SOLES" ],
     "category": [ "BATRACHIAN", "BEAST", "RABBIT", "URSINE", "FELINE", "LUPINE" ]
   },
   {
@@ -3458,6 +3461,7 @@
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
@@ -3474,7 +3478,7 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear shoes of any kind.  Reduces wet effects.",
-    "types": [ "FEET" ],
+    "types": [ "FEET", "SOLES" ],
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
@@ -6704,7 +6708,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
-    "types": [ "LEGS", "FEET" ],
+    "types": [ "LEGS", "FEET", "SOLES" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
     "movecost_swim_modifier": 0.85,
     "category": [ "CEPHALOPOD" ],
@@ -7574,7 +7578,7 @@
   {
     "type": "mutation",
     "id": "MYCUS_FRIEND",
-    "name": { "str": "mycus friend" },
+    "name": { "str": "Mycus friend" },
     "points": 0,
     "valid": false,
     "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
@@ -7583,7 +7587,7 @@
   {
     "type": "mutation",
     "id": "MUTE",
-    "name": { "str": "mute" },
+    "name": { "str": "Mute" },
     "points": 0,
     "valid": false,
     "description": "Trait that makes it impossible to say anything."
@@ -7695,7 +7699,7 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
-    "types": [ "LEGS" ],
+    "types": [ "FEET" ],
     "category": [ "RABBIT" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],

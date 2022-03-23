@@ -17,7 +17,8 @@
     "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
     "arm_block": 1,
     "leg_block": 99,
-    "force_unarmed": true
+    "force_unarmed": true,
+    "prevent_weapon_blocking": true
   },
   {
     "type": "martial_art",
@@ -177,7 +178,7 @@
       {
         "id": "buff_barbaran_onblock",
         "name": "Reversing Destreza",
-        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 2 times.",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% move cost\nLasts 3 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "max_stacks": 2,
@@ -1234,7 +1235,8 @@
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
-    "force_unarmed": true,
+    "prevent_weapon_blocking": true,
+    "allow_all_weapons": true,
     "static_buffs": [
       {
         "id": "buff_taekwondo_static",

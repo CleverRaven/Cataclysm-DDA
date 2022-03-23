@@ -556,5 +556,23 @@
     "id": "sloc_mansion_basement",
     "name": "Mansion Basement",
     "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hotel_rooftop",
+    "name": "Hotel Rooftop",
+    "terrain": [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_office_tower_rooftop",
+    "name": "Office Tower Rooftop",
+    "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cathedral_rooftop",
+    "name": "Cathedral Rooftop",
+    "terrain": [ "cathedral_3_NW", "cathedral_3_NE", "cathedral_3_SW", "cathedral_3_SE" ]
   }
 ]

@@ -661,7 +661,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( bio_cqb ) ) {
+        if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
             melee_train( *this, 2, std::min( 5, skill_training_cap ), *cur_weapon );
         }
 
@@ -716,58 +716,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // If no weapon is selected, use highest layer of gloves instead.
         if( attack_vector != "WEAPON" ) {
-            for( item &worn_item : worn ) {
-                bool covers = false;
-
-                if( attack_vector == "HAND" || attack_vector == "GRAPPLE" || attack_vector == "THROW" ) {
-                    covers = worn_item.covers( bodypart_id( "hand_l" ) ) &&
-                             worn_item.covers( bodypart_id( "hand_r" ) );
-                } else if( attack_vector == "ARM" ) {
-                    covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
-                             worn_item.covers( bodypart_id( "arm_r" ) );
-                } else if( attack_vector == "ELBOW" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "arm_elbow_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "arm_elbow_r" ) );
-                } else if( attack_vector == "FINGERS" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "hand_fingers_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "hand_fingers_r" ) );
-                } else if( attack_vector == "WRIST" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
-                } else if( attack_vector == "PALM" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "hand_palm_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "hand_palm_r" ) );
-                } else if( attack_vector == "HAND_BACK" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "hand_back_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "hand_back_r" ) );
-                } else if( attack_vector == "SHOULDER" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
-                } else if( attack_vector == "FOOT" ) {
-                    covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
-                             worn_item.covers( bodypart_id( "foot_r" ) );
-                } else if( attack_vector == "LOWER_LEG" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "leg_lower_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "leg_lower_r" ) );
-                } else if( attack_vector == "KNEE" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "leg_knee_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "leg_knee_r" ) );
-                } else if( attack_vector == "HIP" ) {
-                    covers = worn_item.covers( sub_bodypart_id( "leg_hip_l" ) ) &&
-                             worn_item.covers( sub_bodypart_id( "leg_hip_r" ) );
-                } else if( attack_vector == "HEAD" ) {
-                    covers = worn_item.covers( bodypart_id( "head" ) );
-                } else if( attack_vector == "TORSO" ) {
-                    covers = worn_item.covers( bodypart_id( "torso" ) );
-                }
-
-                // Uses enum layer_level to make distinction for top layer.
-                if( covers ) {
-                    if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
-                        cur_weapon = &worn_item;
-                    }
-                }
-            }
+            worn.current_unarmed_weapon( attack_vector, cur_weapon );
         }
 
         damage_instance d;
@@ -777,7 +726,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( attack_vector == "HANDS" && get_working_arm_count() < 1 ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
-            add_msg_if_player( m_bad, _( "You arms are too damaged or encumbered to fight effectively!" ) );
+            add_msg_if_player( m_bad, _( "Your arms are too damaged or encumbered to fight effectively!" ) );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         // In the case of a weapon like a glaive or a naginata, the wielder
@@ -799,7 +748,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            perform_technique( technique, t, d, move_cost );
+            perform_technique( technique, t, d, move_cost, *cur_weapon );
         }
 
         //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -817,10 +766,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
             std::string specialmsg;
             // Handles speed penalties to monster & us, etc
-            if( technique.attack_override ) {
-                specialmsg = melee_special_effects( t, d, null_item_reference() );
-            } else {
-                specialmsg = melee_special_effects( t, d, *cur_weapon );
+            if( !t.is_hallucination() ) {
+                if( technique.attack_override ) {
+                    specialmsg = melee_special_effects( t, d, null_item_reference() );
+                } else {
+                    specialmsg = melee_special_effects( t, d, *cur_weapon );
+                }
             }
 
             // gets overwritten with the dealt damage values
@@ -884,7 +835,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
+            if( !has_active_bionic( bio_cqb ) && cur_weapon && !t.is_hallucination() ) {
                 if( technique.attack_override ) {
                     melee_train( *this, 5, std::min( 10, skill_training_cap ), null_item_reference() );
                 } else {
@@ -1651,6 +1602,8 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = get_map().is_wall_adjacent( pos() );
+    // this could be more robust but for now it should work fine
+    bool is_loaded = weap.is_magazine_full();
 
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
@@ -1695,6 +1648,11 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
         if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
+            continue;
+        }
+
+        // if the technique needs a loaded weapon and it isn't loaded skip it
+        if( tec.needs_ammo && !is_loaded ) {
             continue;
         }
 
@@ -1913,7 +1871,7 @@ static void print_damage_info( const damage_instance &di )
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                   int &move_cost )
+                                   int &move_cost, item &cur_weapon )
 {
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
@@ -1974,6 +1932,20 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
         if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
+        }
+    }
+
+    if( technique.needs_ammo ) {
+        const itype_id current_ammo = cur_weapon.ammo_current();
+        // if the weapon needs ammo we now expend it
+        cur_weapon.ammo_consume( 1, pos(), this );
+        // thing going off should be as loud as the ammo
+        sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
+        const itype_id casing = *current_ammo->ammo->casing;
+        if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
+            cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                          item_pocket::pocket_type::MAGAZINE );
+            cur_weapon.on_contents_changed();
         }
     }
 
@@ -2095,7 +2067,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 }
 
-static int blocking_ability( const item &shield )
+int melee::blocking_ability( const item &shield )
 {
     int block_bonus = 0;
     if( shield.has_technique( WBLOCK_3 ) ) {
@@ -2113,14 +2085,13 @@ static int blocking_ability( const item &shield )
 item &Character::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
-    int best_value = blocking_ability( weapon );
+    int best_value = melee::blocking_ability( weapon );
     // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &weapon : &null_item_reference();
-    for( item &shield : worn ) {
-        if( shield.has_flag( flag_BLOCK_WHILE_WORN ) && blocking_ability( shield ) >= best_value ) {
-            best = &shield;
-        }
+    item *best_worn = worn.best_shield();
+    if( best_worn != nullptr ) {
+        best = best_worn;
     }
 
     return *best;
@@ -2159,10 +2130,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Extract this to make it easier to implement shields/multiwield later
     item &shield = best_shield();
-    block_bonus = blocking_ability( shield );
+    block_bonus = melee::blocking_ability( shield );
     bool conductive_shield = shield.conductive();
     bool unarmed = !is_armed() || weapon.has_flag( flag_UNARMED_WEAPON );
     bool force_unarmed = martial_arts_data->is_force_unarmed();
+    bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
     bool arm_block = false;
     bool leg_block = false;
     bool nonstandard_block = false;
@@ -2175,7 +2147,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool worn_shield = has_shield && shield.has_flag( flag_BLOCK_WHILE_WORN );
 
     // boolean check if blocking is being done with unarmed or not
-    const bool item_blocking = !force_unarmed && has_shield && !unarmed;
+    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed;
 
     int block_score = 1;
 
@@ -2208,7 +2180,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
     // Do we block with a weapon? Handle melee wear but leave bp the same
-    if( !( unarmed || force_unarmed || worn_shield ) ) {
+    if( !( unarmed || force_unarmed || worn_shield ) && allow_weapon_blocking ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
@@ -2217,6 +2189,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
 
         handle_melee_wear( shield, wear_modifier );
+    } else if( !allow_weapon_blocking ) {
+        // Can't block with weapons
+        return false;
     } else {
         // Select part to block with, preferring worn blocking armor if applicable
         bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );

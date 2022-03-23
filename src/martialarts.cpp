@@ -238,6 +238,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
@@ -376,6 +378,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
+    optional( jo, was_loaded, "prevent_weapon_blocking", prevent_weapon_blocking, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -807,7 +810,9 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
-    miss_recovery = false; // allows free recovery from misses, like tec_feint
+    needs_ammo = false;       // technique only works if the item is loaded with ammo
+
+    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
@@ -1382,6 +1387,11 @@ bool character_martial_arts::is_force_unarmed() const
     return style_selected->force_unarmed;
 }
 
+bool character_martial_arts::can_weapon_block() const
+{
+    return !style_selected->prevent_weapon_blocking;
+}
+
 void character_martial_arts::clear_all_effects( Character &owner )
 {
     style_selected->remove_all_buffs( owner );
@@ -1757,7 +1767,7 @@ std::string ma_technique::get_description() const
     }
 
     if( miss_recovery ) {
-        dump += _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) +
+        dump += _( "* Reduces the time of a <info>miss</info> by <info>half</info>" ) +
                 std::string( "\n" );
     }
 

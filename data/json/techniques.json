@@ -149,6 +149,27 @@
   },
   {
     "type": "technique",
+    "id": "SWEETSPOT",
+    "name": "Sweet Spot Hit",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "stun_dur": 1,
+    "knockback_dist": 2,
+    "//": "this should basically always happen if you get the crit",
+    "weighting": 10,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.1 },
+      { "stat": "damage", "type": "bash", "scale": 2.5 },
+      { "stat": "damage", "type": "cut", "scale": 2.5 },
+      { "stat": "damage", "type": "stab", "scale": 2.5 }
+    ],
+    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
     "melee_allowed": true,
@@ -681,7 +702,7 @@
     "type": "technique",
     "id": "tec_dragon_strike",
     "name": "Dragon Strike",
-    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname> descends upon %s with a powerful Dragon Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -1650,6 +1671,7 @@
       "<npcname> spins and back-kicks %s, right in the center of gravity"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 2,
@@ -1666,8 +1688,9 @@
     "type": "technique",
     "id": "tec_taekwondo_push",
     "name": "Side Kick",
-    "unarmed_allowed": true,
     "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
+    "melee_allowed": true,
+    "unarmed_allowed": true,
     "knockback_dist": 1,
     "attack_vectors": [ "FOOT" ]
   },
@@ -1677,6 +1700,7 @@
     "name": "Sweep Kick",
     "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
     "down_dur": 1,
@@ -1687,6 +1711,7 @@
     "id": "tec_taekwondo_roundhouse",
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.2 },
@@ -1701,6 +1726,7 @@
     "name": "Feint",
     "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true

@@ -102,7 +102,8 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
             for( JsonValue jval : jobj.get_array( "limb_score" ) ) {
                 if( jval.test_array() ) {
                     JsonArray jsc = jval.get_array();
-                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ), jsc.get_float( 1 ) );
+                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ),
+                                        static_cast<float>( jsc.get_float( 1 ) ) );
                 } else {
                     limbscores.emplace( limb_score_id( jval.get_string() ), 1.0f );
                 }

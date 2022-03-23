@@ -668,14 +668,9 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
     float crit_mod = 1.f;
     const Character *c = as_character();
     if( c != nullptr ) {
-        int total_v_cover = 0;
-        for( const item &it : c->worn ) {
-            if( it.covers( bp ) ) {
-                total_v_cover += it.get_coverage( bp, item::cover_type::COVER_VITALS );
-            }
-        }
-        total_v_cover = clamp<int>( total_v_cover, 0, 100 );
-        crit_mod = 1.f - total_v_cover / 100.f;
+        const int total_cover = clamp<int>( c->worn.get_coverage( bp, item::cover_type::COVER_VITALS ), 0,
+                                            100 );
+        crit_mod = 1.f - total_cover / 100.f;
     }
     // TODO: as_monster()
     return crit_mod;
@@ -1677,7 +1672,7 @@ void Creature::process_effects()
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar() );
+            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar(), *effects );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );

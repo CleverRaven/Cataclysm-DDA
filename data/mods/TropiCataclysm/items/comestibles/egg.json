@@ -48,6 +48,142 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_hummingbird",
+    "name": "hummingbird egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_woodpecker",
+    "name": "woodpecker egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_WOODPECKER",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toucan",
+    "name": "toucan egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_TOUCAN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_parrot",
+    "name": "parrot egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_PARROT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_budgerigar",
+    "name": "budgerigar egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_BUDGERIGAR",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cockatoo",
+    "name": "cockatoo egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_COCKATOO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_macaw",
+    "name": "macaw egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_MACAW",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tinamou",
+    "name": "tinamou egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_TINAMOU",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_seriema",
+    "name": "seriema egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_SERIEMA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chachalaca",
+    "name": "chachalaca egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CHACHALACA",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_guan",
+    "name": "guan egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GUAN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_curassow",
+    "name": "curassow egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CURASSOW",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_flamingo",
+    "name": "flamingo egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_FLAMINGO",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coot",
+    "name": "coot egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_COOT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cormorant",
+    "name": "cormorant egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_CORMORANT",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moorhen",
+    "name": "moorhen egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_MOORHEN",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grebe",
+    "name": "grebe egg",
+    "copy-from": "egg_bird",
+    "rot_spawn": "GROUP_EGG_GREBE",
+    "rot_spawn_chance": 70
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_toad",
     "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
     "copy-from": "egg_chicken",

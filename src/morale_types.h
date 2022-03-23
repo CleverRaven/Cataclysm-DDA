@@ -3,6 +3,7 @@
 #define CATA_SRC_MORALE_TYPES_H
 
 #include <iosfwd>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"

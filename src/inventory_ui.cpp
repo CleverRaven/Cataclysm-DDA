@@ -1937,7 +1937,8 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
     const units::volume &volume_carried, const units::volume &volume_capacity,
-    const units::length &longest_length, const units::volume &largest_free_volume )
+    const units::length &longest_length, const units::volume &largest_free_volume,
+    const units::volume &holster_volume, const int used_holsters, const int total_holsters )
 {
     // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
     std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
@@ -1947,6 +1948,10 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
                                  volume_units_abbr(),
                                  colorize( format_volume( largest_free_volume ), c_light_gray ),
                                  volume_units_abbr() );
+
+    std::string holster_caption = string_format( _( "Free Holster Volume (%s): %s Used Holsters:" ),
+                                  volume_units_abbr(),
+                                  colorize( format_volume( holster_volume ), c_light_gray ) );
     return {
         {
             display_stat( length_weight_caption,
@@ -1960,6 +1965,12 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
                           units::to_milliliter( volume_capacity ), []( int v )
             {
                 return format_volume( units::from_milliliter( v ) );
+            } ),
+            display_stat( holster_caption,
+                          used_holsters,
+                          total_holsters, []( int v )
+            {
+                return string_format( "%d", v );
             } )
         }
     };
@@ -1969,13 +1980,14 @@ inventory_selector::stats inventory_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats( u.weight_carried(), u.weight_capacity(),
                                         u.volume_carried(), u.volume_capacity(),
-                                        u.max_single_item_length(), u.max_single_item_volume() );
+                                        u.max_single_item_length(), u.max_single_item_volume(),
+                                        u.free_holster_volume(), u.used_holsters(), u.total_holsters() );
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
 {
     // Stats consist of arrays of cells.
-    const size_t num_stats = 2;
+    const size_t num_stats = 3;
     const std::array<stat, num_stats> stats = get_raw_stats();
     // Streams for every stat.
     std::array<std::string, num_stats> lines;
@@ -2450,9 +2462,19 @@ void inventory_selector::toggle_categorize_contained()
                     // might have been merged from the map column
                     custom_category = entry->get_category_ptr();
                 }
-                add_entry( own_inv_column, std::move( entry->locations ),
-                           /*custom_category=*/custom_category,
-                           /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
+                item_location const loc = entry->locations.front();
+                // if the item is in an ablative pocket then put it with the item it is in
+                // first do a short circuit test if the parent has ablative pockets at all
+                if( loc.parent_item()->is_ablative() && loc.parent_item()->is_worn_by_player() &&
+                    loc.parent_item()->contained_where( *loc )->get_pocket_data()->ablative ) {
+                    custom_category = &item_category_ITEMS_WORN.obj();
+                    inventory_entry const nested_plate( entry->locations, custom_category );
+                    replacement_column.add_entry( nested_plate );
+                } else {
+                    add_entry( own_inv_column, std::move( entry->locations ),
+                               /*custom_category=*/custom_category,
+                               /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
+                }
             } else {
                 replacement_column.add_entry( *entry );
             }
@@ -3037,7 +3059,8 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_capacity(),
                u.volume_carried_with_tweaks( to_use ),
                u.volume_capacity_with_tweaks( to_use ),
-               u.max_single_item_length(), u.max_single_item_volume() );
+               u.max_single_item_length(), u.max_single_item_volume(),
+               u.free_holster_volume(), u.used_holsters(), u.total_holsters() );
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
@@ -3196,7 +3219,10 @@ inventory_selector::stats pickup_selector::get_raw_stats() const
                u.volume_carried() + volume,
                u.volume_capacity(),
                u.max_single_item_length(),
-               u.max_single_item_volume() );
+               u.max_single_item_volume(),
+               u.free_holster_volume(),
+               u.used_holsters(),
+               u.total_holsters() );
 }
 
 bool inventory_examiner::check_parent_item()

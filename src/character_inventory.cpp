@@ -137,53 +137,28 @@ int Character::count_softwares( const itype_id &id )
 
 units::length Character::max_single_item_length() const
 {
-    units::length ret = weapon.max_containable_length();
-
-    for( const item &worn_it : worn ) {
-        units::length candidate = worn_it.max_containable_length();
-        if( candidate > ret ) {
-            ret = candidate;
-        }
-    }
-    return ret;
+    return std::max( weapon.max_containable_length(), worn.max_single_item_length() );
 }
 
 units::volume Character::max_single_item_volume() const
 {
-    units::volume ret = weapon.max_containable_volume();
-
-    for( const item &worn_it : worn ) {
-        units::volume candidate = worn_it.max_containable_volume();
-        if( candidate > ret ) {
-            ret = candidate;
-        }
-    }
-    return ret;
+    return std::max( weapon.max_containable_volume(), worn.max_single_item_volume() );
 }
 
-std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
+std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid,
+        bool ignore_settings )
 {
     item_location weapon_loc( *this, &weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it, weapon_loc, avoid );
+        ret = weapon.best_pocket( it, weapon_loc, avoid, false, ignore_settings );
     }
-    for( item &worn_it : worn ) {
-        if( &worn_it == &it || &worn_it == avoid ) {
-            continue;
-        }
-        item_location loc( *this, &worn_it );
-        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc, avoid );
-        if( internal_pocket.second != nullptr &&
-            ( ret.second == nullptr || ret.second->better_pocket( *internal_pocket.second, it ) ) ) {
-            ret = internal_pocket;
-        }
-    }
+    worn.best_pocket( *this, it, avoid, ret, ignore_settings );
     return ret;
 }
 
 item *Character::try_add( item it, const item *avoid, const item *original_inventory_item,
-                          const bool allow_wield )
+                          const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -199,7 +174,7 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
             break;
         }
     }
-    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
+    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
     item *ret = nullptr;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
@@ -227,10 +202,10 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
 
 item &Character::i_add( item it, bool /* should_stack */, const item *avoid,
                         const item *original_inventory_item, const bool allow_drop,
-                        const bool allow_wield )
+                        const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, original_inventory_item, allow_wield );
+    item *added = try_add( it, avoid, original_inventory_item, allow_wield, ignore_pkt_settings );
     if( added == nullptr ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
@@ -253,12 +228,7 @@ const item &Character::i_at( int position ) const
         return weapon;
     }
     if( position < -1 ) {
-        int worn_index = worn_position_to_index( position );
-        if( static_cast<size_t>( worn_index ) < worn.size() ) {
-            auto iter = worn.begin();
-            std::advance( iter, worn_index );
-            return *iter;
-        }
+        return worn.i_at( worn_position_to_index( position ) );
     }
 
     return inv->find_item( position );
@@ -316,15 +286,11 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
     list.push_back( parent );
 }
 
-std::vector<item_location> Character::all_items_loc()
+std::vector<item_location> outfit::all_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
-    item_location weap_loc( *this, &weapon );
-    std::vector<item_location> weapon_internal_items;
-    recur_internal_locations( weap_loc, weapon_internal_items );
-    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     for( item &worn_it : worn ) {
-        item_location worn_loc( *this, &worn_it );
+        item_location worn_loc( guy, &worn_it );
         std::vector<item_location> worn_internal_items;
         recur_internal_locations( worn_loc, worn_internal_items );
         ret.insert( ret.end(), worn_internal_items.begin(), worn_internal_items.end() );
@@ -332,14 +298,31 @@ std::vector<item_location> Character::all_items_loc()
     return ret;
 }
 
-std::vector<item_location> Character::top_items_loc()
+std::vector<item_location> Character::all_items_loc()
+{
+    std::vector<item_location> ret;
+    item_location weap_loc( *this, &weapon );
+    std::vector<item_location> weapon_internal_items;
+    recur_internal_locations( weap_loc, weapon_internal_items );
+    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
+    std::vector<item_location> outfit_items = worn.all_items_loc( *this );
+    ret.insert( ret.end(), outfit_items.begin(), outfit_items.end() );
+    return ret;
+}
+
+std::vector<item_location> outfit::top_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
     for( item &worn_it : worn ) {
-        item_location worn_loc( *this, &worn_it );
+        item_location worn_loc( guy, &worn_it );
         ret.push_back( worn_loc );
     }
     return ret;
+}
+
+std::vector<item_location> Character::top_items_loc()
+{
+    return worn.top_items_loc( *this );
 }
 
 item *Character::invlet_to_item( const int linvlet )
@@ -373,12 +356,9 @@ int Character::get_item_position( const item *it ) const
         return -1;
     }
 
-    int p = 0;
-    for( const auto &e : worn ) {
-        if( e.has_item( *it ) ) {
-            return worn_position_to_index( p );
-        }
-        p++;
+    cata::optional<int> pos = worn.get_item_position( *it );
+    if( pos ) {
+        return worn_position_to_index( *pos );
     }
 
     return inv->position_by_item( it );
@@ -490,26 +470,35 @@ void Character::drop_invalid_inventory()
     }
 
     weapon.overflow( pos() );
-    for( item &w : worn ) {
-        w.overflow( pos() );
-    }
+    worn.overflow( pos() );
 
     cache_inventory_is_valid = true;
+}
+
+void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy )
+{
+
+    for( auto &e : worn ) {
+        if( e.can_holster( *obj ) ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
+            opts.emplace_back( dispose_option{
+                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
+                guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
+                [&guy, ptr, &e, obj] {
+                    // *obj by itself attempts to use the const version of the operator (in gcc9),
+                    // so construct a new item_location which allows using the non-const version
+                    return ptr->store( guy, e, *item_location( obj ) );
+                }
+            } );
+        }
+    }
 }
 
 bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 {
     uilist menu;
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj->tname() ) : prompt;
-
-    using dispose_option = struct {
-        std::string prompt;
-        bool enabled;
-        char invlet;
-        int moves;
-        std::function<bool()> action;
-    };
-
     std::vector<dispose_option> opts;
 
     const bool bucket = obj->will_spill() && !obj->is_container_empty();
@@ -554,19 +543,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         }
     } );
 
-    for( auto &e : worn ) {
-        if( e.can_holster( *obj ) ) {
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            opts.emplace_back( dispose_option{
-                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
-                [this, ptr, &e, &obj] {
-                    return ptr->store( *this, e, *obj );
-                }
-            } );
-        }
-    }
+    worn.holster_opts( opts, obj, *this );
 
     int w = utf8_width( menu.text, true ) + 4;
     for( const auto &e : opts ) {

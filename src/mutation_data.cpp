@@ -304,6 +304,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "terminus", terminus, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
@@ -611,6 +612,8 @@ nc_color mutation_branch::get_display_color() const
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
+    } else if( terminus ) {
+        return c_red;
     } else if( debug ) {
         return c_light_cyan;
     } else if( mixed_effect ) {

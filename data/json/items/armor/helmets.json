@@ -340,7 +340,7 @@
     "name": { "str": "XS biosilicified chitin helmet" },
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_football",
@@ -547,8 +547,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -561,7 +561,8 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
       },
       {
         "material": [
@@ -570,7 +571,8 @@
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
       }
     ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
@@ -600,8 +602,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "encumbrance": 25,
         "coverage": 100,
@@ -746,17 +748,23 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 2,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
-    ],
     "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 80,
+        "encumbrance": 35
+      }
+    ]
   },
   {
     "id": "xl_helmet_scrap",
@@ -775,7 +783,7 @@
     "name": { "str": "XS scrap helmet" },
     "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_skid",
@@ -863,7 +871,7 @@
     "name": { "str": "XS Corinthian helm" },
     "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "pot_xlhelmet",
@@ -890,7 +898,7 @@
     "name": { "str": "XS pot helmet" },
     "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_helm_close",
@@ -904,6 +912,7 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
@@ -986,6 +995,7 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "mc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
@@ -1068,6 +1078,7 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "hc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
@@ -1150,6 +1161,7 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "ch_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",
@@ -1232,6 +1244,7 @@
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
     "bashing": 8,
+    "material": [ "qt_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
     "color": "light_gray",

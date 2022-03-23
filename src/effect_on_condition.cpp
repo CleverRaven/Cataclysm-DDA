@@ -211,7 +211,7 @@ static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc
                 queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d.actor( false ) ) };
                 eocs_to_queue.push_back( new_eoc );
             } else {
-                if( !top.eoc->check_deactivate() ) { // It failed but shouldn't be deactivated so add it back
+                if( !top.eoc->check_deactivate( d ) ) { // It failed but shouldn't be deactivated so add it back
                     queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d.actor( false ) ) };
                     eocs_to_queue.push_back( new_eoc );
                 } else { // It failed and should be deactivated for now
@@ -240,16 +240,16 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
 static void process_reactivation( std::vector<effect_on_condition_id>
                                   &inactive_effect_on_condition_vector,
                                   std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                                  &queued_effect_on_conditions, talker *talk )
+                                  &queued_effect_on_conditions, dialogue &d )
 {
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : inactive_effect_on_condition_vector ) {
-        if( !eoc->check_deactivate() ) {
+        if( !eoc->check_deactivate( d ) ) {
             ids_to_reactivate.push_back( eoc );
         }
     }
     for( const effect_on_condition_id &eoc : ids_to_reactivate ) {
-        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc, talk ) } );
+        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc, d.actor( false ) ) } );
         inactive_effect_on_condition_vector.erase( std::remove(
                     inactive_effect_on_condition_vector.begin(), inactive_effect_on_condition_vector.end(),
                     eoc ), inactive_effect_on_condition_vector.end() );
@@ -258,16 +258,16 @@ static void process_reactivation( std::vector<effect_on_condition_id>
 
 void effect_on_conditions::process_reactivate( Character &you )
 {
-    process_reactivation( you.inactive_effect_on_condition_vector, you.queued_effect_on_conditions,
-                          get_talker_for( you ).get() );
+    dialogue d( get_talker_for( you ), nullptr );
+    process_reactivation( you.inactive_effect_on_condition_vector, you.queued_effect_on_conditions, d );
 }
 
 void effect_on_conditions::process_reactivate()
 {
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     process_reactivation( g->inactive_global_effect_on_condition_vector,
-                          g->queued_global_effect_on_conditions, get_talker_for( get_avatar() ).get() );
+                          g->queued_global_effect_on_conditions, d );
 }
-
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
@@ -293,12 +293,11 @@ bool effect_on_condition::activate( dialogue &d ) const
     return retval;
 }
 
-bool effect_on_condition::check_deactivate() const
+bool effect_on_condition::check_deactivate( dialogue &d ) const
 {
     if( !has_deactivate_condition || has_false_effect ) {
         return false;
     }
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
     return deactivate_condition( d );
 }
 

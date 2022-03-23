@@ -288,6 +288,14 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const skill_id &skill_tested, int skill_level );
+        comp_list start_multi_mission( const mission_id &miss_id,
+                                       bool must_feed, const std::string &desc,
+                                       //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+                                       const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
@@ -317,6 +325,7 @@ class basecamp
         // mission return functions
         /// called to select a companion to return to the base
         npc_ptr companion_choose_return( const mission_id &miss_id, time_duration min_duration );
+        npc_ptr companion_crafting_choose_return( const mission_id &miss_id );
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
@@ -325,6 +334,8 @@ class basecamp
         npc_ptr mission_return( const mission_id &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
                                 const std::string &skill, int difficulty );
+        npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
+                                         const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
         npc_ptr emergency_recall( const mission_id miss_id );
 
@@ -347,9 +358,9 @@ class basecamp
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
         void fortifications_return( const mission_id miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
-                                           const time_duration work_days );
+                                           const comp_list &npc_list );
         bool salt_water_pipe_return( const mission_id &miss_id,
-                                     const time_duration work_days );
+                                     const comp_list &npc_list );
 
         void combat_mission_return( const mission_id &miss_id );
         void validate_assignees();

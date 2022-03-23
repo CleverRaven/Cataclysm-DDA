@@ -412,6 +412,7 @@
       { "group": "ammo_pocket_batteries", "prob": 10 },
       [ "solar_panel", 15 ],
       [ "jumper_cable", 5 ],
+      [ "extension_cable", 5 ],
       [ "pipe", 20 ],
       [ "stereo", 6 ],
       [ "toaster", 20 ],
@@ -751,7 +752,8 @@
       [ "copper_hairpin", 25 ],
       [ "copper_locket", 25 ],
       [ "jumper_cable", 10 ],
-      [ "jumper_cable_heavy", 10 ]
+      [ "jumper_cable_heavy", 10 ],
+      [ "extension_cable", 10 ]
     ]
   },
   {

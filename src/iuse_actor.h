@@ -734,6 +734,8 @@ class cast_spell_actor : public iuse_actor
         bool need_worn = false;
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
+        /**is the item mundane in nature*/
+        bool mundane = false;
 
         explicit cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 
@@ -742,6 +744,7 @@ class cast_spell_actor : public iuse_actor
         cata::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+        std::string get_name() const override;
 };
 
 /**
@@ -1046,6 +1049,18 @@ class detach_gunmods_actor : public iuse_actor
 {
     public:
         explicit detach_gunmods_actor( const std::string &type = "detach_gunmods" ) : iuse_actor( type ) {}
+
+        void load( const JsonObject & ) override {}
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void finalize( const itype_id &my_item_type ) override;
+};
+
+class modify_gunmods_actor : public iuse_actor
+{
+    public:
+        explicit modify_gunmods_actor( const std::string &type = "modify_gunmods" ) : iuse_actor( type ) {}
 
         void load( const JsonObject & ) override {}
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
