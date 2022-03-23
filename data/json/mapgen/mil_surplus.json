@@ -117,6 +117,7 @@
             "entries": [
               { "item": "ballistic_vest_esapi", "prob": 15 },
               { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
               { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
             ]
           },
@@ -257,6 +258,7 @@
             "entries": [
               { "item": "ballistic_vest_esapi", "prob": 15 },
               { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
               { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
             ]
           },
@@ -472,6 +474,7 @@
             "entries": [
               { "item": "ballistic_vest_esapi", "prob": 15 },
               { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
               { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
             ]
           },
@@ -599,6 +602,7 @@
             "entries": [
               { "item": "ballistic_vest_esapi", "prob": 15 },
               { "item": "ballistic_vest_light", "prob": 15 },
+              { "item": "soft_3a_vest", "variant": "security_armor_vest", "prob": 10 },
               { "group": "armor_plates", "count": [ 2, 6 ], "prob": 70 }
             ]
           },
