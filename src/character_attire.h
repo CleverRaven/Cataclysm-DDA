@@ -100,7 +100,7 @@ class outfit
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
         /** Applies encumbrance from items only
-         * If new_item is not null, then calculate under the asumption that it
+         * If new_item is not null, then calculate under the assumption that it
          * is added to existing work items.
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,

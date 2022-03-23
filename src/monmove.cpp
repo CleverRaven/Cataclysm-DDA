@@ -612,7 +612,7 @@ void monster::plan()
         tripoint_abs_ms next_stop = patrol_route.at( next_patrol_point );
 
         // if there is more than one patrol point, advance to the next one if we're almost there
-        // this handles impassable obstancles but patrollers can still get stuck
+        // this handles impassable obstacles but patrollers can still get stuck
         if( ( patrol_route.size() > 1 ) && rl_dist( next_stop, get_location() ) < 2 ) {
             next_patrol_point = ( next_patrol_point + 1 ) % patrol_route.size();
             next_stop = patrol_route.at( next_patrol_point );
@@ -983,7 +983,7 @@ void monster::move()
             const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
                 if( is_hallucination() != target->is_hallucination() && !target->is_avatar() ) {
-                    // Hallucinations should only be capable of targetting the player or other hallucinations.
+                    // Hallucinations should only be capable of targeting the player or other hallucinations.
                     continue;
                 }
                 const Attitude att = attitude_to( *target );

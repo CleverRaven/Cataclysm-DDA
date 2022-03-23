@@ -10,7 +10,7 @@
     "longest_side": "40 cm",
     "price": 23000,
     "price_postapoc": 3000,
-    "//": "should be very innacurate and hard to aim by comparison.  Setting handling to that of pistols",
+    "//": "should be very inaccurate and hard to aim by comparison.  Setting handling to that of pistols",
     "handling": 10,
     "relative": {
       "range": -30,

@@ -335,7 +335,7 @@ struct requirement_data {
         alter_item_comp_vector &get_components();
 
         /**
-         * Returns true if the requirements are fufilled by the filtered inventory
+         * Returns true if the requirements are fulfilled by the filtered inventory
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */

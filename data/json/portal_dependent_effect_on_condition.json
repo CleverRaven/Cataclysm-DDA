@@ -128,7 +128,7 @@
           { "u_add_trait": "REALITY_GRASP" }
         ],
         "false_effect": {
-          "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
+          "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strength and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
           "type": "warning"
         }
       }

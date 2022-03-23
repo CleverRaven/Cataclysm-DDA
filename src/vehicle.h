@@ -284,7 +284,7 @@ struct vehicle_part {
          */
         double consume_energy( const itype_id &ftype, double energy_j );
 
-        /* @retun true if part in current state be reloaded optionally with specific itype_id */
+        /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
 
         /**
@@ -1574,7 +1574,7 @@ class vehicle
 
         void gain_moves();
 
-        // if its a summoned vehicle - its gotta dissappear at some point, return true if destroyed
+        // if its a summoned vehicle - its gotta disappear at some point, return true if destroyed
         bool decrement_summon_timer();
 
         // reduces velocity to 0
@@ -1943,7 +1943,7 @@ class vehicle
         // cached pivot point
         mutable point pivot_cache; // NOLINT(cata-serialize)
         /*
-         * The co-ordinates of the bounding box of the vehicle's mount points
+         * The coordinates of the bounding box of the vehicle's mount points
          */
         mutable point mount_max; // NOLINT(cata-serialize)
         mutable point mount_min; // NOLINT(cata-serialize)

@@ -58,14 +58,14 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 const int savegame_version = 33;
 
 /*
- * This is a global set by detected version header in .sav, maps.txt, or overmap.
+ * This is a global set by detected version header in .save, maps.txt, or overmap.
  * This allows loaders for classes that exist in multiple files (such as item) to have
  * support for backwards compatibility as well.
  */
 int savegame_loading_version = savegame_version;
 
 /*
- * Save to opened character.sav
+ * Save to opened character.save
  */
 void game::serialize( std::ostream &fout )
 {
@@ -587,7 +587,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
         } else if( name == "roads_out" ) {
-            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // Legacy data, superseded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
                 connections_out[overmap_connection_local_road];
