@@ -36,12 +36,12 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "archery (beginner)",
-    "description": "Practice your throwing by throwing something and trying to hit a spot on the wall.",
+    "description": "Practice firing unfletched arrows at a spot on the wall.",
     "skill_used": "archery",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "archery", 0 ] ],
-    "book_learn": [ [ "mag_throwing", 0 ], [ "manual_throw", 0 ] ],
+    "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
     "tools": [
       [
         "selfbow",
@@ -58,7 +58,6 @@
         "reflexrecurvebow"
       ]
     ],
-    "components": [ [ "arrow_fire_hardened_fletched", 10 ] ],
-    "byproducts": [ [ "arrow_fire_hardened_fletched", 2 ] ]
+    "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ]
   }
 ]
