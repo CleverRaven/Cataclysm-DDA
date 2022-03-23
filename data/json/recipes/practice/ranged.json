@@ -58,7 +58,7 @@
         "reflexrecurvebow"
       ]
     ],
-    "components": [ "arrow_fire_hardened_fletched", 10 ],
+    "components": [ [ "arrow_fire_hardened_fletched", 10 ] ],
     "byproducts": [ [ "arrow_fire_hardened_fletched", 2 ] ]
   }
 ]
