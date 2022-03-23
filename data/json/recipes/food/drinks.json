@@ -40,19 +40,6 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "juice",
-    "id_suffix": "mixed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "time": "1 s",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "pineapple_juice", 2 ], [ "oj", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "grenadine_syrup",
     "charges": 5,
     "byproducts": [ [ "juice_pulp" ] ],
