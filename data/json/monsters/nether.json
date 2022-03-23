@@ -972,7 +972,7 @@
     "id": "mon_shifting_mass",
     "type": "MONSTER",
     "name": { "str": "shifting mass", "str_pl": "shifting mass" },
-    "description": "An erratic, animate blotch of incomplete shapes, floating in midair.  It's not even real enough to hold a stable shape, and its form is constantly fluid.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
+    "description": "An animate blotch of conflicting symmetries, erratically hovering through the air.  It's not even real enough to hold a stable shape, and its entire form is constantly in flux.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "1000 ml",
