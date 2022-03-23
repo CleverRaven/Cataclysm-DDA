@@ -563,7 +563,7 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-	"reinforces": true,
+    "reinforces": true,
     "bash_resist": 1.8,
     "cut_resist": 1.8,
     "bullet_resist": 1.6,
