@@ -17,28 +17,93 @@
     ]
   },
   {
-    "id": "military_ballistic_vest",
+  "id": "maybe_esapi_plate",
+  "type": "item_group",
+  "//": "plate that is either broken or working",
+  "subtype": "distribution",
+  "entries": [
+    { "item": "esapi_plate", "prob": 50 },
+    { "item": "destroyed_large_ceramic_plate", "prob": 50 }
+  ]
+  },
+  {
+  "id": "maybe_esbi_plate",
+  "type": "item_group",
+  "//": "plate that is either broken or working",
+  "subtype": "distribution",
+  "entries": [
+    { "item": "esbi_plate", "prob": 50 },
+    { "item": "destroyed_medium_ceramic_plate", "prob": 50 }
+  ]
+  },
+  {
+  "id": "some_esapi_plates",
+  "type": "item_group",
+  "//": "ESAPI plates for full vest",
+  "subtype": "collection",
+  "entries": [
+    { "group": "maybe_esapi_plate" },
+    { "group": "maybe_esapi_plate" },
+    { "group": "maybe_esbi_plate" },
+    { "group": "maybe_esbi_plate" }
+  ]
+  },
+  {
+    "id": "some_esapi_front_plates",
     "type": "item_group",
-    "//": "ESAPI vest plus plates",
-    "container-item": "ballistic_vest_esapi",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "group": "maybe_esapi_plate" },
+    { "group": "maybe_esapi_plate" } ]
+  },
+  {
+  "id": "pristine_esapi_plates",
+  "type": "item_group",
+  "//": "ESAPI plates for full vest",
+  "subtype": "collection",
+  "entries": [
+    { "item": "esapi_plate" },
+    { "item": "esapi_plate" },
+    { "item": "esbi_plate" },
+    { "item": "esbi_plate" }
+  ]
+  },
+  {
+    "id": "pristine_esapi_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
     "subtype": "collection",
     "entries": [
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 }
+      { "item": "esapi_plate" },
+      { "item": "esapi_plate" }
     ]
   },
   {
-    "id": "military_ballistic_vest_broken",
+    "id": "military_ballistic_vest",
     "type": "item_group",
-    "container-item": "ballistic_vest_esapi",
-    "subtype": "collection",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
     "entries": [
-      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
-      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
-      { "item": "destroyed_medium_ceramic_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 }
+      { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "some_esapi_plates", "prob": 90 },
+      { "group": "military_ballistic_vest_light", "prob": 10 }
+    ]
+  },
+  {
+    "id": "swat_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" }
+    ]
+  },
+  {
+    "id": "swat_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "pristine_esapi_plates" }
     ]
   },
   {
@@ -52,10 +117,16 @@
   {
     "id": "military_ballistic_vest_light",
     "type": "item_group",
-    "//": "light ballistic vest plus plates",
-    "container-item": "ballistic_vest_light",
+    "//": "light ballistic vests you could get away with in the army",
     "subtype": "collection",
-    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
+    "entries": [
+      { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_tan", "contents-group": "some_esapi_front_plates", "prob": 50 },
+      { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_olive", "contents-group": "some_esapi_front_plates", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "variant": "ballistic_vest_light_tan", "contents-group": "some_esapi_front_plates", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "variant": "ballistic_vest_light_olive", "contents-group": "some_esapi_front_plates", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "variant": "ballistic_vest_light_tan", "contents-group": "some_esapi_front_plates", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "variant": "ballistic_vest_light_olive", "contents-group": "some_esapi_front_plates", "prob": 50 }
+     ]
   },
   {
     "id": "military_ballistic_vest_light_pristine",

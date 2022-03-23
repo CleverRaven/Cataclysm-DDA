@@ -432,7 +432,7 @@
       [ [ "sheath", 1 ] ],
       [ [ "pants_army", 1 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "swat_armor", 1 ] ]
+      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ] ]
     ]
   },
   {
@@ -1317,7 +1317,6 @@
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
         [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
     ]
@@ -1336,7 +1335,6 @@
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
         [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 18 ]
       ]
     ]
@@ -1355,7 +1353,6 @@
         [ "kevlar", 2 ],
         [ "ballistic_vest_light", 2 ],
         [ "ballistic_vest_esapi", 2 ],
-        [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
     ]
