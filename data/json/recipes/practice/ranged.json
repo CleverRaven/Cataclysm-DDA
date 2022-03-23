@@ -90,6 +90,6 @@
         "reflexrecurvebow"
       ]
     ],
-	"using": [ [ "archery_practice", 10 ] ]
+	"using": [ [ "arrow_practice", 10 ] ]
   }  
 ]
