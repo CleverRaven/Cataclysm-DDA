@@ -2,7 +2,6 @@
   {
     "id": "eggs_dino",
     "type": "requirement",
-    "//": "All needed",
     "components": [
       [
         [ "egg_dino", 1 ],
