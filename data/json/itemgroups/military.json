@@ -225,7 +225,7 @@
     "id": "contractor_ballistic_vest_light",
     "type": "item_group",
     "//": "light ballistic vests with assorted plates",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest", "prob": 50 },
       { "item": "ballistic_vest_light_pouches", "contents-group": "kitted_light_vest", "prob": 50 },
@@ -236,7 +236,7 @@
     "id": "military_ballistic_vest_light",
     "type": "item_group",
     "//": "light ballistic vests you could get away with in the army",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
       { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_tan", "contents-group": "used_kitted_light_vest", "prob": 50 },
       { "item": "ballistic_vest_light", "variant": "ballistic_vest_light_olive", "contents-group": "used_kitted_light_vest", "prob": 50 },
