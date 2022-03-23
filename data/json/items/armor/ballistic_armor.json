@@ -91,6 +91,28 @@
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
+    "id": "stab_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "soft stab plate" },
+    "//": "based on https://www.highcomarmor.com/product/trooper-hcspike3/",
+    "description": "A soft armor insert designed to protect against stabbing. Not great protection but incurs basically no additional encumbrance.",
+    "weight": "500 g",
+    "volume": "700 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "kevlar", "nylon" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 3,
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "armor": [ { "material": [
+      { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+      { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 }
+    ],
+    "encumbrance": 0, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "id": "esbi_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -355,6 +377,7 @@
     "id": "stab_vest",
     "type": "ARMOR",
     "category": "armor",
+    "looks_like": "kevlar",
     "//": "Based on security vests like https://www.bodyarmourcanada.com/shop-bullet-resistant-or-stab-resistant/vector-nij-ii-security-bullet-resistant-vest",
     "name": { "str": "stab vest" },
     "variant_type": "generic",
@@ -368,7 +391,7 @@
   {
     "id": "airsoft_stab_vest",
     "name": { "str": "airsoft vest" },
-    "description": "Lightweight, urban camo, mediocre vest used by cosplayers.  Wearing this makes you feel like a badass and shrug off airsoft pellets.  Has a morale patch of an anime girl on the front lapel and a pocket for a dead marker flag.",
+    "description": "Lightweight, urban camo, mediocre vest used by cosplayers.  Wearing this makes you shrug off airsoft pellets like a badass.  Has a morale patch of an anime girl on the front lapel and a pocket for a marker flag.",
     "weight": 1
   }
 ],
@@ -419,21 +442,22 @@
     ]
   },
   {
-    "id": "all_in_one_3a_vest",
+    "id": "soft_3a_vest",
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on security vests like https://canarmor.ca/product/lifeguard-black-nij-iii-a/",
     "name": { "str": "soft armor vest" },
+    "looks_like": "kevlar",
     "variants": [
       {
         "id": "security_armor_vest",
-        "name": { "str": "security ballisitc vest" },
-        "description": "Lightweight, black, vest used by security that may get shot.  Armored panels give this vest solid defense against small caliber firearms.  Has \"SECURITY\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
+        "name": { "str": "security ballisitic vest" },
+        "description": "Lightweight, black vest used by security that may get shot.  Armored panels give this vest solid defense against small caliber firearms.  Has \"SECURITY\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
         "weight": 1
       },
       {
         "id": "press_armor_vest",
-        "name": { "str": "press vest" },
+        "name": { "str": "press ballisitic vest" },
         "description": "Lightweight, navy blue armored vest used by press crews.  Armored panels give this vest solid defense against small caliber firearms and shrapenel.  Has \"PRESS\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
         "weight": 1
       }
@@ -489,9 +513,88 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
-        "encumbrance": 4,
+        "//": "encumbrance handled above",
+        "encumbrance": 0,
         "coverage": 80,
-        "cover_vitals": 70,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
+  },
+  {
+    "id": "level_3_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Based on security vests like https://www.masadagear.com/p/masada_armour_%E2%80%8Bun_bullet_proof_vest",
+    "name": { "str": "hard armor vest" },
+    "looks_like": "ballistic_vest_esapi",
+    "variants": [
+      {
+        "id": "un_armor_vest",
+        "name": { "str": "humanitarian ballisitic vest" },
+        "description": "Lightweight, bright blue vest used by volunteers and officials from humanitarian groups.  Armored panels give this vest solid defense against small caliber firearms and front and back pockets for hard armor panels give protection from higher calibers.  Has \"XEDRA AID\" written on the front lapel and across the back.",
+        "weight": 1
+      },
+      {
+        "id": "police_armor_vest",
+        "name": { "str": "police ballisitic vest" },
+        "description": "Lightweight, charcoal colored armored vest issued to police officers.  Armored panels give this vest solid defense against small caliber firearms and front and back pockets for hard armor panels give protection from higher calibers.  Has \"POLICE\" written on the front lapel and across the back.",
+        "weight": 1
+      }
+    ],
+    "variant_type": "generic",
+    "description": "A better hard armor ballistic vest.",
+    "weight": "2650 g",
+    "volume": "6 L",
+    "price": 70000,
+    "price_postapoc": 500,
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "//": "encumbrance handled above",
+        "encumbrance": 0,
+        "coverage": 80,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
