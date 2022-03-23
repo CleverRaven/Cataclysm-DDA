@@ -39,7 +39,7 @@
     "description": "Practice firing unfletched arrows at a spot on the wall.",
     "skill_used": "archery",
     "time": "1 h",
-    "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "archery", 0 ] ],
     "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
     "tools": [
