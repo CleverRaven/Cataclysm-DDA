@@ -352,6 +352,52 @@
     ]
   },
   {
+    "id": "stab_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Based on security vests like https://www.bodyarmourcanada.com/shop-bullet-resistant-or-stab-resistant/vector-nij-ii-security-bullet-resistant-vest",
+    "name": { "str": "stab vest" },
+    "variant_type": "generic",
+"variants": [
+  {
+    "id": "security_stab_vest",
+    "name": { "str": "security vest" },
+    "description": "Lightweight, black, mediocre vest used by mall cops.  At least gives enough protection to keep insurance costs down.  Has \"SECURITY\" written on the front lapel and across the back, and a pocket for a notebook and pen.",
+    "weight": 1
+  },
+  {
+    "id": "airsoft_stab_vest",
+    "name": { "str": "airsoft vest" },
+    "description": "Lightweight, urban camo, mediocre vest used by cosplayers.  Wearing this makes you feel like a badass and shrug off airsoft pellets.  Has a morale patch of an anime girl on the front lapel and a pocket for a dead marker flag.",
+    "weight": 1
+  },
+],
+    "description": "a simple Level II protection vest.",
+    "weight": "1814 g",
+    "volume": "6 L",
+    "price": 47000,
+    "price_postapoc": 400,
+    "symbol": "[",
+    "material": [ "nylon", "kevlar" ],
+    "color": "light_gray",
+    "warmth": 10,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "pocket_data": [
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      }
+    ]
+  },
+  {
     "id": "dragonskin",
     "type": "ARMOR",
     "category": "armor",
