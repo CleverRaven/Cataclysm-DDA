@@ -3775,7 +3775,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
-    "components": [ [ [ "cooked_acorns", 1 ] ] ]
+    "components": [ [ [ "acorns_cooked", 1 ] ] ]
   },
   {
     "type": "recipe",
