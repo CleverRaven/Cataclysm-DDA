@@ -1,26 +1,5 @@
 [
   {
-    "id": "arrow_practice",
-    "type": "requirement",
-    "//": "A selection of fletched, retrievable arrows, used when training archery",
-    "tools": [
-      [
-        [ "arrow_field_point_fletched", -1 ],
-        [ "arrow_plastic", -1 ],
-        [ "arrow_small_game_fletched", -1 ],
-        [ "arrow_wood", -1 ],
-        [ "arrow_heavy_fire_hardened_fletched", -1 ],
-        [ "arrow_heavy_field_point_fletched", -1 ],
-        [ "arrow_wood_heavy", -1 ],
-        [ "arrow_metal_sharpened_fletched", -1 ],
-        [ "arrow_metal", -1 ],
-        [ "arrow_metal_bodkin", -1 ],
-        [ "arrow_metal_target", -1 ],
-        [ "arrow_cf", -1 ]
-      ]
-    ]
-  },
-  {
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
@@ -254,5 +233,26 @@
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
     ]
-  }
+  },
+  {
+    "id": "practice_arrows",
+    "type": "requirement",
+    "//": "Fletched, retrievable arrows, used for training archery",
+    "tools": [
+      [
+        [ "arrow_field_point_fletched", 1 ],
+        [ "arrow_plastic", 1 ],
+        [ "arrow_small_game_fletched", 1 ],
+        [ "arrow_wood", 1 ],
+        [ "arrow_heavy_fire_hardened_fletched", 1 ],
+        [ "arrow_heavy_field_point_fletched", 1 ],
+        [ "arrow_wood_heavy", 1 ],
+        [ "arrow_metal_sharpened_fletched", 1 ],
+        [ "arrow_metal", 1 ],
+        [ "arrow_metal_bodkin", 1 ],
+        [ "arrow_metal_target", 1 ],
+        [ "arrow_cf", 1 ]
+      ]
+    ]
+  },
 ]

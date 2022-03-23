@@ -68,7 +68,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "archery (beginner)",
-    "description": "Practice firing fletched arrows accurately into a target.",
+    "description": "Practice firing fletched arrows accurately into a target. Requires a decent quality bow.",
     "skill_used": "archery",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 4, "skill_limit": 5 },
@@ -76,7 +76,6 @@
     "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
     "tools": [
       [
-        "selfbow",
         "shortbow",
         "compbow",
         "compbow_high",
@@ -90,6 +89,17 @@
         "reflexrecurvebow"
       ]
     ],
-	"using": [ [ "arrow_practice", 10 ] ]
+    "using": [
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ],
+      [ "practice_arrows", -1 ]
+    ]
   }  
 ]
