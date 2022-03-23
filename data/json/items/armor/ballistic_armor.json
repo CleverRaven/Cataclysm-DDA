@@ -442,7 +442,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (mag pouches)" },
-        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches: cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE cummerbund that you can tuck a few mags in.",
         "weight": 1
       }
     ],
@@ -538,7 +538,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (storage pouches)" },
-        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE panel with a zipper on the front to store stuff.",
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches: cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a MOLLE panel with a zipper on the front to store stuff.",
         "weight": 1
       }
     ],
@@ -615,7 +615,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (shoulder pouch)" },
-        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches; cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
+        "description": "A lightweight, simple plate carrier just covering the thorax with front and back pockets for armor plates.  The original owner has decorated this thing with an excessive number of patches: cartoon characters making bedroom eyes, inane slogans, and political punchlines.  This version has a shoulder-mounted pouch for a radio and a hook on the front for a glowstick.",
         "weight": 1
       }
     ],
