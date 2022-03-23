@@ -572,7 +572,7 @@
     "elec_resist": 2,
     "chip_resist": 9,
     "breathability": "AVERAGE",
-	"wind_resist": 80,
+    "wind_resist": 80,
     "repaired_with": "cotton_patchwork",
     "salvaged_into": "sheet_cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
