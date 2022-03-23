@@ -65,7 +65,7 @@
     "id": "bronze_hoe",
     "type": "TOOL",
     "name": { "str": "bronze hoe" },
-    "description": "This is essentially a large bronze adze, but the added heft and durability should let you till soil for farming more easily as well. ",
+    "description": "This is essentially a large bronze adze, but the added heft and durability should let you till soil for farming more easily as well.",
     "weight": "3100 g",
     "volume": "3500 ml",
     "longest_side": "140 cm",
