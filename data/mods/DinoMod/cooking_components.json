@@ -91,7 +91,6 @@
     "//": "All needed",
     "components": [
       [
-        [ "egg_dino_theropod_large", 1 ],
         [ "egg_spinosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ],
         [ "egg_amargasaurus", 1 ],
