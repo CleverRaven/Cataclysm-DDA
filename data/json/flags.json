@@ -1771,6 +1771,10 @@
     "type": "json_flag"
   },
   {
+    "id": "UNBREAKABLE",
+    "type": "json_flag"
+  },
+  {
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag"
   },

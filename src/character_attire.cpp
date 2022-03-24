@@ -1549,11 +1549,15 @@ bool outfit::in_climate_control() const
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
-    // lower layer.
+    // lower layer. Integrated armor goes under normal armor.
     return std::find_if(
                worn.rbegin(), worn.rend(),
     [&]( const item & w ) {
-        return w.get_layer() <= new_item.get_layer();
+        if( w.has_flag( flag_INTEGRATED ) == new_item.has_flag( flag_INTEGRATED ) ) {
+            return w.get_layer() <= new_item.get_layer();
+        } else {
+            return w.has_flag( flag_INTEGRATED );
+        }
     }
            ).base();
 }

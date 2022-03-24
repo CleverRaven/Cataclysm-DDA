@@ -5,7 +5,7 @@
     "category": "armor",
     "name": { "str": "phelloderm" },
     "description": "Fello-hwat?",
-    "weight": "1 kg",
+    "weight": "2 kg",
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
@@ -13,17 +13,16 @@
     "symbol": "x",
     "color": "light_green",
     "warmth": 1,
-    "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "environmental_protection": 2,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
-          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "wood", "covered_by_mat": 60, "thickness": 0.8 }
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 5
       }
     ]
   },
@@ -33,22 +32,126 @@
     "category": "armor",
     "name": { "str": "protective bark" },
     "description": "Like a guard dog or something?",
-    "weight": "4 kg",
+    "weight": "6 kg",
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood", "fruit" ],
+    "material": [ "wood" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 1,
-    "environmental_protection": 2,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "NORMAL", "WATERPROOF" ],
+    "environmental_protection": 3,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "fruit", "covered_by_mat": 15, "thickness": 5 } ],
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "wood", "covered_by_mat": 75, "thickness": 6 }
+        ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
+        "encumbrance": 9
+      }
+    ]
+  },
+  {
+    "id": "integrated_bark2_a",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "distributed bark" },
+    "description": "Your bark is spread evenly across your body.",
+    "weight": "12 kg",
+    "volume": "300 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 2,
+    "environmental_protection": 4,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "wood", "covered_by_mat": 75, "thickness": 7 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "integrated_bark2_b",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "consolidated bark" },
+    "description": "Your bark is pulled together to protect your torso.",
+    "weight": "12 kg",
+    "volume": "300 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 2,
+    "environmental_protection": 4,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 15 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 4.5 },
+          { "type": "wood", "covered_by_mat": 50, "thickness": 5.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "head" ],
+        "coverage": 100,
         "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "wood", "covered_by_mat": 40, "thickness": 4 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
+    ]
+  },
+  {
+    "id": "integrated_bark2_c",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "latticed bark" },
+    "description": "Your bark is latticed into a larger frame.",
+    "weight": "12 kg",
+    "volume": "300 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "wood" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 2,
+    "environmental_protection": 2,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 9.5 },
+          { "type": "wood", "covered_by_mat": 60, "thickness": 7 }
+        ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "mouth", "eyes" ],
+        "coverage": 100,
+        "encumbrance": 16
       }
     ]
   },
@@ -67,7 +170,7 @@
     "color": "white",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
@@ -92,7 +195,7 @@
     "color": "light_gray",
     "warmth": 12,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -128,7 +231,7 @@
       "INTEGRATED",
       "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
-      "STURDY",
+      "UNBREAKABLE",
       "SKINTIGHT",
       "NORMAL",
       "HELMET_COMPAT",
@@ -164,7 +267,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "RAINPROOF" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 8 } ],
@@ -195,7 +298,7 @@
     "color": "brown",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -220,7 +323,7 @@
     "color": "brown",
     "warmth": 4,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "NORMAL", "COLLAR" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "COLLAR" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -257,7 +360,7 @@
       "INTEGRATED",
       "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
-      "STURDY",
+      "UNBREAKABLE",
       "SKINTIGHT",
       "NORMAL",
       "HELMET_COMPAT",
@@ -308,7 +411,7 @@
       "INTEGRATED",
       "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
-      "STURDY",
+      "UNBREAKABLE",
       "SKINTIGHT",
       "NORMAL",
       "HELMET_COMPAT",
@@ -363,7 +466,7 @@
       "INTEGRATED",
       "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
-      "STURDY",
+      "UNBREAKABLE",
       "SKINTIGHT",
       "NORMAL",
       "HELMET_COMPAT",
@@ -407,7 +510,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "epicuticle" },
-    "description": "Human skin is soooo 2022.",
+    "description": "This skin is much better.  You could get used to this one.",
     "weight": "1 kg",
     "volume": "200 ml",
     "price": 0,
@@ -417,7 +520,7 @@
     "color": "green",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -432,8 +535,8 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chitin carapace" },
-    "description": "Fashion for the new era.",
-    "weight": "6 kg",
+    "description": "Hellish.",
+    "weight": "3 kg",
     "volume": "2 L",
     "price": 0,
     "price_postapoc": 0,
@@ -448,7 +551,7 @@
       "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
       "BLOCK_WHILE_WORN",
-      "STURDY",
+      "UNBREAKABLE",
       "NORMAL",
       "HELMET_COMPAT",
       "WATER_FRIENDLY"
@@ -513,7 +616,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sclerotin plate" },
-    "description": "The armor of a hunter.",
+    "description": "When the time comes to prey, you will be ready for any resistance.",
     "weight": "12 kg",
     "volume": "4 L",
     "price": 0,
@@ -523,7 +626,7 @@
     "color": "brown",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "STURDY", "OUTER" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 } ],
@@ -566,16 +669,39 @@
         "encumbrance": 7
       },
       {
-        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 80,
-        "encumbrance": 6
-      },
-      {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.6 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 90,
         "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "integrated_chitin3_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sclerotin claws" },
+    "description": "These will be useful for the hunt, suitable for maximum efficiency.",
+    "weight": "450 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 5,
+    "bashing": 1000,
+    "cutting": 1000,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
+    "environmental_protection": 1,
+    "techniques": [ "RAPID" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 80,
+        "encumbrance": 6
       }
     ]
   }

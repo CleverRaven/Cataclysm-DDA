@@ -818,9 +818,15 @@ void outfit::sort_armor( Character &guy )
 
         if( action == "UP" && leftListSize > 0 ) {
             if( leftListIndex > 0 ) {
-                leftListIndex--;
-                if( leftListIndex < leftListOffset ) {
-                    leftListOffset = leftListIndex;
+                item &item_to_check = *tmp_worn[leftListIndex - 1];
+                if( selected < 0 || !item_to_check.has_flag( flag_INTEGRATED ) ) {
+                    leftListIndex--;
+                    if( leftListIndex < leftListOffset ) {
+                        leftListOffset = leftListIndex;
+                    }
+                    shift_selected_item();
+                } else {
+                    popup( _( "Can't sort this under your integrated armor!" ) );
                 }
             } else {
                 leftListIndex = leftListSize - 1;
@@ -829,21 +835,25 @@ void outfit::sort_armor( Character &guy )
                 } else {
                     leftListOffset = leftListSize - leftListLines;
                 }
+                shift_selected_item();
             }
-
-            shift_selected_item();
         } else if( action == "DOWN" && leftListSize > 0 ) {
             if( leftListIndex + 1 < leftListSize ) {
                 leftListIndex++;
                 if( leftListIndex >= leftListOffset + leftListLines ) {
                     leftListOffset = leftListIndex + 1 - leftListLines;
                 }
+                shift_selected_item();
             } else {
-                leftListIndex = 0;
-                leftListOffset = 0;
+                item &item_to_check = *tmp_worn[0];
+                if( selected < 0 || !item_to_check.has_flag( flag_INTEGRATED ) ) {
+                    leftListIndex = 0;
+                    leftListOffset = 0;
+                    shift_selected_item();
+                } else {
+                    popup( _( "Can't sort this under your integrated armor!" ) );
+                }
             }
-
-            shift_selected_item();
         } else if( action == "LEFT" ) {
             tabindex--;
             if( tabindex < 0 ) {
@@ -867,7 +877,12 @@ void outfit::sort_armor( Character &guy )
             if( selected >= 0 ) {
                 selected = -1;
             } else {
-                selected = leftListIndex;
+                item &item_to_check = *tmp_worn[leftListIndex];
+                if( !item_to_check.has_flag( flag_INTEGRATED ) ) {
+                    selected = leftListIndex;
+                } else {
+                    popup( _( "Can't move your integrated armor!" ) );
+                }
             }
         } else if( action == "CHANGE_SIDE" ) {
             if( leftListIndex < leftListSize && tmp_worn[leftListIndex]->is_sided() ) {
@@ -890,7 +905,11 @@ void outfit::sort_armor( Character &guy )
             std::vector<item> worn_copy( worn.begin(), worn.end() );
             std::stable_sort( worn_copy.begin(), worn_copy.end(),
             []( const item & l, const item & r ) {
-                return l.get_layer() < r.get_layer();
+                if( l.has_flag( flag_INTEGRATED ) == r.has_flag( flag_INTEGRATED ) ) {
+                    return l.get_layer() < r.get_layer();
+                } else {
+                    return l.has_flag( flag_INTEGRATED );
+                }
             }
                             );
             std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
@@ -943,8 +962,14 @@ void outfit::sort_armor( Character &guy )
                     if( new_equip_it ) {
                         // save iterator to cursor's position
                         std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
-                        // reorder `worn` vector to place new item at cursor
-                        worn.splice( cursor_it, worn, *new_equip_it );
+                        item &item_to_check = *cursor_it;
+                        if( item_to_check.has_flag( flag_INTEGRATED ) ) {
+                            // prevent adding under integrated armor
+                            popup( _( "Can't put this on under your integrated armor!" ) );
+                        } else {
+                            // reorder `worn` vector to place new item at cursor
+                            worn.splice( cursor_it, worn, *new_equip_it );
+                        }
                     } else if( guy.is_npc() ) {
                         // TODO: Pass the reason here
                         popup( _( "Can't put this on!" ) );
