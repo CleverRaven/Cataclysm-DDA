@@ -512,7 +512,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
             armor[bodypart_str_id( part_string )] += res;
         }
     }
-    
+
     for( const std::string line : jo.get_array( "integrated_armor" ) ) {
         integrated_armor.emplace_back( itype_id( line ) );
     }

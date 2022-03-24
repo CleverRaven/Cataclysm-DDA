@@ -5,22 +5,21 @@
     "category": "armor",
     "name": { "str": "phelloderm" },
     "description": "Fello-hwat?",
-    "weight": "2 kg",
+    "weight": "1 kg",
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood", "veggy", "fruit" ],
+    "material": [ "wood", "veggy" ],
     "symbol": "x",
-    "color": "white",
+    "color": "light_green",
     "warmth": 1,
     "environmental_protection": 1,
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
-          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 }
-          { "type": "wood", "covered_by_mat": 60, "thickness": 0.8 },
-          { "type": "fruit", "covered_by_mat": 15, "thickness": 1.2 }
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "wood", "covered_by_mat": 60, "thickness": 0.8 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
@@ -34,26 +33,22 @@
     "category": "armor",
     "name": { "str": "protective bark" },
     "description": "Like a guard dog or something?",
-    "weight": "5 kg",
+    "weight": "4 kg",
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood", "veggy", "fruit" ],
+    "material": [ "wood", "fruit" ],
     "symbol": "x",
-    "color": "white",
+    "color": "brown",
     "warmth": 1,
-    "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "environmental_protection": 2,
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "veggy", "covered_by_mat": 100, "thickness": 1.8 }
-          { "type": "wood", "covered_by_mat": 80, "thickness": 3 },
-          { "type": "fruit", "covered_by_mat": 15, "thickness": 4.5 }
-        ],
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "fruit", "covered_by_mat": 15, "thickness": 5 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 8
       }
     ]
   },
@@ -75,9 +70,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 2 }
-        ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 2
@@ -102,12 +95,16 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 4 }
-        ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
         "coverage": 100,
         "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 1
       }
     ]
   },
@@ -126,15 +123,29 @@
     "color": "black",
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "ALLOWS_NATURAL_ATTACKS",
+      "STURDY",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY"
+    ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 14 }
-        ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 14 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
         "coverage": 100,
-        "encumbrance": 6
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 9 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 5
       }
     ]
   },
@@ -156,10 +167,14 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "RAINPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 8 }
-        ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 8 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
         "coverage": 100,
         "encumbrance": 3
       }
@@ -183,9 +198,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 4 }
-        ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 1
@@ -210,21 +223,17 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "NORMAL", "COLLAR" ],
     "armor": [
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 4 }
-        ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 1
+        "encumbrance": 2
       },
       {
-        "material": [
-          { "type": "fur", "covered_by_mat": 100, "thickness": 9 }
-        ],
+        "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 9 } ],
         "covers": [ "torso" ],
         "coverage": 15,
-        "cover_vitals": 40,
-        "encumbrance": 1
+        "cover_vitals": 35,
+        "encumbrance": 2
       }
     ]
   },
@@ -243,7 +252,17 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "ALLOWS_NATURAL_ATTACKS",
+      "STURDY",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY"
+    ],
     "armor": [
       {
         "material": [
@@ -284,7 +303,17 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "ALLOWS_NATURAL_ATTACKS",
+      "STURDY",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY"
+    ],
     "armor": [
       {
         "material": [
@@ -329,7 +358,17 @@
     "color": "light_red",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "ALLOWS_NATURAL_ATTACKS",
+      "STURDY",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY"
+    ],
     "armor": [
       {
         "material": [
@@ -381,9 +420,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "STURDY", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [
-          { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 3
@@ -405,72 +442,66 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "STURDY", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "ALLOWS_NATURAL_ATTACKS",
+      "BLOCK_WHILE_WORN",
+      "STURDY",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY"
+    ],
     "armor": [
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 5
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 4.4 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 6
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 3.2 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 95,
         "encumbrance": 2
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 3 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
         "coverage": 95,
         "encumbrance": 3
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 3.2 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
         "coverage": 95,
         "encumbrance": 3
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 3 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
         "coverage": 95,
         "encumbrance": 3
       },
       {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 }
-        ],
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 85,
         "encumbrance": 3
       },
-            {
-        "material": [
-          { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 }
-        ],
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.2 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 90,
         "encumbrance": 3
@@ -495,69 +526,53 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "head" ],
         "coverage": 95,
         "encumbrance": 12
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 7 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 7 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 15
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.6 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.6 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.4 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
         "coverage": 90,
         "encumbrance": 7
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.8 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.8 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
         "coverage": 100,
         "encumbrance": 6
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.6 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.6 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
         "coverage": 90,
         "encumbrance": 7
       },
       {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 }
-        ],
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 80,
         "encumbrance": 6
       },
-            {
-        "material": [
-          { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.6 }
-        ],
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.6 } ],
         "covers": [ "foot_l", "foot_r" ],
         "coverage": 90,
         "encumbrance": 8

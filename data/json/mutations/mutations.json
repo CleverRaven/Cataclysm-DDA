@@ -2654,10 +2654,10 @@
     "ugliness": 2,
     "description": "Your skin is light green and has a slightly woody quality to it.  This provides armor and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
     "types": [ "SKIN" ],
-    "changes_to": [ "BARK" ],
-    "leads_to": [ "LEAVES" ],
+    "leads_to": [ "BARK", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
-    "thirst_modifier": -0.2
+    "thirst_modifier": -0.2,
+    "integrated_armor": [ "integrated_plantskin" ]
   },
   {
     "type": "mutation",
@@ -2682,7 +2682,8 @@
       { "part": "hand_l", "ignored": 4 },
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
-    ]
+    ],
+    "integrated_armor": [ "integrated_bark" ]
   },
   {
     "type": "mutation",
