@@ -526,7 +526,7 @@
     "id": "box_cigarette",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "pack" },
+    "name": { "str": "cigarette pack" },
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
