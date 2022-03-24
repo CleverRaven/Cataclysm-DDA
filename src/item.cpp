@@ -7748,8 +7748,8 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
                 // if roll is -1 each material is rolled at this point individually
                 int internal_roll;
                 roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-                if( internal_roll < m->cover ) {
-                    resist += m->id->bash_resist() * eff_thic;
+                if( internal_roll < m->get_total_cover() ) {
+                    resist += m->get_material( internal_roll )->bash_resist() * eff_thic;
                 }
             }
             return resist + mod;
@@ -7794,8 +7794,8 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) con
             // if roll is -1 each material is rolled at this point individually
             int internal_roll;
             roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-            if( internal_roll < m->cover ) {
-                resist += m->id->bash_resist() * eff_thic;
+            if( internal_roll < m->get_total_cover() ) {
+                resist += m->get_material( internal_roll )->bash_resist() * eff_thic;
             }
         }
         return resist + mod;
@@ -7842,8 +7842,8 @@ float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
                 // if roll is -1 each material is rolled at this point individually
                 int internal_roll;
                 roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-                if( internal_roll < m->cover ) {
-                    resist += m->id->cut_resist() * eff_thic;
+                if( internal_roll < m->get_total_cover() ) {
+                    resist += m->get_material( internal_roll )->cut_resist() * eff_thic;
                 }
             }
             return resist + mod;
@@ -7888,8 +7888,8 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
             // if roll is -1 each material is rolled at this point individually
             int internal_roll;
             roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-            if( internal_roll < m->cover ) {
-                resist += m->id->cut_resist() * eff_thic;
+            if( internal_roll < m->get_total_cover() ) {
+                resist += m->get_material( internal_roll )->cut_resist() * eff_thic;
             }
         }
         return resist + mod;
@@ -7951,8 +7951,8 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp, int roll ) const
                 // if roll is -1 each material is rolled at this point individually
                 int internal_roll;
                 roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-                if( internal_roll < m->cover ) {
-                    resist += m->id->bullet_resist() * eff_thic;
+                if( internal_roll < m->get_total_cover() ) {
+                    resist += m->get_material( internal_roll )->bullet_resist() * eff_thic;
                 }
             }
             return resist + mod;
@@ -7997,8 +7997,8 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
             // if roll is -1 each material is rolled at this point individually
             int internal_roll;
             roll < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = roll;
-            if( internal_roll < m->cover ) {
-                resist += m->id->bullet_resist() * eff_thic;
+            if( internal_roll < m->get_total_cover() ) {
+                resist += m->get_material( internal_roll )->bullet_resist() * eff_thic;
             }
         }
         return resist + mod;
@@ -8038,7 +8038,9 @@ float item::acid_resist( bool to_self, int base_env_resist, const bodypart_id &b
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
             for( const part_material *m : armor_mats ) {
-                resist += m->id->acid_resist() * m->cover * 0.01f;
+                for( const auto &internal_m : m->shared_def ) {
+                    resist += internal_m.first->acid_resist() * internal_m.second * 0.01f;
+                }
             }
             const int env = get_env_resist( base_env_resist );
             if( env < 10 ) {
@@ -8085,7 +8087,9 @@ float item::acid_resist( const sub_bodypart_id &bp, bool to_self, int base_env_r
     // If we have armour portion materials for this body part, use that instead
     if( !armor_mats.empty() ) {
         for( const part_material *m : armor_mats ) {
-            resist += m->id->acid_resist() * m->cover * 0.01f;
+            for( const auto &internal_m : m->shared_def ) {
+                resist += internal_m.first->acid_resist() * internal_m.second * 0.01f;
+            }
         }
         const int env = get_env_resist( base_env_resist );
         if( env < 10 ) {
@@ -8112,7 +8116,9 @@ float item::fire_resist( bool to_self, int base_env_resist, const bodypart_id &b
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
             for( const part_material *m : armor_mats ) {
-                resist += m->id->fire_resist() * m->cover * 0.01f;
+                for( const auto &internal_m : m->shared_def ) {
+                    resist += internal_m.first->fire_resist() * internal_m.second * 0.01f;
+                }
             }
             const int env = get_env_resist( base_env_resist );
             if( env < 10 ) {
@@ -8157,7 +8163,9 @@ float item::fire_resist( const sub_bodypart_id &bp, bool to_self, int base_env_r
     // If we have armour portion materials for this body part, use that instead
     if( !armor_mats.empty() ) {
         for( const part_material *m : armor_mats ) {
-            resist += m->id->fire_resist() * m->cover * 0.01f;
+            for( const auto &internal_m : m->shared_def ) {
+                resist += internal_m.first->fire_resist() * internal_m.second * 0.01f;
+            }
         }
         const int env = get_env_resist( base_env_resist );
         if( env < 10 ) {
@@ -8211,7 +8219,10 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
         // If we have armour portion materials for this body part, use that instead
         if( !armor_mats.empty() ) {
             for( const part_material *m : armor_mats ) {
-                const int val = m->id->chip_resist() * m->cover;
+                int val = 0;
+                for( const auto &internal_m : m->shared_def ) {
+                    val += internal_m.first->chip_resist() * internal_m.second;
+                }
                 res = worst ? std::min( res, val ) : std::max( res, val );
             }
             if( res == INT_MAX || res == INT_MIN ) {

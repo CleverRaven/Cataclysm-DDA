@@ -299,6 +299,65 @@
     ]
   },
   {
+    "id": "test_part_chain_tank",
+    "type": "ARMOR",
+    "category": "ARMOR",
+    "repairs_like": "coat_rain",
+    "looks_like": "poncho",
+    "name": { "str": "Partially chain tank top" },
+    "description": "A tank top.",
+    "weight": "960 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "symbol": "[",
+    "material": [ "cotton", "qt_steel_chain" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD" ],
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [ { "type": [ [ "cotton", 50 ], [ "qt_steel_chain", 50 ] ], "thickness": 1.2 } ],
+        "encumbrance": [ 4, 8 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "layers": [ "OUTER", "BELTED" ]
+      }
+    ]
+  },
+  {
+    "id": "test_part_chain_arms",
+    "type": "ARMOR",
+    "category": "ARMOR",
+    "repairs_like": "coat_rain",
+    "looks_like": "poncho",
+    "name": { "str": "Partially chain arms" },
+    "description": "A tank top.",
+    "weight": "960 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "symbol": "[",
+    "material": [ "cotton", "qt_steel_chain" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD" ],
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [ { "type": [ [ "cotton", 50 ], [ "qt_steel_chain", 50 ] ], "thickness": 1.2 } ],
+        "encumbrance": [ 4, 8 ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": ["arm_upper_l", "arm_upper_r", "arm_shoulder_l", "arm_shoulder_r"],
+        "layers": [ "OUTER", "BELTED" ]
+      }
+    ]
+  },
+  {
     "id": "ballistic_vest_light",
     "type": "ARMOR",
     "copy-from": "ballistic_vest_esapi",

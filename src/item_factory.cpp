@@ -659,7 +659,7 @@ void Item_factory::finalize_post( itype &obj )
             int data_count = 0;
             float thic_acc = 0.0f;
             for( part_material &m : data.materials ) {
-                thic_acc += m.thickness * m.cover / 100.0f;
+                thic_acc += m.thickness * m.get_total_cover() / 100.0f;
                 data_count++;
             }
             if( data_count > 0 && thic_acc > std::numeric_limits<float>::epsilon() ) {
@@ -725,21 +725,26 @@ void Item_factory::finalize_post( itype &obj )
                             for( const part_material &new_mat : sub_armor.materials ) {
                                 bool mat_found = false;
                                 for( part_material &old_mat : it.materials ) {
-                                    if( old_mat.id == new_mat.id ) {
+                                    if( old_mat.shared_def == new_mat.shared_def ) {
                                         mat_found = true;
-                                        // values should be averaged
-                                        float max_coverage_new = sub_armor.max_coverage( bp );
-                                        float max_coverage_mats = it.max_coverage( bp );
+                                        // they are the same so go through each material they share and apply logic
+                                        for( const auto &new_mat_entry : new_mat.shared_def ) {
+                                            // values should be averaged
+                                            float max_coverage_new = sub_armor.max_coverage( bp );
+                                            float max_coverage_mats = it.max_coverage( bp );
 
-                                        // the percent of the coverable bits that this armor does cover
-                                        float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
+                                            // the percent of the coverable bits that this armor does cover
+                                            float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
 
-                                        // portion should be handled as the portion scaled by relative coverage
-                                        old_mat.cover = old_mat.cover + static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
+                                            // portion should be handled as the portion scaled by relative coverage
+                                            old_mat.shared_def[new_mat_entry.first] = old_mat.shared_def[new_mat_entry.first] +
+                                                    static_cast<float>( new_mat_entry.second ) * coverage_multiplier /
+                                                    100.0f;
 
-                                        // with the max values we can get the weight that each should have
-                                        old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
-                                                              old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
+                                            // with the max values we can get the weight that each should have
+                                            old_mat.thickness = ( max_coverage_new * new_mat.thickness + max_coverage_mats *
+                                                                  old_mat.thickness ) / ( max_coverage_mats + max_coverage_new );
+                                        }
                                     }
                                 }
                                 // if we didn't find an entry for this material
@@ -751,11 +756,15 @@ void Item_factory::finalize_post( itype &obj )
                                     float coverage_multiplier = sub_armor.coverage * max_coverage_new / 100.0f;
 
                                     part_material modified_mat = new_mat;
-                                    // if for example your elbow was covered in plastic but none of the rest of the arm
-                                    // this should be represented correctly in the UI with the covers for plastic being 5%
-                                    // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
-                                    // 15% covered for the arm overall
-                                    modified_mat.cover = static_cast<float>( new_mat.cover ) * coverage_multiplier / 100.0f;
+                                    for( auto &modified_mat_entry : modified_mat.shared_def ) {
+                                        // if for example your elbow was covered in plastic but none of the rest of the arm
+                                        // this should be represented correctly in the UI with the covers for plastic being 5%
+                                        // of the arm. Similarily 50% covered in plastic covering only 30% of the arm should lead to
+                                        // 15% covered for the arm overall
+                                        modified_mat_entry.second = static_cast<float>( modified_mat_entry.second ) * coverage_multiplier /
+                                                                    100.0f;
+                                    }
+
                                     it.materials.push_back( modified_mat );
                                 }
                             }
@@ -787,7 +796,9 @@ void Item_factory::finalize_post( itype &obj )
                         // need to scale each material coverage the same way since they will after this be
                         // scaled back up at the end of the amalgamation
                         for( part_material &mat : new_limb.materials ) {
-                            mat.cover = static_cast<float>( mat.cover ) * new_limb.coverage / 100.0f;
+                            for( auto &mat_entry : mat.shared_def ) {
+                                mat_entry.second = static_cast<float>( mat_entry.second ) * new_limb.coverage / 100.0f;
+                            }
                         }
 
                         obj.armor->data.push_back( new_limb );
@@ -801,17 +812,20 @@ void Item_factory::finalize_post( itype &obj )
         // 3% of 48% needs to be scaled to 6% of 100%
         for( armor_portion_data &it : obj.armor->data ) {
             for( part_material &mat : it.materials ) {
-                // scale the value of portion covered based on how much total is covered
-                // if you proportionally only cover 5% of the arm but overall cover 50%
-                // you actually proportionally cover 10% of the armor
+                for( auto &mat_entry : mat.shared_def ) {
+                    // scale the value of portion covered based on how much total is covered
+                    // if you proportionally only cover 5% of the arm but overall cover 50%
+                    // you actually proportionally cover 10% of the armor
 
-                // in case of 0 coverage just say the mats cover it all
-                if( it.coverage == 0 ) {
-                    mat.cover = 100;
-                } else {
-                    mat.cover = std::round( static_cast<float>( mat.cover ) / ( static_cast<float>
-                                            ( it.coverage ) / 100.0f ) );
+                    // in case of 0 coverage just say the mats cover it all
+                    if( it.coverage == 0 ) {
+                        mat_entry.second = 100;
+                    } else {
+                        mat_entry.second = std::round( static_cast<float>( mat_entry.second ) / ( static_cast<float>
+                                                       ( it.coverage ) / 100.0f ) );
+                    }
                 }
+
             }
         }
 
@@ -857,15 +871,17 @@ void Item_factory::finalize_post( itype &obj )
             float tempbest = 1.0f;
             float tempworst = 1.0f;
             for( const part_material &mat : armor_data.materials ) {
-                // the percent chance the material is not hit
-                float cover = mat.cover * .01f;
-                float cover_invert = 1.0f - cover;
+                for( const auto &mat_entry : mat.shared_def ) {
+                    // the percent chance the material is not hit
+                    float cover = mat_entry.second * .01f;
+                    float cover_invert = 1.0f - cover;
 
-                tempbest *= cover;
-                // just interested in cover values that can fail.
-                // multiplying by 0 would make this value pointless
-                if( cover_invert > 0 ) {
-                    tempworst *= cover_invert;
+                    tempbest *= cover;
+                    // just interested in cover values that can fail.
+                    // multiplying by 0 would make this value pointless
+                    if( cover_invert > 0 ) {
+                        tempworst *= cover_invert;
+                    }
                 }
             }
 
@@ -893,15 +909,17 @@ void Item_factory::finalize_post( itype &obj )
             float tempbest = 1.0f;
             float tempworst = 1.0f;
             for( const part_material &mat : armor_data.materials ) {
-                // the percent chance the material is not hit
-                float cover = mat.cover * .01f;
-                float cover_invert = 1.0f - cover;
+                for( const auto &mat_entry : mat.shared_def ) {
+                    // the percent chance the material is not hit
+                    float cover = mat_entry.second * .01f;
+                    float cover_invert = 1.0f - cover;
 
-                tempbest *= cover;
-                // just interested in cover values that can fail.
-                // multiplying by 0 would make this value pointless
-                if( cover_invert > 0 ) {
-                    tempworst *= cover_invert;
+                    tempbest *= cover;
+                    // just interested in cover values that can fail.
+                    // multiplying by 0 would make this value pointless
+                    if( cover_invert > 0 ) {
+                        tempworst *= cover_invert;
+                    }
                 }
             }
 
@@ -996,13 +1014,15 @@ void Item_factory::finalize_post( itype &obj )
             obj.mat_portion_total = 0;
             for( const armor_portion_data &armor_data : obj.armor->data ) {
                 for( const part_material &mat : armor_data.materials ) {
-                    // if the material isn't in the map yet
-                    if( obj.materials.find( mat.id ) == obj.materials.end() ) {
-                        obj.materials[mat.id] = mat.thickness * 100;
-                    } else {
-                        obj.materials[mat.id] += mat.thickness * 100;
+                    for( const auto &mat_list : mat.shared_def ) {
+                        // if the material isn't in the map yet
+                        if( obj.materials.find( mat_list.first ) == obj.materials.end() ) {
+                            obj.materials[mat_list.first] = mat.thickness * 100;
+                        } else {
+                            obj.materials[mat_list.first] += mat.thickness * 100;
+                        }
+                        obj.mat_portion_total += mat.thickness * 100;
                     }
-                    obj.mat_portion_total += mat.thickness * 100;
                 }
             }
         }
@@ -1013,7 +1033,7 @@ void Item_factory::finalize_post( itype &obj )
             std::vector<part_material> sorted_mats = armor_data.materials;
             std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
             const part_material & rhs ) {
-                return lhs.id->breathability() < rhs.id->breathability();
+                return lhs.get_breathability() < rhs.get_breathability();
             } );
 
             // now that mats are sorted least breathable to most
@@ -1024,8 +1044,9 @@ void Item_factory::finalize_post( itype &obj )
                 // so some guessing is done
                 // specifically count the worst breathability then then next best with additional coverage
                 // and repeat until out of matts or fully covering.
-                combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
-                coverage_counted = std::max( mat.cover, coverage_counted );
+                combined_breathability += std::max( ( mat.get_total_cover() - coverage_counted ) *
+                                                    mat.get_breathability(), 0 );
+                coverage_counted = std::max( mat.get_total_cover(), coverage_counted );
 
                 // this covers the whole piece of armor so we can stop counting better breathability
                 if( coverage_counted == 100 ) {
@@ -1038,9 +1059,15 @@ void Item_factory::finalize_post( itype &obj )
 
         for( const armor_portion_data &armor_data : obj.armor->data ) {
             for( const part_material &mat : armor_data.materials ) {
-                if( mat.cover > 100 || mat.cover < 0 ) {
+                if( mat.get_total_cover() > 100 || mat.get_total_cover() < 0 ) {
+                    std::string mats;
+                    for( const auto &mat_list : mat.shared_def ) {
+                        // build a string of all the mats in the def
+                        mats.append( mat_list.first.str() );
+                        mats.append( " " );
+                    }
                     debugmsg( "item %s has coverage %d for material %s.",
-                              obj.id.str(), mat.cover, mat.id.str() );
+                              obj.id.str(), mat.get_total_cover(), mats );
                 }
             }
         }
@@ -1770,9 +1797,11 @@ void Item_factory::check_definitions() const
             // valid thickness is a multiple of sheet thickness
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 for( const part_material &mat : portion.materials ) {
-                    if( !mat.ignore_sheet_thickness && !mat.id->is_valid_thickness( mat.thickness ) ) {
-                        msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
-                                              mat.id.str(), mat.thickness, mat.id->thickness_multiple() );
+                    for( const auto &mat_list : mat.shared_def ) {
+                        if( !mat.ignore_sheet_thickness && !mat_list.first->is_valid_thickness( mat.thickness ) ) {
+                            msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
+                                                  mat_list.first.str(), mat.thickness, mat_list.first->thickness_multiple() );
+                        }
                     }
                 }
             }
@@ -2504,12 +2533,72 @@ std::string enum_to_string<layer_level>( layer_level data )
 }
 } // namespace io
 
+material_id part_material::get_material( int roll ) const
+{
+    for( const auto &mat_def : shared_def ) {
+        if( roll < mat_def.second ) {
+            return mat_def.first;
+        }
+        roll = roll - mat_def.second;
+    }
+
+    // if everything has failed return nothing
+    return material_id::NULL_ID();
+}
+
+int part_material::get_breathability() const
+{
+    float breathability = 0;
+    for( const auto &mat_def : shared_def ) {
+        breathability += mat_def.first->breathability() * static_cast<float>( mat_def.second ) /
+                         static_cast<float>( get_total_cover() );
+    }
+
+    return breathability;
+
+}
+
+int part_material::get_total_cover() const
+{
+    int cover = 0;
+    for( const auto &mat_def : shared_def ) {
+        cover += mat_def.second;
+    }
+
+    return cover;
+
+}
+
 void part_material::deserialize( const JsonObject &jo )
 {
-    mandatory( jo, false, "type", id );
-    optional( jo, false, "covered_by_mat", cover, 100 );
-    if( cover < 1 || cover > 100 ) {
-        jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
+    if( !jo.has_member( "type" ) ) {
+        jo.throw_error( string_format( "need to include type definition" ) );
+    }
+    // if materials are defined in sequence
+    if( jo.has_array( "type" ) ) {
+        if( jo.has_member( "covered_by_mat" ) ) {
+            jo.throw_error( string_format( "dont include covered_by_mat if defining materials in an array" ) );
+        }
+        for( JsonArray arr : jo.get_array( "type" ) ) {
+            material_id id( arr.get_string( 0 ) );
+            shared_def[id] = arr.get_int( 1 );
+        }
+        int count = 0;
+        for( const auto &arr : shared_def ) {
+            count += arr.second;
+        }
+        if( count > 100 ) {
+            jo.throw_error( string_format( "materials sum to more than 100 coverage \"%d\"", count ) );
+        }
+    } else {
+        material_id temp_id;
+        int cover;
+        mandatory( jo, false, "type", temp_id );
+        optional( jo, false, "covered_by_mat", cover, 100 );
+        if( cover < 1 || cover > 100 ) {
+            jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
+        }
+        shared_def[temp_id] = cover;
     }
     optional( jo, false, "thickness", thickness, 0.0f );
     optional( jo, false, "ignore_sheet_thickness", ignore_sheet_thickness, false );

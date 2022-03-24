@@ -220,16 +220,33 @@ struct islot_brewable {
 
 /** Material data for individual armor body parts */
 struct part_material {
-    material_id id; //material type
-    int cover; //portion coverage % of this material
+    // a sorting rule for the map so that it sorts by resistance
+    // strongest materials first
+    struct cmpByDefense {
+        bool operator()( const material_id &a, const material_id &b ) const {
+            return a->bash_resist() + a->cut_resist() + a->bullet_resist() > b->bash_resist() + b->cut_resist()
+                   + b->bullet_resist();
+        }
+    };
+    // a collection of multiple materials that combined define this material
+    std::map<material_id, int, cmpByDefense> shared_def;
     float thickness; //portion thickness of this material
     bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
-    part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
+    part_material() : thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :
-        id( id ), cover( cover ), thickness( thickness ) {}
+        shared_def{ {id, cover } }, thickness( thickness ) {}
     part_material( const std::string &id, int cover, float thickness ) :
-        id( material_id( id ) ), cover( cover ), thickness( thickness ) {}
+        shared_def{ {material_id( id ), cover} }, thickness( thickness ) {}
+
+    // get the material for any given attack roll
+    material_id get_material( int roll ) const;
+
+    // get total coverage for all materials
+    int get_total_cover() const;
+
+    // average breathability of all materials in the array
+    int get_breathability() const;
 
     void deserialize( const JsonObject &jo );
 };

@@ -180,4 +180,9 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
         // and should be higher (so lower damage) since they can overlap
         check_not_near( "Average damage", dmg, base_line, 0.05f );
     }
+
+    SECTION( "mosaic armor vs. melee" ) {
+        const float dmg = get_avg_melee_dmg( "test_part_chain_tank" );
+        check_near( "Average damage", dmg, 14.4f, 0.4f );
+    }
 }
