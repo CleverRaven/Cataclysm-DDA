@@ -8,6 +8,7 @@
 #include "item.h"
 #include "units.h"
 
+enum class attack_vector : int;
 class advanced_inventory_pane;
 class advanced_inv_area;
 class avatar;
@@ -95,7 +96,7 @@ class outfit
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
-        item *current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon );
+        item *current_unarmed_weapon( const attack_vector &atv, item *cur_weapon );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
@@ -110,6 +111,7 @@ class outfit
         double footwear_factor() const;
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
+        bool natural_attack_restricted_on( const sub_bodypart_id &sbp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
         float weight_capacity_modifier() const;

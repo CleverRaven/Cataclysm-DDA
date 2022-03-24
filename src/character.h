@@ -246,6 +246,34 @@ struct enum_traits<blood_type> {
     static constexpr blood_type last = blood_type::num_bt;
 };
 
+/// The part of the body you try to hit with
+enum class attack_vector : int {
+    NONE,
+    HAND,
+    FINGERS,
+    PALM,
+    HAND_BACK,
+    WRIST,
+    ARM,
+    ELBOW,
+    SHOULDER,
+    FOOT,
+    LOWER_LEG,
+    KNEE,
+    HIP,
+    TORSO,
+    HEAD,
+    WEAPON,
+    GRAPPLE,
+    THROW,
+    NUM_AV
+};
+
+template<>
+struct enum_traits<attack_vector> {
+    static constexpr attack_vector last = attack_vector::NUM_AV;
+};
+
 /// @brief how digestible or palatable an item is
 /// @details This tries to represent both rating and character's decision to respect said rating
 /// (ie "they can eat it, though they are disgusted by it")
@@ -876,6 +904,7 @@ class Character : public Creature, public visitable
 
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
+        bool natural_attack_restricted_on( const sub_bodypart_id &sbp ) const;
 
         int blocks_left;
         int dodges_left;
@@ -947,6 +976,8 @@ class Character : public Creature, public visitable
         float get_hit_weapon( const item &weap ) const;
         /** Check if we can attack upper limbs **/
         bool can_attack_high() const override;
+        /** Check if we can use a specific limb type **/
+        bool can_attack_vector( attack_vector atv ) const;
 
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
@@ -962,23 +993,23 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              attack_vector atv,
                               const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               attack_vector atv,
                                float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              attack_vector atv,
                               float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               attack_vector atv,
                                float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                                std::string attack_vector,
+                                attack_vector atv,
                                 float crit_mod ) const;
 
         /** Returns true if the player should be dead */

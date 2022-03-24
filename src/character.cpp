@@ -497,6 +497,36 @@ std::string enum_to_string<blood_type>( blood_type data )
     cata_fatal( "Invalid blood_type" );
 }
 
+template<>
+std::string enum_to_string<attack_vector>( attack_vector data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case attack_vector::NONE: return "NONE";
+        case attack_vector::HAND: return "HAND";
+        case attack_vector::FINGERS: return "FINGERS";
+        case attack_vector::PALM: return "PALM";
+        case attack_vector::HAND_BACK: return "HAND_BACK";
+        case attack_vector::WRIST: return "WRIST";
+        case attack_vector::ARM: return "ARM";
+        case attack_vector::ELBOW: return "ELBOW";
+        case attack_vector::SHOULDER: return "SHOULDER";
+        case attack_vector::FOOT: return "FOOT";
+        case attack_vector::LOWER_LEG: return "LOWER_LEG";
+        case attack_vector::KNEE: return "KNEE";
+        case attack_vector::HIP: return "HIP";
+        case attack_vector::TORSO: return "TORSO";
+        case attack_vector::HEAD: return "HEAD";
+        case attack_vector::WEAPON: return "WEAPON";
+        case attack_vector::GRAPPLE: return "GRAPPLE";
+        case attack_vector::THROW: return "THROW";
+            // *INDENT-ON*
+        case attack_vector::NUM_AV:
+            break;
+    }
+    cata_fatal( "Invalid attack_vector" );
+}
+
 } // namespace io
 
 // *INDENT-OFF*
@@ -2346,6 +2376,11 @@ void Character::check_item_encumbrance_flag()
 bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
     return worn.natural_attack_restricted_on( bp );
+}
+
+bool Character::natural_attack_restricted_on( const sub_bodypart_id &sbp ) const
+{
+    return worn.natural_attack_restricted_on( sbp );
 }
 
 std::vector<const item *> Character::get_pseudo_items() const

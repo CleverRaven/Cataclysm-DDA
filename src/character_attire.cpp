@@ -967,6 +967,18 @@ bool outfit::natural_attack_restricted_on( const bodypart_id &bp ) const
     return false;
 }
 
+bool outfit::natural_attack_restricted_on( const sub_bodypart_id &sbp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( sbp ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+            !i.has_flag( flag_SEMITANGIBLE ) &&
+            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::list<item> outfit::remove_worn_items_with( const std::function<bool( item & )> &filter,
         Character &guy )
 {
@@ -1882,51 +1894,62 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon )
+item *outfit::current_unarmed_weapon( const attack_vector &atv, item *cur_weapon )
 {
     for( item &worn_item : worn ) {
         bool covers = false;
 
-        if( attack_vector == "HAND" || attack_vector == "GRAPPLE" || attack_vector == "THROW" ) {
-            covers = worn_item.covers( bodypart_id( "hand_l" ) ) &&
-                     worn_item.covers( bodypart_id( "hand_r" ) );
-        } else if( attack_vector == "ARM" ) {
-            covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
-                     worn_item.covers( bodypart_id( "arm_r" ) );
-        } else if( attack_vector == "ELBOW" ) {
-            covers = worn_item.covers( sub_bodypart_id( "arm_elbow_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "arm_elbow_r" ) );
-        } else if( attack_vector == "FINGERS" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_fingers_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_fingers_r" ) );
-        } else if( attack_vector == "WRIST" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
-        } else if( attack_vector == "PALM" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_palm_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_palm_r" ) );
-        } else if( attack_vector == "HAND_BACK" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_back_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_back_r" ) );
-        } else if( attack_vector == "SHOULDER" ) {
-            covers = worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
-        } else if( attack_vector == "FOOT" ) {
-            covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
-                     worn_item.covers( bodypart_id( "foot_r" ) );
-        } else if( attack_vector == "LOWER_LEG" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_lower_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_lower_r" ) );
-        } else if( attack_vector == "KNEE" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_knee_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_knee_r" ) );
-        } else if( attack_vector == "HIP" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_hip_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_hip_r" ) );
-        } else if( attack_vector == "HEAD" ) {
-            covers = worn_item.covers( bodypart_id( "head" ) );
-        } else if( attack_vector == "TORSO" ) {
-            covers = worn_item.covers( bodypart_id( "torso" ) );
+        switch( atv ) {
+            case attack_vector::NONE:
+                covers =  false;
+                break;
+            case attack_vector::HAND:
+            case attack_vector::FINGERS:
+            case attack_vector::PALM:
+            case attack_vector::HAND_BACK:
+                covers =  worn_item.covers( bodypart_id( "hand_l" ) ) ||
+                          worn_item.covers( bodypart_id( "hand_r" ) );
+                break;
+            case attack_vector::WRIST:
+                covers =  worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
+                break;
+            case attack_vector::ARM:
+                covers =  worn_item.covers( bodypart_id( "arm_l" ) ) ||
+                          worn_item.covers( bodypart_id( "arm_r" ) );
+                break;
+            case attack_vector::ELBOW:
+                covers =  worn_item.covers( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "arm_elbow_r" ) );
+                break;
+            case attack_vector::SHOULDER:
+                covers =  worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
+                break;
+            case attack_vector::FOOT:
+                covers =  worn_item.covers( bodypart_id( "foot_l" ) ) ||
+                          worn_item.covers( bodypart_id( "foot_r" ) );
+                break;
+            case attack_vector::LOWER_LEG:
+                covers =  worn_item.covers( sub_bodypart_id( "leg_lower_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "leg_lower_r" ) );
+                break;
+            case attack_vector::KNEE:
+                covers =  worn_item.covers( sub_bodypart_id( "leg_knee_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "leg_knee_r" ) );
+                break;
+            case attack_vector::HIP:
+                covers =  worn_item.covers( sub_bodypart_id( "leg_hip_l" ) ) ||
+                          worn_item.covers( sub_bodypart_id( "leg_hip_r" ) );
+                break;
+            case attack_vector::TORSO:
+                covers =  worn_item.covers( bodypart_id( "torso" ) );
+                break;
+            case attack_vector::HEAD:
+                covers =  worn_item.covers( bodypart_id( "head" ) );
+                break;
+            default:
+                break;
         }
 
         // Uses enum layer_level to make distinction for top layer.

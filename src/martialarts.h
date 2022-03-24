@@ -19,6 +19,7 @@
 class input_context;
 struct input_event;
 
+enum class attack_vector : int;
 enum class damage_type : int;
 class Character;
 class JsonObject;
@@ -156,8 +157,8 @@ class ma_technique
         ma_requirements reqs;
 
         // What way is the technique delivered to the target?
-        std::vector<std::string> attack_vectors; // by priority
-        std::vector<std::string> attack_vectors_random; // randomly
+        std::vector<attack_vector> attack_vectors; // by priority
+        std::vector<attack_vector> attack_vectors_random; // randomly
 
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc

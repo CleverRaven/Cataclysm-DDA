@@ -26,6 +26,11 @@ character_martial_arts::character_martial_arts()
     };
 }
 
+matype_id character_martial_arts::get_style_selected() const
+{
+    return style_selected;
+}
+
 bool character_martial_arts::selected_allow_all_weapons() const
 {
     return style_selected->allow_all_weapons;
