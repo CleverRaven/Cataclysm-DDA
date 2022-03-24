@@ -638,5 +638,28 @@
         { "item": "scrap", "count": [ 15, 60 ] }
       ]
     }
-  }
+  },
+  {
+    "type": "furniture",
+    "id": "f_archery_target_box",
+    "name": "archery practice target",
+    "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bulls-eye marked on the front.",
+    "symbol": "@",
+    "color": "brown",
+    "move_cost_mod": 9,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": "pseudo_archery_target_box",
+    "deconstruct": { "items": [ { "item": "archery_target_box", "count": 1 } ] },
+    "bash": {
+      "str_min": 1,
+      "str_max": 12,
+      "sound": "whish!",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "cardboard", "count": [ 2, 4 ] },
+        { "item": "rag", "count": [ 5, 18 ] }
+      ]
+    }
+  },
 ]
