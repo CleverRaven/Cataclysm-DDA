@@ -4196,7 +4196,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
-    "occurrences": [ 3, 100 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC" ]
   },
   {
