@@ -182,7 +182,7 @@
     "type": "furniture",
     "id": "f_whiskflower",
     "name": "Whiskflower bush",
-    "description": "A small plant with curled leaves and  pink whisk-shaped flowers. It has a very strong alcoholic smell.",
+    "description": "A small plant with curled leaves and  pink whisk-shaped flowers.  It has a very strong alcoholic smell.",
     "symbol": "v",
     "color": "pink",
     "looks_like": "f_dandelion",
