@@ -676,7 +676,7 @@
   {
     "type": "MONSTER",
     "id": "mon_stenonychosaurus",
-    "name": { "str": "stenonychosaurus" },
+    "name": { "str_sp": "stenonychosaurus" },
     "species": [ "DINOSAUR" ],
     "default_faction": "stenonychosaurus",
     "symbol": "D",
