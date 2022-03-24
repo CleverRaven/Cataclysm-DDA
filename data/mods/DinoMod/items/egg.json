@@ -445,5 +445,50 @@
     "name": "mosasaurus egg",
     "copy-from": "egg_dino_large",
     "rot_spawn": "GROUP_EGG_mosasaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "boiled_egg_dino_small",
+    "name": { "str": "small boiled dinosaur egg" },
+    "copy-from": "egg_dino_small",
+    "color": "white",
+    "symbol": "o",
+    "quench": -5,
+    "description": "A smaller hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
+    "price": 195,
+    "price_postapoc": 100,
+    "material": [ "egg" ],
+    "fun": 5,
+    "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "boiled_egg_dino",
+    "name": { "str": "boiled dinosaur egg" },
+    "copy-from": "egg_dino",
+    "color": "white",
+    "symbol": "o",
+    "quench": -10,
+    "description": "A hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
+    "price": 395,
+    "price_postapoc": 200,
+    "material": [ "egg" ],
+    "fun": 10,
+    "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "boiled_egg_dino_large",
+    "name": { "str": "large boiled dinosaur egg" },
+    "copy-from": "egg_dino_large",
+    "color": "white",
+    "symbol": "o",
+    "quench": -15,
+    "description": "A large hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
+    "price": 595,
+    "price_postapoc": 300,
+    "material": [ "egg" ],
+    "fun": 20,
+    "flags": [ "FREEZERBURN" ]
   }
 ]
