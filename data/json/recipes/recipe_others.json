@@ -2433,10 +2433,10 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
+    "using": [ [ "fabric_standard", 50 ], [ "ink_standard", 20] ],
     "components": [
        [ [ "box_medium", 1 ] ],
-       [ [ "fabric_standard", 50 ] ],
-       [ [ "duct_tape", 10 ], ["paint", 5, "LIST"], [ "medical_tape", 20 ], [ "survival_marker", 10 ], [ "ink_standard", 20] ]
+       [ [ "duct_tape", 10 ], ["paint", 5, "LIST"], [ "medical_tape", 20 ], [ "survival_marker", 10 ] ]
      ]
   },
   {
