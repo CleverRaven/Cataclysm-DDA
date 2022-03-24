@@ -5074,7 +5074,7 @@
   {
     "type": "construction",
     "id": "constr_archery_target_box",
-    "group": "build_archery_box_target",
+    "group": "build_archery_target_box",
     "category": "CONSTRUCT",
     "time": "1 m",
     "difficulty": 0,
