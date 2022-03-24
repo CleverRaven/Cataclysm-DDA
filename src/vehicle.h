@@ -1943,7 +1943,7 @@ class vehicle
         // cached pivot point
         mutable point pivot_cache; // NOLINT(cata-serialize)
         /*
-         * The coordinates of the bounding box of the vehicle's mount points
+         * The co-ordinates of the bounding box of the vehicle's mount points
          */
         mutable point mount_max; // NOLINT(cata-serialize)
         mutable point mount_min; // NOLINT(cata-serialize)

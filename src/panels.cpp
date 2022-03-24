@@ -800,7 +800,7 @@ static void draw_stat_narrow( const draw_args &args )
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
-    static const std::string activity_label = translate_marker( "Active:" );
+    static const std::string activity_label = translate_marker( "Activ:" );
 
     const int wlabel_len = utf8_width( _( weary_label ) );
     const int alabel_len = utf8_width( _( activity_label ) );
@@ -847,7 +847,7 @@ static void draw_stat_wide( const draw_args &args )
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
-    static const std::string activity_label = translate_marker( "Active:" );
+    static const std::string activity_label = translate_marker( "Activ:" );
 
     const int wlabel_len = utf8_width( _( weary_label ) );
     const int alabel_len = utf8_width( _( activity_label ) );

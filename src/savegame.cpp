@@ -58,14 +58,14 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 const int savegame_version = 33;
 
 /*
- * This is a global set by detected version header in .save, maps.txt, or overmap.
+ * This is a global set by detected version header in .sav, maps.txt, or overmap.
  * This allows loaders for classes that exist in multiple files (such as item) to have
  * support for backwards compatibility as well.
  */
 int savegame_loading_version = savegame_version;
 
 /*
- * Save to opened character.save
+ * Save to opened character.sav
  */
 void game::serialize( std::ostream &fout )
 {
