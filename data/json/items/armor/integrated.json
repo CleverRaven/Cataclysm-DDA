@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "phelloderm" },
-    "description": "Fello-hwat?",
+    "description": "A pliable but hefty layer of living plant matter.",
     "weight": "2 kg",
     "volume": "300 ml",
     "price": 0,
@@ -17,9 +17,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "material": [
-          { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 5
@@ -31,7 +29,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "protective bark" },
-    "description": "Like a guard dog or something?",
+    "description": "A powerful layer of bark, thicker in parts.",
     "weight": "6 kg",
     "volume": "300 ml",
     "price": 0,
@@ -44,10 +42,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 4 },
-          { "type": "wood", "covered_by_mat": 75, "thickness": 6 }
-        ],
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 9
@@ -72,10 +67,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "wood", "covered_by_mat": 75, "thickness": 7 }
-        ],
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
         "encumbrance": 10
@@ -100,9 +92,7 @@
     "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 15 }
-        ],
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
@@ -117,10 +107,7 @@
         "encumbrance": 8
       },
       {
-        "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 3 },
-          { "type": "wood", "covered_by_mat": 40, "thickness": 4 }
-        ],
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "wood", "covered_by_mat": 40, "thickness": 4 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 6
@@ -160,7 +147,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "light fur" },
-    "description": "Not fluffy enough!",
+    "description": "Thin, patchy fur that clearly needs to grow more.",
     "weight": "300 g",
     "volume": "300 ml",
     "price": 0,
@@ -185,7 +172,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "fur" },
-    "description": "Yeah, it's fluffy fur!",
+    "description": "Though it's quite warm, the fur is just as protective.",
     "weight": "700 g",
     "volume": "700 ml",
     "price": 0,
@@ -216,7 +203,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "shaggy fur" },
-    "description": "Megafloof!",
+    "description": "A heavy shag carpet of fur, somewhere between a ballistic vest and attic insulation.",
     "weight": "2 kg",
     "volume": "2 L",
     "price": 0,
@@ -257,7 +244,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "gray fur" },
-    "description": "The fur of a distinguished borker.",
+    "description": "The fur of a strong, wild creature.",
     "weight": "1 kg",
     "volume": "1 L",
     "price": 0,
@@ -288,7 +275,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sleek fur" },
-    "description": "Nya! *coughs up hairball*",
+    "description": "The fur of a proud, wise creature.",
     "weight": "1 kg",
     "volume": "1 L",
     "price": 0,
@@ -313,7 +300,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "lynx fur" },
-    "description": "FLOOF OVERLOAD!",
+    "description": "A pile of fur around the neck, protecting from foes that go for the throat.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": 0,
@@ -345,7 +332,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "jumbled skin" },
-    "description": "Rocking those skinny genes.",
+    "description": "Skin like a spilled tub of paints, splattered in abstract shapes of scale, fur, and leather.",
     "weight": "1 kg",
     "volume": "200 ml",
     "price": 0,
@@ -362,7 +349,6 @@
       "ALLOWS_NATURAL_ATTACKS",
       "UNBREAKABLE",
       "SKINTIGHT",
-      "NORMAL",
       "HELMET_COMPAT",
       "WATER_FRIENDLY"
     ],
@@ -372,7 +358,8 @@
           { "type": "leather", "covered_by_mat": 33, "thickness": 3 },
           { "type": "fur", "covered_by_mat": 33, "thickness": 3 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 3 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
@@ -383,7 +370,8 @@
           { "type": "leather", "covered_by_mat": 33, "thickness": 1 },
           { "type": "fur", "covered_by_mat": 33, "thickness": 1 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 1 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 1 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 1 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "mouth", "eyes" ],
         "coverage": 100,
@@ -396,7 +384,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "patchwork skin" },
-    "description": "Beauty is skin deep, eh?  So are axe wounds, it seems.",
+    "description": "Beauty is only skin deep, but with this skin, a knife might find itself broken in the beauty layer.",
     "weight": "2 kg",
     "volume": "500 ml",
     "price": 0,
@@ -425,7 +413,8 @@
           { "type": "fur", "covered_by_mat": 33, "thickness": 3 },
           { "type": "acidchitin", "covered_by_mat": 33, "thickness": 3 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 3 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.2 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
@@ -438,7 +427,8 @@
           { "type": "fur", "covered_by_mat": 33, "thickness": 1 },
           { "type": "acidchitin", "covered_by_mat": 33, "thickness": 1 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 1 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 1 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 1 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 0.9 }
         ],
         "covers": [ "mouth", "eyes" ],
         "coverage": 100,
@@ -451,7 +441,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "patchwork armor" },
-    "description": "Folks that can't catch bullets with their skin insist that it's what's inside that counts.  Morons.",
+    "description": "Folks that can't catch bullets with their skin insist that it's what's on the inside that counts.  Those folks don't know anything.",
     "weight": "3 kg",
     "volume": "800 ml",
     "price": 0,
@@ -482,7 +472,8 @@
           { "type": "kevlar", "covered_by_mat": 33, "thickness": 3 },
           { "type": "acidchitin", "covered_by_mat": 33, "thickness": 3 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 3 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.4 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
@@ -497,7 +488,8 @@
           { "type": "kevlar", "covered_by_mat": 33, "thickness": 1 },
           { "type": "acidchitin", "covered_by_mat": 33, "thickness": 1 },
           { "type": "cured_meat", "covered_by_mat": 33, "thickness": 1 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 1 }
+          { "type": "wool", "covered_by_mat": 33, "thickness": 1 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1 }
         ],
         "covers": [ "mouth", "eyes" ],
         "coverage": 100,
@@ -535,7 +527,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chitin carapace" },
-    "description": "Hellish.",
+    "description": "The skin hardens, develops.  Good, it will be needed.",
     "weight": "3 kg",
     "volume": "2 L",
     "price": 0,
@@ -616,7 +608,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sclerotin plate" },
-    "description": "When the time comes to prey, you will be ready for any resistance.",
+    "description": "When the time comes to prey, this platemail will be ready for any resistance.",
     "weight": "12 kg",
     "volume": "4 L",
     "price": 0,
@@ -681,7 +673,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sclerotin claws" },
-    "description": "These will be useful for the hunt, suitable for maximum efficiency.",
+    "description": "Useful for the hunt, suitable for maximum efficiency.",
     "weight": "450 g",
     "volume": "500 ml",
     "price": 0,
@@ -690,18 +682,19 @@
     "symbol": ",",
     "color": "brown",
     "warmth": 5,
-    "bashing": 1000,
-    "cutting": 1000,
+    "bashing": 7,
+    "cutting": 12,
+    "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
     "environmental_protection": 1,
     "techniques": [ "RAPID" ],
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 80,
-        "encumbrance": 6
+        "encumbrance": 7
       }
     ]
   }

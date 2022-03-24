@@ -401,9 +401,20 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
         // if no subparts do the old way
         if( bp->sub_parts.empty() ) {
             std::vector<layer_level> layer = worn_item_it->get_layer( bp );
+            bool first_integrated = true;
             const int num_items = std::count_if( worn.begin(), worn.end(),
-            [layer, bp]( const item & i ) {
-                return i.has_layer( layer, bp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE );
+            [layer, bp, &first_integrated]( const item & i ) {
+                if( i.has_layer( layer, bp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) ) {
+                    if( i.has_flag( flag_INTEGRATED ) ) {
+                        if( first_integrated ) {
+                            first_integrated = false;
+                            return true;
+                        }
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
             } );
             if( num_items > 1 ) {
                 body_parts_with_stacking_penalty.push_back( bp );
@@ -419,10 +430,21 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
                     continue;
                 }
                 std::vector<layer_level> layer = worn_item_it->get_layer( sbp );
+                bool first_integrated = true;
                 const int num_items = std::count_if( worn.begin(), worn.end(),
-                [layer, bp, sbp]( const item & i ) {
-                    return i.has_layer( layer, sbp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-                           i.covers( sbp );
+                [layer, bp, sbp, &first_integrated]( const item & i ) {
+                    if( i.has_layer( layer, sbp ) && i.covers( bp ) && !i.has_flag( flag_SEMITANGIBLE ) &&
+                        i.covers( sbp ) ) {
+                        if( i.has_flag( flag_INTEGRATED ) ) {
+                            if( first_integrated ) {
+                                first_integrated = false;
+                                return true;
+                            }
+                            return false;
+                        }
+                        return true;
+                    }
+                    return false;
                 } );
                 if( num_items > 1 ) {
                     body_parts_with_stacking_penalty.push_back( bp );
