@@ -231,8 +231,6 @@
     "copy-from": "armor_plarmor",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skill_used": "fabrication",
-    "difficulty": 2,
     "skills_required": [ "tailor", 3 ],
     "time": "24 h",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
