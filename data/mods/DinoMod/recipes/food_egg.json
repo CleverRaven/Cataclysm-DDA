@@ -316,8 +316,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "boiled_egg",
-    "id_suffix": "small dinosaur",
+    "result": "boiled_egg_dino_small",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -333,8 +332,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "boiled_egg",
-    "id_suffix": "dinosaur",
+    "result": "boiled_egg_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -350,8 +348,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "boiled_egg",
-    "id_suffix": "large dinosaur",
+    "result": "boiled_egg_dino_large",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
