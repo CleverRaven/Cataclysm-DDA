@@ -642,7 +642,7 @@
   {
     "type": "furniture",
     "id": "f_archery_target_box",
-    "name": "archery practice target",
+    "name": "archery box target",
     "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bulls-eye marked on the front.",
     "symbol": "@",
     "color": "brown",

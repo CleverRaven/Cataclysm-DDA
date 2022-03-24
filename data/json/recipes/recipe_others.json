@@ -2432,12 +2432,12 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 0,
-    "time": "10 m",
+    "time": "8 m",
     "autolearn": true,
     "components": [
        [ [ "box_medium", 1 ] ],
        [ [ "fabric_standard", 50 ] ],
-       [ [ "duct_tape", 10 ], ["paint", 5, "LIST"], [ "medical_tape", 20 ], [ "survival_marker", 10 ], [ "ink_standard", 20] ] 
+       [ [ "duct_tape", 10 ], ["paint", 5, "LIST"], [ "medical_tape", 20 ], [ "survival_marker", 10 ], [ "ink_standard", 20] ]
      ]
   },
   {
