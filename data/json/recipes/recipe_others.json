@@ -2434,7 +2434,7 @@
     "time": "8 m",
     "autolearn": true,
     "using": [ [ "fabric_standard", 200 ] ],
-    "components": [ [ [ "box_medium", 1 ] ], [ ["marking_hard", 20], ["paint", 20] ] ]
+    "components": [ [ [ "box_medium", 1 ] ], [ ["marking_hard", 20, "LIST" ], ["paint", 20] ] ]
   },
   {
     "type": "recipe",
