@@ -29,7 +29,7 @@
     ]
   },
   {
-    "id": "prac_archery_simple",
+    "id": "prac_archery_beg",
     "type": "practice",
     "//": "shooting against a hard target should damage arrows",
     "activity_level": "MODERATE_EXERCISE",
@@ -62,9 +62,9 @@
 	"byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 4 ] } ]
   },
   {
-    "id": "prac_archery_intermediate",
+    "id": "prac_archery_int",
     "type": "practice",
-    "//": "variable arrow byproducts would be ideal, but the functionality isn't available",
+    "//": "Ideally, this would accept multiple arrow types and return a portion of the arrows used",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
