@@ -1,36 +1,11 @@
 [
   {
-    "id": "eggs_insect",
-    "type": "requirement",
-    "//": "All of the different insect eggs",
-    "components": [
-      [
-        [ "ant_egg", 1 ],
-        [ "spider_egg", 4 ],
-        [ "egg_roach", 4 ],
-        [ "egg_roach_plague", 4 ],
-        [ "egg_locust", 4 ],
-        [ "egg_dragonfly", 4 ],
-        [ "egg_firefly", 4 ],
-        [ "egg_centipede", 2 ],
-        [ "egg_wasp", 4 ],
-        [ "egg_antlion", 2 ],
-        [ "egg_strider", 4 ],
-        [ "egg_grasshopper", 4 ],
-        [ "egg_lady_bug", 4 ],
-        [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ],
-        [ "egg_stag_beetle", 1 ],
-        [ "eggs_dino_small", 1, "LIST" ]
-      ]
-    ]
-  },
-  {
     "id": "eggs_dino",
     "type": "requirement",
     "components": [
       [
         [ "egg_dino", 1 ],
+        [ "egg_dino_theropod", 1 ],
         [ "egg_dilophosaurus", 1 ],
         [ "egg_ceratosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
@@ -91,6 +66,8 @@
     "//": "All needed",
     "components": [
       [
+        [ "egg_dino_large", 1 ],
+        [ "egg_dino_theropod_large", 1 ],
         [ "egg_spinosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ],
         [ "egg_amargasaurus", 1 ],
