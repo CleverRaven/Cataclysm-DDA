@@ -5,11 +5,6 @@
     "components": [
       [
         [ "egg_dino", 1 ],
-        [ "egg_dino_small", 4 ],
-        [ "egg_dino_small", 4, "LIST" ],
-        [ "egg_dino_theropod", 1 ],
-        [ "egg_dino_theropod_small", 4 ],
-        [ "egg_dino_theropod_small", 4, "LIST" ],
         [ "egg_dilophosaurus", 1 ],
         [ "egg_ceratosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
@@ -72,8 +67,6 @@
       [
         [ "egg_dino_large", 1 ],
         [ "egg_dino_theropod_large", 1 ],
-        [ "egg_dino", 2 ],
-        [ "egg_dino_theropod", 2 ],
         [ "egg_spinosaurus", 1 ],
         [ "egg_tyrannosaurus", 1 ],
         [ "egg_amargasaurus", 1 ],
