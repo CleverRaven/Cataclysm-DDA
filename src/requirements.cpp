@@ -440,14 +440,32 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
-    save_requirement( req );
+    save_requirement( req, string_id<requirement_data>::NULL_ID(), jsobj.get_bool( "extending",
+                      false ) );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id,
+        bool extend )
 {
     requirement_data dup = req;
     if( !id.is_null() ) {
         dup.id_ = id;
+    }
+
+    if( extend && requirements_all.count( dup.id_ ) > 0 ) {
+        requirement_data &orig = requirements_all[ dup.id_ ];
+        for( unsigned i = 0; i < orig.components.size() && i < dup.components.size(); i++ ) {
+            orig.components[i].insert( orig.components[i].end(), dup.components[i].begin(),
+                                       dup.components[i].end() );
+        }
+        for( unsigned i = 0; i < orig.tools.size() && i < dup.tools.size(); i++ ) {
+            orig.tools[i].insert( orig.tools[i].end(), dup.tools[i].begin(), dup.tools[i].end() );
+        }
+        for( unsigned i = 0; i < orig.qualities.size() && i < dup.qualities.size(); i++ ) {
+            orig.qualities[i].insert( orig.qualities[i].end(), dup.qualities[i].begin(),
+                                      dup.qualities[i].end() );
+        }
+        return;
     }
 
     requirements_all[ dup.id_ ] = dup;

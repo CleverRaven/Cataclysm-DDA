@@ -286,7 +286,8 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void save_requirement( const requirement_data &req,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      bool extend = false );
         static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
