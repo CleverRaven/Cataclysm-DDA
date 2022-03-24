@@ -2312,13 +2312,13 @@
     "points": 1,
     "visibility": 6,
     "ugliness": 2,
-    "bodytemp_modifiers": [ 250, 500 ],
-    "bodytemp_sleep": 100,
-    "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
+    "bodytemp_sleep": 75,
+    "description": "Light fur has grown to cover your entire body, providing marginal protection against attacks and slight protection from cold.",
     "category": [ "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ],
+    "integrated_armor": [ "integrated_lightfur" ]
   },
   {
     "type": "mutation",
@@ -2327,14 +2327,13 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Thick black fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
+    "bodytemp_sleep": 200,
+    "description": "Thick black fur has grown to cover your entire body, providing minor protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "changes_to": [ "URSINE_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "BEAST", "CATTLE", "RAT" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_fur" ]
   },
   {
     "type": "mutation",
@@ -2343,14 +2342,12 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
-    "//": "Weak, marginal, and noticeable protection all translate to +1. Is this intended?",
+    "bodytemp_sleep": 250,
+    "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "URSINE" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_ursine_fur" ]
   },
   {
     "type": "mutation",
@@ -2359,13 +2356,12 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
-    "bodytemp_sleep": 500,
-    "description": "Dense gray fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
+    "bodytemp_sleep": 200,
+    "description": "Dense gray fur has grown to cover your entire body, providing noticeable protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_lupine_fur" ]
   },
   {
     "type": "mutation",
@@ -2374,13 +2370,13 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 500, 1000 ],
-    "bodytemp_sleep": 300,
-    "description": "You've grown sleek brown fur, providing some protection from cold.",
+    "bodytemp_sleep": 150,
+    "description": "You've grown sleek fur, providing minor protection against attacks, and some protection from cold.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "leads_to": [ "LYNX_FUR" ],
-    "category": [ "BEAST", "FELINE", "MOUSE" ]
+    "category": [ "BEAST", "FELINE", "MOUSE" ],
+    "integrated_armor": [ "integrated_feline_fur" ]
   },
   {
     "type": "mutation",
@@ -2389,19 +2385,18 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 1,
-    "description": "Your fur has grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
+    "description": "Your fur has grown out significantly around your cheeks and neck, providing excellent protection from attacks.",
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
-    "armor": [ { "part_types": [ "head", "mouth" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_lynx_fur" ]
   },
   {
     "type": "mutation",
     "id": "PATCHSKIN1",
-    "name": { "str": "Patchwork Skin" },
+    "name": { "str": "Jumbled Skin" },
     "points": 2,
     "visibility": 10,
     "ugliness": 6,
-    "bodytemp_modifiers": [ 125, 250 ],
     "bodytemp_sleep": 50,
     "description": "Your skin has mutated into an amalgamation of fur and scales.",
     "movecost_swim_modifier": 0.95,
@@ -2417,23 +2412,50 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "PATCHSKIN2" ]
+    "changes_to": [ "PATCHSKIN2" ],
+    "integrated_armor": [ "integrated_patchskin1" ]
   },
   {
     "type": "mutation",
     "id": "PATCHSKIN2",
-    "name": { "str": "Thickened Patchwork Skin" },
+    "name": { "str": "Patchwork Skin" },
     "points": 4,
     "visibility": 10,
     "ugliness": 8,
-    "bodytemp_modifiers": [ 250, 500 ],
     "bodytemp_sleep": 100,
-    "description": "Your skin has mutated into an amalgamation of thickened fur and scales.",
+    "description": "Your skin has mutated into an amalgamation of thickened fur, scales, and more.",
     "movecost_swim_modifier": 0.9,
+    "wet_protection": [
+      { "part": "head", "ignored": 3 },
+      { "part": "leg_l", "ignored": 8 },
+      { "part": "leg_r", "ignored": 8 },
+      { "part": "foot_l", "ignored": 3 },
+      { "part": "foot_r", "ignored": 3 },
+      { "part": "arm_l", "ignored": 9 },
+      { "part": "arm_r", "ignored": 9 },
+      { "part": "hand_l", "ignored": 2 },
+      { "part": "hand_r", "ignored": 2 },
+      { "part": "torso", "ignored": 15 }
+    ],
+    "category": [ "CHIMERA" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "PATCHSKIN1" ],
+    "changes_to": [ "PATCHSKIN3" ],
+    "integrated_armor": [ "integrated_patchskin2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PATCHSKIN3",
+    "name": { "str": "Patchwork Armor" },
+    "points": 6,
+    "visibility": 10,
+    "ugliness": 12,
+    "bodytemp_sleep": 125,
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to kevlar.",
+    "movecost_swim_modifier": 0.85,
     "wet_protection": [
       { "part": "head", "ignored": 3 },
       { "part": "leg_l", "ignored": 10 },
@@ -2446,23 +2468,25 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 20 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ],
     "category": [ "CHIMERA" ],
+    "threshreq": [ "THRESH_CHIMERA" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "PATCHSKIN1" ]
+    "prereqs": [ "PATCHSKIN2" ],
+    "integrated_armor": [ "integrated_patchskin3" ]
   },
   {
     "type": "mutation",
     "id": "CHITIN",
-    "name": { "str": "Chitinous Skin" },
+    "name": { "str": "Epicuticle" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your epidermis has turned into a thin, flexible layer of chitin.  It provides minor protection from cutting wounds.  Slightly reduces wet effects.",
+    "description": "Your epidermis has turned into a thin, flexible layer of chitin.  It provides decent physical protection.  Slightly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "CHITIN2", "CHITIN_FUR" ],
+    "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
     "category": [ "SPIDER" ],
+    "integrated_armor": [ "integrated_chitin" ],
     "wet_protection": [
       { "part": "head", "ignored": 1 },
       { "part": "leg_l", "ignored": 5 },
@@ -2474,23 +2498,22 @@
       { "part": "hand_l", "ignored": 1 },
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
+    ]
   },
   {
     "type": "mutation",
     "id": "CHITIN2",
-    "name": { "str": "Chitinous Armor" },
+    "name": { "str": "Chitin Carapace" },
     "points": 2,
     "visibility": 6,
     "ugliness": 3,
     "bash_dmg_bonus": 2,
-    "mixed_effect": true,
-    "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder but reduces your Dexterity by 1.  Somewhat reduces wet effects.",
+    "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "CHITIN" ],
-    "changes_to": [ "CHITIN3" ],
+    "leads_to": [ "CHITIN3" ],
     "category": [ "INSECT" ],
+    "integrated_armor": [ "integrated_chitin2" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 9 },
@@ -2502,23 +2525,21 @@
       { "part": "hand_l", "ignored": 2 },
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 18 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ],
-    "passive_mods": { "dex_mod": -1 }
+    ]
   },
   {
     "type": "mutation",
     "id": "CHITIN3",
-    "name": { "str": "Chitinous Plate" },
+    "name": { "str": "Sclerotin Plate" },
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
-    "bash_dmg_bonus": 3,
     "description": "You've grown a chitin exoskeleton made of thick, stiff plates.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
-    "prereqs": [ "CHITIN2", "CHITIN_FUR2" ],
+    "prereqs": [ "CHITIN2" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR3" ],
+    "leads_to": [ "CHITIN_FUR3" ],
+    "integrated_armor": [ "integrated_chitin3" ],
     "wet_protection": [
       { "part": "head", "ignored": 4 },
       { "part": "leg_l", "ignored": 14 },
@@ -2530,22 +2551,6 @@
       { "part": "hand_l", "ignored": 3 },
       { "part": "hand_r", "ignored": 3 },
       { "part": "torso", "ignored": 26 }
-    ],
-    "encumbrance_always": [
-      [ "torso", 10 ],
-      [ "head", 10 ],
-      [ "arm_l", 10 ],
-      [ "arm_r", 10 ],
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ],
-      [ "leg_l", 10 ],
-      [ "leg_r", 10 ],
-      [ "foot_l", 10 ],
-      [ "foot_r", 10 ]
-    ],
-    "restricts_gear": [ "head" ],
-    "armor": [
-      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
     ],
     "passive_mods": { "dex_mod": -1 }
   },
@@ -2559,11 +2564,10 @@
     "bodytemp_modifiers": [ 100, 150 ],
     "bodytemp_sleep": 50,
     "description": "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
-    "types": [ "SKIN" ],
-    "prereqs": [ "CHITIN", "LIGHTFUR" ],
+    "prereqs": [ "CHITIN" ],
+    "prereqs2": [ "LIGHTFUR" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR2" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2, "cut": 2 } ]
+    "changes_to": [ "CHITIN_FUR2" ]
   },
   {
     "type": "mutation",
@@ -2575,11 +2579,10 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
-    "types": [ "SKIN" ],
     "prereqs": [ "CHITIN_FUR" ],
+    "leads_to": [ "CF_HAIR" ],
     "category": [ "SPIDER" ],
-    "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 4, "cut": 4 } ]
+    "changes_to": [ "CHITIN_FUR3" ]
   },
   {
     "type": "mutation",
@@ -2590,28 +2593,11 @@
     "ugliness": 4,
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
-    "description": "Your exoskeleton has hardened considerably, imposing a further -1 to Dexterity, and boasts a fine coat of hairs that put feline whiskers to shame.",
-    "encumbrance_always": [
-      [ "torso", 10 ],
-      [ "head", 10 ],
-      [ "arm_l", 10 ],
-      [ "arm_r", 10 ],
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ],
-      [ "leg_l", 10 ],
-      [ "leg_r", 10 ],
-      [ "foot_l", 10 ],
-      [ "foot_r", 10 ]
-    ],
-    "types": [ "SKIN" ],
+    "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
     "prereqs": [ "CHITIN_FUR2", "CHITIN3" ],
+    "leads_to": [ "CF_HAIR" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ],
-    "restricts_gear": [ "head" ],
-    "armor": [
-      { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 8, "cut": 8, "bullet": 1 }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    "category": [ "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -2666,37 +2652,24 @@
     "points": 3,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your skin is light green and has a slightly woody quality to it.  This provides a weak armor, and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
+    "description": "Your skin is light green and has a slightly woody quality to it.  This provides armor and helps you retain moisture, resulting in less thirst.  Greatly decreases wet penalties.",
     "types": [ "SKIN" ],
     "changes_to": [ "BARK" ],
-    "leads_to": [ "THORNS", "LEAVES" ],
+    "leads_to": [ "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
-    "wet_protection": [
-      { "part": "head", "neutral": 4 },
-      { "part": "leg_l", "neutral": 5 },
-      { "part": "leg_r", "neutral": 5 },
-      { "part": "foot_l", "neutral": 1 },
-      { "part": "foot_r", "neutral": 1 },
-      { "part": "arm_l", "neutral": 4 },
-      { "part": "arm_r", "neutral": 4 },
-      { "part": "hand_l", "neutral": 1 },
-      { "part": "hand_r", "neutral": 1 },
-      { "part": "torso", "neutral": 10 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ],
     "thirst_modifier": -0.2
   },
   {
     "type": "mutation",
     "id": "BARK",
-    "name": { "str": "Bark" },
+    "name": { "str": "Protective Bark" },
     "points": 5,
     "visibility": 10,
     "ugliness": 3,
-    "description": "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting damage and minor protection from fire.  Greatly reduces wet effects.",
+    "description": "Your skin is coated in a light bark, like that of a tree.  This provides powerful armor and greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "PLANTSKIN" ],
-    "leads_to": [ "THORNS" ],
+    "leads_to": [ "THORNS", "LEAVES" ],
     "category": [ "PLANT" ],
     "wet_protection": [
       { "part": "head", "ignored": 5 },
@@ -2709,8 +2682,7 @@
       { "part": "hand_l", "ignored": 4 },
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
-    ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
+    ]
   },
   {
     "type": "mutation",

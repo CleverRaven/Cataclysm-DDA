@@ -1308,6 +1308,11 @@
     "type": "json_flag"
   },
   {
+    "id": "INTEGRATED",
+    "type": "json_flag",
+    "info": "This is <info>integrated into the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },

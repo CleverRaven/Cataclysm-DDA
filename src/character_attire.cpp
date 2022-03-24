@@ -49,6 +49,9 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_success();
+    }
     if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
