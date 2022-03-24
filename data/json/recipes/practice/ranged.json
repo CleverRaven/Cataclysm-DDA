@@ -68,7 +68,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
-    "name": "archery (beginner)",
+    "name": "archery (intermediate)",
     "description": "Practice firing fletched arrows accurately into a target. Requires a decent quality bow.",
     "skill_used": "archery",
     "time": "1 h",
@@ -94,5 +94,4 @@
 	"components": [ [ [ "arrow_wood_heavy", 10 ] ] ],
 	"byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 8, 10 ] } ]
   }
-  
 ]
