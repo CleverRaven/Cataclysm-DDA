@@ -259,6 +259,6 @@
     "id": "marking_hard",
     "type": "requirement",
     "//": "Tools to mark a hard surface",
-    "components": [ [ [ "ink_standard", 1, "LIST" ] , [ "medical_tape", 1 ], ["duct_tape", 1], ["paint", 1, "LIST"], ["permanent_marker", 1], ["survival_marker", -1] ] ]
+    "tools": [ [ [ "ink_standard", 2, "LIST" ] , [ "medical_tape", 1 ], ["duct_tape", 1], ["permanent_marker", 1], ["survival_marker", -1] ] ]
   }
 ]
