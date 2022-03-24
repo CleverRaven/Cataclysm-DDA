@@ -2433,8 +2433,8 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ [ "fabric_standard", 200 ] ], [ ["marking_hard", 20, "LIST" ] ] ],
-    "components": [ [ [ "box_medium", 1 ] ], [ ["paint", 10, "LIST"] ] ]
+    "using": [ [ [ "fabric_standard", 200 ] ], [ ["marking_hard", 10, "LIST" ] ] ],
+    "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
     "type": "recipe",
