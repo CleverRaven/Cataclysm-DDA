@@ -1,5 +1,11 @@
 [
   {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "extending": true,
+    "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ] ]
+  },
+  {
     "id": "eggs_dino",
     "type": "requirement",
     "components": [
@@ -44,7 +50,6 @@
   {
     "id": "eggs_dino_small",
     "type": "requirement",
-    "//": "All needed",
     "components": [
       [
         [ "egg_dino_small", 1 ],
@@ -63,7 +68,6 @@
   {
     "id": "eggs_dino_large",
     "type": "requirement",
-    "//": "All needed",
     "components": [
       [
         [ "egg_dino_large", 1 ],
