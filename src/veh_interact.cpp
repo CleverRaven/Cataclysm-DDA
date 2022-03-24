@@ -96,6 +96,8 @@ static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
+static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
+
 static inline std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
@@ -1021,40 +1023,34 @@ void veh_interact::do_install()
                                   " Continue?" ) ) ) {
                     return;
                 }
-                const auto &shapes =
-                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+                // Don't include appliances in variant list
+                for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                    if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                        shapes.erase( iter );
+                    } else {
+                        iter++;
+                    }
+                }
                 int selected_shape = -1;
-                // more than one shape available, display selection
+                // more than one base variant available with the same name
                 size_t num_vpart_shapes = shapes.size();
-                size_t num_shapes_total = num_vpart_shapes + sel_vpart_info->symbols.size();
-                if( num_shapes_total > 1 ) {
+                if( num_vpart_shapes > 1 ) {
                     std::vector<uilist_entry> shape_ui_entries;
                     for( size_t i = 0; i < shapes.size(); i++ ) {
-                        uilist_entry entry( i, true, 0, shapes[i]->name() );
+                        // use the id to distinguish between them
+                        std::string vpname =
+                            string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
+                        uilist_entry entry( i, true, 0, vpname );
                         entry.extratxt.left = 1;
                         entry.extratxt.sym = special_symbol( shapes[i]->sym );
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    size_t j = num_vpart_shapes;
-                    for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                        std::string disp_name = sel_vpart_info->name();
-                        for( const auto &vp_variant_pair : vpart_variants ) {
-                            if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + vp_variant_pair.second;
-                                break;
-                            }
-                        }
-                        uilist_entry entry( j, true, 0, disp_name );
-                        entry.extratxt.left = 1;
-                        entry.extratxt.sym = special_symbol( vp_variant.second );
-                        entry.extratxt.color = sel_vpart_info->color;
-                        shape_ui_entries.push_back( entry );
-                        j += 1;
-                    }
                     sort_uilist_entries_by_line_drawing( shape_ui_entries );
                     uilist smenu;
-                    smenu.settext( _( "Choose shape:" ) );
+                    //~ Choose a base variant for a vehicle part
+                    smenu.settext( _( "Choose base:" ) );
                     smenu.entries = shape_ui_entries;
                     smenu.w_width_setup = [this]() {
                         return getmaxx( w_list );
@@ -1070,25 +1066,70 @@ void veh_interact::do_install()
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
                 }
-                if( selected_shape >= 0 &&
-                    static_cast<size_t>( selected_shape ) < num_shapes_total ) {
-                    if( static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
-                        sel_vpart_info = shapes[selected_shape];
-                        sel_vpart_variant.clear();
-                    } else {
-                        size_t offset = static_cast<size_t>( selected_shape ) - num_vpart_shapes;
-                        size_t j = 0;
+                if( selected_shape >= 0 && static_cast<size_t>( selected_shape ) < num_vpart_shapes ) {
+                    sel_vpart_info = shapes[selected_shape];
+                    sel_vpart_variant.clear();
+                    selected_shape = 0;
+                    // more than one shape available, display selection
+                    size_t num_shapes_total = sel_vpart_info->symbols.size();
+                    if( num_shapes_total > 0 ) {
+                        std::vector<uilist_entry> shape_ui_entries;
+                        size_t j = 1;
                         for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                            if( j == offset ) {
-                                sel_vpart_variant = vp_variant.first;
-                                break;
-                            } else {
-                                j += 1;
+                            std::string disp_name = sel_vpart_info->name();
+                            for( const auto &vp_variant_pair : vpart_variants ) {
+                                if( vp_variant_pair.first == vp_variant.first ) {
+                                    disp_name += " " + vp_variant_pair.second;
+                                    break;
+                                }
+                            }
+                            uilist_entry entry( j, true, 0, disp_name );
+                            entry.extratxt.left = 1;
+                            entry.extratxt.sym = special_symbol( vp_variant.second );
+                            entry.extratxt.color = sel_vpart_info->color;
+                            shape_ui_entries.push_back( entry );
+                            j += 1;
+                        }
+                        sort_uilist_entries_by_line_drawing( shape_ui_entries );
+                        //~ Option to select the default vehicle part, no variant
+                        uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
+                        def_entry.extratxt.left = 1;
+                        def_entry.extratxt.sym = ' ';
+                        def_entry.extratxt.color = c_white;
+                        shape_ui_entries.push_back( def_entry );
+                        uilist smenu;
+                        //~ Choose a variant shape for a vehicle part
+                        smenu.settext( _( "Choose shape:" ) );
+                        smenu.entries = shape_ui_entries;
+                        smenu.w_width_setup = [this]() {
+                            return getmaxx( w_list );
+                        };
+                        smenu.w_x_setup = [this]( const int ) {
+                            return getbegx( w_list );
+                        };
+                        smenu.w_y_setup = [this]( const int ) {
+                            return getbegy( w_list );
+                        };
+                        smenu.query();
+                        selected_shape = smenu.ret;
+                    }
+                    if( selected_shape >= 0 && ( num_shapes_total == 0 ||
+                                                 static_cast<size_t>( selected_shape ) < num_shapes_total ) ) {
+                        int offset = selected_shape - 1;
+                        if( offset >= 0 ) {
+                            int j = 0;
+                            for( const auto &vp_variant : sel_vpart_info->symbols ) {
+                                if( j == offset ) {
+                                    sel_vpart_variant = vp_variant.first;
+                                    break;
+                                } else {
+                                    j += 1;
+                                }
                             }
                         }
+                        sel_cmd = 'i';
+                        return;
                     }
-                    sel_cmd = 'i';
-                    return;
                 }
             }
         } else if( action == "QUIT" ) {
@@ -2014,7 +2055,15 @@ void veh_interact::do_change_shape()
             break;
         } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
             using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
-            const v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
+            // Don't include appliances in variant list
+            for( auto iter = shapes.begin(); iter != shapes.end(); ) {
+                if( ( *iter )->has_flag( VPFLAG_APPLIANCE ) ) {
+                    shapes.erase( iter );
+                } else {
+                    iter++;
+                }
+            }
             if( shapes.empty() ) {
                 break;
             }
@@ -2035,7 +2084,9 @@ void veh_interact::do_change_shape()
             int default_selection = 0;
             std::vector<std::string> variants;
             for( const vpart_info *const shape : shapes ) {
-                uilist_entry entry( shape->name() );
+                // more than one base variant available with the same name, use id to distinguish between them
+                std::string vpname = string_format( "%s (%s)", shape->name(), shape->get_id().str() );
+                uilist_entry entry( vpname );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
                 entry.extratxt.sym = special_symbol( shape->sym );
@@ -3352,7 +3403,11 @@ void veh_interact::complete_vehicle( Character &you )
             break;
         }
 
+        case 'O': // 'O' = remove appliance
         case 'o': {
+            const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
+            const bool wall_wire_removal = appliance_removal &&
+                                           veh->part( vehicle_part ).id == vpart_ap_wall_wiring;
             const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );
@@ -3418,7 +3473,9 @@ void veh_interact::complete_vehicle( Character &you )
                                        veh->part( vehicle_part ).name(), veh->name );
             }
 
-            if( broken ) {
+            if( wall_wire_removal ) {
+                veh->part( vehicle_part ).properties_to_item();
+            } else if( broken ) {
                 item_group::ItemList pieces = veh->part( vehicle_part ).pieces_for_broken_part();
                 resulting_items.insert( resulting_items.end(), pieces.begin(), pieces.end() );
             } else {
@@ -3432,6 +3489,17 @@ void veh_interact::complete_vehicle( Character &you )
                     // removal is half as educational as installation
                     you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) / 2 );
                 }
+            }
+
+            // Remove any leftover power cords from the appliance
+            if( appliance_removal && veh->part_count() >= 2 ) {
+                for( const vpart_reference &vpr : veh->get_all_parts() ) {
+                    if( vpr.part().info().has_flag( "POWER_TRANSFER" ) ) {
+                        veh->remove_remote_part( vpr.part_index() );
+                        veh->remove_part( vpr.part_index() );
+                    }
+                }
+                veh->part_removal_cleanup();
             }
 
             if( veh->part_count() < 2 ) {

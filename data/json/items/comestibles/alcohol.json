@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "wine_mycus",
     "looks_like": "wine_cabernet",
-    "name": { "str_sp": "mycus wine" },
+    "name": { "str_sp": "Mycus wine" },
     "weight": "33 g",
     "color": "white",
     "addiction_type": "alcohol",
@@ -15,7 +15,7 @@
     "quench": 5,
     "addiction_potential": 5,
     "calories": 40,
-    "description": "Goopy white wine, made of the mycus fruit.",
+    "description": "Goopy white wine, made of the Mycus fruit.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "alcohol", "water", "mushroom" ],
@@ -31,7 +31,7 @@
     "type": "COMESTIBLE",
     "id": "wine_marloss",
     "looks_like": "wine_mycus",
-    "name": { "str_sp": "marloss wine" },
+    "name": { "str_sp": "Marloss wine" },
     "weight": "33 g",
     "color": "pink",
     "addiction_type": "marloss_r",
@@ -43,7 +43,7 @@
     "quench": 5,
     "addiction_potential": 5,
     "calories": 40,
-    "description": "A viscous soft pink wine, made from the fruit of the marloss.",
+    "description": "A viscous soft pink wine, made from the fruit of the Marloss.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "alcohol", "water", "fruit" ],
@@ -143,7 +143,7 @@
     "type": "COMESTIBLE",
     "id": "wine_noir",
     "looks_like": "wine_cabernet",
-    "name": { "str_sp": "pinot noir" },
+    "name": { "str_sp": "Pinot noir" },
     "weight": "50 g",
     "color": "red",
     "addiction_type": "alcohol",
@@ -704,7 +704,7 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1498,7 +1498,7 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": -11
   },
   {
@@ -1556,7 +1556,7 @@
     "flags": [ "EATEN_COLD" ],
     "freezing_point": -34,
     "fun": 25,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -291,6 +291,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
+- ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
@@ -531,7 +532,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
-- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to Mycus fruits by default.
 - ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
@@ -673,6 +674,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```AUTODOC``` This furniture can be an autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
+- ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
 
 
 ## Generic

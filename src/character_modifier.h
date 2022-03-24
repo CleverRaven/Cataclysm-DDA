@@ -62,6 +62,7 @@ struct character_modifier {
         character_modifier_id id = character_modifier_id::NULL_ID();
         std::map<limb_score_id, float> limbscores;
         mod_type limbscore_modop = MULT;
+        std::vector<std::pair<character_modifier_id, mod_id>> src;
         body_part_type::type limbtype = body_part_type::type::num_types;
         translation desc = translation();
         mod_type modtype = mod_type::NONE;
@@ -75,6 +76,7 @@ struct character_modifier {
         std::string builtin;
         bool was_loaded = false;
         friend class generic_factory<character_modifier>;
+        friend struct mod_tracker;
 };
 
 #endif // CATA_SRC_CHARACTER_MODIFIER_H

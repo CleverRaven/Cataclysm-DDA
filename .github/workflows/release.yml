@@ -165,7 +165,7 @@ jobs:
         uses: lukka/run-vcpkg@v10
         id: runvcpkg
         with:
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-2
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
@@ -179,9 +179,7 @@ jobs:
       - name: Install dependencies (windows mxe)
         if: matrix.mxe != 'none'
         run: |
-          sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
-            libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
-            p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+          sudo apt install gettext
       - name: Install MXE
         if: matrix.mxe != 'none'
         run: |

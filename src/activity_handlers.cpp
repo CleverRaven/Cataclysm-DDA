@@ -109,7 +109,6 @@ static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -127,7 +126,6 @@ static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
@@ -295,7 +293,6 @@ activity_handlers::finish_functions = {
     { ACT_GENERIC_GAME, generic_game_finish },
     { ACT_TRAIN, train_finish },
     { ACT_TRAIN_TEACHER, teach_finish },
-    { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
@@ -303,7 +300,6 @@ activity_handlers::finish_functions = {
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
-    { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
     { ACT_WAIT, wait_finish },
@@ -1419,7 +1415,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid );
+                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {
@@ -1517,7 +1513,8 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, you ) == 0;
+            int req = game_item.ammo_required();
+            bool fail = req > 0 && game_item.ammo_consume( req, tripoint_zero, you ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 if( you->is_avatar() ) {
@@ -1936,7 +1933,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( here.get_abs_sub().z );
+                here.invalidate_map_cache( here.get_abs_sub().z() );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
@@ -2505,62 +2502,6 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
-void activity_handlers::gunmod_add_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    // first unpack all of our arguments
-    if( act->values.size() != 4 ) {
-        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    item &gun = *act->targets.at( 0 );
-    item &mod = *act->targets.at( 1 );
-
-    // chance of success (%)
-    const int roll = act->values[1];
-    // chance of damage (%)
-    const int risk = act->values[2];
-
-    // any tool charges used during installation
-    const itype_id tool( act->name );
-    const int qty = act->values[3];
-
-    if( !gun.is_gunmod_compatible( mod ).success() ) {
-        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
-        return;
-    }
-
-    if( !tool.is_empty() && qty > 0 ) {
-        you->use_charges( tool, qty );
-    }
-
-    if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
-                 gun.tname() );
-        gun.put_in( you->i_rem( &mod ), item_pocket::pocket_type::MOD );
-
-    } else if( rng( 0, 100 ) <= risk ) {
-        if( gun.inc_damage() ) {
-            // Remove irremovable mods prior to destroying the gun
-            for( item *mod : gun.gunmods() ) {
-                if( mod->is_irremovable() ) {
-                    you->remove_item( *mod );
-                }
-            }
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
-                     gun.tname() );
-            you->i_rem( &gun );
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
-                     gun.tname() );
-        }
-
-    } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
-    }
-}
-
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
@@ -2712,7 +2653,7 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
 void activity_handlers::armor_layers_do_turn( player_activity *, Character *you )
 {
     you->cancel_activity();
-    you->sort_armor();
+    you->worn.sort_armor( *you );
 }
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
@@ -3110,17 +3051,6 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
     }
     you->remove_effect( effect_under_operation );
     act->set_to_null();
-}
-
-void activity_handlers::churn_finish( player_activity *act, Character *you )
-{
-    map &here = get_map();
-    you->add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act->placement ), t_dirtmound );
-    // Go back to what we were doing before
-    // could be player zone activity, or could be NPC multi-farming
-    act->set_to_null();
-    resume_for_multi_activities( *you );
 }
 
 void activity_handlers::plant_seed_finish( player_activity *act, Character *you )

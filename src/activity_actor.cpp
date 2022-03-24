@@ -1263,7 +1263,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
 {
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -1304,7 +1304,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
         map &here = get_map();
-        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
         debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
@@ -5627,6 +5627,45 @@ std::unique_ptr<activity_actor> chop_tree_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+void churn_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void churn_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    who.add_msg_if_player( _( "You finish churning up the earth here." ) );
+    here.ter_set( here.getlocal( act.placement ), t_dirtmound );
+    // Go back to what we were doing before
+    // could be player zone activity, or could be NPC multi-farming
+    act.set_to_null();
+    activity_handlers::resume_for_multi_activities( who );
+}
+
+void churn_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "tool", tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &jsin )
+{
+    churn_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "tool", actor.tool );
+
+    return actor.clone();
+}
+
 void firstaid_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -5677,7 +5716,7 @@ void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
 {
-    firstaid_activity_actor actor( {} );
+    firstaid_activity_actor actor( {}, {} );
 
     JsonObject data = jsin.get_object();
 
@@ -5798,6 +5837,91 @@ std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &j
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void gunmod_add_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    // first unpack all of our arguments
+    if( act.values.size() != 4 ) {
+        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    item &gun = *act.targets.at( 0 );
+    item &mod = *act.targets.at( 1 );
+
+    // chance of success (%)
+    const int roll = act.values[1];
+    // chance of damage (%)
+    const int risk = act.values[2];
+
+    // any tool charges used during installation
+    const itype_id tool( act.name );
+    const int qty = act.values[3];
+
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
+        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    if( !tool.is_empty() && qty > 0 ) {
+        who.use_charges( tool, qty );
+    }
+
+    if( rng( 0, 100 ) <= roll ) {
+        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
+                 gun.tname() );
+        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+
+    } else if( rng( 0, 100 ) <= risk ) {
+        if( gun.inc_damage() ) {
+            // Remove irremovable mods prior to destroying the gun
+            for( item *mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    who.remove_item( *mod );
+                }
+            }
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
+                     gun.tname() );
+            who.i_rem( &gun );
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
+                     gun.tname() );
+        }
+
+    } else {
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
+    }
+}
+
+void gunmod_add_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_add_activity_actor::deserialize( JsonValue &jsin )
+{
+    gunmod_add_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
 
     return actor.clone();
 }

@@ -4,9 +4,9 @@
     "id": "TYRANT",
     "name": "Tyrant",
     "threshold_mut": "THRESH_TYRANT",
-    "mutagen_message": "The gnashing of teeth and rending of flesh calls to you.",
-    "iv_message": "You feel additional teeth working their way into your mouth.",
-    "memorial_message": "Struck by a rogue asteroid."
+    "mutagen_message": "You feel additional teeth working their way into your mouth.",
+    "memorial_message": "Struck by a rogue asteroid.",
+    "vitamin": "mutagen_tyrant"
   },
   {
     "type": "mutation",
@@ -24,9 +24,9 @@
     "id": "STEGO",
     "name": "Stego",
     "threshold_mut": "THRESH_STEGO",
-    "mutagen_message": "You are the armor.",
-    "iv_message": "Who needs platemail.",
-    "memorial_message": "The end of an era."
+    "mutagen_message": "You feel your skin toughen.  You are the armor.",
+    "memorial_message": "The end of an era.",
+    "vitamin": "mutagen_stego"
   },
   {
     "type": "mutation",

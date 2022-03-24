@@ -48,6 +48,7 @@ struct ammo_effect {
     public:
         // Used by generic_factory
         string_id<ammo_effect> id;
+        std::vector<std::pair<string_id<ammo_effect>, mod_id>> src;
         bool was_loaded = false;
 
     public:

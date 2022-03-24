@@ -1802,6 +1802,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     return found_all_parts;
 }
 
+bool vehicle::merge_vehicle_parts( vehicle *veh )
+{
+    for( const vehicle_part &part : veh->parts ) {
+        point part_loc = veh->mount_to_tripoint( part.mount ).xy();
+
+        parts.push_back( part );
+        vehicle_part &copied_part = parts.back();
+        copied_part.mount = part_loc - global_pos3().xy();
+
+        refresh();
+    }
+
+    map &here = get_map();
+    here.destroy_vehicle( veh );
+
+    return true;
+}
+
 /**
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
@@ -4993,8 +5011,10 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     }
 
     // Nope. Load up its submap...
-    tripoint veh_in_sm = where;
-    tripoint veh_sm = ms_to_sm_remain( veh_in_sm );
+    point_sm_ms veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    // TODO: fix point types
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( tripoint_abs_ms( where ) );
 
     const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
     if( sm == nullptr ) {
@@ -5003,7 +5023,8 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 
     for( const auto &elem : sm->vehicles ) {
         vehicle *found_veh = elem.get();
-        if( veh_in_sm.xy() == found_veh->pos ) {
+        // TODO: fix point types
+        if( veh_in_sm.raw() == found_veh->pos ) {
             return found_veh;
         }
     }
@@ -6906,42 +6927,46 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
 
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_over_water(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
-             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
+    // TODO: fix point types
+    return ( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-
-    const tripoint smp = ms_to_sm_copy( real_global_pos );
-    const point p( modulo( real_global_pos.x, SEEX ), modulo( real_global_pos.y, SEEY ) );
+    tripoint_abs_sm smp;
+    point_sm_ms p;
+    // TODO: fix point types
+    std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %s", smp.to_string() );
         return false;
     }
 
-    if( p.x < 0 || p.x >= SEEX || p.y < 0 || p.y >= SEEY ) {
-        debugmsg( "err %d,%d", p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX || p.y() < 0 || p.y() >= SEEY ) {
+        debugmsg( "err %s", p.to_string() );
         return false;
     }
 
-    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
+    // TODO: fix point types
+    return !( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )
@@ -7148,7 +7173,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box()
+bounding_box vehicle::get_bounding_box( bool use_precalc )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
@@ -7159,9 +7184,18 @@ bounding_box vehicle::get_bounding_box()
 
     precalc_mounts( 0, turn_dir, point() );
 
-    int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
+        point pt;
+        if( use_precalc ) {
+            const int i_use = 0;
+            int part_idx = part_at( p.xy() );
+            if( part_idx < 0 ) {
+                continue;
+            }
+            pt = parts[part_idx].precalc[i_use].xy();
+        } else {
+            pt = p.xy();
+        }
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

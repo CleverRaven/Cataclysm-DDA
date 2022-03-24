@@ -43,7 +43,7 @@
     "material": [ "water", "nut" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 11 ] ],
+    "vitamins": [ [ "calcium", 11 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -67,7 +67,7 @@
     "material": [ "water", "veggy" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -197,7 +197,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
     "fun": 7
   },
   {
@@ -368,7 +368,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "fun": -1
   },
   {
@@ -457,7 +457,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
     "fun": 15
   },
   {
@@ -787,7 +787,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10
   },
   {
@@ -814,7 +814,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },
@@ -841,7 +841,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
     "fun": 3
   },
   {
@@ -918,7 +918,7 @@
     "type": "COMESTIBLE",
     "id": "mycus_juice",
     "looks_like": "water",
-    "name": "mycus juice",
+    "name": "Mycus juice",
     "weight": "263 g",
     "color": "light_gray",
     "use_action": [ "MYCUS" ],
@@ -929,7 +929,7 @@
     "quench": 100,
     "healthy": 2,
     "calories": 462,
-    "description": "Freshly-squeezed from the fruit of the mycus.",
+    "description": "Freshly-squeezed from the fruit of the Mycus.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "water", "mushroom" ],
@@ -937,7 +937,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitA", 16 ], [ "vitB", 16 ], [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
     "fun": 30
   },
   {
@@ -1088,7 +1088,7 @@
     "symbol": "~",
     "quench": 40,
     "calories": 1,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant \"Camellia sinensis\".",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
@@ -1155,7 +1155,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
     "id": "water",
@@ -1209,7 +1209,7 @@
     "color": "green",
     "fatigue_mod": 7,
     "stim": 2,
-    "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
+    "description": "Made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
   },
   {
     "type": "COMESTIBLE",
@@ -1240,7 +1240,7 @@
     "copy-from": "tea",
     "name": { "str": "sweetened tea" },
     "calories": 21,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/. Added sweetener for a better taste.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\". Added sweetener for a better taste.",
     "price": 100,
     "price_postapoc": 35,
     "fun": 10
@@ -1254,7 +1254,7 @@
     "description": "Hot tea with cold milk and added sweetener.",
     "price": 460,
     "price_postapoc": 60,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 14
   },
   {
@@ -1301,7 +1301,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
     "fun": 2
   }
 ]

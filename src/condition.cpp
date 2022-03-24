@@ -1363,7 +1363,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             }
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & d ) {
                     return d.actor( true )->debt();
@@ -1371,7 +1371,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             }
         } else if( checked_value == "sold" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+                jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & d ) {
                     return d.actor( true )->sold();

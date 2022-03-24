@@ -46,7 +46,7 @@
     "id": "afs_welcome3_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 3", "str_pl": "copies of Unofficial History of Salus IV Vol. 3" },
-    "description": "The Salus system is what is called a hinge system for the new FTL travels.  This system contains a number of easy exit points to star systems that have no other easy way to travel to each other than through a series of systems with low to zero civilization in them.  Salus at minimum has several interstellar refueling points.  These stations are often blind to each other as the planets and other objects rotate around the sun.  Mercurial seems to have no interest in managing or protecting the traffic that flows through the Salus system or in neighboring systems beyond the bare minimum effort required by UICA.  As a result of this neglect; victims of pirate attacks, engine failure and other critical issues regularly limp to whatever safety they can find in the Salus system.  Unfortunately for many of them they will crash land on Salus IV where there are few regular shuttles between its scattered ports and the outside universe.  As the locals are fond of saying 'Getting to Salus IV is hard, getting off may be impossible'.",
+    "description": "The Salus system is what is called a hinge system for the new FTL travels.  This system contains a number of easy exit points to star systems that have no other easy way to travel to each other than through a series of systems with low to zero civilization in them.  Salus has several interstellar refueling points.  These stations are often blind to each other as the planets and other objects rotate around the sun.  Mercurial seems to have no interest in managing or protecting the traffic that flows through the Salus system or in neighboring systems beyond the bare minimum effort required by UICA.  As a result of this neglect; victims of pirate attacks, engine failure and other critical issues regularly limp to whatever safety they can find in the Salus system.  Unfortunately for many of them they will crash land on Salus IV where there are few regular shuttles between its scattered ports and the outside universe.  As the locals are fond of saying 'Getting to Salus IV is hard, getting off may be impossible'.",
     "copy-from": "afs_welcome1_book"
   },
   {
@@ -221,7 +221,7 @@
     "id": "recipes_cryolab",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Working in Boreal Conditions and beyond", "str_pl": "copies of Working in Boreal Conditions and beyond" },
+    "name": { "str": "Working in Boreal Conditions and Beyond", "str_pl": "copies of Working in Boreal Conditions and Beyond" },
     "description": "A corporate manual for conditions of inhospitable cold.  It includes instructions for building devices and substances that will aid in survival in extreme weather or even the lack thereof.",
     "weight": "2000 g",
     "volume": "500 ml",

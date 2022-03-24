@@ -614,7 +614,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high quality shatter" },
-    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distillate.  Normal cannabis contains around 20%THC, this shatter should be around 55%THC.",
+    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate in is a thin sheet and shatters like glass at room temperature.  Argueably its one of the better styles of concentrate compared to wax, crumble, or distillate.  Normal cannabis contains around 20% THC, this shatter should be around 55% THC.",
     "looks_like": "honey_gold",
     "weight": "1 g",
     "volume": "1 ml",
@@ -630,7 +630,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take a dab.  Wow that's got some killer terpenes!",
+      "activation_message": "You take a dab.  Wow, that's got some killer terpenes!",
       "effects": [
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
@@ -650,7 +650,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high quality wax" },
-    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate has the look and consistency of a yellow waxy substance at room temperature.  Normal cannabis contains around 20%THC, this wax should be around 45%THC.",
+    "description": "Concentrated cannabis extract, commonly known as dabs.  This particular style of concentrate has the look and consistency of a yellow waxy substance at room temperature.  Normal cannabis contains around 20% THC, this wax should be around 45% THC.",
     "looks_like": "honey_gold",
     "weight": "1 g",
     "volume": "1 ml",
@@ -930,7 +930,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high quality distillate" },
-    "description": "Concentrated cannabis extract.  This style of extract goes through the most processing, eliminating most if not all harmful ingredients.  Normal cannabis contains around 20%THC, this distillate should be around 88%THC.  Can be smoked in a bowl, used in a dab pen, or used to make distillate cartridges.",
+    "description": "Concentrated cannabis extract.  This style of extract goes through the most processing, eliminating most if not all harmful ingredients.  Normal cannabis contains around 20% THC, this distillate should be around 88% THC.  Can be smoked in a bowl, used in a dab pen, or used to make distillate cartridges.",
     "looks_like": "honey_gold",
     "weight": "1 g",
     "volume": "1 ml",
@@ -969,7 +969,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "high quality distillate cartridge" },
-    "description": "A small cartridge containing concentrated cannabis extract that's used with dab pens.  This style of extract goes through the most processing, eliminating most if not all harmful ingredients.  Normal cannabis contains around 20%THC, this distillate should be around 70%THC after reintroducing terpenes for flavoring.",
+    "description": "A small cartridge containing concentrated cannabis extract that's used with dab pens.  This style of extract goes through the most processing, eliminating most if not all harmful ingredients.  Normal cannabis contains around 20% THC, this distillate should be around 70% THC after reintroducing terpenes for flavoring.",
     "looks_like": "canister_empty",
     "weight": "1 g",
     "volume": "1 ml",
@@ -1707,7 +1707,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+      "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ] ]
     }
   },
   {
@@ -1825,28 +1825,6 @@
         "text": "Some Lachesis mutus pills, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
       }
     ]
-  },
-  {
-    "id": "inj_vitb",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "injectable vitamin B" },
-    "description": "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
-    "weight": "40 g",
-    "volume": "250 ml",
-    "price": 150,
-    "price_postapoc": 500,
-    "charges": 2,
-    "stack_size": 10,
-    "symbol": "!",
-    "color": "magenta",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "vitB", 100 ] ]
-    }
   },
   {
     "id": "inj_iron",
