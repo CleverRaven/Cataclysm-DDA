@@ -2435,7 +2435,7 @@
     "autolearn": true,
     "using": [ [ "fabric_standard", 50 ], ["marking_hard", 20] ],
     "components": [
-       [ [ "box_medium", 1 ] ],
+       [ [ "box_medium", 1 ] ]
      ]
   },
   {
