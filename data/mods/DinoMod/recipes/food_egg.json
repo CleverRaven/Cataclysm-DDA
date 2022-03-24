@@ -738,7 +738,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 20 ], [ "char_smoker", 20 ] ] ],
-    "components": [ [ [ "egg_dino_small", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -754,7 +754,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 20 ], [ "char_smoker", 20 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "egg_dino_small", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -771,7 +771,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 60 ], [ "char_smoker", 60 ] ] ],
-    "components": [ [ [ "egg_dino", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -788,7 +788,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 60 ], [ "char_smoker", 60 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "egg_dino", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -805,7 +805,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 140 ], [ "char_smoker", 140 ] ] ],
-    "components": [ [ [ "egg_dino_large", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino_large", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -822,6 +822,6 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 140 ], [ "char_smoker", 140 ] ], [ [ "surface_heat", 35, "LIST" ] ] ],
-    "components": [ [ [ "egg_dino_large", 1, "LIST" ] ] ]
+    "components": [ [ [ "eggs_dino_large", 1, "LIST" ] ] ]
   }
 ]
