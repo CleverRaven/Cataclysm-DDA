@@ -680,7 +680,6 @@
         "sound": "whish!",
         "sound_fail": "whish.",
         "items": [ { "item": "straw_pile", "count": [ 6, 10 ] }, { "item": "rope_makeshift_6", "count": [ 1, 3 ] } ]
-        ]
       }
   }
 ]
