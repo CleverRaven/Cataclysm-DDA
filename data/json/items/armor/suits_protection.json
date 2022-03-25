@@ -2655,13 +2655,14 @@
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2671,7 +2672,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2681,7 +2682,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -2722,13 +2723,14 @@
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2738,7 +2740,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2748,7 +2750,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -2789,13 +2791,14 @@
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2805,7 +2808,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2815,7 +2818,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
