@@ -4665,6 +4665,11 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
@@ -4691,6 +4696,11 @@ bool game::spawn_hallucination( const tripoint &p )
 bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                 cata::optional<time_duration> lifespan )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
@@ -5203,7 +5213,7 @@ bool game::npc_menu( npc &who )
         trade
     };
 
-    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
 
@@ -6212,6 +6222,9 @@ void game::zones_manager()
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
+
+    // reset any zones that were temporarily disabled for an activity
+    mgr.reset_disabled();
 
     // cache the players location for person zones
     if( mgr.has_personal_zones() ) {
@@ -9601,7 +9614,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
-                                dest_loc ); //fungal furniture has no slowing effect on mycus characters
+                                dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
@@ -9964,6 +9977,7 @@ point game::place_player( const tripoint &dest_loc )
     }
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
+        !m.has_flag_furn( "BRIDGE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
@@ -10805,6 +10819,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
+            return;
+        }
+
+        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
+            add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
             return;
         }
 
@@ -11933,7 +11952,7 @@ bool game::slip_down( bool check_for_traps )
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
-    int slip = 100 / ( u.dex_cur + u.str_cur );
+    int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
     add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
     if( u.has_proficiency( proficiency_prof_parkour ) ) {

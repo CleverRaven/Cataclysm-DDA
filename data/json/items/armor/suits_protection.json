@@ -111,7 +111,7 @@
     "looks_like": "armor_acidchitin",
     "name": { "str": "XS biosilicified chitin armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_farmor",
@@ -1110,7 +1110,7 @@
     "looks_like": "armor_plarmor",
     "name": { "str": "XS plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_plate",
@@ -1140,7 +1140,7 @@
     "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_plate",
@@ -1149,7 +1149,7 @@
     "looks_like": "armor_plate",
     "name": { "str": "XS ornamental plate armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_junk_plate",
@@ -1211,7 +1211,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "scrap suit" },
-    "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A suit of armor made from scraps of metal secured by simple strings to cloth wraps; the loose collection of plates provides decent but uncomfortable protection.",
     "weight": "9534 g",
     "volume": "15500 ml",
     "price": 60000,
@@ -1219,15 +1219,58 @@
     "to_hit": -5,
     "bashing": 6,
     "cutting": 8,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "warmth": 10,
     "longest_side": "40 cm",
-    "material_thickness": 2,
+    "warmth": 10,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 18
+      },
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "armor_xl_scrapsuit",
+    "type": "ARMOR",
+    "copy-from": "armor_scrapsuit",
+    "name": { "str": "XL scrap suit" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "armor_xs_scrapsuit",
+    "type": "ARMOR",
+    "copy-from": "armor_scrapsuit",
+    "name": { "str": "XS scrap suit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_tiresuit",
@@ -1833,7 +1876,7 @@
     "volume": "6 L",
     "price": 240500,
     "price_postapoc": 2500,
-    "material": [ "nomex", "kevlar_layered" ],
+    "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
@@ -1865,7 +1908,7 @@
     "looks_like": "entry_suit",
     "name": { "str": "XS entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -1966,13 +2009,13 @@
     "id": "k_gambeson",
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
+    "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "2760 g",
     "volume": "2520 ml",
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -1981,22 +2024,51 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
+    "//": "materials on this guy are slightly weird since it is trying to quilt soft armor panels, so at thickest it is their thickness",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 }
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
+      }
     ]
   },
   {
     "id": "k_gambeson_vest",
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson vest" },
-    "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one incorporates Kevlar layers added for better protection.  Use it to loosen it if you want to wear it over your clothes.",
+    "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
     "weight": "1840 g",
     "volume": "1670 ml",
     "price": 20000,
     "price_postapoc": 600,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
@@ -2005,7 +2077,17 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_loose", "menu_text": "Loosen" },
-    "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
   },
   {
     "id": "k_gambeson_loose",
@@ -2082,7 +2164,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2107,7 +2189,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2186,7 +2268,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "k_gambeson_vest_xs",
@@ -2195,7 +2277,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2309,7 +2391,7 @@
     "looks_like": "nomex_suit",
     "name": { "str": "XS flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -2414,7 +2496,7 @@
     "price": 285000,
     "price_postapoc": 2500,
     "to_hit": -3,
-    "material": [ "kevlar_layered", "thermo_resin", "plastic" ],
+    "material": [ "kevlar", "thermo_resin", "plastic" ],
     "symbol": "[",
     "longest_side": "40 cm",
     "looks_like": "armor_riot",
@@ -2440,7 +2522,7 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
-    "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  It's stiff, but strategically-placed vents make it cool to wear even in the summer.",
+    "description": "A stiff leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.",
     "weight": "2214 g",
     "volume": "6500 ml",
     "price": 58000,
@@ -2496,7 +2578,7 @@
         "moves": 120
       }
     ],
-    "warmth": 10,
+    "warmth": 25,
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
@@ -2579,7 +2661,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2606,7 +2688,7 @@
         "encumbrance": 15
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2624,7 +2706,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2646,7 +2728,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2673,7 +2755,7 @@
         "encumbrance": 10
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2691,7 +2773,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2713,7 +2795,7 @@
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2740,7 +2822,7 @@
         "encumbrance": 20
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2758,7 +2840,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,

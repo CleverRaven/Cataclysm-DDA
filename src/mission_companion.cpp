@@ -121,64 +121,64 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     {
         //  No_Mission
         "",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Patrol_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Scavenging_Raid_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Menial_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Carpentry_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Forage_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Caravan_Commune_Center_Job",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Purchase_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Upgrade_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Plant_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Harvest_East_Field",
-        to_translation( "" )
+        no_translation( "" )
     },
     //  Faction camp missions
     {
         "Camp_Distribute_Food",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Jobs",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Assign_Workers",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Abandon",
-        to_translation( "" )
+        no_translation( "" )
     },
     {
         "Camp_Upgrade ",  //  Want to add the blueprint after the space
@@ -1957,7 +1957,7 @@ bool talk_function::forage_return( npc &p )
         if( skill_1 > rng( -2, 8 ) ) {
             popup( _( "Alerted by a rustle, %s fled to the safety of the outpost!" ), comp->get_name() );
         } else if( skill_2 > rng( -2, 8 ) ) {
-            popup( _( "As soon as the cougar sprang %s darted to the safety of the outpost!" ),
+            popup( _( "As soon as the cougar sprang, %s darted to the safety of the outpost!" ),
                    comp->get_name() );
         } else {
             popup( _( "%s was caught unaware and was forced to fight the creature at close "
@@ -1973,11 +1973,11 @@ bool talk_function::forage_return( npc &p )
                 }
             } else {
                 if( one_in( 2 ) ) {
-                    popup( _( "%s was able to hold off the first wolf but the others that were "
+                    popup( _( "%s was able to hold off the first wolf, but the others that were "
                               "skulking in the tree line caught up…" ), comp->get_name() );
                     popup( _( "I'm sorry, there wasn't anything we could do…" ) );
                 } else {
-                    popup( _( "We… we don't know what exactly happened but we found %s's gear "
+                    popup( _( "We… we don't know what exactly happened, but we found %s's gear "
                               "ripped and bloody…" ), comp->get_name() );
                     popup( _( "I fear your companion won't be returning." ) );
                 }

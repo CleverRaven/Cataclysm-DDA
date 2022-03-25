@@ -816,7 +816,7 @@ void Item_factory::finalize_post( itype &obj )
         }
 
 
-
+        // store a shorthand var for if the item has notable sub coverage data
         for( const armor_portion_data &armor_data : obj.armor->data ) {
             if( obj.armor->has_sub_coverage ) {
                 // if we already know it has subcoverage break from the loop
@@ -1761,8 +1761,44 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
                     100 < portion.cover_ranged ) {
-                    msg += string_format( "coverage exceeds the maximum amount for the sub locations coverage can't exceed 100, item coverage: %d\n",
+                    msg += string_format( "coverage exceeds the maximum amount for the locations coverage can't exceed 100, item coverage: %d\n",
                                           portion.coverage );
+                }
+            }
+            // check that all materials are between 0-100 proportional coverage
+            for( const armor_portion_data &portion : type->armor->sub_data ) {
+                for( const part_material &mat : portion.materials ) {
+                    if( mat.cover < 0 || mat.cover > 100 ) {
+                        msg += string_format( "material %s has proportional coverage %d.  proportional coverage is a value between 0-100.",
+                                              mat.id.str(), mat.cover );
+                    }
+                }
+            }
+
+            // check that at least 1 material has 100% coverage on each item
+            for( const armor_portion_data &portion : type->armor->sub_data ) {
+                // if the advanced materials entry is empty skip this stuff
+                if( !portion.materials.empty() ) {
+                    bool found = false;
+                    for( const part_material &mat : portion.materials ) {
+                        if( mat.cover == 100 ) {
+                            found = true;
+                        }
+                    }
+
+                    if( !found ) {
+                        msg += string_format( "at least 1 material for any armor entry should have proportional coverage 100.  Consider dropping overall coverage to compensate." );
+                    }
+                }
+            }
+            // check each original definition had a valid material thickness
+            // valid thickness is a multiple of sheet thickness
+            for( const armor_portion_data &portion : type->armor->sub_data ) {
+                for( const part_material &mat : portion.materials ) {
+                    if( !mat.ignore_sheet_thickness && !mat.id->is_valid_thickness( mat.thickness ) ) {
+                        msg += string_format( "for material %s, %f isn't a valid multiple of the thickness the underlying material comes in: %f.\n",
+                                              mat.id.str(), mat.thickness, mat.id->thickness_multiple() );
+                    }
                 }
             }
         }
@@ -2501,11 +2537,14 @@ void part_material::deserialize( const JsonObject &jo )
         jo.throw_error( string_format( "invalid covered_by_mat \"%d\"", cover ) );
     }
     optional( jo, false, "thickness", thickness, 0.0f );
+    optional( jo, false, "ignore_sheet_thickness", ignore_sheet_thickness, false );
 }
 
 void armor_portion_data::deserialize( const JsonObject &jo )
 {
-    assign_coverage_from_json( jo, "covers", covers );
+    if( !assign_coverage_from_json( jo, "covers", covers ) ) {
+        jo.throw_error( string_format( "need to specify covered limbs for each body part" ) );
+    }
     optional( jo, false, "coverage", coverage, 0 );
     optional( jo, false, "specifically_covers", sub_coverage );
 

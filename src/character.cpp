@@ -1306,19 +1306,19 @@ bool Character::is_on_ground() const
            has_effect( effect_downed ) || is_prone();
 }
 
-bool Character::can_stash( const item &it )
+bool Character::can_stash( const item &it, bool ignore_pkt_settings )
 {
-    return best_pocket( it, nullptr ).second != nullptr;
+    return best_pocket( it, nullptr, ignore_pkt_settings ).second != nullptr;
 }
 
-bool Character::can_stash_partial( const item &it )
+bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
 {
     item copy = it;
     if( it.count_by_charges() ) {
         copy.charges = 1;
     }
 
-    return can_stash( copy );
+    return can_stash( copy, ignore_pkt_settings );
 }
 
 void Character::cancel_stashed_activity()
@@ -2843,19 +2843,22 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume( const item &it, bool, const item *avoid,
+                                const bool ignore_pkt_settings ) const
 {
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( it ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
-    if( worn.can_pickVolume( it ) ) {
+    if( worn.can_pickVolume( it, ignore_pkt_settings ) ) {
         return true;
     }
     return false;
 }
 
-bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
+                                        const bool ignore_pkt_settings ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -2863,11 +2866,12 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid 
     }
 
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy );
+    return worn.can_pickVolume( copy, ignore_pkt_settings );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -5420,7 +5424,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
 {
     std::string err;
-    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
         if( !container.has_item_with( [&liquid]( const item & it ) {
@@ -5433,6 +5437,11 @@ bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
                                liquid.tname() );
         }
         return false;
+    }
+
+    // get_remaining_capacity_for_liquid doesn't consider the current amount of liquid
+    if( liquid.count_by_charges() ) {
+        amount = std::min( amount, liquid.charges );
     }
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
@@ -6143,7 +6152,9 @@ void Character::burn_move_stamina( int moves )
     burn_ratio += overburden_percentage;
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) &&
+        !get_map().has_flag_furn( "BRIDGE", pos() ) &&
+        !( in_vehicle && get_map().veh_at( pos() )->vehicle().can_float() ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
@@ -10705,7 +10716,7 @@ int Character::impact( const int force, const tripoint &p )
         add_msg_if_player( m_warning, _( "You land on %s." ), target_name );
     }
 
-    if( x_in_y( mod, 1.0f ) ) {
+    if( x_in_y( mod, 1.0f ) && !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
         add_effect( effect_downed, rng( 1_turns, 1_turns + mod * 3_turns ) );
     }
 
@@ -11108,7 +11119,7 @@ void Character::pause()
 
     map &here = get_map();
     // Train swimming if underwater
-    if( !in_vehicle ) {
+    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
         if( underwater ) {
             practice( skill_swimming, 1 );
             drench( 100, get_drenching_body_parts(), false );

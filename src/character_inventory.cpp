@@ -145,19 +145,20 @@ units::volume Character::max_single_item_volume() const
     return std::max( weapon.max_containable_volume(), worn.max_single_item_volume() );
 }
 
-std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
+std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid,
+        bool ignore_settings )
 {
     item_location weapon_loc( *this, &weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it, weapon_loc, avoid );
+        ret = weapon.best_pocket( it, weapon_loc, avoid, false, ignore_settings );
     }
-    worn.best_pocket( *this, it, avoid, ret );
+    worn.best_pocket( *this, it, avoid, ret, ignore_settings );
     return ret;
 }
 
 item *Character::try_add( item it, const item *avoid, const item *original_inventory_item,
-                          const bool allow_wield )
+                          const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -173,7 +174,7 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
             break;
         }
     }
-    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
+    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
     item *ret = nullptr;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
@@ -201,10 +202,10 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
 
 item &Character::i_add( item it, bool /* should_stack */, const item *avoid,
                         const item *original_inventory_item, const bool allow_drop,
-                        const bool allow_wield )
+                        const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, original_inventory_item, allow_wield );
+    item *added = try_add( it, avoid, original_inventory_item, allow_wield, ignore_pkt_settings );
     if( added == nullptr ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
@@ -417,7 +418,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos() ) ) );
+    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos(), false ) ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
@@ -484,8 +485,10 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
-                [&guy, ptr, &e, &obj] {
-                    return ptr->store( guy, e, *obj );
+                [&guy, ptr, &e, obj] {
+                    // *obj by itself attempts to use the const version of the operator (in gcc9),
+                    // so construct a new item_location which allows using the non-const version
+                    return ptr->store( guy, e, *item_location( obj ) );
                 }
             } );
         }

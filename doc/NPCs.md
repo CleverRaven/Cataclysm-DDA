@@ -13,6 +13,7 @@ Format:
   "name": { "str": "Example NPC" },
   "job_description": "I'm helping you learn the game.",
   "common": false,
+  "sells_belongings": false,
   "bonus_str": { "rng": [ -4, 0 ] },
   "bonus_dex": { "rng": [ -2, 0 ] },
   "bonus_int": { "rng": [ 1, 5 ] },
@@ -28,18 +29,23 @@ Format:
   "shopkeeper_item_group": [
     { "group": "example_shopkeeper_itemgroup1" },
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
+    { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true }
   ],
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+There are a couple of items in the above template that may not be self explanatory:
+* `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
+* `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
+*`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
 - `"strict"` : (_optional_) If true, items in this group cannot be traded back to the player if traded to the NPC. (Defaults to false)
+- `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 
 #### NPC
 There is a second template required for a new NPC. It looks like this:
@@ -189,10 +195,15 @@ Field | Default messages/snippets | Used for...
 
 ### Special Custom Entries
 
-Certain entries like the snippets above are taken from the game state as opposed to JSON they are found in the npctalk function parse_tags. They are as follows:
-`<yrwp>` | displays avatars wielded item
-`<ammo>` | displays avatars ammo
+Certain entries like the snippets above are taken from the game state as opposed to JSON; they are found in the npctalk function parse_tags. They are as follows:
+`<yrwp>` | displays avatar's wielded item
+`<mywp>` | displays npc's wielded item
+`<u_name>` | displays avatar's name
+`<npc_name>` | displays npc's name
+`<ammo>` | displays avatar's ammo
 `<current_activity>` | displays npc's current activity
+`<punc>` | displays a random punctuation from: `.`, `…`, `!`
+`<mypronoun>` | displays npc's pronoun
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
@@ -658,8 +669,6 @@ Effect | Description
 Effect | Description
 ---|---
 `start_trade` | Opens the trade screen and allows trading with the NPC.
-`buy_10_logs` | Places 10 logs in the ranch garage, and makes the NPC unavailable for 1 day.
-`buy_100_logs` | Places 100 logs in the ranch garage, and makes the NPC unavailable for 7 days.
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
@@ -670,7 +679,7 @@ Effect | Description
 `u_bulk_donate`<br/>`npc_bulk_donate` *or*  `u_bulk_donate: quantity_int` <br/>`npc_bulk_donate: quantity_int`  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If `quantity_int` is specified only that many items/charges will be moved.
 `u_spend_cash: cost_num` | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.  *deprecated* NPCs should not deal in e-cash anymore, only personal debts and items.
 `add_debt: mod_list` | Increases the NPC's debt to the player by the values in the `mod_list`.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
-`u_consume_item`, `npc_consume_item: item_string`, (*optional* `count: count_num`) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
+`u_consume_item`, `npc_consume_item: item_string`, (*optional* `count: count_num`), (*optional* `charges: charges_num`) | You or the NPC will delete the item or `count_num` copies of the item or `charges_num` charges of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item or `charges_num` charges of the item, so it should be checked with `u_has_items` or `npc_has_items`.
 `u_remove_item_with`, `npc_remove_item_with: item_string` | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
 `u_buy_monster: monster_type_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`, *optional* `name: name_string`, *optional* `pacified: pacified_bool`) | The NPC will give your character `count_num` (default 1) instances of the monster as pets and will subtract `cost_num` from `op_of_u.owed` if specified.  If the `op_o_u.owed` is less than `cost_num`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost_num` is satisfied.<br/>If cost isn't present, the NPC gives your character the item at no charge.<br/>If `name_string` is specified the monster(s) will have the specified name. If `pacified_bool` is set to true, the monster will have the pacified effect applied.
 
@@ -828,7 +837,7 @@ Condition | Type | Description
 `"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int or variable_object| `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence` ( or the value of the variable described see `variable_object` above).
 `"u_has_perception"`<br/>`"npc_has_perception"` | int or variable_object| `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception` ( or the value of the variable described see `variable_object` above).
 `"u_has_item"`<br/>`"npc_has_item"` | string | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
-`"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
+`"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int or `charges` int.<br/>`true` if the player character or NPC has at least `charges` charges or counts of `item` in their inventory.
 `"u_has_item_category"`<br/>`"npc_has_item_category"` | string | `"count": item_count` is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `item_count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
 `"u_has_bionics"`<br/>`"npc_has_bionics"` | string | `true` if the player or NPC has an installed bionic with an `bionic_id` matching `"u_has_bionics"` or `"npc_has_bionics"`.  The special string "ANY" returns true if the player or NPC has any installed bionics.
 `"u_has_effect"`<br/>`"npc_has_effect"`, (*optional* `intensity : int`),(*optional* `bodypart : string`) | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`. If `intensity` is specified it will need to be at least that strong.  If `bodypart` is specified it will check only that bodypart for the effect.
@@ -1023,8 +1032,6 @@ Example | Description
   "topic": "TALK_EVAC_MERCHANT_NO",
   "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
 },
-{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition":
-{ "npc_service": 2000 } },
 { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
 {
   "text": "[$8] I'll take a beer",

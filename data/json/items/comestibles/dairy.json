@@ -335,7 +335,7 @@
     "symbol": "~",
     "quench": 10,
     "calories": 490,
-    "description": " Cream that has been skimmed from the top of raw milk left to sit.",
+    "description": "Cream that has been skimmed from the top of raw milk left to sit.",
     "price": 70,
     "price_postapoc": 150,
     "looks_like": "milk",

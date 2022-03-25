@@ -660,4 +660,10 @@ holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false 
  */
 int bucket_index_from_weight_list( const std::vector<int> &weights );
 
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
+
 #endif // CATA_SRC_CATA_UTILITY_H

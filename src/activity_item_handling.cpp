@@ -137,6 +137,8 @@ static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_zone_strip( "zone_strip" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 /** Activity-associated item */
 struct act_item {
@@ -2168,28 +2170,32 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 mgr.get_near( id, abspos, ACTIVITY_SEARCH_DISTANCE, &thisitem );
 
             // if this item isn't going anywhere and its not sealed
+            // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
-                for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                    // no liquids don't want to spill stuff
-                    if( !contained->made_of( phase_id::LIQUID ) ) {
-                        //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
-                        //Check if on a cargo part
-                        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                                false ) ) {
-                            dest_veh = &vp->vehicle();
-                            dest_part = vp->part_index();
-                        } else {
-                            dest_veh = nullptr;
-                            dest_part = -1;
+            if( mgr.has_near( zone_type_zone_unload_all, abspos, 0 ) ||
+                ( mgr.has_near( zone_type_zone_strip, abspos, 0 ) && it->first->is_corpse() ) ) {
+                if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) ) {
+                            //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
+                            //Check if on a cargo part
+                            if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                                    false ) ) {
+                                dest_veh = &vp->vehicle();
+                                dest_part = vp->part_index();
+                            } else {
+                                dest_veh = nullptr;
+                                dest_part = -1;
+                            }
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
                         }
-                        move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                        it->first->remove_item( *contained );
                     }
+                    // after dumping items go back to start of activity loop
+                    // so that can re-assess the items in the tile
+                    return;
                 }
-                // after dumping items go back to start of activity loop
-                // so that can re-assess the items in the tile
-                return;
             }
 
             for( const tripoint_abs_ms &dest : dest_set ) {

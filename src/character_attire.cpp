@@ -259,7 +259,7 @@ Character::wear( item_location item_wear, bool interactive )
 }
 
 cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
-        bool interactive, bool do_calc_encumbrance, bool do_sort_items )
+        bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
@@ -279,33 +279,35 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
     if( interactive ) {
-        guy.add_msg_player_or_npc(
-            _( "You put on your %s." ),
-            _( "<npcname> puts on their %s." ),
-            to_wear.tname() );
+        if( !quiet ) {
+            guy.add_msg_player_or_npc(
+                _( "You put on your %s." ),
+                _( "<npcname> puts on their %s." ),
+                to_wear.tname() );
+        }
         guy.moves -= guy.item_wear_cost( to_wear );
 
         for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-            if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 ) {
+            if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 && !quiet ) {
                 guy.add_msg_if_player( m_warning,
                                        bp == body_part_eyes ?
                                        _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
                                        body_part_name( bp ), encumb_text( bp ) );
             }
         }
-        if( !was_deaf && guy.is_deaf() ) {
+        if( !was_deaf && guy.is_deaf() && !quiet ) {
             guy.add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
-        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) ) {
+        if( supertinymouse && !to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
             guy.add_msg_if_player( m_warning,
                                    _( "This %s is too big to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
-        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) ) {
+        } else if( !supertinymouse && to_wear.has_flag( flag_UNDERSIZE ) && !quiet ) {
             guy.add_msg_if_player( m_warning,
                                    _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
         }
-    } else if( guy.is_npc() && get_player_view().sees( guy ) ) {
+    } else if( guy.is_npc() && get_player_view().sees( guy ) && !quiet ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -380,7 +382,7 @@ int Character::item_wear_cost( const item &it ) const
 
 ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res )
 {
-    if( worn.is_worn( it ) ) {
+    if( !worn.is_worn( it ) ) {
         return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
                                             _( "<npcname> is not wearing that item." ) );
     }
@@ -456,6 +458,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
+}
+
+cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
+{
+    for( const item &i : worn ) {
+        if( i.invlet == invlet ) {
+            return &i;
+        }
+    }
+    return cata::nullopt;
 }
 
 side outfit::is_wearing_shoes( const bodypart_id &bp ) const
@@ -1496,10 +1508,10 @@ void outfit::add_dependent_item( std::list<item *> &dependent, const item &it )
     }
 }
 
-bool outfit::can_pickVolume( const item &it ) const
+bool outfit::can_pickVolume( const item &it, const bool ignore_pkt_settings ) const
 {
     for( const item &w : worn ) {
-        if( w.can_contain( it ).success() ) {
+        if( w.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
             return true;
         }
     }
@@ -1709,6 +1721,9 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
         double warmth_val = 0.0;
         const float wetness_pct = guy.get_part_wetness_percentage( bp );
         for( const item &clothing : worn ) {
+            if( !clothing.covers( bp ) ) {
+                continue;
+            }
             warmth_val = clothing.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
@@ -1785,14 +1800,15 @@ units::volume outfit::max_single_item_volume() const
 }
 
 void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
-                          std::pair<item_location, item_pocket *> &current_best )
+                          std::pair<item_location, item_pocket *> &current_best, bool ignore_settings )
 {
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_location loc( guy, &worn_it );
-        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc, avoid );
+        std::pair<item_location, item_pocket *> internal_pocket =
+            worn_it.best_pocket( it, loc, avoid, false, ignore_settings );
         if( internal_pocket.second != nullptr &&
             ( current_best.second == nullptr ||
               current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
@@ -1941,14 +1957,15 @@ void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
     }
 }
 
-void outfit::pickup_stash( const item &newit, int &remaining_charges )
+void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings )
 {
     for( item &i : worn ) {
         if( remaining_charges == 0 ) {
             break;
         }
         if( i.can_contain_partial( newit ) ) {
-            const int used_charges = i.fill_with( newit, remaining_charges );
+            const int used_charges =
+                i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
         }
     }

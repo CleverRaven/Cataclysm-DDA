@@ -3860,7 +3860,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         case REMOVE_CONTAINER: {
             Character &player_character = get_player_character();
             player_character.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos() ) ) );
+            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos(), false ) ) );
             return;
         }
 
@@ -4109,7 +4109,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     you.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos() ) ) );
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
                     return;
                 }
             }
@@ -4822,15 +4822,15 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 // One tile of falling less (possibly zero)
                 add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
                 g->vertical_move( -1, true );
-                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                    you.set_underwater( true );
-                    g->water_affect_items( you );
-                    you.add_msg_if_player( _( "You climb down and dive underwater." ) );
-                }
             } else {
                 return;
             }
-            here.creature_on_trap( you );
+            if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                you.set_underwater( true );
+                g->water_affect_items( you );
+                you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+            }
+
             break;
         }
         case 3: {
@@ -4840,6 +4840,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             } else {
                 you.setpos( examp );
                 g->vertical_move( -1, false );
+                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+                    you.set_underwater( true );
+                    g->water_affect_items( you );
+                    you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
+                }
             }
             break;
         }

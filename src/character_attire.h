@@ -86,11 +86,12 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool in_climate_control() const;
-        bool can_pickVolume( const item &it ) const;
+        bool can_pickVolume( const item &it, const bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
+        cata::optional<const item *> item_worn_with_inv_let( const char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
@@ -167,7 +168,7 @@ class outfit
                                     std::list<item> &used, const std::function<bool( const item & )> filter, Character &wearer );
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
-                bool interactive, bool do_calc_encumbrance, bool do_sort_items = true );
+                bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
         // used in game::wield
         void insert_item_at_index( item clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );
@@ -192,7 +193,8 @@ class outfit
                            std::vector<std::function<void()>> &actions );
         // an extension of Character::best_pocket()
         void best_pocket( Character &guy, const item &it, const item *avoid,
-                          std::pair<item_location, item_pocket *> &current_best );
+                          std::pair<item_location, item_pocket *> &current_best,
+                          bool ignore_settings = false );
         void overflow( const tripoint &pos );
         void holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy );
         void get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const;
@@ -201,7 +203,7 @@ class outfit
         // called after reading in savegame json to update the whole outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
-        void pickup_stash( const item &newit, int &remaining_charges );
+        void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;

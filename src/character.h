@@ -1745,10 +1745,10 @@ class Character : public Creature, public visitable
          */
         item &i_add( item it, bool should_stack = true, const item *avoid = nullptr,
                      const item *original_inventory_item = nullptr, bool allow_drop = true,
-                     bool allow_wield = true );
+                     bool allow_wield = true, bool ignore_pkt_settings = false );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
         item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr,
-                       bool allow_wield = true );
+                       bool allow_wield = true, bool ignore_pkt_settings = false );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1949,8 +1949,10 @@ class Character : public Creature, public visitable
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
-        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
+                             const bool ignore_pkt_settings = true ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
+                                     const bool ignore_pkt_settings = true ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -1958,10 +1960,12 @@ class Character : public Creature, public visitable
           * What is the best pocket to put @it into?
           * @param it the item to try and find a pocket for.
           * @param avoid pockets in this item are not taken into account.
+          * @param ignore_settings whether to ignore pocket restriction settings
           *
           * @returns nullptr in the value of the returned pair if no valid pocket was found.
           */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid = nullptr,
+                bool ignore_settings = false );
 
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
@@ -2466,8 +2470,8 @@ class Character : public Creature, public visitable
         void set_stashed_activity( const player_activity &act,
                                    const player_activity &act_back = player_activity() );
         bool has_stashed_activity() const;
-        bool can_stash( const item &it );
-        bool can_stash_partial( const item &it );
+        bool can_stash( const item &it, bool ignore_pkt_settings = false );
+        bool can_stash_partial( const item &it, bool ignore_pkt_settings = false );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */

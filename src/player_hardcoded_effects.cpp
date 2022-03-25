@@ -145,7 +145,7 @@ static void eff_fun_spores( Character &u, effect &it )
 }
 static void eff_fun_antifungal( Character &u, effect & )
 {
-    // antifungal drugs are deadly poison for marloss people
+    // antifungal drugs are deadly poison for Marloss people
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
         if( one_in( 10 ) ) {
             u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),

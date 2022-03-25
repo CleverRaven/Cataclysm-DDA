@@ -72,6 +72,7 @@
           { "item": "hamburger", "charges-min": 1, "prob": 10 },
           { "item": "fish_fried", "charges-min": 1, "prob": 10 },
           { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
+          { "item": "lobster_roll", "charges-min": 1, "prob": 10 },
           { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
           { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
           { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
@@ -79,6 +80,7 @@
           { "item": "hotdogs_cooked", "charges-min": 1, "prob": 10 },
           { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
           { "item": "crab_cakes", "charges-min": 1, "prob": 5 },
+          { "item": "lobster_cakes", "charges-min": 1, "prob": 5 },
           { "item": "stuffed_clams", "charges-min": 1, "prob": 3 }
         ],
         "prob": 75
@@ -353,6 +355,7 @@
       { "item": "hamburger", "charges-min": 1, "prob": 10 },
       { "item": "fish_fried", "charges-min": 1, "prob": 10 },
       { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
+      { "item": "lobster_roll", "charges-min": 1, "prob": 10 },
       { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
       { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
       { "item": "junk_burrito", "charges-min": 1, "prob": 10 },

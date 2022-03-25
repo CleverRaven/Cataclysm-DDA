@@ -1436,6 +1436,12 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         result = false;
     }
 
+    if( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
+        if( current_submap->get_ter( l ) == t_dirtmound ) {
+            ter_set( p, t_dirt );
+        }
+    }
+
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
@@ -1889,7 +1895,11 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
     if( furniture.id ) {
-        movecost += std::max( furniture.movecost, 0 );
+        if( furniture.has_flag( "BRIDGE" ) ) {
+            movecost = 2 + std::max( furniture.movecost, 0 );
+        } else {
+            movecost += std::max( furniture.movecost, 0 );
+        }
     }
 
     return movecost;
@@ -4374,7 +4384,7 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned quantity,
                       const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
-                      const std::string &variant )
+                      const std::string &variant, const std::string &faction )
 {
     if( type_id.is_null() ) {
         return;
@@ -4385,12 +4395,13 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     }
     // recurse to spawn (quantity - 1) items
     for( size_t i = 1; i < quantity; i++ ) {
-        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
+        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags, variant, faction );
     }
     // migrate and spawn the item
     itype_id mig_type_id = item_controller->migrate_id( type_id );
     item new_item( mig_type_id, birthday );
     new_item.set_itype_variant( variant );
+    new_item.set_owner( faction_id( faction ) );
     if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
         new_item.set_flag( flag_FIT );
     }

@@ -1107,6 +1107,7 @@
     "fire_resist": 3,
     "elec_resist": 2,
     "chip_resist": 20,
+    "sheet_thickness": 4.4,
     "breathability": "AVERAGE",
     "repaired_with": "sheet_kevlar_layered",
     "salvaged_into": "sheet_kevlar_layered",

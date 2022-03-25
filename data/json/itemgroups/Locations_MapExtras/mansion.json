@@ -1163,7 +1163,8 @@
     "subtype": "distribution",
     "items": [
       [ "broom", 40 ],
-      [ "mop", 40 ],
+      [ "mop", 25 ],
+      [ "mop_folded", 15 ],
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
