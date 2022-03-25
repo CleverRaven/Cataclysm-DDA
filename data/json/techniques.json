@@ -2,8 +2,18 @@
   {
     "type": "technique",
     "id": "tec_none",
-    "name": "Generic whack",
-    "dummy": true,
+    "name": "Fallback attack",
+    "attack_vectors": [ "WEAPON", "HAND", "ARM", "ELBOW", "SHOULDER", "FOOT", "KNEE" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_generic",
+    "name": "Hit",
+    "//": "Can trigger on any melee attack for every entry in attack_vectors, so keep weighting low.",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": true,
+    "weighting": -4,
     "attack_vectors": [ "WEAPON", "HAND", "ARM", "ELBOW", "SHOULDER", "FOOT", "KNEE" ]
   },
   {

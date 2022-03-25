@@ -46,6 +46,7 @@ static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK
 
 static const limb_score_id limb_score_block( "block" );
 
+static const matec_id tec_generic( "tec_generic" );
 static const matec_id tec_none( "tec_none" );
 
 static const skill_id skill_unarmed( "unarmed" );
@@ -1212,6 +1213,8 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
     // And limb techniques
     const auto &limb_techs = u.get_limb_techs();
     tecs.insert( tecs.end(), limb_techs.begin(), limb_techs.end() );
+    // And the generic attack
+    tecs.emplace_back( tec_generic );
 
     return tecs;
 }

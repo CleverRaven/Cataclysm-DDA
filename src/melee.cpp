@@ -134,6 +134,7 @@ static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
 static const matec_id WHIP_DISARM( "WHIP_DISARM" );
+static const matec_id tec_generic( "tec_generic" );
 static const matec_id tec_none( "tec_none" );
 
 static const material_id material_glass( "glass" );
@@ -896,7 +897,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
-                player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none,
+                player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none &&
+                                    technique.id != tec_generic,
                                     dealt_dam.wp_hit );
             } else {
                 add_msg_player_or_npc( m_good, _( "You hit something." ),
