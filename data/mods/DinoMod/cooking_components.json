@@ -2,8 +2,7 @@
   {
     "id": "eggs_bird",
     "type": "requirement",
-    "extending": true,
-    "components": [ [ [ "eggs_dino", 1, "LIST" ] ] ]
+    "extend": { "components": [ [ [ "eggs_dino", 1, "LIST" ] ] ] }
   },
   {
     "id": "eggs_dino",

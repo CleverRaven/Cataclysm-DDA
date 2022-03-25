@@ -2,7 +2,6 @@
   {
     "id": "eggs_bird",
     "type": "requirement",
-    "extending": true,
-    "components": [ [ [ "egg_owlbear", 1 ] ] ]
+    "extend": { "components": [ [ [ "egg_owlbear", 1 ] ] ] }
   }
 ]

@@ -424,13 +424,34 @@ requirement_data requirement_data::operator+( const std::pair<requirement_id, in
     return *this + *rhs.first * rhs.second;
 }
 
-void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id,
+        const bool check_extend )
 {
     requirement_data req;
+    requirement_data ext;
 
-    load_obj_list( jsobj.get_array( "components" ), req.components );
-    load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
-    load_obj_list( jsobj.get_array( "tools" ), req.tools );
+    if( check_extend && jsobj.has_object( "extend" ) ) {
+        JsonObject jext = jsobj.get_object( "extend" );
+        if( jext.has_member( "components" ) ) {
+            load_obj_list( jext.get_array( "components" ), ext.components );
+        }
+        if( jext.has_member( "qualities" ) ) {
+            load_obj_list( jext.get_array( "qualities" ), ext.qualities );
+        }
+        if( jext.has_member( "tools" ) ) {
+            load_obj_list( jext.get_array( "tools" ), ext.tools );
+        }
+    }
+
+    if( ext.components.empty() || jsobj.has_member( "components" ) ) {
+        load_obj_list( jsobj.get_array( "components" ), req.components );
+    }
+    if( ext.qualities.empty() || jsobj.has_member( "qualities" ) ) {
+        load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+    }
+    if( ext.tools.empty() || jsobj.has_member( "tools" ) ) {
+        load_obj_list( jsobj.get_array( "tools" ), req.tools );
+    }
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -440,35 +461,48 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
-    save_requirement( req, string_id<requirement_data>::NULL_ID(), jsobj.get_bool( "extending",
-                      false ) );
+    save_requirement( req, string_id<requirement_data>::NULL_ID(), &ext );
 }
 
 void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id,
-        bool extend )
+        const requirement_data *extend )
 {
     requirement_data dup = req;
     if( !id.is_null() ) {
         dup.id_ = id;
     }
 
-    if( extend && requirements_all.count( dup.id_ ) > 0 ) {
-        requirement_data &orig = requirements_all[ dup.id_ ];
-        for( unsigned i = 0; i < orig.components.size() && i < dup.components.size(); i++ ) {
-            orig.components[i].insert( orig.components[i].end(), dup.components[i].begin(),
-                                       dup.components[i].end() );
-        }
-        for( unsigned i = 0; i < orig.tools.size() && i < dup.tools.size(); i++ ) {
-            orig.tools[i].insert( orig.tools[i].end(), dup.tools[i].begin(), dup.tools[i].end() );
-        }
-        for( unsigned i = 0; i < orig.qualities.size() && i < dup.qualities.size(); i++ ) {
-            orig.qualities[i].insert( orig.qualities[i].end(), dup.qualities[i].begin(),
-                                      dup.qualities[i].end() );
-        }
-        return;
+    if( requirements_all.count( dup.id_ ) == 0 ) {
+        requirements_all[ dup.id_ ] = dup;
     }
 
-    requirements_all[ dup.id_ ] = dup;
+    requirement_data &r = requirements_all[ dup.id_ ];
+    if( !dup.components.empty() ) {
+        r.components.clear();
+        r.components.insert( r.components.end(), dup.components.begin(), dup.components.end() );
+    }
+    if( !dup.tools.empty() ) {
+        r.tools.clear();
+        r.tools.insert( r.tools.end(), dup.tools.begin(), dup.tools.end() );
+    }
+    if( !dup.qualities.empty() ) {
+        r.qualities.clear();
+        r.qualities.insert( r.qualities.end(), dup.qualities.begin(), dup.qualities.end() );
+    }
+
+    if( !!extend ) {
+        for( unsigned i = 0; i < r.components.size() && i < extend->components.size(); i++ ) {
+            r.components[i].insert( r.components[i].end(), extend->components[i].begin(),
+                                    extend->components[i].end() );
+        }
+        for( unsigned i = 0; i < r.tools.size() && i < extend->tools.size(); i++ ) {
+            r.tools[i].insert( r.tools[i].end(), extend->tools[i].begin(), extend->tools[i].end() );
+        }
+        for( unsigned i = 0; i < r.qualities.size() && i < extend->qualities.size(); i++ ) {
+            r.qualities[i].insert( r.qualities[i].end(), extend->qualities[i].begin(),
+                                   extend->qualities[i].end() );
+        }
+    }
 }
 
 template<typename T>
