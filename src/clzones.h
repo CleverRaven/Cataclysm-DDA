@@ -244,7 +244,8 @@ class zone_data
         faction_id faction;
         bool invert;
         bool enabled;
-        bool temporarily_disabled; // if the zone has been turned off for an action
+        // if the zone has been turned off for an action
+        bool temporarily_disabled; // NOLINT(cata-serialize)
         bool is_vehicle;
         tripoint start;
         tripoint end;
