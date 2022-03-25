@@ -3853,7 +3853,7 @@
     "id": "archery_target_box",
     "symbol": "@",
     "color": "brown",
-    "name": { "str": "archery box target" },
+    "name": { "str": "box archery target" },
     "category": "other",
     "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bulls-eye marked on the front.",
     "price": 3000,

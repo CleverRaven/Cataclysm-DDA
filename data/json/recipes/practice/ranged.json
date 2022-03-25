@@ -72,7 +72,7 @@
     "description": "Practice firing fletched arrows accurately into a target. Requires a decent quality bow.",
     "skill_used": "archery",
     "time": "1 h",
-    "practice_data": { "min_difficulty": 0, "max_difficulty": 6, "skill_limit": 7 },
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 5, "skill_limit": 6 },
     "autolearn": [ [ "archery", 0 ] ],
     "book_learn": [ [ "book_archery", 0 ], [ "manual_archery", 0 ], [ "mag_archery", 0 ] ],
     "tools": [
