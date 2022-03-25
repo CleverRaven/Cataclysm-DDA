@@ -4665,6 +4665,11 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
@@ -4691,6 +4696,11 @@ bool game::spawn_hallucination( const tripoint &p )
 bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                 cata::optional<time_duration> lifespan )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
