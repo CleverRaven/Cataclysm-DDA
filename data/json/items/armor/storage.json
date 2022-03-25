@@ -191,6 +191,131 @@
     ]
   },
   {
+    "id": "solar_backpack_hiking",
+    "type": "ARMOR",
+    "name": { "str": "solar hiking backpack" },
+    "description": "A large sized hiking backpack with plenty of storage space. This version has a small solar panel connected to a UPS.",
+    "weight": "2971 g",
+    "volume": "17200 ml",
+    "price": 25000,
+    "price_postapoc": 1750,
+    "material": [ "leather", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "warmth": 10,
+	"solar_efficiency": 0.025,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "12 L",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "35 cm",
+        "magazine_well": "1 L",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
+        "ripoff": 5
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop",
+        "ripoff": 5
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE", "IS_UPS" ],
+    "armor": [
+	{ "covers": [ "torso" ],"specifically_covers": [ "torso_hanging_back" ] "coverage": 100, "encumbrance": [ 10, 40 ] }
+    ]
+  },
+  {
     "id": "backpack_giant",
     "repairs_like": "bigback",
     "type": "ARMOR",
