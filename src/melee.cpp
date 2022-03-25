@@ -719,9 +719,15 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         } else if( allow_special ) {
             weighted_int_list<attack_vector> attack_vector_list = martial_arts_data->get_attack_vectors( *this,
                     attack_vector::ANY, true, 50 );
+            if( debug_mode ) {
+                for( auto weighted : attack_vector_list ) {
+                    add_msg_debug( debugmode::DF_MELEE, "Attack vector: %s Score: %i",
+                                   io::enum_to_string( weighted.obj ), weighted.weight );
+                }
+            }
             do {
                 attack_vector *tmp_atv = attack_vector_list.pick();
-                technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, true );
+                technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, false );
                 attack_vector_list.add_or_replace( *tmp_atv, 0 );
                 if( technique_id != tec_none ) {
                     atv = tmp_atv;
@@ -756,6 +762,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 }
             }
         }
+        add_msg_debug( debugmode::DF_MELEE, "Selected attack vector: %s", io::enum_to_string( *atv ) );
 
         // If we have absolutely no means of attack, fail
         if( *atv == attack_vector::NONE ) {
@@ -1218,7 +1225,7 @@ float Character::dodge_roll() const
 float Character::bonus_damage( bool random, attack_vector atv ) const
 {
     float bonus;
-    
+
     if( atv == attack_vector::WEAPON ) {
         bonus = get_arm_str();
     } else {
@@ -2838,7 +2845,7 @@ float Character::attack_vector_score( const attack_vector atv ) const
         case attack_vector::ELBOW:
             return ( get_limb_score( limb_score_lift,
                                      body_part_type::type::arm ) + get_limb_score( limb_score_balance,
-                                             body_part_type::type::arm ) ) / 1.25;
+                                             body_part_type::type::arm ) ) / 1.3;
         case attack_vector::SHOULDER:
             return get_limb_score( limb_score_block, body_part_type::type::arm ) / 2;
         case attack_vector::FOOT:
