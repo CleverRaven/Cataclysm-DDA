@@ -220,10 +220,35 @@ float islot_armor::avg_thickness() const
 {
     float acc = 0;
     for( const armor_portion_data &datum : data ) {
-        acc += datum.thickness;
+        acc += datum.avg_thickness;
     }
     if( data.empty() ) {
         return 0;
     }
     return acc / data.size();
+}
+
+int armor_portion_data::max_coverage( bodypart_str_id bp ) const
+{
+    if( bp->sub_parts.empty() ) {
+        // if the location doesn't have subparts then its always 100 coverage
+        return 100;
+    }
+
+    int primary_max_coverage = 0;
+    int secondary_max_coverage = 0;
+    for( const sub_bodypart_str_id &sbp : sub_coverage ) {
+        if( bp.id() == sbp->parent.id() && !sbp->secondary ) {
+            // add all sublocations that share the same parent limb
+            primary_max_coverage += sbp->max_coverage;
+        }
+
+        if( bp.id() == sbp->parent.id() && sbp->secondary ) {
+            // add all sublocations that share the same parent limb
+            secondary_max_coverage += sbp->max_coverage;
+        }
+    }
+
+    // return the max of primary or hanging sublocations (this only matters for hanging items on chest)
+    return std::max( primary_max_coverage, secondary_max_coverage );
 }

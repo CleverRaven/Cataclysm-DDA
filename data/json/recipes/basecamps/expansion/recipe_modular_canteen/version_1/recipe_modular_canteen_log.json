@@ -12,23 +12,7 @@
     "blueprint_name": "build the log wall central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_0" } ],
     "blueprint_provides": [ { "id": "fbmk_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center" } ],
-    "blueprint_needs": {
-      "time": "1 d 16 h 45 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 197 ] ],
-          [ [ "nail", 566 ] ],
-          [ [ "wood_panel", 23 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 3 ] ],
-          [ [ "log", 24 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center" } ]
   },
   {
     "type": "recipe",
@@ -43,23 +27,7 @@
     "blueprint_name": "finish the log wall central kitchen room",
     "blueprint_requires": [ { "id": "fbmk_center" } ],
     "blueprint_provides": [ { "id": "fbmk_center2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center2" } ],
-    "blueprint_needs": {
-      "time": "2 d 6 h 45 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 247 ] ],
-          [ [ "nail", 742 ] ],
-          [ [ "wood_panel", 34 ] ],
-          [ [ "hinge", 4 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "log", 36 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_center2" } ]
   },
   {
     "type": "recipe",
@@ -74,16 +42,7 @@
     "blueprint_name": "build a log wall roofed area for smoking racks",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_needs": {
-      "time": "1 d 10 h 25 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 252 ] ], [ [ "nail", 448 ] ], [ [ "log", 24 ] ], [ [ "wood_panel", 22 ] ] ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ]
   },
   {
     "type": "recipe",
@@ -98,22 +57,7 @@
     "blueprint_name": "build a log wall pantry",
     "blueprint_requires": [ { "id": "fbmk_center2" } ],
     "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_needs": {
-      "time": "3 d 11 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 360 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "log", 60 ] ],
-          [ [ "nail", 1060 ] ],
-          [ [ "wood_panel", 50 ], [ "wood_sheet", 25 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ]
   },
   {
     "type": "recipe",
@@ -128,23 +72,7 @@
     "blueprint_name": "build W log wall",
     "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_needs": {
-      "time": "1 d 16 h 36 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 0 ] ],
-      "inline": {
-        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 194 ] ],
-          [ [ "nail", 566 ] ],
-          [ [ "wood_panel", 23 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "log", 24 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ]
   },
   {
     "type": "recipe",
@@ -159,22 +87,7 @@
     "blueprint_name": "build E log wall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_needs": {
-      "time": "2 d 6 h 45 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 243 ] ],
-          [ [ "nail", 800 ] ],
-          [ [ "glass_sheet", 3 ] ],
-          [ [ "log", 28 ] ],
-          [ [ "wood_sheet", 17 ], [ "wood_panel", 34 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ]
   },
   {
     "type": "recipe",
@@ -189,22 +102,6 @@
     "blueprint_name": "build center of the log wall dining hall",
     "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_needs": {
-      "time": "2 d 7 h 15 m",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 197 ] ],
-          [ [ "nail", 1026 ] ],
-          [ [ "wood_panel", 49 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "log", 8 ] ]
-        ]
-      }
-    }
+    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ]
   }
 ]

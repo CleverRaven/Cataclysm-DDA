@@ -1,0 +1,39 @@
+[
+  {
+    "type": "effect_type",
+    "id": "toxic_glue",
+    "name": [ "Termite Glue" ],
+    "desc": [ "You're covered in thick toxic glue!" ],
+    "apply_message": "You're covered in thick noxious glue!",
+    "remove_message": "The glue has washed up but it surely left a mark.",
+    "miss_messages": [ [ "The glue restricts your movement.", 2 ] ],
+    "show_intensity": false,
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Chemical Allergen",
+    "resist_effects": [ "prophylactic_antivenom" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "int_dur_factor": 18,
+    "max_duration": 2250,
+    "//": "30 m to max, 7,5 m overhead, copied from the poisonous wound but with a milder effect so it feels like its burning your skin",
+    "base_mods": {
+      "dex_mod": [ -2 ],
+      "speed_mod": [ -25 ],
+      "pain_amount": [ 3, 1 ],
+      "pain_min": [ 0, -2 ],
+      "pain_chance": [ 10, 50 ],
+      "pain_max_val": [ 30, 15 ],
+      "hurt_amount": [ 3, 0 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 13, 100 ],
+      "hurt_tick": [ 36 ],
+      "vomit_chance": [ 250 ]
+    },
+    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] },
+    "show_in_info": true
+  }
+]

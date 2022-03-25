@@ -28,7 +28,8 @@
           { "item": "recipe_labchem", "prob": 10 },
           { "item": "recipe_maiar", "prob": 10 },
           { "item": "recipe_medicalmut", "prob": 5 },
-          { "item": "recipe_raptor", "prob": 5 }
+          { "item": "recipe_raptor", "prob": 5 },
+          { "group": "lab_files_biology", "prob": 5 }
         ]
       },
       { "group": "mut_iv", "count": [ 3, 15 ] },

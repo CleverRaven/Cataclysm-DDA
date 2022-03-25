@@ -6,6 +6,11 @@
 #include "npc.h"
 #include "projectile.h"
 
+static const material_id material_glass( "glass" );
+static const material_id material_plastic( "plastic" );
+static const material_id material_steel( "steel" );
+static const material_id material_wood( "wood" );
+
 static constexpr int num_iters = 1000;
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint target_pos( HALF_MAPSIZE_X - 10, HALF_MAPSIZE_Y, 0 );
@@ -26,8 +31,8 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     const item mostly_steel( "test_shears_mostly_steel" );
     const item mostly_plastic( "test_shears_mostly_plastic" );
 
-    REQUIRE( mostly_steel.get_base_material().id == material_id( "steel" ) );
-    REQUIRE( mostly_plastic.get_base_material().id == material_id( "plastic" ) );
+    REQUIRE( mostly_steel.get_base_material().id == material_steel );
+    REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
     CHECK( mostly_steel.cut_resist() > mostly_plastic.cut_resist() );
     CHECK( mostly_steel.acid_resist() == mostly_plastic.acid_resist() );
@@ -43,8 +48,8 @@ TEST_CASE( "Portioned material flammability", "[material]" )
     const item mostly_steel( "test_fire_ax_mostly_steel" );
     const item mostly_wood( "test_fire_ax_mostly_wood" );
 
-    REQUIRE( mostly_steel.get_base_material().id == material_id( "steel" ) );
-    REQUIRE( mostly_wood.get_base_material().id == material_id( "wood" ) );
+    REQUIRE( mostly_steel.get_base_material().id == material_steel );
+    REQUIRE( mostly_wood.get_base_material().id == material_wood );
 
     fire_data frd;
     frd.contained = true;
@@ -62,8 +67,8 @@ TEST_CASE( "Glass portion breakability", "[material] [slow]" )
     item mostly_glass( "test_glass_pipe_mostly_glass" );
     item mostly_steel( "test_glass_pipe_mostly_steel" );
 
-    REQUIRE( mostly_glass.get_base_material().id == material_id( "glass" ) );
-    REQUIRE( mostly_steel.get_base_material().id == material_id( "steel" ) );
+    REQUIRE( mostly_glass.get_base_material().id == material_glass );
+    REQUIRE( mostly_steel.get_base_material().id == material_steel );
 
     SECTION( "Throwing pipe made mostly of glass, 8 STR" ) {
         REQUIRE( dude.wield( mostly_glass ) );

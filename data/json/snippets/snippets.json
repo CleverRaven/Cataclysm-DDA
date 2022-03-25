@@ -300,5 +300,31 @@
         "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"we're a team, we've got this!\"" }
       }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "artisan_docs",
+    "text": [
+      {
+        "id": "artisan_prototypes_1",
+        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a classic rifle and several diagrams of curved wooden maces.  The word 'OBREZ?' is written clearly on the front sheet.  There are two distinct sets of handwriting making notes."
+      },
+      {
+        "id": "artisan_prototypes_2",
+        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a large mace with an internal gas reservoir and venting holes between the steel segments.  There are additional diagrams labeled 'IGNITION SYSTEM' and 'TRIGGER?'.  There are two distinct sets of handwriting making notes."
+      },
+      {
+        "id": "artisan_prototypes_3",
+        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a bladed weapon with some audio equipment implanted.  Doodles of hair metal rock stars line the page, as well as the words 'LETS, HEAR IT FOR FRANKY'.  There are two distinct sets of handwriting making notes."
+      },
+      {
+        "id": "artisan_prototypes_4",
+        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a sledgehammer with a moving center.  There is a references doc for a powder actuated nail gun stapled to the sheets.  There are two distinct sets of handwriting making notes."
+      }
+    ]
   }
 ]

@@ -184,7 +184,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_cellar",
+    "result": "fbmk_2_cellar",
     "description": "Lets build 2 root cellars in the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -211,7 +211,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_pantry_furniture",
+    "result": "fbmk_2_pantry_furniture",
     "description": "Lets furnish the pantry.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -238,7 +238,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_butchery",
+    "result": "fbmk_2_butchery",
     "description": "Let's make a butchery area.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -267,7 +267,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_dining_furniture",
+    "result": "fbmk_2_dining_furniture",
     "description": "Let's make some furniture for the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -295,7 +295,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_1",
+    "result": "fbmk_2_planters_1",
     "description": "Let's build some planters for a chef's garden.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -323,7 +323,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_2",
+    "result": "fbmk_2_planters_2",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -351,7 +351,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_3",
+    "result": "fbmk_2_planters_3",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -379,7 +379,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_4",
+    "result": "fbmk_2_planters_4",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -407,7 +407,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_5",
+    "result": "fbmk_2_planters_5",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -435,7 +435,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_6",
+    "result": "fbmk_2_planters_6",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -463,7 +463,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_7",
+    "result": "fbmk_2_planters_7",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -491,7 +491,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_8",
+    "result": "fbmk_2_planters_8",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -519,7 +519,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_9",
+    "result": "fbmk_2_planters_9",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -547,7 +547,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_10",
+    "result": "fbmk_2_planters_10",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -575,7 +575,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_11",
+    "result": "fbmk_2_planters_11",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -603,7 +603,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_12",
+    "result": "fbmk_2_planters_12",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -631,7 +631,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_13",
+    "result": "fbmk_2_planters_13",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -659,7 +659,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_14",
+    "result": "fbmk_2_planters_14",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -687,7 +687,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_15",
+    "result": "fbmk_2_planters_15",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -715,7 +715,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_planters_16",
+    "result": "fbmk_2_planters_16",
     "description": "Let's expand the chef's garden in the 'free' area (stop expanding if you want to use the area for something else)",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -743,7 +743,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_tanks",
+    "result": "fbmk_2_tanks",
     "description": "Let's install a pair of tanks for salt water to allow for salt production and make hide working easier.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -771,7 +771,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_vats",
+    "result": "fbmk_2_vat",
     "description": "Let's install some vats in the brewery",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -799,7 +799,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_display",
+    "result": "fbmk_2_display",
     "description": "Let's install some racks for storage in the brewery",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -827,7 +827,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_still",
+    "result": "fbmk_2_still",
     "description": "Let's install a still in the brewery",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
@@ -855,8 +855,8 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_windmill",
-    "description": "Let's build a windmill to allow us to grid flour efficiently",
+    "result": "fbmk_2_windmill",
+    "description": "Let's build a windmill to allow us to grind flour efficiently",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -883,7 +883,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "faction_base_canteen_bath",
+    "result": "fbmk_2_bath",
     "description": "Let's build a bench and a bird bath outside the kitchen for relaxation",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",

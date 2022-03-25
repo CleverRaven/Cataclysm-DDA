@@ -17,6 +17,108 @@
     ]
   },
   {
+    "id": "military_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_broken",
+    "type": "item_group",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [
+      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
+      { "item": "destroyed_large_ceramic_plate", "prob": 50 },
+      { "item": "destroyed_medium_ceramic_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "container-item": "ballistic_vest_esapi",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
+  },
+  {
+    "id": "military_ballistic_vest_light",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "container-item": "ballistic_vest_light",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
+  },
+  {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vest plus plates",
+    "container-item": "ballistic_vest_light",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "container-item": "ballistic_vest_heavy",
+    "subtype": "collection",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "loaded_lbv",
+    "subtype": "collection",
+    "entries": [
+      { "group": "lbv" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lbv",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "load_bearing_vest", "prob": 60 },
+      { "item": "light_load_bearing_vest", "prob": 20 },
+      { "item": "heavy_load_bearing_vest", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_accessories",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chestpouch", "prob": 40 },
+      { "item": "radio_pouch", "prob": 20 },
+      { "item": "gadget_pouch", "prob": 10 },
+      { "item": "h2o_pouch", "prob": 10 },
+      { "item": "tool_pouch", "prob": 10 },
+      { "item": "flashlight_pouch", "prob": 20 },
+      { "item": "tactical_holster", "prob": 20 },
+      { "item": "gas_mask_pouch", "prob": 10 },
+      { "item": "tactical_grenade_pouch", "prob": 40 },
+      { "item": "grenade_pouch", "prob": 10 },
+      { "item": "triple_stacker_pouch", "prob": 10 },
+      { "item": "dump_pouch", "prob": 20 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
@@ -104,7 +206,12 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
+        "distribution": [
+          { "item": "holo_sight", "prob": 50 },
+          { "item": "acog_scope", "prob": 30 },
+          { "item": "hybrid_sight_4x", "prob": 30 },
+          { "item": "red_dot_sight", "prob": 20 }
+        ]
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
@@ -261,7 +368,6 @@
       { "item": "8mm_inc", "prob": 2 },
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
-      { "item": "helmet_lobster", "prob": 5 },
       { "item": "flight_helmet", "prob": 5 },
       { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
@@ -293,6 +399,7 @@
       { "item": "survnote", "prob": 1 },
       { "item": "rm11b_sniper_rifle", "prob": 1 },
       { "item": "shoulder_strap", "prob": 16 },
+      { "item": "single_sling", "prob": 16 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "l-stick", "prob": 1 },
@@ -549,7 +656,7 @@
       { "item": "kevlar", "prob": 10 },
       { "item": "officer_uniform", "prob": 5 },
       { "item": "combo_cover", "prob": 5 },
-      { "item": "ballistic_vest_esapi", "prob": 40 },
+      { "group": "military_ballistic_vest", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "helmet_army", "prob": 40 },
@@ -576,7 +683,6 @@
       { "item": "recipe_raptor", "prob": 2 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
-      { "item": "helmet_lobster", "prob": 2 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },

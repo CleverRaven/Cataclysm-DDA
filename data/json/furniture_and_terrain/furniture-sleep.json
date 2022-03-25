@@ -180,7 +180,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "stick", "count": [ 2, 3 ] },
-        { "item": "straw_pile", "count": [ 7, 8 ] },
+        { "item": "straw_pile", "count": [ 100, 120 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
     }

@@ -20,11 +20,14 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "music.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "popup.h"
 #include "scent_map.h"
+#include "sdlsound.h"
 #include "string_input_popup.h"
 #include "timed_event.h"
 #include "ui_manager.h"
@@ -33,8 +36,10 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+
+static const bionic_id bio_alarm( "bio_alarm" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -45,7 +50,9 @@ static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -88,7 +95,7 @@ bool cleanup_at_end()
 
         if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
             u.has_amount( itype_holybook_bible3, 1 ) ) {
-            if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
+            if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
                 vRip.emplace_back( "               _______  ___" );
                 vRip.emplace_back( "              <       `/   |" );
                 vRip.emplace_back( "               >  _     _ (" );
@@ -451,7 +458,6 @@ void monmove()
             m.creature_in_field( critter );
         }
 
-        const bionic_id bio_alarm( "bio_alarm" );
         if( !critter.is_dead() &&
             u.has_active_bionic( bio_alarm ) &&
             u.get_power_level() >= bio_alarm->power_trigger &&
@@ -461,7 +467,7 @@ void monmove()
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             g->cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                                 _( "Your motion alarm goes off!" ) );
-            if( u.has_effect( efftype_id( "sleep" ) ) ) {
+            if( u.has_effect( effect_sleep ) ) {
                 u.wake_up();
             }
         }
@@ -473,8 +479,8 @@ void monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( monster &critter : g->all_monsters() ) {
-        if( critter.posx() < 0 - ( MAPSIZE_X ) / 6 ||
-            critter.posy() < 0 - ( MAPSIZE_Y ) / 6 ||
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
             critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
             critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
             g->despawn_monster( critter );
@@ -594,6 +600,8 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    play_music( music::get_music_id_string() );
+
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -651,12 +659,15 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
+
+    music::deactivate_music_id( music::music_id::sound );
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
@@ -665,7 +676,7 @@ bool do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) || g->uquit == QUIT_WATCH ) {
+    if( !u.has_effect( effect_sleep ) || g->uquit == QUIT_WATCH ) {
         if( u.moves > 0 || g->uquit == QUIT_WATCH ) {
             while( u.moves > 0 || g->uquit == QUIT_WATCH ) {
                 g->cleanup_dead();
@@ -723,18 +734,13 @@ bool do_turn()
             // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
-            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-                u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = g->is_hostile_very_close( true );
-
-                if( hostile_critter != nullptr ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                        string_format( _( "The %s is dangerously close!" ),
-                                                                hostile_critter->get_name() ) );
+            if( u.activity ) {
+                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+                    if( g->cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
+                        break;
+                    }
                 }
             }
-
         }
     }
 
@@ -767,7 +773,7 @@ bool do_turn()
 
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
-    const int levz = m.get_abs_sub().z;
+    const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );

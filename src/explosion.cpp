@@ -65,22 +65,25 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const itype_id fuel_type_none( "null" );
+static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 
+static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
+
+static const itype_id fuel_type_none( "null" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-
-static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-
-static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -406,7 +409,6 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  update_fragment_cloud, accumulate_fragment_cloud>
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
-    Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint &target : area ) {
@@ -450,38 +452,8 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 }
             }
             int total_hits = damaging_hits + non_damaging_hits;
-            if( total_hits > 0 && player_character.sees( *critter ) ) {
-                // Building a phrase to summarize the fragment effects.
-                // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
-                std::map<int, std::string> impact_count_descriptions = {
-                    { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
-                    { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
-                    { std::numeric_limits<int>::max(), _( "an immense number of" ) }
-                };
-                std::string impact_count = std::find_if(
-                                               impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                [total_hits]( const std::pair<int, std::string> &desc ) {
-                    return desc.first >= total_hits;
-                } )->second;
-                std::string damage_description = ( damage_taken > 0 ) ?
-                                                 string_format( _( "dealing %d damage" ), damage_taken ) :
-                                                 _( "but they deal no damage" );
-                if( critter->is_avatar() ) {
-                    add_msg( n_gettext( "You are hit by %s bomb fragment, %s.",
-                                        "You are hit by %s bomb fragments, %s.", total_hits ),
-                             impact_count, damage_description );
-                } else if( critter->is_npc() ) {
-                    critter->add_msg_if_npc(
-                        n_gettext( "<npcname> is hit by %s bomb fragment, %s.",
-                                   "<npcname> is hit by %s bomb fragments, %s.",
-                                   total_hits ),
-                        impact_count, damage_description );
-                } else {
-                    add_msg( n_gettext( "%s is hit by %s bomb fragment, %s.",
-                                        "%s is hit by %s bomb fragments, %s.", total_hits ),
-                             critter->disp_name( false, true ), impact_count, damage_description );
-                }
-            }
+            multi_projectile_hit_message( critter, total_hits, damage_taken, n_gettext( "bomb fragment",
+                                          "bomb fragments", total_hits ) );
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
@@ -673,7 +645,7 @@ void emp_blast( const tripoint &p )
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_f_machinery_electronic );
         return;
     }
     // TODO: More terrain effects.
@@ -800,7 +772,7 @@ void nuke( const tripoint_abs_omt &p )
     tmpmap.load( pos_sm, false );
 
     item mininuke( itype_mininuke_act );
-    mininuke.set_flag( flag_id( "ACTIVATE_ON_PLACE" ) );
+    mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
     tmpmap.add_item( { SEEX - 1, SEEY - 1, 0 }, mininuke );
 
     tmpmap.save();
@@ -817,10 +789,10 @@ void resonance_cascade( const tripoint &p )
                                                 player_character.pos() ) ) );
         player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 );
-    int endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 );
-    int endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
+    int startx = p.x < 8 ? 0 : p.x - 8;
+    int endx = p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8;
+    int starty = p.y < 8 ? 0 : p.y - 8;
+    int endy = p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8;
     tripoint dest( startx, starty, p.z );
     map &here = get_map();
     for( int &i = dest.x; i <= endx; i++ ) {

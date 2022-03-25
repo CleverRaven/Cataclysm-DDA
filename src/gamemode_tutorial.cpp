@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -39,11 +40,20 @@ static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const overmap_special_id overmap_special_tutorial( "tutorial" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
 
+static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
+static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
+static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
+static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
+static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
+static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
+static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 static const trap_str_id tr_tutorial_2( "tr_tutorial_2" );
 static const trap_str_id tr_tutorial_3( "tr_tutorial_3" );
 static const trap_str_id tr_tutorial_4( "tr_tutorial_4" );
@@ -52,12 +62,6 @@ static const trap_str_id tr_tutorial_6( "tr_tutorial_6" );
 static const trap_str_id tr_tutorial_7( "tr_tutorial_7" );
 static const trap_str_id tr_tutorial_8( "tr_tutorial_8" );
 static const trap_str_id tr_tutorial_9( "tr_tutorial_9" );
-static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
-static const trap_str_id tr_tutorial_11( "tr_tutorial_11" );
-static const trap_str_id tr_tutorial_12( "tr_tutorial_12" );
-static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
-static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
-static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 
 namespace io
 {
@@ -78,10 +82,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_PICKUP: return "LESSON_PICKUP";
         case tut_lesson::LESSON_EXAMINE: return "LESSON_EXAMINE";
         case tut_lesson::LESSON_INTERACT: return "LESSON_INTERACT";
-        case tut_lesson::LESSON_FULL_INV: return "LESSON_FULL_INV";
-        case tut_lesson::LESSON_WIELD_NO_SPACE: return "LESSON_WIELD_NO_SPACE";
-        case tut_lesson::LESSON_AUTOWIELD: return "LESSON_AUTOWIELD";
-        case tut_lesson::LESSON_ITEM_INTO_INV: return "LESSON_ITEM_INTO_INV";
         case tut_lesson::LESSON_GOT_ARMOR: return "LESSON_GOT_ARMOR";
         case tut_lesson::LESSON_GOT_WEAPON: return "LESSON_GOT_WEAPON";
         case tut_lesson::LESSON_GOT_FOOD: return "LESSON_GOT_FOOD";
@@ -100,7 +100,6 @@ std::string enum_to_string<tut_lesson>( tut_lesson data )
         case tut_lesson::LESSON_DRANK_WATER: return "LESSON_DRANK_WATER";
         case tut_lesson::LESSON_ACT_GRENADE: return "LESSON_ACT_GRENADE";
         case tut_lesson::LESSON_ACT_BUBBLEWRAP: return "LESSON_ACT_BUBBLEWRAP";
-        case tut_lesson::LESSON_OVERLOADED: return "LESSON_OVERLOADED";
         case tut_lesson::LESSON_GUN_LOAD: return "LESSON_GUN_LOAD";
         case tut_lesson::LESSON_GUN_FIRE: return "LESSON_GUN_FIRE";
         case tut_lesson::LESSON_RECOIL: return "LESSON_RECOIL";
@@ -156,7 +155,7 @@ bool tutorial_game::init()
     // Assume overmap zero
     const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
     overmap &starting_om = overmap_buffer.get( point_abs_om() );
-    starting_om.place_special_forced( overmap_special_id( "tutorial" ), lp, om_direction::type::north );
+    starting_om.place_special_forced( overmap_special_tutorial, lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
     player_character.wear_item( item( "boxer_shorts" ), false );
@@ -190,10 +189,6 @@ void tutorial_game::per_turn()
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
         }
-    }
-
-    if( !player_character.get_wielded_item().is_null() ) {
-        add_message( tut_lesson::LESSON_WIELD_NO_SPACE );
     }
 
     if( player_character.get_wielded_item().ammo_remaining( &player_character ) > 0 ) {
@@ -240,7 +235,7 @@ void tutorial_game::per_turn()
         } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
-        } else if( here.tr_at( p ).id == trap_str_id( "tr_bubblewrap" ) ) {
+        } else if( here.tr_at( p ).id == tr_bubblewrap ) {
             add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
             break;
         }
@@ -387,6 +382,8 @@ void tutorial_game::add_message( tut_lesson lesson )
     }
     tutorials_seen[lesson] = true;
     g->invalidate_main_ui_adaptor();
-    popup( SNIPPET.get_snippet_by_id( snippet_id( io::enum_to_string<tut_lesson>( lesson ) ) ).value_or(
-               translation() ).translated(), PF_ON_TOP );
+    std::string translated_lesson = SNIPPET.get_snippet_by_id( snippet_id(
+                                        io::enum_to_string<tut_lesson>( lesson ) ) ).value_or( translation() ).translated();
+    replace_keybind_tag( translated_lesson );
+    popup( translated_lesson, PF_ON_TOP );
 }

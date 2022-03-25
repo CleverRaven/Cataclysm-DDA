@@ -609,13 +609,15 @@ std::string rewrite_vsnprintf( const char *msg );
 // string manipulations.
 void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
+void replace_keybind_tag( std::string &input );
 
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all );
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after );
 std::string replace_colors( std::string text );
-std::string &capitalize_letter( std::string &str, size_t n = 0 );
+std::string uppercase_first_letter( const std::string &str );
+std::string lowercase_first_letter( const std::string &str );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -638,6 +640,8 @@ std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon
 std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
+
+std::pair<std::string, nc_color> rad_badge_color( const int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -707,9 +711,9 @@ std::string enumerate_as_string( const _Container &values,
             case enumeration_conjunction::none:
                 return _( ", " );
             case enumeration_conjunction::and_:
-                return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
+                return values.size() > 2 ? _( ", and " ) : _( " and " );
             case enumeration_conjunction::or_:
-                return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+                return values.size() > 2 ? _( ", or " ) : _( " or " );
             case enumeration_conjunction::arrow:
                 return _( " > " );
         }

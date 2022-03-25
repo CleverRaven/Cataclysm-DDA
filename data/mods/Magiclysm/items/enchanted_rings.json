@@ -111,7 +111,7 @@
     "price_postapoc": "300 USD",
     "description": "An ornate silver ring engraved with daggers that conjures three mundane throwing knives on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]

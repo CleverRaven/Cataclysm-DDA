@@ -29,41 +29,55 @@ std::string auto_note_settings::build_save_path() const
 
 void auto_note_settings::clear()
 {
-    autoNoteEnabled.clear();
+    character_autoNoteEnabled.clear();
+    discovered.clear();
 }
 
-bool auto_note_settings::save()
+bool auto_note_settings::save( bool bCharacter )
 {
-    if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+    if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
-
-    return write_to_file( build_save_path(), [&]( std::ostream & fstr ) {
+    std::string sGlobalFile = PATH_INFO::autonote();
+    return write_to_file( bCharacter ? build_save_path() : sGlobalFile, [ &,
+    bCharacter]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
 
         jout.start_object();
 
-        jout.member( "enabled" );
+        if( bCharacter ) {
+            jout.member( "enabled" );
 
-        jout.start_array();
-        for( const string_id<map_extra> &entry : autoNoteEnabled ) {
-            jout.write( entry.str() );
+            jout.start_array();
+            for( const map_extra_id &entry : character_autoNoteEnabled ) {
+                jout.write( entry.str() );
+            }
+            jout.end_array();
+
+            jout.member( "discovered" );
+
+            jout.start_array();
+            for( const map_extra_id &entry : discovered ) {
+                jout.write( entry.str() );
+            }
+            jout.end_array();
+
+        } else {
+            jout.member( "disabled" );
+
+            jout.start_array();
+            for( const map_extra_id &entry : global_autoNoteDisabled ) {
+                jout.write( entry.str() );
+            }
+            jout.end_array();
         }
-        jout.end_array();
 
-        jout.member( "discovered" );
 
-        jout.start_array();
-        for( const string_id<map_extra> &entry : discovered ) {
-            jout.write( entry.str() );
-        }
-        jout.end_array();
-
-        if( !custom_symbols.empty() ) {
+        if( !( bCharacter ?  character_custom_symbols : global_custom_symbols ).empty() ) {
             jout.member( "custom_symbols" );
             jout.start_array();
-            for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
-                 custom_symbols ) {
+            for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
+                 bCharacter ?  character_custom_symbols : global_custom_symbols ) {
                 jout.start_object();
 
                 jout.member( "map_extra" );
@@ -85,11 +99,11 @@ bool auto_note_settings::save()
     }, _( "auto notes configuration" ) );
 }
 
-void auto_note_settings::load()
+void auto_note_settings::load( bool bCharacter )
 {
     clear();
 
-    const auto parseJson = [&]( JsonIn & jin ) {
+    const auto parseJson = [ &, bCharacter]( JsonIn & jin ) {
         jin.start_object();
 
         while( !jin.end_object() ) {
@@ -99,13 +113,19 @@ void auto_note_settings::load()
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    autoNoteEnabled.insert( string_id<map_extra> {entry} );
+                    character_autoNoteEnabled.insert( map_extra_id{ entry } );
+                }
+            } else if( name == "disabled" ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    const std::string entry = jin.get_string();
+                    global_autoNoteDisabled.insert( map_extra_id{ entry } );
                 }
             } else if( name == "discovered" ) {
                 jin.start_array();
                 while( !jin.end_array() ) {
                     const std::string entry = jin.get_string();
-                    discovered.insert( string_id<map_extra> {entry} );
+                    discovered.insert( map_extra_id {entry} );
                 }
             } else if( name == "custom_symbols" ) {
                 jin.start_array();
@@ -117,7 +137,8 @@ void auto_note_settings::load()
                     custom_symbol sym;
                     sym.set_symbol( custom_symbol_str );
                     sym.set_color( custom_color );
-                    custom_symbols.insert( std::make_pair( string_id<map_extra> {entry}, sym ) );
+                    ( bCharacter ? character_custom_symbols : global_custom_symbols ).insert( std::make_pair(
+                                map_extra_id {entry}, sym ) );
                 }
             } else {
                 jin.skip_value();
@@ -126,29 +147,36 @@ void auto_note_settings::load()
         }
     };
 
-    if( !read_from_file_optional_json( build_save_path(), parseJson ) ) {
-        default_initialize();
-        save();
+    if( bCharacter ) {
+        if( !read_from_file_optional_json( build_save_path(), parseJson ) ) {
+            default_initialize();
+            save( true );
+        }
+    } else {
+        std::string sGlobalFile = PATH_INFO::autonote();
+        read_from_file_optional_json( sGlobalFile, parseJson );
     }
 }
 
 void auto_note_settings::default_initialize()
 {
     clear();
+    load( false );
 
     for( const map_extra &extra : MapExtras::mapExtraFactory().get_all() ) {
-        if( extra.autonote ) {
-            autoNoteEnabled.insert( extra.id );
+        if( has_auto_note_enabled( extra.id, false ) && extra.autonote ) {
+            character_autoNoteEnabled.insert( extra.id );
         }
     }
+    character_custom_symbols = global_custom_symbols;
 }
 
-void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
+void auto_note_settings::set_discovered( const map_extra_id &mapExtId )
 {
     discovered.insert( mapExtId );
 }
 
-bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
+bool auto_note_settings::was_discovered( const map_extra_id &mapExtId ) const
 {
     return discovered.count( mapExtId ) != 0;
 }
@@ -158,43 +186,57 @@ void auto_note_settings::show_gui()
     auto_note_manager_gui gui{ };
     gui.show();
 
-    if( gui.was_changed() ) {
-        save();
+    if( gui.was_changed( true ) ) {
+        save( true );
+    }
+    if( gui.was_changed( false ) ) {
+        save( false );
     }
 }
 
-bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
+bool auto_note_settings::has_auto_note_enabled( const map_extra_id &mapExtId,
+        bool bCharacter ) const
 {
-    return autoNoteEnabled.count( mapExtId ) != 0;
+    if( bCharacter ) {
+        return character_autoNoteEnabled.count( mapExtId ) != 0;
+    } else {
+        return global_autoNoteDisabled.count( mapExtId ) == 0;
+    }
 }
 
-void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
-        const bool enabled )
+void auto_note_settings::set_auto_note_status( const map_extra_id &mapExtId,
+        const bool enabled, bool bCharacter )
 {
-    if( enabled ) {
-        autoNoteEnabled.insert( mapExtId );
-    } else if( has_auto_note_enabled( mapExtId ) ) {
-        autoNoteEnabled.erase( mapExtId );
+    if( enabled && bCharacter ) {
+        character_autoNoteEnabled.insert( mapExtId );
+    } else if( enabled && !bCharacter ) {
+        global_autoNoteDisabled.erase( mapExtId );
+    } else if( has_auto_note_enabled( mapExtId, bCharacter ) ) {
+        if( bCharacter ) {
+            character_autoNoteEnabled.erase( mapExtId );
+        } else {
+            global_autoNoteDisabled.insert( mapExtId );
+        }
     }
 }
 
 cata::optional<custom_symbol> auto_note_settings::get_custom_symbol(
-    const string_id<map_extra> &mapExtId ) const
+    const map_extra_id &mapExtId ) const
 {
-    auto entry = custom_symbols.find( mapExtId );
-    return entry == custom_symbols.end() ? cata::nullopt
+    auto entry = character_custom_symbols.find( mapExtId );
+    return entry == character_custom_symbols.end() ? cata::nullopt
            : cata::optional<custom_symbol>( entry->second );
 }
 
-void auto_note_settings::set_custom_symbol( const string_id<map_extra> &mapExtId,
-        const custom_symbol &symbol )
+void auto_note_settings::set_custom_symbol( const map_extra_id &mapExtId,
+        const custom_symbol &symbol, bool bCharacter )
 {
-    custom_symbols.emplace( mapExtId, symbol );
+    ( bCharacter ?  character_custom_symbols : global_custom_symbols ).emplace( mapExtId, symbol );
 }
 
-void auto_note_settings::clear_all_custom_symbols()
+void auto_note_settings::clear_all_custom_symbols( bool bCharacter )
 {
-    custom_symbols.clear();
+    ( bCharacter ?  character_custom_symbols : global_custom_symbols ).clear();
 }
 
 auto_note_manager_gui::auto_note_manager_gui()
@@ -208,41 +250,47 @@ auto_note_manager_gui::auto_note_manager_gui()
             continue;
         }
 
-        bool is_auto_note_enabled = settings.has_auto_note_enabled( extra.id );
-
-        mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                               is_auto_note_enabled ) ) );
+        char_mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
+                                    settings.has_auto_note_enabled( extra.id, true ) ) ) );
+        global_mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
+                                      settings.has_auto_note_enabled( extra.id, false ) ) ) );
 
         if( settings.was_discovered( extra.id ) ) {
-            displayCache.push_back( extra.id );
+            char_displayCache.push_back( extra.id );
+            global_displayCache.push_back( extra.id );
         }
     }
 
     fill_custom_symbols_cache();
 }
 
-bool auto_note_manager_gui::was_changed() const
+bool auto_note_manager_gui::was_changed( bool bCharacter ) const
 {
-    return wasChanged;
+    return bCharacter ? charwasChanged : globalwasChanged;
 }
 
 void auto_note_manager_gui::fill_custom_symbols_cache()
 {
     const auto_note_settings &settings = get_auto_notes_settings();
-    custom_symbol_cache.clear();
-
-    for( const std::pair<const string_id<map_extra> &, const auto_notes::custom_symbol &> symbol_entry :
-         settings.custom_symbols ) {
-        custom_symbol_cache.emplace( symbol_entry.first, symbol_entry.second );
+    char_custom_symbol_cache.clear();
+    global_custom_symbol_cache.clear();
+    for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
+         settings.character_custom_symbols ) {
+        char_custom_symbol_cache.emplace( symbol_entry.first, symbol_entry.second );
+    }
+    for( const std::pair<const map_extra_id &, const auto_notes::custom_symbol &> symbol_entry :
+         settings.global_custom_symbols ) {
+        global_custom_symbol_cache.emplace( symbol_entry.first, symbol_entry.second );
     }
 }
 
-void auto_note_manager_gui::set_cached_custom_symbol( const string_id<map_extra> &mapExtId,
-        const custom_symbol &symbol )
+void auto_note_manager_gui::set_cached_custom_symbol( const map_extra_id &mapExtId,
+        const custom_symbol &symbol, bool bCharacter )
 {
-    auto found = custom_symbol_cache.find( mapExtId );
-    if( found == custom_symbol_cache.end() ) {
-        custom_symbol_cache.emplace( mapExtId, symbol );
+    auto found = ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).find(
+                     mapExtId );
+    if( found == ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).end() ) {
+        ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).emplace( mapExtId, symbol );
     } else {
         found->second = symbol;
     }
@@ -280,8 +328,11 @@ void auto_note_manager_gui::show()
     // If the display cache contains no entries, the player might not have discovered any of
     // the map extras. In this case, we switch to a special state that alerts the user of this
     // in order to avoid confusion a completely empty GUI might normally create.
-    const bool emptyMode = displayCache.empty();
-    const int cacheSize = static_cast<int>( displayCache.size() );
+    bool bCharacter = true;
+    const bool char_emptyMode = char_displayCache.empty();
+    const bool global_emptyMode = global_displayCache.empty();
+    const int char_cacheSize = static_cast<int>( char_displayCache.size() );
+    const int global_cacheSize = static_cast<int>( global_displayCache.size() );
 
     int currentLine = 0;
     int startPosition = 0;
@@ -291,8 +342,8 @@ void auto_note_manager_gui::show()
     ctx.register_action( "QUIT" );
     ctx.register_action( "SWITCH_AUTO_NOTE_OPTION" );
     ctx.register_action( "HELP_KEYBINDINGS" );
-
-    if( !emptyMode ) {
+    ctx.register_action( "NEXT_TAB" );
+    if( !char_emptyMode || !global_emptyMode ) {
         ctx.register_cardinal();
         ctx.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
         ctx.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -327,6 +378,11 @@ void auto_note_manager_gui::show()
                 mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
             }
         }
+        tmpx = 17;
+        tmpx += shortcut_print( w_header, point( tmpx, iHeaderHeight - 2 ),
+                                bCharacter ? hilite( c_white ) : c_white, c_light_green, _( "Character" ) ) + 2;
+        shortcut_print( w_header, point( tmpx, iHeaderHeight - 2 ),
+                        !bCharacter ? hilite( c_white ) : c_white, c_light_green, _( "Global" ) );
 
         mvwprintz( w_header, point( 1, iHeaderHeight - 1 ), c_white, _( "Map Extra" ) );
         mvwprintz( w_header, point( 53, iHeaderHeight - 1 ), c_white, _( "Symbol" ) );
@@ -346,6 +402,7 @@ void auto_note_manager_gui::show()
         int currentX = 60;
         mvwprintz( w_header, point( currentX, 1 ), c_white,
                    std::string( FULL_SCREEN_WIDTH - 2 - currentX, ' ' ) );
+
         const bool enabled_auto_notes_ME = get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" );
         currentX += shortcut_print( w_header, point( currentX, 1 ),
                                     enabled_auto_notes_ME ? c_light_green : c_light_red, c_white,
@@ -353,6 +410,11 @@ void auto_note_manager_gui::show()
 
         currentX += shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, "  " );
         shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, _( "<S>witch " ) );
+        currentX = 39;
+        mvwprintz( w_header, point( currentX, 0 ), c_white, std::string( FULL_SCREEN_WIDTH - 2 - currentX,
+                   ' ' ) );
+        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
+                        _( "<Tab> to change pages." ) );
 
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
@@ -365,27 +427,31 @@ void auto_note_manager_gui::show()
                 }
             }
         }
-
+        int cacheSize = bCharacter ? char_cacheSize : global_cacheSize;
         draw_scrollbar( w_border, currentLine, iContentHeight, cacheSize, point( 0, iHeaderHeight + 1 ) );
 
-        if( emptyMode ) {
+        if( bCharacter ? char_emptyMode : global_emptyMode ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( w, point( 1, 0 ), c_light_gray,
                        _( "Discover more special encounters to populate this list" ) );
         } else {
-            calcStartPos( startPosition, currentLine, iContentHeight, displayCache.size() );
+            calcStartPos( startPosition, currentLine, iContentHeight,
+                          ( bCharacter ? char_displayCache : global_displayCache ).size() );
             endPosition = startPosition + ( iContentHeight > cacheSize ? cacheSize : iContentHeight );
 
             for( int i = startPosition; i < endPosition; ++i ) {
-                const string_id<map_extra> &displayCacheEntry = displayCache[i];
-                const auto &cacheEntry = mapExtraCache[displayCacheEntry];
+                const map_extra_id &displayCacheEntry = ( bCharacter ? char_displayCache : global_displayCache )[i];
+                const auto &cacheEntry = ( bCharacter ? char_mapExtraCache :
+                                           global_mapExtraCache )[displayCacheEntry];
 
                 const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
                 const nc_color statusColor = enabled_auto_notes_ME ? ( cacheEntry.second ? c_green : c_red ) :
                                              c_dark_gray;
                 const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
-                auto found_custom_symbol = custom_symbol_cache.find( displayCacheEntry );
-                const bool has_custom_symbol = ( found_custom_symbol != custom_symbol_cache.end() );
+                auto found_custom_symbol = ( bCharacter ? char_custom_symbol_cache :
+                                             global_custom_symbol_cache ).find( displayCacheEntry );
+                const bool has_custom_symbol = ( found_custom_symbol != ( bCharacter ? char_custom_symbol_cache :
+                                                 global_custom_symbol_cache ).end() );
                 const nc_color charColor = has_custom_symbol ? found_custom_symbol->second.get_color() :
                                            cacheEntry.first.color;
                 const std::string displayChar = has_custom_symbol ? found_custom_symbol->second.get_symbol_string()
@@ -430,14 +496,19 @@ void auto_note_manager_gui::show()
             get_options().save();
         } else if( currentAction == "QUIT" ) {
             break;
+        } else if( currentAction == "NEXT_TAB" ) {
+            bCharacter = !bCharacter;
         }
 
-        if( emptyMode ) {
+        if( bCharacter ? char_emptyMode : global_emptyMode ) {
             continue;
         }
 
-        const string_id<map_extra> &currentItem = displayCache[currentLine];
-        std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
+        int cacheSize = bCharacter ? char_cacheSize : global_cacheSize;
+        const map_extra_id &currentItem = ( bCharacter ? char_displayCache :
+                                            global_displayCache )[currentLine];
+        std::pair<const map_extra, bool> &entry = ( bCharacter ? char_mapExtraCache :
+                global_mapExtraCache )[currentItem];
         const int scroll_rate = cacheSize > 20 ? 10 : 3;
 
         if( currentAction == "UP" ) {
@@ -470,10 +541,10 @@ void auto_note_manager_gui::show()
             }
         }  else if( currentAction == "ENABLE_MAPEXTRA_NOTE" ) {
             entry.second = true;
-            wasChanged = true;
+            ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         } else if( currentAction == "DISABLE_MAPEXTRA_NOTE" ) {
             entry.second = false;
-            wasChanged = true;
+            ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         } else if( currentAction == "CHANGE_MAPEXTRA_CHARACTER" ) {
             string_input_popup custom_symbol_popup;
             custom_symbol_popup
@@ -484,7 +555,8 @@ void auto_note_manager_gui::show()
             if( !custom_symbol_popup.canceled() ) {
                 const std::string &custom_symbol_str = custom_symbol_popup.text();
                 if( custom_symbol_str.empty() ) {
-                    custom_symbol_cache.erase( currentItem );
+
+                    ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).erase( currentItem );
                 } else {
                     uilist ui_colors;
                     ui_colors.text = _( "Pick a color:" );
@@ -519,13 +591,13 @@ void auto_note_manager_gui::show()
                     custom_symbol value_to_set;
                     value_to_set.set_symbol( custom_symbol_str );
                     value_to_set.set_color( custom_symbol_color );
-                    set_cached_custom_symbol( currentItem, value_to_set );
+                    set_cached_custom_symbol( currentItem, value_to_set, bCharacter );
                 }
-                wasChanged = true;
+                ( bCharacter ? charwasChanged : globalwasChanged ) = true;
             }
         } else if( currentAction == "CONFIRM" ) {
             entry.second = !entry.second;
-            wasChanged = true;
+            ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         }
     }
 
@@ -536,19 +608,26 @@ void auto_note_manager_gui::show()
         get_options().save();
     }
 
-    if( !was_changed() ) {
+    if( !was_changed( false ) && !was_changed( true ) ) {
         return;
     }
 
     if( query_yn( _( "Save changes?" ) ) ) {
         auto_notes::auto_note_settings &settings = get_auto_notes_settings();
 
-        for( const auto &entry : mapExtraCache ) {
-            settings.set_auto_note_status( entry.second.first.id, entry.second.second );
+        for( const auto &entry : char_mapExtraCache ) {
+            settings.set_auto_note_status( entry.second.first.id, entry.second.second, true );
         }
-        settings.clear_all_custom_symbols();
-        for( const auto &entry : custom_symbol_cache ) {
-            settings.set_custom_symbol( entry.first, entry.second );
+        for( const auto &entry : global_mapExtraCache ) {
+            settings.set_auto_note_status( entry.second.first.id, entry.second.second, false );
+        }
+        settings.clear_all_custom_symbols( true );
+        settings.clear_all_custom_symbols( false );
+        for( const auto &entry : char_custom_symbol_cache ) {
+            settings.set_custom_symbol( entry.first, entry.second, true );
+        }
+        for( const auto &entry : global_custom_symbol_cache ) {
+            settings.set_custom_symbol( entry.first, entry.second, false );
         }
     }
 }

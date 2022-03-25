@@ -274,6 +274,7 @@
         ".S.ww^...T......Tz.z.S..",
         "..^...T......z.^..^.z.^."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "set": [
         { "point": "bash", "x": 7, "y": 7 },
         { "point": "bash", "x": 3, "y": 20 },

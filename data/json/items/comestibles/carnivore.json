@@ -25,7 +25,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ], [ "vitB", 154 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
     "calories": 260
   },
   {
@@ -37,6 +37,35 @@
     "proportional": { "price": 1.5 },
     "spoils_in": "1 day",
     "price_postapoc": 100,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "lobster",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of lobster meat", "str_pl": "chunks of lobster meat" },
+    "description": "Freshly caught uncooked lobster meat.",
+    "//": "Nutrition information based on whitefish",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "lobster_smoked",
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "calories": 250
+  },
+  {
+    "id": "lobster_cooked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked lobster" },
+    "description": "Freshly cooked delicious lobster.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
     "parasites": 0,
     "flags": [ "EATEN_HOT" ]
   },
@@ -119,7 +148,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 80 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -127,12 +156,11 @@
     "id": "animal_blood",
     "type": "COMESTIBLE",
     "copy-from": "meat",
-    "name": { "str_sp": "blood" },
+    "name": { "str_sp": "animal blood" },
     "description": "Fresh blood extracted from a living creature.",
     "healthy": 0,
     "parasites": 0,
     "material": "blood",
-    "quench": 5,
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
@@ -153,7 +181,7 @@
     "calories": 1300,
     "healthy": -1,
     "fun": -10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -170,7 +198,7 @@
     "price_postapoc": 300,
     "spoils_in": "14 days",
     "healthy": -5,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "vitB", 136 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "bacon_uncut"
   },
@@ -188,7 +216,7 @@
     "spoils_in": "24 days",
     "healthy": -1,
     "fun": 5,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ], [ "vitB", 136 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
   },
   {
@@ -205,14 +233,14 @@
     "spoils_in": "14 days",
     "healthy": -5,
     "fun": -15,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
     "flags": [  ],
     "use_action": {
       "target": "raw_cured_fatty_meat",
       "msg": "You pat off a bit of extra brine from the slice; this piece of meat is now fully cured.",
       "moves": 150,
       "type": "delayed_transform",
-      "transform_age": 4800,
+      "transform_age": 28800,
       "not_ready_msg": "The meat isn't fully cured yet.",
       "//": "8 hours"
     }
@@ -226,7 +254,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
   },
   {
     "id": "mutant_meat",
@@ -238,7 +266,7 @@
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "vitB", 40 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
@@ -250,7 +278,6 @@
     "comestible_type": "DRINK",
     "healthy": 0,
     "parasites": 0,
-    "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
@@ -287,7 +314,6 @@
     "comestible_type": "DRINK",
     "healthy": 0,
     "parasites": 0,
-    "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
     "material": "hblood",
@@ -380,7 +406,7 @@
     "price_postapoc": 100,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 80 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -449,7 +475,7 @@
     "proportional": { "parasites": 2.0 },
     "price_postapoc": 25,
     "delete": { "flags": [ "SMOKABLE" ] },
-    "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
+    "relative": { "vitamins": [ [ "iron", 4 ] ], "fun": -5 }
   },
   {
     "id": "offal_cooked",
@@ -483,6 +509,7 @@
     "snippet_category": "cooked_bug_organs_desc",
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
+    "parasites": 0,
     "healthy": -2,
     "delete": { "flags": [ "RAW" ] }
   },
@@ -566,7 +593,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ] ],
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -619,6 +646,18 @@
     "smoking_result": "dry_fish"
   },
   {
+    "id": "lobster_smoked",
+    "copy-from": "fish_smoked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "smoked lobster" },
+    "description": "Tasty lobster that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "price_postapoc": 300,
+    "fun": 10,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_lobster"
+  },
+  {
     "id": "lung",
     "type": "COMESTIBLE",
     "copy-from": "flesh",
@@ -635,7 +674,7 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -646,7 +685,7 @@
     "fun": -5,
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
-    "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
+    "description": "Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
     "extend": { "flags": [ "EATEN_HOT" ] }
   },
@@ -692,7 +731,7 @@
     "price_postapoc": 25,
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitA", 635 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "vitB", 1632 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ] ]
   },
   {
     "id": "liver_cooked",
@@ -702,6 +741,7 @@
     "name": { "str": "cooked liver" },
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
+    "fun": 0,
     "price_postapoc": 50,
     "healthy": 2
   },
@@ -738,7 +778,7 @@
     "quench": 10,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "vitB", 233 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ] ]
   },
   {
     "id": "brain_cooked",
@@ -784,7 +824,7 @@
     "color": "brown",
     "price_postapoc": 25,
     "calories": 54,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "vitB", 576 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ] ]
   },
   {
     "id": "kidney_cooked",
@@ -832,7 +872,7 @@
     "price_postapoc": 25,
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "vitB", 66 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ] ]
   },
   {
     "id": "sweetbread_cooked",
@@ -855,7 +895,6 @@
     "container": "bag_iv",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 5,
     "price_postapoc": 10,
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
@@ -1010,7 +1049,6 @@
     "name": { "str_sp": "tainted blood" },
     "description": "Blood that's obviously unhealthy.  You could eat it, but it will poison you.",
     "comestible_type": "DRINK",
-    "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
@@ -1250,7 +1288,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "vitamins": [ [ "mutagen_beast", 250 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {
@@ -1263,14 +1301,13 @@
     "symbol": "%",
     "healthy": -10,
     "calories": 347,
-    "quench": 20,
     "description": "A thick, hulking mass of flesh superficially resembling a mammalian heart, covered in ribbed grooves and easily the size of your head.  It's still full of, er, whatever passes for blood in jabberwocks, and is heavy in your hands.  After everything you've seen lately, you can't help but remember old sayings about eating the hearts of your enemies…",
     "price": 6500,
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "vitamins": [ [ "mutagen_beast", 300 ] ],
     "flags": [ "PREDATOR_FUN" ]
   },
   {
@@ -1299,7 +1336,7 @@
     "description": "The fleshy fronds harvested from an alien plant.  Eating these membranous leaves and gut-like stems is likely a terrible idea, and yet they have a paradoxically pleasant and inviting sweet smell.  Might be non-vegan.",
     "fun": 15,
     "stim": 3,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 8 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 8 ] ]
   },
   {
     "id": "leech_flower",
@@ -1335,7 +1372,7 @@
     "name": { "str": "leech bark", "str_pl": "scraps of leech bark" },
     "description": "Dry and tough bark matter harvested from an alien plant.  It is slightly translucent, and if placed against the light you can distinguish glistening blue veins running through it.",
     "price_postapoc": 10,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "vitB", 6 ], [ "mutant_toxin", 12 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 8 ], [ "mutant_toxin", 12 ] ]
   },
   {
     "id": "demihuman_stomach",
@@ -1402,7 +1439,6 @@
     "comestible_type": "DRINK",
     "healthy": 0,
     "parasites": 0,
-    "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",

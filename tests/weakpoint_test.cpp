@@ -10,6 +10,9 @@
 #include "point.h"
 #include "type_id.h"
 
+static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
+
 struct weakpoint_report_item {
     std::string weakpoint;
     int totaldamage;
@@ -54,7 +57,7 @@ struct weakpoint_report {
     }
 };
 
-static weakpoint_report damage_monster( const std::string &target_type, const damage_instance &dam,
+static weakpoint_report damage_monster( const mtype_id &target_type, const damage_instance &dam,
                                         int attacks )
 {
     weakpoint_report ret{};
@@ -76,7 +79,7 @@ static void reset_proficiencies( Character &dummy, const proficiency_id &prof )
 TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 {
     // Debug Monster has two weakpoints at 25% each, one leaves 0 armor the other 25 bullet armor, down from 100 bullet armor
-    weakpoint_report wr1 = damage_monster( "debug_mon", damage_instance( damage_type::BULLET, 100.0f,
+    weakpoint_report wr1 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr1.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
     CHECK( wr1.AveDam( "the knee" ) == Approx( 75.0f ).epsilon( 0.20f ) ); // 25 armor
@@ -86,7 +89,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr1.AveDam( "" ) == Approx( 0.0f ).epsilon( 0.20f ) ); // Full 100 armor
 
     // With 25 ap, adjust no weakpoint and the knee damage
-    weakpoint_report wr2 = damage_monster( "debug_mon", damage_instance( damage_type::BULLET, 100.0f,
+    weakpoint_report wr2 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
                                            25.0f ), 1000 );
     CHECK( wr2.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
     CHECK( wr2.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( 0.20f ) ); // 25 armor with 25 ap
@@ -95,8 +98,8 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr2.PercHits( "" ) == Approx( 0.50f ).epsilon( 0.20f ) );
     CHECK( wr2.AveDam( "" ) == Approx( 25.0f ).epsilon( 0.20f ) ); // Full 100 armor with 25 ap
 
-    // No cut armor
-    weakpoint_report wr3 = damage_monster( "debug_mon", damage_instance( damage_type::CUT, 100.0f,
+    // No cut armordebug_mon
+    weakpoint_report wr3 = damage_monster( debug_mon, damage_instance( damage_type::CUT, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr3.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
     CHECK( wr3.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( 0.20f ) );
@@ -124,4 +127,77 @@ TEST_CASE( "weakpoint_practice", "[monster][weakpoint]" )
     reset_proficiencies( dummy, prof );
     wp_mon.obj().families.practice_hit( dummy );
     CHECK( dummy.get_proficiency_practice( prof )  == Approx( 0.00111f ).epsilon( 0.05f ) );
+}
+
+TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
+{
+    bool has_wp_head = false;
+    bool has_wp_eye = false;
+    bool has_wp_neck = false;
+    bool has_wp_arm = false;
+    bool has_wp_leg = false;
+    for( const weakpoint &wp : mon_test_zombie_cop->weakpoints.weakpoint_list ) {
+        if( wp.id == "test_head" ) {
+            has_wp_head = true;
+            CHECK( wp.name == "inline head" );
+        } else if( wp.id == "test_eye" ) {
+            has_wp_eye = true;
+            CHECK( wp.name == "humanoid eye" );
+        } else if( wp.id == "test_neck" ) {
+            has_wp_neck = true;
+            CHECK( wp.name == "special neck" );
+        } else if( wp.id == "test_arm" ) {
+            has_wp_arm = true;
+            CHECK( wp.name == "inline arm" );
+        } else if( wp.id == "test_leg" ) {
+            has_wp_leg = true;
+            CHECK( wp.name == "inline leg" );
+        }
+    }
+    REQUIRE( has_wp_head );
+    REQUIRE( has_wp_eye );
+    REQUIRE( has_wp_neck );
+    REQUIRE( has_wp_arm );
+    REQUIRE( has_wp_leg );
+}
+
+TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
+{
+    GIVEN( "100 bullet damage, 0 armor penetration" ) {
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BULLET,
+                                               100.0f, 0.0f ), 100000 );
+        THEN( "Verify hits and damage" ) {
+            CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline head" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "inline arm" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline arm" ) == Approx( 97.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "inline leg" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline leg" ) == Approx( 97.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "special neck" ) == Approx( 0.1f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "special neck" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "humanoid eye" ) == Approx( 0.01f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "humanoid eye" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "" ) == Approx( 0.14f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "" ) == Approx( 94.0f ).epsilon( 0.020f ) );
+        }
+    }
+
+    GIVEN( "100 bashing damage, 50 armor penetration" ) {
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BASH,
+                                               100.0f, 50.0f ), 100000 );
+        THEN( "Verify hits and damage" ) {
+            CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline head" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "inline arm" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline arm" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "inline leg" ) == Approx( 0.25f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "inline leg" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "special neck" ) == Approx( 0.1f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "special neck" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "humanoid eye" ) == Approx( 0.01f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "humanoid eye" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+            CHECK( wr1.PercHits( "" ) == Approx( 0.14f ).epsilon( 0.20f ) );
+            CHECK( wr1.AveDam( "" ) == Approx( 100.0f ).epsilon( 0.020f ) );
+        }
+    }
 }

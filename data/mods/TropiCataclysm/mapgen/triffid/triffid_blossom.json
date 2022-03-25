@@ -1,0 +1,60 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "triffid_blossom" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "     ..............     ",
+        "  .........&&.........  ",
+        " ......,,,&,,,,,,...... ",
+        " ....,,,,,&,&,,,,,,.... ",
+        " ...,,,,,&&__&,,,,,,... ",
+        "...,,,,&&&___&___,,,,...",
+        "...,,,&&____&_____,,&...",
+        "..,,,,_&&&&&___&__&&,,..",
+        "..&&,_&__&__&&&_&&_,,,..",
+        "..,,&_&_&_______&__,,,..",
+        "..,,_&_&&_X_____&__&&,..",
+        "..,&&&_&______&&&&&&,,..",
+        ".&&,&__&Y__X__&_&___,,..",
+        "..&,&__&&_____&_&_&_,,..",
+        "..&&&&__&&&&&&___&&,,,..",
+        "..,&,&&_______&____,,,..",
+        "..,&,,&____&&&___&&&,,..",
+        "...&,,&&__&____&&_,,,...",
+        "..&,,,,&&&_&&&&__,,,,...",
+        " ...,,,,,&__&_,,,,,,... ",
+        " ....,,,&&,,,&,,,,,.... ",
+        " ......&,,,,,,&&,...... ",
+        "  ..............&&....  ",
+        "     ..............     "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_groundcover_urban", 4 ], "t_root_floor", "t_grass", "t_mega_fern" ],
+        ".": [ [ "t_region_groundcover_urban", 2 ], "t_underbrush" ],
+        ",": [ [ "t_region_groundcover_urban", 3 ], [ "t_underbrush", 7 ], "t_root_floor" ],
+        "_": [ [ "t_root_floor", 25 ], "t_mega_fern", [ "t_tree", 3 ], [ "t_tree_young", 2 ] ],
+        "&": "t_dirtmound",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
+      "furniture": {
+        " ": [
+          [ "f_null", 18 ],
+          [ "f_boulder_small", 3 ],
+          [ "f_boulder_medium", 2 ],
+          "f_boulder_large",
+          [ "f_dandelion", 2 ],
+          "f_brambles"
+        ],
+        ".": [ [ "f_null", 18 ], [ "f_flower_spurge", 4 ], [ "f_burdock", 3 ] ],
+        ",": [ [ "f_null", 12 ], [ "f_mutpoppy", 2 ], "f_flower_tulip" ],
+        "_": [ [ "f_null", 10 ], [ "f_bluebell", 2 ], "f_brambles" ],
+        "&": [ [ "f_brambles", 8 ], "f_glowingbulb", "f_dandelion" ]
+      },
+      "monster": { "X": { "monster": "mon_triffid_flower" }, "Y": { "monster": "mon_triffid_overqueen" } }
+    }
+  }
+]

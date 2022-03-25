@@ -19,8 +19,8 @@ fi
 
 if [ -n "$TEST_STAGE" ]
 then
-    build-scripts/lint-json.sh
-    make -j "$num_jobs" style-json
+    build-scripts/validate_json.py
+    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
 
@@ -94,7 +94,7 @@ then
         cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/12.0.0/include")
     fi
 
-    mkdir build
+    mkdir -p build
     cd build
     cmake \
         -DBACKTRACE=ON \
@@ -136,7 +136,7 @@ then
         compiledb -n make
 
         cd ..
-        ln -s build/compile_commands.json
+        rm -f compile_commands.json && ln -s build/compile_commands.json
 
         ./build-scripts/files_changed || echo 'Unable to determine changed files'
 
@@ -228,9 +228,5 @@ else
             done
     fi
 fi
-ccache --show-stats
-# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
-ccache -M 2G
-ccache -c
 
 # vim:tw=0

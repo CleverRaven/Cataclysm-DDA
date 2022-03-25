@@ -1,5 +1,11 @@
 [
   {
+    "type": "palette",
+    "id": "fbmc_shelter_2_palette_standard",
+    "terrain": { "w": "t_wall_w", "d": "t_door_c" },
+    "furniture": { "w": "f_clear", "d": "f_clear" }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmc_shelter_2_bedroom_NW_standard",
@@ -10,7 +16,7 @@
         "  d",
         "www"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -30,7 +36,7 @@
         "  d",
         "www"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -51,7 +57,7 @@
         "  w ",
         "  w "
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -72,7 +78,7 @@
         "w  w",
         "www "
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -93,7 +99,7 @@
         "   w",
         "    "
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -113,7 +119,7 @@
         "  w",
         "  w"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -127,7 +133,7 @@
         "  d",
         "  w"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -153,7 +159,7 @@
         "w  w",
         " dww"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -180,7 +186,7 @@
         "d   ",
         "www "
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -200,7 +206,7 @@
         "d  ",
         "www"
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {
@@ -221,7 +227,7 @@
         "w   ",
         "w   "
       ],
-      "palettes": [ "fbmc_shelter_2_palette" ]
+      "palettes": [ "fbmc_shelter_2_palette_standard" ]
     }
   },
   {

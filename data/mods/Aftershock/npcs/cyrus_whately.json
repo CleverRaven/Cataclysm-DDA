@@ -111,7 +111,7 @@
       "advice": "Hospitals, DIY geneticists.",
       "inquire": "Why aren't you done yet?",
       "success": "My niece shared her research, show me if it works.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Put a stopper in death?  No you never will."
     },
     "end": { "effect": [ { "u_spawn_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
@@ -211,7 +211,7 @@
       "advice": "Brain blasters, that's what I call them.  Some kind of automated weapon system the mi-go use.",
       "inquire": "They speak sometimes.  I wonder if they still think.",
       "success": "Go somewhere, far away, and then connect the power system.  Come back and tell me how things went.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
     "end": { "effect": [ { "u_spawn_item": "inactive_frankenstein", "count": 1 } ] }

@@ -24,8 +24,10 @@
 #include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
-static const itype_id itype_battery( "battery" );
+static const ammotype ammo_battery( "battery" );
+
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id itype_battery( "battery" );
 
 std::string vehicle::disp_name() const
 {
@@ -181,7 +183,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
-                                               vp.ammo_capacity( ammotype( "battery" ) ) );
+                                               vp.ammo_capacity( ammo_battery ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
@@ -442,7 +444,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         }
-        if( fuel_type == itype_id( "battery" ) ) {
+        if( fuel_type == itype_battery ) {
             rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
             units = _( "kJ" );
         }
@@ -489,10 +491,12 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
         return;
     }
 
+    // Color is based on how much vehicle is straining beyond its safe velocity
     const float strain = this->strain();
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
+    // Get cruising (target) velocity, and current (actual) velocity
     int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
     int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
     auto ndigits = []( int value ) {
@@ -505,8 +509,11 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
+    // Target cruising velocity in green
     mvwprintz( win, p, c_light_green, "%d", t_speed );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    // Current velocity in color indicating engine strain
     mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

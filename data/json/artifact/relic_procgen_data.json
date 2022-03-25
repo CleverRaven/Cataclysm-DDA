@@ -159,6 +159,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -208,14 +216,6 @@
         "type": "ATTACK_SPEED",
         "increment": 5,
         "power_per_increment": 250
-      },
-      {
-        "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -419,6 +419,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -468,14 +476,6 @@
         "type": "ATTACK_SPEED",
         "increment": 5,
         "power_per_increment": 250
-      },
-      {
-        "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
       },
       {
         "weight": 50,
@@ -679,6 +679,14 @@
         "power_per_increment": -500
       },
       {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
         "weight": 100,
         "min_value": -0.5,
         "max_value": 0.5,
@@ -731,14 +739,6 @@
       },
       {
         "weight": 50,
-        "min_value": -50,
-        "max_value": 20,
-        "type": "MOVE_COST",
-        "increment": 5,
-        "power_per_increment": -250
-      },
-      {
-        "weight": 50,
         "min_value": -2500,
         "max_value": 10000,
         "type": "MAX_STAMINA",
@@ -778,6 +778,88 @@
       { "weight": 100, "item": "art_knot" },
       { "weight": 100, "item": "art_crescent" }
     ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "held_passive_bad",
+    "passive_add_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 2,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250,
+        "ench_has": "HELD"
+      }
+    ],
+    "passive_mult_procgen_values": [
+      {
+        "weight": 100,
+        "min_value": 0.4,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0.5,
+        "max_value": 1,
+        "type": "HUNGER",
+        "increment": 0.1,
+        "power_per_increment": -100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.8,
+        "max_value": -0.3,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 100,
+        "ench_has": "HELD"
+      },
+      {
+        "weight": 100,
+        "min_value": 0.3,
+        "max_value": 0.8,
+        "type": "FATIGUE",
+        "increment": 0.1,
+        "power_per_increment": -100,
+        "ench_has": "HELD"
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_mult" }, { "weight": 50, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "monolith_disc" }, { "weight": 100, "item": "monolith_brick" } ]
   },
   {
     "type": "relic_procgen_data",
@@ -833,5 +915,21 @@
       { "weight": 100, "item": "altered_keyring" },
       { "weight": 100, "item": "altered_rubicks_cube" }
     ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "portalmancy",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 1, 1 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 1 ], "power": 25 },
+        "recharge_type": "none"
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AO_CLOSE_TEAR", "base_power": 1000 } ],
+    "type_weights": [ { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "altered_exposed_wiring_prototype" } ]
   }
 ]

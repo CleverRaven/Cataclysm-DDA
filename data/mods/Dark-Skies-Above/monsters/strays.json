@@ -726,6 +726,7 @@
     "harvest": "mutant_human",
     "path_settings": { "max_dist": 2 },
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 10 ] ],
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 4 } },
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "upgrades": { "half_life": 50, "into": "dks_mon_stray_wretch" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "WARM", "GUILT", "POISON", "FILTHY", "REVIVES" ]

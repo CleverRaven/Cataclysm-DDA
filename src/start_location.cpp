@@ -191,7 +191,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
 
 void start_location::prepare_map( tinymap &m ) const
 {
-    const int z = m.get_abs_sub().z;
+    const int z = m.get_abs_sub().z();
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
@@ -300,8 +300,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     map &here = get_map();
     // Start us off somewhere in the center of the map
     you.move_to( midpoint( project_bounds<coords::ms>( omtstart ) ) );
-    here.invalidate_map_cache( here.get_abs_sub().z );
-    here.build_map_cache( here.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z() );
+    here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
@@ -311,21 +311,22 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     // Sometimes it may be impossible to automatically found an ideal location
     // but the player may be more creative than this algorithm and do away with just "good"
     int best_rate = 0;
+    tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    int checked[MAPSIZE_X][MAPSIZE_Y];
-    std::fill_n( &checked[0][0], MAPSIZE_X * MAPSIZE_Y, 0 );
+    int checked[MAPSIZE_X][MAPSIZE_Y] = {};
 
     bool found_good_spot = false;
+
     // Try some random points at start
 
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
-        tries++;
+        ++tries;
         const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
-            you.setpos( pt );
+            best_spot = pt;
             if( rate == INT_MAX ) {
                 found_good_spot = true;
             }
@@ -345,11 +346,13 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         int &x = tmp.x;
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
-            for( y = 0; y < MAPSIZE_Y; y++ ) {
+            for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
                 check_spot( tmp );
             }
         }
     }
+
+    you.setpos( best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );
@@ -362,7 +365,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
-    m.build_outside_cache( m.get_abs_sub().z );
+    m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
@@ -385,7 +388,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 }
 
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
-                                    const std::string &map_extra ) const
+                                    const map_extra_id &map_extra ) const
 {
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;

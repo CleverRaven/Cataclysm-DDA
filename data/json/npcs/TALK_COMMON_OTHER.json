@@ -368,7 +368,7 @@
         "switch": true,
         "default": true,
         "condition": { "u_has_item": "mininuke" },
-        "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+        "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
         "opinion": { "value": -1 }
       },
       {
@@ -378,7 +378,7 @@
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+          "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
@@ -403,7 +403,7 @@
         "trial": { "type": "LIE", "difficulty": 0, "mod": [ [ "TRUST", 2 ], [ "VALUE", 5 ], [ "ALTRUISM", 3 ] ] },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [ { "add_debt": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] }, "give_equipment" ],
+          "effect": { "give_equipment": { "allowance": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ], [ "TOTAL", 300 ] ] } },
           "opinion": { "value": -1 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -1, "value": -1 } }
@@ -415,10 +415,9 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 40 },
         "success": {
           "topic": "TALK_GIVE_EQUIPMENT",
-          "effect": [
-            { "add_debt": [ [ "U_INTIMIDATE", 1 ], [ "NPC_INTIMIDATE", -1 ], [ "FEAR", 1 ], [ "BRAVERY", -1 ], [ "TOTAL", 500 ] ] },
-            "give_equipment"
-          ],
+          "effect": {
+            "give_equipment": { "allowance": [ [ "U_INTIMIDATE", 1 ], [ "NPC_INTIMIDATE", -1 ], [ "FEAR", 1 ], [ "BRAVERY", -1 ], [ "TOTAL", 500 ] ] }
+          },
           "opinion": { "trust": -3, "fear": 2, "value": -2, "anger": 2 }
         },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "trust": -3, "fear": 1, "value": -3, "anger": 5 } }
@@ -508,7 +507,7 @@
   {
     "id": [ "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT" ],
     "type": "talk_topic",
-    "responses": [ { "text": "Okay", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "Okay.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_DELIVER_ASK",

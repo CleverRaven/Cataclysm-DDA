@@ -19,7 +19,7 @@
       { "id": "industrial_recipes_air_compressor" },
       { "id": "fbmc_lightindustry_workshop" }
     ],
-    "blueprint_resources": [ "fake_power_lathe", "fake_drill_press", "fake_hydraulic_press", "fake_air_compressor", "fake_arc_furnace" ],
+    "blueprint_resources": [ "fake_heavy_lathe", "fake_drill_press", "fake_hydraulic_press", "fake_air_compressor", "fake_arc_furnace" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "expansion survey",
     "check_blueprint_needs": false
@@ -35,17 +35,6 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_lightindustry_workshop_drop_hammer",
     "blueprint_provides": [ { "id": "blacksmith_recipes_7" }, { "id": "fbmc_lightindustry_workshop_drop_hammer" } ],
-    "blueprint_requires": [ { "id": "fbmc_lightindustry_workshop" } ],
-    "blueprint_needs": {
-      "time": "1 d",
-      "skills": [ [ "fabrication", 3 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER" } ] ],
-        "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ]
-      }
-    },
-    "blueprint_name": "drop hammer",
-    "check_blueprint_needs": false
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_workshop" } ]
   }
 ]

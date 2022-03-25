@@ -39,7 +39,7 @@
     "weight": "100 g",
     "color": "white",
     "looks_like": "ruined_candy",
-    "description": "A pile of weird sticky sludge.  It looks absolutly disgusting but smells kind of sweet.",
+    "description": "A pile of weird sticky sludge.  It looks absolutely disgusting but smells kind of sweet.",
     "material": [ "junk" ],
     "calories": 10,
     "fun": -12,

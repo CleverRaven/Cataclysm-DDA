@@ -169,5 +169,10 @@
     "name": "GROUP_EGG_MANTIS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_mantis_small" } ]
+  },
+  {
+    "name": "GROUP_EGG_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tadpole" } ]
   }
 ]

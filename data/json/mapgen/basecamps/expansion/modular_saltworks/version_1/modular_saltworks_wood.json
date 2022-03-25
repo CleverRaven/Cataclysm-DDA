@@ -8,15 +8,16 @@
       "r": "t_floor",
       "t": "t_floor",
       "#": "t_floor",
+      "c": "t_floor",
       "H": "t_floor",
-      "^": "t_floor",
-      "s": "t_floor",
+      "O": "t_floor",
       "~": "t_swater_sh",
       "o": "t_window_no_curtains",
       "w": "t_wall_wood",
       "+": "t_door_c"
     },
     "furniture": {
+      ".": "f_clear",
       "b": "f_bench",
       "r": "f_rack",
       "t": "f_table",
@@ -24,8 +25,10 @@
       "c": "f_counter",
       "H": "f_wood_keg",
       "O": "f_fvat_empty",
-      "^": "f_still",
-      "s": "f_woodstove"
+      "~": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
     }
   },
   {

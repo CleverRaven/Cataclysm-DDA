@@ -12,6 +12,9 @@
 #include "mtype.h"
 #include "output.h"
 
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
 void cardreader_examine_actor::consume_card( const std::vector<item_location> &cards ) const
 {
     if( !consume ) {
@@ -184,8 +187,8 @@ void cardreader_examine_actor::finalize() const
     }
 
     if( allow_hacking && ( !furn_changes.empty() || terrain_changes.size() != 1 ||
-                           terrain_changes.count( ter_str_id( "t_door_metal_locked" ) ) != 1 ||
-                           terrain_changes.at( ter_str_id( "t_door_metal_locked" ) ) != ter_str_id( "t_door_metal_c" ) ) ) {
+                           terrain_changes.count( ter_t_door_metal_locked ) != 1 ||
+                           terrain_changes.at( ter_t_door_metal_locked ) != ter_t_door_metal_c ) ) {
         debugmsg( "Cardreader allows hacking, but activites different that if hacked." );
     }
 }

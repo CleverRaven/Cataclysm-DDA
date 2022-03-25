@@ -15,7 +15,7 @@
     "material": [ "copper" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -25,7 +25,7 @@
     "category": "weapons",
     "name": { "str": "dive knife", "str_pl": "dive knives" },
     "//": "Too small to be effectively used for butchering, still not bad at it due to serrated edge.",
-    "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
+    "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying.  Used primarily by divers, this knife has been fitted with cork to slow its descent if dropped underwater, so it takes up more space than usual.",
     "weight": "226 g",
     "volume": "250 ml",
     "price": 14000,
@@ -35,7 +35,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
@@ -74,7 +74,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -94,7 +94,7 @@
     "material": [ "wood", "stone" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -113,7 +113,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ]
   },
   {
     "type": "TOOL",
@@ -129,6 +129,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -18 ] ]
   }
 ]

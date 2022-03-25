@@ -34,7 +34,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
+        "rigid": true,
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
@@ -76,9 +76,6 @@
       {
         "magazine_well": "99 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
     ]
@@ -122,16 +119,7 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
-    "pocket_data": [
-      {
-        "magazine_well": "103 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   },
   {
     "id": "hk_mp5_10_semi",
@@ -161,16 +149,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "62 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
   },
   {
     "id": "m1911_10",
@@ -204,16 +183,7 @@
     "durability": 6,
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
-    "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911_10mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ]
   },
   {
     "id": "witness_10",
@@ -244,16 +214,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "84 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "witness_mag_10" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ]
   },
   {
     "id": "p220_10",
@@ -285,16 +246,7 @@
     "dispersion": 410,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "60 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "p220_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ]
   },
   {
     "id": "xd_10",
@@ -326,16 +278,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 675,
-    "pocket_data": [
-      {
-        "magazine_well": "81 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "xd_10_mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
   },
   {
     "id": "TDI_10",
@@ -367,15 +310,6 @@
     "ammo": "10mm",
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "103 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
   }
 ]

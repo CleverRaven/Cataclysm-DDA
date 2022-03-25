@@ -61,9 +61,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_clay",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
@@ -81,9 +81,9 @@
     "bash": {
       "str_min": 2,
       "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thud!",
+      "ter_set": "t_sand",
       "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
     }
   },
@@ -198,6 +198,18 @@
     "roof": "t_open_air",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rubber_mulch",
+    "name": "rubber mulch",
+    "description": "A large area mulched with shredded rubber.  It's a softer place to land than regular dirt.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 3,
+    "connects_to": "MULCHFLOOR",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",
@@ -411,7 +423,7 @@
     "type": "terrain",
     "id": "t_gelatinous_groundcover",
     "name": "gelatinous ground",
-    "description": "An incursion of a large area of otherwordly substrate, it feels like walking on hardened gelatin.",
+    "description": "An incursion of a large area of otherworldly substrate, it feels like walking on hardened gelatin.",
     "symbol": ".",
     "color": "pink",
     "move_cost": 5,

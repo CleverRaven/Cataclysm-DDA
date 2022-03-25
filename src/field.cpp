@@ -29,6 +29,11 @@ bool field_entry::is_dangerous() const
     return get_intensity_level().dangerous;
 }
 
+bool field_entry::is_mopsafe() const
+{
+    return !get_intensity_level().dangerous || get_field_type()->mopsafe;
+}
+
 field_type_id field_entry::get_field_type() const
 {
     return type;

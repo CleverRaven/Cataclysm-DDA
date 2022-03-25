@@ -92,6 +92,36 @@
     }
   },
   {
+    "id": "mounted_cmes_gun",
+    "copy-from": "turret",
+    "looks_like": "mounted_m134",
+    "type": "vehicle_part",
+    "name": { "str": "mounted CMES laser cannon" },
+    "item": "gatling_mech_laser_single",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 20 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ], [ "electronics", 8 ] ] },
+      "removal": { "skills": [ [ "mechanics", 8 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rmes_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "looks_like": "mounted_plasma_gun",
+    "name": { "str": "mounted RMES marksman laser" },
+    "item": "recon_mech_laser_single",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 20 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 7 ], [ "electronics", 7 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ] }
+    }
+  },
+  {
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -313,5 +343,16 @@
     "name": { "str": "plugged 3-inch ordnance rifle" },
     "flags": [  ],
     "description": "Unfortunately, some responsible killjoy poured concrete in the barrel of this historic cannon to make it safe for display."
+  },
+  {
+    "id": "mounted_pamd68",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted PA md. 68" },
+    "item": "pamd68mountable",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   }
 ]

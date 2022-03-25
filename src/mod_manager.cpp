@@ -14,9 +14,13 @@
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "worldfactory.h"
+
+static const mod_id MOD_INFORMATION_dev_default( "dev:default" );
+static const mod_id MOD_INFORMATION_user_default( "user:default" );
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -152,12 +156,12 @@ void mod_manager::refresh_mod_list()
         load_mod_info( PATH_INFO::mods_user_default() );
     }
 
-    if( !set_default_mods( mod_id( "user:default" ) ) ) {
-        set_default_mods( mod_id( "dev:default" ) );
+    if( !set_default_mods( MOD_INFORMATION_user_default ) ) {
+        set_default_mods( MOD_INFORMATION_dev_default );
     }
     // remove these mods from the list, so they do not appear to the user
-    remove_mod( mod_id( "user:default" ) );
-    remove_mod( mod_id( "dev:default" ) );
+    remove_mod( MOD_INFORMATION_user_default );
+    remove_mod( MOD_INFORMATION_dev_default );
     for( auto &elem : mod_map ) {
         const auto &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );

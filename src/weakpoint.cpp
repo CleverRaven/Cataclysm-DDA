@@ -13,12 +13,17 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "rng.h"
 #include "translations.h"
+
+
+static const limb_score_id limb_score_reaction( "reaction" );
+static const limb_score_id limb_score_vision( "vision" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
@@ -27,6 +32,42 @@ static const skill_id skill_unarmed( "unarmed" );
 
 class JsonArray;
 class JsonObject;
+
+namespace
+{
+
+generic_factory<weakpoints> weakpoints_factory( "weakpoint sets" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const weakpoints &string_id<weakpoints>::obj() const
+{
+    return weakpoints_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<weakpoints>::is_valid() const
+{
+    return weakpoints_factory.is_valid( *this );
+}
+
+void weakpoints::load_weakpoint_sets( const JsonObject &jo, const std::string &src )
+{
+    weakpoints_factory.load( jo, src );
+}
+
+void weakpoints::reset()
+{
+    weakpoints_factory.reset();
+}
+
+const std::vector<weakpoints> &weakpoints::get_all()
+{
+    return weakpoints_factory.get_all();
+}
 
 float monster::weakpoint_skill() const
 {
@@ -38,21 +79,22 @@ float Character::melee_weakpoint_skill( const item &weapon ) const
     skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
     float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    float mul = ( get_limb_score( limb_score_vision ) + get_limb_score( limb_score_reaction ) ) / 2;
+    return ( skill + stat ) * mul;
 }
 
 float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
     float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * get_limb_score( limb_score_vision );
 }
 
 float Character::throw_weakpoint_skill() const
 {
     float skill = get_skill_level( skill_throw );
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return skill + stat;
+    return ( skill + stat ) * get_limb_score( limb_score_vision );
 }
 
 float weakpoint_family::modifier( const Character &attacker ) const
@@ -532,6 +574,57 @@ void weakpoints::remove( const JsonArray &ja )
         } );
         if( it != weakpoint_list.end() ) {
             weakpoint_list.erase( it );
+        }
+    }
+}
+
+void weakpoints::load( const JsonObject &jo, const std::string & )
+{
+    load( jo.get_array( "weakpoints" ) );
+}
+
+void weakpoints::add_from_set( const weakpoints_id &set_id, bool replace_id )
+{
+    if( !set_id.is_valid() ) {
+        debugmsg( "invalid weakpoint_set id \"%s\"", set_id.c_str() );
+        return;
+    }
+    add_from_set( set_id.obj(), replace_id );
+}
+
+void weakpoints::add_from_set( const weakpoints &set, bool replace_id )
+{
+    for( const weakpoint &wp : set.weakpoint_list ) {
+        auto iter = std::find_if( weakpoint_list.begin(),
+        weakpoint_list.end(), [&wp]( const weakpoint & w ) {
+            return w.id == wp.id && !w.id.empty();
+        } );
+        if( replace_id && iter != weakpoint_list.end() ) {
+            weakpoint_list[iter - weakpoint_list.begin()] = wp;
+        } else {
+            weakpoint_list.emplace_back( wp );
+        }
+    }
+}
+
+void weakpoints::del_from_set( const weakpoints_id &set_id )
+{
+    if( !set_id.is_valid() ) {
+        debugmsg( "invalid weakpoint_set id \"%s\"", set_id.c_str() );
+        return;
+    }
+    del_from_set( set_id.obj() );
+}
+
+void weakpoints::del_from_set( const weakpoints &set )
+{
+    for( const weakpoint &wp : set.weakpoint_list ) {
+        auto iter = std::find_if( weakpoint_list.begin(),
+        weakpoint_list.end(), [&wp]( const weakpoint & w ) {
+            return w.id == wp.id && !w.id.empty();
+        } );
+        if( iter != weakpoint_list.end() ) {
+            weakpoint_list.erase( iter );
         }
     }
 }

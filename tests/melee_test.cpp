@@ -13,6 +13,12 @@
 #include "point.h"
 #include "type_id.h"
 
+static const efftype_id effect_sleep( "sleep" );
+
+static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
 {
     // Note: not using deal_melee_attack because it trains dodge, which causes problems here
@@ -74,7 +80,7 @@ static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
 TEST_CASE( "Character attacking a zombie", "[.melee]" )
 {
-    monster zed( mtype_id( "mon_zombie" ) );
+    monster zed( mon_zombie );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
 
     SECTION( "8/8/8/8, no skills, unarmed" ) {
@@ -103,7 +109,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
 
 TEST_CASE( "Character attacking a manhack", "[.melee]" )
 {
-    monster manhack( mtype_id( "mon_manhack" ) );
+    monster manhack( mon_manhack );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
 
     SECTION( "8/8/8/8, no skills, unarmed" ) {
@@ -132,7 +138,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
 
 TEST_CASE( "Zombie attacking a character", "[.melee]" )
 {
-    monster zed( mtype_id( "mon_zombie" ) );
+    monster zed( mon_zombie );
     INFO( "Zombie has get_hit() == " + std::to_string( zed.get_hit() ) );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {
@@ -171,7 +177,7 @@ TEST_CASE( "Zombie attacking a character", "[.melee]" )
 
 TEST_CASE( "Manhack attacking a character", "[.melee]" )
 {
-    monster manhack( mtype_id( "mon_manhack" ) );
+    monster manhack( mon_manhack );
     INFO( "Manhack has get_hit() == " + std::to_string( manhack.get_hit() ) );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {
@@ -205,7 +211,7 @@ TEST_CASE( "Manhack attacking a character", "[.melee]" )
 
 TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
 {
-    monster zed( mtype_id( "mon_zombie_hulk" ) );
+    monster zed( mon_zombie_hulk );
     INFO( "Hulk has get_hit() == " + std::to_string( zed.get_hit() ) );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {
@@ -240,7 +246,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
 TEST_CASE( "Charcter can dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    monster zed( mtype_id( "mon_zombie" ) );
+    monster zed( mon_zombie );
 
     dude.clear_effects();
     REQUIRE( dude.get_dodge() > 0.0 );
@@ -258,10 +264,10 @@ TEST_CASE( "Charcter can dodge" )
 TEST_CASE( "Incapacited character can't dodge" )
 {
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    monster zed( mtype_id( "mon_zombie" ) );
+    monster zed( mon_zombie );
 
     dude.clear_effects();
-    dude.add_effect( efftype_id( "sleep" ), 1_hours );
+    dude.add_effect( effect_sleep, 1_hours );
     REQUIRE( dude.get_dodge() == 0.0 );
 
     const int dodges_left = dude.dodges_left;

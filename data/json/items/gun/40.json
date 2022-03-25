@@ -21,16 +21,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 504,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "90two40mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "90two40mag" ] } ]
   },
   {
     "id": "glock_22",
@@ -72,16 +63,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "250 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "glock40mag", "glock40bigmag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ]
   },
   {
     "id": "px4_40",
@@ -105,16 +87,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 504,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "250 ml",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "px4_40mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag" ] } ]
   },
   {
     "id": "rifle_40",
@@ -195,16 +168,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "magazine_well": "250 ml",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "sig40mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ]
   },
   {
     "id": "smg_40",
@@ -245,15 +209,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "smg_40_mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_40_mag" ] } ]
   },
   {
     "id": "surv_six_shooter",
@@ -316,16 +272,7 @@
     "durability": 8,
     "min_cycle_recoil": 504,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "185 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "bhp40mag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ]
   },
   {
     "id": "walther_ppq_40",
@@ -351,9 +298,6 @@
       {
         "magazine_well": "200 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
         "item_restriction": [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ]
       }
     ]
@@ -379,15 +323,6 @@
     "durability": 7,
     "min_cycle_recoil": 504,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [
-      {
-        "magazine_well": "312 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "hptjcpmag" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "312 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjcpmag" ] } ]
   }
 ]

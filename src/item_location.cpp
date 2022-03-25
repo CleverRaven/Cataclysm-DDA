@@ -347,7 +347,7 @@ class item_location::impl::item_on_person : public item_location::impl
                     return parents.back()->type_name();
 
                 } else if( who->is_worn( *target() ) ) {
-                    return _( "worn" );
+                    return pgettext( "item location", "worn" );
 
                 } else {
                     return _( "inventory" );

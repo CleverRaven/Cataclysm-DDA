@@ -6,6 +6,9 @@
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 
+static const itype_id itype_foodperson_mask( "foodperson_mask" );
+static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
@@ -90,15 +93,15 @@ void Character::apply_persistent_morale()
 
     if( has_trait( trait_PROF_FOODP ) ) {
         // Loosing your face is distressing
-        if( !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-               is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        if( !( is_wearing( itype_foodperson_mask ) ||
+               is_wearing( itype_foodperson_mask_on ) ) ) {
             add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
-        } else if( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+        } else if( is_wearing( itype_foodperson_mask ) ||
+                   is_wearing( itype_foodperson_mask_on ) ) {
             rem_morale( MORALE_PERM_NOFACE );
         }
 
-        if( is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+        if( is_wearing( itype_foodperson_mask_on ) ) {
             add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
         } else {
             rem_morale( MORALE_PERM_FPMODE_ON );
@@ -138,13 +141,18 @@ bool Character::has_morale_to_read() const
     return get_morale_level() >= -40;
 }
 
+void outfit::check_and_recover_morale( player_morale &test_morale ) const
+{
+    for( const item &wit : worn ) {
+        test_morale.on_item_wear( wit );
+    }
+}
+
 void Character::check_and_recover_morale()
 {
     player_morale test_morale;
 
-    for( const item &wit : worn ) {
-        test_morale.on_item_wear( wit );
-    }
+    worn.check_and_recover_morale( test_morale );
 
     for( const trait_id &mut : get_mutations() ) {
         test_morale.on_mutation_gain( mut );

@@ -81,6 +81,7 @@ class faction_template
         std::string name;
         int likes_u;
         int respects_u;
+        int trusts_u; // Determines which item groups are available for trading
         bool known_by_u;
         faction_id id;
         translation desc;

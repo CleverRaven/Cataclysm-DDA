@@ -31,6 +31,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "<": "t_slope_down", "+": "t_dirtmound", "-": [ "t_dirtmound", "t_region_groundcover_barren" ] }
     }
   },

@@ -23,6 +23,9 @@
 #include "type_id.h"
 #include "vehicle.h"
 
+static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
+static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
@@ -1335,12 +1338,12 @@ TEST_CASE( "submap_construction_load", "[submap][load]" )
     const partial_con &con1 = sm.partial_constructions[ {3, 2, 0}];
     CHECK( con1.counter == 123334 );
     CHECK( con1.components.size() == 1 );
-    CHECK( con1.id.id() == construction_str_id( "constr_ground_cable" ) );
+    CHECK( con1.id.id() == construction_constr_ground_cable );
     REQUIRE( sm.partial_constructions.find( { 3, 3, 0 } ) != sm.partial_constructions.end() );
     const partial_con &con2 = sm.partial_constructions[ {3, 3, 0}];
     CHECK( con2.counter == 4934 );
     CHECK( con2.components.size() == 4 );
-    CHECK( con2.id.id() == construction_str_id( "constr_rack_coat" ) );
+    CHECK( con2.id.id() == construction_constr_rack_coat );
 }
 
 TEST_CASE( "submap_computer_load", "[submap][load]" )

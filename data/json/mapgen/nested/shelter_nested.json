@@ -31,16 +31,12 @@
         "               c  6     ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 75 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
@@ -95,11 +91,8 @@
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       },
       "items": {
@@ -201,17 +194,13 @@
         "                  l     ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } },
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       }
     }
@@ -265,11 +254,8 @@
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       },
       "items": {
@@ -367,16 +353,12 @@
         "                   c    ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "6": "f_console" },
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       },
       "items": { "l": { "item": "SUS_evac_shelter_locker", "chance": 70 }, "c": { "item": "SUS_evac_shelter_cabinet", "chance": 50 } }
@@ -432,11 +414,8 @@
       "computers": {
         "6": {
           "name": "Evac shelter computer",
-          "options": [
-            { "name": "Emergency Message", "action": "emerg_mess" },
-            { "name": "Disable External Power", "action": "complete_disable_external_power" },
-            { "name": "Contact Us", "action": "emerg_ref_center" }
-          ]
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
         }
       },
       "items": {

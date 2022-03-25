@@ -15,10 +15,13 @@ add_library(CataAnalyzerPlugin MODULE
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
+        OtMatchCheck.cpp
         PointInitializationCheck.cpp
+        RedundantParenthesesCheck.cpp
         SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
+        StaticInitializationOrderCheck.cpp
         StaticIntIdConstantsCheck.cpp
         StaticStringIdConstantsCheck.cpp
         StringLiteralIterator.cpp
@@ -34,6 +37,7 @@ add_library(CataAnalyzerPlugin MODULE
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp
+        UTF8ToLowerUpperCheck.cpp
         Utils.cpp
         XYCheck.cpp)
 

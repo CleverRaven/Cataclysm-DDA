@@ -6,12 +6,15 @@
 
 #include <algorithm>
 
-static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_base_immobile" );
-static const mtype_id mon_test_speed_desc_base_25( "mon_test_speed_desc_base_25" );
-static const mtype_id mon_test_speed_desc_base_50( "mon_test_speed_desc_base_50" );
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_150( "mon_test_speed_desc_base_150" );
+static const mtype_id mon_test_speed_desc_base_25( "mon_test_speed_desc_base_25" );
+static const mtype_id mon_test_speed_desc_base_50( "mon_test_speed_desc_base_50" );
+static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_base_immobile" );
 static const mtype_id mon_test_speed_desc_multiple( "mon_test_speed_desc_multiple" );
+
+static const speed_description_id
+speed_description_ID_THAT_DOES_NOT_EXIST( "ID_THAT_DOES_NOT_EXIST" );
 
 TEST_CASE( "monster_speed_description", "[monster][speed_description]" )
 {
@@ -59,7 +62,7 @@ TEST_CASE( "monster_speed_description", "[monster][speed_description]" )
         GIVEN( "an invalid id" ) {
             std::string speed_string =
                 monster::speed_description( 1.0, false,
-                                            speed_description_id( "ID_THAT_DOES_NOT_EXIST" ) );
+                                            speed_description_ID_THAT_DOES_NOT_EXIST );
 
             THEN( "returned string is empty" ) {
                 CHECK( speed_string.empty() );

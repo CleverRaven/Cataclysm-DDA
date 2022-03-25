@@ -7,10 +7,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ [ "f_metal_crate_c", 10 ], "f_metal_crate_r" ],
           "items": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 95 } ]
         }
@@ -25,10 +23,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ [ "f_metal_crate_c", 10 ], "f_metal_crate_r" ],
           "items": [ { "item": "SUS_exodii_storage_dryfood", "chance": 95 } ]
         }
@@ -43,10 +39,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ [ "f_metal_crate_c", 5 ], [ "f_metal_crate_r", 2 ] ],
           "items": [ { "item": "SUS_exodii_storage_medvalue", "chance": 95 } ]
         }
@@ -61,10 +55,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ [ "f_metal_crate_c", 5 ], [ "f_metal_crate_r", 2 ] ],
           "items": [ { "item": "SUS_exodii_storage_dryfood", "chance": 95, "repeat": [ 1, 2 ] } ]
         }
@@ -79,10 +71,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ "f_metal_crate_c", [ "f_metal_crate_r", 2 ] ],
           "items": [ { "item": "SUS_exodii_storage_highvalue", "chance": 95 } ]
         }
@@ -97,10 +87,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [ "f_metal_crate_c", [ "f_metal_crate_r", 2 ] ],
           "items": [ { "item": "exodii_ammo_crate", "chance": 90, "repeat": [ 1, 2 ] } ]
         }
@@ -115,10 +103,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": "f_wreckage",
           "items": [
             { "item": "dry_goods", "chance": 30, "repeat": [ 1, 4 ] },
@@ -136,10 +122,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
         "X": {
-          "terrain": "t_null",
           "furniture": [
             [ "f_machinery_heavy", 2 ],
             [ "f_machinery_light", 2 ],
@@ -161,13 +145,8 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
       "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": "f_exodii_botrack",
-          "items": [ { "item": "SUS_exodii_botrack", "chance": 95, "repeat": [ 2, 5 ] } ]
-        }
+        "X": { "furniture": "f_exodii_botrack", "items": [ { "item": "SUS_exodii_botrack", "chance": 95, "repeat": [ 2, 5 ] } ] }
       }
     }
   },
@@ -179,10 +158,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": { "terrain": "t_null", "furniture": "f_metal_table", "items": [ { "item": "SUS_exodii_botrack", "chance": 1 } ] }
-      }
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "SUS_exodii_botrack", "chance": 1 } ] } }
     }
   },
   {
@@ -193,8 +169,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": { "X": { "terrain": "t_null", "furniture": "f_metal_table", "items": [ { "item": "metal_wreckage", "chance": 10 } ] } }
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "metal_wreckage", "chance": 10 } ] } }
     }
   },
   {
@@ -205,8 +180,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": { "X": { "terrain": "t_null", "furniture": "f_metal_table", "items": [ { "item": "supplies_metal", "chance": 5 } ] } }
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "supplies_metal", "chance": 5 } ] } }
     }
   },
   {
@@ -217,8 +191,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": { "X": { "terrain": "t_null", "furniture": "f_metal_table", "items": [ { "item": "exodii_tools", "chance": 25 } ] } }
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "exodii_tools", "chance": 25 } ] } }
     }
   },
   {
@@ -229,14 +202,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "water_clean", "amount": [ 100, 200 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "water_clean", "amount": [ 100, 200 ] } } }
     }
   },
   {
@@ -247,14 +213,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "cooking_oil", "amount": [ 200, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "cooking_oil", "amount": [ 200, 500 ] } } }
     }
   },
   {
@@ -265,14 +224,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "motor_oil", "amount": [ 100, 200 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "motor_oil", "amount": [ 100, 200 ] } } }
     }
   },
   {
@@ -283,14 +235,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "denat_alcohol", "amount": [ 200, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "denat_alcohol", "amount": [ 200, 500 ] } } }
     }
   },
   {
@@ -301,14 +246,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_methanol", "amount": [ 200, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_methanol", "amount": [ 200, 500 ] } } }
     }
   },
   {
@@ -319,14 +257,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "biodiesel", "amount": [ 200, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "biodiesel", "amount": [ 200, 500 ] } } }
     }
   },
   {
@@ -337,10 +268,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": { "terrain": "t_null", "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "ether", "amount": [ 100, 200 ] } }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "ether", "amount": [ 100, 200 ] } } }
     }
   },
   {
@@ -351,14 +279,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_chloroform", "amount": [ 100, 200 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_chloroform", "amount": [ 100, 200 ] } } }
     }
   },
   {
@@ -369,14 +290,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_phenol", "amount": [ 100, 200 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_phenol", "amount": [ 100, 200 ] } } }
     }
   },
   {
@@ -387,14 +301,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_formaldehyde", "amount": [ 300, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_formaldehyde", "amount": [ 300, 500 ] } } }
     }
   },
   {
@@ -405,14 +312,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_nitric_acid", "amount": [ 100, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_nitric_acid", "amount": [ 100, 500 ] } } }
     }
   },
   {
@@ -423,14 +323,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_sulphuric_acid", "amount": [ 100, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_sulphuric_acid", "amount": [ 100, 500 ] } } }
     }
   },
   {
@@ -441,14 +334,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_null" },
-      "mapping": {
-        "X": {
-          "terrain": "t_null",
-          "furniture": [ "f_standing_tank" ],
-          "liquids": { "liquid": "chem_muriatic_acid", "amount": [ 100, 500 ] }
-        }
-      }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_muriatic_acid", "amount": [ 100, 500 ] } } }
     }
   }
 ]

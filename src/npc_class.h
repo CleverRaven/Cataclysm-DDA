@@ -43,6 +43,21 @@ class distribution
         static distribution one_in( float in );
 };
 
+struct shopkeeper_item_group {
+    item_group_id id;
+    int trust;
+    bool strict;
+
+    // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
+    bool rigid;
+
+    shopkeeper_item_group() : id( item_group_id( "EMPTY_GROUP" ) ), trust( 0 ), strict( false ) {}
+    shopkeeper_item_group( const std::string &id, int trust, bool strict ) :
+        id( item_group_id( id ) ), trust( trust ), strict( strict ) {}
+
+    void deserialize( const JsonObject &jo );
+};
+
 class npc_class
 {
     private:
@@ -60,11 +75,16 @@ class npc_class
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
-        item_group_id shopkeeper_item_group = item_group_id( "EMPTY_GROUP" );
+        // first -> item group, second -> trust
+        std::vector<shopkeeper_item_group> shop_item_groups;
 
     public:
         npc_class_id id;
+        std::vector<std::pair<npc_class_id, mod_id>> src;
         bool was_loaded = false;
+
+        // By default, NPCs will be open to trade anything in their inventory, including worn items. If this is set to false, they won't sell items that they're directly wearing or wielding. Items inside of pockets/bags/etc are still fair game.
+        bool sells_belongings = true;
 
         item_group_id worn_override;
         item_group_id carry_override;
@@ -88,7 +108,7 @@ class npc_class
 
         int roll_skill( const skill_id & ) const;
 
-        const item_group_id &get_shopkeeper_items() const;
+        const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

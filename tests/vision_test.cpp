@@ -24,6 +24,21 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const efftype_id effect_narcosis( "narcosis" );
+
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
+static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_utility_light( "t_utility_light" );
+static const ter_str_id ter_t_window_frame( "t_window_frame" );
+
+static const vproto_id vehicle_prototype_meth_lab( "meth_lab" );
+
 static int get_actual_light_level( const map_test_case::tile &t )
 {
     const map &here = get_map();
@@ -73,22 +88,23 @@ static void assert_tile_light_level( map_test_case::tile t )
 static const time_point midnight = calendar::turn_zero + 0_hours;
 static const time_point day_time = calendar::turn_zero + 9_hours + 30_minutes;
 
-static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_crouch( "crouch" );
+
+
+
 
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-auto static const ter_set_flat_roof_above = ter_set( ter_str_id( "t_flat_roof" ), tripoint_above );
+auto static const ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static const tile_predicate set_up_tiles_common =
     ifchar( ' ', noop ) ||
     ifchar( 'U', noop ) ||
-    ifchar( 'u', ter_set( ter_str_id( "t_floor" ) ) + ter_set_flat_roof_above ) ||
-    ifchar( 'L', ter_set( ter_str_id( "t_utility_light" ) ) + ter_set_flat_roof_above ) ||
-    ifchar( '#', ter_set( ter_str_id( "t_brick_wall" ) ) + ter_set_flat_roof_above ) ||
-    ifchar( '=', ter_set( ter_str_id( "t_window_frame" ) ) + ter_set_flat_roof_above ) ||
-    ifchar( '-', ter_set( ter_str_id( "t_floor" ) ) + ter_set_flat_roof_above ) ||
+    ifchar( 'u', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
+    ifchar( 'L', ter_set( ter_t_utility_light ) + ter_set_flat_roof_above ) ||
+    ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
+    ifchar( '=', ter_set( ter_t_window_frame ) + ter_set_flat_roof_above ) ||
+    ifchar( '-', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
     fail;
 
 struct vision_test_flags {
@@ -110,7 +126,6 @@ struct vision_test_case {
                       const time_point &time ) : setup( setup ), expected_results( expectedResults ), time( time ) {}
 
     void test_all() const {
-        const efftype_id effectNarcosis( "narcosis" );
         Character &player_character = get_player_character();
         g->place_player( tripoint( 60, 60, 0 ) );
         player_character.worn.clear(); // Remove any light-emitting clothing
@@ -122,7 +137,7 @@ struct vision_test_case {
 
         REQUIRE( !player_character.is_blind() );
         REQUIRE( !player_character.in_sleep_state() );
-        REQUIRE( !player_character.has_effect( effectNarcosis ) );
+        REQUIRE( !player_character.has_effect( effect_narcosis ) );
 
         player_character.recalc_sight_limits();
 
@@ -406,7 +421,7 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
         // first scenario: player is surrounded by walls
         // overriding 'u' to set up brick wall and roof at player's position
         t.set_up_tiles =
-            ifchar( 'u', ter_set( ter_str_id( "t_brick_wall" ) ) + ter_set_flat_roof_above ) ||
+            ifchar( 'u', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
             t.set_up_tiles;
 
         t.section_prefix = "walls_";
@@ -414,7 +429,7 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
         // second scenario: player is surrounded by thick smoke
         // overriding 'u' to set thick smoke everywhere
         t.set_up_tiles = [&]( map_test_case::tile t ) {
-            get_map().add_field( t.p, field_type_str_id( "fd_smoke" ) );
+            get_map().add_field( t.p, field_fd_smoke );
             return true;
         };
         t.section_prefix = "smoke_";
@@ -534,7 +549,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
             dir = 0_degrees;
         }
         if( dir ) {
-            v = get_map().add_vehicle( vproto_id( "meth_lab" ), tile.p, *dir, 0, 0 );
+            v = get_map().add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
             for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v -> close( vp.part_index() );
             }

@@ -42,33 +42,13 @@
       "mma_tec_desert_wind_spin",
       "mma_tec_desert_wind_wide"
     ],
-    "weapons": [
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "mace_simple",
-      "mace_trench",
-      "scimitar",
-      "scimitar_inferior",
-      "scimitar_fake",
-      "spear_knife",
-      "spear_knife_superior",
-      "spear_spike",
-      "spear_rebar",
-      "spear_pipe",
-      "spear_forked",
-      "spear_steel",
-      "spear_wood",
-      "spear_copper",
-      "spear_homemade_halfpike",
-      "sword_wood"
-    ]
+    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS" ]
   },
   {
     "type": "martial_art",
     "id": "style_mma_diamond_mind",
     "name": { "str": "Diamond Mind" },
-    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical percision, they are able to move so fast that their opponents are unable react.  Marked by unparrelled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
+    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical precision, they are able to move so fast that their opponents are unable react.  Marked by unparalleled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
     "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -110,7 +90,7 @@
       {
         "id": "mma_buff_diamond_mind_onpause",
         "name": "Quicksilver Motion",
-        "description": "Taking a moment to concentrate, you surge foward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
+        "description": "Taking a moment to concentrate, you surge forward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -210,27 +190,8 @@
       }
     ],
     "techniques": [ "mma_tec_hylian_spin", "mma_tec_hylian_wide" ],
-    "weapons": [
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "cudgel",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "ladle",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sickle",
-      "stick",
-      "sword_wood",
-      "torch",
-      "torch_lit",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapons": [ "cudgel", "ladle", "sickle", "stick", "torch", "torch_lit" ],
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -281,7 +242,7 @@
       {
         "id": "mma_buff_panzer_static1",
         "name": "Schatten Folgen",
-        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attemps, Dodging Skill increased by 15%% of Perception.",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attempts, Dodging Skill increased by 15%% of Perception.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
@@ -386,12 +347,16 @@
       {
         "id": "mma_buff_setting_sun_onblock",
         "name": "Fool's Strike",
-        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% bash damage.\nLasts 2 turns.",
+        "description": "You moved in such a deceptived that you have turned your opponent's attack against them.\n\n+20% damage.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.15 } ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.2 },
+          { "stat": "damage", "type": "cut", "scale": 1.2 },
+          { "stat": "damage", "type": "stab", "scale": 1.2 }
+        ]
       }
     ],
     "ondodge_buffs": [
@@ -419,20 +384,8 @@
       }
     ],
     "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
-    "weapons": [
-      "i_staff",
-      "kris",
-      "kris_fake",
-      "shock_staff",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_xiphos",
-      "q_staff",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ]
+    "weapons": [ "kris", "kris_fake", "sword_crude", "sword_nail", "sword_wood" ],
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -512,7 +465,8 @@
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"
-    ]
+    ],
+    "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -526,7 +480,7 @@
       {
         "id": "mma_buff_stone_dragon_static",
         "name": "Stonefoot Stance",
-        "description": "You maintain a steady stance that improves your combat prowless.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "description": "You maintain a steady stance that improves your combat prowess.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "flat_bonuses": [
@@ -605,19 +559,7 @@
       }
     ],
     "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
-    "weapons": [
-      "battleaxe",
-      "battleaxe_inferior",
-      "battleaxe_fake",
-      "mace",
-      "mace_inferior",
-      "mace_fake",
-      "mace_simple",
-      "mace_trench",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES" ]
   },
   {
     "type": "martial_art",
@@ -709,6 +651,7 @@
       "hatchet",
       "kukri",
       "makeshift_axe"
-    ]
+    ],
+    "weapon_category": [ "GREAT_AXES" ]
   }
 ]

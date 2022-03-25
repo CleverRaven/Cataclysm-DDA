@@ -10,13 +10,18 @@
     "price": 40000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
+    "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 85,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
@@ -75,7 +80,16 @@
     "name": { "str": "XL survivor duster" },
     "copy-from": "duster_survivor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_duster_survivor",
+    "type": "ARMOR",
+    "copy-from": "duster_survivor",
+    "looks_like": "duster_survivor",
+    "name": { "str": "XS survivor duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "sleeveless_duster_survivor",
@@ -89,13 +103,18 @@
     "price": 34000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
+    "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_survivor",
     "color": "brown",
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 85,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -122,7 +141,7 @@
     "price": 40000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
+    "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
@@ -192,7 +211,7 @@
     "price": 34000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar_layered" ],
+    "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_survivor",
     "color": "brown",

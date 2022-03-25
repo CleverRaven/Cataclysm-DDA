@@ -164,7 +164,7 @@
         { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 3, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
       ]
     }
   },
@@ -261,7 +261,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },
@@ -315,7 +315,7 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
       ]
     }
   },

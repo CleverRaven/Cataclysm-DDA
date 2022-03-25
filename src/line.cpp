@@ -19,8 +19,7 @@ bool trigdist;
 
 double iso_tangent( double distance, const units::angle &vertex )
 {
-    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
+    return tan( vertex / 2 )  * distance * 2;
 }
 
 void bresenham( const point &p1, const point &p2, int t,
@@ -618,6 +617,29 @@ std::string direction_name( const direction dir )
 std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
+}
+
+std::string direction_arrow( const direction dir )
+{
+    std::string arrow;
+    if( dir == direction::NORTH ) {
+        arrow = "\u21D1";
+    } else if( dir == direction::NORTHEAST ) {
+        arrow = "\u21D7";
+    } else if( dir == direction::EAST ) {
+        arrow = "\u21D2";
+    } else if( dir == direction::SOUTHEAST ) {
+        arrow = "\u21D8";
+    } else if( dir == direction::SOUTH ) {
+        arrow = "\u21D3";
+    } else if( dir == direction::SOUTHWEST ) {
+        arrow = "\u21D9";
+    } else if( dir == direction::WEST ) {
+        arrow = "\u21D0";
+    } else if( dir == direction::NORTHWEST ) {
+        arrow = "\u21D6";
+    }
+    return arrow;
 }
 
 std::string direction_suffix( const tripoint &p, const tripoint &q )

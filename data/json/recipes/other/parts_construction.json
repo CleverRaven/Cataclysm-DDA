@@ -130,7 +130,7 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "wood_beam", 1 ] ],
@@ -348,13 +348,13 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "material_soil", 2 ] ],
-      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 4 ], [ "feces_manure", 2 ] ]
     ]
   },
   {

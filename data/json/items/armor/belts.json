@@ -26,7 +26,17 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -119,7 +129,7 @@
       {
         "holster": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "600 g",
+        "max_contains_weight": "750 g",
         "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]
@@ -173,7 +183,45 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
     "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 5, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "santa_belt",
+    "type": "ARMOR",
+    "name": { "str": "broad belt" },
+    "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 9000,
+    "price_postapoc": 250,
+    "bashing": 5,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "90 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "tool_belt",

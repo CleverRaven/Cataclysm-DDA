@@ -1,0 +1,9 @@
+[
+  {
+    "id": "time_desc",
+    "type": "widget",
+    "label": "Time",
+    "style": "text",
+    "var": "time_text"
+  }
+]

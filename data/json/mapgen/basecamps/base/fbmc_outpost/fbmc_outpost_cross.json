@@ -11,7 +11,8 @@
         "d d ",
         "d d "
       ],
-      "terrain": { "d": "t_dirtmound" }
+      "terrain": { "d": "t_dirtmound" },
+      "furniture": { "d": "f_clear" }
     }
   },
   {

@@ -32,6 +32,8 @@
 #include "type_id.h"
 #include "viewer.h"
 
+static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
+
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }
@@ -49,12 +51,8 @@ void mdefense::zapback( monster &m, Creature *const source,
 
     if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
-        for( const item &i : foe->worn ) {
-            if( !i.conductive()
-                && ( ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
-                     i.get_coverage( bodypart_id( "hand_r" ) ) >= 95 ) ) {
-                return;
-            }
+        if( !foe->worn.hands_conductive() ) {
+            return;
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
         if( !foe->get_wielded_item().conductive() ) {
@@ -189,7 +187,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
                 continue;
             }
 
-            gunactor->shoot( m, fire_point, gun_mode_id( "DEFAULT" ), dispersion );
+            gunactor->shoot( m, fire_point, gun_mode_DEFAULT, dispersion );
 
             // We only return fire once with one gun.
             return;

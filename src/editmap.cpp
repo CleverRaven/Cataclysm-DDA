@@ -729,14 +729,14 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
                terrain_type.name(),
                terrain_type.movecost
              );
     off++; // 2
     if( here.furn( target ).to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
-        mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
+        mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
                    here.furn( target ).to_i(),
                    furniture_type.name(),
                    furniture_type.movecost,
@@ -1075,7 +1075,7 @@ template<typename T_t>
 void editmap::edit_feature()
 {
     if( T_t::count() == 0 ) {
-        debugmsg( "Empty %s list", typeid( T_t ).name() );
+        debugmsg( "Empty %s list", demangle( typeid( T_t ).name() ) );
         return;
     }
 
@@ -1383,7 +1383,10 @@ void editmap::edit_fld()
  * edit items in target square. WIP
  */
 enum editmap_imenu_ent {
-    imenu_bday, imenu_damage, imenu_burnt,
+    imenu_bday,
+    imenu_damage,
+    imenu_degradation,
+    imenu_burnt,
     imenu_tags,
     imenu_sep,
     imenu_savetest,
@@ -1443,6 +1446,8 @@ void editmap::edit_itm()
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it.damage() );
+            imenu.addentry( imenu_degradation, true, -1, pgettext( "item manipulation debug menu entry",
+                            "degradation: %d" ), it.degradation() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1473,6 +1478,9 @@ void editmap::edit_itm()
                             break;
                         case imenu_damage:
                             intval = it.damage();
+                            break;
+                        case imenu_degradation:
+                            intval = it.degradation();
                             break;
                         case imenu_burnt:
                             intval = static_cast<int>( it.burnt );
@@ -1508,6 +1516,15 @@ void editmap::edit_itm()
                                 break;
                             case imenu_damage:
                                 it.set_damage( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                break;
+                            case imenu_degradation:
+                                it.set_degradation( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
                                 // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;

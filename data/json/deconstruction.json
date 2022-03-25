@@ -186,6 +186,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_wooden_floor",
+    "group": "remove_floor",
+    "//": "Prys up the floor boards, leaving dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
+    "pre_terrain": "t_floor_noroof",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_waxed_floor_y",
     "group": "remove_floor",
     "//": "Prys up the floor boards, leaving dirt",

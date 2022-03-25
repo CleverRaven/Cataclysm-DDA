@@ -21,11 +21,37 @@
 #include "rng.h"
 #include "string_formatter.h"
 
-static const skill_id skill_traps( "traps" );
+static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 
+static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
-static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
+
+static const skill_id skill_traps( "traps" );
+
+const trap_str_id tr_beartrap_buried( "tr_beartrap_buried" );
+const trap_str_id tr_blade( "tr_blade" );
+const trap_str_id tr_dissector( "tr_dissector" );
+const trap_str_id tr_drain( "tr_drain" );
+const trap_str_id tr_glow( "tr_glow" );
+const trap_str_id tr_goo( "tr_goo" );
+const trap_str_id tr_hum( "tr_hum" );
+const trap_str_id tr_landmine( "tr_landmine" );
+const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
+const trap_str_id tr_lava( "tr_lava" );
+const trap_str_id tr_ledge( "tr_ledge" );
+const trap_str_id tr_pit( "tr_pit" );
+const trap_str_id tr_portal( "tr_portal" );
+const trap_str_id tr_shadow( "tr_shadow" );
+const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
+const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
+const trap_str_id tr_sinkhole( "tr_sinkhole" );
+const trap_str_id tr_snake( "tr_snake" );
+const trap_str_id tr_telepad( "tr_telepad" );
+const trap_str_id tr_temple_flood( "tr_temple_flood" );
+const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
+
+static const update_mapgen_id update_mapgen_none( "none" );
 
 namespace
 {
@@ -125,7 +151,7 @@ void trap::load( const JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
-    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_id( "none" ) );
+    optional( jo, was_loaded, "map_regen", map_regen, update_mapgen_none );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -206,8 +232,7 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    static const flag_id sonar_detectable = flag_id( "SONAR_DETECTABLE" );
-    return has_flag( sonar_detectable );
+    return has_flag( json_flag_SONAR_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
@@ -224,7 +249,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.
-    const float weighted_stat_average = ( ( 4.0f * p.per_cur + p.int_cur ) / 5.0f );
+    const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
 
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
@@ -334,27 +359,6 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id tr_null;
-const trap_str_id tr_beartrap_buried( "tr_beartrap_buried" );
-const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
-const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
-const trap_str_id tr_blade( "tr_blade" );
-const trap_str_id tr_landmine( "tr_landmine" );
-const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
-const trap_str_id tr_telepad( "tr_telepad" );
-const trap_str_id tr_goo( "tr_goo" );
-const trap_str_id tr_dissector( "tr_dissector" );
-const trap_str_id tr_sinkhole( "tr_sinkhole" );
-const trap_str_id tr_pit( "tr_pit" );
-const trap_str_id tr_lava( "tr_lava" );
-const trap_str_id tr_portal( "tr_portal" );
-const trap_str_id tr_ledge( "tr_ledge" );
-const trap_str_id tr_temple_flood( "tr_temple_flood" );
-const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
-const trap_str_id tr_glow( "tr_glow" );
-const trap_str_id tr_hum( "tr_hum" );
-const trap_str_id tr_shadow( "tr_shadow" );
-const trap_str_id tr_drain( "tr_drain" );
-const trap_str_id tr_snake( "tr_snake" );
 
 void trap::check_consistency()
 {

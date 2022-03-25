@@ -153,7 +153,7 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
     ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
-        ret.push_back( ( as_node )->key );
+        ret.push_back( as_node->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -214,7 +214,7 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
     ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
-        ret.push_back( ( as_node )->key );
+        ret.push_back( as_node->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -399,7 +399,7 @@ void dependency_tree::check_for_strongly_connected_components()
     }
     // now go back through this and give them all the circular error code!
     for( const auto &elem : in_circular_connection ) {
-        ( elem )->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
+        elem->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
     }
 }
 

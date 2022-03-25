@@ -29,6 +29,81 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_test_bovine",
+    "name": { "str_sp": "monster producing bovine samples when dissected" },
+    "description": "An 8-legged beast of rugged greenish skin.",
+    "default_faction": "herbivore",
+    "material": [ "flesh" ],
+    "harvest": "mon_test_bovine",
+    "symbol": "B",
+    "volume": "81500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 50,
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+  },
+  {
+    "id": "mon_test_bovine",
+    "type": "harvest",
+    "entries": [
+      { "drop": "bovine_sample", "type": "mutagen_group" },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_CBM",
+    "name": { "str_sp": "monster producing CBMs when dissected" },
+    "description": "An 8-legged beast of rugged greenish skin.",
+    "default_faction": "herbivore",
+    "material": [ "flesh" ],
+    "harvest": "mon_test_CBM",
+    "symbol": "B",
+    "volume": "81500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 50,
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+  },
+  {
+    "id": "mon_test_CBM",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this failed experiment.",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "cyborg_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "skull_human", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
+      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
+      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10, "type": "bone" },
+      { "drop": "blood", "mass_ratio": 0.1, "type": "blood" },
+      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12, "type": "bone" }
+    ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_test_speed_desc_base",
     "name": { "str_sp": "speed 100 monster" },
     "description": "A shapeshifting green giraffe that can change speed at will.",
@@ -75,5 +150,101 @@
     "copy-from": "mon_test_speed_desc_base",
     "name": { "str_sp": "speed 100 monster with multiple descriptions" },
     "speed_description": "mon_test_speed_desc_B"
+  },
+  {
+    "id": "mon_test_zombie_cop",
+    "type": "MONSTER",
+    "name": { "str": "zombie cop" },
+    "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
+    "bodytype": "human",
+    "default_faction": "zombie",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "armor_bash": 6,
+    "armor_cut": 6,
+    "armor_bullet": 6,
+    "armor_stab": 6,
+    "weakpoints": [
+      {
+        "id": "test_leg",
+        "name": "inline leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 25
+      },
+      {
+        "id": "test_arm",
+        "name": "inline arm",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 25
+      },
+      { "id": "test_head", "name": "inline head", "armor_mult": { "physical": 0 }, "coverage": 25 }
+    ],
+    "weakpoint_sets": [ "test_humanoid", "test_special_head" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "mon_zombie_cop_death_drops",
+    "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
+  },
+  {
+    "id": "mon_zombie_survivor_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str": "zombie survivor test only" },
+    "description": "This zombie survivor is for testing purposes only.",
+    "copy-from": "mon_zombie_survivor",
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
+  },
+  {
+    "id": "mon_zombie_soldier_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str": "zombie soldier test only" },
+    "description": "This zombie soldier is for testing purposes only.",
+    "copy-from": "mon_zombie_soldier",
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
+  },
+  {
+    "id": "mon_shoggoth_flesh_only",
+    "type": "MONSTER",
+    "name": { "str": "flesh eating shoggoth test only" },
+    "description": "This shoggoth is for testing purposes only.",
+    "copy-from": "mon_shoggoth",
+    "absorb_material": [ "flesh" ]
+  },
+  {
+    "id": "mon_shoggoth_absorb_only",
+    "type": "MONSTER",
+    "name": { "str": "absorb only shoggoth test only" },
+    "description": "This shoggoth is for testing purposes only.",
+    "copy-from": "mon_shoggoth",
+    "delete": { "special_attacks": [ "SPLIT" ] }
   }
 ]

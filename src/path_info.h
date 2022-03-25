@@ -21,6 +21,7 @@ void init_user_dir( std::string dir );
 void set_standard_filenames();
 
 std::string autopickup();
+std::string autonote();
 std::string base_colors();
 std::string base_path();
 std::string colors();
@@ -31,6 +32,7 @@ std::string datadir();
 std::string debug();
 std::string defaultsounddir();
 std::string defaulttilejson();
+std::string defaultlayeringjson();
 std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();

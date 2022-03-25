@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
+import json
+from optparse import OptionParser
 import os.path
 import polib
 import shutil
 import sys
+
+
+parser = OptionParser()
+parser.add_option("-j", "--json-output", dest="output_file",
+                  help="Write result in structured JSON format to file")
+(options, args) = parser.parse_args()
 
 
 class bcolors:
@@ -29,45 +37,65 @@ def read_all_messages(path):
     return messages
 
 
-if len(sys.argv) != 3:
-    print("Usage: python3 ./tools/pot_diff.py <old.pot> <new.pot>")
-    exit(1)
-old_pot_path = sys.argv[1]
-new_pot_path = sys.argv[2]
+def compare_po(old_pot_path, new_pot_path):
+    print(f"Reading {old_pot_path}")
+    old_messages = read_all_messages(old_pot_path)
+    print(f"{len(old_messages)} message(s) read from {old_pot_path}")
+    print()
 
-print(f"Reading {old_pot_path}")
-old_messages = read_all_messages(old_pot_path)
-print(f"{len(old_messages)} message(s) read from {old_pot_path}")
-print()
+    print(f"Reading {new_pot_path}")
+    new_messages = read_all_messages(new_pot_path)
+    print(f"{len(new_messages)} message(s) read from {new_pot_path}")
+    print()
 
-print(f"Reading {new_pot_path}")
-new_messages = read_all_messages(new_pot_path)
-print(f"{len(new_messages)} message(s) read from {new_pot_path}")
-print()
+    print("Computing differences...")
+    deleted_messages = list(sorted(old_messages - new_messages))
+    added_messages = list(sorted(new_messages - old_messages))
+    print()
+    return (deleted_messages, added_messages)
 
-print("Computing differences...")
-deleted_messages = old_messages - new_messages
-added_messages = new_messages - old_messages
-print()
 
-columns = shutil.get_terminal_size((80, 24)).columns
-delim = "-" * columns
+def output_to_screen(deleted_messages, added_messages):
+    columns = shutil.get_terminal_size((80, 24)).columns
+    delim = "-" * columns
 
-if len(deleted_messages) == 0:
-    print("No message deleted.")
-else:
-    print(f"{len(deleted_messages)} message(s) deleted:")
-    for msg in deleted_messages:
+    if len(deleted_messages) == 0:
+        print("No message deleted.")
+    else:
+        print(f"{len(deleted_messages)} message(s) deleted:")
+        for msg in deleted_messages:
+            print(f"{bcolors.OKCYAN}{delim}{bcolors.ENDC}")
+            print(f"{bcolors.OKCYAN}{msg}{bcolors.ENDC}")
         print(f"{bcolors.OKCYAN}{delim}{bcolors.ENDC}")
-        print(f"{bcolors.OKCYAN}{msg}{bcolors.ENDC}")
-    print(f"{bcolors.OKCYAN}{delim}{bcolors.ENDC}")
-print()
+    print()
 
-if len(added_messages) == 0:
-    print("No message added.")
-else:
-    print(f"{len(added_messages)} message(s) added:")
-    for msg in added_messages:
+    if len(added_messages) == 0:
+        print("No message added.")
+    else:
+        print(f"{len(added_messages)} message(s) added:")
+        for msg in added_messages:
+            print(f"{bcolors.OKGREEN}{delim}{bcolors.ENDC}")
+            print(f"{bcolors.OKGREEN}{msg}{bcolors.ENDC}")
         print(f"{bcolors.OKGREEN}{delim}{bcolors.ENDC}")
-        print(f"{bcolors.OKGREEN}{msg}{bcolors.ENDC}")
-    print(f"{bcolors.OKGREEN}{delim}{bcolors.ENDC}")
+
+
+def output_to_json(path, deleted_messages, added_messages):
+    result = {"deleted": deleted_messages, "added": added_messages}
+    with open(path, "w") as fp:
+        fp.write(json.dumps(result))
+
+
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: python3 ./tools/pot_diff.py <old.pot> <new.pot>")
+        return 1
+    (deleted_messages, added_messages) = compare_po(sys.argv[1], sys.argv[2])
+    if options.output_file:
+        output_to_json(options.output_file, deleted_messages, added_messages)
+        print("Comparison result written to {}".format(options.output_file))
+    else:
+        output_to_screen(deleted_messages, added_messages)
+    return 0
+
+
+exit(main())

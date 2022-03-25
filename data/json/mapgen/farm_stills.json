@@ -142,7 +142,7 @@
       "sealed_item": { ")": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
       "place_item": [
         { "item": "still", "x": 29, "y": 33, "amount": 1 },
-        { "item": "fruit_wine", "x": [ 25, 25 ], "y": [ 33, 30 ], "repeat": [ 1, 4 ], "amount": [ 0, 3 ] }
+        { "item": "fruit_wine", "x": [ 25, 25 ], "y": [ 30, 33 ], "repeat": [ 1, 4 ], "amount": [ 0, 3 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 28, 38 ], "y": [ 5, 19 ], "repeat": [ 1, 6 ], "density": 0.2 } ]
     }

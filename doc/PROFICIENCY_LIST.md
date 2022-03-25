@@ -30,14 +30,14 @@
 | prof_beverage_distilling | Beverage Distillation | Applying the science of distillation to alcoholic beverages to get something tasty. | prof_distilling
 | |
 | prof_intro_chemistry | Principles of Chemistry | You are beginning to grasp a general idea of how elements and compounds react with each other. | None
-| prof_intro_biology | Principles of Biology | You are beginning to gain a general idea of how various living beings fuction. | None
+| prof_intro_biology | Principles of Biology | You are beginning to gain a general idea of how various living beings function. | None
 | prof_organic_chemistry | Organic Chemistry | Knowledge of the branch of chemistry that studies and uses carbon-containing compounds. | prof_intro_chemistry
 | prof_inorganic_chemistry | Inorganic Chemistry | Knowledge of the branch of chemistry that studies and uses compounds not containing carbon. | prof_intro_chemistry
 | prof_biochemistry | Biochemistry | The understanding of the chemistry of living things. | prof_organic_chemistry / prof_intro_biology
 | prof_physiology | Physiology | An in-depth understanding of how humans and animals operate. | prof_intro_biology
 | prof_xenology | Xenology | You are beginning to grasp a general idea of how alien and post-Cataclysm mutated creatures function and operate. | prof_intro_biology
 | prof_intro_chem_synth | Principles of Chemical Synthesis | You're beginning to grasp the basics of chemical production. | prof_intro_chemistry
-| prof_chem_synth | Complex Chemical Synthesis | The proper understanding of safe chemical synthesization and how to clean your tools used for the next batch. | prof_intro_chem_synth
+| prof_chem_synth | Complex Chemical Synthesis | The proper understanding of safe chemical synthesis and how to clean your tools used for the next batch. | prof_intro_chem_synth
 | prof_pharmaceutical | Pharmaceutical Production. | An understanding of how to produce various natural and chemical substances pure enough for human consumption. | prof_intro_chemistry / prof_intro_biology
 | prof_metallurgy | Metallurgy | An understanding of the chemistry of metalworking and alloys. | None
 | |
@@ -124,6 +124,9 @@
 | prof_spotting | Spotting and Awareness | You are skilled at spotting things out of the ordinary, like traps or ambushes. | None
 | |
 | prof_parkour | Parkour Expert | You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground. | None
+| |
+| prof_wound_care | Wound Care | You know how to bandage wounds and understand basic principles of wound care. | None
+| prof_wound_care_expert | Wound Care Expert | Your extensive field experience in bandaging and wound care is on par with that of a paramedic. | prof_wound_care
 
 ## Magiclysm proficiencies
 

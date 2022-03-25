@@ -29,12 +29,7 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ] }
     ],
     "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   },

@@ -1,0 +1,67 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel",
+    "name": "cavern",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_sinkhole_surface",
+    "name": "sinkhole ",
+    "sym": "v",
+    "color": "light_blue",
+    "flags": [ "REQUIRES_PREDECESSOR" ],
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_sinkhole",
+    "name": "cavern",
+    "sym": "^",
+    "color": "light_blue",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_ravine_edge",
+    "name": "cavern",
+    "color": "light_blue",
+    "sym": "v",
+    "see_cost": 5,
+    "flags": [ "RAVINE_EDGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_river",
+    "name": "underground river",
+    "color": "blue",
+    "see_cost": 5,
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "afs_tunnel_river_start",
+    "name": "underground river",
+    "color": "light_blue",
+    "sym": "o",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_tunnel_lake1",
+      "afs_tunnel_lake2",
+      "afs_tunnel_lake3",
+      "afs_tunnel_lake4",
+      "afs_tunnel_lake5",
+      "afs_tunnel_lake6"
+    ],
+    "name": "underground lake",
+    "sym": "#",
+    "color": "cyan",
+    "see_cost": 5
+  }
+]
