@@ -642,7 +642,7 @@
   {
     "type": "furniture",
     "id": "f_archery_target_box",
-    "name": "archery box target",
+    "name": "box archery target",
     "description": "A soft target for archery consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.",
     "symbol": "@",
     "color": "brown",
@@ -665,7 +665,7 @@
     {
       "type": "furniture",
       "id": "f_archery_target_bale",
-      "name": "archery bale target",
+      "name": "bale archery target",
       "description": "A soft target for archery consisting of a bale of hay with a bullseye marked on the front.",
       "symbol": "@",
       "color": "brown",

@@ -1452,7 +1452,7 @@
   {
     "type": "construction_group",
     "id": "build_archery_target_box",
-    "name": "Set Up Archery Box Target"
+    "name": "Set Up Box Archery Target"
   },
   {
     "type": "construction_group",
