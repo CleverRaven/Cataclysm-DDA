@@ -1,0 +1,24 @@
+[
+  {
+    "result": "battery_car_clay",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 2 ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "lead", 3200 ] ],
+      [ [ "chem_sulphuric_acid", 13 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "clay_lump", 5 ] ]
+    ]
+  }
+]
