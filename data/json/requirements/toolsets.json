@@ -260,5 +260,11 @@
     "type": "requirement",
     "//": "Tools to mark a hard surface",
     "tools": [ [ [ "ink_standard", 2, "LIST" ], [ "medical_tape", 1 ], ["duct_tape", 1], ["permanent_marker", 1], ["survival_marker", -1], [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+  },
+  {
+    "id": "marking_soft",
+    "type": "requirement",
+    "//": "Tools to mark a soft, rough surface",
+    "tools": [ [ ["duct_tape", 1], ["survival_marker", -1], [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
   }
 ]

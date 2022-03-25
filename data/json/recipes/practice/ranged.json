@@ -88,8 +88,9 @@
         "woodgreatbow",
         "compgreatbow",
         "reflexrecurvebow"
-      ],
-      [ "archery_target_box" ]
+      ]
+    ],
+    [ [ "archery_target_box" ], ["pseudo_archery_target_bale"] ]
     ],
 	"components": [ [ [ "arrow_wood_heavy", 10 ] ] ],
 	"byproduct_group": [ { "item": "arrow_wood_heavy", "charges": [ 8, 10 ] } ]
