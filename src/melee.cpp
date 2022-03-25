@@ -1215,14 +1215,21 @@ float Character::dodge_roll() const
     return get_dodge() * 5;
 }
 
-float Character::bonus_damage( bool random ) const
+float Character::bonus_damage( bool random, attack_vector atv ) const
 {
-    /** @ARM_STR increases bashing damage */
-    if( random ) {
-        return rng_float( get_arm_str() / 2.0f, get_arm_str() );
+    float bonus;
+    
+    if( atv == attack_vector::WEAPON ) {
+        bonus = get_arm_str();
+    } else {
+        bonus = str_cur * attack_vector_score( atv );
     }
 
-    return get_arm_str() * 0.75f;
+    if( random ) {
+        return rng_float( bonus / 2.0f, bonus );
+    }
+
+    return bonus * 0.75f;
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
@@ -1245,7 +1252,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     const int stat = unarmed ? str_cur * attack_vector_score( atv ) : get_arm_str();
     /** @ARM_STR increases bashing damage */
-    float stat_bonus = bonus_damage( !average );
+    float stat_bonus = bonus_damage( !average, atv );
     stat_bonus += mabuff_damage_bonus( damage_type::BASH );
 
     // Drunken Master damage bonuses
@@ -2766,7 +2773,7 @@ int Character::attack_speed( const item &weap ) const
 int Character::leg_attack_speed( const item &weap ) const
 {
     // Held item still matters for unwieldy items
-    const int base_move_cost = std::max( weap.attack_time() / 2 - 80, 0 ) + 40;
+    const int base_move_cost = std::max( weap.attack_time() / 2 - 80, 0 ) + 50;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */

@@ -1104,7 +1104,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Bash damage bonus: %.1f" ),
-                           u.bonus_damage( false ) );
+                           u.bonus_damage( false, attack_vector::WEAPON ) );
                 fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
                                 _( "Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective." ) );
                 break;
