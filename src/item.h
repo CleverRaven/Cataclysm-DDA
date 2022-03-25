@@ -1953,6 +1953,11 @@ class item : public visitable
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
 
+        /**
+         * Returns highest layer of an item
+         */
+        layer_level get_highest_layer( sub_bodypart_id sbp ) const;
+
         enum class cover_type {
             COVER_DEFAULT,
             COVER_MELEE,
