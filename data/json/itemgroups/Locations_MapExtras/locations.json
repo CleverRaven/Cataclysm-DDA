@@ -1006,6 +1006,7 @@
       [ "chainmail_armor_horse", 30 ],
       [ "leather_armor_horse", 30 ],
       [ "leatherbone_armor_horse", 30 ],
+      [ "steel_armor_horse", 30 ],
       [ "saddlebag", 30 ],
       [ "chainmail_harness_dog", 30 ],
       [ "leather_harness_dog", 30 ],
