@@ -1,6 +1,18 @@
 [
   {
     "type": "palette",
+    "id": "swamp_background",
+    "furniture": { "i": "f_cattails" },
+    "terrain": { "i": "t_water_sh" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cattail",
+    "object": { "rows": [ "i" ], "furniture": { "i": "f_cattails" }, "mapgensize": [ 1, 1 ] }
+  },
+  {
+    "type": "palette",
     "id": "swampshack_palette",
     "parameters": {
       "wall_type": {
