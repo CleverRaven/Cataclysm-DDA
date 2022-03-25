@@ -1309,7 +1309,6 @@
   },
   {
     "id": "INTEGRATED",
-    "//": "Test kick please delete",
     "type": "json_flag",
     "info": "This is <info>integrated into the body</info>."
   },
