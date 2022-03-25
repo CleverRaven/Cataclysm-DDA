@@ -17,6 +17,6 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Unload Containers",
     "can_be_personal": true,
-    "description": "Any containers you don't otherwise sort in this zone will have their contents dumped out and placed on the same tile.  This includes corpses."
+    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses."
   }
 ]
