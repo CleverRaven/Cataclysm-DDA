@@ -502,6 +502,7 @@ std::string enum_to_string<attack_vector>( attack_vector data )
 {
     switch( data ) {
             // *INDENT-OFF*
+            // Test kick test delete
         case attack_vector::NONE: return "NONE";
         case attack_vector::HAND: return "HAND";
         case attack_vector::FINGERS: return "FINGERS";
