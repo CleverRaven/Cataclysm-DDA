@@ -23,8 +23,9 @@
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const efftype_id effect_infected( "infected" );
+
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
