@@ -1243,7 +1243,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill *= 2;
     }
 
-    const int stat = unarmed ? str_cur * attack_vector_score() : get_arm_str();
+    const int stat = unarmed ? str_cur * attack_vector_score( atv ) : get_arm_str();
     /** @ARM_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( damage_type::BASH );
