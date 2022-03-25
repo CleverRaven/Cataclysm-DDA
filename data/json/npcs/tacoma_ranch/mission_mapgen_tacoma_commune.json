@@ -32,11 +32,12 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "rows": [
-        "##",
+        "B#",
         "  "
       ],
       "terrain": { "#": "t_dirt" },
-      "furniture": { "#": "f_makeshift_bed" }
+      "furniture": { "#": "f_makeshift_bed", "B": "f_makeshift_bed" },
+      "item": { "B": { "item": "blanket", "faction": "tacoma_commune" } }
     }
   },
   {
@@ -430,7 +431,7 @@
       ],
       "terrain": { "w": "t_wall", ".": "t_dirtfloor", "+": "t_door_c", "r": "t_dirtfloor", "c": "t_dirtfloor", "b": "t_dirtfloor" },
       "furniture": { "r": "f_rack", "c": "f_counter", "b": "f_makeshift_bed" },
-      "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7 } ],
+      "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7, "faction": "tacoma_commune" } ],
       "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ]
     }
   },
@@ -525,7 +526,7 @@
         "                    "
       ],
       "terrain": { "w": "t_wall", ".": "t_dirt", "[": "t_window_boarded_noglass" },
-      "place_item": [ { "item": "ax", "x": 13, "y": 18 } ]
+      "place_item": [ { "item": "ax", "x": 13, "y": 18, "faction": "tacoma_commune" } ]
     }
   },
   {
@@ -767,7 +768,11 @@
       ],
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor" },
       "furniture": { "r": "f_rack" },
-      "place_item": [ { "item": "frame", "x": 3, "y": 6 }, { "item": "frame", "x": 3, "y": 7 }, { "item": "frame", "x": 3, "y": 8 } ]
+      "place_item": [
+        { "item": "frame", "x": 3, "y": 6, "faction": "tacoma_commune" },
+        { "item": "frame", "x": 3, "y": 7, "faction": "tacoma_commune" },
+        { "item": "frame", "x": 3, "y": 8, "faction": "tacoma_commune" }
+      ]
     }
   },
   {
@@ -817,13 +822,13 @@
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
       "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
-        { "item": "log", "x": 3, "y": 0 },
-        { "item": "log", "x": 3, "y": 1 },
-        { "item": "log", "x": 3, "y": 1 },
-        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
-        { "item": "log", "x": 3, "y": 2 }
+        { "item": "log", "x": 3, "y": 0, "faction": "tacoma_commune" },
+        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
+        { "item": "log", "x": 3, "y": 1, "faction": "tacoma_commune" },
+        { "item": "log", "x": 0, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
+        { "item": "log", "x": 1, "y": 1, "faction": "tacoma_commune", "amount": [ 1, 5 ] },
+        { "item": "2x4", "x": 3, "y": 9, "faction": "tacoma_commune", "amount": [ 1, 10 ] },
+        { "item": "log", "x": 3, "y": 2, "faction": "tacoma_commune" }
       ],
       "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 7 } ]
     }
