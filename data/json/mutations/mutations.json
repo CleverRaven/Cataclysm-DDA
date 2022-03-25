@@ -3345,8 +3345,8 @@
     "cancels": [ "FANGS", "MANDIBLES" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You tear into %s with your rasping tongue.",
-      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue.",
+      "attack_text_u": "You tear into %s with your rasping tongue",
+      "attack_text_npc": "%1$s tears into %2$s with their rasping tongue",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "cut", "amount": 15 },
@@ -3365,8 +3365,8 @@
     "category": [ "GASTROPOD" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You stab into %s with your harpoon tongue.",
-      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue.",
+      "attack_text_u": "You stab into %s with your harpoon tongue",
+      "attack_text_npc": "%1$s stabs into %2$s with their harpoon tongue",
       "body_part": "mouth",
       "chance": 25,
       "base_damage": { "damage_type": "stab", "amount": 15 },
@@ -5174,8 +5174,8 @@
     "category": [ "BATRACHIAN" ],
     "active": true,
     "attacks": {
-      "attack_text_u": "You bash %s with your tongue.",
-      "attack_text_npc": "%1$s smacks into %2$s with their tongue.",
+      "attack_text_u": "You bash %s with your tongue",
+      "attack_text_npc": "%1$s smacks into %2$s with their tongue",
       "body_part": "mouth",
       "chance": 15,
       "base_damage": { "damage_type": "bash", "amount": 15 },
@@ -7169,7 +7169,7 @@
   {
     "type": "mutation",
     "id": "PROF_HUB01_ANCILLIARY",
-    "name": { "str": "Hub 01 Ancilliary" },
+    "name": { "str": "Hub 01 Ancillary" },
     "points": 0,
     "description": "You are known to be a capable and resourceful mercenary at the employ of Hub 01.",
     "cancels": [ "PROF_FED" ],
@@ -7393,7 +7393,7 @@
     "name": { "str": "Debug Tail" },
     "points": 99,
     "valid": false,
-    "description": "Gain a tail bodypart",
+    "description": "Gain a tail bodypart.",
     "enchantments": [ "ENCH_DEBUG_TAIL" ],
     "debug": true
   },
