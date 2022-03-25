@@ -123,7 +123,6 @@ static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_block( "block" );
 static const limb_score_id limb_score_breathing( "breathing" );
-static const limb_score_id limb_score_crawl( "crawl" );
 static const limb_score_id limb_score_footing( "footing" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_lift( "lift" );
@@ -1575,9 +1574,11 @@ matec_id Character::pick_technique( Creature &t, const item &weap, const attack_
 
         // Ignore if we lack the attack vector
         if( atv != attack_vector::ANY ) {
-            if( !is_random && tec.attack_vectors.find( atv ) == tec.attack_vectors.end() ) {
-                continue;
-            } else if( is_random && tec.attack_vectors_random.find( atv ) == tec.attack_vectors_random.end() ) {
+            if( !is_random ) {
+                if( tec.attack_vectors.find( atv ) == tec.attack_vectors.end() ) {
+                    continue;
+                }
+            } else if( tec.attack_vectors_random.find( atv ) == tec.attack_vectors_random.end() ) {
                 continue;
             }
         }
