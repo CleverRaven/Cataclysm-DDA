@@ -597,6 +597,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_raw_bamboo",
+    "copy-from": "seed",
+    "name": { "str_sp": "bamboo seeds" },
+    "color": "green",
+    "description": "Some bamboo seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_rhubarb",
     "copy-from": "seed",
     "name": { "str_sp": "rhubarb stems" },

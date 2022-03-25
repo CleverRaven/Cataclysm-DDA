@@ -248,7 +248,13 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
   },
   {
@@ -266,7 +272,13 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "bamboo_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
   },
   {

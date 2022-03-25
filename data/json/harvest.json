@@ -104,6 +104,11 @@
     "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ]
   },
   {
+    "id": "bamboo_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "raw_bamboo", "base_num": [ 4, 8 ] } ]
+  },
+  {
     "id": "shrub_rose_harv",
     "type": "harvest",
     "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
