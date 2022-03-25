@@ -41,6 +41,35 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "lobster",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of lobster meat", "str_pl": "chunks of lobster meat" },
+    "description": "Freshly caught uncooked lobster meat.",
+    "//": "Nutrition information based on whitefish",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "lobster_smoked",
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "calories": 250
+  },
+  {
+    "id": "lobster_cooked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked lobster" },
+    "description": "Freshly cooked delicious lobster.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "hstomach",
     "copy-from": "stomach",
     "type": "COMESTIBLE",
@@ -615,6 +644,18 @@
     "fun": 6,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_fish"
+  },
+  {
+    "id": "lobster_smoked",
+    "copy-from": "fish_smoked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "smoked lobster" },
+    "description": "Tasty lobster that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "price_postapoc": 300,
+    "fun": 10,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_lobster"
   },
   {
     "id": "lung",
