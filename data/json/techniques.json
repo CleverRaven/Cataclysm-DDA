@@ -13,7 +13,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": true,
-    "weighting": -4,
+    "weighting": -10,
     "attack_vectors": [ "WEAPON", "HAND", "ARM", "ELBOW", "SHOULDER", "FOOT", "KNEE" ]
   },
   {

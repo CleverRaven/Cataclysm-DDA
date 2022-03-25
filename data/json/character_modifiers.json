@@ -25,14 +25,7 @@
     "id": "melee_thrown_move_lift_arm_mod",
     "description": "Arm melee and thrown attack movement point modifier <color_dark_gray>(Lift)</color>",
     "mod_type": "x",
-    "value": {
-      "limb_score": "lift",
-      "max": 3,
-      "limb_type": "hand",
-      "override_encumb": true,
-      "override_wounds": true,
-      "nominator": 1.0
-    }
+    "value": { "limb_score": "lift", "max": 3, "override_encumb": true, "override_wounds": true, "nominator": 1.0 }
   },
   {
     "type": "character_mod",

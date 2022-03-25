@@ -935,10 +935,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         mod_sta = get_standard_stamina_cost();
     } else if( attack_vectors_leg.find( *atv ) != attack_vectors_leg.end() ) {
         // after the final decision is made to use a leg attack, we switch to a different formula for attack speed
-        mod_sta = -90 * get_modifier( character_modifier_melee_stamina_cost_leg_mod );
+        mod_sta = -65 * get_modifier( character_modifier_melee_stamina_cost_leg_mod );
         move_cost = leg_attack_speed( *cur_weapon );
     } else {
-        mod_sta = -60 * get_modifier( character_modifier_melee_stamina_cost_arm_mod );
+        mod_sta = -50 * get_modifier( character_modifier_melee_stamina_cost_arm_mod );
         move_cost = move_cost * 0.8 + 10;
     }
 
