@@ -61,10 +61,8 @@ class string_editor_window
         void create_context();
 
         /*move the cursor*/
-        void cursor_left();
-        void cursor_right();
-        void cursor_up();
-        void cursor_down();
+        void cursor_leftright( const int diff );
+        void cursor_updown( const int diff );
 
         /*returns line and position in folded text for position in text*/
         point get_line_and_position( const int position );

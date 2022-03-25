@@ -270,68 +270,44 @@ void string_editor_window::create_context()
     ctxt->register_action( "ANY_INPUT" );
 }
 
-void string_editor_window::cursor_left()
+void string_editor_window::cursor_leftright( const int diff )
 {
-    if( _position > 0 ) {
-        _position--;
-    } else {
-        _position = _utext.size();
-    }
-}
-
-void string_editor_window::cursor_right()
-{
-    if( _position + 1 <= static_cast<int>( _utext.size() ) ) {
-        _position++;
-    } else {
+    const int size = _utext.size();
+    if( diff < 0 && _position <= 0 ) {
+        // Warp to end
+        _position = size;
+    } else if( diff > 0 && _position >= size ) {
+        // Warp to start
         _position = 0;
-    }
-}
-
-void string_editor_window::cursor_up()
-{
-    // move cursor up while trying to keep the x coordinate
-    if( _cursor_display.y > 0 ) {
-        const folded_line &prev_line = _folded->get_lines()[_cursor_display.y - 1];
-        _position = prev_line.cpts_start;
-        _position += utf8_wrapper( prev_line.str ).substr_display( 0, _cursor_display.x ).size();
-        // -1 because cursor past the last character is shown in the next line
-        _position = std::min( _position, prev_line.cpts_end - 1 );
-    } else if( !_folded->get_lines().empty() ) {
-        const folded_line &last_line = _folded->get_lines().back();
-        _position = last_line.cpts_start;
-        _position += utf8_wrapper( last_line.str ).substr_display( 0, _cursor_display.x ).size();
-        // not -1 because the cursor past the last character is shown in the same
-        // line (except when the cursor would be past the right window border, but
-        // the original cursor position is always less than the window width)
-        _position = std::min( _position, last_line.cpts_end );
-    }
-}
-
-void string_editor_window::cursor_down()
-{
-    // move cursor down while trying to keep the x coordinate
-    if( _folded->get_lines().empty() ) {
-        // do nothing
-    } else if( static_cast<size_t>( _cursor_display.y + 2 ) == _folded->get_lines().size() ) {
-        const folded_line &last_line = _folded->get_lines().back();
-        _position = last_line.cpts_start;
-        _position += utf8_wrapper( last_line.str ).substr_display( 0, _cursor_display.x ).size();
-        // not -1 because the cursor past the last character is shown in the same
-        // line (except when the cursor would be past the right window border, but
-        // the original cursor position is always less than the window width)
-        _position = std::min( _position, last_line.cpts_end );
     } else {
-        const folded_line *next_line = nullptr;
-        if( static_cast<size_t>( _cursor_display.y + 2 ) < _folded->get_lines().size() ) {
-            next_line = &_folded->get_lines()[_cursor_display.y + 1];
+        // Move at most `diff` codepoints without warping
+        _position = clamp( _position + diff, 0, size );
+    }
+}
+
+void string_editor_window::cursor_updown( const int diff )
+{
+    if( diff != 0 && !_folded->get_lines().empty() ) {
+        const int size = _folded->get_lines().size();
+        int new_y = 0;
+        if( diff < 0 && _cursor_display.y <= 0 ) {
+            // Warp to last line
+            new_y = size - 1;
+        } else if( diff > 0 && _cursor_display.y >= size - 1 ) {
+            // Warp to first line
+            new_y = 0;
         } else {
-            next_line = &_folded->get_lines().front();
+            // Move at most `diff` lines without warping
+            new_y = clamp( _cursor_display.y + diff, 0, size - 1 );
         }
-        _position = next_line->cpts_start;
-        _position += utf8_wrapper( next_line->str ).substr_display( 0, _cursor_display.x ).size();
-        // -1 because cursor past the last character is shown in the next line
-        _position = std::min( _position, next_line->cpts_end - 1 );
+        const folded_line &new_line = _folded->get_lines()[new_y];
+        _position = new_line.cpts_start;
+        _position += utf8_wrapper( new_line.str ).substr_display( 0, _cursor_display.x ).size();
+        // Assuming that the x coordinate is equal to or less than the previous
+        // cursor, the maximum cursor position is `cpts` in the last line and
+        // `cpts - 1` in other lines.
+        const int max_cpts = new_y == size - 1 ? new_line.cpts_end : new_line.cpts_end - 1;
+        _position = std::min( _position, max_cpts );
     }
 }
 
@@ -409,22 +385,22 @@ const std::string &string_editor_window::query_string()
             return _utext.str();
         } else if( ch == KEY_UP ) {
             if( edit.empty() ) {
-                cursor_up();
+                cursor_updown( -1 );
                 reposition = true;
             }
         } else if( ch == KEY_DOWN ) {
             if( edit.empty() ) {
-                cursor_down();
+                cursor_updown( 1 );
                 reposition = true;
             }
         } else if( ch == KEY_RIGHT ) {
             if( edit.empty() ) {
-                cursor_right();
+                cursor_leftright( 1 );
                 reposition = true;
             }
         } else if( ch == KEY_LEFT ) {
             if( edit.empty() ) {
-                cursor_left();
+                cursor_leftright( -1 );
                 reposition = true;
             }
         } else if( ch == 0x15 ) {                   // ctrl-u: delete all the things
@@ -438,13 +414,31 @@ const std::string &string_editor_window::query_string()
                 refold = true;
             }
         } else if( ch == KEY_HOME ) {
-            if( edit.empty() ) {
-                _position = 0;
+            if( edit.empty()
+                && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
+                _position = _folded->get_lines()[_cursor_display.y].cpts_start;
                 reposition = true;
             }
         } else if( ch == KEY_END ) {
+            if( edit.empty()
+                && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
+                _position = _folded->get_lines()[_cursor_display.y].cpts_end;
+                if( static_cast<size_t>( _cursor_display.y + 1 ) < _folded->get_lines().size()
+                    || utf8_wrapper( _folded->get_lines().back().str ).display_width() + 1
+                    == static_cast<size_t>( _max.x ) ) {
+                    // -1 because cursor past the last character is shown in the next line
+                    --_position;
+                }
+                reposition = true;
+            }
+        } else if( ch == KEY_PPAGE ) {
             if( edit.empty() ) {
-                _position = _utext.size();
+                cursor_updown( -_max.y );
+                reposition = true;
+            }
+        } else if( ch == KEY_NPAGE ) {
+            if( edit.empty() ) {
+                cursor_updown( _max.y );
                 reposition = true;
             }
         } else if( ch == KEY_DC ) {
