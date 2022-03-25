@@ -265,6 +265,7 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
+        const std::vector<std::pair<std::string, std::string>> & blueprint_update_oter() const;
         /**
          * Calculate blueprint requirements according to changed terrain and furniture
          * tiles, then check the calculated requirements against blueprint requirements
@@ -336,6 +337,7 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
+        std::vector<std::pair<std::string, std::string>> bp_update_oter;
 
         /** Blueprint requirements either autocalculcated or explicitly
          * specified.  These members relate to resolving those blueprint

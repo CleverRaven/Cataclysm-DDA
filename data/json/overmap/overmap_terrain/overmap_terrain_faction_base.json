@@ -232,6 +232,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "faction_base_farm_2_noplots", "faction_base_farm_2_1", "faction_base_farm_2_2", "faction_base_farm_2_3", "faction_base_farm_2_4", "faction_base_farm_2_5", "faction_base_farm_2_6", "faction_base_farm_2_7", "faction_base_farm_2_8" ],
+    "copy-from": "faction_base_farm_2_0",
+    "name": "farm 2"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_garage_2_0",
     "copy-from": "faction_base_camp_0",
     "name": "garage survey 2",

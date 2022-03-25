@@ -3266,6 +3266,22 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
                making.get_blueprint().str() );
         return false;
     }
+
+    const oter_id& omt_ref = overmap_buffer.ter(upos);
+
+    // Update the overmap tile. Farm plowing needs this to see original plowed plots
+    for (const auto &update_oter : making.blueprint_update_oter() ) {
+        if (update_oter.first == "any") {
+            overmap_buffer.ter_set(upos, oter_id(update_oter.second));
+            break;
+        } else {
+            if (overmap_buffer.check_ot_existing(update_oter.first, ot_match_type::prefix, upos)) {
+                overmap_buffer.ter_set(upos, oter_id(update_oter.second));
+                break;
+            }
+        }
+    }
+
     update_provides( bldg, e->second );
     update_resources( bldg );
 

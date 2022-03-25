@@ -382,6 +382,33 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             } else if( check_blueprint_needs ) {
                 bp_autocalc = true;
             }
+
+            
+            if (jo.has_string("blueprint_update_oter")) {
+                bp_update_oter.emplace_back(std::make_pair("any", jo.get_string("blueprint_update_oter")));
+            } else if (jo.has_array("blueprint_update_oter")) {
+                for (JsonObject jso : jo.get_array("blueprint_update_oter") ) {
+                    std::string id = jso.get_string("id");
+                    if (jso.has_string("pre")) {
+                        bp_update_oter.emplace_back(std::make_pair(jso.get_string("pre"), id));
+                    } else if (jso.has_array("pre")) {
+                        for (std::string pre : jso.get_string_array("pre")) {
+                            bp_update_oter.emplace_back(std::make_pair(pre, id));
+                        }
+                    }
+                }
+            } else if (jo.has_object("blueprint_update_oter")) {
+                JsonObject jso = jo.get_object("blueprint_update_oter");
+                std::string id = jso.get_string("id");
+                if (jso.has_string("pre")) {
+                    bp_update_oter.emplace_back(std::make_pair(jso.get_string("pre"), id));
+                } else if (jso.has_array("pre")) {
+                    for (std::string pre : jso.get_string_array("pre")) {
+                        bp_update_oter.emplace_back(std::make_pair(pre, id));
+                    }
+                }
+            }
+            
         }
     } else if( type == "practice" ) {
         mandatory( jo, false, "name", name_ );
@@ -1037,6 +1064,11 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() co
 const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
 {
     return bp_excludes;
+}
+
+const std::vector<std::pair<std::string, std::string>>& recipe::blueprint_update_oter() const
+{
+    return bp_update_oter;
 }
 
 void recipe::check_blueprint_requirements()
