@@ -492,10 +492,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
 
     for( const itype_id popped_armor : branch.integrated_armor ) {
         remove_worn_items_with( [&]( item & armor ) {
-            if( armor.typeId() == popped_armor ) {
-                return true;
-            }
-            return false;
+            return armor.typeId() == popped_armor;
         } );
     }
 

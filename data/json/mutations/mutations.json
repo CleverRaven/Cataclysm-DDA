@@ -2687,7 +2687,12 @@
     "threshreq": [ "THRESH_PLANT" ],
     "active": true,
     "integrated_armor": [ "integrated_bark2_a" ],
-    "transform": { "target": "BARK2_b", "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.", "active": false, "moves": 350 }
+    "transform": {
+      "target": "BARK2_b",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
   },
   {
     "type": "mutation",
@@ -2702,7 +2707,12 @@
     "leads_to": [ "THORNS", "LEAVES" ],
     "active": true,
     "integrated_armor": [ "integrated_bark2_b" ],
-    "transform": { "target": "BARK2_c", "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.", "active": false, "moves": 350 }
+    "transform": {
+      "target": "BARK2_c",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
   },
   {
     "type": "mutation",
@@ -2717,7 +2727,12 @@
     "leads_to": [ "THORNS", "LEAVES" ],
     "active": true,
     "integrated_armor": [ "integrated_bark2_c" ],
-    "transform": { "target": "BARK2_a", "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.", "active": false, "moves": 350 }
+    "transform": {
+      "target": "BARK2_a",
+      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
+      "active": false,
+      "moves": 350
+    }
   },
   {
     "type": "mutation",
