@@ -480,7 +480,15 @@
     "book_learn": [ [ "offalcooking", 3 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "tools": [
+      [
+        [ "funnel", -1 ],
+        [ "makeshift_funnel", -1 ],
+        [ "birchbark_funnel", -1 ],
+        [ "leather_funnel", -1 ],
+        [ "metal_funnel", -1 ]
+      ]
+    ],
     "components": [
       [
         [ "meat_nofish", 2, "LIST" ],

@@ -30,8 +30,7 @@
     },
     "material_thickness": 10,
     "environmental_protection": 0,
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0 } ]
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]
   },
   {
     "id": "ds_armor",

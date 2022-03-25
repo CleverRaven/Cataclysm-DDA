@@ -1114,7 +1114,7 @@ void veh_interact::do_install()
                         selected_shape = smenu.ret;
                     }
                     if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                                 static_cast<size_t>( selected_shape ) < num_shapes_total ) ) {
+                                                 static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
                         int offset = selected_shape - 1;
                         if( offset >= 0 ) {
                             int j = 0;
