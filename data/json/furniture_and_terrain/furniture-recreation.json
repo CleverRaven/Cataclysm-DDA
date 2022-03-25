@@ -673,7 +673,7 @@
       "required_str": -1,
       "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
       "crafting_pseudo_item": "pseudo_archery_target_bale",
-      "deconstruct": { "ter_set": "f_hay" },
+      "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },
       "bash": {
         "str_min": 1,
         "str_max": 12,

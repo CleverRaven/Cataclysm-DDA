@@ -5090,7 +5090,7 @@
     "time": "1 m",
     "difficulty": 0,
     "components": [ [ ["marking_soft", 10, "LIST"] ] ],
-    "pre_special": "f_hay",
+    "pre_terrain": "f_hay",
     "post_terrain": "f_archery_target_bale"
   }
 ]
