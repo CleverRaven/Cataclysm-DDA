@@ -13,12 +13,7 @@
       "c": "t_dirtfloor",
       "u": "t_dirtfloor"
     },
-    "furniture": {
-      ";": "f_clear",
-      "H": "f_hay",
-      "c": "f_counter",
-      "u": "f_cupboard"
-    }
+    "furniture": { ";": "f_clear", "H": "f_hay", "c": "f_counter", "u": "f_cupboard" }
   },
   {
     "type": "mapgen",
@@ -84,12 +79,15 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "bc_prim_farm_short_fields",
-    "object": { "mapgensize": [ 2, 2 ], "rows": [
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
         "mm",
         "mm"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "bc_prim_farm_palette" ] }
+      "palettes": [ "bc_prim_farm_palette" ]
+    }
   },
   {
     "type": "mapgen",

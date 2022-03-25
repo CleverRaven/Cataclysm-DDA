@@ -51,8 +51,14 @@
     "construction_blueprint": "faction_base_field_camp_farm_2",
     "blueprint_name": "Farm basic shed",
     "blueprint_requires": [ { "id": "fbmf_0" } ],
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level":  2 }] ],
-    "components": [ [ [ "log", 36 ] ], [ [ "stick", 54 ], [ "2x4", 108 ] ], [ [ "wood_panel", 9 ] ], [ [ "2x4", 72]], [["nail", 180]] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 36 ] ],
+      [ [ "stick", 54 ], [ "2x4", 108 ] ],
+      [ [ "wood_panel", 9 ] ],
+      [ [ "2x4", 72 ] ],
+      [ [ "nail", 180 ] ]
+    ],
     "check_blueprint_needs": false
   },
   {
@@ -72,8 +78,15 @@
     "construction_blueprint": "faction_base_field_camp_farm_3",
     "blueprint_name": "Farm upgraded shed",
     "blueprint_requires": [ { "id": "fbmf_0" }, { "id": "faction_base_farm_2" } ],
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level":  2 }] ],
-    "components": [ [ [ "log", 24 ] ], [ [ "stick", 36 ], [ "2x4", 72] ], [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1] ], [ [ "hinge", 2] ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 24 ] ],
+      [ [ "stick", 36 ], [ "2x4", 72 ] ],
+      [ [ "2x4", 12 ] ],
+      [ [ "nail", 36 ] ],
+      [ [ "wood_panel", 1 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "check_blueprint_needs": false
   },
   {
@@ -94,8 +107,18 @@
     "blueprint_name": "Farm processing shack",
     "blueprint_provides": [ { "id": "reseeding" }, { "id": "farm_recipes_1" } ],
     "blueprint_requires": [ { "id": "faction_base_farm_3" } ],
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level":  2 } ] ],
-    "components": [ [ [ "log", 66 ] ], [ [ "2x4", 193 ] ], [ [ "nail", 576 ] ], [ [ "glass_sheet", 2 ] ], [ [ "wood_panel", 21] ], [ [ "hinge", 2] ],[ [ "stick", 84 ], [ "2x4", 168 ] ], [ [ "log", 4 ], [ "2x4", 30 ] ], [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 66 ] ],
+      [ [ "2x4", 193 ] ],
+      [ [ "nail", 576 ] ],
+      [ [ "glass_sheet", 2 ] ],
+      [ [ "wood_panel", 21 ] ],
+      [ [ "hinge", 2 ] ],
+      [ [ "stick", 84 ], [ "2x4", 168 ] ],
+      [ [ "log", 4 ], [ "2x4", 30 ] ],
+      [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ]
+    ],
     "check_blueprint_needs": false
   }
 ]

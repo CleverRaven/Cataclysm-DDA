@@ -265,7 +265,7 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
-        const std::vector<std::pair<std::string, std::string>> & blueprint_update_oter() const;
+        const std::vector<std::pair<std::string, std::string>> &blueprint_update_oter() const;
         /**
          * Calculate blueprint requirements according to changed terrain and furniture
          * tiles, then check the calculated requirements against blueprint requirements
