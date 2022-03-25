@@ -2,8 +2,9 @@
   {
     "type": "technique",
     "id": "tec_none",
-    "name": "Not at technique at all",
-    "dummy": true
+    "name": "Generic whack",
+    "dummy": true,
+    "attack_vectors": [ "WEAPON", "HAND", "ARM", "ELBOW", "SHOULDER", "FOOT", "KNEE" ]
   },
   {
     "type": "technique",

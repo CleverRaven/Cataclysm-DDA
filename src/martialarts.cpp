@@ -1244,17 +1244,42 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-
-attack_vector character_martial_arts::get_valid_attack_vector( const Character &user,
-        std::vector<attack_vector> attack_vectors ) const
+weighted_int_list<attack_vector> character_martial_arts::get_attack_vectors( const Character &user,
+        std::set<attack_vector> attack_vectors, const bool weighted, const int score_threshold ) const
 {
-    for( auto av : attack_vectors ) {
-        if( user.can_attack_vector( av ) ) {
-            return av;
+    weighted_int_list<attack_vector> attack_vector_list;
+    for( attack_vector atv : attack_vectors ) {
+        int weight = user.attack_vector_score( atv ) * 100;
+        if( weight >= score_threshold ) {
+            attack_vector_list.add( atv, weighted ? weight : 1 );
         }
     }
 
-    return attack_vector::NONE;
+    return attack_vector_list;
+}
+
+weighted_int_list<attack_vector> character_martial_arts::get_attack_vectors( const Character &user,
+        attack_vector atv, const bool weighted, const int score_threshold ) const
+{
+    weighted_int_list<attack_vector> attack_vector_list;
+    if( atv == attack_vector::ANY ) {
+        int tmp_atv = static_cast<int>( attack_vector::NONE );
+        tmp_atv++;
+        do {
+            int weight = user.attack_vector_score( static_cast<attack_vector>( tmp_atv ) ) * 100;
+            if( weight >= score_threshold ) {
+                attack_vector_list.add( static_cast<attack_vector>( tmp_atv ), weighted ? weight : 1 );
+            }
+            tmp_atv++;
+        } while( tmp_atv != static_cast<int>( attack_vector::NUM_AV ) );
+    } else {
+        int weight = user.attack_vector_score( atv ) * 100;
+        if( weight >= score_threshold ) {
+            attack_vector_list.add( atv, weighted ? weight : 1 );
+        }
+    }
+
+    return attack_vector_list;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

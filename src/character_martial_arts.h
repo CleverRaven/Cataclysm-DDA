@@ -7,6 +7,7 @@
 
 #include "martialarts.h"
 #include "type_id.h"
+#include "weighted_list.h"
 
 class Character;
 class JsonObject;
@@ -81,9 +82,12 @@ class character_martial_arts
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
 
-        /** Returns an attack vector that the player can use */
-        attack_vector get_valid_attack_vector( const Character &user,
-                                               std::vector<attack_vector> attack_vectors ) const;
+        /** A weighted list of all attack vectors in the set provided that meet a score threshold */
+        weighted_int_list<attack_vector> get_attack_vectors( const Character &user,
+                std::set<attack_vector> attack_vectors, const bool weighted, const int score_threshold ) const;
+        /** Tests a singular attack vector, or all if attack_vector::ANY is passed */
+        weighted_int_list<attack_vector> get_attack_vectors( const Character &user, attack_vector atv,
+                const bool weighted, const int score_threshold ) const;
         /** Returns true if the player is able to use the given attack vector */
         bool can_use_attack_vector( const Character &user, attack_vector av ) const;
         /** Returns true if the player has the leg block technique available */

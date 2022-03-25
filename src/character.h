@@ -248,6 +248,7 @@ struct enum_traits<blood_type> {
 
 /// The part of the body you try to hit with
 enum class attack_vector : int {
+    ANY,
     NONE,
     HAND,
     FINGERS,
@@ -263,6 +264,7 @@ enum class attack_vector : int {
     HIP,
     TORSO,
     HEAD,
+    TEETH,
     WEAPON,
     GRAPPLE,
     THROW,
@@ -924,8 +926,8 @@ class Character : public Creature, public visitable
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item &weap,
-                                 bool crit, bool dodge_counter, bool block_counter );
+        matec_id pick_technique( Creature &t, const item &weap, const attack_vector atv, bool crit,
+                                 bool dodge_counter, bool block_counter, bool is_random );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item &cur_weapon );
 
@@ -972,12 +974,14 @@ class Character : public Creature, public visitable
         bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap ) const;
+        /** Returns cost (in moves) of attacking with legs while holding an item (no modifiers, like stuck) */
+        int leg_attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** Check if we can attack upper limbs **/
         bool can_attack_high() const override;
-        /** Check if we can use a specific limb type **/
-        bool can_attack_vector( attack_vector atv ) const;
+        /** How well we can use a specific limb type **/
+        float attack_vector_score( attack_vector atv ) const;
 
         /** NPC-related item rating functions */
         double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon

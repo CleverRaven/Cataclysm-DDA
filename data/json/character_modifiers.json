@@ -22,24 +22,45 @@
   },
   {
     "type": "character_mod",
-    "id": "melee_thrown_move_lift_mod",
-    "description": "Melee and thrown attack movement point modifier <color_dark_gray>(Lift)</color>",
+    "id": "melee_thrown_move_lift_arm_mod",
+    "description": "Arm melee and thrown attack movement point modifier <color_dark_gray>(Lift)</color>",
     "mod_type": "x",
-    "value": { "limb_score": "lift", "max": 3, "override_encumb": true, "override_wounds": true, "nominator": 1.0 }
+    "value": {
+      "limb_score": "lift",
+      "max": 3,
+      "limb_type": "hand",
+      "override_encumb": true,
+      "override_wounds": true,
+      "nominator": 1.0
+    }
   },
   {
     "type": "character_mod",
-    "id": "melee_thrown_move_balance_mod",
-    "description": "Melee and thrown attack movement point modifier <color_dark_gray>(Balance)</color>",
+    "id": "melee_thrown_move_balance_arm_mod",
+    "description": "Arm melee and thrown attack movement point modifier <color_dark_gray>(Balance)</color>",
     "mod_type": "x",
     "value": { "limb_score": "balance", "max": 3, "nominator": 1.0 }
   },
   {
     "type": "character_mod",
-    "id": "melee_stamina_cost_mod",
-    "description": "Melee stamina cost <color_dark_gray>(Lift)</color>",
+    "id": "melee_stamina_cost_arm_mod",
+    "description": "Arm melee stamina cost <color_dark_gray>(Lift)</color>",
     "mod_type": "x",
-    "value": { "limb_score": "lift", "override_encumb": true, "max": 20, "nominator": 1.0 }
+    "value": { "limb_score": "lift", "override_encumb": true, "max": 15, "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_move_leg_mod",
+    "description": "Leg melee attack movement point modifier <color_dark_gray>(Balance, Movement Speed)</color>",
+    "mod_type": "x",
+    "value": { "limb_score": [ "move_speed", "footing" ], "limb_score_op": "x", "max": 10, "limb_type": "leg", "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "melee_stamina_cost_leg_mod",
+    "description": "Leg melee stamina cost <color_dark_gray>(Balance, Footing)</color>",
+    "mod_type": "x",
+    "value": { "limb_score": [ "balance", "footing" ], "limb_score_op": "x", "max": 25, "nominator": 1.0 }
   },
   {
     "type": "character_mod",

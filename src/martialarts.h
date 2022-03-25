@@ -157,8 +157,8 @@ class ma_technique
         ma_requirements reqs;
 
         // What way is the technique delivered to the target?
-        std::vector<attack_vector> attack_vectors; // by priority
-        std::vector<attack_vector> attack_vectors_random; // randomly
+        std::set<attack_vector> attack_vectors; // weighted, occurs first
+        std::set<attack_vector> attack_vectors_random; // unweighted, occurs second
 
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc

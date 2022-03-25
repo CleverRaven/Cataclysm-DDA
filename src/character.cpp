@@ -176,7 +176,7 @@ static const character_modifier_id character_modifier_limb_fall_mod( "limb_fall_
 static const character_modifier_id character_modifier_limb_run_cost_mod( "limb_run_cost_mod" );
 static const character_modifier_id character_modifier_limb_str_mod( "limb_str_mod" );
 static const character_modifier_id
-character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
+character_modifier_melee_stamina_cost_arm_mod( "melee_stamina_cost_arm_mod" );
 static const character_modifier_id
 character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
 static const character_modifier_id
@@ -502,6 +502,7 @@ std::string enum_to_string<attack_vector>( attack_vector data )
 {
     switch( data ) {
             // *INDENT-OFF*
+        case attack_vector::ANY: return "ANY";
         case attack_vector::NONE: return "NONE";
         case attack_vector::HAND: return "HAND";
         case attack_vector::FINGERS: return "FINGERS";
@@ -517,6 +518,7 @@ std::string enum_to_string<attack_vector>( attack_vector data )
         case attack_vector::HIP: return "HIP";
         case attack_vector::TORSO: return "TORSO";
         case attack_vector::HEAD: return "HEAD";
+        case attack_vector::TEETH: return "TEETH";
         case attack_vector::WEAPON: return "WEAPON";
         case attack_vector::GRAPPLE: return "GRAPPLE";
         case attack_vector::THROW: return "THROW";
@@ -1724,8 +1726,10 @@ void Character::on_dodge( Creature *source, float difficulty )
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
-
+        matec_id tec = pick_technique( *source, used_weapon(), attack_vector::ANY, false, true, false,
+                                       false );
+        tec = tec != tec_none ? tec : pick_technique( *source, used_weapon(), attack_vector::ANY, false,
+                true, false, true );
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack, but you are too exhausted!" ) );
@@ -2656,7 +2660,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
                             16_gram : thrown_item->weight() / 16_gram;
-    return ( weight_cost + 50 ) * -1 * get_modifier( character_modifier_melee_stamina_cost_mod );
+    return ( weight_cost + 50 ) * -1 * get_modifier( character_modifier_melee_stamina_cost_arm_mod );
 }
 
 std::vector<item_location> Character::nearby( const
