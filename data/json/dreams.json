@@ -652,7 +652,8 @@
     "type": "dream",
     "messages": [
       "You wonder if you could find one of those 'salmon runs', or if they were just a legend…",
-      "Ah, the wolf-slaying dream again.  That's a good one…"
+      "Ah, the wolf-slaying dream again.  That's a good one…",
+      "In the dream, you fatten yourself up with all the food you can find to prepare for your next winter hibernation."
     ],
     "category": "URSINE",
     "strength": 4
@@ -661,7 +662,10 @@
     "type": "dream",
     "messages": [
       "Boing!  and you've pounced another yummy critter.",
-      "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
+      "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!",
+      "You leap from rooftop to rooftop, effortlessly avoiding your pursuers while making your way to safety.",
+      "You sneak into a house, only to discover a full, intact cupboard of canned tuna!",
+      "You dream of a whole field where only lush catnip grows, and you blissfully roll around in it."
     ],
     "category": "FELINE",
     "strength": 4
@@ -671,7 +675,10 @@
     "messages": [
       "You dream of the hunt, the feed, and your pack.",
       "You lead the pack on a glorious hunt, knowing that they will all have your back as you have theirs!",
-      "Oh, you should really patrol your territory again, maybe expand."
+      "Oh, you should really patrol your territory again, maybe expand.",
+      "You dream of a rival pack of hairless bipeds intruding upon your territory.  After a fierce battle, their leader lays lifeless on the ground.",
+      "You howl loud and long, ecstatic after securing a whole cache of supplies.",
+      "After recruiting a new packmate, you expand your spacious den to accommodate them."
     ],
     "category": "LUPINE",
     "strength": 4
