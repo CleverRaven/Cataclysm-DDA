@@ -7359,7 +7359,9 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
             if( bp == bpid ) {
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( bp == body_part_torso && contents.has_additional_pockets() ) {
-                    const auto it = std::find( data.layers.begin(), data.layers.end(), layer_level::BELTED );
+                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
+                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
+                    } );
                     //if the item doesn't already cover belted
                     if( it == data.layers.end() ) {
                         std::vector<layer_level> with_belted = data.layers;
@@ -7394,13 +7396,16 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
                     contents.has_additional_pockets() ) {
-                    const auto it = std::find( data.layers.begin(), data.layers.end(), layer_level::BELTED );
+                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
+                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
+                    } );
                     //if the item doesn't already cover belted
                     if( it == data.layers.end() ) {
                         std::vector<layer_level> with_belted = data.layers;
                         with_belted.push_back( layer_level::BELTED );
                         return with_belted;
                     }
+                    return data.layers;
                 } else {
                     return data.layers;
                 }
@@ -7445,6 +7450,20 @@ bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id 
         }
     }
     return false;
+}
+
+layer_level item::get_highest_layer( const sub_bodypart_id sbp ) const
+{
+    layer_level highest_layer = layer_level::PERSONAL;
+
+    // find highest layer from this item
+    for( layer_level our_layer : get_layer( sbp ) ) {
+        if( our_layer > highest_layer ) {
+            highest_layer = our_layer;
+        }
+    }
+
+    return highest_layer;
 }
 
 item::cover_type item::get_cover_type( damage_type type )
@@ -9433,7 +9452,8 @@ ret_val<bool> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<bool> item::can_contain( const item &it, const bool nested ) const
+ret_val<bool> item::can_contain( const item &it, const bool nested,
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
@@ -9447,13 +9467,25 @@ ret_val<bool> item::can_contain( const item &it, const bool nested ) const
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<bool>::make_failure();
     }
-    for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( internal_it->can_contain( it, true ).success() ) {
-            return ret_val<bool>::make_success();
+    for( const item_pocket *pkt : contents.get_all_contained_pockets().value() ) {
+        if( pkt->empty() ) {
+            continue;
+        }
+        // If the current pocket has restrictions or blacklists the item,
+        // try the nested pocket regardless of whether it's soft or rigid.
+        const bool ignore_rigidity =
+            !pkt->settings.accepts_item( it ) ||
+            !pkt->get_pocket_data()->get_flag_restrictions().empty();
+        for( const item *internal_it : pkt->all_items_top() ) {
+            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings ).success() ) {
+                return ret_val<bool>::make_success();
+            }
         }
     }
 
-    return nested ? contents.can_contain_rigid( it ) : contents.can_contain( it );
+    return nested && !ignore_rigidity ?
+           contents.can_contain_rigid( it, ignore_pkt_settings ) :
+           contents.can_contain( it, ignore_pkt_settings );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -9471,10 +9503,12 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const item *avoid, const bool allow_sealed, const bool ignore_settings, const bool nested )
+        const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        const bool nested, bool ignore_rigidity )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings, nested );
+    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+                                 nested, ignore_rigidity );
 }
 
 bool item::spill_contents( Character &c )
@@ -9913,7 +9947,7 @@ int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
 
-    // Magagzine in the item
+    // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
@@ -11276,7 +11310,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
+            if( e->typeId() == what || e->ammo_current() == what ) {
                 int n;
                 if( carrier ) {
                     n = e->ammo_consume( qty, pos, carrier );

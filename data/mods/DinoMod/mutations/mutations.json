@@ -250,7 +250,7 @@
     "visibility": 10,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your mouth has reshaped to accomodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
+    "description": "Your mouth has reshaped to accommodate many serrated teeth.  They make it impossible to wear mouthgear and difficult to eat… but tear giant wounds in your prey.",
     "types": [ "TEETH" ],
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_TYRANT" ],

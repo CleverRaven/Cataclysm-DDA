@@ -34,7 +34,7 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```safe``` Attempt to crack the safe.
 - ```shelter``` Take down the shelter.
-- ```shrub_marloss``` Pick a marloss bush.
+- ```shrub_marloss``` Pick a Marloss bush.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```toilet``` Either drink or get water out of the toilet.

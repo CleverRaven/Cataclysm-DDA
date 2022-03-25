@@ -4572,14 +4572,6 @@
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "wrapper",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "wristwatch",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
