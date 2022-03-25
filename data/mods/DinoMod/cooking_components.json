@@ -1,5 +1,10 @@
 [
   {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ] ] }
+  },
+  {
     "id": "eggs_dino",
     "type": "requirement",
     "components": [
