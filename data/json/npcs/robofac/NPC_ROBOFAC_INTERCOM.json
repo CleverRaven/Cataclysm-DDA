@@ -728,7 +728,7 @@
       "context": "intercom",
       "value": "yes",
       "yes": "&The intercom's tray wordlessly slides open.",
-      "no": "&The intercom barks as a voice clears its throat, then speaks slowly and carefully.  \"Understood.  There is a tray embedded beneath the intercom.  Please place the drive into it.\"  On cue, a small portion of the wall beneath the intercom slides out along rails, revealing a large tray several inches deep.  \"You are welcome to leave afterwards.\""
+      "no": "&The intercom erupts into static.  Then, it resolves into a voice.  It clears its throat, then speaks slowly and carefully.  \"Understood.  There is a tray embedded beneath the intercom.  Please place the drive into it.\"  On cue, a small portion of the wall beneath the intercom slides out along rails, revealing a large tray several inches deep.  \"You are welcome to leave afterwards.\""
     },
     "speaker_effect": {
       "effect": { "u_add_var": "u_started_robofac_hdd_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
