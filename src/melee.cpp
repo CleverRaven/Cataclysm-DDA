@@ -2851,13 +2851,13 @@ float Character::attack_vector_score( const attack_vector atv ) const
             return natural_attack_restricted_on( bodypart_id( "head" ) ) ? 0 : 0.4;
         case attack_vector::TEETH:
             return ( natural_attack_restricted_on( bodypart_id( "mouth" ) ) ? 0.1 : 0.4 ) + get_limb_score(
-                       limb_score_breathing, body_part_type::type::mouth )( 0.6;
-                           case attack_vector::GRAPPLE:
-                               case attack_vector::THROW:
-                                       return get_limb_score( limb_score_lift ) * get_limb_score( limb_score_grip );
-                                   default:
-                                           return 0;
-                    }
+                       limb_score_breathing, body_part_type::type::mouth ) * 0.6;
+        case attack_vector::GRAPPLE:
+        case attack_vector::THROW:
+            return get_limb_score( limb_score_lift ) * get_limb_score( limb_score_grip );
+        default:
+            return 0;
+    }
 }
 
 double Character::weapon_value( const item &weap, int ammo ) const
