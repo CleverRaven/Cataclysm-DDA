@@ -1411,8 +1411,7 @@
     "color": "yellow",
     "//": "should cover TORSO but give no encumbrance penalties",
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 2 } ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_cybercop",
@@ -3038,7 +3037,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -3159,7 +3158,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3280,7 +3279,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_silver_tiara",

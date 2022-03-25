@@ -246,6 +246,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "mre_lobstermedley",
+    "copy-from": "mre_entree",
+    "name": { "str": "lobster seafood medley entree" },
+    "calories": 130,
+    "description": "The lobster seafood medley entree from an MRE.  Sterilized using radiation, so it's safe to eat.  If exposed to the atmosphere, it will start to go bad.",
+    "material": [ "flesh" ],
+    "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
     "name": { "str": "asian beef & vegetables entree" },
