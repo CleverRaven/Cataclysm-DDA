@@ -116,7 +116,7 @@
         "coverage": 0,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "material": [ { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 } ]
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
       }
     ]
   },
