@@ -14,7 +14,7 @@
   {
     "id": "zone_unload_all",
     "type": "LOOT_ZONE",
-    "name": "Loot: Dump Containers",
+    "name": "Loot: Unload Containers",
     "description": "Any containers you don't otherwise sort in this zone will have their contents dumped out.  This includes corpses."
   }
 ]
