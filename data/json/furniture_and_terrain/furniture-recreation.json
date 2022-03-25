@@ -660,6 +660,7 @@
         { "item": "cardboard", "count": [ 20, 80 ] },
         { "item": "rag", "count": [ 50, 175 ] }
       ]
+      }
     },
     {
       "type": "furniture",
