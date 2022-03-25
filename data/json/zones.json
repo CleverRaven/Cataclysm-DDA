@@ -4,5 +4,17 @@
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
     "description": "Items in this zone are marked for disassembly"
+  },
+  {
+    "id": "zone_strip",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Strip Corpses",
+    "description": "Corpses in this zone will have everything taken off there person"
+  },
+  {
+    "id": "zone_unload_all",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Dump Containers",
+    "description": "Any containers you don't otherwise sort in this zone will have their contents dumped out.  This includes corpses."
   }
 ]
