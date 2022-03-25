@@ -677,6 +677,7 @@
     "type": "MONSTER",
     "id": "mon_stenonychosaurus",
     "name": { "str_sp": "stenonychosaurus" },
+    "looks_like": "mon_velociraptor",
     "species": [ "DINOSAUR" ],
     "default_faction": "stenonychosaurus",
     "symbol": "D",
