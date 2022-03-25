@@ -104,6 +104,11 @@
     "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ]
   },
   {
+    "id": "bamboo_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "raw_bamboo", "base_num": [ 4, 8 ] } ]
+  },
+  {
     "id": "shrub_rose_harv",
     "type": "harvest",
     "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
@@ -308,6 +313,16 @@
     "message": "You carefully crack open its exoskeleton to get at the flesh beneath.",
     "entries": [
       { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "lobster",
+    "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath.",
+    "entries": [
+      { "drop": "lobster", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]

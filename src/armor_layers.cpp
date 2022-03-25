@@ -428,8 +428,10 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
                     body_parts_with_stacking_penalty.push_back( bp );
                 }
                 for( auto it = worn.begin(); it != worn_item_it; ++it ) {
-                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
-                        bad_items_within.insert( it->type_name() );
+                    if( it->covers( sbp ) ) {
+                        if( it->get_highest_layer( sbp ) > worn_item_it->get_highest_layer( sbp ) ) {
+                            bad_items_within.insert( it->type_name() );
+                        }
                     }
                 }
             }
