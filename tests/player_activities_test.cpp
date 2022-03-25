@@ -1721,7 +1721,7 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( move_items_activity_actor( {}, {}, false, north ) ),
         player_activity( open_gate_activity_actor( 1, p ) ),
         //player_activity( oxytorch_activity_actor( p, loc ) ),
-        player_activity( pickup_activity_actor( {}, {}, cata::nullopt ) ),
+        player_activity( pickup_activity_actor( {}, {}, cata::nullopt, false ) ),
         player_activity( play_with_pet_activity_actor() ),
         //player_activity( prying_activity_actor( p, loc ) ),
         //player_activity( read_activity_actor() ),

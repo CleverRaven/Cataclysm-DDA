@@ -9452,7 +9452,8 @@ ret_val<bool> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<bool> item::can_contain( const item &it, const bool nested ) const
+ret_val<bool> item::can_contain( const item &it, const bool nested,
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
@@ -9466,13 +9467,25 @@ ret_val<bool> item::can_contain( const item &it, const bool nested ) const
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<bool>::make_failure();
     }
-    for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( internal_it->can_contain( it, true ).success() ) {
-            return ret_val<bool>::make_success();
+    for( const item_pocket *pkt : contents.get_all_contained_pockets().value() ) {
+        if( pkt->empty() ) {
+            continue;
+        }
+        // If the current pocket has restrictions or blacklists the item,
+        // try the nested pocket regardless of whether it's soft or rigid.
+        const bool ignore_rigidity =
+            !pkt->settings.accepts_item( it ) ||
+            !pkt->get_pocket_data()->get_flag_restrictions().empty();
+        for( const item *internal_it : pkt->all_items_top() ) {
+            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings ).success() ) {
+                return ret_val<bool>::make_success();
+            }
         }
     }
 
-    return nested ? contents.can_contain_rigid( it ) : contents.can_contain( it );
+    return nested && !ignore_rigidity ?
+           contents.can_contain_rigid( it, ignore_pkt_settings ) :
+           contents.can_contain( it, ignore_pkt_settings );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -9490,10 +9503,12 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const item *avoid, const bool allow_sealed, const bool ignore_settings, const bool nested )
+        const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        const bool nested, bool ignore_rigidity )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings, nested );
+    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+                                 nested, ignore_rigidity );
 }
 
 bool item::spill_contents( Character &c )

@@ -3860,7 +3860,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         case REMOVE_CONTAINER: {
             Character &player_character = get_player_character();
             player_character.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos() ) ) );
+            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos(), false ) ) );
             return;
         }
 
@@ -4109,7 +4109,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     you.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos() ) ) );
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
                     return;
                 }
             }
