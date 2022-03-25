@@ -261,7 +261,7 @@
     "time": "45 s",
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "meat_scrap", 1 ] ] ]
+    "components": [ [ [ "meat_scrap", 1 ], [ "human_meat_scrap", 1 ], [ "demihuman_meat_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8118,7 +8118,7 @@
         [ "meat_smoked", 2 ],
         [ "meat_salted", 2 ],
         [ "meat_fried", 2 ],
-        [ "brain", 10 ]
+        [ "meat_brain", 10, "LIST" ]
       ],
       [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [
@@ -8187,7 +8187,7 @@
         [ "meat_smoked", 2 ],
         [ "meat_salted", 2 ],
         [ "meat_fried", 2 ],
-        [ "brain", 10 ]
+        [ "meat_brain", 10, "LIST" ]
       ],
       [ [ "sausage_casings", 2 ], [ "sausage_casings_artificial", 2 ] ],
       [

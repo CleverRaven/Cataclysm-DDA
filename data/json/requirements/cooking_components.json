@@ -252,6 +252,8 @@
         [ "meat_liver", 4, "LIST" ],
         [ "meat_kidney", 4, "LIST" ],
         [ "sweetbread", 4 ],
+        [ "human_sweetbread", 4 ],
+        [ "demihuman_sweetbread", 4 ],
         [ "offal", 1 ],
         [ "mutant_bug_organs", 1 ]
       ]
@@ -267,7 +269,16 @@
     "id": "meat_red_raw",
     "type": "requirement",
     "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
-    "components": [ [ [ "meat_raw_steak", 1, "LIST" ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ], [ "porkbelly", 1 ] ] ]
+    "components": [
+      [
+        [ "meat_raw_steak", 1, "LIST" ],
+        [ "meat_scrap", 10 ],
+        [ "human_meat_scrap", 10 ],
+        [ "demihuman_meat_scrap", 10 ],
+        [ "mutant_meat_scrap", 10 ],
+        [ "porkbelly", 1 ]
+      ]
+    ]
   },
   {
     "id": "meat_red",
@@ -279,23 +290,23 @@
     "id": "meat_lung",
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
-    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+    "components": [ [ [ "lung", 1 ], [ "human_lung", 1 ], [ "demihuman_lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
   },
   {
     "id": "meat_liver",
     "type": "requirement",
-    "components": [ [ [ "liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
+    "components": [ [ [ "liver", 1 ], [ "human_liver", 1 ], [ "demihuman_liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
   },
   {
     "id": "meat_kidney",
     "type": "requirement",
-    "components": [ [ [ "kidney", 1 ], [ "mutant_kidney", 1 ] ] ]
+    "components": [ [ [ "kidney", 1 ], [ "human_kidney", 1 ], [ "demihuman_kidney", 1 ], [ "mutant_kidney", 1 ] ] ]
   },
   {
     "id": "meat_brain",
     "type": "requirement",
     "//": "Anything resembling brains and other nervous tissue.",
-    "components": [ [ [ "brain", 1 ], [ "mutant_brain", 1 ] ] ]
+    "components": [ [ [ "brain", 1 ], [ "human_brain", 1 ], [ "demihuman_brain", 1 ], [ "mutant_brain", 1 ] ] ]
   },
   {
     "id": "meat_stomach",
