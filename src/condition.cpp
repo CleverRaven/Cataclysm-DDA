@@ -429,16 +429,34 @@ template<class T>
 void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
-    if( !has_items.has_string( "item" ) || !has_items.has_int( "count" ) ) {
+    if( !has_items.has_string( "item" ) || ( !has_items.has_int( "count" ) &&
+            !has_items.has_int( "charges" ) ) ) {
         condition = []( const T & ) {
             return false;
         };
     } else {
         const itype_id item_id( has_items.get_string( "item" ) );
-        int count = has_items.get_int( "count" );
-        condition = [item_id, count, is_npc]( const T & d ) {
+        int count = 0;
+        if( has_items.has_int( "count" ) ) {
+            count = has_items.get_int( "count" );
+        }
+        int charges = 0;
+        if( has_items.has_int( "charges" ) ) {
+            charges = has_items.get_int( "charges" );
+        }
+        condition = [item_id, count, charges, is_npc]( const T & d ) {
             const talker *actor = d.actor( is_npc );
-            return actor->has_charges( item_id, count ) || actor->has_amount( item_id, count );
+            if( charges == 0 && item::count_by_charges( item_id ) ) {
+                return actor->has_charges( item_id, count );
+            }
+            if( charges > 0 && count == 0 ) {
+                return actor->has_charges( item_id, charges );
+            }
+            bool has_enough_charges = true;
+            if( charges > 0 ) {
+                has_enough_charges = actor->has_charges( item_id, charges );
+            }
+            return has_enough_charges && actor->has_amount( item_id, count );
         };
     }
 }

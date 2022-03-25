@@ -9913,7 +9913,7 @@ int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
 
-    // Magagzine in the item
+    // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
@@ -11276,7 +11276,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
+            if( e->typeId() == what || e->ammo_current() == what ) {
                 int n;
                 if( carrier ) {
                     n = e->ammo_consume( qty, pos, carrier );
