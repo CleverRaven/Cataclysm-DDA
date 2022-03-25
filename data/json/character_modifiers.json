@@ -86,21 +86,21 @@
   {
     "type": "character_mod",
     "id": "crawl_speed_movecost_mod",
-    "description": "Crawl speed movecost modifier <color_dark_gray>(Crawling)</color>",
+    "description": "Crawl speed move cost modifier <color_dark_gray>(Crawling)</color>",
     "mod_type": "x",
     "value": { "limb_score": "crawl", "max": "max_move_cost", "nominator": 1.2 }
   },
   {
     "type": "character_mod",
     "id": "limb_speed_movecost_mod",
-    "description": "Limb speed movecost modifier <color_dark_gray>(Movement Speed)</color>",
+    "description": "Limb speed move cost modifier <color_dark_gray>(Movement Speed)</color>",
     "mod_type": "x",
     "value": { "limb_score": "move_speed", "max": "max_move_cost", "nominator": 1.0 }
   },
   {
     "type": "character_mod",
     "id": "limb_footing_movecost_mod",
-    "description": "Footing movecost modifier <color_dark_gray>(Footing)</color>",
+    "description": "Footing move cost modifier <color_dark_gray>(Footing)</color>",
     "mod_type": "x",
     "value": { "limb_score": "footing", "max": "max_move_cost", "nominator": 1.0 }
   },

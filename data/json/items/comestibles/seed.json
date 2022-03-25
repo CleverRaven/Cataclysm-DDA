@@ -420,7 +420,7 @@
     "stack_size": 10,
     "fun": 30,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "91 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -478,6 +478,14 @@
     "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_watermelon",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "watermelon seeds" },
+    "description": "Some watermelon seeds.",
+    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

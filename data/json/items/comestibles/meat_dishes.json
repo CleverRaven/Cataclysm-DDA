@@ -541,7 +541,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 180,
-    "description": "A canned pork product that is unnaturally pink, oddly rubbery, and not very tasty, this SPAM remains quite filling.  Completely unappetizing, but quite filling.",
+    "description": "A canned pork product that is unnaturally pink, oddly rubbery, and not very tasty, this SPAM remains quite filling, but completely unappetizing.",
     "price": 400,
     "price_postapoc": 300,
     "material": [ "flesh" ],

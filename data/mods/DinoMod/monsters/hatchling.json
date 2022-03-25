@@ -303,11 +303,11 @@
     "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" }
   },
   {
-    "id": "mon_maiasaura_hatchling",
+    "id": "mon_hadrosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_maiasaura_juvenile" }
+    "upgrades": { "age_grow": 30, "into": "mon_hadrosaurus_juvenile" }
   },
   {
     "id": "mon_parasaurolophus_hatchling",
@@ -322,6 +322,13 @@
     "copy-from": "mon_gallimimus_hatchling",
     "name": "dark gray and magenta hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_corythosaurus_juvenile" }
+  },
+  {
+    "id": "mon_maiasaura_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_maiasaura_juvenile" }
   },
   {
     "id": "mon_edmontosaurus_hatchling",
