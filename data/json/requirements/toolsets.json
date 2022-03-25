@@ -235,36 +235,40 @@
     ]
   },
   {
-    "id": "practice_arrows",
+    "id": "marking_hard",
     "type": "requirement",
-    "//": "Fletched, retrievable arrows, used for training archery",
+    "//": "Tools to mark a hard surface. Uses individual paint colors as using the paint requirement didn't work",
     "tools": [
       [
-        [ "arrow_field_point_fletched", 1 ],
-        [ "arrow_plastic", 1 ],
-        [ "arrow_small_game_fletched", 1 ],
-        [ "arrow_wood", 1 ],
-        [ "arrow_heavy_fire_hardened_fletched", 1 ],
-        [ "arrow_heavy_field_point_fletched", 1 ],
-        [ "arrow_wood_heavy", 1 ],
-        [ "arrow_metal_sharpened_fletched", 1 ],
-        [ "arrow_metal", 1 ],
-        [ "arrow_metal_bodkin", 1 ],
-        [ "arrow_metal_target", 1 ],
-        [ "arrow_cf", 1 ]
+        [ "ink_standard", 2, "LIST" ],
+        [ "medical_tape", 1 ],
+        [ "duct_tape", 1 ],
+        [ "permanent_marker", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
       ]
     ]
   },
   {
-    "id": "marking_hard",
-    "type": "requirement",
-    "//": "Tools to mark a hard surface",
-    "tools": [ [ [ "ink_standard", 2, "LIST" ], [ "medical_tape", 1 ], ["duct_tape", 1], ["permanent_marker", 1], ["survival_marker", -1], [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
-  },
-  {
     "id": "marking_soft",
     "type": "requirement",
-    "//": "Tools to mark a soft, rough surface",
-    "tools": [ [ ["duct_tape", 1], ["survival_marker", -1], [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+    "//": "Tools to mark a soft, rough surface. Uses individual paint colors as using the paint requirement didn't work",
+    "tools": [
+      [
+        [ "duct_tape", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
+      ]
+    ]
   }
 ]
