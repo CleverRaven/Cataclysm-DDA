@@ -526,7 +526,7 @@
     "id": "box_cigarette",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "pack" },
+    "name": { "str": "cigarette pack" },
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
@@ -1665,15 +1665,39 @@
         "weight": 1
       },
       {
+        "id": "black_smart_phone_case",
+        "name": { "str_sp": "black waterproof smartphone case" },
+        "description": "A black waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+        "weight": 10
+      },
+      {
+        "id": "pink_smart_phone_case",
+        "name": { "str_sp": "pink waterproof smartphone case" },
+        "description": "A pink waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+        "weight": 10
+      },
+      {
+        "id": "red_smart_phone_case",
+        "name": { "str_sp": "red waterproof smartphone case" },
+        "description": "A red waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+        "weight": 10
+      },
+      {
+        "id": "bejewelled_smart_phone_case",
+        "name": { "str_sp": "bejewelled waterproof smartphone case" },
+        "description": "A gold waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
+        "weight": 5
+      },
+      {
         "id": "hello_kitty_case",
         "name": { "str_sp": "Hello Kitty Case" },
         "description": "This waterproof phone case has numerous versions of Hello Kitty posing on it.",
-        "weight": 1
+        "weight": 5
       },
       {
         "id": "zombie_case",
         "name": { "str_sp": "Zombie Case" },
-        "description": "This waterproof phone case has a green zombie on it's rear side.  Would using this be in poor taste now?",
+        "description": "This waterproof phone case has a green zombie on its rear side.  Would using this be in poor taste now?",
         "weight": 1
       }
     ],
@@ -2100,7 +2124,7 @@
     "id": "stirling_kit_box",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "name": { "str": "STEM kit box", "str_pl": "STEM kit boxes" },
     "description": "A small box with an image of a children building things.",
     "weight": "400 g",
     "volume": "3200 ml",

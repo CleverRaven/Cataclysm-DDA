@@ -1957,7 +1957,7 @@ bool talk_function::forage_return( npc &p )
         if( skill_1 > rng( -2, 8 ) ) {
             popup( _( "Alerted by a rustle, %s fled to the safety of the outpost!" ), comp->get_name() );
         } else if( skill_2 > rng( -2, 8 ) ) {
-            popup( _( "As soon as the cougar sprang %s darted to the safety of the outpost!" ),
+            popup( _( "As soon as the cougar sprang, %s darted to the safety of the outpost!" ),
                    comp->get_name() );
         } else {
             popup( _( "%s was caught unaware and was forced to fight the creature at close "
@@ -1973,11 +1973,11 @@ bool talk_function::forage_return( npc &p )
                 }
             } else {
                 if( one_in( 2 ) ) {
-                    popup( _( "%s was able to hold off the first wolf but the others that were "
+                    popup( _( "%s was able to hold off the first wolf, but the others that were "
                               "skulking in the tree line caught up…" ), comp->get_name() );
                     popup( _( "I'm sorry, there wasn't anything we could do…" ) );
                 } else {
-                    popup( _( "We… we don't know what exactly happened but we found %s's gear "
+                    popup( _( "We… we don't know what exactly happened, but we found %s's gear "
                               "ripped and bloody…" ), comp->get_name() );
                     popup( _( "I fear your companion won't be returning." ) );
                 }

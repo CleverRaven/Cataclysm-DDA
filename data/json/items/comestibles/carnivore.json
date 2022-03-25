@@ -41,6 +41,35 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "lobster",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of lobster meat", "str_pl": "chunks of lobster meat" },
+    "description": "Freshly caught uncooked lobster meat.",
+    "//": "Nutrition information based on whitefish",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "lobster_smoked",
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 14 ] ],
+    "calories": 250
+  },
+  {
+    "id": "lobster_cooked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked lobster" },
+    "description": "Freshly cooked delicious lobster.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "hstomach",
     "copy-from": "stomach",
     "type": "COMESTIBLE",
@@ -226,6 +255,24 @@
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
+  },
+  {
+    "id": "human_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "looks_like": "meat_scrap",
+    "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
+    "description": "A tiny scrap of human flesh.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "looks_like": "meat_scrap",
+    "name": { "str": "scrap of demihuman flesh", "str_pl": "scraps of demihuman flesh" },
+    "description": "A tiny scrap of demihuman flesh.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "mutant_meat",
@@ -617,6 +664,18 @@
     "smoking_result": "dry_fish"
   },
   {
+    "id": "lobster_smoked",
+    "copy-from": "fish_smoked",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "smoked lobster" },
+    "description": "Tasty lobster that has been heavily smoked for long term preservation.  It could be further smoked to dehydrate it completely.",
+    "color": "brown",
+    "price_postapoc": 300,
+    "fun": 10,
+    "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
+    "smoking_result": "dry_lobster"
+  },
+  {
     "id": "lung",
     "type": "COMESTIBLE",
     "copy-from": "flesh",
@@ -637,6 +696,24 @@
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
+    "id": "human_lung",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "looks_like": "lung",
+    "name": { "str": "piece of raw human lung", "str_pl": "pieces of raw human lung" },
+    "description": "A portion of lung from a human.  It's spoogy and pink, and spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_lung",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "looks_like": "lung",
+    "name": { "str": "piece of raw demihuman lung", "str_pl": "pieces of raw demihuman lung" },
+    "description": "A portion of lung from a demihuman being.  It's spoogy and pink, and spoils very quickly.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "lung_cooked",
     "type": "COMESTIBLE",
     "copy-from": "lung",
@@ -644,7 +721,7 @@
     "fun": -5,
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
-    "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
+    "description": "Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
     "extend": { "flags": [ "EATEN_HOT" ] }
   },
@@ -691,6 +768,24 @@
     "quench": -4,
     "calories": 92,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ] ]
+  },
+  {
+    "id": "human_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver",
+    "looks_like": "liver",
+    "name": { "str": "raw human liver" },
+    "description": "A chunk of liver from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver",
+    "looks_like": "liver",
+    "name": { "str": "raw demihuman liver" },
+    "description": "A chunk of liver from a demihuman being.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "liver_cooked",
@@ -740,6 +835,24 @@
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ] ]
   },
   {
+    "id": "human_brain",
+    "type": "COMESTIBLE",
+    "copy-from": "brain",
+    "looks_like": "brain",
+    "name": { "str_sp": "raw human brains" },
+    "description": "A chunk of brain from a human.  Eating this may cause kuru, but you probably won't live long enough to care about it anyway.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_brain",
+    "type": "COMESTIBLE",
+    "copy-from": "brain",
+    "looks_like": "brain",
+    "name": { "str_sp": "raw demihuman brains" },
+    "description": "A chunk of brain from a demihuman being.  Don't prion diseases cross species barriers?",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "brain_cooked",
     "type": "COMESTIBLE",
     "copy-from": "brain",
@@ -784,6 +897,24 @@
     "price_postapoc": 25,
     "calories": 54,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ] ]
+  },
+  {
+    "id": "human_kidney",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney",
+    "looks_like": "kidney",
+    "name": { "str": "raw human kidney" },
+    "description": "Kidney from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_kidney",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney",
+    "looks_like": "kidney",
+    "name": { "str": "raw demihuman kidney" },
+    "description": "This is probably a kidney extracted from a demihuman being.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "kidney_cooked",
@@ -832,6 +963,24 @@
     "quench": 0,
     "calories": 133,
     "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ] ]
+  },
+  {
+    "id": "human_sweetbread",
+    "type": "COMESTIBLE",
+    "copy-from": "sweetbread",
+    "looks_like": "sweetbread",
+    "name": { "str": "raw human sweetbread" },
+    "description": "Thymus or pancreas from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_sweetbread",
+    "type": "COMESTIBLE",
+    "copy-from": "sweetbread",
+    "looks_like": "sweetbread",
+    "name": { "str": "raw demihuman sweetbread" },
+    "description": "The consistency of this organ suggests possibly a thymus or pancreas equivalent.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "sweetbread_cooked",

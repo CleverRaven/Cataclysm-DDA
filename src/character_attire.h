@@ -86,7 +86,7 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool in_climate_control() const;
-        bool can_pickVolume( const item &it ) const;
+        bool can_pickVolume( const item &it, const bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;

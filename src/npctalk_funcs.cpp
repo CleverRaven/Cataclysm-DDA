@@ -720,60 +720,6 @@ void talk_function::morale_chat_activity( npc &p )
     player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
-void talk_function::buy_10_logs( npc &p )
-{
-    std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
-    if( places.empty() ) {
-        debugmsg( "Couldn't find %s", "ranch_camp_67" );
-        return;
-    }
-    const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint_abs_omt> places_om;
-    for( const tripoint_abs_omt &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
-            places_om.push_back( i );
-        }
-    }
-
-    const tripoint_abs_omt site = random_entry( places_om );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.spawn_item( point( 7, 15 ), "log", 10 );
-    bay.save();
-
-    p.add_effect( effect_currently_busy, 1_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
-}
-
-void talk_function::buy_100_logs( npc &p )
-{
-    std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
-                                 false );
-    if( places.empty() ) {
-        debugmsg( "Couldn't find %s", "ranch_camp_67" );
-        return;
-    }
-    const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint_abs_omt> places_om;
-    for( auto &i : places ) {
-        if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
-            places_om.push_back( i );
-        }
-    }
-
-    const tripoint_abs_omt site = random_entry( places_om );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.spawn_item( point( 7, 15 ), "log", 100 );
-    bay.save();
-
-    p.add_effect( effect_currently_busy, 7_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
-}
-
 /*
  * Function to make the npc drop non favorite, worn or wielded items at their current position.
  */

@@ -1999,9 +1999,6 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         return;
     }
 
-    // Auto_resume implies autopickup.
-    const bool autopickup = who.activity.auto_resume;
-
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
 
@@ -2035,13 +2032,14 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
     jsout.member( "stash_successful", stash_successful );
+    jsout.member( "autopickup", autopickup );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
-    pickup_activity_actor actor( {}, {}, cata::nullopt );
+    pickup_activity_actor actor( {}, {}, cata::nullopt, false );
 
     JsonObject data = jsin.get_object();
 
@@ -2049,6 +2047,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
     data.read( "stash_successful", actor.stash_successful );
+    data.read( "autopickup", actor.autopickup );
 
     return actor.clone();
 }

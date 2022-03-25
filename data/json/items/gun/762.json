@@ -84,7 +84,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SKS" },
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
     "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",

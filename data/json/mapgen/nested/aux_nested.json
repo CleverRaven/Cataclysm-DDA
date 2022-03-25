@@ -198,6 +198,12 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "destroyed_furniture",
+    "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_furniture_gunstore",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ],

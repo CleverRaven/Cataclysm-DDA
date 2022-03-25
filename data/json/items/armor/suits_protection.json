@@ -1071,7 +1071,7 @@
     "looks_like": "armor_plarmor",
     "name": { "str": "XS plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_junk_plate",
@@ -1192,7 +1192,7 @@
     "copy-from": "armor_scrapsuit",
     "name": { "str": "XS scrap suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "armor_tiresuit",
@@ -1744,7 +1744,7 @@
     "looks_like": "entry_suit",
     "name": { "str": "XS entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gambeson",
@@ -2000,7 +2000,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2025,7 +2025,7 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2104,7 +2104,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "k_gambeson_vest_xs",
@@ -2113,7 +2113,7 @@
     "looks_like": "k_gambeson",
     "name": { "str": "XS kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE", "UNDERSIZE" ],
+    "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
   },
   {
@@ -2227,7 +2227,7 @@
     "looks_like": "nomex_suit",
     "name": { "str": "XS flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -2358,7 +2358,7 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
-    "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  It's stiff, but strategically-placed vents make it cool to wear even in the summer.",
+    "description": "A stiff leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.",
     "weight": "2214 g",
     "volume": "6500 ml",
     "price": 58000,
@@ -2414,7 +2414,7 @@
         "moves": 120
       }
     ],
-    "warmth": 10,
+    "warmth": 25,
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
@@ -2491,13 +2491,14 @@
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2507,7 +2508,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2517,14 +2518,14 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 15
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2542,7 +2543,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2558,13 +2559,14 @@
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2574,7 +2576,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2584,14 +2586,14 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 10
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2609,7 +2611,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,
@@ -2625,13 +2627,14 @@
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 2.0 },
-          { "type": "kevlar", "covered_by_mat": 1, "thickness": 2.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2641,7 +2644,7 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2651,14 +2654,14 @@
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "lycra", "covered_by_mat": 1, "thickness": 4.0 }
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
     ],
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER" ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2676,7 +2679,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "flags": [ "OUTER", "NORMAL", "STURDY", "CONDUCTIVE", "ONLY_ONE", "MUNDANE", "USES_BIONIC_POWER", "CLIMATE_CONTROL" ],
+    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 100000,
     "use_action": {
       "ammo_scale": 0,

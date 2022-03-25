@@ -30,5 +30,30 @@
       { "proficiency": "prof_plumbing", "required": false, "time_multiplier": 3, "fail_multiplier": 1.5 }
     ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "well_pump",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "6 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "adhesive", 2, "LIST" ] ],
+      [ [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
   }
 ]
