@@ -6213,6 +6213,9 @@ void game::zones_manager()
     bool show_all_zones = false;
     int zone_cnt = 0;
 
+    // reset any zones that were temporarily disabled for an activity
+    mgr.reset_disabled();
+
     // cache the players location for person zones
     if( mgr.has_personal_zones() ) {
         mgr.cache_avatar_location();
