@@ -14,7 +14,7 @@
     "color": "light_green",
     "warmth": 1,
     "environmental_protection": 2,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -39,7 +39,7 @@
     "color": "brown",
     "warmth": 1,
     "environmental_protection": 3,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -64,7 +64,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -89,7 +89,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -129,7 +129,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -155,9 +155,9 @@
     "material": [ "fur" ],
     "symbol": "x",
     "color": "white",
-    "warmth": 5,
+    "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 2 } ],
@@ -180,9 +180,9 @@
     "material": [ "fur" ],
     "symbol": "x",
     "color": "light_gray",
-    "warmth": 12,
+    "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -211,19 +211,9 @@
     "material": [ "fur" ],
     "symbol": "x",
     "color": "black",
-    "warmth": 25,
+    "warmth": 45,
     "environmental_protection": 1,
-    "flags": [
-      "TRADER_AVOID",
-      "INTEGRATED",
-      "NO_TAKEOFF",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 14 } ],
@@ -252,9 +242,9 @@
     "material": [ "fur" ],
     "symbol": "x",
     "color": "dark_gray",
-    "warmth": 15,
+    "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 8 } ],
@@ -283,9 +273,9 @@
     "material": [ "fur" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 8,
+    "warmth": 13,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -308,9 +298,9 @@
     "material": [ "fur" ],
     "symbol": "*",
     "color": "brown",
-    "warmth": 4,
+    "warmth": 7,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "COLLAR" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "COLLAR" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 4 } ],
@@ -340,18 +330,9 @@
     "material": [ "leather", "fur", "cured_meat", "wool" ],
     "symbol": "x",
     "color": "light_red",
-    "warmth": 14,
+    "warmth": 10,
     "environmental_protection": 1,
-    "flags": [
-      "TRADER_AVOID",
-      "INTEGRATED",
-      "NO_TAKEOFF",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "HELMET_COMPAT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
@@ -394,17 +375,7 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [
-      "TRADER_AVOID",
-      "INTEGRATED",
-      "NO_TAKEOFF",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
@@ -451,17 +422,7 @@
     "color": "light_red",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [
-      "TRADER_AVOID",
-      "INTEGRATED",
-      "NO_TAKEOFF",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
@@ -512,7 +473,7 @@
     "color": "green",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -538,9 +499,7 @@
     "warmth": 8,
     "environmental_protection": 1,
     "flags": [
-      "TRADER_AVOID",
       "INTEGRATED",
-      "NO_TAKEOFF",
       "ALLOWS_NATURAL_ATTACKS",
       "BLOCK_WHILE_WORN",
       "UNBREAKABLE",
@@ -618,7 +577,7 @@
     "color": "brown",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 } ],
@@ -682,13 +641,13 @@
     "symbol": ",",
     "color": "brown",
     "warmth": 5,
-    "bashing": 7,
-    "cutting": 12,
+    "bashing": 4,
+    "cutting": 8,
     "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
     "environmental_protection": 1,
     "techniques": [ "RAPID" ],
-    "flags": [ "TRADER_AVOID", "INTEGRATED", "NO_TAKEOFF", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],

@@ -390,6 +390,11 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res
                                             _( "<npcname> is not wearing that item." ) );
     }
 
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't remove a part of your body." ) :
+                                            _( "<npcname> can't remove a part of their body." ) );
+    }
     if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
