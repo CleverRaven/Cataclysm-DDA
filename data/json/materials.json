@@ -2542,5 +2542,10 @@
       "energy": 25,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
-  }
+  },
+  {
+  "type": "material",
+  "id": "slag",
+  "name": "Slag",
+  "density": 5  
 ]
