@@ -665,7 +665,7 @@
     "name": "bale archery target",
     "description": "A soft target for archery consisting of a bale of hay with a bullseye marked on the front.",
     "symbol": "@",
-    "color": "brown",
+    "color": "yellow",
     "move_cost_mod": 9,
     "required_str": 6,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
