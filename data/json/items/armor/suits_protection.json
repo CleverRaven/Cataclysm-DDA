@@ -2688,7 +2688,7 @@
         "encumbrance": 15
       }
     ],
-    "extend": { "flags": [ "MUNDANE", "USES_BIONIC_POWER" ] },
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2755,6 +2755,7 @@
         "encumbrance": 10
       }
     ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
@@ -2821,6 +2822,7 @@
         "encumbrance": 20
       }
     ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "use_action": {
       "type": "transform",
