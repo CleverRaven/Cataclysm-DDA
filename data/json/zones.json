@@ -9,12 +9,14 @@
     "id": "zone_strip",
     "type": "LOOT_ZONE",
     "name": "Loot: Strip Corpses",
+    "can_be_personal": true,
     "description": "Corpses in this zone will have everything taken off there person"
   },
   {
     "id": "zone_unload_all",
     "type": "LOOT_ZONE",
     "name": "Loot: Unload Containers",
+    "can_be_personal": true,
     "description": "Any containers you don't otherwise sort in this zone will have their contents dumped out.  This includes corpses."
   }
 ]
