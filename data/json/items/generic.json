@@ -3859,7 +3859,7 @@
     "price": 3000,
     "price_postapoc": 200,
     "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
-    "weight": "3 kg",
+    "weight": "16 kg",
     "volume": "50 L",
     "longest_side": "60 cm",
     "bashing": 2,
