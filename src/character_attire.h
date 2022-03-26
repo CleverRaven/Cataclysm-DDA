@@ -95,8 +95,8 @@ class outfit
         cata::optional<const item *> item_worn_with_inv_let( const char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
-        // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
-        item *current_unarmed_weapon( const attack_vector &atv, item *cur_weapon );
+        // find the top clothing weapon for the attack vector
+        item *current_unarmed_weapon( const attack_vector &atv );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;

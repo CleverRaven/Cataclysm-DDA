@@ -772,7 +772,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // If weapon is not selected, use applicable unarmed weapon.
         if( *atv != attack_vector::WEAPON ) {
-            worn.current_unarmed_weapon( *atv, cur_weapon );
+            *cur_weapon = worn.current_unarmed_weapon( *atv );
         }
 
         damage_instance d;
