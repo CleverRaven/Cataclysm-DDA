@@ -11,12 +11,22 @@
 "<Documentation>":
   - "**/*.md"
   - doc/**/*
+  - doxygen_doc/**/*
 
 "Code: Tooling":
   - tools/**/*
+  - .github/**/*
+  - utilities/**/*
 
 "Code: Tests":
   - tests/**/*
+
+"Code: Build":
+  - build-data/**/*
+  - build-scripts/**/*
+  - "**/Makefile"
+  - "**/CMakeLists.txt"
+  - "**/*.cmake"
 
 "NPC / Factions":
   - data/json/npcs/**/*
@@ -33,6 +43,7 @@
 
 "Player Faction Base / Camp":
   - "src/basecamp.(cpp|h)"
+  - "src/faction_camp.(cpp|h)"
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
