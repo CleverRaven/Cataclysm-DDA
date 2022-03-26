@@ -41,6 +41,8 @@ class string_editor_window
         int _position = -1;
         /*display coordinates of cursor*/
         point _cursor_display;
+        /*desired x coordinate of cursor when moving cursor up or down*/
+        int _cursor_desired_x = -1;
         /*IME preview range*/
         std::unique_ptr<ime_preview_range> _ime_preview_range;
 

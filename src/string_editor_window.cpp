@@ -307,7 +307,7 @@ void string_editor_window::cursor_updown( const int diff )
         }
         const folded_line &new_line = _folded->get_lines()[new_y];
         _position = new_line.cpts_start;
-        _position += utf8_wrapper( new_line.str ).substr_display( 0, _cursor_display.x ).size();
+        _position += utf8_wrapper( new_line.str ).substr_display( 0, _cursor_desired_x ).size();
         // Assuming that the x coordinate is equal to or less than the previous
         // cursor, the maximum cursor position is `cpts` in the last line and
         // `cpts - 1` in other lines.
@@ -337,6 +337,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
         _win = _create_window();
         _max.x = getmaxx( _win );
         _max.y =  getmaxy( _win );
+        _cursor_desired_x = -1;
         refold = true;
         ui.position_from_window( _win );
     } );
@@ -353,6 +354,9 @@ const std::pair<bool, std::string> string_editor_window::query_string()
         }
         if( reposition ) {
             _cursor_display = get_line_and_position( _position );
+            if( _cursor_desired_x < 0 ) {
+                _cursor_desired_x = _cursor_display.x;
+            }
             if( edit.empty() ) {
                 _ime_preview_range.reset();
             } else {
@@ -407,21 +411,25 @@ const std::pair<bool, std::string> string_editor_window::query_string()
         } else if( ch == KEY_RIGHT ) {
             if( edit.empty() ) {
                 cursor_leftright( 1 );
+                _cursor_desired_x = -1;
                 reposition = true;
             }
         } else if( ch == KEY_LEFT ) {
             if( edit.empty() ) {
                 cursor_leftright( -1 );
+                _cursor_desired_x = -1;
                 reposition = true;
             }
         } else if( ch == 0x15 ) {
             // ctrl-u: delete all the things
             _position = 0;
+            _cursor_desired_x = -1;
             _utext.erase( 0 );
             refold = true;
         } else if( ch == KEY_BACKSPACE ) {
             if( _position > 0 && _position <= static_cast<int>( _utext.size() ) ) {
                 _position--;
+                _cursor_desired_x = -1;
                 _utext.erase( _position, 1 );
                 refold = true;
             }
@@ -429,6 +437,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
             if( edit.empty()
                 && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
                 _position = _folded->get_lines()[_cursor_display.y].cpts_start;
+                _cursor_desired_x = -1;
                 reposition = true;
             }
         } else if( ch == KEY_END ) {
@@ -441,6 +450,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
                     // -1 because cursor past the last character is shown in the next line
                     --_position;
                 }
+                _cursor_desired_x = -1;
                 reposition = true;
             }
         } else if( ch == KEY_PPAGE ) {
@@ -455,6 +465,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
             }
         } else if( ch == KEY_DC ) {
             if( _position < static_cast<int>( _utext.size() ) ) {
+                _cursor_desired_x = -1;
                 _utext.erase( _position, 1 );
                 refold = true;
             }
@@ -494,6 +505,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
                 }
                 _utext.insert( _position, insertion );
                 _position += insertion.length();
+                _cursor_desired_x = -1;
                 edit = utf8_wrapper();
                 refold = true;
                 ctxt->set_edittext( std::string() );
