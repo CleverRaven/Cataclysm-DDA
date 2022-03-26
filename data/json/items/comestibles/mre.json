@@ -258,7 +258,7 @@
     "type": "COMESTIBLE",
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
-    "name": { "str": "asian beef & vegetables entree" },
+    "name": { "str": "Asian beef & vegetables entree" },
     "calories": 247,
     "description": "The Asian beef & vegetables entree from an MRE.",
     "material": [ "flesh", "veggy" ],
