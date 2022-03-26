@@ -59,8 +59,8 @@
   {
     "id": "mon_tunnel_rat",
     "type": "MONSTER",
-    "name": { "str": "Tunnel Runner" },
-    "description": "Prior to the cataclysm someone might have referred to this giant rat erupting from the earth as a 'mass of claws and teeth', however you live in a world where masses of claws and teeth move on their own and attack people so this is only an incredibly violent dog sized rat that viciously attacks.",
+    "name": { "str": "tunnel runner" },
+    "description": "Prior to the Cataclysm someone might have referred to this giant rat erupting from the earth as a 'mass of claws and teeth', however you live in a world where masses of claws and teeth move on their own and attack people so this is only an incredibly violent dog sized rat that viciously attacks.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
@@ -126,8 +126,8 @@
   {
     "id": "mon_mausketeer",
     "type": "MONSTER",
-    "name": { "str": "Mausketeer" },
-    "description": "This hominid rat is dressed like it's going to a renfaire in an imitation of Ancien Regime light cavalry and armed with a sword.",
+    "name": { "str": "mausketeer" },
+    "description": "This hominid rat is dressed like it's going to a renfaire in an imitation of Ancien Régime light cavalry and armed with a sword.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
