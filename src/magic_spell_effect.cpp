@@ -1572,17 +1572,15 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }
-    creature_tracker &creatures = get_creature_tracker();
     for( auto walk_point : trajectory ) {
-        if( creatures.creature_at( here.getlocal( walk_point ) ) ||
-            !g->walk_move( here.getlocal( walk_point ), false, false, true ) ) {
+        if( !g->walk_move( here.getlocal( walk_point ), false, false, true ) ) {
             break;
         } else {
             sp.create_field( here.getlocal( walk_point ) );
             g->draw_ter();
         }
     }
-    g->place_player( caster.pos() );
+    g->place_player( caster.pos(), false );
     tripoint far_target;
     calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( caster.pos() ),
                   far_target );
