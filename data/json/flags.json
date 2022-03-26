@@ -1393,8 +1393,23 @@
     "type": "json_flag"
   },
   {
+    "id": "MUTAGEN_CATALYST",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
+  },
+  {
+    "id": "MUTAGEN_PRIMER",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
+  },
+  {
     "id": "MYCUS_OK",
     "type": "json_flag"
+  },
+  {
+    "id": "NEED_SYRINGE",
+    "type": "json_flag",
+    "info": "You <info>need a syringe</info> to inject it."
   },
   {
     "id": "NEEDS_NO_LUBE",
