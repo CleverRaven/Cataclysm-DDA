@@ -151,10 +151,7 @@
       "sound_fail": "slap!",
       "sound_vol": 6,
       "sound_fail_vol": 3,
-      "items": [
-        { "item": "rag", "count": [ 20, 30 ] },
-        { "item": "rope_makeshift_6", "count": [ 2, 3 ] }
-      ]
+      "items": [ { "item": "rag", "count": [ 20, 30 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
     }
   },
   {
@@ -178,10 +175,7 @@
       "sound_fail": "slap!",
       "sound_vol": 6,
       "sound_fail_vol": 3,
-      "items": [
-        { "item": "string_36", "count": [ 12, 16 ] },
-        { "item": "rope_makeshift_6", "count": [ 2, 3 ] }
-      ]
+      "items": [ { "item": "string_36", "count": [ 12, 16 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
     }
   },
   {
