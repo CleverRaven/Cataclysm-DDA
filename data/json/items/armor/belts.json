@@ -301,7 +301,7 @@
   {
     "id": "suspenders_cloth",
     "type": "ARMOR",
-    "name": { "str": "Suspenders" },
+    "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
     "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist. Gives a wonderful western feel!",
     "weight": "250g",
     "volume": "500 ml",
