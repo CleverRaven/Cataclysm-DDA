@@ -28,6 +28,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "event.h"
@@ -1932,6 +1933,15 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
         if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
+        }
+
+        for( const effect_on_condition_id &eoc : technique.eocs ) {
+            dialogue d( get_talker_for( *this ), get_talker_for( t ) );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a technique activation.  If you don't want the effect_on_condition to happen on its own (without the technique being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this technique with its condition and effects, then have a recurring one queue it." );
+            }
         }
     }
 
