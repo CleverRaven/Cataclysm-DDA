@@ -233,45 +233,6 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "OUTER", "UNDERSIZE" ]
   },
   {
-    "id": "armor_lightplate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "plate armor" },
-    "description": "A suit of Gothic plate armor.",
-    "weight": "11 kg",
-    "volume": "17500 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
-    "material": [ "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "xl_armor_lightplate",
-    "type": "ARMOR",
-    "name": { "str": "XL plate armor" },
-    "copy-from": "armor_lightplate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
-  },
-  {
-    "id": "xs_armor_lightplate",
-    "type": "ARMOR",
-    "copy-from": "armor_lightplate",
-    "looks_like": "armor_lightplate",
-    "name": { "str": "XS plate armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "UNDERSIZE" ]
-  },
-  {
     "id": "armor_junk_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lightplate",
@@ -1113,45 +1074,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "armor_plate",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ornamental plate armor" },
-    "description": "An extremely heavy suit of ornamental armor.",
-    "weight": "18 kg",
-    "volume": "30 L",
-    "price": 780000,
-    "price_postapoc": 6000,
-    "to_hit": -5,
-    "bashing": 8,
-    "material": [ "steel", "leather" ],
-    "symbol": "[",
-    "looks_like": "armor_lightplate",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
-  },
-  {
-    "id": "xl_armor_plate",
-    "type": "ARMOR",
-    "name": { "str": "XL ornamental plate armor" },
-    "copy-from": "armor_plate",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_armor_plate",
-    "type": "ARMOR",
-    "copy-from": "armor_plate",
-    "looks_like": "armor_plate",
-    "name": { "str": "XS ornamental plate armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "armor_junk_plate",
     "type": "ARMOR",
     "copy-from": "armor_plate",
@@ -1327,49 +1249,6 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OUTER" ]
-  },
-  {
-    "id": "chainmail_hauberk",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "material": [ "steel", "iron" ],
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_chainmail_hauberk",
-    "type": "ARMOR",
-    "name": { "str": "XL chainmail hauberk" },
-    "copy-from": "chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "chainmail_hauberk_xs",
-    "type": "ARMOR",
-    "copy-from": "chainmail_hauberk",
-    "looks_like": "chainmail_hauberk",
-    "name": { "str": "XS chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "chainmail_junk_hauberk",
@@ -1565,49 +1444,6 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hauberk",
     "name": { "str": "XS tempered steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "chainmail_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "chainmail armor" },
-    "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "steel", "iron" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_chainmail_suit",
-    "type": "ARMOR",
-    "name": { "str": "XL chainmail armor" },
-    "copy-from": "chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "chainmail_suit_xs",
-    "type": "ARMOR",
-    "copy-from": "chainmail_suit",
-    "looks_like": "chainmail_suit",
-    "name": { "str": "XS chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
