@@ -150,7 +150,7 @@ class ui_adaptor
          **/
         void invalidate_ui() const;
 
-        /** 
+        /**
          * Reset all callbacks and dimensions. Will cause invalidation of the
          * previously specified screen area.
          **/
