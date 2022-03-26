@@ -207,6 +207,10 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
+### Flags
+
+- ```CASELESS_ROUNDS``` Caseless rounds that cannot be disassembled or reloaded.
+
 ## Traps
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
@@ -303,8 +307,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against `fear_paralyze` monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially (75%) protects you from radiation.
-- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
-- ```RAD_STERILIZED_EDIBLE_FOREVER``` Irradiated food that is safe to eat and remains edible forever.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
@@ -543,6 +545,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
 - ```PKILL_L``` Slow-release painkiller.
+- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
+- ```RAD_STERILIZED_EDIBLE_FOREVER``` Irradiated food that is safe to eat and remains edible forever.
 - ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
 - ```SMOKABLE``` Accepted by smoking rack.
 - ```SMOKED``` Not accepted by smoking rack (product of smoking).
