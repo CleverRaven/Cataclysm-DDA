@@ -24,7 +24,7 @@
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
     },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NEED_SYRINGE", "MUTAGEN_PRIMER" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "MUTAGEN_PRIMER" ],
     "freezing_point": -30,
     "fun": -15
   },

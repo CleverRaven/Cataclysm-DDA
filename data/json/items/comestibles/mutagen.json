@@ -41,7 +41,7 @@
     "addiction_potential": 6,
     "container": "test_tube",
     "tool": "syringe",
-    "flags": [ "NO_INGEST", "NEED_SYRINGE", "MUTAGEN_PRIMER" ]
+    "flags": [ "NO_INGEST", "MUTAGEN_PRIMER" ]
   },
   {
     "id": "iv_mutagen",

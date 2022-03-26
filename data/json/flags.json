@@ -1407,11 +1407,6 @@
     "type": "json_flag"
   },
   {
-    "id": "NEED_SYRINGE",
-    "type": "json_flag",
-    "info": "You <info>need a syringe</info> to inject it."
-  },
-  {
     "id": "NEEDS_NO_LUBE",
     "type": "json_flag"
   },
