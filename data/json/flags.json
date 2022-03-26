@@ -199,6 +199,11 @@
     "info": "This armor can't be worn directly."
   },
   {
+    "id": "DECAY_EXPOSED_ATMOSPHERE",
+    "type": "json_flag",
+    "info": "If exposed to the atmosphere, it will <bad>start to go bad</bad>."
+  },
+  {
     "id": "DIRTY",
     "type": "json_flag"
   },
@@ -625,6 +630,16 @@
     "type": "json_flag",
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "RAD_STERILIZED",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
+  },
+  {
+    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
