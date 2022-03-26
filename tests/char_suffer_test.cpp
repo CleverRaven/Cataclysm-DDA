@@ -305,7 +305,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     } else {
                         // All other parts lose 1 HP, 3x per minute (30 in 10m)
                         // but legs+feet combine, and head+mouth combine (60 in 10m)
-                        CHECK_THAT( bp_hp_lost[bp], IsBinomialObservation( num_turns, 2.0 / 20 ) ); 
+                        CHECK_THAT( bp_hp_lost[bp], IsBinomialObservation( num_turns, 2.0 / 20 ) );
                     }
                 }
             }
