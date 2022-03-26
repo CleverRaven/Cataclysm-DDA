@@ -1559,6 +1559,11 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
 
 void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
 {
+    avatar *caster_you = caster.as_avatar();
+    if( caster_you == nullptr || !g->prompt_dangerous_tile( target, false ) )
+    {
+        return;
+    }
     const tripoint source = caster.pos();
     const std::vector<tripoint> trajectory_local = line_to( source, target );
     ::map &here = get_map();
@@ -1568,37 +1573,19 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }
-    avatar *caster_you = caster.as_avatar();
-    auto walk_point = trajectory.begin();
-    if( *walk_point == source ) {
-        ++walk_point;
-    }
-    // save the amount of moves the caster has so we can restore them after the dash
-    const int cur_moves = caster.moves;
     creature_tracker &creatures = get_creature_tracker();
-    while( walk_point != trajectory.end() ) {
-        if( caster_you != nullptr ) {
-            if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
-                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                --walk_point;
-                break;
-            } else {
-                sp.create_field( here.getlocal( *( walk_point - 1 ) ) );
-                g->draw_ter();
-            }
+    for( auto walk_point : trajectory ) {
+        if( creatures.creature_at( here.getlocal( walk_point ) ) ||
+            !g->walk_move( here.getlocal( walk_point ), false, false, true) ) {
+            break;
+        } else {
+            sp.create_field( here.getlocal( walk_point ) );
+            g->draw_ter();
         }
-        ++walk_point;
     }
-    if( walk_point == trajectory.end() ) {
-        // we want the last tripoint in the actually reached trajectory
-        --walk_point;
-    }
-    caster.moves = cur_moves;
-
+    g->place_player( caster.pos() );
     tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
-                  far_target );
-
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( caster.pos() ), far_target );
     spell_effect::override_parameters params( sp );
     params.range = sp.aoe();
     const std::set<tripoint> hit_area = spell_effect_cone_range_override( params, source, far_target );

@@ -761,7 +761,7 @@ class game
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
         bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
+        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false, bool leaping = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -834,7 +834,7 @@ class game
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest );
+        point place_player( const tripoint &dest, bool leaping = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
 
         unsigned int get_seed() const;
@@ -845,9 +845,9 @@ class game
         void set_critter_died();
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
-        bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        bool is_dangerous_tile( const tripoint &dest_loc, bool leaping = false ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, bool leaping = false ) const;
+        bool prompt_dangerous_tile( const tripoint &dest_loc, bool leaping = false ) const;
         // Pick up items from the given point
         void pickup( const tripoint &p );
     private:
