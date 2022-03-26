@@ -5046,7 +5046,7 @@
     "points": 10,
     "visibility": 2,
     "ugliness": 10,
-    "description": "You can communicate with your extant mass without physical contact, using electrical impulses to absorb knowledge from nearby friendly slime.",
+    "description": "You can communicate with your extant mass without physical contact, absorbing knowledge from nearby friendly slime.",
     "purifiable": false,
     "prereqs": [ "PER_SLIME", "PER_SLIME_OK" ],
     "prereqs2": [ "INT_SLIME" ],
