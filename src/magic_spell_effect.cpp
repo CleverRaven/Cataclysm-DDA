@@ -1572,7 +1572,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     for( const tripoint &local_point : trajectory_local ) {
         trajectory.push_back( here.getabs( local_point ) );
     }
-    for( auto walk_point : trajectory ) {
+    for( tripoint walk_point : trajectory ) {
         if( !g->walk_move( here.getlocal( walk_point ), false, false, true ) ) {
             break;
         } else {
