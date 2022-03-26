@@ -967,31 +967,31 @@
       },
       {
         "id": "doom_song_tshirt",
-        "name": { "str": "doom song tshirt" },
+        "name": { "str": "doom song t-shirt" },
         "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song.  Doom, doom, doom, dooooom!!",
         "weight": 1
       },
       {
         "id": "boba_fetch_tshirt",
-        "name": { "str": "boba fetch tshirt" },
+        "name": { "str": "boba fetch t-shirt" },
         "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
         "weight": 1
       },
       {
         "id": "mouse_portal_tshirt",
-        "name": { "str": "mouse portal tshirt" },
-        "description": "A blue portal with a mouse head sticking out of it.  The mouse is holding some kind of gunlike device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
+        "name": { "str": "mouse portal t-shirt" },
+        "description": "A short woth blue portal with a mouse head sticking out of it.  The mouse is holding some kind of gunlike device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
         "weight": 1
       },
       {
         "id": "ceiling_cthulhu_tshirt",
-        "name": { "str": "ceiling cthulhu tshirt" },
+        "name": { "str": "ceiling cthulhu t-shirt" },
         "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
         "weight": 1
       },
       {
         "id": "pumpkin_time",
-        "name": { "str": "pumpkin time tshirt" },
+        "name": { "str": "pumpkin time t-shirt" },
         "description": "Popping out of the top of a jack o'lantern is a tiny smiling black bat.",
         "weight": 1
       },
