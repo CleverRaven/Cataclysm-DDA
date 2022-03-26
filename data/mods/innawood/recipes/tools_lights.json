@@ -34,7 +34,13 @@
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
     "using": [ [ "soldering_standard", 7 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "cable", 8 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 2 ] ], [ [ "e_scrap", 2 ], [ "makeshift_transformer", 2 ] ], [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ] ]
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 2 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
