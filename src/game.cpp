@@ -9340,7 +9340,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc, const bool leaping )
     return true;
 }
 
-std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc, const bool leaping ) const
+std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc,
+        const bool leaping ) const
 {
     if( u.is_blind() ) {
         return {}; // blinded players don't see dangerous tiles
@@ -9357,7 +9358,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc, con
         if( !u.is_dangerous_field( e.second ) ) {
             continue;
         }
-        
+
         if( leaping && e.second.get_field_type().obj().phase == phase_id::LIQUID ) {
             continue;
         }
@@ -9443,7 +9444,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc, con
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool furniture_move, const bool leaping )
+bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool furniture_move,
+                      const bool leaping )
 {
     if( m.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
@@ -9519,7 +9521,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( object_type::NONE );
     }
-    if( leaping && grabbed ){
+    if( leaping && grabbed ) {
         add_msg( m_bad, _( "You cannot leap while grabbing." ) );
         return false;
     }
@@ -9634,7 +9636,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( !leaping ) {
         // Print a message if movement is slow
-        const int mcost_to = leaping ? 0 : m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
+        const int mcost_to = leaping ? 0 : m.move_cost(
+                                 dest_loc ); //calculate this _after_ calling grabbed_move
         const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                             m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
                                     dest_loc ); //fungal furniture has no slowing effect on Mycus characters
@@ -9817,7 +9820,8 @@ point game::place_player( const tripoint &dest_loc, const bool leaping )
         u.remove_effect( effect_no_sight );
     }
 
-    if( !leaping && m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) && u.has_effect( effect_onfire ) ) {
+    if( !leaping && m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+        u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         u.remove_effect( effect_onfire );
         if( u.is_mounted() ) {
@@ -9985,7 +9989,7 @@ point game::place_player( const tripoint &dest_loc, const bool leaping )
     if( vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
         m.board_vehicle( u.pos(), &u );
     }
-    
+
     if( !leaping ) {
         //Autopickup
         if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
