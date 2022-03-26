@@ -30,6 +30,8 @@ class activity_tracker
         void new_turn( bool sleeping = false );
         // Resets accumulated activity level.
         void reset_activity_level();
+        // Clears activity level and history.
+        void clear_activity();
         // Outputs player activity level to a printable string.
         std::string activity_level_str() const;
         // Returns activity level recorded for the current turn.

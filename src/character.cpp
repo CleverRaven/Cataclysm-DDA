@@ -5928,6 +5928,11 @@ void Character::reset_activity_level()
     activity_history.reset_activity_level();
 }
 
+void Character::clear_activity()
+{
+    activity_history.clear_activity();
+}
+
 std::string Character::activity_level_str() const
 {
     return activity_history.activity_level_str();

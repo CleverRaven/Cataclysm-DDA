@@ -112,6 +112,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( move_mode_walk );
+    dummy.clear_activity();
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.

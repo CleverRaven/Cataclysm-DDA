@@ -149,6 +149,14 @@ void activity_tracker::reset_activity_level()
     activity_reset = true;
 }
 
+void activity_tracker::clear_activity()
+{
+    previous_turn_activity = 0.0f;
+    current_activity = 0.0f;
+    accumulated_activity = 0.0f;
+    num_events = 1;
+}
+
 std::string activity_tracker::activity_level_str() const
 {
     for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {

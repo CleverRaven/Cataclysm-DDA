@@ -2553,6 +2553,8 @@ class Character : public Creature, public visitable
         // decreases activity level to the specified level
         // does not increase activity level
         void decrease_activity_level( float new_level );
+        // clear activity levels
+        void clear_activity();
         // sets activity level to NO_EXERCISE
         void reset_activity_level();
         // outputs player activity level to a printable string
