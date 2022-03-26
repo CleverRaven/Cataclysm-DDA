@@ -175,7 +175,7 @@
     "id": "mon_player_blob",
     "type": "MONSTER",
     "name": { "str": "slime microbian" },
-    "description": "A small wriggling slime, designed as a first line of defense for the colony.",
+    "description": "A small wriggling slime, a first line of defense for the colony.",
     "default_faction": "player",
     "bodytype": "blob",
     "species": [ "MUTANT" ],
