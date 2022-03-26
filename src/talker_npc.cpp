@@ -926,3 +926,43 @@ bool talker_npc::is_safe() const
 {
     return me_npc->is_safe();
 }
+
+void talker_npc::set_npc_trust( const int trust )
+{
+    me_npc->op_of_u.trust = trust;
+}
+
+int talker_npc::get_npc_trust() const
+{
+    return me_npc->op_of_u.trust;
+}
+
+void talker_npc::set_npc_fear( const int fear )
+{
+    me_npc->op_of_u.fear = fear;
+}
+
+int talker_npc::get_npc_fear() const
+{
+    return me_npc->op_of_u.fear;
+}
+
+void talker_npc::set_npc_value( const int value )
+{
+    me_npc->op_of_u.value = value;
+}
+
+int talker_npc::get_npc_value() const
+{
+    return me_npc->op_of_u.value;
+}
+
+void talker_npc::set_npc_anger( const int anger )
+{
+    me_npc->op_of_u.anger = anger;
+}
+
+int talker_npc::get_npc_anger() const
+{
+    return me_npc->op_of_u.anger;
+}

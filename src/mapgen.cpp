@@ -2110,12 +2110,16 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         item_group_id group_id;
         jmapgen_int chance;
+        std::string faction;
         jmapgen_item_group( const JsonObject &jsi, const std::string &context ) :
             chance( jsi, "chance", 1, 1 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void check( const std::string &context, const mapgen_parameters &,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/ ) const override {
@@ -2126,7 +2130,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               calendar::start_of_cataclysm );
+                               calendar::start_of_cataclysm, 0, 0, faction );
         }
 };
 
@@ -2362,6 +2366,7 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<units::angle> rotation;
         int fuel;
         int status;
+        std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string &/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
@@ -2376,6 +2381,10 @@ class jmapgen_vehicle : public jmapgen_piece
             } else {
                 rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
             }
+
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
@@ -2387,7 +2396,7 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
-                               fuel, status );
+                               fuel, status, true, faction );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2411,6 +2420,7 @@ class jmapgen_spawn_item : public jmapgen_piece
     public:
         mapgen_value<itype_id> type;
         std::string variant;
+        std::string faction;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -2421,6 +2431,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
             if( jsi.has_string( "variant" ) ) {
                 variant = jsi.get_string( "variant" );
+            }
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -2441,7 +2454,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags, variant );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant, faction );
             }
         }
 
@@ -3757,7 +3770,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings, c );
     new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings, c );
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
-    // with the items entry with refers to item groups.
+    // with the items entry which refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
@@ -6486,7 +6499,8 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
-    const bool ongrass, const time_point &turn, const int magazine, const int ammo )
+    const bool ongrass, const time_point &turn, const int magazine, const int ammo,
+    const std::string &faction )
 {
     std::vector<item *> res;
 
@@ -6538,6 +6552,8 @@ std::vector<item *> map::place_items(
                 e->ammo_set( e->ammo_default() );
             }
         }
+
+        e->set_owner( faction_id( faction ) );
     }
     return res;
 }
@@ -6588,25 +6604,26 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
+                        faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6623,6 +6640,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
+    if( !faction.empty() ) {
+        veh->set_owner( faction_id( faction ) );
+    }
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;

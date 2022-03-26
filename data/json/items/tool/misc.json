@@ -466,7 +466,7 @@
     "id": "permanent_marker",
     "type": "TOOL",
     "name": { "str": "permanent marker" },
-    "description": "This is a King Size(tm) industrial strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Use it to write something down.  However, writing \"Elbereth\" probably won't help you.",
+    "description": "This is a King Size™ industrial strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Use it to write something down.  However, writing \"Elbereth\" probably won't help you.",
     "weight": "113 g",
     "volume": "50 ml",
     "price": 500,

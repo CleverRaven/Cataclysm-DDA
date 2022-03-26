@@ -2843,19 +2843,22 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume( const item &it, bool, const item *avoid,
+                                const bool ignore_pkt_settings ) const
 {
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( it ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
-    if( worn.can_pickVolume( it ) ) {
+    if( worn.can_pickVolume( it, ignore_pkt_settings ) ) {
         return true;
     }
     return false;
 }
 
-bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
+                                        const bool ignore_pkt_settings ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -2863,11 +2866,12 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid 
     }
 
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy );
+    return worn.can_pickVolume( copy, ignore_pkt_settings );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
