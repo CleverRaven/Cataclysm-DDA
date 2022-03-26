@@ -318,7 +318,7 @@
   {
     "id": "suspenders_leather",
     "type": "ARMOR",
-    "name": { "str": "Leather Suspenders" },
+    "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
     "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist. Gives a wonderful western feel!",
     "material": [ "leather", "steel" ],
     "color": "brown",
