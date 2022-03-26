@@ -216,13 +216,13 @@
     "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
   },
-  {
+    {
     "type": "MONSTER",
     "id": "mon_appalachiosaurus",
     "name": { "str_sp": "appalachiosaurus" },
     "copy-from": "mon_gorgosaurus",
     "default_faction": "appalachiosaurus",
-    "speed": 100,
+    "speed": 130,
     "melee_cut": 10,
     "hp": 200,
     "zombify_into": "mon_zappalachiosaurus",
