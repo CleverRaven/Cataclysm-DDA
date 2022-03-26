@@ -16,9 +16,14 @@ static bool is_linebreak( const uint32_t uc )
     return uc == '\n';
 }
 
-static bool is_breaking( const uint32_t uc )
+static bool break_after( const uint32_t uc )
 {
-    return uc == ' ';
+    return uc == ' ' || uc >= 0x2E80;
+}
+
+static bool is_word( const uint32_t uc )
+{
+    return uc != ' ';
 }
 
 struct folded_line {
@@ -62,9 +67,9 @@ folded_text::folded_text( const std::string &str, const int line_width )
     int bytes_start = bytes;
     int cpts_start = cpts;
     int width_start = width;
-    // ... after last non-breaking character
-    const char *src_nonbreak = src_start;
-    // ... after last breaking character following at least one non-breaking character
+    // ... after the last word character
+    const char *src_word = src_start;
+    // ... at the last breaking position
     const char *src_break = src_start;
     int bytes_break = bytes_start;
     int cpts_break = cpts_start;
@@ -87,7 +92,7 @@ folded_text::folded_text( const std::string &str, const int line_width )
         if( width > width_start + line_width
             || ( width == width_start + line_width && linebreak ) ) {
             if( src_break > src_start ) {
-                // break after previous breaking character in the line if any
+                // break at the last breaking position in the line if any
                 lines.emplace_back( folded_line {
                     cpts_start, cpts_break,
                     std::string( src_start, src_break )
@@ -119,21 +124,20 @@ folded_text::folded_text( const std::string &str, const int line_width )
             cpts_start = cpts;
             width_start = width;
         }
-        // record position of breaking and non-breaking characters
-        if( is_breaking( uc ) ) {
-            // only record a breaking character if it follows at least one
-            // non-breaking character after the start of the line
-            if( src_nonbreak > src_start ) {
-                src_break = src;
-                bytes_break = bytes;
-                cpts_break = cpts;
-                width_break = width;
-            }
-        } else {
-            src_nonbreak = src;
+        if( is_word( uc ) ) {
+            src_word = src;
+        }
+        // can we break after the current character?
+        if( break_after( uc ) && src > src_start
+            // break with at least one word character before
+            && src_word > src_start ) {
+            src_break = src;
+            bytes_break = bytes;
+            cpts_break = cpts;
+            width_break = width;
         }
     }
-    // remaining characters (or empty line if the string is empty or the last
+    // remaining characters (empty line if the string is empty or the last
     // character is line break)
     lines.emplace_back( folded_line {
         cpts_start, cpts,
