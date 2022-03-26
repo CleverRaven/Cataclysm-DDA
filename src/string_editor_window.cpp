@@ -44,7 +44,7 @@ class folded_text
         folded_text( const std::string &str, const int line_width );
         const std::vector<folded_line> &get_lines() const;
         // get the display coordinates of the codepoint at index `cpt_idx`
-        point codepoint_coordinates( const int cpt_idx ) const;
+        point codepoint_coordinates( const int cpt_idx, const bool zero_x ) const;
 };
 
 struct ime_preview_range {
@@ -89,9 +89,7 @@ folded_text::folded_text( const std::string &str, const int line_width )
         cpts += 1;
         width += cw;
         // if the characters so far do not fit in a single line
-        // (including an end-of-line cursor if the last character is a line break)
-        if( width > width_start + line_width
-            || ( width == width_start + line_width && linebreak ) ) {
+        if( width > width_start + line_width ) {
             if( src_break > src_start ) {
                 // break at the last breaking position in the line if any
                 lines.emplace_back( folded_line {
@@ -151,38 +149,41 @@ const std::vector<folded_line> &folded_text::get_lines() const
     return lines;
 }
 
-point folded_text::codepoint_coordinates( const int cpt_idx ) const
+point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x ) const
 {
     if( lines.empty() ) {
         return point_zero;
     }
-    // use upper_bound so the cursor after a full line the width of the window
-    // is placed at the start of the next line
-    auto it = std::upper_bound( lines.begin(), lines.end(), cpt_idx,
-    []( const int p, const folded_line & l ) {
-        return p < l.cpts_end;
+    // find the line before the cursor position
+    auto it = std::lower_bound( lines.begin(), lines.end(), cpt_idx,
+    []( const folded_line & l, const int p ) {
+        return l.cpts_end < p;
     } );
     if( it == lines.end() ) {
-        // past the last codepoint
-        const point pos = point( utf8_wrapper( lines.back().str ).display_width(),
-                                 lines.size() - 1 );
-        // if the cursor does not fit into the last line, warp to next line instead
-        if( pos.x >= line_width ) {
-            return point( 0, pos.y + 1 );
-        }
-        return pos;
-    } else {
-        const char *src = it->str.c_str();
-        int bytes = it->str.length();
-        int width = 0;
-        for( int i = 0; bytes > 0 && i < cpt_idx - it->cpts_start; ++i ) {
-            const uint32_t uc = UTF8_getch( &src, &bytes );
-            const bool linebreak = is_linebreak( uc );
-            const int cw = linebreak ? 0 : std::max( 0, mk_wcwidth( uc ) );
-            width += cw;
-        }
-        return point( width, std::distance( lines.begin(), it ) );
+        // past the last codepoint, shouldn't happen
+        return point_zero;
     }
+    int y = std::distance( lines.begin(), it );
+    // if zero_x is true and the line is not the last line, cursor at the end of
+    // the line is moved to the start of the next line
+    if( zero_x && static_cast<size_t>( y + 1 ) < lines.size()
+        && cpt_idx == it->cpts_end ) {
+        return point( 0, y + 1 );
+    }
+    // otherwise, calculate the width until cpt_idx
+    int x = 0;
+    const char *src = it->str.c_str();
+    int bytes = it->str.length();
+    for( int i = 0; bytes > 0 && i < cpt_idx - it->cpts_start; ++i ) {
+        const uint32_t uc = UTF8_getch( &src, &bytes );
+        if( is_linebreak( uc ) ) {
+            x = 0;
+            ++y;
+        } else {
+            x += std::max( 0, mk_wcwidth( uc ) );
+        }
+    }
+    return point( x, y );
 }
 
 string_editor_window::string_editor_window(
@@ -195,16 +196,15 @@ string_editor_window::string_editor_window(
 
 string_editor_window::~string_editor_window() = default;
 
-point string_editor_window::get_line_and_position( const int position )
+point string_editor_window::get_line_and_position( const int position, const bool zero_x )
 {
-    return _folded->codepoint_coordinates( position );
+    return _folded->codepoint_coordinates( position, zero_x );
 }
 
 void string_editor_window::print_editor()
 {
     const point focus = _ime_preview_range ? _ime_preview_range->display_last : _cursor_display;
-    const int ftsize = std::max( static_cast<int>( _folded->get_lines().size() ),
-                                 focus.y + 1 );
+    const int ftsize = _folded->get_lines().size();
     const int middleofpage = _max.y / 2;
 
     int topoflist = 0;
@@ -223,40 +223,35 @@ void string_editor_window::print_editor()
 
     for( int i = topoflist; i < bottomoflist; i++ ) {
         const int y = i - topoflist;
-        if( static_cast<size_t>( i ) < _folded->get_lines().size() ) {
-            const folded_line &line = _folded->get_lines()[i];
-            mvwprintz( _win, point( 1, y ), c_white, "%s", line.str );
-            if( i == _cursor_display.y ) {
-                uint32_t c_cursor = 0;
-                const char *src = line.str.c_str();
-                int len = line.str.length();
-                int cpts = line.cpts_start;
-                // display the cursor as the first non-zero-width character after
-                // the cursor position if any
-                while( len > 0 && ( cpts <= _position || mk_wcwidth( c_cursor ) < 1 ) ) {
-                    c_cursor = UTF8_getch( &src, &len );
-                    cpts += 1;
-                }
-                // but display cursor as space at end of line
-                if( cpts <= _position || c_cursor == 0
-                    || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
-                    c_cursor = ' ';
-                }
-                mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
+        const folded_line &line = _folded->get_lines()[i];
+        mvwprintz( _win, point( 1, y ), c_white, "%s", line.str );
+        if( !_ime_preview_range && i == _cursor_display.y ) {
+            uint32_t c_cursor = 0;
+            const char *src = line.str.c_str();
+            int len = line.str.length();
+            int cpts = line.cpts_start;
+            // display the cursor as the first non-zero-width character after
+            // the cursor position if any
+            while( len > 0 && ( cpts <= _position || mk_wcwidth( c_cursor ) < 1 ) ) {
+                c_cursor = UTF8_getch( &src, &len );
+                cpts += 1;
             }
-            if( _ime_preview_range && i >= _ime_preview_range->display_first.y
-                && i <= _ime_preview_range->display_last.y ) {
-                const int beg = std::max( 0, _ime_preview_range->begin - line.cpts_start );
-                const int end = std::min( _ime_preview_range->end, line.cpts_end ) - line.cpts_start;
-                const utf8_wrapper preview = utf8_wrapper( line.str ).substr( beg, end - beg );
-                const point disp = i == _ime_preview_range->display_first.y
-                                   ? point( _ime_preview_range->display_first.x + 1, y )
-                                   : point( 1, y );
-                mvwprintz( _win, disp, c_dark_gray_white, "%s", preview.str() );
+            // but display cursor as space at end of line
+            if( cpts <= _position || c_cursor == 0
+                || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
+                c_cursor = ' ';
             }
-        } else if( i == _cursor_display.y ) {
-            // cursor past the end of text
-            mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, " " );
+            mvwprintz( _win, point( _cursor_display.x + 1, y ), h_white, "%s", utf32_to_utf8( c_cursor ) );
+        }
+        if( _ime_preview_range && i >= _ime_preview_range->display_first.y
+            && i <= _ime_preview_range->display_last.y ) {
+            const int beg = std::max( 0, _ime_preview_range->begin - line.cpts_start );
+            const int end = std::min( _ime_preview_range->end, line.cpts_end ) - line.cpts_start;
+            const utf8_wrapper preview = utf8_wrapper( line.str ).substr( beg, end - beg );
+            const point disp = i == _ime_preview_range->display_first.y
+                               ? point( _ime_preview_range->display_first.x + 1, y )
+                               : point( 1, y );
+            mvwprintz( _win, disp, c_dark_gray_white, "%s", preview.str() );
         }
     }
 
@@ -306,13 +301,14 @@ void string_editor_window::cursor_updown( const int diff )
             new_y = clamp( _cursor_display.y + diff, 0, size - 1 );
         }
         const folded_line &new_line = _folded->get_lines()[new_y];
-        _position = new_line.cpts_start;
-        _position += utf8_wrapper( new_line.str ).substr_display( 0, _cursor_desired_x ).size();
-        // Assuming that the x coordinate is equal to or less than the previous
-        // cursor, the maximum cursor position is `cpts` in the last line and
-        // `cpts - 1` in other lines.
-        const int max_cpts = new_y == size - 1 ? new_line.cpts_end : new_line.cpts_end - 1;
-        _position = std::min( _position, max_cpts );
+        utf8_wrapper ustr( new_line.str );
+        if( !ustr.empty() && is_linebreak( ustr.at( ustr.size() - 1 ) ) ) {
+            ustr = ustr.substr( 0, ustr.size() - 1 );
+        }
+        // Put cursor at tbe largest x coordinate in the line less or equal to
+        // the desired position.
+        const int offset = ustr.substr_display( 0, _cursor_desired_x ).size();
+        _position = new_line.cpts_start + offset;
     }
 }
 
@@ -348,12 +344,12 @@ const std::pair<bool, std::string> string_editor_window::query_string()
             if( !edit.empty() ) {
                 text.insert( _position, edit );
             }
-            _folded = std::make_unique<folded_text>( text.str(), _max.x - 1 );
+            _folded = std::make_unique<folded_text>( text.str(), _max.x - 2 );
             refold = false;
             reposition = true;
         }
         if( reposition ) {
-            _cursor_display = get_line_and_position( _position );
+            _cursor_display = get_line_and_position( _position, _cursor_desired_x == 0 );
             if( _cursor_desired_x < 0 ) {
                 _cursor_desired_x = _cursor_display.x;
             }
@@ -362,7 +358,7 @@ const std::pair<bool, std::string> string_editor_window::query_string()
             } else {
                 _ime_preview_range = std::make_unique<ime_preview_range>( ime_preview_range {
                     _position, _position + static_cast<int>( edit.size() ),
-                    _cursor_display, get_line_and_position( _position + edit.size() - 1 )
+                    _cursor_display, get_line_and_position( _position + edit.size() - 1, true )
                 } );
             }
             reposition = false;
@@ -437,17 +433,16 @@ const std::pair<bool, std::string> string_editor_window::query_string()
             if( edit.empty()
                 && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
                 _position = _folded->get_lines()[_cursor_display.y].cpts_start;
-                _cursor_desired_x = -1;
+                // put the cursor at line start rather than the previous line end
+                _cursor_desired_x = 0;
                 reposition = true;
             }
         } else if( ch == KEY_END ) {
             if( edit.empty()
                 && static_cast<size_t>( _cursor_display.y ) < _folded->get_lines().size() ) {
                 _position = _folded->get_lines()[_cursor_display.y].cpts_end;
-                if( static_cast<size_t>( _cursor_display.y + 1 ) < _folded->get_lines().size()
-                    || utf8_wrapper( _folded->get_lines().back().str ).display_width() + 1
-                    == static_cast<size_t>( _max.x ) ) {
-                    // -1 because cursor past the last character is shown in the next line
+                const utf8_wrapper ustr( _folded->get_lines()[_cursor_display.y].str );
+                if( is_linebreak( ustr.at( ustr.size() - 1 ) ) ) {
                     --_position;
                 }
                 _cursor_desired_x = -1;

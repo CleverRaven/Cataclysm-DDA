@@ -71,7 +71,8 @@ void print_list_scrollable( catacurses::window *win, std::string text, int *sele
                             const report_color_error color_error )
 {
     int borderspace = border ? 1 : 0;
-    std::vector<std::string> list = foldstring( text, width - 1 - borderspace * 2 );
+    // -1 on the left for scroll bar and another -1 on the right reserved for cursor
+    std::vector<std::string> list = foldstring( text, width - 2 - borderspace * 2 );
     print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
                            color_error );
 }
@@ -179,7 +180,7 @@ void diary::show_diary_ui( diary *c_diary )
 
         w_diary = catacurses::newwin( max.y, max.x, beg );
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
-        w_text = catacurses::newwin( max.y - 3, midx - 2, beg + point( 2 + midx, 3 ) );
+        w_text = catacurses::newwin( max.y - 3, midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
         w_head = catacurses::newwin( 1, max.x, beg + point_south );
 

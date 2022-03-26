@@ -68,6 +68,6 @@ class string_editor_window
         void cursor_updown( const int diff );
 
         /*returns line and position in folded text for position in text*/
-        point get_line_and_position( const int position );
+        point get_line_and_position( const int position, const bool zero_x );
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H
