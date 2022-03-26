@@ -14,7 +14,7 @@
     "color": "light_green",
     "warmth": 1,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -39,7 +39,7 @@
     "color": "brown",
     "warmth": 1,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -64,7 +64,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -89,7 +89,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -129,7 +129,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -459,6 +459,54 @@
     ]
   },
   {
+    "id": "integrated_mandibles",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mandibles" },
+    "description": "These are much better than puny human mouthparts.",
+    "weight": "200 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "warmth": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 40,
+        "encumbrance": 3
+      }
+    ]
+  },
+  {
+    "id": "integrated_fangs_spider",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "folding fangs" },
+    "description": "The fangs have properly developed, and are prepared for the kill.",
+    "weight": "300 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": ";",
+    "color": "brown",
+    "warmth": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 40,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
     "id": "integrated_chitin",
     "type": "ARMOR",
     "category": "armor",
@@ -473,7 +521,7 @@
     "color": "green",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -503,6 +551,7 @@
       "ALLOWS_NATURAL_ATTACKS",
       "BLOCK_WHILE_WORN",
       "UNBREAKABLE",
+      "SKINTIGHT",
       "NORMAL",
       "HELMET_COMPAT",
       "WATER_FRIENDLY"
