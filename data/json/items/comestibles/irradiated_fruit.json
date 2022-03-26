@@ -150,7 +150,6 @@
     "description": "An irradiated pear.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "container": "bag_plastic",
     "extend": { "flags": [ "RAD_STERILIZED_EDIBLE_FOREVER" ] }
   },
@@ -250,7 +249,6 @@
     "description": "An irradiated watermelon.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
-    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "container": "bag_plastic",
     "extend": { "flags": [ "RAD_STERILIZED_EDIBLE_FOREVER" ] }
   },
