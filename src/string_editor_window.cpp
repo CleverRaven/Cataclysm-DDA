@@ -6,6 +6,7 @@
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
+#include "cata_utility.h"
 #include "options.h"
 #endif
 
@@ -315,7 +316,7 @@ void string_editor_window::cursor_updown( const int diff )
     }
 }
 
-const std::string &string_editor_window::query_string()
+const std::pair<bool, std::string> string_editor_window::query_string()
 {
     if( !ctxt ) {
         create_context();
@@ -367,6 +368,14 @@ const std::string &string_editor_window::query_string()
         wnoutrefresh( _win );
     } );
 
+#if defined(__ANDROID__)
+    on_out_of_scope stop_text_input( []() {
+        if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+            StopTextInput();
+        }
+    } );
+#endif
+
     int ch = 0;
     do {
         ui_manager::redraw();
@@ -381,12 +390,10 @@ const std::string &string_editor_window::query_string()
         ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
 
         if( ch == KEY_ESCAPE ) {
-#if defined(__ANDROID__)
-            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
-            }
-#endif
-            return _utext.str();
+            return { false, _utext.str() };
+        } else if( ch == 0x13 ) {
+            // ctrl-s: confirm
+            return { true, _utext.str() };
         } else if( ch == KEY_UP ) {
             if( edit.empty() ) {
                 cursor_updown( -1 );
@@ -407,7 +414,8 @@ const std::string &string_editor_window::query_string()
                 cursor_leftright( -1 );
                 reposition = true;
             }
-        } else if( ch == 0x15 ) {                   // ctrl-u: delete all the things
+        } else if( ch == 0x15 ) {
+            // ctrl-u: delete all the things
             _position = 0;
             _utext.erase( 0 );
             refold = true;
@@ -497,5 +505,5 @@ const std::string &string_editor_window::query_string()
         }
     } while( true );
 
-    return _utext.str();
+    return { false, _utext.str() };
 }

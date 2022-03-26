@@ -364,9 +364,10 @@ void diary::edit_page_ui( const std::function<catacurses::window()> &create_wind
 
     string_editor_window ed( create_window, new_text );
 
-    new_text = ed.query_string();
+    const std::pair<bool, std::string> result = ed.query_string();
+    new_text = result.second;
 
-    if( old_text != new_text ) {
+    if( !result.first && old_text != new_text ) {
         if( !query_yn( _( "Save entry?" ) ) ) {
             new_text = old_text;
         }
