@@ -3571,7 +3571,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
-    if( is_rigid() ) {
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
         if( armor->rigid ) {
@@ -3590,7 +3590,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    if( is_comfortable() ) {
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_comfortable() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
         if( armor->comfortable ) {
