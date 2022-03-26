@@ -1247,8 +1247,15 @@ tab_direction set_traits( avatar &u, pool_type pool )
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
 
+        bool is_hobby_locked_trait = false;
+        for( const profession *hobby : u.hobbies ) {
+            is_hobby_locked_trait = hobby->is_locked_trait( traits_iter.id );
+            break;
+        }
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ) {
+        if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ||
+            is_hobby_locked_trait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
 
