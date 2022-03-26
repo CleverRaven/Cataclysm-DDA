@@ -678,7 +678,7 @@
   {
     "id": "flip_flops_exp",
     "type": "ARMOR",
-    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of flip-flops" },
+    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of expensive flip-flops" },
     "description": "These are upmarket \"luxury\" flip-flops.  Very difficult to run in.",
     "weight": "170 g",
     "volume": "250 ml",

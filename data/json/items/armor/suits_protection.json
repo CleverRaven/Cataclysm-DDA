@@ -1824,7 +1824,7 @@
   {
     "id": "gambeson_pants",
     "type": "ARMOR",
-    "name": { "str": "arming pants", "str_pl": "pairs of arming pants" },
+    "name": { "str_sp": "arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
     "weight": "2760 g",
     "volume": "2 L",
