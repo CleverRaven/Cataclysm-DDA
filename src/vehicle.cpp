@@ -5526,6 +5526,12 @@ void vehicle::place_spawn_items()
                         e.ammo_set( e.ammo_default() );
                     }
                 }
+
+                // Copy vehicle owner for items within
+                if( has_owner() ) {
+                    e.set_owner( get_owner() );
+                }
+
                 add_item( part, e );
             }
         }

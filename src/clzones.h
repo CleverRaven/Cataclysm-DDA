@@ -244,6 +244,8 @@ class zone_data
         faction_id faction;
         bool invert;
         bool enabled;
+        // if the zone has been turned off for an action
+        bool temporarily_disabled; // NOLINT(cata-serialize)
         bool is_vehicle;
         tripoint start;
         tripoint end;
@@ -258,6 +260,7 @@ class zone_data
             type = zone_type_id( "" );
             invert = false;
             enabled = false;
+            temporarily_disabled = false;
             is_vehicle = false;
             is_personal = false;
             start = tripoint_zero;
@@ -295,6 +298,7 @@ class zone_data
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
                            bool update_avatar = true );
         void set_enabled( bool enabled_arg );
+        void set_temporary_disabled( bool enabled_arg );
         void set_is_vehicle( bool is_vehicle_arg );
 
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
@@ -325,6 +329,10 @@ class zone_data
         bool get_enabled() const {
             return enabled;
         }
+        bool get_temporarily_disabled() const {
+            return temporarily_disabled;
+        }
+
         bool get_is_vehicle() const {
             return is_vehicle;
         }
@@ -437,6 +445,7 @@ class zone_manager
         bool has_type( const zone_type_id &type ) const;
         bool has_defined( const zone_type_id &type, const faction_id &fac = your_fac ) const;
         void cache_data( bool update_avatar = true );
+        void reset_disabled();
         void cache_avatar_location();
         void cache_vzones();
         bool has( const zone_type_id &type, const tripoint_abs_ms &where,

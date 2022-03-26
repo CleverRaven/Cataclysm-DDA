@@ -318,7 +318,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -327,7 +327,7 @@
     "name": { "str": "pair of XL chitinous gauntlets", "str_pl": "pairs of XL chitinous gauntlets" },
     "copy-from": "gauntlets_chitin",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gauntlets_chitin",
@@ -336,7 +336,7 @@
     "looks_like": "gauntlets_chitin",
     "name": { "str": "pair of XS chitinous gauntlets", "str_pl": "pairs of XS chitinous gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gauntlets_acidchitin",
@@ -428,7 +428,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 4, "coverage": 60, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -437,7 +437,7 @@
     "name": { "str": "pair of XL leather armor gauntlets", "str_pl": "pairs of XL leather armor gauntlets" },
     "copy-from": "gauntlets_larmor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gauntlets_larmor",
@@ -446,7 +446,7 @@
     "looks_like": "gauntlets_larmor",
     "name": { "str": "pair of XS leather armor gauntlets", "str_pl": "pairs of XS leather armor gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_bag",
@@ -529,7 +529,7 @@
     "name": { "str": "pair of XL fur gloves", "str_pl": "pairs of XL fur gloves" },
     "copy-from": "gloves_fur",
     "proportional": { "weight": 1.6, "volume": 1.6 },
-    "flags": [ "WATERPROOF", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_fur",
@@ -538,7 +538,7 @@
     "looks_like": "gloves_fur",
     "name": { "str": "pair of XS fur gloves", "str_pl": "pairs of XS fur gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "glove_jackson",
@@ -586,7 +586,7 @@
     "name": { "str": "pair of XL leather gloves", "str_pl": "pairs of XL leather gloves" },
     "copy-from": "gloves_leather",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "OVERSIZE", "WATERPROOF" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_leather",
@@ -595,7 +595,7 @@
     "looks_like": "gloves_leather",
     "name": { "str": "pair of XS leather gloves", "str_pl": "pairs of XS leather gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATERPROOF", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_light",
@@ -622,7 +622,7 @@
     "name": { "str": "pair of XL light gloves", "str_pl": "pairs of XL light gloves" },
     "copy-from": "gloves_light",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_light",
@@ -631,7 +631,7 @@
     "looks_like": "gloves_light",
     "name": { "str": "pair of XS light gloves", "str_pl": "pairs of XS light gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_liner",
@@ -658,7 +658,7 @@
     "name": { "str": "pair of XL glove liners", "str_pl": "pairs of XL glove liners" },
     "copy-from": "gloves_liner",
     "proportional": { "weight": 2, "volume": 2 },
-    "flags": [ "SKINTIGHT", "OVERSIZE", "WATER_FRIENDLY" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_liner",
@@ -667,7 +667,7 @@
     "looks_like": "gloves_liner",
     "name": { "str": "pair of XS glove liners", "str_pl": "pairs of XS glove liners" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_medical",
@@ -708,7 +708,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -717,7 +717,7 @@
     "name": { "str": "pair of XL armored gauntlets", "str_pl": "pairs of XL armored gauntlets" },
     "copy-from": "gloves_plate",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_gloves_plate",
@@ -726,7 +726,7 @@
     "looks_like": "gloves_plate",
     "name": { "str": "pair of XS armored gauntlets", "str_pl": "pairs of XS armored gauntlets" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "gloves_rubber",
@@ -1180,7 +1180,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -1208,7 +1208,6 @@
     "copy-from": "lc_demi_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str_sp": "medium steel demi-gauntlet" },
-    "flags": [ "STURDY" ],
     "armor": [
       {
         "material": [
@@ -1329,7 +1328,7 @@
     "color": "light_gray",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "OUTER" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
         "material": [
