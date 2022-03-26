@@ -2236,6 +2236,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_hammock",
+    "group": "place_hammock",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hammock", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "f_hammock"
+  },
+  {
+    "type": "construction",
+    "id": "constr_hammock_net",
+    "group": "place_net_hammock",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hammock_net", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.  Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "f_hammock_net"
+  },
+  {
+    "type": "construction",
     "id": "constr_bed",
     "group": "build_bed_from_scratch",
     "category": "FURN",

@@ -461,6 +461,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_hammock",
+    "name": "Place Hammock"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_net_hammock",
+    "name": "Place Net Hammock"
+  },
+  {
+    "type": "construction_group",
     "id": "build_pillow_fort",
     "name": "Build Pillow Fort"
   },
