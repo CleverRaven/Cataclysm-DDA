@@ -29,7 +29,7 @@
     "vision_day": 30,
     "vision_night": 7,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "max_dist": 10 },
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT" ],
     "harvest": "kraken",
     "reproduction": { "baby_monster": "mon_octupus_stalker_spawn", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
@@ -97,7 +97,7 @@
     "bleed_rate": 40,
     "vision_day": 12,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "max_dist": 10 },
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "HURT" ],
+    "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT", "PLAYER_CLOSE" ],
     "harvest": "kraken_large",
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
   },
@@ -141,7 +141,7 @@
     "armor_stab": 25,
     "armor_elec": 13,
     "bleed_rate": 10,
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "HURT" ],
+    "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT", "PLAYER_CLOSE" ],
     "harvest": "kraken_queen",
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
   }
