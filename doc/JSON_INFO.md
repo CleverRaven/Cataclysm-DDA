@@ -1643,6 +1643,26 @@ requirement, along with some other components:
 Requirements can be used not just for regular crafting and uncrafting recipes,
 but also for constructions and vehicle part installation and mending.
 
+***NOTE:*** Requirement lists included in mods overwrite the previously loaded
+requirement list with a matching id. This means that two mods modifying the same
+requirement id will overwrite each other. This can be avoided by using `"extend"`
+to extend from the previously loaded list. Ex.:
+
+```json
+{
+  "id": "bone_sturdy",
+  "type": "requirement",
+  "extend": {
+    "components": [
+      [
+        [ "frost_bone_human", 1 ],
+        [ "alien_bone", 1 ]
+      ]
+    ]
+  }
+}
+```
+
 
 #### Overlapping recipe component requirements
 
