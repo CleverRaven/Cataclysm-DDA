@@ -879,7 +879,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             continue;
         }
         int coll_part = veh.get_non_fake_part( veh_veh_coll.part );
-        int target_part = veh.get_non_fake_part( veh_veh_coll.target_part );
+        int target_part = veh2.get_non_fake_part( veh_veh_coll.target_part );
 
         int coll_parm = veh.part_with_feature( coll_part, VPFLAG_ARMOR, true );
         if( coll_parm < 0 ) {
