@@ -362,7 +362,7 @@
   {
     "id": "summon_floating_disk",
     "type": "SPELL",
-    "name": "Summon floating disk",
+    "name": "Summon Floating Disk",
     "description": "Summons a floating disk that is sworn to carry your burdens.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],

@@ -53,6 +53,8 @@ static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_scissors( "scissors" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_test_cracklins( "test_cracklins" );
+static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -85,6 +87,8 @@ static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
+static const recipe_id recipe_test_tallow( "test_tallow" );
+static const recipe_id recipe_test_tallow2( "test_tallow2" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -1596,6 +1600,109 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
             }
+        }
+    }
+}
+
+static bool found_all_in_list( const std::vector<item> &items,
+                               std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> &expected )
+{
+    bool ret = true;
+    for( const item &i : items ) {
+        bool expected_item = false;
+        for( auto &found : expected ) {
+            if( i.typeId() == found.first ) {
+                expected_item = true;
+                found.second.second += i.count_by_charges() ? i.charges : 1;
+            }
+        }
+        if( !expected_item ) {
+            ret = false;
+        }
+    }
+    for( const auto &found : expected ) {
+        CAPTURE( found.first.c_str() );
+        CHECK( found.second.second >= found.second.first.first );
+        CHECK( found.second.second <= found.second.first.second );
+    }
+    return ret;
+}
+
+TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
+{
+    GIVEN( "recipe with byproducts, normal definition" ) {
+        const recipe *r = &recipe_test_tallow.obj();
+        REQUIRE( r->has_byproducts() );
+        const int count_cracklins = 4;
+        const int count_gum = 10;
+
+        WHEN( "crafting in batch of 1" ) {
+            const int batch = 1;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 2" ) {
+            const int batch = 2;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 10" ) {
+            const int batch = 10;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+    }
+
+    GIVEN( "recipe with byproducts, item group definition" ) {
+        const recipe *r = &recipe_test_tallow2.obj();
+        REQUIRE( r->has_byproducts() );
+        const int count_cracklins = 1; // defined "charges" doesn't produce full stack
+        const int count_gum = 10;
+        const int lo = 2;
+        const int hi = 3;
+
+        WHEN( "crafting in batch of 1" ) {
+            const int batch = 1;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 2" ) {
+            const int batch = 2;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 10" ) {
+            const int batch = 10;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
         }
     }
 }

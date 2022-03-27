@@ -295,6 +295,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
+- ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
@@ -481,7 +482,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
-- ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso. 
+- ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
@@ -671,7 +672,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
-- ```AUTODOC``` This furniture can be an autodoc console, it also needs the `autodoc` examine action.
+- ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
 - ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
@@ -1350,7 +1351,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```BELTABLE``` Seatbelt can be attached to this part.
 - ```BIKE_RACK_VEH``` Can be used to merge an adjacent single tile wide vehicle, or split a single tile wide vehicle off into its own vehicle.
 - ```BOARDABLE``` The player can safely move over or stand on this part while the vehicle is moving.
-- ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle. 
+- ```CAMERA_CONTROL```This part allows for using the camera system installed on a vehicle.
 - ```CAMERA``` Vehicle part which allows looking through the installed camera system.
 - ```CAPTURE_MOSNTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs. Can only be installed on a part with ```LOCKABLE_CARGO``` flag.
@@ -1559,10 +1560,10 @@ Gun fault flags:
 - ````HUGE``` Changes your size to `creature_size::huge`.  Checked last of the size category flags, if no size flags are found your size defaults to `creature_size::medium`.
 - ````LARGE``` Changes your size to `creature_size::large`.  Checked third of the size category flags.
 - ```PSYCHOPATH``` Butcher humans without a morale penalty
-- ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
-- ```PRED2``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale panalty from the guilt mondeath effect.
-- ```PRED3``` Learn combat skills wit double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
-- ```PRED4``` Learn combat skills wit triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
+- ```PRED2``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
+- ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills. Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
+- ```PRED4``` Learn combat skills with triple catchup modifier.  Learn combat skills without spending focus.  Resist skill rust on combat skills. Large morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
 - ```SAPIOVORE``` Butcher humans without a morale penalty
 - ````SMALL``` Changes your size to `creature_size::small`.  Checked second of the size category flags.
 - ```STEADY``` Your speed can never go below base speed, bonuses from effects etc can still apply.

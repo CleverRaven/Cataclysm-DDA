@@ -821,6 +821,7 @@ bool game::start_game()
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
+    m.build_lightmap( level, u.pos() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
@@ -2753,6 +2754,7 @@ bool game::load( const save_t &name )
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z() );
+    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     return true;
 }
@@ -3345,6 +3347,7 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_p.z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_p.z );
+    m.build_lightmap( ter_view_p.z, u.pos() );
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
@@ -6286,7 +6289,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     // This lambda returns either absolute coordinates or relative-to-player
-    // corrdinates, depending on whether personal is false or true respectively.
+    // coordinates, depending on whether personal is false or true respectively.
     // In C++20 we could have the return type depend on the parameter using
     // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
@@ -7393,7 +7396,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 void game::list_items_monsters()
 {
     // Search whole reality bubble because each function internally verifies
-    // the visibilty of the items / monsters in question.
+    // the visibility of the items / monsters in question.
     std::vector<Creature *> mons = u.get_visible_creatures( 60 );
     const std::vector<map_item_stack> items = find_nearby_items( 60 );
 
@@ -9322,6 +9325,10 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
+    if( u.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
     if( !harmful_stuff.empty() &&
@@ -11364,6 +11371,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         m.invalidate_map_cache( zlev );
     }
     m.build_map_cache( m.get_abs_sub().z() );
+    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading
@@ -12001,7 +12009,7 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     slip *= wet_penalty;
-    add_msg_debug( debugmode::DF_GAME, "Slip chance afer wetness penalty %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 

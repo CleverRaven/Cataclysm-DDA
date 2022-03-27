@@ -283,7 +283,7 @@ class zone_data
             start = _start;
             end = _end;
 
-            // ensure that suplied options is of correct class
+            // ensure that supplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
                 options = zone_options::create( type );
             } else {
@@ -366,7 +366,7 @@ class zone_data
         }
         // check if the entry is inside
         // if cached is set to true, use the cached location instead of the current player location
-        // for personal zones. This is used when checking for a zone DURING an activity which can otherise
+        // for personal zones. This is used when checking for a zone DURING an activity which can otherwise
         // cause issues of zones moving around
         bool has_inside( const tripoint_abs_ms &p ) const {
             // if it is personal then the zone is local

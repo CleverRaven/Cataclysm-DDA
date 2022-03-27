@@ -21,7 +21,7 @@ activity actor to the `deserialize_functions` map towards the bottom of
 `activity_actor.cpp`. Define `canceled` function if activity modifies
 some complex state that should be restored upon cancellation / interruption.
 
-4. If this activity is resumable, `override` 
+4. If this activity is resumable, `override`
 `activity_actor::can_resume_with_internal`
 
 5. Construct your activity actor and then pass it to the constructor for

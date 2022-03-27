@@ -257,6 +257,24 @@
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ] ]
   },
   {
+    "id": "human_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "looks_like": "meat_scrap",
+    "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
+    "description": "A tiny scrap of human flesh.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "looks_like": "meat_scrap",
+    "name": { "str": "scrap of demihuman flesh", "str_pl": "scraps of demihuman flesh" },
+    "description": "A tiny scrap of demihuman flesh.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "mutant_meat",
     "type": "COMESTIBLE",
     "copy-from": "meat",
@@ -678,6 +696,24 @@
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
+    "id": "human_lung",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "looks_like": "lung",
+    "name": { "str": "piece of raw human lung", "str_pl": "pieces of raw human lung" },
+    "description": "A portion of lung from a human.  It's spoogy and pink, and spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_lung",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "looks_like": "lung",
+    "name": { "str": "piece of raw demihuman lung", "str_pl": "pieces of raw demihuman lung" },
+    "description": "A portion of lung from a demihuman being.  It's spoogy and pink, and spoils very quickly.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "lung_cooked",
     "type": "COMESTIBLE",
     "copy-from": "lung",
@@ -734,6 +770,24 @@
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ] ]
   },
   {
+    "id": "human_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver",
+    "looks_like": "liver",
+    "name": { "str": "raw human liver" },
+    "description": "A chunk of liver from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver",
+    "looks_like": "liver",
+    "name": { "str": "raw demihuman liver" },
+    "description": "A chunk of liver from a demihuman being.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "liver_cooked",
     "type": "COMESTIBLE",
     "copy-from": "liver",
@@ -779,6 +833,24 @@
     "parasites": 15,
     "calories": 78,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ] ]
+  },
+  {
+    "id": "human_brain",
+    "type": "COMESTIBLE",
+    "copy-from": "brain",
+    "looks_like": "brain",
+    "name": { "str_sp": "raw human brains" },
+    "description": "A chunk of brain from a human.  Eating this may cause kuru, but you probably won't live long enough to care about it anyway.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_brain",
+    "type": "COMESTIBLE",
+    "copy-from": "brain",
+    "looks_like": "brain",
+    "name": { "str_sp": "raw demihuman brains" },
+    "description": "A chunk of brain from a demihuman being.  Don't prion diseases cross species barriers?",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "brain_cooked",
@@ -827,6 +899,24 @@
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ] ]
   },
   {
+    "id": "human_kidney",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney",
+    "looks_like": "kidney",
+    "name": { "str": "raw human kidney" },
+    "description": "Kidney from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_kidney",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney",
+    "looks_like": "kidney",
+    "name": { "str": "raw demihuman kidney" },
+    "description": "This is probably a kidney extracted from a demihuman being.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
     "id": "kidney_cooked",
     "type": "COMESTIBLE",
     "copy-from": "kidney",
@@ -873,6 +963,24 @@
     "quench": 0,
     "calories": 133,
     "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ] ]
+  },
+  {
+    "id": "human_sweetbread",
+    "type": "COMESTIBLE",
+    "copy-from": "sweetbread",
+    "looks_like": "sweetbread",
+    "name": { "str": "raw human sweetbread" },
+    "description": "Thymus or pancreas from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_sweetbread",
+    "type": "COMESTIBLE",
+    "copy-from": "sweetbread",
+    "looks_like": "sweetbread",
+    "name": { "str": "raw demihuman sweetbread" },
+    "description": "The consistency of this organ suggests possibly a thymus or pancreas equivalent.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "sweetbread_cooked",

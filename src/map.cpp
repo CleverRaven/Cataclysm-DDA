@@ -2054,7 +2054,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
-    // at least one zlevel drop and if down_ter is impassible it's probably
+    // at least one zlevel drop and if down_ter is impassable it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
     const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
 
@@ -3149,11 +3149,11 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 continue;
             }
             // if a wall collapses, walls without support from below risk collapsing and
-            //propogate the collapse upwards
+            //propagate the collapse upwards
             if( zlevels && wall && p == t && has_flag( ter_furn_flag::TFLAG_WALL, tz ) ) {
                 collapse_at( tz, silent );
             }
-            // floors without support from below risk collapsing into open air and can propogate
+            // floors without support from below risk collapsing into open air and can propagate
             // the collapse horizontally but not vertically
             if( p != t && ( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, t ) &&
                             has_flag( ter_furn_flag::TFLAG_COLLAPSES, t ) ) ) {
@@ -4411,6 +4411,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
+    new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
         return;
@@ -6405,7 +6406,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    // Cannonicalize the order of the tripoints so the cache is reflexive.
+    // Canonicalize the order of the tripoints so the cache is reflexive.
     const tripoint &min = F < T ? F : T;
     const tripoint &max = !( F < T ) ? F : T;
     // A little gross, just pack the values into a point.
@@ -8340,44 +8341,31 @@ void map::do_vehicle_caching( int z )
     }
 }
 
-void map::build_map_cache( const int zlev, bool skip_lightmap )
+void map::build_map_cache( const int zlev )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
-    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
-        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
-        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
         bool floor_cache_was_dirty = build_floor_cache( z );
-        seen_cache_dirty |= ( floor_cache_was_dirty && affects_seen_cache );
         if( floor_cache_was_dirty && z > -OVERMAP_DEPTH ) {
             get_cache( z - 1 ).r_up_cache->invalidate();
         }
-        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
+}
 
-    seen_cache_dirty |= build_vision_transparency_cache( zlev );
-
-    if( seen_cache_dirty ) {
-        skew_vision_cache.clear();
-    }
-    // Initial value is illegal player position.
-    const tripoint p = get_player_character().pos();
-    static tripoint player_prev_pos;
-    if( seen_cache_dirty || player_prev_pos != p ) {
-        build_seen_cache( p, zlev );
-        player_prev_pos = p;
-    }
-    if( !skip_lightmap ) {
-        generate_lightmap( zlev );
-    }
+void map::build_lightmap( const int zlev, const tripoint p )
+{
+    build_vision_transparency_cache( zlev );
+    skew_vision_cache.clear();
+    build_seen_cache( p, zlev );
+    generate_lightmap( zlev );
 }
 
 //////////

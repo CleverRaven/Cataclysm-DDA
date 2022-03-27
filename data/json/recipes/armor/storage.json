@@ -1326,7 +1326,13 @@
     ],
     "components": [
       [ [ "rag", 14 ] ],
-      [ [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "molle_pack", 1 ], [ "rucksack", 1 ] ],
+      [
+        [ "backpack", 1 ],
+        [ "backpack_leather", 1 ],
+        [ "molle_medium_rucksack", 1 ],
+        [ "molle_large_rucksack", 1 ],
+        [ "rucksack", 1 ]
+      ],
       [ [ "plastic_sheet", 1 ] ],
       [
         [ "tacvest", 1 ],
