@@ -78,8 +78,8 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
 static const oter_str_id oter_looted_house( "looted_house" );
-static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
 static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
+static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
 static const oter_str_id oter_open_air( "open_air" );
 
 static const skill_id skill_bashing( "bashing" );
@@ -1913,7 +1913,6 @@ bool talk_function::labor_return( npc &p )
         return false;
     }
 
-    Character &player_character = get_player_character();
     float hours = to_hours<float>( calendar::turn - comp->companion_mission_time );
     int merch_amount = 3 * hours;
 
