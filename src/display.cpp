@@ -203,10 +203,10 @@ std::string display::date_string()
 
 std::string display::time_string( const Character &u )
 {
-    // Return exact time if character has a watch, or approximate time if aboveground
+    // Return exact time if character has a watch, or approximate time if can see the sky
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence

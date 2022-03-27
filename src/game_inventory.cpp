@@ -484,7 +484,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return _( "Can't pick up spilt liquids." );
                     }
-                } else if( !you.can_pickVolume_partial( *loc ) &&
+                } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
                     return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -993,7 +993,8 @@ static std::string get_consume_needs_hint( Character &you )
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = display::thirst_text_color( you );
-    hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( "%s %s", pgettext( "inventory", "Drink:" ),
+                                colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = display::pain_text_color( you );
     hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );

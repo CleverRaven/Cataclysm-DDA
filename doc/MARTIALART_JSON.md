@@ -19,19 +19,36 @@
     "id" : "debug_elem_resist",
     "heat_arm_per" : 1.0
 ],
-"ondodge_buffs" : []        // List of buffs that are automatically applied on successful dodge
-"onattack_buffs" : []       // List of buffs that are automatically applied after any attack, hit or miss
-"onhit_buffs" : []          // List of buffs that are automatically applied on successful hit
-"onmove_buffs" : []         // List of buffs that are automatically applied on movement
-"onmiss_buffs" : []         // List of buffs that are automatically applied on a miss
-"oncrit_buffs" : []         // List of buffs that are automatically applied on a crit
-"onkill_buffs" : []         // List of buffs that are automatically applied upon killing an enemy
+"onmove_buffs" : [],        // List of buffs that are automatically applied on movement
+"onpause_buffs" : [],       // List of buffs that are automatically applied when passing a turn
+"onhit_buffs" : [],         // List of buffs that are automatically applied on successful hit
+"onattack_buffs" : [],      // List of buffs that are automatically applied after any attack, hit or miss
+"ondodge_buffs" : [],       // List of buffs that are automatically applied on successful dodge
+"onblock_buffs" : [],       // List of buffs that are automatically applied on successful block
+"ongethit_buffs" : [],      // List of buffs that are automatically applied on being hit
+"onmiss_buffs" : [],        // List of buffs that are automatically applied on a miss
+"oncrit_buffs" : [],        // List of buffs that are automatically applied on a crit
+"onkill_buffs" : [],        // List of buffs that are automatically applied upon killing an enemy
+"static_eocs" : [           // List of eocs that are automatically triggered every turn
+    "EOC_ID",
+    { "id": "INLINE_EOC_ID" }
+],
+"onmove_eocs" : [],        // List of eocs that are automatically triggered on movement
+"onpause_eocs" : [],       // List of eocs that are automatically triggered when passing a turn
+"onhit_eocs" : [],         // List of eocs that are automatically triggered on successful hit
+"onattack_eocs" : [],      // List of eocs that are automatically triggered after any attack, hit or miss
+"ondodge_eocs" : [],       // List of eocs that are automatically triggered on successful dodge
+"onblock_eocs" : [],       // List of eocs that are automatically triggered on successful block
+"ongethit_eocs" : [],      // List of eocs that are automatically triggered on being hit
+"onmiss_eocs" : [],        // List of eocs that are automatically triggered on a miss
+"oncrit_eocs" : [],        // List of eocs that are automatically triggered on a crit
+"onkill_eocs" : [],        // List of eocs that are automatically triggered upon killing an enemy
 "techniques" : [            // List of techniques available when this martial art is used
     "tec_debug_slow",
     "tec_debug_arpen"
-]
-"weapons": [ "tonfa" ]      // List of weapons usable with this art
-"weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
+],
+"weapons": [ "tonfa" ],      // List of weapons usable with this art
+"weapon_category": [ "WEAPON_CAT1" ] // Weapons that have one of the categories in here are usable with this art.
 ```
 
 ### Techniques
@@ -79,7 +96,8 @@
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
-]
+],
+"eocs": [ "EOC_ID", { "id": "INLINE_EOC_ID" } ],    // EOCs that trigger each time this technique does, with the attacker as the speaker and the target as the listener
 "mult_bonuses" : <array>     // Any bonuses, as described below
 "flat_bonuses": <array>
 "tech_effects": <array>      // List of effects applied by this technique, see below

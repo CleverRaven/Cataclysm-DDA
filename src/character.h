@@ -844,6 +844,10 @@ class Character : public Creature, public visitable
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
         int get_part_hp_max( const bodypart_id &id ) const;
+
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness( const w_point &weather );
+
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -853,10 +857,6 @@ class Character : public Creature, public visitable
          * - underwater
          * - clothes
          */
-
-        /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( const w_point &weather );
-
         void recalc_sight_limits();
         /**
          * Returns the apparent light level at which the player can see.
@@ -1253,6 +1253,8 @@ class Character : public Creature, public visitable
     public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
+        /** Calculate any discomfort your current clothes are causing. */
+        void calc_discomfort();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
         // recalculates bodyparts based on enchantments modifying them and the default anatomy.
@@ -1949,8 +1951,10 @@ class Character : public Creature, public visitable
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
-        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
+                             const bool ignore_pkt_settings = true ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
+                                     const bool ignore_pkt_settings = true ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2666,6 +2670,12 @@ class Character : public Creature, public visitable
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
         void react_to_felt_pain( int intensity );
+
+        /** Monster cameras are mtype_ids with an integer range of transmission */
+        void remove_moncam( mtype_id moncam_id );
+        void add_moncam( std::pair<mtype_id, int> moncam );
+        void set_moncams( std::map<mtype_id, int> nmoncams );
+        std::map<mtype_id, int> get_moncams() const;
 
         void spores();
         void blossoms();
@@ -3391,6 +3401,9 @@ class Character : public Creature, public visitable
         units::energy power_level;
         units::energy max_power_level_cached;
         units::energy max_power_level_modifier;
+
+        // Additional vision sources, currently only used by avatars
+        std::map<mtype_id, int> moncams;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

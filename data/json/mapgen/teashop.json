@@ -28,14 +28,9 @@
         "...S&&|RRRR|Uv|,|vU|4...",
         "...SSS+,,,R|,,+,+,,|....",
         "......|------O-o-O--....",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "set": [
-        { "point": "furniture", "id": "f_region_weed", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] },
-        { "point": "terrain", "id": "t_region_shrub_fruit", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] },
-        { "point": "furniture", "id": "f_region_flower", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] }
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbbb"
       ],
       "terrain": {
         "#": "t_floor",
@@ -55,7 +50,8 @@
         "o": "t_window",
         "z": "t_region_shrub_decorative",
         "4": "t_gutter_downspout",
-        "|": "t_wall_w"
+        "|": "t_wall_w",
+        "b": [ "t_bamboo", "t_bamboo_long", "t_bamboo_tall" ]
       },
       "furniture": {
         "6": "f_console_broken",

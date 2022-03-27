@@ -291,6 +291,8 @@ struct mutation_branch {
         cata::optional<bool> hide_on_activated = cata::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
         cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        /** Monster cameras added by this mutation */
+        std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */

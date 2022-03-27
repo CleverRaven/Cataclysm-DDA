@@ -2170,7 +2170,8 @@ class exosuit_interact
             }
 
             const item_filter filter = [&flags, pkt, it]( const item & i ) {
-                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) );
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) ) &&
+                       pkt->can_contain( i ).success();
             };
 
             std::vector<item_location> candidates;
@@ -2212,14 +2213,14 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-
-            if( pkt->insert_item( *candidates[ret] ).success() ) {
+            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );
                 return moves;
             }
-            debugmsg( "Could not insert item \"%s\" into pocket \"%s\"", candidates[ret]->type_name(),
-                      get_pocket_name( pkt ) );
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\": %s",
+                      candidates[ret]->type_name(), get_pocket_name( pkt ), rval.str() );
             return moves;
         }
 };
@@ -4579,7 +4580,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
-        as_m.entries.emplace_back( 1, true, '1', _( "Robot finds Kitten" ) );
+        as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );

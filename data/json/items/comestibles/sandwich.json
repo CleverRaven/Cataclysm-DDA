@@ -455,6 +455,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "lobster_roll",
+    "name": { "str": "lobster roll" },
+    "copy-from": "fish_sandwich",
+    "color": "pink",
+    "description": "A delicious authentic lobster roll.",
+    "price_postapoc": 500,
+    "fun": 30
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "blt",
     "name": { "str": "BLT" },
     "weight": "220 g",
