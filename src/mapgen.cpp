@@ -6484,6 +6484,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
          part != frame_indices.end(); part++ ) {
         const tripoint p = veh_to_add->global_part_pos3( *part );
 
+        if( veh_to_add->part( *part ).is_fake ) {
+            continue;
+        }
         //Don't spawn anything in water
         if( has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) && !can_float ) {
             return nullptr;
@@ -6520,14 +6523,21 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * the overlap span is still a mess, though.
              */
             std::unique_ptr<RemovePartHandler> handler_ptr;
+            bool did_merge = false;
             for( const tripoint &map_pos : first_veh->get_points( true ) ) {
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    const point target_point = first_veh->get_parts_at( map_pos, "",
-                                               part_status_flag:: any ).front()->mount;
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_pos, "",
+                            part_status_flag:: any );
+                    // This happens if this location is occupied by a fake part.
+                    if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
+                        continue;
+                    }
+                    did_merge = true;
+                    const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
                         // TODO: change mount points to be tripoint
@@ -6557,19 +6567,18 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                 }
             }
 
-            // TODO: more targeted damage around the impact site
-            first_veh->smash( *this );
-            first_veh->enable_refresh();
-
-            // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
-            // or something like them, to make them harder to separate
-            std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
-            if( new_veh != nullptr ) {
-                new_veh->smash( *this );
-                return new_veh;
+            if( did_merge ) {
+                // TODO: more targeted damage around the impact site
+                first_veh->smash( *this );
+                // TODO: entangle the old vehicle and the new vehicle somehow, perhaps with tow cables
+                // or something like them, to make them harder to separate
+                std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( veh_to_add ), true );
+                if( new_veh != nullptr ) {
+                    new_veh->smash( *this );
+                    return new_veh;
+                }
+                return nullptr;
             }
-            return nullptr;
-
         } else if( impassable( p ) ) {
             if( !merge_wrecks ) {
                 return nullptr;
