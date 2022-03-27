@@ -56,5 +56,37 @@
         [ [ "test_pipe", -1 ], [ "test_glass_pipe_mostly_steel", -1 ], [ "test_glass_pipe_mostly_glass", -1 ] ]
       ]
     }
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow",
+    "byproducts": [ [ "test_cracklins" ], [ "test_gum" ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow2",
+    "byproduct_group": [ { "item": "test_cracklins", "charges": [ 2, 3 ] }, { "item": "test_gum", "count": [ 2, 3 ] } ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
   }
 ]

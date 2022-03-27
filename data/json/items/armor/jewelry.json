@@ -517,7 +517,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and gold cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -636,7 +636,7 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and silver cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -755,7 +755,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2398,7 +2398,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold bracelet" },
-    "description": "A gold bracelet with sparkling blue topaz.",
+    "description": "A gold bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2522,7 +2522,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver bracelet" },
-    "description": "A silver bracelet with sparkling blue topaz.",
+    "description": "A silver bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2646,7 +2646,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling blue topaz.",
+    "description": "A platinum bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2668,7 +2668,7 @@
   {
     "id": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and gold necklace" },
+    "name": { "str": "garnet and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -2787,7 +2787,7 @@
   {
     "id": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and silver necklace" },
+    "name": { "str": "garnet and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -2906,7 +2906,7 @@
   {
     "id": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and platinum necklace" },
+    "name": { "str": "garnet and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -3053,7 +3053,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with amethyst.",
+    "description": "A shiny, platinum tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3061,7 +3061,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with aquamarine.",
+    "description": "A shiny, platinum tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3124,7 +3124,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with blue topaz.",
+    "description": "A shiny, platinum tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3174,7 +3174,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold tiara" },
-    "description": "A shiny, gold tiara adorned with amethyst.",
+    "description": "A shiny, gold tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3182,7 +3182,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold tiara" },
-    "description": "A shiny, gold tiara adorned with aquamarine.",
+    "description": "A shiny, gold tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3245,7 +3245,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold tiara" },
-    "description": "A shiny, gold tiara adorned with blue topaz.",
+    "description": "A shiny, gold tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3295,7 +3295,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver tiara" },
-    "description": "A shiny, silver tiara adorned with amethyst.",
+    "description": "A shiny, silver tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3303,7 +3303,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver tiara" },
-    "description": "A shiny, silver tiara adorned with aquamarine.",
+    "description": "A shiny, silver tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3366,7 +3366,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver tiara" },
-    "description": "A shiny, silver tiara adorned with blue topaz.",
+    "description": "A shiny, silver tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {

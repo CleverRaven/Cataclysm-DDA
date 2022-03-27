@@ -1111,6 +1111,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_freezer",
+    "name": "Place Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "place_minifreezer",
     "name": "Place Minifreezer"
   },

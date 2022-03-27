@@ -61,6 +61,22 @@ enum moon_phase {
     MOON_PHASE_MAX
 };
 
+enum class time_accuracy {
+    /** No accuracy, no idea what time it is **/
+    NONE = 0,
+    /** Estimated time, can see the sky **/
+    PARTIAL = 1,
+    /** Full accuracy, using a timekeeping device **/
+    FULL = 2,
+    /** Unused, only for string conversions **/
+    NUM_TIME_ACCURACY
+};
+
+template<>
+struct enum_traits<time_accuracy> {
+    static constexpr time_accuracy last = time_accuracy::NUM_TIME_ACCURACY;
+};
+
 /**
  * Time keeping class
  *
@@ -569,6 +585,10 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */

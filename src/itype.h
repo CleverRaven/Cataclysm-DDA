@@ -302,6 +302,12 @@ struct armor_portion_data {
     // only tracked for amalgamized body parts entries
     int breathability = 0; // NOLINT(cata-serialize)
 
+    // if this item is rigid, can't be worn with other rigid items
+    bool rigid = false; // NOLINT(cata-serialize)
+
+    // if this item is comfortable to wear without other items bellow it
+    bool comfortable = false; // NOLINT(cata-serialize)
+
     /**
      * Returns the amount all sublocations this item covers could possibly
      * cover the specific body part.
@@ -316,6 +322,10 @@ struct armor_portion_data {
 
 struct islot_armor {
     public:
+
+        // thresholds for an item to count as hard / comfortable to wear
+        static const int test_threshold = 40;
+
         /**
         * Whether this item can be worn on either side of the body
         */
@@ -352,6 +362,17 @@ struct islot_armor {
          * Whether this item has pockets that can be ripped off
          */
         bool ripoff_chance = false;
+
+        /**
+         * If the entire item is rigid
+         */
+        bool rigid = false;
+
+        /**
+         * If the entire item is comfortable
+         */
+        bool comfortable = true;
+
         /**
          * Whether this item has pockets that are noisy
          */
