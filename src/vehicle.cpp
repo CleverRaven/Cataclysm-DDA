@@ -2189,7 +2189,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                               const std::vector<std::vector <point>> &new_mounts )
 {
     bool did_split = false;
-    remove_fake_parts();
     size_t i = 0;
     map &here = get_map();
     for( i = 0; i < new_vehs.size(); i ++ ) {
