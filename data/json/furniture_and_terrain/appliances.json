@@ -45,6 +45,43 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_freezer",
+    "name": { "str": "freezer" },
+    "symbol": "H",
+    "categories": [ "cargo" ],
+    "color": "blue",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A chest freezer.  When turned on, it will freeze and preserve the food inside.",
+    "epower": -35,
+    "size": 1800,
+    "item": "freezer",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 4 ] },
+      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 2, 8 ] },
+      { "item": "cable", "charges": [ 1, 2 ] },
+      { "item": "pipe_fittings", "count": [ 1, 3 ] },
+      { "item": "hose", "count": 1 },
+      { "item": "cu_pipe", "count": [ 2, 4 ] },
+      { "item": "scrap_copper", "count": [ 1, 2 ] }
+    ],
+    "damage_reduction": { "all": 32 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_minifreezer",
     "location": "structure",
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],

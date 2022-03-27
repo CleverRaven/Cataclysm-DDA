@@ -61,7 +61,7 @@
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
@@ -90,7 +90,7 @@
     "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ]
   },
   {
     "id": "tac_helmet",
@@ -112,7 +112,7 @@
     "warmth": 20,
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 16, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -135,7 +135,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 40, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
@@ -159,6 +159,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -223,6 +224,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
     "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
@@ -364,7 +366,7 @@
     ],
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "PADDED" ]
   },
   {
     "id": "helmet_galea",
@@ -579,7 +581,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_motor_raised",
@@ -614,7 +616,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_nasal",
@@ -826,7 +828,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "head" ] } ]
   },
   {
@@ -1051,7 +1053,7 @@
   {
     "id": "xl_mc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm", "str_pl": "XL medium steel close helms (raised)" },
+    "name": { "str": "XL medium steel close helm" },
     "copy-from": "mc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },

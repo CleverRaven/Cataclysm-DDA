@@ -1039,7 +1039,8 @@ bool advanced_inventory::move_all_items()
             player_character.assign_activity( player_activity( pickup_activity_actor(
                                                   target_items,
                                                   quantities,
-                                                  cata::optional<tripoint>( player_character.pos() )
+                                                  cata::optional<tripoint>( player_character.pos() ),
+                                                  false
                                               ) ) );
 
         } else {
@@ -1310,7 +1311,8 @@ void advanced_inventory::start_activity(
         player_character.assign_activity( player_activity( pickup_activity_actor(
                                               target_items,
                                               quantities,
-                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
+                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() ),
+                                              false
                                           ) ) );
     } else {
         // Stash the destination

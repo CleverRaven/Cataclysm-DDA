@@ -32,10 +32,8 @@
 
 static const furn_str_id furn_f_arcade_machine( "f_arcade_machine" );
 
-static const item_group_id Item_spawn_data_cleaning( "cleaning" );
 static const item_group_id Item_spawn_data_mechanics( "mechanics" );
 static const item_group_id Item_spawn_data_mischw( "mischw" );
-static const item_group_id Item_spawn_data_surgery( "surgery" );
 
 static const itype_id itype_software_hacking( "software_hacking" );
 static const itype_id itype_software_math( "software_math" );
@@ -54,8 +52,6 @@ static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 static const overmap_special_id overmap_special_evac_center( "evac_center" );
-
-static const string_id<class npc_template> npc_template_ranch_doctor( "ranch_doctor" );
 
 static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
 
@@ -381,191 +377,6 @@ void mission_start::find_safety( mission *miss )
 }
 
 static const int RANCH_SIZE = 5;
-
-void mission_start::ranch_nurse_1( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_furn( f_rack, point( 16, 9 ), point( 17, 9 ) );
-    bay.spawn_item( point( 16, 9 ), "bandages", rng( 1, 3 ) );
-    bay.spawn_item( point( 17, 9 ), "aspirin", rng( 1, 2 ) );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_2( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_furn( f_counter, point( 3, 7 ), point( 5, 7 ) );
-    bay.draw_square_furn( f_rack, point( 8, 4 ), point( 8, 5 ) );
-    bay.spawn_item( point( 8, 4 ), "manual_first_aid" );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_3( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_dirt, point( 2, 16 ), point( 9, 23 ) );
-    bay.draw_square_ter( t_dirt, point( 13, 16 ), point( 20, 23 ) );
-    bay.draw_square_ter( t_dirt, point( 10, 17 ), point( 12, 23 ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_dirt, point( 2, 0 ), point( 20, 2 ) );
-    bay.draw_square_ter( t_dirt, point( 10, 3 ), point( 12, 4 ) );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_4( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_wall_half, point( 2, 16 ), point( 9, 23 ) );
-    bay.draw_square_ter( t_dirt, point( 3, 17 ), point( 8, 22 ) );
-    bay.draw_square_ter( t_wall_half, point( 13, 16 ), point( 20, 23 ) );
-    bay.draw_square_ter( t_dirt, point( 14, 17 ), point( 19, 22 ) );
-    bay.draw_square_ter( t_wall_half, point( 10, 17 ), point( 12, 23 ) );
-    bay.draw_square_ter( t_dirt, point( 10, 18 ), point( 12, 23 ) );
-    bay.ter_set( point( 9, 19 ), t_door_frame );
-    bay.ter_set( point( 13, 19 ), t_door_frame );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_wall_half, point( 4, 0 ), point( 18, 2 ) );
-    bay.draw_square_ter( t_wall_half, point( 10, 3 ), point( 12, 4 ) );
-    bay.draw_square_ter( t_dirt, point( 5, 0 ), point( 8, 2 ) );
-    bay.draw_square_ter( t_dirt, point( 10, 0 ), point( 12, 4 ) );
-    bay.draw_square_ter( t_dirt, point( 14, 0 ), point( 17, 2 ) );
-    bay.ter_set( point( 9, 1 ), t_door_frame );
-    bay.ter_set( point( 13, 1 ), t_door_frame );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_5( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_wall_half, t_wall_wood );
-    bay.ter_set( point( 2, 21 ), t_window_frame );
-    bay.ter_set( point( 2, 18 ), t_window_frame );
-    bay.ter_set( point( 20, 18 ), t_window_frame );
-    bay.ter_set( point( 20, 21 ), t_window_frame );
-    bay.ter_set( point( 11, 17 ), t_window_frame );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_wall_half, t_wall_wood );
-    bay.draw_square_ter( t_dirt, point( 10, 0 ), point( 12, 4 ) );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_6( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_window_frame, t_window_boarded_noglass );
-    bay.translate( t_door_frame, t_door_c );
-    bay.draw_square_ter( t_dirtfloor, point( 3, 17 ), point( 8, 22 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 14, 17 ), point( 19, 22 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 10, 18 ), point( 12, 23 ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_door_frame, t_door_c );
-    bay.draw_square_ter( t_dirtfloor, point( 5, 0 ), point( 8, 2 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 10, 0 ), point( 12, 4 ) );
-    bay.draw_square_ter( t_dirtfloor, point( 14, 0 ), point( 17, 2 ) );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_7( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_dirtfloor, t_floor );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_dirtfloor, t_floor );
-    bay.draw_square_ter( t_floor, point( 10, 5 ), point( 12, 5 ) );
-    bay.draw_square_furn( f_rack, point( 17, 0 ), point( 17, 2 ) );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_8( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_furn( f_makeshift_bed, point( 4, 21 ), point( 4, 22 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 7, 21 ), point( 7, 22 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 15, 21 ), point( 15, 22 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 18, 21 ), point( 18, 22 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 4, 17 ), point( 4, 18 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 7, 17 ), point( 7, 18 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 15, 17 ), point( 15, 18 ) );
-    bay.draw_square_furn( f_makeshift_bed, point( 18, 17 ), point( 18, 18 ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_dirtfloor, t_floor );
-    bay.place_items( Item_spawn_data_cleaning, 75, point( 17, 0 ), point( 17, 2 ), true,
-                     calendar::start_of_cataclysm );
-    bay.place_items( Item_spawn_data_surgery, 75, point( 15, 4 ), point( 18, 4 ), true,
-                     calendar::start_of_cataclysm );
-    bay.save();
-}
-
-void mission_start::ranch_nurse_9( mission *miss )
-{
-    //Improvements to clinic...
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.furn_set( point( 3, 22 ), f_dresser );
-    bay.furn_set( point( 8, 22 ), f_dresser );
-    bay.furn_set( point( 14, 22 ), f_dresser );
-    bay.furn_set( point( 19, 22 ), f_dresser );
-    bay.furn_set( point( 3, 17 ), f_dresser );
-    bay.furn_set( point( 8, 17 ), f_dresser );
-    bay.furn_set( point( 14, 17 ), f_dresser );
-    bay.furn_set( point( 19, 17 ), f_dresser );
-    bay.place_npc( point( 16, 19 ), npc_template_ranch_doctor );
-    bay.save();
-
-    mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-}
 
 void mission_start::ranch_scavenger_1( mission *miss )
 {

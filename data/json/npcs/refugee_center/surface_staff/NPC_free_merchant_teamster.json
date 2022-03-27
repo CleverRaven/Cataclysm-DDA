@@ -198,7 +198,7 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[ Tell them about Rubik and the Exodii ]",
+        "text": "[Tell them about Rubik and the Exodii]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
         "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
       },
@@ -209,7 +209,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
-    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the exodii base.",
+    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the Exodii base.",
     "dynamic_line": "Well now, that's a hell of a story.  Some day, I'll see if we can get out there an' look into it.  Sounds like there'd be some real interestin' trade.",
     "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
   },

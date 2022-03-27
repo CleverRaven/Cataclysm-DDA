@@ -19,7 +19,6 @@
           "socks_ankle",
           "under_armor_shorts",
           "under_armor",
-          "tshirt",
           "shorts",
           "lowtops",
           "fanny",
@@ -27,7 +26,7 @@
           "wristwatch",
           "fitness_band"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -77,11 +76,12 @@
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "sneakers", "jacket_light", "mbag" ],
+        "items": [ "sneakers", "jacket_light", "mbag" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "eink_tablet_pc", "contents-item": [ "battery_ups" ] },
-          { "item": "mp3", "contents-item": [ "battery_ups" ] }
+          { "item": "mp3", "contents-item": [ "battery_ups" ] },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "briefs", "socks", "pants" ],
@@ -325,7 +325,10 @@
     "points": 5,
     "CBMs": [ "bio_leukocyte", "bio_blood_anal", "bio_blood_filter", "bio_nanobots", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
-      "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
+      "both": {
+        "items": [ "jeans", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -364,7 +367,6 @@
       "both": {
         "items": [
           "hat_boonie",
-          "tshirt",
           "gloves_fingerless",
           "pants_cargo",
           "socks",
@@ -380,7 +382,8 @@
           { "group": "charged_smart_phone" },
           { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "quiver", "contents-group": "quiver_bionic_prepper" },
-          { "item": "machete", "container-item": "scabbard" }
+          { "item": "machete", "container-item": "scabbard" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -401,7 +404,6 @@
           "socks_ankle",
           "under_armor_shorts",
           "under_armor",
-          "tshirt",
           "shorts",
           "lowtops",
           "fanny",
@@ -409,7 +411,7 @@
           "wristwatch",
           "fitness_band"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -642,8 +644,8 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "tshirt", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "items": [ "socks", "jeans", "leather_belt", "boots_steel", "gloves_work", "glasses_safety", "hat_hard", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -777,8 +779,8 @@
     ],
     "items": {
       "both": {
-        "items": [ "socks", "sneakers", "jeans", "tshirt", "wristwatch" ],
-        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+        "items": [ "socks", "sneakers", "jeans", "wristwatch" ],
+        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
