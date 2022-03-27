@@ -147,7 +147,7 @@
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 12,
+    "bashing": 5,
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
