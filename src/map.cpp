@@ -4411,6 +4411,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
+    new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
         return;
