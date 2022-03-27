@@ -1552,6 +1552,15 @@ class item : public visitable
          */
         bool is_soft() const;
 
+        // is any bit of the armor rigid
+        bool is_rigid() const;
+        // is any bit of the armor comfortable
+        bool is_comfortable() const;
+        template <typename T>
+        bool is_bp_rigid( const T &bp ) const;
+        template <typename T>
+        bool is_bp_comfortable( const T &bp ) const;
+
         /**
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
@@ -1736,7 +1745,7 @@ class item : public visitable
         */
         bool has_own_flag( const flag_id &f ) const;
 
-        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
@@ -2809,7 +2818,7 @@ class item : public visitable
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
-        int wetness = 0;           // Turns until this item is completly dry.
+        int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

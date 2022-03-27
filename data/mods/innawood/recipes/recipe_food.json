@@ -393,7 +393,10 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "tools": [
+      [ [ "char_smoker", 10 ] ],
+      [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ], [ "leather_funnel", -1 ], [ "metal_funnel", -1 ] ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -428,7 +431,7 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ], [ "leather_funnel", -1 ], [ "metal_funnel", -1 ] ] ],
     "components": [
       [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
@@ -456,7 +459,10 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
+    "tools": [
+      [ [ "char_smoker", 10 ] ],
+      [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ], [ "leather_funnel", -1 ], [ "metal_funnel", -1 ] ]
+    ],
     "components": [
       [ [ "syrup", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],

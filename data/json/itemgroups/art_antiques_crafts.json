@@ -169,6 +169,7 @@
       { "item": "baseball", "prob": 12 },
       { "item": "glass_plate", "prob": 15 },
       { "item": "glass_bowl", "prob": 15 },
+      { "item": "bowl_wood", "prob": 15 },
       { "item": "glass", "prob": 15 },
       { "item": "ceramic_cup", "prob": 15 },
       { "item": "ceramic_bowl", "prob": 15 },
