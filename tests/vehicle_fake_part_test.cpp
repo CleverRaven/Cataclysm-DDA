@@ -232,7 +232,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
                     }
                 }
                 // If a part was smashed, we pass,
-                if( parent_parts.size() == part_count ) {
+                if( parent_parts.size() == static_cast<size_t>( part_count ) ) {
                     CHECK( !damaged_parts.empty() );
                 }
                 CHECK( damaged_fake_parts.empty() );

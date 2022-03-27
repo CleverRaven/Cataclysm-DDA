@@ -2798,7 +2798,7 @@ vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
 std::vector<int> vehicle::all_parts_at_location( const std::string &location ) const
 {
     std::vector<int> parts_found;
-    auto all_parts = get_all_parts();
+    vehicle_part_range all_parts = get_all_parts();
     for( const vpart_reference &vpr : all_parts ) {
         if( vpr.info().location == location && !parts[vpr.part_index()].removed ) {
             parts_found.push_back( vpr.part_index() );
@@ -3321,7 +3321,7 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     vehicle_part_range vpr = get_all_parts();
     return std::accumulate( vpr.begin(), vpr.end(), 0, [&ftype]( const int &lhs,
     const vpart_reference & rhs ) {
-	cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
+        cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
         return lhs + ( rhs.part().ammo_current() == ftype ?
                        rhs.part().ammo_capacity( !!a_val ? a_val->type : ammotype::NULL_ID() ) :
                        0 );
