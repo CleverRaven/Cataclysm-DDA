@@ -1261,7 +1261,7 @@
     "price": 35988,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
@@ -1269,7 +1269,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -1458,7 +1458,7 @@
     "price": 45000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
@@ -1466,7 +1466,7 @@
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20

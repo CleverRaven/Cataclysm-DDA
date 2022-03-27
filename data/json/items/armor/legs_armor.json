@@ -139,14 +139,14 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
