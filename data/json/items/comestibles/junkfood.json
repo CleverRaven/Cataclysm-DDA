@@ -1560,5 +1560,23 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 12
-  }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pumpkin_candy",
+    "name": { "str_sp": "Candy Pumpkin" },
+    "looks_like": "pumpkin"
+    "container": "null",
+    "spoils_in": "243 days",
+    "description": " A candy pumpkin typically sold around halloween."
+    "fun": 7
+    "price": 7,
+    "color": "yellow",
+    "volume": "8 ml",
+    "calories": 150,
+    "weight": "1 g",
+    "comestible_type": "FOOD",
+    "flags": [ "EDIBLE_FROZEN" ],
+    
+}
 ]
