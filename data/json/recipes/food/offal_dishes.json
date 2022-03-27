@@ -254,7 +254,12 @@
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour_any", 2, "LIST" ] ],
       [ [ "salt", 3 ] ],
-      [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ]
+      [
+        [ "milk_standard_raw", 2, "LIST" ],
+        [ "lf_milk_standard", 2, "LIST" ],
+        [ "con_milk", 2 ],
+        [ "can_coconut", 2 ]
+      ]
     ]
   },
   {
