@@ -786,7 +786,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     bool found_tool_with_UPS = false;
     bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
+        if( filter( *e ) && ( id == e->typeId() || id == e->ammo_current() ) && !e->is_broken() ) {
             if( id != itype_UPS_off ) {
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );

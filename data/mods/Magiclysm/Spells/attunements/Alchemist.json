@@ -2,7 +2,7 @@
   {
     "id": "alchemist_make_potion_bomb",
     "type": "SPELL",
-    "name": "Manafusion bomb",
+    "name": "Manafusion Bomb",
     "description": "Oversaturates potion starter with mana to create a deadly mana explosion.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "WONDER" ],
@@ -29,7 +29,7 @@
   {
     "id": "alchemist_make_potion_bomb_create",
     "type": "SPELL",
-    "name": "Manafusion bomb create",
+    "name": "Manafusion Bomb - Create",
     "description": "Gives you a manafusion bomb.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "none" ],
     "flags": [ "PERMANENT" ],
@@ -42,7 +42,7 @@
   {
     "id": "alchemist_make_potion_trap",
     "type": "SPELL",
-    "name": "Manafusion trap",
+    "name": "Manafusion Trap",
     "description": "Make a manafusion trap, stabilizing manafusion bombs and giving you some of the excess mana.",
     "//": "In perfect world there will be another spell that create already buried mine, making very effective trap in realtime. But not today.",
     "valid_targets": [ "none" ],
@@ -69,7 +69,7 @@
   {
     "id": "alchemist_make_potion_trap_create",
     "type": "SPELL",
-    "name": "Manafusion trap create",
+    "name": "Manafusion Trap - Create",
     "description": "Gives you a manafusion trap.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "none" ],
     "flags": [ "PERMANENT" ],

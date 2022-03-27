@@ -2,7 +2,7 @@
   {
     "type": "terrain",
     "id": "t_marloss",
-    "name": "marloss bush",
+    "name": "Marloss bush",
     "description": "",
     "symbol": "#",
     "color": "dark_gray",
@@ -138,7 +138,7 @@
   {
     "type": "terrain",
     "id": "t_marloss_tree",
-    "name": "marloss tree",
+    "name": "Marloss tree",
     "description": "",
     "symbol": "7",
     "color": "dark_gray",

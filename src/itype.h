@@ -287,11 +287,11 @@ struct armor_portion_data {
     // these are pre-calc values to save us time later
 
     // the chance that every material applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int best_protection_chance = 100; // NOLINT(cata-serialize)
 
     // the chance that the smallest number of materials possible applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     // this is to test if the armor has unique layering information
@@ -301,6 +301,12 @@ struct armor_portion_data {
     // cached from the material data
     // only tracked for amalgamized body parts entries
     int breathability = 0; // NOLINT(cata-serialize)
+
+    // if this item is rigid, can't be worn with other rigid items
+    bool rigid = false; // NOLINT(cata-serialize)
+
+    // if this item is comfortable to wear without other items bellow it
+    bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -316,6 +322,10 @@ struct armor_portion_data {
 
 struct islot_armor {
     public:
+
+        // thresholds for an item to count as hard / comfortable to wear
+        static const int test_threshold = 40;
+
         /**
         * Whether this item can be worn on either side of the body
         */
@@ -352,6 +362,17 @@ struct islot_armor {
          * Whether this item has pockets that can be ripped off
          */
         bool ripoff_chance = false;
+
+        /**
+         * If the entire item is rigid
+         */
+        bool rigid = false;
+
+        /**
+         * If the entire item is comfortable
+         */
+        bool comfortable = true;
+
         /**
          * Whether this item has pockets that are noisy
          */
@@ -795,7 +816,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    /** Not compatable on weapons that have this mod slot */
+    /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
     // minimum recoil to cycle while this is installed

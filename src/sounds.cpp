@@ -238,7 +238,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
 // This is an attempt to handle attenuation of sound for underground areas.
-// The main issue it adresses is that you can hear activity
+// The main issue it addresses is that you can hear activity
 // relatively deep underground while on the surface.
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are

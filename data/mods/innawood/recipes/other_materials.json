@@ -59,7 +59,7 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ] ],
+      [ [ "sheet_metal", -1 ], [ "pot", -1 ], [ "pot_makeshift", -1 ] ],
       [ [ "forge", 25 ] ],
       [ [ "surface_heat", 15, "LIST" ] ]
     ],

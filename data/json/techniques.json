@@ -2033,5 +2033,26 @@
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ],
     "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_eoc_demo",
+    "name": "Extreme Offensive Chop!",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "skill_requirements": [ { "name": "speech", "level": 10 } ],
+    "weighting": 100,
+    "messages": [ "You strike %s with an Extreme Offensive Chop", "<npcname> strikes %s with an Extreme Offensive Chop" ],
+    "eocs": [
+      {
+        "id": "EOC_TECH_DEBGU_EOC_DEMO",
+        "effect": [
+          { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
+          "follow",
+          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+        ]
+      }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "type": "npc",
-    "id": "ranch__woodcutter_2",
+    "id": "ranch_woodcutter_2",
     "//": "Flavor",
     "name_suffix": "Woodworker",
     "class": "NC_COWBOY",

@@ -190,7 +190,7 @@
     "type": "COMESTIBLE",
     "copy-from": "icecream",
     "id": "icecream_yogurt",
-    "name": { "str_sp": "frozen yogurt" },
+    "name": { "str": "frozen yogurt", "str_pl": "frozen yogurt scoops" },
     "description": "Tarter than ice cream, this is made with yogurt and other dairy products, and is generally low-fat compared to ice cream itself.",
     "calories": 127,
     "price": 275,

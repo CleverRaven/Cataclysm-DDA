@@ -101,6 +101,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "irradiated_plantain",
+    "copy-from": "plantain",
+    "name": { "str": "irradiated cooking banana" },
+    "description": "An irradiated cooking banana will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "irradiated_cucumber",
     "name": { "str": "irradiated cucumber" },
     "weight": "150 g",
