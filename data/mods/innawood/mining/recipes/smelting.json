@@ -30,7 +30,8 @@
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "//": "Yield is just over 98% by weight, each output of copper is 400 weight.  Volume of output is massively oversize however.",
-    "result_mult": 22,
+    "result_mult": 21,
+    "byproducts": [ [ "platinum_small" ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
     "components": [ [ [ "chunk_copper", 1 ] ] ]
   },

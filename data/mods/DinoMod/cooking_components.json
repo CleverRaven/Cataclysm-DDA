@@ -20,6 +20,16 @@
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
         [ "egg_cockatrice", 1 ],
+        [ "eggs_dino", 1, "LIST" ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_dino",
+    "type": "requirement",
+    "//": "All needed",
+    "components": [
+      [
         [ "egg_dino", 1 ],
         [ "egg_dino_theropod", 1 ],
         [ "egg_coelophysis", 1 ],
@@ -56,9 +66,10 @@
         [ "egg_nodosaurus", 1 ],
         [ "egg_edmontonia", 1 ],
         [ "egg_camptosaurus", 1 ],
-        [ "egg_maiasaura", 1 ],
+        [ "egg_hadrosaurus", 1 ],
         [ "egg_parasaurolophus", 1 ],
         [ "egg_corythosaurus", 1 ],
+        [ "egg_maiasaura", 1 ],
         [ "egg_edmontosaurus", 1 ],
         [ "egg_pachycephalosaurus", 1 ],
         [ "egg_pachyrhinosaurus", 1 ],

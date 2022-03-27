@@ -170,7 +170,7 @@
   {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "Insect Egg" },
+    "name": { "str": "insect egg" },
     "abstract": "egg_insect",
     "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal to 296g mutant meat",
     "color": "white",
@@ -455,7 +455,7 @@
     "looks_like": "powder_egg",
     "quench": 2,
     "calories": 80,
-    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "description": "Rehydrated eggs.  You can use them instead of eggs when cooking, provided you don't care that they have lost their complete shape.",
     "price": 22,
     "price_postapoc": 25,
     "material": [ "egg" ],

@@ -555,7 +555,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
         item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested )
+        const bool nested, bool ignore_rigidity )
 {
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
@@ -572,12 +572,17 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
+        valid_pockets.emplace_back( &pocket );
         if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
         }
-        valid_pockets.emplace_back( &pocket );
-        if( !pocket.can_contain( it ).success() || ( nested && !pocket.rigid() ) ) {
+        if( !pocket.rigid() && (
+                !pocket.settings.get_item_whitelist().empty() ||
+                !pocket.settings.get_category_whitelist().empty() ) ) {
+            ignore_rigidity = true;
+        }
+        if( !pocket.can_contain( it ).success() || ( !ignore_rigidity && nested && !pocket.rigid() ) ) {
             // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
             continue;
         }
@@ -585,24 +590,24 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
         }
     }
-    if( !ret.second ) {
-        for( item_pocket *pocket : valid_pockets ) {
-            item_pocket *const nested_content_pocket =
-                pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
-            if( nested_content_pocket != nullptr ) {
-                // item fits in pockets contents, no need to check the pocket itself.
-                // this gives nested pockets priority over parent pockets.
-                ret.second = nested_content_pocket;
-                continue;
-            }
-            if( !pocket->can_contain( it ).success() || ( nested && !pocket->rigid() ) ) {
-                // non-rigid nested pocket makes no sense, item should also be able to fit in parent.
-                continue;
-            }
-            if( ret.second == nullptr || ret.second->better_pocket( *pocket, it, nested ) ) {
-                ret.second = pocket;
-            }
+    const bool parent_pkt_selected = !!ret.second;
+    for( item_pocket *pocket : valid_pockets ) {
+        item_pocket *const nested_content_pocket =
+            pocket->best_pocket_in_contents( parent, it, avoid, allow_sealed, ignore_settings );
+        if( !nested_content_pocket ||
+            ( !nested_content_pocket->rigid() && pocket->remaining_volume() < it.volume() ) ) {
+            // no nested pocket found, or the nested pocket is soft and the parent is full
+            continue;
         }
+        if( parent_pkt_selected ) {
+            if( !nested_content_pocket->settings.get_category_whitelist().empty() ||
+                !nested_content_pocket->settings.get_item_whitelist().empty() ) {
+                // item is whitelisted in nested pocket, prefer that over parent pocket
+                ret.second = nested_content_pocket;
+            }
+            continue;
+        }
+        ret.second = nested_content_pocket;
     }
     return ret;
 }
@@ -703,7 +708,8 @@ ret_val<bool> item_contents::is_compatible( const item &it ) const
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
+ret_val<bool> item_contents::can_contain_rigid( const item &it,
+        const bool ignore_pkt_settings ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -716,6 +722,10 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
             ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
             continue;
         }
+        if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
+            ret = ret_val<bool>::make_failure( _( "denied by pocket auto insert settings" ) );
+            continue;
+        }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
         if( pocket_contain_code.success() ) {
             return ret_val<bool>::make_success();
@@ -725,12 +735,16 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain( const item &it ) const
+ret_val<bool> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
 {
     ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
+            continue;
+        }
+        if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
+            ret = ret_val<bool>::make_failure( _( "denied by pocket auto insert settings" ) );
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );

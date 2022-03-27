@@ -1360,9 +1360,9 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.vomit();
         p.mod_pain( 90 );
         p.hurtall( rng( 40, 65 ), nullptr ); // No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
+        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus+goo */
         p.fall_asleep( 10_hours - p.int_cur *
-                       1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+                       1_minutes ); // Hope you were eating someplace safe.  Mycus v. goo in your guts is no joke.
         for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
@@ -1372,7 +1372,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     } else if( marloss_count >= 2 ) {
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
-        /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
+        /** @EFFECT_INT reduces sleep duration when eating wrong color Marloss */
         p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
         for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
@@ -1383,7 +1383,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         get_map().ter_set( p.pos(), t_marloss );
         get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
-                             _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
+                             _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
         p.add_msg_if_player( m_good,
                              //~ Beginning to hear the Mycus while conscious: that's it speaking
                              _( "unity.  together we have reached the door.  we provide the final key.  now to pass through…" ) );
@@ -1486,7 +1486,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
         p->add_morale( MORALE_MARLOSS, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player( m_good,
                               _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze…" ) );
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
+        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus */
         p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
@@ -2170,7 +2170,8 @@ class exosuit_interact
             }
 
             const item_filter filter = [&flags, pkt, it]( const item & i ) {
-                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) );
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) ) &&
+                       pkt->can_contain( i ).success();
             };
 
             std::vector<item_location> candidates;
@@ -2212,14 +2213,14 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-
-            if( pkt->insert_item( *candidates[ret] ).success() ) {
+            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );
                 return moves;
             }
-            debugmsg( "Could not insert item \"%s\" into pocket \"%s\"", candidates[ret]->type_name(),
-                      get_pocket_name( pkt ) );
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\": %s",
+                      candidates[ret]->type_name(), get_pocket_name( pkt ), rval.str() );
             return moves;
         }
 };
@@ -4579,7 +4580,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
-        as_m.entries.emplace_back( 1, true, '1', _( "Robot finds Kitten" ) );
+        as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );

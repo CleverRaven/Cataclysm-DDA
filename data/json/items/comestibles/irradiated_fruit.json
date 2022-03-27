@@ -142,6 +142,36 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "irradiated_guayaba",
+    "copy-from": "guayaba",
+    "name": { "str": "irradiated guava" },
+    "description": "An irradiated guava will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "irradiated_maracuya",
+    "copy-from": "maracuya",
+    "name": { "str": "irradiated passionfruit" },
+    "description": "An irradiated passionfruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "irradiated_lulo",
+    "copy-from": "lulo",
+    "name": { "str": "irradiated lulo" },
+    "description": "An irradiated lulo will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "irradiated_cherries",
     "copy-from": "cherries",
     "name": { "str": "irradiated cherry", "str_pl": "irradiated cherries" },

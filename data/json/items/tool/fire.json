@@ -40,7 +40,7 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "fire_drill_large",
@@ -58,7 +58,7 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "flint_steel",
