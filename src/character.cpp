@@ -11025,6 +11025,23 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     calc_encumbrance();
 }
 
+void Character::store( item_pocket *pocket, item &put, bool penalties, int base_cost )
+{
+    if( !pocket ) {
+        return;
+    }
+
+    item_location char_item( *this, &null_item_reference() );
+    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false, false );
+    if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
+        pocket = pkt_best;
+    }
+    moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
+                       pocket->obtain_cost( put ) );
+    pocket->insert_item( i_rem( &put ) );
+    calc_encumbrance();
+}
+
 void Character::use_wielded()
 {
     use( -1 );
