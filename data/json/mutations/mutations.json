@@ -4383,6 +4383,7 @@
     "types": [ "TEETH", "MUZZLE" ],
     "prereqs": [ "MOUTH_FLAPS" ],
     "changes_to": [ "FANGS_SPIDER" ],
+    "leads_to": [ "PROBOSCIS" ],
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "integrated_armor": [ "integrated_mandibles" ],
@@ -5556,9 +5557,7 @@
     "ugliness": 7,
     "description": "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
     "purifiable": false,
-    "types": [ "TEETH", "MUZZLE" ],
-    "prereqs": [ "EYEBULGE", "COMPOUND_EYES" ],
-    "threshreq": [ "THRESH_INSECT" ],
+    "prereqs": [ "MANDIBLES" ],
     "category": [ "INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
@@ -7081,7 +7080,7 @@
     "points": 1,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
     "category": [ "FISH", "GASTROPOD" ],
-    "threshreq": [ "THRESH_FISH" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_GASTROPOD" ],
     "purifiable": false
   },
   {
