@@ -90,8 +90,8 @@
   {
     "id": "death_halfworm",
     "type": "SPELL",
-    "name": { "str": "Halfworm Death" },
-    "description": "Spawns two halfworms.",
+    "name": { "str": "Half Worm Death" },
+    "description": "Spawns two half worms.",
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
