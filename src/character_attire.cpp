@@ -1894,19 +1894,14 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const attack_vector &atv )
+item *outfit::current_unarmed_weapon( const attack_vector &atv, item *cur_weapon )
 {
-    item top_weapon;
     for( item &worn_item : worn ) {
         bool covers = false;
 
         switch( atv ) {
             case attack_vector::NONE:
-            case attack_vector::WEAPON:
                 covers =  false;
-                break;
-            case attack_vector::ANY:
-                covers =  true;
                 break;
             case attack_vector::HAND:
             case attack_vector::FINGERS:
@@ -1959,12 +1954,12 @@ item *outfit::current_unarmed_weapon( const attack_vector &atv )
 
         // Uses enum layer_level to make distinction for top layer.
         if( covers ) {
-            if( top_weapon->is_null() || ( worn_item.get_layer() >= top_weapon->get_layer() ) ) {
-                top_weapon = worn_item;
+            if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
+                cur_weapon = &worn_item;
             }
         }
     }
-    return top_weapon;
+    return cur_weapon;
 }
 
 void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
