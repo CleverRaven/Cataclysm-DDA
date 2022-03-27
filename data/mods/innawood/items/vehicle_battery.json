@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "category": "veh_parts",
     "name": { "str": "clay car battery", "str_pl": "clay car batteries" },
-    "description": "A 12v lead-acid battery used to power car electrical systems, contained in a clay shell.",
+    "description": "A 12V lead-acid battery used to power car electrical systems, contained in a clay shell.",
     "looks_like": "clay_hydria",
     "weight": "18000 g",
     "volume": "6250 ml",
