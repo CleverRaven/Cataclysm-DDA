@@ -107,6 +107,7 @@
     "type": "item_group",
     "items": [
       [ "wrapper", 50 ],
+      [ "wrapper_foil", 5 ],
       [ "bottle_glass", 50 ],
       [ "bottle_plastic", 70 ],
       [ "can_drink", 60 ],
