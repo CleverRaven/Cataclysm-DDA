@@ -62,8 +62,8 @@
     "warmth": 20,
     "material": [ "kevlar", "superalloy" ],
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 12, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY" ],
+    "armor": [ { "encumbrance": 12, "coverage": 65, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "crt_gloves_liner",
@@ -75,7 +75,7 @@
     "material": [ "neoprene", "rubber" ],
     "material_thickness": 1,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "crt_backpack",
@@ -84,7 +84,66 @@
     "name": "CRIT backpack",
     "description": "A standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "9 L", "max_contains_weight": "27 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "9 L",
+        "max_contains_weight": "27 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "5 L",
+        "moves": 200
+      },
+      {
+        "//": "hydration pouch storage",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
+        "ripoff": 3
+      }
+    ],
     "material_thickness": 3,
     "material": [ "leather", "kevlar" ],
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ],
@@ -206,7 +265,7 @@
     "id": "crt_earmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "CRIT Enforcer armor assembly", "str_pl": "CRIT Enforcer armor assemblies" },
+    "name": { "str": "CRIT Slayer armor assembly", "str_pl": "CRIT Slayer armor assemblies" },
     "description": "A series of plates, guards and buckles which assemble into a suit of sturdy body-armor which usually goes over other armor.  Overlapping steel plates on top of Kevlar plates cover vast expanses as the armor juts off in places so it can deflect attacks.  Built with the idea that comfort is less important than safety, this heavy suit is difficult to move about in but highly protective.  Various adjustable connectors such as straps and clips hold it together.",
     "weight": "21460 g",
     "volume": "11250 ml",
@@ -230,8 +289,8 @@
     "id": "crt_earmor_boots",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of CRIT Enforcer docks", "str_pl": "pairs of CRIT Enforcer docks" },
-    "description": "CRIT Enforcer docks.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T's designs, but they do seem to be worth using if you were to be in the middle of a war zone.",
+    "name": { "str": "pair of CRIT Slayer docks", "str_pl": "pairs of CRIT Slayer docks" },
+    "description": "CRIT Slayer docks.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T's designs, but they do seem to be worth using if you were to be in the middle of a war zone.",
     "weight": "2060 g",
     "volume": "1500 ml",
     "price": 100000,
@@ -272,7 +331,7 @@
     "id": "crt_warmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": "CRIT Lone Wolf Series Armor",
+    "name": "CRIT Jotun Slayer Series Armor",
     "description": "A matte black suit of outdated and bulky looking plate armor fitted onto a soft Kevlar body-suit.  Retrofitted with new armor improvements, this heavy armor will definitely protect you from practically anything.  Just make sure you can actually walk with it on though.",
     "weight": "42563 g",
     "volume": "12500 ml",

@@ -4,7 +4,7 @@
     "copy-from": "book_martial",
     "type": "GENERIC",
     "name": { "str": "CRIT Blade-work manual" },
-    "description": "An advanced military manual on CRIT Blade-work.",
+    "description": "An advanced martial art manual developed by 'CRIT' for use when portal storms and convergence events prevent the use of ranged weapons.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
   {

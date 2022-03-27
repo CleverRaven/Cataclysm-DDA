@@ -2,10 +2,9 @@
   {
     "type": "profession",
     "id": "crt_rotc",
-    "name": "CRIT ROTC Member",
-    "description": "You were training ahead of time to become a C.R.I.T officer in the upcoming war.  Your call to arms arrived dead on arrival and already plastered in the all-too vibrant gore of your squadmates.  In the midst of panic, you bugged out lest you join the remnants of your friends.  Now it's up to your wits and short years of training to keep you alive in this Cataclysm.",
-    "points": 7,
-    "traits": [ "MARTIAL_CRT" ],
+    "name": "CRIT Cadet Member",
+    "description": "You were training ahead of time to become a C.R.I.T officer in the war against the weird.  Your call to arms arrived dead on arrival and already plastered in the all-too vibrant gore of your squadmates.  In the midst of panic, you bugged out lest you join the remnants of your friends.  Now it's up to your wits and short years of training to keep you alive in this Cataclysm.",
+    "points": 5,
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
@@ -31,15 +30,10 @@
   {
     "type": "profession",
     "id": "crt_dude",
-    "name": "CRIT Janitor",
+    "name": "High Security Janitorial Staff",
     "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personnel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
-    "points": 6,
-    "skills": [
-      { "level": 2, "name": "tailor" },
-      { "level": 3, "name": "driving" },
-      { "level": 3, "name": "speech" },
-      { "level": 1, "name": "unarmed" }
-    ],
+    "points": 4,
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
         "ammo": 100,
@@ -73,7 +67,7 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
       { "level": 1, "name": "melee" },
-      { "level": 4, "name": "speech" },
+      { "level": 2, "name": "speech" },
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "firstaid" }
     ],
@@ -112,7 +106,7 @@
     "type": "profession",
     "id": "crt_rifleman",
     "name": "CRIT Grunt",
-    "description": "You were part of the infantry; first to hit the ground running, clear a FOB and then come back to relax with your squad.  Those days ended when the cataclysm reared its ugly head.  Your lines were torn through like wet paper when the otherworldly abominations arrived.  Now fleeing for your life, will you have what it takes to survive or is this hellish landscape your resting place?",
+    "description": "You were part of the infantry; first to hit the ground running, clear a FOB and then come back to relax with your squad.  Those days ended when the cataclysm reared its ugly head.  It wasn't your first or even your third time facing otherworldy entities but the Cataclysm was your first time facing kaiju, even CRIT was unprepared for kaiju.  Now fleeing for your life, will you have what it takes to survive or is this hellish landscape your resting place?",
     "points": 8,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "stabbing" } ],
@@ -152,7 +146,8 @@
     "type": "profession",
     "id": "crt_medic",
     "name": "CRIT Combat Medic",
-    "description": "You were the team nerd.  A combat medic taught on how to engage strange anomalies.  However, your main focus was  keeping your squadmates in one piece.  For weeks, you slogged through hell and back and ensured that everyone made it.  Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction.  Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
+    "//": "Needs some kind of healing equipment.",
+    "description": "You were a pacifist by nature, you wanted to save lives and keep others safe.  A combat medic taught on how to engage strange anomalies.  However, your main focus was keeping your squadmates in one piece.  For weeks, you slogged through hell and back and ensured that everyone made it.  Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded in a retreat.  Forced to flee, will you have what it takes to survive or will you join the horde?",
     "points": 8,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [
@@ -285,8 +280,8 @@
   {
     "type": "profession",
     "id": "crt_guard",
-    "name": "CRIT Enforcer",
-    "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal.  As a guard, others joked that you were nothing more than a mall cop with a fancy badge.  Knowingly, you laughed it off as the you donned on your equipment and deployed.  While you mainly spent time at base, you honed your skills and received special implants to do your job easier at the low low cost of serving as a \"guard\" forever.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
+    "name": "CRIT Monster Slayer",
+    "description": "You hunted down whatever strange nether creatures ran loose on our world.  You were a granted the authority of a U.S Marshal.  The last five years have been a non-stop mission to mission hunting down nightmarish monsters that slip through portals, you honed your skills and received special implants to do your job easier.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer" ],
     "points": 12,
@@ -333,8 +328,8 @@
   {
     "type": "profession",
     "id": "crt_juggernaught",
-    "name": "CRIT Lone Wolf",
-    "description": "STR 10 recommended.  You are fully armored badass granted the full authority of a U.S Marshal.  Sent in as the one man army capable of handling anything.  Dropped into war zones, you singlehandedly laid out entire battalions by yourself.  Time to hang them all.",
+    "name": "CRIT Jotun Slayer",
+    "description": "The CRIT Jotun Slayers are an elite group, you were sent into other dimensions with orders to bring down giant alien cyborgs and bring back their corpses for dissection and harvest.  The bionics these 'Jotun' once wore, have improved your body as your injuries needed treatment.  Hopefully none of those cyborgs' friends came through during the portal storm.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_weight",
@@ -406,8 +401,8 @@
   {
     "type": "profession",
     "id": "crt",
-    "name": "CRIT Spec Ops",
-    "description": "STR 10 recommended.  You were an elite member of the Catastrophe Response/Research & Investigation Team.  A looming spectre which responded to secular threats which allowed your faction to leap decades in front of other world powers.  Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command.  Good luck soldier.",
+    "name": "CRIT Ghost Hunter",
+    "description": "A specialized soldier intended to be able to covertly interact with local authorities in crossover zones where combat was a possibility.  You can almost pass as an un-augmented human in the right clothes, not that it matters now.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_razors",
