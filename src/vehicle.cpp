@@ -2332,6 +2332,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
 
         // update the precalc points
+        new_vehicle->precalc_mounts( 0, new_vehicle->turn_dir, point() );
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
                                      new_vehicle->pivot_point() );
