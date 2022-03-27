@@ -173,7 +173,7 @@ Includes special ones that are furniture/terrain specific.
 
 Divided by sections for clarity.
 
-* `environment thunder_near|thunder_far`
+* `environment thunder_near
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`
 * `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY|WEATHER_PORTAL_STORM`
