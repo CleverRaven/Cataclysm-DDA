@@ -6623,7 +6623,6 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
         return;
     }
 
-    std::cout << "veh " << name << " has " << parts.size() << " parts.";
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( vp.mount(), impact );
@@ -7410,7 +7409,7 @@ int vehicle::get_non_fake_part( const int part_num )
             return part_num;
         }
     }
-    std::cout << "Returning -1 for get_non_fake_part.";
+    debugmsg( "Returning -1 for get_non_fake_part on part_num %d on %s.", part_num, disp_name() );
     return -1;
 }
 

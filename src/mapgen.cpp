@@ -6455,7 +6455,6 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
 
         rebuild_vehicle_level_caches();
         placed_vehicle->place_zones( *this );
-
     }
     return placed_vehicle;
 }
