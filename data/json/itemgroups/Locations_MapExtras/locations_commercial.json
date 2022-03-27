@@ -794,6 +794,7 @@
       [ "cig", 39 ],
       [ "rolling_paper", 15 ],
       [ "wrapper", 25 ],
+      [ "wrapper_foil", 2 ],
       [ "mag_news", 40 ],
       [ "news_regional", 35 ],
       [ "coffee", 55 ],
@@ -808,6 +809,7 @@
     "entries": [
       { "item": "paper", "prob": 150, "count": [ 10, 30 ] },
       { "item": "wrapper", "prob": 25 },
+      { "item": "wrapper_foil", "prob": 1 },
       { "item": "bubblewrap", "prob": 25 },
       { "item": "scissors", "prob": 25 },
       { "item": "roadmap", "prob": 10 },
@@ -1006,6 +1008,7 @@
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 },
@@ -1036,6 +1039,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 60 },
