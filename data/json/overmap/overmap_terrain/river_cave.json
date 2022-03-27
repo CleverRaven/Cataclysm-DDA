@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "river_cave_entrance",
+    "id": "c_cave_entrance",
     "name": "river cave entrance",
     "sym": "O",
     "color": "light_cyan",

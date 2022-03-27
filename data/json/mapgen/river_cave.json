@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "river_cave_entrance" ],
+    "om_terrain": [ "c_cave_entrance" ],
     "object": {
       "fallback_predecessor_mapgen": "water",
       "rotation": [ 0, 3 ],
