@@ -169,7 +169,7 @@
     "type": "recipe",
     "copy-from": "armor_larmor",
     "time": "9 h",
-    "using": [ [ "tailoring_leather_patchwork", 18 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 18 ] ]
   },
   {
     "result": "armor_lightplate",
