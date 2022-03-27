@@ -7,6 +7,7 @@
     "min_pet_vol": "380 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "horse",
+    "longest_side": "60 cm",
     "flags": [ "IS_PET_ARMOR" ]
   },
   {
@@ -169,6 +170,20 @@
     "price_postapoc": 15000,
     "material": [ "steel", "leather" ],
     "weight": "300 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "bronze_armor_horse",
+    "copy-from": "horse_armor",
+    "color": "yellow",
+    "name": { "str": "bronze horse armor" },
+    "description": "A heavy covering of bronze plate and leather, suitably made for horses as protection.  You could put this on a friendly horse.",
+    "price": 60000,
+    "price_postapoc": 15000,
+    "material": [ "bronze", "leather" ],
+    "weight": "342 kg",
     "volume": "150 L",
     "material_thickness": 4
   },
