@@ -2303,7 +2303,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
     } while( true );
 }
 
-// Menu used by autodoc when installing a bionic
+// Menu used by Autodoc when installing a bionic
 class bionic_install_preset: public inventory_selector_preset
 {
     public:

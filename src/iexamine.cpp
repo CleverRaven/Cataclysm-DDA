@@ -5038,7 +5038,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
     } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
                to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
-        you.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
+        you.add_msg_if_player( m_info, _( "The Autodoc is working on %s." ), patient.disp_name() );
         return;
     }
 
@@ -5269,15 +5269,15 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.has_effect( effect_antibiotic ) ||
                     patient.has_effect( effect_weak_antibiotic ) ) {
                     patient.add_msg_player_or_npc( m_info,
-                                                   _( "The autodoc detected a bacterial infection in your body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ),
-                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body, but as it also detected they've already taken antibiotics, it decided not to apply another dose right now." ) );
+                                                   _( "The Autodoc detected a bacterial infection in your body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ),
+                                                   _( "The Autodoc detected a bacterial infection in <npcname>'s body, but as it also detected they've already taken antibiotics, it decided not to apply another dose right now." ) );
                 } else {
                     patient.add_effect( effect_strong_antibiotic, 12_hours );
                     patient.add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
                     patient.mod_pain( 3 );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The autodoc detected a bacterial infection in your body and injected antibiotics to treat it." ),
-                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body and injected antibiotics to treat it." ) );
+                                                   _( "The Autodoc detected a bacterial infection in your body and injected antibiotics to treat it." ),
+                                                   _( "The Autodoc detected a bacterial infection in <npcname>'s body and injected antibiotics to treat it." ) );
 
                     if( patient.has_effect( effect_tetanus ) ) {
                         if( one_in( 3 ) ) {
@@ -5295,19 +5295,19 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                 if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
-                                                   _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
+                                                   _( "The Autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
+                                                   _( "The Autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
                 if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
-                                                   _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
-                                                   _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
+                                                   _( "The Autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
+                                                   _( "The Autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
                                                    body_part_name( bp_healed ) );
 
-                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
+                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of Autodoc.
                     const int disinfectant_intensity = 14;
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed );
@@ -5323,17 +5323,17 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
         case RAD_AWAY: {
             patient.moves -= 500;
             patient.add_msg_player_or_npc( m_info,
-                                           _( "The autodoc scanned you and detected a radiation level of %d mSv." ),
-                                           _( "The autodoc scanned <npcname> and detected a radiation level of %d mSv." ),
+                                           _( "The Autodoc scanned you and detected a radiation level of %d mSv." ),
+                                           _( "The Autodoc scanned <npcname> and detected a radiation level of %d mSv." ),
                                            patient.get_rad() );
             if( patient.get_rad() ) {
                 if( patient.has_effect( effect_pblue ) ) {
                     patient.add_msg_player_or_npc( m_info,
-                                                   _( "The autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer another dose right now." ),
-                                                   _( "The autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer another dose right now." ) );
+                                                   _( "The Autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer another dose right now." ),
+                                                   _( "The Autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer another dose right now." ) );
                 } else {
                     add_msg( m_good,
-                             _( "The autodoc administered an anti-radiation drug to treat radiation poisoning." ) );
+                             _( "The Autodoc administered an anti-radiation drug to treat radiation poisoning." ) );
                     patient.mod_pain( 3 );
                     patient.add_effect( effect_pblue, 1_hours );
                 }
@@ -5349,8 +5349,8 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
             patient.moves -= 500;
             patient.conduct_blood_analysis();
             patient.add_msg_player_or_npc( m_info,
-                                           _( "The autodoc analyzed your blood." ),
-                                           _( "The autodoc analyzed <npcname>'s blood." ) );
+                                           _( "The Autodoc analyzed your blood." ),
+                                           _( "The Autodoc analyzed <npcname>'s blood." ) );
             break;
         }
 

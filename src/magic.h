@@ -45,6 +45,7 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target

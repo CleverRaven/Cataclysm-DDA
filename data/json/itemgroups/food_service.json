@@ -227,7 +227,9 @@
     "entries": [
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
+      { "item": "grenadine_syrup", "prob": 40 },
       { "item": "oj", "prob": 40 },
+      { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "tomato_juice", "prob": 25 },
       { "item": "cranberry_juice", "prob": 35 },
@@ -780,11 +782,13 @@
       { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic", "sealed": false },
       { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic", "sealed": false },
       { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "tonic_water", "prob": 5, "container-item": "bottle_plastic", "sealed": false },
       { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
       { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
       { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "tonic_water", "prob": 2, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
     ]
   },

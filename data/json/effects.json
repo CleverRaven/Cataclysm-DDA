@@ -2095,6 +2095,15 @@
   },
   {
     "type": "effect_type",
+    "id": "chafing",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help" ],
+    "max_intensity": 1,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is hot.", "Your %s is burning up!" ],

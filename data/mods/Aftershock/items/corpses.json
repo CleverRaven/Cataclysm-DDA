@@ -1,6 +1,17 @@
 [
   {
     "type": "GENERIC",
+    "id": "afs_corpse_old",
+    "copy-from": "corpse",
+    "name": { "str": "mummified corpse" },
+    "description": "The corpse of a long-dead colonist.  Near perfectly preserved by the merciless cold.",
+    "looks_like": "corpse_generic_human",
+    "volume": "40 L",
+    "weight": "52 kg",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_afs_mon_sentinel_lx",
     "symbol": ",",
     "color": "green",
