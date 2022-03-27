@@ -1006,6 +1006,12 @@
         "name": { "str": "forbidden robot t-shirt" },
         "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
         "weight": 1
+      },
+      {
+        "id": "swordocracy_tshirt",
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
