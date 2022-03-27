@@ -346,6 +346,7 @@
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
+    "repairs_like": "legguard_bronze",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
