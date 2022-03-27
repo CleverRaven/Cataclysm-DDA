@@ -473,9 +473,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
+    "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
     "reversible": true,
+    "book_learn": [ [ "mag_dude", 0 ], [ "mag_survival", 0 ], [ "pocket_survival", 0 ] ],
     "components": [ [ [ "aluminum_foil", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
