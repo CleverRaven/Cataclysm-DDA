@@ -20,6 +20,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "optional.h"
@@ -2364,6 +2365,149 @@ TEST_CASE( "full wallet spawn test", "[pocket][item]" )
     for( int i = 0; i < iters; i++ ) {
         for( Item_spawn_data *wg : groups ) {
             CHECK( test_wallet_filled( wg ) );
+        }
+    }
+}
+
+TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
+{
+    avatar &u = get_avatar();
+    item tool_belt( "test_tool_belt_pocket_mix" );
+    item flashlight( "test_flashlight" );
+
+    GIVEN( "character wearing a tool belt" ) {
+        clear_avatar();
+        u.wield( flashlight );
+        item_location fl( u, &u.get_wielded_item() );
+        item_location tb( u, & **u.wear_item( tool_belt, false ) );
+        REQUIRE( !!tb.get_item() );
+        REQUIRE( tb->typeId() == tool_belt.typeId() );
+
+        WHEN( "attaching flashlight to tool belt" ) {
+            REQUIRE( tb->can_holster( *fl ) );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( tb->type->get_use( "holster" )->get_actor_ptr() );
+            REQUIRE( !!ptr );
+            CHECK( ptr->store( u, *tb, *fl ) );
+
+            THEN( "flashlight stored in smallest available holster" ) {
+                bool found = false;
+                const std::list<std::string> valid_pkts = { "P4", "P5", "P6" };
+                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                    if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
+                        CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
+                        CHECK( !found ); // we shouldn't find this item in multiple pockets
+                        found = true;
+                        bool in_valid_pkt = false;
+                        for( const std::string &n : valid_pkts ) {
+                            if( pkt->get_pocket_data()->pocket_name.translated() == n ) {
+                                in_valid_pkt = true;
+                            }
+                        }
+                        CHECK( in_valid_pkt );
+                    }
+                }
+                CHECK( found );
+            }
+        }
+
+        WHEN( "attaching flashlight to tool belt, whitelisted pocket 1" ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                if( pkt->get_pocket_data()->pocket_name.translated() == "P1" ) {
+                    pkt->settings.whitelist_item( flashlight.typeId() );
+                }
+            }
+            REQUIRE( tb->can_holster( *fl ) );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( tb->type->get_use( "holster" )->get_actor_ptr() );
+            REQUIRE( !!ptr );
+            CHECK( ptr->store( u, *tb, *fl ) );
+
+            THEN( "flashlight stored in pocket 1" ) {
+                bool found = false;
+                const std::list<std::string> valid_pkts = { "P1" };
+                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                    if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
+                        CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
+                        CHECK( !found ); // we shouldn't find this item in multiple pockets
+                        found = true;
+                        bool in_valid_pkt = false;
+                        for( const std::string &n : valid_pkts ) {
+                            if( pkt->get_pocket_data()->pocket_name.translated() == n ) {
+                                in_valid_pkt = true;
+                            }
+                        }
+                        CHECK( in_valid_pkt );
+                    }
+                }
+                CHECK( found );
+            }
+        }
+
+        WHEN( "attaching flashlight to tool belt, whitelisted pocket 2" ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                if( pkt->get_pocket_data()->pocket_name.translated() == "P2" ) {
+                    pkt->settings.whitelist_item( flashlight.typeId() );
+                }
+            }
+            REQUIRE( tb->can_holster( *fl ) );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( tb->type->get_use( "holster" )->get_actor_ptr() );
+            REQUIRE( !!ptr );
+            CHECK( ptr->store( u, *tb, *fl ) );
+
+            THEN( "flashlight stored in pocket 2" ) {
+                bool found = false;
+                const std::list<std::string> valid_pkts = { "P2" };
+                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                    if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
+                        CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
+                        CHECK( !found ); // we shouldn't find this item in multiple pockets
+                        found = true;
+                        bool in_valid_pkt = false;
+                        for( const std::string &n : valid_pkts ) {
+                            if( pkt->get_pocket_data()->pocket_name.translated() == n ) {
+                                in_valid_pkt = true;
+                            }
+                        }
+                        CHECK( in_valid_pkt );
+                    }
+                }
+                CHECK( found );
+            }
+        }
+
+        WHEN( "attaching flashlight to tool belt, whitelisted pocket 5" ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                if( pkt->get_pocket_data()->pocket_name.translated() == "P5" ) {
+                    pkt->settings.whitelist_item( flashlight.typeId() );
+                }
+            }
+            REQUIRE( tb->can_holster( *fl ) );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( tb->type->get_use( "holster" )->get_actor_ptr() );
+            REQUIRE( !!ptr );
+            CHECK( ptr->store( u, *tb, *fl ) );
+
+            THEN( "flashlight stored in pocket 5" ) {
+                bool found = false;
+                const std::list<std::string> valid_pkts = { "P5" };
+                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                    if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
+                        CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
+                        CHECK( !found ); // we shouldn't find this item in multiple pockets
+                        found = true;
+                        bool in_valid_pkt = false;
+                        for( const std::string &n : valid_pkts ) {
+                            if( pkt->get_pocket_data()->pocket_name.translated() == n ) {
+                                in_valid_pkt = true;
+                            }
+                        }
+                        CHECK( in_valid_pkt );
+                    }
+                }
+                CHECK( found );
+            }
         }
     }
 }
