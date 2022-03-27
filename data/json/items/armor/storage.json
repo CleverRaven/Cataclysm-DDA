@@ -1170,10 +1170,11 @@
     "id": "molle_pack",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": { "str": "MOLLE pack" },
-    "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
-    "weight": "1300 g",
-    "volume": "5000 ml",
+    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "name": { "str": "MOLLE assault pack" },
+    "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
+    "weight": "1450 g",
+    "volume": "6 L",
     "price": 6700,
     "price_postapoc": 1500,
     "material": [ "nylon", "plastic" ],
@@ -1184,34 +1185,19 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "20 L",
-        "max_contains_weight": "35 kg",
+        "max_contains_weight": "40 kg",
         "max_item_length": "50 cm",
-        "magazine_well": "3 L",
+        "magazine_well": "5 L",
         "moves": 300
       },
       {
+        "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
-        "magazine_well": "750 ml",
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "25 cm",
-        "magazine_well": "500 ml",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "25 cm",
-        "magazine_well": "500 ml",
-        "moves": 120
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
       },
       {
         "//": "carabiner pocket",
@@ -1258,7 +1244,194 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 70,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ],
+        "volume_encumber_modifier": 0.15
+      }
+    ]
+  },
+  {
+    "id": "molle_medium_rucksack",
+    "repairs_like": "bigback",
+    "type": "ARMOR",
+    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "name": { "str": "MOLLE medium rucksack" },
+    "description": "The Modular Lightweight Load-carrying Equipment is an advanced military medium rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
+    "weight": "1600 g",
+    "volume": "8000 ml",
+    "price": 8100,
+    "price_postapoc": 2100,
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "70 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      },
+      {
+        "//": "hydration pouch storage",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
+        "ripoff": 3
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ],
+        "volume_encumber_modifier": 0.15
+      }
+    ]
+  },
+  {
+    "id": "molle_large_rucksack",
+    "repairs_like": "bigback",
+    "type": "ARMOR",
+    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "name": { "str": "MOLLE large rucksack" },
+    "description": "The Modular Lightweight Load-carrying Equipment is an advanced military large rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
+    "weight": "2200 g",
+    "volume": "11000 ml",
+    "price": 9000,
+    "price_postapoc": 2500,
+    "material": [ "nylon", "plastic" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "8 L",
+        "moves": 300
+      },
+      {
+        "//": "hydration pouch storage",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack",
+        "ripoff": 3
+      }
+    ],
+    "warmth": 12,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ],
+        "volume_encumber_modifier": 0.15
+      }
+    ]
   },
   {
     "id": "net_backpack",

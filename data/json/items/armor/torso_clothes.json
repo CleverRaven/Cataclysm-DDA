@@ -102,7 +102,7 @@
     "id": "combat_shirt",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "combat shirt" },
+    "name": { "str": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
     "weight": "450 g",
     "volume": "3 L",
@@ -218,7 +218,7 @@
     "id": "flag_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "flag shirt" },
+    "name": { "str": "flag t-shirt" },
     "description": "A t-shirt embroidered with the pattern of an American flag.",
     "weight": "158 g",
     "volume": "500 ml",
@@ -412,7 +412,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str_sp": "leotard" },
+    "name": { "str": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "150 g",
     "volume": "500 ml",
@@ -1005,6 +1005,12 @@
         "id": "forbidden_futurama_tshirt",
         "name": { "str": "forbidden robot t-shirt" },
         "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
+        "weight": 1
+      },
+      {
+        "id": "swordocracy_tshirt",
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
         "weight": 1
       }
     ],

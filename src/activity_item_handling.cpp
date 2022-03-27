@@ -3026,9 +3026,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
         if( you.backlog.empty() || src_set.empty() ) {
             check_npc_revert( you );
-            // tidy up leftover moved parts and tools left lying near the work spots.
             if( player_activity( activity_to_restore ).is_multi_type() ) {
-                you.assign_activity( ACT_TIDY_UP );
+                you.assign_activity( activity_id::NULL_ID() );
             }
         }
         you.activity_vehicle_part_index = -1;

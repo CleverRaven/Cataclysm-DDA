@@ -711,14 +711,40 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "bucket_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden bucket" },
+    "description": "A wooden bucket.  Carefully chiseled out of hardwood log section, almost like a dugout canoe.  Holds 5 liters of water and has wooden handle for carry.",
+    "ascii_picture": "bucket_wood",
+    "weight": "1250 g",
+    "volume": "7500 ml",
+    "price": 300,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "c_brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "camelbak",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "hydration pack" },
     "looks_like": "runner_bag",
-    "description": "A slim and lightweight insulated plastic bladder worn on the back.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
+    "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
     "weight": "286 g",
-    "volume": "2503 ml",
+    "volume": "3001 ml",
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -1,
@@ -731,7 +757,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "2500 ml",
+        "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }

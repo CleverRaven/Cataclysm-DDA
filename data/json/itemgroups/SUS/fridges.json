@@ -112,6 +112,18 @@
               },
               {
                 "collection": [
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  {
+                    "item": "pineapple_juice",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
+                ],
+                "prob": 50
+              },
+              {
+                "collection": [
                   { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   {
                     "item": "cranberry_juice",
@@ -166,6 +178,13 @@
               },
               {
                 "collection": [
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
                   { "item": "purple_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   { "item": "purple_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
@@ -214,6 +233,7 @@
               { "item": "oj", "count": [ 1, 6 ], "prob": 50 },
               { "item": "cranberry_juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "juice", "count": [ 1, 6 ], "prob": 50 },
+              { "item": "tonic_water", "count": [ 1, 6 ], "prob": 20 },
               { "item": "sports_drink", "count": [ 1, 6 ], "prob": 30 },
               { "item": "lemonade", "count": [ 1, 6 ], "prob": 50 },
               { "item": "cola", "count": [ 1, 6 ], "prob": 70 },
@@ -398,6 +418,13 @@
               },
               {
                 "collection": [
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
                   { "item": "purple_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   { "item": "purple_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
@@ -447,6 +474,7 @@
               { "item": "cola", "count": [ 1, 6 ], "prob": 70 },
               { "item": "choc_drink", "count": [ 1, 6 ], "prob": 30 },
               { "item": "rootbeer", "count": [ 1, 6 ], "prob": 65 },
+              { "item": "tonic_water", "count": [ 1, 6 ], "prob": 20 },
               { "item": "purple_drink", "count": [ 1, 6 ], "prob": 35 },
               { "item": "creamsoda", "count": [ 1, 6 ], "prob": 35 },
               { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
@@ -551,6 +579,13 @@
             "collection": [
               { "item": "oj", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
               { "item": "oj", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+            ],
+            "prob": 50
+          },
+          {
+            "collection": [
+              { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+              { "item": "pineapple_juice", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
             ],
             "prob": 50
           },
@@ -707,6 +742,18 @@
               },
               {
                 "collection": [
+                  { "item": "pineapple_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  {
+                    "item": "pineapple_juice",
+                    "container-item": "bottle_plastic",
+                    "count": [ 1, 6 ],
+                    "sealed": false
+                  }
+                ],
+                "prob": 50
+              },
+              {
+                "collection": [
                   { "item": "cranberry_juice", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   {
                     "item": "cranberry_juice",
@@ -761,6 +808,13 @@
               },
               {
                 "collection": [
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
+                  { "item": "tonic_water", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
+                ],
+                "prob": 20
+              },
+              {
+                "collection": [
                   { "item": "purple_drink", "container-item": "bottle_plastic", "charges": 1, "prob": 50, "sealed": false },
                   { "item": "purple_drink", "container-item": "bottle_plastic", "count": [ 1, 6 ], "sealed": false }
                 ],
@@ -807,6 +861,7 @@
           {
             "distribution": [
               { "item": "oj", "count": [ 1, 6 ], "prob": 50 },
+              { "item": "pineapple_juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "cranberry_juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "juice", "count": [ 1, 6 ], "prob": 50 },
               { "item": "sports_drink", "count": [ 1, 6 ], "prob": 30 },
@@ -814,6 +869,7 @@
               { "item": "cola", "count": [ 1, 6 ], "prob": 70 },
               { "item": "choc_drink", "count": [ 1, 6 ], "prob": 30 },
               { "item": "rootbeer", "count": [ 1, 6 ], "prob": 65 },
+              { "item": "tonic_water", "count": [ 1, 6 ], "prob": 20 },
               { "item": "purple_drink", "count": [ 1, 6 ], "prob": 35 },
               { "item": "creamsoda", "count": [ 1, 6 ], "prob": 35 },
               { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
