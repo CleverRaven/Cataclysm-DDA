@@ -1506,7 +1506,8 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    bool check_best_pkt = false );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );

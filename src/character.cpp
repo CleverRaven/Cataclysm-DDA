@@ -11013,10 +11013,15 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 }
 
 void Character::store( item &container, item &put, bool penalties, int base_cost,
-                       item_pocket::pocket_type pk_type )
+                       item_pocket::pocket_type pk_type, bool check_best_pkt )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ), pk_type );
+    if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
+        container.get_all_contained_pockets().value().size() > 1 ) {
+        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
+    } else {
+        container.put_in( i_rem( &put ), pk_type );
+    }
     calc_encumbrance();
 }
 
