@@ -34,9 +34,18 @@
     "type": "monstergroup",
     "name": "GROUP_TOXIC_WASTE",
     "monsters": [
-      { "monster": "mon_sewer_rat", "weight": 600 },
-      { "monster": "mon_blob", "weight": 300 },
-      { "monster": "mon_zombie_hazmat", "weight": 100 }
+      { "monster": "mon_sewer_rat", "weight": 60 },
+      { "monster": "mon_blob", "weight": 30 },
+      { "monster": "mon_zombie_hazmat", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TOXIC_WASTE_CORPSES",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "weight": 60 },
+      { "monster": "mon_mutant_experimental", "weight": 30 },
+      { "monster": "mon_mutant_experimental", "weight": 10 }
     ]
   },
   {
@@ -74,6 +83,7 @@
       "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt" ] },
       "nested": { "^": { "chunks": [ [ "toxic_gas_vent", 70 ], [ "null", 30 ] ] } },
       "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.01, "chance": 3 } },
+      "place_corpses": [ { "group": "GROUP_TOXIC_WASTE_CORPSES", "x": [ 10, 14 ], "y": [ 9, 13 ] } ],
       "place_loot": [ { "group": "toxic_waste_mx", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
     }
   }
