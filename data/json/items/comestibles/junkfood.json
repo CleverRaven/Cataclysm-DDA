@@ -1577,6 +1577,5 @@
     "weight": "1 g",
     "comestible_type": "FOOD",
     "flags": [ "EDIBLE_FROZEN" ],
-    
-}
+ }
 ]
