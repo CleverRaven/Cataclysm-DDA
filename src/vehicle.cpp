@@ -1849,6 +1849,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         zones_dirty = true;
     }
     parts[p].removed = true;
+    if( parts[p].has_fake && parts[p].fake_part_at < static_cast<int>( parts.size() ) ) {
+        parts[parts[p].fake_part_at].removed = true;
+    }
     removed_part_count++;
 
     handler.removed( *this, p );
