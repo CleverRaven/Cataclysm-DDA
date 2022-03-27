@@ -6519,7 +6519,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              *
              * the overlap span is still a mess, though.
              */
-
+            std::unique_ptr<RemovePartHandler> handler_ptr;
             for( const tripoint &map_pos : first_veh->get_points( true ) ) {
                 std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_pos, "",
                         part_status_flag::any );
@@ -6534,11 +6534,23 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         first_veh->install_part( target_point, *vp );
                     }
 
+                    if( !handler_ptr ) {
+                        // This is a heuristic: we just assume the default handler is good enough when called
+                        // on the main game map. And assume that we run from some mapgen code if called on
+                        // another instance.
+                        if( !g || &get_map() != this ) {
+                            handler_ptr = std::make_unique<MapgenRemovePartHandler>( *this );
+                        }
+                    }
                     // this could probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
-                        veh_to_add->remove_part( parts_in_square[index] );
+                        if( handler_ptr ) {
+                            veh_to_add->remove_part( parts_in_square[index], *handler_ptr );
+                        } else {
+                            veh_to_add->remove_part( parts_in_square[index] );
+                        }
                         parts_to_check.insert( parts_in_square[index] );
                     }
                     veh_to_add->find_and_split_vehicles( parts_to_check );
