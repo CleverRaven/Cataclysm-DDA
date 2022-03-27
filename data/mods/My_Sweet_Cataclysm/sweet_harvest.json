@@ -58,13 +58,12 @@
     "entries": [ { "drop": "licorice", "type": "flesh", "mass_ratio": 0.7 } ]
   },
   {
-    "id": "pumpkin",
+    "id": "candy_pumpkin",
     "type": "harvest",
     "leftovers": "ruined_candy",
-    "message": "As you butcher the corpse, it turns into a mess of various pumpkin parts.",
+    "message": "As you butcher the corpse, it turns into a heap of confectionary candy pumpkins.",
     "entries": [
-      { "drop": "pumpkin", "type": "flesh", "mass_ratio": 0.6 },
-      { "drop": "seed_pumpkin", "base_num": [ 3, 5 ], "max": 5, "type": "offal" }
+      { "drop": "pumpkin_candy", "type": "flesh", "mass_ratio": 0.6 },
     ]
   },
   {
