@@ -2446,6 +2446,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_wooden_well",
+    "group": "build_water_well",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ]
+    ],
+    "pre_terrain": "t_covered_well",
+    "post_terrain": "t_wooden_well"
+  },
+  {
+    "type": "construction",
     "id": "constr_hay",
     "group": "place_hay_bale",
     "category": "FURN",
