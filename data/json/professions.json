@@ -1023,7 +1023,7 @@
   {
     "type": "profession",
     "id": "nco",
-    "name": "Non Comissioned Officer",
+    "name": "Non Commissioned Officer",
     "description": "You're a veteran of several peacekeeping missions.  You led your squad as a sort of parental figure, and they relied on you to give orders and keep them alive.  You failed them.  And now you're alone.",
     "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],

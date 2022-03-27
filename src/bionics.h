@@ -103,7 +103,7 @@ struct bionic_data {
     std::vector<effect_on_condition_id> activated_eocs;
     /** effect_on_conditions triggered while this bionic is active */
     std::vector<effect_on_condition_id> processed_eocs;
-    /** effect_on_conditions triggered when this bionic is deactived */
+    /** effect_on_conditions triggered when this bionic is deactivated */
     std::vector<effect_on_condition_id> deactivated_eocs;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;

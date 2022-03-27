@@ -2054,7 +2054,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
     // Checking for ledge is a workaround for the case when mapgen doesn't
     // actually make a valid ledge drop location with zlevels on, this forces
-    // at least one zlevel drop and if down_ter is impassible it's probably
+    // at least one zlevel drop and if down_ter is impassable it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
     const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
 
@@ -3149,11 +3149,11 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 continue;
             }
             // if a wall collapses, walls without support from below risk collapsing and
-            //propogate the collapse upwards
+            //propagate the collapse upwards
             if( zlevels && wall && p == t && has_flag( ter_furn_flag::TFLAG_WALL, tz ) ) {
                 collapse_at( tz, silent );
             }
-            // floors without support from below risk collapsing into open air and can propogate
+            // floors without support from below risk collapsing into open air and can propagate
             // the collapse horizontally but not vertically
             if( p != t && ( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, t ) &&
                             has_flag( ter_furn_flag::TFLAG_COLLAPSES, t ) ) ) {
@@ -6406,7 +6406,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    // Cannonicalize the order of the tripoints so the cache is reflexive.
+    // Canonicalize the order of the tripoints so the cache is reflexive.
     const tripoint &min = F < T ? F : T;
     const tripoint &max = !( F < T ) ? F : T;
     // A little gross, just pack the values into a point.

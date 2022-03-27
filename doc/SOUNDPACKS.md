@@ -113,7 +113,7 @@ A playlist can be included with a format like this:
 ]
 ```
 
-Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different. 
+Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different.
 
 Playlists are governed mainly by their id, which dictate in which situation a given playlist will be activated. Different situations trigger different ids, and if more than one ids are active at the same time, then the conflict is resolved by a priority model. Basically, each music id are given a hard-coded priority, where ids with higher priority takes precedent.
 

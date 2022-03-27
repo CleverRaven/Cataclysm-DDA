@@ -799,7 +799,7 @@ static item_location place_craft_or_disassembly(
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
-                // This almost certianly shouldn't happen
+                // This almost certainly shouldn't happen
                 put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
             }
         } else {
