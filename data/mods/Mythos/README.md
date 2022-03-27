@@ -11,7 +11,7 @@ Players will take on the roles of investigators in a variety of professions batt
 
 - Addition of further Mythos creatures to compliment the already existing ones (elder things, ghouls, ghasts, nightgaunts, deep ones, dark young, shantaks, servitors, rat-things etc.)
 
-- Addition of cults\cult-like posessions among the remaining humans (Esoteric Order of Dagon, Yithian Time Travellers, Insects from Shaggai, Church of Starry Wisdom etc.)
+- Addition of cults\cult-like possessions among the remaining humans (Esoteric Order of Dagon, Yithian Time Travellers, Insects from Shaggai, Church of Starry Wisdom etc.)
 
 - Reworking of existing items\buildings\vehicles to 1920s levels of construction and technology and removing the ruined aspect to represent people just vanishing (meals on tables etc.)
 

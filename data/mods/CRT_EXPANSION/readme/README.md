@@ -5,7 +5,7 @@ This mod also adds a few new classes to CDDA. To name a few: the C.R.I.T Medic, 
 
 I tried to keep the professions revolving around slightly upgraded army gear and as "balanced" as possible except for the CRIT Spec Ops which is for trying out the new items and being stupid powerful and the Juggernaught for being a Juggernaught.
 
-I can't fix some things like the toolmods attatching to the vest and gasmask, but that doesn't hurt the game (my mod already breaks it) and it's more of a cheap way to progress instead of getting a UPS, even though it still drinks a ton of power.
+I can't fix some things like the toolmods attaching to the vest and gasmask, but that doesn't hurt the game (my mod already breaks it) and it's more of a cheap way to progress instead of getting a UPS, even though it still drinks a ton of power.
 
 
 

@@ -436,7 +436,7 @@ class mission
          */
         /*@{*/
         static void on_creature_death( Creature &poor_dead_dude );
-        // returns: whether any mission is tranferred to fuser
+        // returns: whether any mission is transferred to fuser
         static bool on_creature_fusion( Creature &fuser, Creature &fused );
         /*@}*/
 

@@ -49,6 +49,7 @@
       [ "bowl_pewter", 25 ],
       [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
+      [ "bowl_wood", 5 ],
       [ "plastic_spoon", 20 ],
       [ "plastic_knife", 20 ],
       [ "plastic_fork", 20 ],
@@ -1030,6 +1031,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "knife_butter", "prob": 90 },
       { "item": "knife_steak", "prob": 85 },
       { "item": "fork", "prob": 90 },

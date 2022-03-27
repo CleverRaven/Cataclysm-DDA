@@ -263,13 +263,13 @@
   {
     "id": "rope_superior",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 1080 g/9 m of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 1080 g/9 m of rope.",
     "components": [ [ [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_superior_short", 5, "LIST" ] ] ]
   },
   {
     "id": "rope_superior_short",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
   },
   {

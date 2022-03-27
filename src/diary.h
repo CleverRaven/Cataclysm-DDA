@@ -62,7 +62,7 @@ struct diary_page {
 };
 
 /// <summary>
-/// diary is connectet to the player avatar.
+/// diary is connected to the player avatar.
 /// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
 /// The player is also able to add a Text in every page.
 /// </summary>
@@ -79,15 +79,15 @@ class diary
         int opened_page = 0; // NOLINT(cata-serialize)
         /*list of changes from opened page to previous page*/
         std::vector<std::string> change_list; // NOLINT(cata-serialize)
-        /*maps discription to position in change list*/
+        /*maps description to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
 
-        //methoden
+        //methods
     public:
         diary();
         virtual ~diary() = default;
-        /*static methode to open a diary ui*/
+        /*static method to open a diary ui*/
         static void show_diary_ui( diary *c_diary );
         /*last entry in the diary, will be called after character death */
         void death_entry();
@@ -142,7 +142,7 @@ class diary
 
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
         void export_to_txt( bool lastexport = false );
-        /*method for adding changes to the changelist. with the possibility to connect a desciption*/
+        /*method for adding changes to the changelist. with the possibility to connect a description*/
         void add_to_change_list( std::string entry, std::string desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

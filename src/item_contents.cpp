@@ -1556,7 +1556,7 @@ item item_contents::remove_pocket( int index )
         std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
-    // at this point reveresed past the pockets we want to get rid of so now start going forward
+    // at this point reversed past the pockets we want to get rid of so now start going forward
     auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
