@@ -4,7 +4,7 @@
     "id": "river_cave",
     "subtype": "mutable",
     "locations": [ "subterranean_empty", "land", "lake_shore" ],
-    "occurrences": [ 1, 3 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "LAKE" ],
     "spawns": { "group": "GROUP_KRAKEN_SURFACE", "population": [ 100, 200 ], "radius": [ 3, 5 ] },
     "check_for_locations": [
