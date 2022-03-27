@@ -672,7 +672,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ### Furniture Only
 
-- ```AUTODOC``` This furniture can be an autodoc console, it also needs the `autodoc` examine action.
+- ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
 - ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
 - ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
 - ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
