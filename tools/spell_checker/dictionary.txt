@@ -551,6 +551,8 @@ eyebags
 eyebot
 eyebots
 eyecatching
+eyespot
+eyespots
 eyestalks
 f
 faceplates
@@ -1020,6 +1022,8 @@ methothexazole
 metrology
 miasaura
 micellular
+microbian
+microbians
 microbrewed
 microcentrifuge
 microcontrollers
@@ -1164,6 +1168,8 @@ nrmmy
 numpad
 obovate
 octo
+ocularium
+oculariums
 officiants
 offputting
 offroad
