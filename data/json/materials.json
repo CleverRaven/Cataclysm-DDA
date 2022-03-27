@@ -414,6 +414,7 @@
     "fire_resist": 10,
     "elec_resist": 10,
     "chip_resist": 20,
+    "soft": true,
     "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut"
@@ -435,6 +436,7 @@
     "fire_resist": 10,
     "elec_resist": 10,
     "chip_resist": 20,
+    "soft": true,
     "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut"

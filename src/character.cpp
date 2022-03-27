@@ -196,6 +196,7 @@ static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_chafing( "chafing" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -3424,6 +3425,17 @@ bool Character::has_nv()
     }
 
     return nv;
+}
+
+void Character::calc_discomfort()
+{
+    // clear all instances of discomfort
+    remove_effect( effect_chafing );
+    for( const bodypart_id &bp : worn.where_discomfort() ) {
+        if( bp->feels_discomfort ) {
+            add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
+    }
 }
 
 void Character::calc_encumbrance()

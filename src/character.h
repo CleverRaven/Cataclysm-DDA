@@ -1253,6 +1253,8 @@ class Character : public Creature, public visitable
     public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
+        /** Calculate any discomfort your current clothes are causing. */
+        void calc_discomfort();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
         // recalculates bodyparts based on enchantments modifying them and the default anatomy.

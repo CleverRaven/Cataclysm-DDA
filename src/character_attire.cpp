@@ -162,36 +162,17 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    // if the item is rigid make sure other rigid items aren't already equipped
+    if( it.is_rigid() ) {
+        ret_val<bool> conflict = worn.check_rigid_conflicts( it );
+        if( !conflict.success() ) {
+            return conflict;
+        }
+    }
+
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<bool>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
-    }
-
-    if( ( ( it.covers( body_part_foot_l ) && is_wearing_shoes( side::LEFT ) ) ||
-          ( it.covers( body_part_foot_r ) && is_wearing_shoes( side::RIGHT ) ) ) &&
-        ( !it.has_flag( flag_OVERSIZE ) || !it.has_flag( flag_OUTER ) ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_BELTED ) && !it.has_flag( flag_PERSONAL ) && !it.has_flag( flag_AURA ) &&
-        !it.has_flag( flag_SEMITANGIBLE ) ) {
-        // Checks to see if the player is wearing shoes
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You're already wearing footwear!" )
-                                              : string_format( _( "%s is already wearing footwear!" ), get_name() ) ) );
-    }
-
-    if( it.covers( body_part_head ) &&
-        !it.has_flag( flag_HELMET_COMPAT ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_PERSONAL ) &&
-        !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
-        is_wearing_helmet() ) {
-        return ret_val<bool>::make_failure( wearing_something_on( body_part_head ),
-                                            ( is_avatar() ? _( "You can't wear that with other headgear!" )
-                                              : string_format( _( "%s can't wear that with other headgear!" ), get_name() ) ) );
-    }
-
-    if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-        ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this, body_part_head ) > 40 ) ) {
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You can't wear that much on your head!" )
-                                              : string_format( _( "%s can't wear that much on their head!" ), get_name() ) ) );
     }
 
     return ret_val<bool>::make_success();
@@ -239,6 +220,7 @@ Character::wear( item_location item_wear, bool interactive )
         was_weapon = false;
     }
 
+    worn.check_rigid_sidedness( to_wear_copy );
     worn.one_per_layer_sidedness( to_wear_copy );
 
     auto result = wear_item( to_wear_copy, interactive );
@@ -322,6 +304,7 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
     if( do_calc_encumbrance ) {
         guy.recalc_sight_limits();
         guy.calc_encumbrance();
+        guy.calc_discomfort();
     }
 
     return new_item_it;
@@ -413,6 +396,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
 
         recalc_sight_limits();
         calc_encumbrance();
+        calc_discomfort();
         return true;
     } else {
         return false;
@@ -638,6 +622,21 @@ bool outfit::one_per_layer_change_side( item &it, const Character &guy ) const
     return true;
 }
 
+bool outfit::check_rigid_change_side( item &it, const Character &guy ) const
+{
+    if( !check_rigid_conflicts( it, it.get_side() ).success() ) {
+        const std::string player_msg = string_format(
+                                           _( "Your %s conflicts with hard armor on your other side so you can't swap it." ),
+                                           it.tname() );
+        const std::string npc_msg = string_format(
+                                        _( "<npcname>'s %s conflicts with hard armor on your other side so they can't swap it." ),
+                                        it.tname() );
+        guy.add_msg_player_or_npc( m_info, player_msg, npc_msg );
+        return false;
+    }
+    return true;
+}
+
 bool Character::change_side( item &it, bool interactive )
 {
     if( !it.swap_side() ) {
@@ -651,6 +650,14 @@ bool Character::change_side( item &it, bool interactive )
     }
 
     if( !worn.one_per_layer_change_side( it, *this ) ) {
+        // revert the side swap since it isn't valid
+        it.swap_side();
+        return false;
+    }
+
+    if( !worn.check_rigid_change_side( it, *this ) ) {
+        // revert the side swap since it isn't valid
+        it.swap_side();
         return false;
     }
 
@@ -662,6 +669,7 @@ bool Character::change_side( item &it, bool interactive )
 
     mod_moves( -250 );
     calc_encumbrance();
+    calc_discomfort();
 
     return true;
 }
@@ -1157,6 +1165,75 @@ ret_val<bool> outfit::only_one_conflicts( const item &clothing ) const
     return ret_val<bool>::make_success();
 }
 
+ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) const
+{
+
+    std::vector<sub_bodypart_id> to_test;
+
+    // if not overridden get the actual side of the item
+    if( s == side::num_sides ) {
+        s = clothing.get_side();
+    }
+
+    // if the clothing is sided and not on the side we want to test
+    // create a copy that is swapped in side to test on
+    if( clothing.is_sided() && clothing.get_side() != s ) {
+        item swapped_item( clothing );
+        swapped_item.set_side( s );
+        // figure out which sublimbs need to be tested
+        for( const sub_bodypart_id &sbp : swapped_item.get_covered_sub_body_parts() ) {
+            if( swapped_item.is_bp_rigid( sbp ) ) {
+                to_test.push_back( sbp );
+            }
+        }
+    } else {
+        // figure out which sublimbs need to be tested
+        for( const sub_bodypart_id &sbp : clothing.get_covered_sub_body_parts() ) {
+            if( clothing.is_bp_rigid( sbp ) ) {
+                to_test.push_back( sbp );
+            }
+        }
+    }
+
+
+
+    // go through all worn and see if already wearing something rigid
+    for( const item &i : worn ) {
+        // check each sublimb individually
+        for( const sub_bodypart_id &sbp : to_test ) {
+            // skip if the item doesn't currently cover the bp
+            if( !i.covers( sbp ) ) {
+                continue;
+            }
+
+            if( i.is_bp_rigid( sbp ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
+            }
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+ret_val<bool> outfit::check_rigid_conflicts( const item &clothing ) const
+{
+    if( !clothing.is_sided() ) {
+        return check_rigid_conflicts( clothing, side::BOTH );
+    }
+
+    ret_val<bool> ls = check_rigid_conflicts( clothing, side::LEFT );
+    ret_val<bool> rs = check_rigid_conflicts( clothing, side::RIGHT );
+
+
+    if( !ls.success() && !rs.success() ) {
+        return ls;
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+
+
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
     const bool item_one_per_layer = clothing.has_flag( json_flag_ONE_PER_LAYER );
@@ -1171,6 +1248,21 @@ void outfit::one_per_layer_sidedness( item &clothing ) const
                 clothing.set_side( side::LEFT );
             }
         }
+    }
+}
+
+void outfit::check_rigid_sidedness( item &clothing ) const
+{
+    if( !clothing.is_sided() ) {
+        //nothing to do
+        return;
+    }
+
+    // we can assume both isn't an option because it'll be caught in can_wear
+    if( check_rigid_conflicts( clothing, side::LEFT ).success() ) {
+        clothing.set_side( side::LEFT );
+    } else {
+        clothing.set_side( side::RIGHT );
     }
 }
 
@@ -1735,6 +1827,28 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
     return total_warmth;
+}
+
+std::unordered_set<bodypart_id> outfit::where_discomfort() const
+{
+    // get all rigid body parts to begin with
+    std::unordered_set<sub_bodypart_id> covered_sbps;
+    std::unordered_set<bodypart_id> uncomfortable_bps;
+
+    for( const item &i : worn ) {
+        // check each sublimb individually
+        for( const sub_bodypart_id &sbp : i.get_covered_sub_body_parts() ) {
+            if( i.is_bp_comfortable( sbp ) ) {
+                covered_sbps.insert( sbp );
+            }
+            // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
+            if( i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+                uncomfortable_bps.insert( sbp->parent );
+            }
+        }
+    }
+
+    return uncomfortable_bps;
 }
 
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
