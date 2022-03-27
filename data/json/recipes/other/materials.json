@@ -501,7 +501,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 5 ] ] ]
+    "components": [ [ [ "thread", 5 ], [ "plant_fibre", 5 ] ] ]
   },
   {
     "result": "sheet_cotton",
@@ -517,7 +517,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 5 ] ] ]
+    "components": [ [ [ "thread", 5 ], [ "plant_fibre", 5 ] ] ]
   },
   {
     "result": "sheet_cotton_patchwork",
