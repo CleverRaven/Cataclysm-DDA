@@ -1206,6 +1206,12 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
+            // skip if either item cares only about it's layer and they don't match up
+            if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
+                !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
             if( i.is_bp_rigid( sbp ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
             }

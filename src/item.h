@@ -1559,6 +1559,9 @@ class item : public visitable
         template <typename T>
         bool is_bp_rigid( const T &bp ) const;
         template <typename T>
+        // check if rigid and that it only cares about the layer it is on
+        bool is_bp_rigid_selective( const T &bp ) const;
+        template <typename T>
         bool is_bp_comfortable( const T &bp ) const;
 
         /**
