@@ -2544,8 +2544,22 @@
     }
   },
   {
-  "type": "material",
-  "id": "slag",
-  "name": "Slag",
-  "density": 5  
+    "type": "material",
+    "id": "slag",
+    "name": "Slag",
+    "density": 4,
+    "specific_heat_liquid": 1.7,
+    "specific_heat_solid": 1.7,
+    "latent_heat": 273,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 1,
+    "acid_resist": 0,
+    "fire_resist": 20,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
+  }
 ]
