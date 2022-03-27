@@ -19,7 +19,7 @@
         "   ak.h...h.........a   ",
         "   a..h...k.........a   ",
         "   a..h..aaaaaaaaaaaa   ",
-        "   a.....e......iiiia   ",
+        "   a.....e....FFiiiia   ",
         "   aaaaaaa..........a   ",
         "   aL.Ba<a......p..ha   ",
         "   aL.Baea.........ha   ",
@@ -55,7 +55,8 @@
         "m": "f_trashcan",
         "B": "f_bench",
         "L": "f_locker",
-        "p": "f_metal_butcher_rack"
+        "p": "f_metal_butcher_rack",
+        "F": "f_freezer"
       },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 4, 4 ], "y": [ 3, 3 ] },
@@ -70,6 +71,8 @@
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 17, 17 ], "y": [ 3, 3 ] },
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 18, 18 ], "y": [ 3, 3 ] },
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 19, 19 ], "y": [ 3, 3 ] },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 14, 14 ], "y": [ 13, 13 ] },
+        { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 15, 15 ], "y": [ 13, 13 ] },
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 16, 16 ], "y": [ 13, 13 ] },
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 17, 17 ], "y": [ 13, 13 ] },
         { "group": "butcher_raw_meat", "chance": 60, "repeat": [ 2, 8 ], "x": [ 18, 18 ], "y": [ 13, 13 ] },
@@ -226,7 +229,7 @@
         "   ak...ff..a.all.aLa   ",
         "   ak.p.ff..a.ac..e.a   ",
         "   ak.......e.e...a.a   ",
-        "  4a.iiiii.ma.am..a<a   ",
+        "  4a.GGiii.ma.am..a<a   ",
         "   aaaaaaaaaaeaaaaaaa   ",
         "              gggg      ",
         "              gggg      ",
@@ -259,7 +262,8 @@
         "L": "f_locker",
         "m": "f_trashcan",
         "p": "f_metal_butcher_rack",
-        "S": "f_sink"
+        "S": "f_sink",
+        "G": "f_freezer"
       },
       "toilets": { "t": {  } },
       "place_loot": [
@@ -426,7 +430,7 @@
         "   ak...ff..a.al..lla   ",
         "   ak.p.ff..a.alc..ca   ",
         "   ak.......o.o.....a   ",
-        "  4a.iiiiiXma.am.sssa   ",
+        "  4a.GGiiiXma.am.sssa   ",
         "   aaaaaaaaaaoaaaaaaa   ",
         "              gggg<     ",
         "              gggg      ",
@@ -461,13 +465,15 @@
         "m": "f_trashcan",
         "s": "f_sofa",
         "p": "f_metal_butcher_rack",
-        "S": "f_sink"
+        "S": "f_sink",
+        "G": "f_freezer"
       },
       "toilets": { "t": {  } },
       "items": {
         "F": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
         "k": { "item": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ] },
-        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] }
+        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
+        "G": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] }
       },
       "place_loot": [
         { "group": "trash", "chance": 80, "x": 11, "y": 16 },
