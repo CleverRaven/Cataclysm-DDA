@@ -24,6 +24,7 @@
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
+static const efftype_id effect_mending( "mending" );
 
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -362,7 +363,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = player->get_effect( efftype_id( "mending" ), part );
+                const auto &eff = player->get_effect( effect_mending, part );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;
