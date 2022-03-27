@@ -675,7 +675,7 @@
   {
     "id": "summon_trapspider",
     "type": "SPELL",
-    "name": "summon trapdoor spider",
+    "name": "Summon Trapdoor Spider",
     "description": "This spell summons hostile trapdoor spiders from the earth.",
     "effect": "summon",
     "effect_str": "mon_spider_trapdoor_giant",
@@ -1028,7 +1028,7 @@
   {
     "type": "SPELL",
     "id": "swirling_vortex",
-    "name": { "str": "swirling vortex" },
+    "name": { "str": "Swirling Vortex" },
     "description": "Sends the victim to the entrance.",
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
