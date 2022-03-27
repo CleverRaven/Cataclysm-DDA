@@ -3122,6 +3122,17 @@
   },
   {
     "type": "construction",
+    "id": "app_freezer",
+    "group": "place_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "freezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_minifreezer",
     "group": "place_minifreezer",
     "category": "APPLIANCE",
