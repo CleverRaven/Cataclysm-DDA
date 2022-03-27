@@ -3578,7 +3578,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( armor->rigid ) {
                 std::string coverage = _( "<bold>This armor is rigid</bold>" );
                 info.emplace_back( "ARMOR", coverage );
-            } else if( !!armor ) {
+            } else {
                 //only some parts are rigid
                 std::string coverage = _( "<bold>Rigid</bold>:" );
                 for( const armor_portion_data &entry : armor->sub_data ) {
