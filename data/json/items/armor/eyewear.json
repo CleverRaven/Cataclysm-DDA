@@ -55,7 +55,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
@@ -75,7 +75,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "FRAGILE" ],
     "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ] } ]
   },
   {
@@ -97,7 +97,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ]
   },
   {
@@ -118,7 +118,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -138,7 +138,7 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -159,7 +159,7 @@
     "color": "cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 20, "covers": [ "eyes" ] } ]
   },
   {
@@ -181,7 +181,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -202,7 +202,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER" ],
+    "flags": [ "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
@@ -220,7 +220,7 @@
     "color": "light_cyan",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "FRAGILE" ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ]
   },
   {
@@ -283,7 +283,7 @@
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 9, "coverage": 90, "covers": [ "eyes" ] } ]
   },
   {
@@ -303,7 +303,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
   },
   {
@@ -323,7 +323,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -343,7 +343,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -364,7 +364,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -385,7 +385,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -405,7 +405,7 @@
     "color": "yellow",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -427,7 +427,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "FIRESTARTER", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -447,7 +447,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -467,7 +467,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -488,7 +488,7 @@
     "color": "dark_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -508,7 +508,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -528,7 +528,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -549,7 +549,7 @@
     "color": "light_gray",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -569,7 +569,7 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -589,7 +589,7 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE" ],
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   },
   {
@@ -610,7 +610,7 @@
     "color": "white",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE" ],
+    "flags": [ "SUPER_FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
     "armor": [ { "coverage": 75, "covers": [ "eyes" ] } ]
   }
 ]

@@ -12817,13 +12817,7 @@ template bool item::is_bp_rigid<bodypart_id>( const bodypart_id &bp ) const;
 template <typename T>
 bool item::is_bp_rigid_selective( const T &bp ) const
 {
-    // overrides for the item overall
-    if( has_flag( flag_SOFT ) ) {
-        return false;
-    } else if( has_flag( flag_HARD ) ) {
-        return true;
-    }
-
+    bool is_rigid;
 
     const armor_portion_data *portion = portion_for_bodypart( bp );
 
@@ -12831,7 +12825,16 @@ bool item::is_bp_rigid_selective( const T &bp ) const
         return false;
     }
 
-    return portion->rigid && portion->rigid_layer_only;
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        is_rigid = false;
+    } else if( has_flag( flag_HARD ) ) {
+        is_rigid = true;
+    } else {
+        is_rigid = portion->rigid;
+    }
+
+    return is_rigid && portion->rigid_layer_only;
 }
 
 // initialize for sub_bodyparts and body parts
