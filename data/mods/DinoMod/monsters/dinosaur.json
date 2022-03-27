@@ -226,7 +226,7 @@
     "melee_cut": 10,
     "hp": 200,
     "zombify_into": "mon_zappalachiosaurus",
-    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail. The snout is long with six ridges.",
+    "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.  The snout is long with six ridges.",
     "reproduction": { "baby_egg": "egg_appalachiosaurus", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [ [ "GRAB", 15 ], { "type": "bite", "cooldown": 15 }, [ "LUNGE", 20 ] ]
   },
@@ -610,7 +610,7 @@
     "material": [ "flesh" ],
     "aggression": 1,
     "morale": 50,
-    "speed": 25,
+    "speed": 80,
     "melee_skill": 7,
     "melee_dice": 1,
     "melee_dice_sides": 8,
