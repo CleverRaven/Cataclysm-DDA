@@ -45,8 +45,8 @@
         "                        "
       ],
       "terrain": {
-        " ": [ [ "t_region_soil", 2 ], "t_region_groundcover" ],
-        "x": [ [ "t_region_soil", 5 ], [ "t_grass_dead", 2 ], "t_region_groundcover" ],
+        " ": [ [ "t_region_soil", 2 ], "t_region_groundcover", "t_grass_dead" ],
+        "x": [ [ "t_region_soil", 5 ], "t_grass_dead" ],
         "~": "t_sewage",
         "*": [ [ "t_sewage", 6 ], "t_region_soil" ],
         ",": [ [ "t_sewage", 3 ], "t_region_soil" ],
