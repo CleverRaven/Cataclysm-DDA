@@ -203,10 +203,10 @@ std::string display::date_string()
 
 std::string display::time_string( const Character &u )
 {
-    // Return exact time if character has a watch, or approximate time if aboveground
+    // Return exact time if character has a watch, or approximate time if can see the sky
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -918,17 +918,6 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, 0 );
-        }
-    }
-    return "-";
-}
-
 // Single-letter move mode (W, R, C, P)
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
@@ -1130,7 +1119,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     for( int row = top; row <= bottom; row++ ) {
         // Scan across the width of the row
         for( int col = left; col <= right; col++ ) {
-            // Is this point along the border of the overmap text area we have to work wth?
+            // Is this point along the border of the overmap text area we have to work with?
             // If so, overmap_tile_symbol_color may draw a mission indicator at this point.
             const bool edge = !found_mi && !( mission_xyz.x() >= center_xyz.x() + left &&
                                               mission_xyz.x() <= center_xyz.x() + right &&

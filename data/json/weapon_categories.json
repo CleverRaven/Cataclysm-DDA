@@ -71,6 +71,11 @@
   },
   {
     "type": "weapon_category",
+    "id": "SPEARS",
+    "name": "SPEARS"
+  },
+  {
+    "type": "weapon_category",
     "id": "POLEARMS",
     "name": "POLEARMS"
   },

@@ -178,6 +178,11 @@ void zone_type::load_zones( const JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
+void zone_type::reset()
+{
+    zone_type_factory.reset();
+}
+
 void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
@@ -587,6 +592,11 @@ void zone_data::set_enabled( const bool enabled_arg )
     enabled = enabled_arg;
 }
 
+void zone_data::set_temporary_disabled( const bool enabled_arg )
+{
+    temporarily_disabled = enabled_arg;
+}
+
 void zone_data::set_is_vehicle( const bool is_vehicle_arg )
 {
     is_vehicle = is_vehicle_arg;
@@ -642,6 +652,22 @@ void zone_manager::cache_data( bool update_avatar )
                  elem.get_start_point(), elem.get_end_point() ) ) {
             cache.insert( p );
         }
+    }
+}
+
+void zone_manager::reset_disabled()
+{
+    bool changed = false;
+    for( zone_data &elem : zones ) {
+        if( elem.get_temporarily_disabled() ) {
+            elem.set_enabled( true );
+            elem.set_temporary_disabled( false );
+            changed = true;
+        }
+    }
+
+    if( changed ) {
+        cache_data();
     }
 }
 

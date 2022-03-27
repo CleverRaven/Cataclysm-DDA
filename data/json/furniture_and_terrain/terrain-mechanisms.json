@@ -636,7 +636,7 @@
   {
     "type": "terrain",
     "id": "t_card_science_medical_red",
-    "name": "Medical: Red zone card reader",
+    "name": "Medical: red zone card reader",
     "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a syringe on a red background.  You could swipe a researcher scientist badge near it to unlock the gates.",
     "//": "Entrance card for a lab medical areas.",
     "symbol": "6",

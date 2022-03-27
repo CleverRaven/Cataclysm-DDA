@@ -808,11 +808,12 @@ Places a gas pump with fuel in it.
 
 ### Place items from an item group with "items"
 
-| Field  | Description
-| ---    | ---
-| item   | (required, string or itemgroup object) the item group to use.
-| chance | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
-| repeat | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| Field   | Description
+| ---     | ---
+| item    | (required, string or itemgroup object) the item group to use.
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
+| faction | (optional, string) the faction that owns these items.
 
 
 ### Place monsters from a monster group with "monsters"
@@ -835,6 +836,7 @@ The actual monsters are spawned when the map is loaded. Fields:
 | rotation | (optional, integer) the direction the vehicle faces.
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
 | status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| faction  | (optional, string) faction this vehicle belongs to.
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
 
@@ -1061,7 +1063,7 @@ Place_nested allows for limited conditional spawning of chunks based on the `"id
 
 | Field              | Description
 | ---                | ---
-| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.  
+| chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
 | neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.

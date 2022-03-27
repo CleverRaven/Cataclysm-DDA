@@ -38,5 +38,30 @@
     "phase": "gas",
     "accelerated_decay": true,
     "display_field": false
+  },
+  {
+    "id": "fd_elect_anomaly",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "electrical anomaly", "sym": "&" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "description_affix": "illuminated_by",
+    "half_life": "20 turns",
+    "has_elec": true,
+    "priority": -1,
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_electricity",
+    "wandering_field": "fd_electricity"
   }
 ]

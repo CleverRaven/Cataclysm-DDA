@@ -3619,7 +3619,7 @@
     "type": "keybinding",
     "id": "IGNORE",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
-    "name": "Ignore further distractions and finish",
+    "name": "Ignore this distraction and continue",
     "bindings": [
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },

@@ -263,13 +263,13 @@
   {
     "id": "rope_superior",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 1080 g/9 m of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 1080 g/9 m of rope.",
     "components": [ [ [ "rope_30", 1 ], [ "vine_30", 1 ], [ "rope_superior_short", 5, "LIST" ] ] ]
   },
   {
     "id": "rope_superior_short",
     "type": "requirement",
-    "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
+    "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
   },
   {
@@ -277,6 +277,22 @@
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  },
+  {
+    "id": "mixed_steel",
+    "type": "requirement",
+    "//": "Materials for use in scrap armor",
+    "components": [
+      [
+        [ "scrap", 50 ],
+        [ "lc_steel_chunk", 5 ],
+        [ "lc_steel_lump", 1 ],
+        [ "mc_steel_chunk", 5 ],
+        [ "mc_steel_lump", 1 ],
+        [ "hc_steel_chunk", 5 ],
+        [ "hc_steel_lump", 1 ]
+      ]
+    ]
   },
   {
     "id": "steel_tiny",
