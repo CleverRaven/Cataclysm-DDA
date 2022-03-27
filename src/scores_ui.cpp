@@ -15,6 +15,7 @@
 #include "cursesdef.h"
 #include "event_statistics.h"
 #include "input.h"
+#include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"
 #include "point.h"
@@ -156,8 +157,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                     view.set_text( kills.get_kills_text() );
                     break;
                 case tab_mode::num_tabs:
-                    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-                    cata_assert( false );
+                    cata_fatal( "Invalid tab" );
                     break;
             }
         }

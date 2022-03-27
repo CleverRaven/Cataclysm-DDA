@@ -398,7 +398,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
@@ -417,7 +417,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
@@ -436,7 +436,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 16 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "chem_black_powder", 12 ] ],
       [ [ "magnesium", 4 ] ],
@@ -460,7 +460,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   }
 ]

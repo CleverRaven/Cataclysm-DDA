@@ -5,7 +5,10 @@
 #include "options.h"
 #include "options_helpers.h"
 
-
+static const string_id<scenario> scenario_ambushed( "ambushed" );
+static const string_id<scenario> scenario_test_random_day( "test_random_day" );
+static const string_id<scenario> scenario_test_random_hour( "test_random_hour" );
+static const string_id<scenario> scenario_test_random_year( "test_random_year" );
 
 TEST_CASE( "Test start dates" )
 {
@@ -44,8 +47,7 @@ TEST_CASE( "Test start dates" )
     }
 
     SECTION( "Scenario with start date" ) {
-        static const string_id<scenario> ambushed_scenario( "ambushed" );
-        set_scenario( &ambushed_scenario.obj() );
+        set_scenario( &scenario_ambushed.obj() );
         // Ambushed scenario starts on winter day 1 (day 273 with default season length)
 
         // Initial time and spawn delay should not affect scenario dates
@@ -63,8 +65,7 @@ TEST_CASE( "Test start dates" )
     }
 
     SECTION( "Scenario with start date tries to start before cataclysm" ) {
-        static const string_id<scenario> ambushed_scenario( "ambushed" );
-        set_scenario( &ambushed_scenario.obj() );
+        set_scenario( &scenario_ambushed.obj() );
         // Ambushed scenario starts on winter day 1 (day 273 with default season length)
 
         override_option initial_day( "INITIAL_DAY", "350" );
@@ -139,8 +140,7 @@ TEST_CASE( "Random scenario dates" )
     time_duration default_start_hour = 1_hours * 8;
 
     SECTION( "Random hour" ) {
-        static const string_id<scenario> random_hour_scenario( "test_random_hour" );
-        set_scenario( &random_hour_scenario.obj() );
+        set_scenario( &scenario_test_random_hour.obj() );
 
         g->start_calendar();
 
@@ -167,8 +167,7 @@ TEST_CASE( "Random scenario dates" )
     }
 
     SECTION( "Random day" ) {
-        static const string_id<scenario> random_day_scenario( "test_random_day" );
-        set_scenario( &random_day_scenario.obj() );
+        set_scenario( &scenario_test_random_day.obj() );
 
         g->start_calendar();
 
@@ -196,8 +195,7 @@ TEST_CASE( "Random scenario dates" )
     }
 
     SECTION( "Random year" ) {
-        static const string_id<scenario> random_year_scenario( "test_random_year" );
-        set_scenario( &random_year_scenario.obj() );
+        set_scenario( &scenario_test_random_year.obj() );
 
         g->start_calendar();
 

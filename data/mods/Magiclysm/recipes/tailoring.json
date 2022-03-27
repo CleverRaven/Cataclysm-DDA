@@ -23,7 +23,7 @@
     "time": "30 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
     "components": [ [ [ "parabolan_wool_staple", 1 ] ] ]
   },

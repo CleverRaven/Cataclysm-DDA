@@ -28,6 +28,12 @@ class safemode
             SOUND
         };
 
+        enum class MovementModes : int {
+            WALKING,
+            DRIVING,
+            BOTH
+        };
+
         class rules_class
         {
             public:
@@ -37,13 +43,16 @@ class safemode
                 Creature::Attitude attitude;
                 int proximity;
                 Categories category;
+                MovementModes movement_mode;
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::Attitude::HOSTILE ),
-                    proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
+                    proximity( 0 ), category( Categories::HOSTILE_SPOTTED ), movement_mode( MovementModes::BOTH ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
-                             Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
+                             Creature::Attitude attitude_in, int proximity_in, Categories cat,
+                             MovementModes movement_mode_in ) : rule( rule_in ),
                     active( active_in ), whitelist( whitelist_in ),
-                    attitude( attitude_in ), proximity( proximity_in ), category( cat ) {}
+                    attitude( attitude_in ), proximity( proximity_in ), category( cat ),
+                    movement_mode( movement_mode_in ) {}
         };
 
         class rule_state_class
@@ -62,12 +71,13 @@ class safemode
          * lookup. When this is filled (by @ref safemode::create_rules()), every
          * monster existing in the game that matches a rule (either white- or blacklist)
          * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
-         * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
+         * safemode_rules[ 'creature name' ][ 'movement_mode' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
         // NOLINTNEXTLINE(cata-serialize)
-        std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;
+        std::unordered_map < std::string, std::array < std::array < rule_state_class, 3 >, 2 >>
+                safemode_rules_hostile; // NOLINT(cata-serialize)
         // NOLINTNEXTLINE(cata-serialize)
-        std::vector < rules_class > safemode_rules_sound;
+        std::array < std::vector < rules_class >, 2 > safemode_rules_sound;
 
         /**
          * current rules for global and character tab
@@ -95,9 +105,10 @@ class safemode
         void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
         rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
-                                  int proximity_in ) const;
+                                  int proximity_in, const bool driving = false ) const;
 
-        bool is_sound_safe( const std::string &sound_name_in, int proximity_in ) const;
+        bool is_sound_safe( const std::string &sound_name_in, int proximity_in,
+                            const bool driving = false ) const;
 
         std::string npc_type_name();
 

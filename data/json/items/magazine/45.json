@@ -40,6 +40,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock SMG 30-round magazine" },
     "description": "A 30-round polymer and steel box magazine for use with the Glock submachine gun.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "tdi_mag",
@@ -151,6 +152,7 @@
     "type": "MAGAZINE",
     "name": { "str": "USP .45 pistol 12-round magazine" },
     "description": "A 12 round magazine for use with the USP pistol",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "usp45mag",
@@ -176,6 +178,7 @@
     "type": "MAGAZINE",
     "name": { "str": "PPQ .45 12-round magazine" },
     "description": "A 12 round steel box magazine for the PPQ pistol.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "ppq45mag",
@@ -218,6 +221,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 13-round magazine" },
     "description": "A 13 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_21mag",
@@ -243,6 +247,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Glock .45 26-round magazine" },
     "description": "A 26 round magazine for use with Glock firearms chambered in .45 ACP.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "glock_21mag26",

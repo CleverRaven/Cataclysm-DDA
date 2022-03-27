@@ -22,7 +22,6 @@
 #include "value_ptr.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class item;
 template <typename E> struct enum_traits;
@@ -30,6 +29,7 @@ template <typename E> struct enum_traits;
 enum class recipe_filter_flags : int {
     none = 0,
     no_rotten = 1,
+    no_favorite = 2,
 };
 
 enum class recipe_time_flag : int {
@@ -56,7 +56,7 @@ struct recipe_proficiency {
     cata::optional<time_duration> max_experience = cata::nullopt;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct book_recipe_data {
@@ -65,7 +65,7 @@ struct book_recipe_data {
     bool hidden = false;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct practice_recipe_data {
@@ -79,7 +79,7 @@ struct practice_recipe_data {
     int skill_limit;
 
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 class recipe
@@ -108,6 +108,11 @@ class recipe
             return result_;
         }
 
+        const itype_id &container_id() const {
+            return container;
+        }
+
+        bool was_loaded = false;
         bool obsolete = false;
 
         std::string category;
@@ -170,8 +175,6 @@ class recipe
         /// @param decorated whether the result includes decoration (favorite mark, etc).
         std::string result_name( bool decorated = false ) const;
 
-        std::map<itype_id, int> byproducts;
-
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
         std::vector<recipe_proficiency> proficiencies;
@@ -228,7 +231,8 @@ class recipe
 
         // Create byproduct instances as if the recipe was just finished
         std::vector<item> create_byproducts( int batch = 1 ) const;
-
+        std::map<itype_id, int> get_byproducts() const;
+        bool in_byproducts( const itype_id &it ) const;
         bool has_byproducts() const;
 
         int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
@@ -254,7 +258,7 @@ class recipe
 
         bool is_practice() const;
         bool is_blueprint() const;
-        const std::string &get_blueprint() const;
+        const update_mapgen_id &get_blueprint() const;
         const translation &blueprint_name() const;
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
@@ -297,6 +301,9 @@ class recipe
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 
+        /** Time (in moves) to disassemble if different to assembly. Requires `reversible = true` */
+        int64_t uncraft_time = 0;
+
         /** What does the item spawn contained in? Unset ("null") means default container. */
         itype_id container = itype_id::NULL_ID();
 
@@ -317,12 +324,18 @@ class recipe
         /** If set (zero or positive) set charges of output result for items counted by charges */
         cata::optional<int> charges;
 
+        /** Legacy definitions for byproducts **/
+        std::map<itype_id, int> byproducts;
+
+        /** Item group representing byproducts **/
+        cata::optional<item_group_id> byproduct_group;
+
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
-        std::string blueprint;
+        update_mapgen_id blueprint;
         translation bp_name;
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;

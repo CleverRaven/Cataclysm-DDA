@@ -47,7 +47,14 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -116,7 +123,14 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -186,7 +200,14 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
+      "place_nested": [
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "north": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "east": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "south": "forest" } },
+        { "chunks": [ "formless_forest" ], "x": 0, "y": 0, "neighbors": { "west": "forest" } }
+      ],
       "nested": {
         "1": {
           "chunks": [
@@ -241,6 +262,7 @@
         "/ //      ./",
         "/..      ../"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -264,6 +286,7 @@
         "  // /..  ./",
         "////  //////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -287,6 +310,7 @@
         "/.//////////",
         "/ //      ./"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_smallcryoroom", 20 ], [ "formless_ruins_smallasrg", 20 ] ] } }
     }
@@ -311,6 +335,7 @@
         "/ //.. ..../",
         "/./.  /// ./"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_smallcryoroom", 20 ], [ "formless_ruins_smallasrg", 20 ] ] } }
     }
@@ -335,6 +360,7 @@
         "   o..o ... ",
         "   /#3/     "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_smallcryoroom", 20 ], [ "formless_ruins_smallasrg", 20 ] ] } }
     }
@@ -359,6 +385,7 @@
         "  ...   ... ",
         "   ..       "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -382,6 +409,7 @@
         "## 3..  ... ",
         "#  /  .     "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -405,6 +433,7 @@
         "##  ..  /.. ",
         "# /// . /   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -428,6 +457,7 @@
         "##  ..  /.. ",
         "# /// . /   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -451,6 +481,7 @@
         "##  ..  /33/",
         "# /// . /   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -474,6 +505,7 @@
         "##  .||||33/",
         "#////||||.. "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -497,6 +529,7 @@
         "## 3..  /   ",
         "#  /  . /   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -520,6 +553,7 @@
         "##  ..  3...",
         "#  /  . /.  "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -543,6 +577,7 @@
         "#  |.| |   /",
         "/         //"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -566,6 +601,7 @@
         "# |||| |   /",
         "/      /////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -589,6 +625,7 @@
         "#  |||||   /",
         "/  /   /////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -612,6 +649,7 @@
         "#/ |.   ////",
         "/..       //"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -635,6 +673,7 @@
         "            ",
         " //         "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
@@ -659,6 +698,7 @@
         "..         #",
         "/./.        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
@@ -683,6 +723,7 @@
         "#.         #",
         "/           "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ],
       "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
@@ -707,6 +748,7 @@
         "#     /.//..",
         "/         .."
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -730,6 +772,7 @@
         "##/ ..   .. ",
         "///////ó////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
       "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "W": "f_workbench" },
       "items": {
@@ -763,6 +806,7 @@
         "##/ooooo///.",
         "///..  //   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor", "1": "t_machinery_heavy" },
       "furniture": { "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
       "items": {
@@ -798,6 +842,7 @@
         "##/...  ... ",
         "///..  //   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "C": "t_metal_floor", "W": "t_metal_floor" },
       "furniture": { "C": "f_counter", "W": "f_rack" },
       "items": {
@@ -835,6 +880,7 @@
         "##/...   .. ",
         "///..  //   "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "C": "t_metal_floor", "s": "t_metal_floor" },
       "items": { "P": [ { "item": "afs_formless_ruins_random_suit", "chance": 80, "repeat": [ 1, 2 ] } ] },
       "furniture": { "P": "f_sleep_pod", "s": "f_sink" },
@@ -856,6 +902,7 @@
         "  /66/",
         "  ////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "6": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
       "furniture": { "6": "f_console_broken", "C": "f_compact_ASRG", "W": "f_workbench" },
       "items": {
@@ -883,6 +930,7 @@
         " #####",
         " ####/"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": {
         "-": "t_afs_space_ship_hull_wall",
         "+": "t_afs_space_ship_hatch_c",
@@ -909,6 +957,7 @@
         "  / C/",
         "  ////"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
       "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "W": "f_workbench" },
       "items": {
@@ -920,6 +969,21 @@
       },
       "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1, 5 ], "y": [ 1, 2 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
       "palettes": [ "afs_formless_ruins" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "formless_forest",
+    "//": "forest map for when adjacent forests exists",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "terrain", "id": "t_region_groundcover_forest", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 50, 200 ] },
+        { "point": "terrain", "id": "t_region_shrub", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 50, 100 ] },
+        { "point": "terrain", "id": "t_region_tree", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 20, 50 ] }
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   }
 ]

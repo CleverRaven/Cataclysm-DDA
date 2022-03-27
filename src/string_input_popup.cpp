@@ -405,7 +405,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ch == KEY_ESCAPE ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                SDL_StopTextInput();
+                StopTextInput();
             }
 #endif
             _text.clear();

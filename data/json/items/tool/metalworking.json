@@ -65,16 +65,9 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "rock_forge_pseudo",
-    "type": "TOOL",
-    "name": { "str": "rock forge" },
-    "copy-from": "char_forge",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "char_kiln",
@@ -125,6 +118,16 @@
     "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1750 ml",
+        "max_contains_weight": "1200 g"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -141,6 +144,16 @@
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1750 ml",
+        "max_contains_weight": "1200 g"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -221,7 +234,7 @@
       "msg": "The kiln's embers have died out; you can now disassemble it to harvest the charcoal.",
       "moves": 0,
       "type": "delayed_transform",
-      "transform_age": 3600,
+      "transform_age": 21600,
       "not_ready_msg": "The kiln is still burning."
     },
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -240,6 +253,49 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "lc_link_sheet",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "low steel chainmail sheet" },
+    "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
+    "weight": "1000 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 500,
+    "material": [ "lc_steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "mc_link_sheet",
+    "type": "TOOL",
+    "copy-from": "lc_link_sheet",
+    "name": { "str": "medium steel chainmail sheet" },
+    "material": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_link_sheet",
+    "type": "TOOL",
+    "copy-from": "lc_link_sheet",
+    "name": { "str": "high steel chainmail sheet" },
+    "material": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_link_sheet",
+    "type": "TOOL",
+    "copy-from": "lc_link_sheet",
+    "name": { "str": "hardened steel chainmail sheet" },
+    "material": [ "ch_steel" ]
+  },
+  {
+    "id": "qt_link_sheet",
+    "type": "TOOL",
+    "copy-from": "lc_link_sheet",
+    "name": { "str": "tempered steel chainmail sheet" },
+    "material": [ "qt_steel" ]
   },
   {
     "id": "swage",
@@ -293,7 +349,7 @@
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
-    "description": "These are long, metal tongs.  They are commonly used for cooking or in metalworking fabrication recipes.",
+    "description": "These are long, metal tongs.  They are commonly used for cooking.",
     "weight": "540 g",
     "volume": "500 ml",
     "price": 1600,
@@ -307,12 +363,30 @@
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "metalworking_tongs",
+    "type": "TOOL",
+    "name": { "str": "pair of flatjaw tongs", "str_pl": "pairs of flatjaw tongs" },
+    "description": "These are a pair of flatjaw tongs.  They are commonly used for metalworking, fabrication or forging recipes.",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "longest_side": "46 cm",
+    "price": 1600,
+    "price_postapoc": 10,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_FOOD" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "sandpaper",
     "type": "TOOL",
     "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
     "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
     "weight": "10 g",
-    "volume": "500 ml",
+    "volume": "50 ml",
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",
@@ -348,5 +422,92 @@
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan"
+  },
+  {
+    "id": "casting_mold",
+    "type": "TOOL",
+    "name": { "str": "sand casting mold" },
+    "description": "A mold for casting molten metals into different shapes",
+    "weight": "540 g",
+    "volume": "400 ml",
+    "longest_side": "100 cm",
+    "price": 800,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "clay", "wood" ],
+    "symbol": ";",
+    "color": "brown"
+  },
+  {
+    "id": "stone_polishing",
+    "type": "TOOL",
+    "name": { "str": "polishing stone" },
+    "description": "A large, natural stone with a flat surface to grind against.",
+    "weight": "8000 g",
+    "volume": "3 L",
+    "price": 400,
+    "price_postapoc": 15,
+    "to_hit": -2,
+    "bashing": 25,
+    "material": [ "stone" ],
+    "color": "dark_gray",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "pedal_grindstone",
+    "type": "TOOL",
+    "name": { "str": "pedal powered grindstone" },
+    "description": "A round, pedal-powered grindstone, useful for grinding metal.",
+    "weight": "15000g",
+    "volume": "4 L",
+    "price": 1500,
+    "price_postapoc": 35,
+    "to_hit": -5,
+    "bashing": 30,
+    "material": [ "stone", "wood", "steel" ],
+    "color": "dark_gray",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ]
+  },
+  {
+    "id": "scraper_steel",
+    "type": "TOOL",
+    "name": { "str": "steel scraper" },
+    "description": "A hardened steel tool similar to a drawknife, but for metal.",
+    "weight": "500g",
+    "volume": "500 ml",
+    "price": 1200,
+    "price_postapoc": 20,
+    "to_hit": -1,
+    "bashing": 3,
+    "cutting": 4,
+    "material": [ "wood", "steel" ],
+    "color": "brown",
+    "symbol": ";",
+    "qualities": [ [ "GRIND", 2 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "gas_forge",
+    "type": "TOOL",
+    "name": { "str": "gas forge" },
+    "//": "Based on the Whisper Daddy 3 Burner Forge, large enough to craft tools and small weapons.",
+    "description": "This is a gas-fueled metalworking forge.  If combined with the right tools, you could use this for metalworking.",
+    "weight": "32205 g",
+    "volume": "8 L",
+    "price": 80000,
+    "price_postapoc": 10000,
+    "to_hit": -5,
+    "bashing": 25,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "ammo": [ "propane" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
+    "sub": "forge",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

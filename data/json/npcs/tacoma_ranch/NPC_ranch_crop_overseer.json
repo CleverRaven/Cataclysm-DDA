@@ -28,7 +28,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_JOB",
-    "dynamic_line": "My job is to manage our outpost's agricultural production.  I'm constantly searching for trade partners and investors to increase our capacity.  If you are interested I typically have tasks that I need assistance with.",
+    "dynamic_line": "My job is to manage our outpost's agricultural production.  I'm constantly searching for trade partners and investors to increase our capacity.  If you are interested, I typically have tasks that I need assistance with.",
     "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_RANCH_CROP_OVERSEER" } ]
   }
 ]

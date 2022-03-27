@@ -83,6 +83,10 @@ class melee_actor : public mattack_actor
         bool blockable = true;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
+        // Limits on target bodypart hit sizes
+        int hitsize_min = -1;
+        int hitsize_max = -1;
+        bool attack_upper = true;
 
         /**
          * If empty, regular melee roll body part selection is used.
@@ -195,7 +199,10 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const gun_mode_id &mode ) const;
+        bool try_target( monster &z, Creature &target ) const;
+        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                    int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;

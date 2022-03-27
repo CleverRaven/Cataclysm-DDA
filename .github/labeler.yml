@@ -1,0 +1,83 @@
+"[C++]":
+  - "**/*.cpp"
+  - "**/*.h"
+
+"[JSON]":
+  - "**/*.json"
+
+"[Python]":
+  - "**/*.py"
+
+"<Documentation>":
+  - "**/*.md"
+  - doc/**/*
+  - doxygen_doc/**/*
+
+"Code: Tooling":
+  - tools/**/*
+  - .github/**/*
+  - utilities/**/*
+
+"Code: Tests":
+  - tests/**/*
+
+"Code: Build":
+  - build-data/**/*
+  - build-scripts/**/*
+  - "**/Makefile"
+  - "**/CMakeLists.txt"
+  - "**/*.cmake"
+
+"NPC / Factions":
+  - data/json/npcs/**/*
+
+"Monsters":
+  - data/json/monsters/**/*
+
+"Spawn":
+  - data/json/itemgroups/**/*
+  - data/json/monstergroups/**/*
+
+"Bionics":
+  - "data/json/bionics.json"
+
+"Player Faction Base / Camp":
+  - "src/basecamp.(cpp|h)"
+  - "src/faction_camp.(cpp|h)"
+  - data/json/mapgen/basecamps/**/*
+
+"Items: Ammo / Guns":
+  - data/json/items/gun/**/*
+  - data/json/items/ammo/**/*
+
+"SDL: Tiles / Sound":
+  - gfx/**/*
+  - sound/**/*
+
+"Translation":
+  - lang/**/*
+
+"Mods: Aftershock":
+  - data/mods/Aftershock/**/*
+  - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Dark Days of the Dead":
+  - data/mods/classic_zombies/**/*
+
+"Mods: Dark Skies":
+  - data/mods/Dark-Skies-Above/**/*
+
+"Mods: Dinoclysm":
+  - data/mods/DinoMod/**/*
+
+"Mods: Generic Guns":
+  - data/mods/Generic_Guns/**/*
+
+"Mods: MMA":
+  - data/mods/MMA/**/*
+
+"Mods: Magiclysm":
+  - data/mods/Magiclysm/**/*
+
+"Mods: No Hope":
+  - data/mods/No_Hope/**/*

@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <string>
 
 class background_pane;
 class ui_adaptor;

@@ -7,9 +7,16 @@
     <string name="softwareRendering">Программный рендеринг</string>
     <string name="forceFullscreen">Полный экран</string>
     <string name="trapBackButton">Перехват функций кнопки «Назад»</string>
+    <string name="nativeAndroidUI">Встроенные меню интерфейса Android</string>
     <string name="settings">Настройки</string>
     <string name="startGame">Начать игру</string>
     <string name="showHelp">Показать подсказки</string>
     <string name="crashAlert">В прошлый раз игра завершилась некорректно</string>
     <string name="crashMessage">Отчёт об остановке приложения находится в папке ./config/crash.log. Он может помочь разработчикам устранить ошибки в игре.</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="ok">ОК</string>
+    <string name="cancel">Отмена</string>
+    <string name="unavailable">Недоступно</string>
+    <string name="unavailableOption">Выбранный вами вариант недоступен.</string>
 </resources>

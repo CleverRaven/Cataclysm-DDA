@@ -124,11 +124,11 @@ class statistics
         }
 
         bool test_threshold( const epsilon_threshold &t ) const {
-            return ( ( t.midpoint - t.epsilon ) < lower() &&
-                     ( t.midpoint + t.epsilon ) > upper() );
+            return ( t.midpoint - t.epsilon ) < lower() &&
+                   ( t.midpoint + t.epsilon ) > upper();
         }
         bool test_threshold( const upper_lower_threshold &t ) const {
-            return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
+            return t.lower_thresh < lower() && t.upper_thresh > upper();
         }
         double upper() const {
             double result = avg() + margin_of_error();
@@ -152,8 +152,8 @@ class statistics
 
         bool is_within_epsilon( const double v, const double epsilon ) const {
             const double average = avg();
-            return( ( average + epsilon > v ) &&
-                    ( average - epsilon < v ) );
+            return( average + epsilon > v ) &&
+                  ( average - epsilon < v );
         }
         // Theoretically a one-pass formula is more efficient, however because
         // we keep handles onto _sum and _n as class members and calculate them

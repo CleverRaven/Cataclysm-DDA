@@ -20,6 +20,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
+static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
     clear_avatar();
@@ -35,7 +37,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     }
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
@@ -70,6 +72,11 @@ TEST_CASE( "repair_vehicle_part" )
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -77,8 +84,19 @@ TEST_CASE( "repair_vehicle_part" )
         item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", calendar::turn_zero, 500 );
+
+        item ups( "UPS_off" );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( ups );
+
         tools.emplace_back( "goggles_welding" );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
@@ -97,7 +115,19 @@ TEST_CASE( "repair_vehicle_part" )
         item welder( "welder", calendar::turn_zero, 0 );
         welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
-        tools.emplace_back( "UPS_off", calendar::turn_zero, 5 );
+
+        item ups( "UPS_off" );
+        item ups_mag( ups.magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 5 );
+        ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( ups );
+
+        tools.emplace_back( "goggles_welding" );
+        test_repair( tools, false );
+    }
+    SECTION( "welder_missing_consumables" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }

@@ -1,0 +1,51 @@
+# Linie dłuższe niż 78 znaków zostaną automatycznie zawinięte
+# Poniższa linia jest dla przykładu
+##############################################################################
+<color_white>Odwiedź nas:</color>
+
+<color_light_gray>* Strona domowa:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>             <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Zgłaszaj błędy, sugestie i śledź rozwój gry na:</color>
+
+<color_light_gray>* GitHub: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Dołącz do dyskusji na forach i czatach:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA na libera.chat</color>
+<color_light_gray>* Reddit (nieoficjalny):     </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Inne użyteczne odnośniki są dostępne również na naszej stronie głównej.</color>
+
+<color_light_gray>W grze masz dostęp do opcji przez główne menu (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Uwagi odnośnie eksperymentalnych wersji:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>P: </color><color_yellow>Czym jest wersja eksperymentalna?</color>
+
+<color_white>O: </color><color_light_gray>Celem wersji eksperymentalnych jest drugi poziom kontroli jakości. Jest to swoisty batalion, gdzie nowa zawartość jest testowana i poddana balansowi po wstępnej kontroli jakości. Miej na uwadze, że grając w najnowsze wersje eksperymentalne bierzesz udział w procesie tworzenia i dosłownie testujesz nową zawartość która jest podatna na błędy i ma niedokończone funkcjonalności.</color>
+
+<color_white>P: </color><color_yellow>Dlaczego wersje eksperymentalne w ogóle istnieją?</color>
+
+<color_white>O: </color><color_light_gray>Uznaj to jak granie w wersje alpha/beta - błędy i niedokończone funkcjonalności są tego częścią. Ze względu na rygory procesu ciągłej integracji, wersje eksperymentalne są zawsze w budowie. Wersja eksperymentalna to piaskownica, gdzie odbywa się wykrywanie błędów i dopieszczanie funkcjonalności. Duże i małe funkcjonalności są ciągle dodawane do tych wersji, by sprawdzić ich ogólną stabilność i zbalansowanie. Z tego względu, wersje eksperymentalne nie mają rygorystycznej gwarancji balansu i stabilności. Tak na prawdę nic nie jest gwarantowane w wersjach eksperymentalnych.</color>
+
+<color_white>P: </color><color_yellow>Czy w takim razie wersje eksperymentalne są grywalne?</color>
+
+<color_white>O: </color><color_light_gray>Tak. Jednak o ile wersje eksperymentalne są na ogół stabilne, nie jest to gwarancją, gdyż funkcjonalności mogą być wprowadzone w niedokończonym stanie w częściach i mogą wprowadzać błędy, w tym te poważne które mogą zawiesić grę lub uszkodzić pliki zapisu. Rzadko się to zdarza, ale ze względu na stopień skomplikowania gry, wstępna kontrola jakości przy dodawaniu zawartości do wersji eksperymentalnej może nie być wystarczająca i zawsze może mieć miejsce ludzki błąd. To jest właśnie powodem istnienia wersji eksperymentalnych.</color>
+
+<color_white>P: </color><color_yellow>Czy powinienem w takim razie grać w wersje eksperymentalne, czy raczej zostać przy wersjach stabilnych?</color>
+
+<color_white>O: </color><color_light_gray>Nagroda to natychmiastowy dostęp do najnowszej zawartości, ryzyko to strata postępu w grze, jeśli trafisz na paskudny błąd. Granie w wersje eksperymentalne gdy są dostępne wersje stabilne to twój wybór, więc graj jak uważasz. Bierzesz na siebie całą odpowiedzialność, jeśli coś pójdzie nie tak, więc czuj się ostrzeżony. Uważaj; rób kopie zapasowe. Czasem nawet najlepiej jest poczekać z aktualizacją kilka dni aż duża funkcjonalność się ustabilizuje, lub znaczący błąd zostanie usunięty.</color>
+
+<color_white>P: </color><color_yellow>Czy powinienem uważać na coś jeszcze?</color>
+
+<color_white>O: </color><color_light_gray>Tak. Pamiętaj że wszystko co widzisz i zobaczysz może ulec zmianie. Wszystkie funkcjonalności, w tym te nowo zaimplementowane są w trakcie pracy i mogą zmienić tor w czasie rozwoju gry i jak mówiono wcześniej, nic nie jest zagwarantowane, w tym balans i stabilność.</color>
+
+<color_white>P: </color><color_yellow>Co jeżeli uważam, że ryzyko grania w eksperymentalną wersję jest nie do zaakceptowania?</color>
+
+<color_white>O: </color><color_light_gray>Jeżeli ryzyko jest dla ciebie nieakceptowalne - zagraj w wersje stabilną. Jeżeli jesteś w stanie podjąć ryzyko - ciesz się najnowszą zawartością eksperymentalnych wersji i weź udział w procesie rozwoju gry - zgłaszaj błędy, wysyłaj sugestie lub nawet dołącz swoją zawartość do gry. Powodzenia.</color>

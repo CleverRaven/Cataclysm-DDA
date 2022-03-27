@@ -70,6 +70,7 @@ class achievement
         static void reset();
 
         achievement_id id;
+        std::vector<std::pair<achievement_id, mod_id>> src;
         bool was_loaded = false;
 
         const translation &name() const {
@@ -97,7 +98,7 @@ class achievement
                     last
                 };
 
-                void deserialize( JsonIn & );
+                void deserialize( const JsonObject &jo );
                 void check( const achievement_id & ) const;
 
                 time_point target() const;
@@ -146,7 +147,7 @@ struct achievement_state {
     std::string ui_text( const achievement * ) const;
 
     void serialize( JsonOut & ) const;
-    void deserialize( JsonIn & );
+    void deserialize( const JsonObject &jo );
 };
 
 class achievement_tracker
@@ -215,7 +216,7 @@ class achievements_tracker : public event_subscriber
         void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
     private:
         void init_watchers();
 

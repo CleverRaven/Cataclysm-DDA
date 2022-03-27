@@ -11,7 +11,6 @@
 #include "omdata.h"
 #include "string_id.h"
 
-class JsonIn;
 class JsonObject;
 struct overmap_location;
 
@@ -40,7 +39,7 @@ class overmap_connection
                 }
 
                 void load( const JsonObject &jo );
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jo );
 
             private:
                 std::set<string_id<overmap_location>> locations;
@@ -57,6 +56,7 @@ class overmap_connection
 
     public:
         string_id<overmap_connection> id;
+        std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;
         bool was_loaded = false;
 
     private:

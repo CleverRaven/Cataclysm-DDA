@@ -108,15 +108,6 @@ struct mission_start {
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
-    static void ranch_nurse_1( mission * );      // Need aspirin
-    static void ranch_nurse_2( mission * );      // Need hotplates
-    static void ranch_nurse_3( mission * );      // Need vitamins
-    static void ranch_nurse_4( mission * );      // Need charcoal water filters
-    static void ranch_nurse_5( mission * );      // Need chemistry set
-    static void ranch_nurse_6( mission * );      // Need filter masks
-    static void ranch_nurse_7( mission * );      // Need rubber gloves
-    static void ranch_nurse_8( mission * );      // Need X-acto
-    static void ranch_nurse_9( mission * );      // Need Guide to Advanced Emergency Care
     static void ranch_scavenger_1( mission * );  // Expand Junk Shop
     static void ranch_scavenger_2( mission * );  // Expand Junk Shop
     static void ranch_scavenger_3( mission * );  // Expand Junk Shop
@@ -206,6 +197,7 @@ struct mission_type {
     public:
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
+        std::vector<std::pair<mission_type_id, mod_id>> src;
         bool was_loaded = false;
     private:
         // The untranslated name of the mission
@@ -357,7 +349,7 @@ class mission
         std::string name() const;
         mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         mission();
         /** Getters, they mostly return the member directly, mostly. */

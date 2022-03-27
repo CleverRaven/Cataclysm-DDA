@@ -19,7 +19,7 @@ struct w_point {
     double windpower = 0;
     std::string wind_desc;
     int winddirection = 0;
-    time_point time;
+    season_effective_time time;
 };
 
 class weather_generator

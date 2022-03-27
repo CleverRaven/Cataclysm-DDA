@@ -6,8 +6,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 33 ] ], [ [ "leather", 35 ] ], [ [ "scrap", 24 ] ], [ [ "sheet_kevlar_layered", 48 ] ] ]
+  },
+  {
+    "result": "xshsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "rag", 16 ] ], [ [ "leather", 16 ] ], [ [ "scrap", 8 ] ], [ [ "sheet_kevlar_layered", 16 ] ] ]
   },
   {
     "result": "xlsurvivor_suit",
@@ -16,7 +26,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   }
 ]

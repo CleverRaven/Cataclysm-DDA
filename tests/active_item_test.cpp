@@ -30,7 +30,7 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
 
     bool wield_success = player_character.wield( active_item );
     REQUIRE( wield_success );
-    REQUIRE( player_character.weapon.charges == active_item_ticks );
+    REQUIRE( player_character.get_wielded_item().charges == active_item_ticks );
 
     here.add_item( player_character.pos(), active_item );
     REQUIRE( here.i_at( player_character.pos() ).only_item().charges == active_item_ticks );
@@ -42,6 +42,6 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
 
     const int expected_ticks = active_item_ticks - 1;
     CHECK( inventory_item->charges == expected_ticks );
-    CHECK( player_character.weapon.charges == expected_ticks );
+    CHECK( player_character.get_wielded_item().charges == expected_ticks );
     CHECK( here.i_at( player_character.pos() ).only_item().charges == expected_ticks );
 }

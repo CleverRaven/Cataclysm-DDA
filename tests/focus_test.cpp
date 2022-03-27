@@ -6,6 +6,9 @@
 #include "skill.h"
 #include "type_id.h"
 
+static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_smg( "smg" );
+
 TEST_CASE( "focus" )
 {
     clear_avatar();
@@ -43,7 +46,7 @@ TEST_CASE( "focus" )
         you.set_focus( 100 );
         previous_focus = you.get_focus();
         for( int i = 0; i < 600; ++i ) {
-            you.practice( skill_id( "fabrication" ), 1, 10, true );
+            you.practice( skill_fabrication, 1, 10, true );
             if( i % 60 == 0 ) {
                 you.update_mental_focus();
             }
@@ -62,7 +65,7 @@ TEST_CASE( "focus" )
         };
         int i = 0;
         for( ; i < 5000 && previous_focus > 12; ++i ) {
-            you.practice( skill_id( "fabrication" ), 1, 10, true );
+            you.practice( skill_fabrication, 1, 10, true );
             if( i % 60 == 0 ) {
                 you.update_mental_focus();
             }
@@ -77,27 +80,26 @@ TEST_CASE( "focus" )
         CHECK( i == 1192 );
     }
     SECTION( "drains rapidly with large practice" ) {
-        you.practice( skill_id( "fabrication" ), 1000, 10, true );
+        you.practice( skill_fabrication, 1000, 10, true );
         CHECK( you.get_focus() < 10 );
     }
     SECTION( "large practice on combat skills drains focus to minimum" ) {
         you.set_focus( 100 );
         REQUIRE( you.get_focus() == 100 );
-        const skill_id skill_smg( "smg" );
         REQUIRE( skill_smg->is_combat_skill() );
 
         // This is basically ensuring there isn't UB when squaring 'amount'
         // So let's give a value that will definitely do that without handling
         // But not so large that less extreme manipulations will cause problems
         const int practice_amount = 2 * std::sqrt( std::numeric_limits<int>::max() );
-        you.practice( skill_id( "smg" ), practice_amount );
+        you.practice( skill_smg, practice_amount );
 
         // This still succeeds, even when the UB is triggered
         // that's fine, the real objective is to set off UBsan
         CHECK( you.get_focus() == 1 );
     }
     SECTION( "time to level" ) {
-        REQUIRE( you.get_skill_level( skill_id( "fabrication" ) ) == 0 );
+        REQUIRE( you.get_skill_level( skill_fabrication ) == 0 );
         std::array<int, 11> expected_practice_times = {{
                 0, 173, 2137, 6303, 12137, 19637, 28803, 39637, 52137, 66303, 82137
             }
@@ -105,8 +107,8 @@ TEST_CASE( "focus" )
         for( int lvl = 1; lvl <= 10; ++lvl ) {
             int turns = 0;
             you.set_focus( 100 );
-            while( you.get_skill_level( skill_id( "fabrication" ) ) < lvl ) {
-                you.practice( skill_id( "fabrication" ), 1, lvl, true );
+            while( you.get_skill_level( skill_fabrication ) < lvl ) {
+                you.practice( skill_fabrication, 1, lvl, true );
                 if( turns % 60 == 0 ) {
                     you.update_mental_focus();
                 }

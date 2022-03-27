@@ -21,7 +21,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SW_roof", "public_works_SE_roof" ],
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
     "name": "public works roof",
     "sym": "w",
     "color": "light_gray",
@@ -269,7 +269,6 @@
       "steel_mill_4_2_3",
       "steel_mill_4_3",
       "steel_mill_4_3_2",
-      "steel_mill_4_3_3",
       "steel_mill_4_3_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
@@ -289,7 +288,7 @@
     ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "steel mill depot",
-    "sym": "|",
+    "sym": "│",
     "color": "dark_gray"
   },
   {

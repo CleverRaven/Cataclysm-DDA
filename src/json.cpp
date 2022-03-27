@@ -30,7 +30,7 @@
 static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
-    return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
+    return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
 }
 
 // Thw following function would fit more logically in catacharset.cpp, but it's
@@ -118,7 +118,9 @@ void JsonObject::report_unvisited() const
             const std::string &name = p.first;
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
-                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
+                    throw_error(
+                        string_format( "Invalid or misplaced field name \"%s\" in JSON data, or value in unexpected format.",
+                                       name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -1705,22 +1707,6 @@ bool JsonIn::read( std::bitset<N> &b, bool throw_on_error )
     return true;
 }
 
-bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
-{
-    // can't know what type of json object it will deserialize from,
-    // so just try to deserialize, catching any error.
-    // TODO: non-verbose flag for JsonIn errors so try/catch is faster here
-    try {
-        j.deserialize( *this );
-        return true;
-    } catch( const JsonError & ) {
-        if( throw_on_error ) {
-            throw;
-        }
-        return false;
-    }
-}
-
 /**
  * Get the normal form of a relative path. Does not work on absolute paths.
  * Slash and backslash are both treated as path separators and replaced with
@@ -2236,15 +2222,6 @@ void JsonOut::write( const std::bitset<N> &b )
         stream->put( ch );
     }
     stream->put( '"' );
-    need_separator = true;
-}
-
-void JsonOut::write( const JsonSerializer &thing )
-{
-    if( need_separator ) {
-        write_separator();
-    }
-    thing.serialize( *this );
     need_separator = true;
 }
 

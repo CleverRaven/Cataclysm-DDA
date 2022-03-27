@@ -62,6 +62,24 @@
   },
   {
     "type": "snippet",
+    "category": "lab_safety_alpha_snippet",
+    "//": "signage for research scientist levels (working lab areas).",
+    "text": [
+      "<color_yellow_red>Biohazard</color>",
+      "PE150 is no longer to be administered to the following specimens <scratched out text>",
+      "There have been\n[21]\ndays without a breach incident",
+      "Do not name the rodents!",
+      "PE050 is to be administered twice a day to the remaining subjects",
+      "Safety First\nWork Safely",
+      "Report ALL incidents of coworkers speaking to the subjects",
+      "Computer lessons will continue for Mr Jingles, Abelard, and Ratty",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>",
+      "<color_yellow_red>Biohazard</color>"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_volunteer_snippet",
     "//": "propaganda signage for the volunteer mutant level.",
     "text": [

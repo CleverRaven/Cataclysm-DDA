@@ -12,4 +12,7 @@
     <string name="showHelp">Mostrar ajuda</string>
     <string name="crashAlert">O jogo não foi encerrado corretamente na última vez</string>
     <string name="crashMessage">O relatório de erro localizado em ./config/crash.log pode ajudar desenvolvedores a solucionarem erros no programa.</string>
-</resources>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="cancel">Cancelar</string>
+    </resources>

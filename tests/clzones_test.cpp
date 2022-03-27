@@ -11,15 +11,17 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
-static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const faction_id faction_your_followers( "your_followers" );
+
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
+static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
+static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 
 static void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint pos )
 {
     zone_manager &zm = zone_manager::get_manager();
-    zm.add( name, zone_type, faction_id( "your_followers" ), false, true, pos, pos );
+    zm.add( name, zone_type, faction_your_followers, false, true, pos, pos );
 }
 
 // Comestibles sorting is a bit awkward. Unlike other loot, they're almost
@@ -30,7 +32,7 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
     clear_map();
     zone_manager &zm = zone_manager::get_manager();
 
-    const tripoint &origin_pos = tripoint_zero;
+    const tripoint_abs_ms origin_pos;
     create_tile_zone( "Food", zone_type_LOOT_FOOD, tripoint_east );
     create_tile_zone( "Drink", zone_type_LOOT_DRINK, tripoint_west );
 
@@ -216,19 +218,6 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
 
                 THEN( "should put in the drink zone" ) {
                     CHECK( zm.get_near_zone_type_for_item( container, origin_pos ) == zone_type_LOOT_DRINK );
-                }
-            }
-        }
-
-        // MREs are under the food category but are not directly edible.
-        GIVEN( "a non-comestible food" ) {
-            item noncomestible_food( "mre_dessert" );
-            REQUIRE( noncomestible_food.get_category_shallow().get_id() == item_category_id( "food" ) );
-            REQUIRE_FALSE( noncomestible_food.is_comestible() );
-
-            WHEN( "sorting" ) {
-                THEN( "should put in the food zone" ) {
-                    CHECK( zm.get_near_zone_type_for_item( noncomestible_food, origin_pos ) == zone_type_LOOT_FOOD );
                 }
             }
         }

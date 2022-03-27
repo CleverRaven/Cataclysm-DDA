@@ -126,6 +126,7 @@ void edit_json( SAVEOBJ &it )
                 deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
                 popup( "Error on deserialization: %s", err.what() );
             }
             std::string save2 = serialize( it );
@@ -485,9 +486,9 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
-                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                            hilights["mplan"].points[location] = 1;
+                    if( mon != nullptr && mon->has_dest() ) {
+                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                            hilights["mplan"].points[m->getlocal( location )] = 1;
                         }
                     }
                 }
@@ -661,7 +662,7 @@ void editmap::draw_main_ui_overlay()
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
                                                 point_zero );
                     }
-                    g->draw_below_override( map_p, here.has_zlevels() &&
+                    g->draw_below_override( map_p,
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
@@ -728,14 +729,14 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
                terrain_type.name(),
                terrain_type.movecost
              );
     off++; // 2
     if( here.furn( target ).to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
-        mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
+        mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
                    here.furn( target ).to_i(),
                    furniture_type.name(),
                    furniture_type.movecost,
@@ -819,7 +820,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), n_gettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );
@@ -1074,7 +1075,7 @@ template<typename T_t>
 void editmap::edit_feature()
 {
     if( T_t::count() == 0 ) {
-        debugmsg( "Empty %s list", typeid( T_t ).name() );
+        debugmsg( "Empty %s list", demangle( typeid( T_t ).name() ) );
         return;
     }
 
@@ -1382,7 +1383,10 @@ void editmap::edit_fld()
  * edit items in target square. WIP
  */
 enum editmap_imenu_ent {
-    imenu_bday, imenu_damage, imenu_burnt,
+    imenu_bday,
+    imenu_damage,
+    imenu_degradation,
+    imenu_burnt,
     imenu_tags,
     imenu_sep,
     imenu_savetest,
@@ -1442,6 +1446,8 @@ void editmap::edit_itm()
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it.damage() );
+            imenu.addentry( imenu_degradation, true, -1, pgettext( "item manipulation debug menu entry",
+                            "degradation: %d" ), it.degradation() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1473,6 +1479,9 @@ void editmap::edit_itm()
                         case imenu_damage:
                             intval = it.damage();
                             break;
+                        case imenu_degradation:
+                            intval = it.degradation();
+                            break;
                         case imenu_burnt:
                             intval = static_cast<int>( it.burnt );
                             break;
@@ -1502,14 +1511,26 @@ void editmap::edit_itm()
                         switch( imenu.ret ) {
                             case imenu_bday:
                                 it.set_birthday( time_point::from_turn( retval ) );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_bday].txt = string_format( "bday: %d", to_turn<int>( it.birthday() ) );
                                 break;
                             case imenu_damage:
                                 it.set_damage( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                break;
+                            case imenu_degradation:
+                                it.set_degradation( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;
                             case imenu_burnt:
                                 it.burnt = retval;
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it.burnt );
                                 break;
                             case imenu_tags:

@@ -82,10 +82,9 @@ item_action_generator::item_action_generator() = default;
 
 item_action_generator::~item_action_generator() = default;
 
-// Get use methods of this item and its contents
-bool item::item_has_uses_recursive() const
+bool item::item_has_uses_recursive( bool contents_only ) const
 {
-    if( !type->use_methods.empty() ) {
+    if( !contents_only && !type->use_methods.empty() ) {
         return true;
     }
 
@@ -166,6 +165,11 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
             // Don't try to remove 'irremovable' toolmods
             if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
                 actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
+                continue;
+            }
+
+            // Prevent drinking frozen liquids that have specific use actions (ex: ALCOHOL)
+            if( actual_item->is_frozen_liquid() ) {
                 continue;
             }
 
@@ -264,6 +268,9 @@ void game::item_action_menu( item_location loc )
             pseudos.push_back( const_cast<item *>( pseudo ) );
         }
     } else {
+        if( loc.get_item()->type->has_use() ) {
+            pseudos.push_back( const_cast< item * >( loc.get_item() ) );
+        }
         loc.get_item()->visit_contents( [&pseudos]( item * node, item * ) {
             if( node->type->use_methods.empty() ) {
                 return VisitResponse::NEXT;
@@ -327,10 +334,12 @@ void game::item_action_menu( item_location loc )
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
-    // Add unmapped but binded actions to the menu vector.
-    for( const auto &elem : item_actions ) {
-        if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
-            menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+    if( !loc ) {
+        // Add unmapped but binded actions to the menu vector.
+        for( const auto &elem : item_actions ) {
+            if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
+                menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+            }
         }
     }
     // Sort unmapped actions.

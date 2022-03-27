@@ -116,7 +116,7 @@
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED" ],
     "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." },
-    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "sleeping_bag_fur",
@@ -172,7 +172,7 @@
       "target": "sleeping_bag_fur",
       "msg": "You unroll up the fur sleeping bag."
     },
-    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "tie_bow",
@@ -206,7 +206,7 @@
     "id": "tie_necktie",
     "type": "ARMOR",
     "name": { "str": "necktie" },
-    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
+    "description": "An ordinary, green necktie.  It's more difficult to put on, and it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
     "weight": "15 g",
     "volume": "25 ml",
     "price": 1000,

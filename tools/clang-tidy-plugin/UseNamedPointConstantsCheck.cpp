@@ -129,7 +129,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
                 Value = -Value;
             }
         } else {
-            cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
+            abort(); // NOLINT(cata-assert)
         }
         Args.insert( { Key, Value } );
     };

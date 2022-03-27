@@ -27,13 +27,13 @@ void foo()
     //~ bar
     _( "bar" );
 
-    ngettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
+    n_gettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
 
     //~ bar
     gettext( "bar" );
 
     //~bar
-    ngettext( "bar", "baz", 1 );
+    n_gettext( "bar", "baz", 1 );
 
     /*~ bar */ to_translation( "bar" );
 

@@ -1,0 +1,94 @@
+[
+  {
+    "type": "limb_score",
+    "id": "manip",
+    "name": "Manipulation",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true,
+    "//": "TODO: minor parts have no HP, meaning their scores are unaffected by wounds."
+  },
+  {
+    "type": "limb_score",
+    "id": "lift",
+    "name": "Lifting",
+    "affected_by_wounds": true,
+    "affected_by_encumb": false
+  },
+  {
+    "type": "limb_score",
+    "id": "grip",
+    "name": "Grip Strength",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "block",
+    "name": "Blocking",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "breathing",
+    "name": "Breathing",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "vision",
+    "name": "Vision",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "night_vis",
+    "name": "Night vision",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "reaction",
+    "name": "Reaction",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "move_speed",
+    "name": "Movement speed",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "balance",
+    "name": "Balance",
+    "affected_by_wounds": false,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "footing",
+    "name": "Footing",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "swim",
+    "name": "Swimming",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  },
+  {
+    "type": "limb_score",
+    "id": "crawl",
+    "name": "Crawling",
+    "affected_by_wounds": true,
+    "affected_by_encumb": true
+  }
+]

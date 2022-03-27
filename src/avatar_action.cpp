@@ -62,14 +62,18 @@ class gun_mode;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_winded( "winded" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
+
+static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -81,6 +85,10 @@ static const trait_id trait_SHELL2( "SHELL2" );
 
 static bool check_water_affect_items( avatar &you )
 {
+    if( you.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
     std::vector<item_location> wet;
@@ -155,9 +163,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+    if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item().has_flag( flag_CRUTCHES ) ) &&
         !you.is_prone() ) {
-        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,
                                _( "Your broken legs can't hold your weight and you fall down in pain." ) );
     }
@@ -187,19 +195,20 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         via_ramp = true;
     }
 
+    item &weapon = you.get_wielded_item();
     if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
-        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) &&
-                you.weapon.ammo_sufficient( &you ) ) {
-                you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
+        if( weapon.has_flag( flag_DIG_TOOL ) ) {
+            if( weapon.type->can_use( "JACKHAMMER" ) &&
+                weapon.ammo_sufficient( &you ) ) {
+                you.invoke_item( &weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
+            } else if( weapon.type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( &weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -379,7 +388,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     vehicle *const veh1 = veh_pointer_or_null( vp1 );
 
     bool veh_closed_door = false;
-    bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
+    bool outside_vehicle = veh0 == nullptr || veh0 != veh1;
     if( veh1 != nullptr ) {
         dpart = veh1->next_part_to_open( vp1->part_index(), outside_vehicle );
         veh_closed_door = dpart >= 0 && !veh1->part( dpart ).open;
@@ -399,12 +408,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
-    bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
+    bool fromBoat = veh0 != nullptr;
+    bool toBoat = veh1 != nullptr;
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -595,14 +606,12 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
-    if( movecost >= 500 ) {
+    if( movecost >= 500 || you.has_effect( effect_winded ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
-            ///\EFFECT_STR increases breath-holding capacity while sinking
-            you.oxygen = 30 + 2 * you.str_cur;
         }
     }
     if( you.oxygen <= 5 && you.is_underwater() ) {
@@ -612,7 +621,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
+    bool diagonal = p.x != you.posx() && p.y != you.posy();
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos() );
     }
@@ -641,23 +650,21 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         you.burn_move_stamina( movecost );
     }
 
-    body_part_set drenchFlags{ {
-            body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
-            body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
-        }
-    };
-
-    if( you.is_underwater() ) {
-        drenchFlags.unify_set( { { body_part_head, body_part_eyes, body_part_mouth, body_part_hand_l, body_part_hand_r } } );
+    body_part_set flags;
+    if( !you.is_underwater() ) {
+        flags = you.get_drenching_body_parts( false, true, true );
+    } else {
+        flags = you.get_drenching_body_parts();
     }
-    you.drench( 100, drenchFlags, true );
+
+    you.drench( 100, flags, false );
 }
 
 static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return np->weapon_value( np->get_wielded_item() );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -666,7 +673,8 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.weapon.reach_range( you );
+    const item &weapon = you.get_wielded_item();
+    int reach = weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -792,7 +800,7 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.weapon;
+    const item &weapon = you.get_wielded_item();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -800,7 +808,8 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
+    } else if( weapon.ammo_data() &&
+               !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -846,7 +855,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.weapon );
+            loc = item_location( you, &you.get_wielded_item() );
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -863,12 +872,11 @@ bool avatar_action::eat_here( avatar &you )
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
-        if( you.get_hunger() < 20 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
             here.ter_set( you.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             return true;
@@ -876,11 +884,10 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
             here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
-        if( you.get_hunger() < 8 ) {
+        if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            add_msg( _( "You eat the grass." ) );
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( player_activity( consume_activity_actor( food ) ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
@@ -1024,7 +1031,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+    item &weapon = you.get_wielded_item();
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1036,8 +1044,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
-        you.weapon.mod_charges( -1 );
+    if( weapon.count_by_charges() && weapon.charges > 1 ) {
+        weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.remove_weapon();
@@ -1092,6 +1100,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         }
     }
 
+    if( loc->is_comestible() && loc->is_frozen_liquid() ) {
+        add_msg( _( "Try as you might, you can't consume frozen liquids." ) );
+        return;
+    }
+
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
             loc->deactivate();
@@ -1104,7 +1117,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     item_pocket *parent_pocket = nullptr;
     bool on_person = true;
     int pre_obtain_moves = you.moves;
-    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) || you.is_worn( *loc ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
     } else if( you.can_wield( *loc ).success() && loc->is_holster() && !loc.held_by( you ) ) {

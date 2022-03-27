@@ -4,7 +4,7 @@
     "id": "f_fireplace",
     "name": "fireplace",
     "symbol": "#",
-    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.  Dangerous to leave unattended while lit.",
+    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.",
     "bgcolor": "white",
     "move_cost_mod": 2,
     "coverage": 50,

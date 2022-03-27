@@ -9,6 +9,7 @@
 #include <ghc/fs_std_fwd.hpp>
 
 #include "catacharset.h"
+#include "compatibility.h"
 
 bool assure_dir_exist( const std::string &path );
 bool dir_exist( const std::string &path );
@@ -73,22 +74,10 @@ namespace cata
 {
 namespace _details
 {
-#if defined(_WIN32) && defined(__GLIBCXX__)
-// GLIBCXX does not offer the wchar_t extension for fstream paths
-inline std::string path_to_native( const fs::path &p )
-{
-    return wstr_to_native( p.wstring() );
-}
-#elif defined(_WIN32)
-inline std::wstring path_to_native( const fs::path &p )
-{
-    return p.wstring();
-}
+#if defined(_WIN32) && !defined(__GLIBCXX__)
+std::wstring path_to_native( const fs::path &p );
 #else
-inline std::string path_to_native( const fs::path &p )
-{
-    return p.string();
-}
+std::string path_to_native( const fs::path &p );
 #endif
 } // namespace _details
 
@@ -105,6 +94,10 @@ class basic_ifstream : public std::basic_ifstream<charT, traits>
         }
         basic_ifstream( const basic_ifstream & ) = delete;
         const basic_ifstream &operator=( const basic_ifstream & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        basic_ifstream( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        basic_ifstream &operator=( basic_ifstream && ) noexcept( basic_ifstream_is_noexcept ) = default;
         ~basic_ifstream() override = default;
 };
 
@@ -121,6 +114,10 @@ class basic_ofstream : public std::basic_ofstream<charT, traits>
         }
         basic_ofstream( const basic_ofstream & ) = delete;
         const basic_ofstream &operator=( const basic_ofstream & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        basic_ofstream( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        basic_ofstream &operator=( basic_ofstream && ) noexcept( basic_ofstream_is_noexcept ) = default;
         ~basic_ofstream() override = default;
 };
 

@@ -20,7 +20,6 @@
 
 class Character;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
@@ -44,6 +43,7 @@ enum class component_type : int {
 struct quality {
     bool was_loaded = false;
     quality_id id;
+    std::vector<std::pair<quality_id, mod_id>> src;
     translation name;
 
     std::vector<std::pair<int, std::string>> usages;
@@ -292,7 +292,7 @@ struct requirement_data {
          * Serialize custom created requirement objects for fetch activities
          */
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
 

@@ -143,6 +143,11 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
+    "prying": {
+      "result": "t_manhole",
+      "message": "You lift the manhole cover.",
+      "prying_data": { "difficulty": 4, "prying_level": 1, "failure": "You pry, but can't lift the manhole cover." }
+    },
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -151,6 +156,7 @@
     "name": "ladder",
     "description": "A ladder leading up.",
     "symbol": "<",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
@@ -161,9 +167,20 @@
     "name": "ladder",
     "description": "A ladder leading down.",
     "symbol": ">",
+    "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ladder_up_down",
+    "name": "ladder",
+    "description": "A ladder leading up and down.",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
   },
   {
     "type": "terrain",

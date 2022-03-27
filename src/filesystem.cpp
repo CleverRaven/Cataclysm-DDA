@@ -299,3 +299,25 @@ std::string ensure_valid_file_name( const std::string &file_name )
 
     return new_file_name;
 }
+
+#if defined(_WIN32) && defined(__GLIBCXX__)
+// GLIBCXX does not offer the wchar_t extension for fstream paths
+std::string cata::_details::path_to_native( const fs::path &p )
+{
+    if( GetACP() == 65001 ) { // utf-8 code page
+        return p.u8string();
+    } else {
+        return wstr_to_native( p.wstring() );
+    }
+}
+#elif defined(_WIN32)
+std::wstring cata::_details::path_to_native( const fs::path &p )
+{
+    return p.wstring();
+}
+#else
+std::string cata::_details::path_to_native( const fs::path &p )
+{
+    return p.u8string();
+}
+#endif

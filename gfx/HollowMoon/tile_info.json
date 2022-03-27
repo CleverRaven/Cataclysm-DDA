@@ -1,0 +1,22 @@
+[
+  {
+    "height": 24,
+    "width": 24,
+    "pixelscale": 1
+  },
+  {
+    "normal.png": {  }
+  },
+  {
+    "large.png": { "sprite_offset_x": -4, "sprite_offset_y": -8, "sprite_width": 32, "sprite_height": 32 }
+  },
+  {
+    "huge.png": { "sprite_offset_x": -12, "sprite_offset_y": -24, "sprite_width": 48, "sprite_height": 48 }
+  },
+  {
+    "giant.png": { "sprite_offset_x": -25, "sprite_offset_y": -40, "sprite_width": 64, "sprite_height": 64 }
+  },
+  {
+    "fallback.png": { "fallback": true }
+  }
+]

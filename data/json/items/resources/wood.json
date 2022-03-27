@@ -44,6 +44,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weapon_category": [ "BATONS" ],
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
@@ -86,6 +87,7 @@
     "longest_side": "305 cm",
     "bashing": 19,
     "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ]

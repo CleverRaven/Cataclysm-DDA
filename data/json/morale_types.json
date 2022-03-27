@@ -398,5 +398,10 @@
     "id": "morale_migo_bio_tech",
     "type": "morale_type",
     "text": "Used mi-go biotech"
+  },
+  {
+    "id": "morale_impossible_shape",
+    "type": "morale_type",
+    "text": "Saw something that hurts to remember."
   }
 ]

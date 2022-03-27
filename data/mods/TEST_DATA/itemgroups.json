@@ -16,5 +16,18 @@
     "container-item": "test_balloon",
     "on_overflow": "spill",
     "items": [ [ "test_pants_fur", 100 ], [ "test_utility_belt", 100 ], [ "test_nuclear_carafe", 100 ] ]
+  },
+  {
+    "id": "test_event_item_spawn",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "test_pants_fur", "prob": 100, "event": "christmas" },
+      { "item": "test_utility_belt", "prob": 100, "event": "christmas" },
+      { "item": "test_nuclear_carafe", "prob": 100, "event": "christmas" },
+      { "item": "test_pipe", "prob": 100, "event": "halloween" },
+      { "item": "test_rag", "prob": 100, "event": "halloween" },
+      { "item": "test_rock", "prob": 100 }
+    ]
   }
 ]

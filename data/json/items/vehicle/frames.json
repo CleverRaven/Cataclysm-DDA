@@ -47,7 +47,7 @@
     "weight": "100000 g",
     "to_hit": -6,
     "color": "green",
-    "material": [ "hardsteel", "steel" ],
+    "material": [ "qt_steel", "steel" ],
     "volume": "20 L",
     "bashing": 25,
     "price": 12000,

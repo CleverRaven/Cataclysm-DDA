@@ -248,21 +248,21 @@ class colony : private element_allocator_type
                 }
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_iterator &rh ) const noexcept {
-                    return ( element_pointer == rh.element_pointer );
+                    return element_pointer == rh.element_pointer;
                 }
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_iterator < !is_const > &rh ) const
                 noexcept {
-                    return ( element_pointer == rh.element_pointer );
+                    return element_pointer == rh.element_pointer;
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator &rh ) const noexcept {
-                    return ( element_pointer != rh.element_pointer );
+                    return element_pointer != rh.element_pointer;
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator < !is_const > &rh ) const
                 noexcept {
-                    return ( element_pointer != rh.element_pointer );
+                    return element_pointer != rh.element_pointer;
                 }
 
                 // may cause exception with uninitialized iterator
@@ -445,11 +445,11 @@ class colony : private element_allocator_type
                 }
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator &rh ) const noexcept {
-                    return ( it == rh.it );
+                    return it == rh.it;
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator &rh ) const noexcept {
-                    return ( it != rh.it );
+                    return it != rh.it;
                 }
 
                 inline COLONY_FORCE_INLINE reference operator*() const noexcept {
@@ -519,11 +519,11 @@ class colony : private element_allocator_type
                 }
 
                 inline bool operator>( const colony_reverse_iterator &rh ) const noexcept {
-                    return ( rh.it > it );
+                    return rh.it > it;
                 }
 
                 inline bool operator<( const colony_reverse_iterator &rh ) const noexcept {
-                    return ( it > rh.it );
+                    return it > rh.it;
                 }
 
                 inline bool operator>=( const colony_reverse_iterator &rh ) const noexcept {
@@ -536,20 +536,20 @@ class colony : private element_allocator_type
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator < !r_is_const > &rh )
                 const noexcept {
-                    return ( it == rh.it );
+                    return it == rh.it;
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator < !r_is_const > &rh )
                 const noexcept {
-                    return ( it != rh.it );
+                    return it != rh.it;
                 }
 
                 inline bool operator>( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
-                    return ( rh.it > it );
+                    return rh.it > it;
                 }
 
                 inline bool operator<( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
-                    return ( it > rh.it );
+                    return it > rh.it;
                 }
 
                 inline bool operator>=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
@@ -882,7 +882,7 @@ class colony : private element_allocator_type
 
         void destroy_all_data() noexcept {
             // Amusingly enough, these changes from && to logical & actually do make a significant difference in debug mode
-            if( ( total_number_of_elements != 0 ) & !( std::is_trivially_destructible<element_type>::value ) ) {
+            if( ( total_number_of_elements != 0 ) & !std::is_trivially_destructible<element_type>::value ) {
                 total_number_of_elements = 0; // to avoid double-destruction
 
                 while( true ) {
@@ -1634,8 +1634,8 @@ class colony : private element_allocator_type
 
             // If there's some elements left that need to be created, create new groups and fill:
             if( number_of_elements > group_allocator_pair.max_elements_per_group ) {
-                size_type multiples = ( number_of_elements / static_cast<size_type>
-                                        ( group_allocator_pair.max_elements_per_group ) );
+                size_type multiples = number_of_elements / static_cast<size_type>
+                                      ( group_allocator_pair.max_elements_per_group );
                 const skipfield_type element_remainder = static_cast<skipfield_type>( number_of_elements -
                         ( multiples * static_cast<size_type>( group_allocator_pair.max_elements_per_group ) ) );
 
@@ -1762,7 +1762,7 @@ class colony : private element_allocator_type
             cata_assert( *( it.skipfield_pointer ) == 0 );
 
             // This if-statement should be removed by the compiler on resolution of element_type. For some optimizing compilers this step won't be necessary (for MSVC 2013 it makes a difference)
-            if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+            if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                 COLONY_DESTROY( element_allocator_type, ( *this ),
                                 reinterpret_cast<pointer>( it.element_pointer ) ); // Destruct element
             }
@@ -1999,13 +1999,13 @@ class colony : private element_allocator_type
                     // Schema: first erase all non-erased elements until end of group & remove all skipblocks post-iterator1 from the free_list. Then, either update preceding skipblock or create new one:
 
                     // if trivially-destructible, and no erasures in group, skip while loop below and just jump straight to the location
-                    if( ( std::is_trivially_destructible<element_type>::value ) &
+                    if( std::is_trivially_destructible<element_type>::value &
                         ( current.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) ) {
                         number_of_group_erasures += static_cast<size_type>( end - current.element_pointer );
                     } else {
                         while( current.element_pointer != end ) {
                             if( *current.skipfield_pointer == 0 ) {
-                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                                if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                     COLONY_DESTROY( element_allocator_type, ( *this ),
                                                     reinterpret_cast<pointer>( current.element_pointer ) ); // Destruct element
                                 }
@@ -2030,7 +2030,7 @@ class colony : private element_allocator_type
                                     iterator1.group_pointer->free_list_head = std::numeric_limits<skipfield_type>::max();
                                     number_of_group_erasures += static_cast<size_type>( end - current.element_pointer );
 
-                                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                                    if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                         // miniloop - avoid checking skipfield for rest of elements in group, as there are no more skipped elements now
                                         while( current.element_pointer != end ) {
                                             COLONY_DESTROY( element_allocator_type, ( *this ),
@@ -2103,7 +2103,7 @@ class colony : private element_allocator_type
                 const group_pointer_type previous_group = current.group_pointer->previous_group;
 
                 while( current.group_pointer != iterator2.group_pointer ) {
-                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                    if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                         current.element_pointer = current.group_pointer->elements + *( current.group_pointer->skipfield );
                         current.skipfield_pointer = current.group_pointer->skipfield + *
                                                     ( current.group_pointer->skipfield );
@@ -2162,14 +2162,14 @@ class colony : private element_allocator_type
                 const iterator current_saved = current;
 
                 // if trivially-destructible, and no erasures in group, skip while loop below and just jump straight to the location
-                if( ( std::is_trivially_destructible<element_type>::value ) &
+                if( std::is_trivially_destructible<element_type>::value &
                     ( current.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) ) {
                     number_of_group_erasures += static_cast<size_type>( iterator2.element_pointer -
                                                 current.element_pointer );
                 } else {
                     while( current.element_pointer != iterator2.element_pointer ) {
                         if( *current.skipfield_pointer == 0 ) {
-                            if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                            if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                 COLONY_DESTROY( element_allocator_type, ( *this ),
                                                 reinterpret_cast<pointer>( current.element_pointer ) ); // Destruct element
                             }
@@ -2195,7 +2195,7 @@ class colony : private element_allocator_type
                                 number_of_group_erasures += static_cast<size_type>( iterator2.element_pointer -
                                                             current.element_pointer );
 
-                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                                if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                                     while( current.element_pointer != iterator2.element_pointer ) {
                                         COLONY_DESTROY( element_allocator_type, ( *this ),
                                                         reinterpret_cast<pointer>( current.element_pointer++ ) ); // Destruct element
@@ -2262,7 +2262,7 @@ class colony : private element_allocator_type
                         ( number_of_group_erasures );
                 total_number_of_elements -= number_of_group_erasures;
             } else { // ie. full group erasure
-                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+                if COLONY_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                     while( current.element_pointer != iterator2.element_pointer ) {
                         COLONY_DESTROY( element_allocator_type, ( *this ),
                                         reinterpret_cast<pointer>( current.element_pointer ) );

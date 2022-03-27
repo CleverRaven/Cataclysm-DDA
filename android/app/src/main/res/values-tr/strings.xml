@@ -12,4 +12,4 @@
     <string name="showHelp">Yardımı göster</string>
     <string name="crashAlert">Oyun geçen sefer düzgün şekilde kapatılmadı</string>
     <string name="crashMessage">\"./config/crash.log\" \'taki çökme raporu geliştiricilerin program hatalarını gidermelerine yardımcı olabilir.</string>
-</resources>
+    </resources>

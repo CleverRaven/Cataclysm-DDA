@@ -57,6 +57,23 @@
     "multi_activity": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_MULTIPLE_MOP",
+    "activity_level": "NO_EXERCISE",
+    "verb": "mopping",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
+    "id": "ACT_MOP",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "mopping",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TIDY_UP",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -204,7 +221,7 @@
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "disassembly",
+    "verb": "disassembling",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
@@ -306,6 +323,14 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "training",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_TRAIN_TEACHER",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "teaching",
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_SOCIALIZE",
@@ -559,6 +584,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PULL_CREATURE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "pulling a creature",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_ATM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -580,7 +614,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "welding",
-    "based_on": "speed"
+    "based_on": "time"
   },
   {
     "id": "ACT_CRACKING",
@@ -700,10 +734,10 @@
     "based_on": "speed"
   },
   {
-    "id": "ACT_PRY_NAILS",
     "type": "activity_type",
+    "id": "ACT_PRYING",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "prying nails",
+    "verb": "prying open",
     "based_on": "speed"
   },
   {
@@ -812,6 +846,19 @@
     "suspendable": false
   },
   {
+    "id": "ACT_MEASURE",
+    "//": "For characters getting crafting done",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "getting measurements taken",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "rooted": true,
+    "refuel_fires": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -838,6 +885,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_WIELD",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "wielding item",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -858,10 +914,30 @@
     "no_resume": true
   },
   {
+    "id": "ACT_PICKUP_MENU",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking up",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_VIEW_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "viewing recipe",
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
@@ -1023,5 +1099,25 @@
     "no_resume": true,
     "refuel_fires": false,
     "auto_needs": false
+  },
+  {
+    "id": "ACT_GENERIC_EOC",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "preparing",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb": false
+  },
+  {
+    "id": "ACT_CBM_SURGERY",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "being operated on",
+    "based_on": "time",
+    "interruptable": false,
+    "suspendable": false,
+    "interruptable_with_kb": false
   }
 ]

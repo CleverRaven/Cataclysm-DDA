@@ -25,9 +25,11 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const efftype_id effect_on_roof( "on_roof" );
+
 static const itype_id fuel_type_battery( "battery" );
 
-static const efftype_id effect_on_roof( "on_roof" );
+static const skill_id skill_gun( "gun" );
 
 std::vector<vehicle_part *> vehicle::turrets()
 {
@@ -533,12 +535,13 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.set_skill_level( skill_gun, 4 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
     cpu.per_cur = 12;
     cpu.setpos( global_part_pos3( pt ) );
+    cpu.recalc_sight_limits();
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
     cpu.set_fac( get_owner() );
@@ -588,14 +591,14 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                 cpu.get_name() = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
                 // check if the player can see or hear then print chooses a message accordingly
                 if( u_see & u_hear ) {
-                    add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
-                                                  "%s points in your direction and emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
+                    add_msg( m_warning, n_gettext( "%s points in your direction and emits an IFF warning beep.",
+                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
+                                                   boo_hoo ),
                              cpu.get_name(), boo_hoo );
                 } else if( !u_see & u_hear ) {
-                    add_msg( m_warning, ngettext( "You hear a warning beep.",
-                                                  "You hear %d annoyed sounding beeps.",
-                                                  boo_hoo ), boo_hoo );
+                    add_msg( m_warning, n_gettext( "You hear a warning beep.",
+                                                   "You hear %d annoyed sounding beeps.",
+                                                   boo_hoo ), boo_hoo );
                 } else if( u_see & !u_hear ) {
                     add_msg( m_warning, _( "%s points in your direction." ), cpu.get_name() );
                 }

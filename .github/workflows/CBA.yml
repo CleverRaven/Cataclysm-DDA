@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
     - name: checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: install dependencies
-      run: sudo apt-get install libncursesw5-dev
+      run: sudo apt-get install libncursesw5-dev gettext
     - name: Prepare Build Analyzer
       run: |
         cd

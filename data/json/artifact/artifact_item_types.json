@@ -155,7 +155,7 @@
   {
     "id": "art_crystal",
     "type": "GENERIC",
-    "name": { "str": "transluscent crystal" },
+    "name": { "str": "translucent crystal" },
     "description": "It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "symbol": "A",
     "volume": "500 ml",
