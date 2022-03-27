@@ -490,7 +490,7 @@
     }
   },
   {
-    "//": "autodoc operating theater",
+    "//": "Autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -570,7 +570,7 @@
     }
   },
   {
-    "//": "medical wing, autodoc + centrifuge, monster in autodoc room",
+    "//": "medical wing, Autodoc + centrifuge, monster in Autodoc room",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],

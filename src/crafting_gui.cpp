@@ -327,7 +327,7 @@ static std::vector<std::string> recipe_info(
 
     if( recp.has_byproducts() ) {
         oss << _( "Byproducts:\n" );
-        for( const std::pair<const itype_id, int> &bp : recp.byproducts ) {
+        for( const std::pair<const itype_id, int> &bp : recp.get_byproducts() ) {
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
@@ -468,7 +468,7 @@ class recipe_result_info_cache
 void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
 {
-    for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+    for( const std::pair<const itype_id, int> &bp : rec->get_byproducts() ) {
         //Add dividers between item details
         insert_iteminfo_blank_line( details_info );
         insert_iteminfo_separator_line( details_info );

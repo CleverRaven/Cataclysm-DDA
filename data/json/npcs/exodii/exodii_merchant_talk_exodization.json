@@ -29,10 +29,10 @@
       "no": {
         "u_has_faction_trust": 5,
         "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
-        "no": "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no exodii turn away a willin' Benny, and so it is."
+        "no": "Ah, well.  Us'll put that into the key and lock, if'n you're ken.  Mayhap you could bring us a mite and trade, and we'll see if we can fix you good soon and soon.  Let no Exodii turn away a willin' Benny, and so it is."
       }
     },
-    "//~": "English: Yes: Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up. No: Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The exodii won't turn away a willing convert.",
+    "//~": "English: Yes: Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up. No: Ah, well.  I'll file that away, so to speak.  Maybe you could bring us a little more trade, and we'll fix you up as soon as possible.  The Exodii won't turn away a willing convert.",
     "responses": [
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
@@ -102,7 +102,7 @@
             }
           ]
         },
-        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
         "effect": [
           { "u_add_faction_trust": -2 },
           { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }
@@ -156,7 +156,7 @@
             }
           ]
         },
-        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the exodii overall psych assessment of your character.",
+        "//": "If you previously refused exodization and then came back right away having changed your mind, it makes Rubik consider you somewhat flitty and unreliable.  This negates your previous trust bonus and adds to the Exodii overall psych assessment of your character.",
         "effect": [
           { "u_add_faction_trust": -2 },
           { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 4 }

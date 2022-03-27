@@ -1134,7 +1134,7 @@ void monster::nursebot_operate( Character *dragged_foe )
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( get_dest() ) == nullptr ||
               creatures.creature_at( get_dest() ) == dragged_foe ) ) {
-            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the Autodoc couch." ), name(),
                      dragged_foe->disp_name() );
 
             dragged_foe->move_to( get_dest() );
@@ -1145,7 +1145,7 @@ void monster::nursebot_operate( Character *dragged_foe )
         } else if( creatures.creature_at( get_dest() ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
-                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                               _( "a soft robotic voice say, \"Please step away from the Autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
             push_to( here.getlocal( get_dest() ), 4, 0 );
         }

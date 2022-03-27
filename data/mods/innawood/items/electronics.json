@@ -1,0 +1,19 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "makeshift_transformer",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "makeshift transformer" },
+    "category": "spare_parts",
+    "looks_like": "power_supply",
+    "description": "A bundle of cables around an iron core.  Useful for controlling voltage.",
+    "price": 170,
+    "price_postapoc": 15,
+    "material": [ "iron", "copper" ],
+    "weight": "113 g",
+    "volume": "1 L",
+    "bashing": 5,
+    "to_hit": -1
+  }
+]

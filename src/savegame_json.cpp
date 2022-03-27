@@ -733,6 +733,8 @@ void Character::load( const JsonObject &data )
         }
     }
 
+    data.read( "moncams", moncams );
+
     data.read( "magic", magic );
 
     data.read( "underwater", underwater );
@@ -1240,6 +1242,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
+    json.member( "moncams", moncams );
     json.member( "magic", magic );
     json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster

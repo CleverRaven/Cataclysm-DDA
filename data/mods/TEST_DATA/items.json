@@ -878,8 +878,7 @@
     "symbol": ";",
     "color": "light_gray",
     "material_thickness": 1,
-    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ],
-    "armor": [ { "coverage": 1 } ]
+    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "test_tail_encumber",
@@ -2125,6 +2124,58 @@
     "use_action": [ "CHEW" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "test_tallow",
+    "name": { "str": "tallow" },
+    "weight": "55 g",
+    "color": "white",
+    "spoils_in": "60 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -10,
+    "healthy": -1,
+    "calories": 496,
+    "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "price": 500,
+    "price_postapoc": 800,
+    "//": "*May* have been commercially traded.",
+    "material": [ "flesh" ],
+    "volume": "250 ml",
+    "charges": 2,
+    "stack_size": 4,
+    "vitamins": [  ],
+    "fun": -18
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_tallow2",
+    "copy-from": "test_tallow",
+    "name": { "str": "tallow" },
+    "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "weight": "42 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -2,
+    "healthy": -1,
+    "calories": 270,
+    "description": "Also known as pork rinds or chicharrones, these are bits of edible fat and skin that have been fried until they are crispy and delicious.",
+    "price": 170,
+    "volume": "100 ml",
+    "price_postapoc": 500,
+    "material": [ "flesh" ],
+    "charges": 4,
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
+    "fun": 4
+  },
+  {
     "id": "test_cmdline_book",
     "type": "BOOK",
     "name": { "str": "In the Beginning… Was the Command Line", "str_pl": "copies of In the Beginning… Was the Command Line" },
@@ -3213,5 +3264,123 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
       }
     ]
+  },
+  {
+    "id": "test_load_bearing_vest",
+    "repairs_like": "tacvest",
+    "type": "ARMOR",
+    "name": { "str": "load bearing vest" },
+    "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
+    "weight": "1250 g",
+    "volume": "1000 ml",
+    "looks_like": "vest",
+    "price": 7400,
+    "price_postapoc": 3000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "material_thickness": 1.5,
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 85,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.25
+      }
+    ]
+  },
+  {
+    "id": "test_ballistic_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Based on US Army SPCS",
+    "name": { "str": "US ballistic vest" },
+    "description": "Ballistic armor with specialized pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
+    "weight": "2911 g",
+    "volume": "6 L",
+    "price": 160000,
+    "price_postapoc": 1000,
+    "symbol": "[",
+    "material": [ "nylon", "kevlar" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
+    "id": "test_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ESAPI ballistic plate" },
+    "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
+    "weight": "2500 g",
+    "volume": "1533 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "ceramic" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 25,
+    "non_functional": "destroyed_large_ceramic_plate",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

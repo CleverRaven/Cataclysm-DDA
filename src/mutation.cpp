@@ -219,8 +219,7 @@ void Character::unset_mutation( const trait_id &trait_ )
                             cached_mutations.end() );
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
-    recalc_sight_limits();
-    calc_encumbrance();
+    do_mutation_updates();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
@@ -434,6 +433,10 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         return true;
     } );
 
+    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+        add_moncam( moncam );
+    }
+
     if( branch.starts_active ) {
         my_mutations[mut].powered = true;
     }
@@ -484,6 +487,10 @@ void Character::mutation_loss_effect( const trait_id &mut )
     if( !branch.enchantments.empty() ) {
         recalculate_enchantment_cache();
         recalculate_bodyparts();
+    }
+
+    for( std::pair<mtype_id, int> moncam : branch.moncams ) {
+        remove_moncam( moncam.first );
     }
 
     on_mutation_loss( mut );
