@@ -57,7 +57,7 @@
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       },
       {
-        "text": "[4 weeks - exceptional protection] I'll wait for the best you can do.",
+        "text": "[4 weeks, exceptional protection] I'll wait for the best you can do.",
         "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
       },
