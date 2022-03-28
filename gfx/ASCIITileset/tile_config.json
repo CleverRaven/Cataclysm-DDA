@@ -94,6 +94,8 @@
         { "id": [ "npc_female", "npc_male" ], "fg": 3728 }
       ]
     },
+    { "id": "unknown_map_extra", "fg": 0 },
+
     {
       "file": "fallback.png",
       "tiles": [  ],
