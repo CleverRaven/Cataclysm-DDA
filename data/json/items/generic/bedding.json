@@ -18,6 +18,34 @@
     "color": "white"
   },
   {
+    "type": "GENERIC",
+    "id": "hammock",
+    "name": { "str": "hammock" },
+    "category": "tools",
+    "description": "A large sheet of cloth with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1664 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "2 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hammock_net",
+    "name": { "str": "net hammock" },
+    "category": "tools",
+    "description": "A large net with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1584 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "1500 ml"
+  },
+  {
     "id": "sheet",
     "type": "ARMOR",
     "name": { "str": "sheet" },

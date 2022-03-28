@@ -101,6 +101,11 @@
     "info": "This item enables you to keep track of calorie intake."
   },
   {
+    "id": "CASELESS_ROUNDS",
+    "type": "json_flag",
+    "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."
+  },
+  {
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
@@ -197,6 +202,11 @@
     "id": "CANT_WEAR",
     "type": "json_flag",
     "info": "This armor can't be worn directly."
+  },
+  {
+    "id": "DECAY_EXPOSED_ATMOSPHERE",
+    "type": "json_flag",
+    "info": "If exposed to the atmosphere, it will <bad>start to go bad</bad>."
   },
   {
     "id": "DIRTY",
@@ -630,6 +640,16 @@
     "type": "json_flag",
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "RAD_STERILIZED",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
+  },
+  {
+    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
+    "type": "json_flag",
+    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -1376,6 +1396,16 @@
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
     "type": "json_flag"
+  },
+  {
+    "id": "MUTAGEN_CATALYST",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
+  },
+  {
+    "id": "MUTAGEN_PRIMER",
+    "type": "json_flag",
+    "info": "Injecting it will <neutral>prime your body for mutation</neutral>."
   },
   {
     "id": "MYCUS_OK",

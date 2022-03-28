@@ -226,7 +226,7 @@ void Item_factory::finalize_pre( itype &obj )
                 emplace_usage( obj.use_methods, u.second );
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
-                // To do: read the json file of this item agian and get for each quality a scale number
+                // To do: read the json file of this item again and get for each quality a scale number
                 obj.ammo_scale.emplace( u.second, 0.0f );
             }
         }
@@ -2655,7 +2655,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             mandatory( jo, false, "material", materials );
         } else {
             // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
-            // TODO: Depricate and remove
+            // TODO: Deprecate and remove
             for( const std::string &mat : jo.get_tags( "material" ) ) {
                 materials.emplace_back( mat, 100, 0.0f );
             }

@@ -158,6 +158,8 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],
+      [ "hammock", 5 ],
+      [ "hammock_net", 2 ],
       [ "large_tent_kit", 5 ],
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 5 },
       [ "canteen", 100 ],
