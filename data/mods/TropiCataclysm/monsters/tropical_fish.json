@@ -48,7 +48,7 @@
     "id": "mon_fish_lungfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": { "str": "lungfish" },
+    "name": { "str": "lungfish" , "str_pl": "lungfishes"},
     "description": "A lungfish.  This strange fish has relatives in both Africa and Australia, all of them can breathe air and some consider them living fossils."
   },
   {
@@ -82,7 +82,7 @@
     "default_faction": "fish",
     "bodytype": "fish",
     "species": [ "FISH" ],
-    "volume": "3.2 L",
+    "volume": "3200 ml",
     "weight": "3200 g",
     "hp": 15,
     "speed": 180,
