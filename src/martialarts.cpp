@@ -1266,15 +1266,13 @@ weighted_int_list<attack_vector> character_martial_arts::get_attack_vectors( con
 {
     weighted_int_list<attack_vector> attack_vector_list;
     if( atv == attack_vector::ANY ) {
-        int tmp_atv = static_cast<int>( attack_vector::NONE );
-        tmp_atv++;
-        do {
+        for( int tmp_atv = static_cast<int>( attack_vector::NONE );
+             tmp_atv < static_cast<int>( attack_vector::NUM_AV ) ; tmp_atv++ ) {
             int weight = user.attack_vector_score( static_cast<attack_vector>( tmp_atv ) ) * 100;
             if( weight >= score_threshold ) {
                 attack_vector_list.add( static_cast<attack_vector>( tmp_atv ), weighted ? weight : 1 );
             }
-            tmp_atv++;
-        } while( tmp_atv != static_cast<int>( attack_vector::NUM_AV ) );
+        }
     } else {
         int weight = user.attack_vector_score( atv ) * 100;
         if( weight >= score_threshold ) {

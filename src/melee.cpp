@@ -725,25 +725,29 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                    io::enum_to_string( weighted.obj ), weighted.weight );
                 }
             }
-            do {
-                attack_vector *tmp_atv = attack_vector_list.pick();
-                technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, false );
-                attack_vector_list.add_or_replace( *tmp_atv, 0 );
-                if( technique_id != tec_none ) {
-                    atv = tmp_atv;
-                }
-            } while( technique_id == tec_none && attack_vector_list.get_weight() > 0 );
-
-            if( *atv == attack_vector::NONE ) {
-                attack_vector_list = martial_arts_data->get_attack_vectors( *this, attack_vector::ANY, false, 50 );
+            if( attack_vector_list.get_weight() > 0 ) {
                 do {
                     attack_vector *tmp_atv = attack_vector_list.pick();
-                    technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, true );
+                    technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, false );
                     attack_vector_list.add_or_replace( *tmp_atv, 0 );
                     if( technique_id != tec_none ) {
                         atv = tmp_atv;
                     }
                 } while( technique_id == tec_none && attack_vector_list.get_weight() > 0 );
+            }
+
+            if( *atv == attack_vector::NONE ) {
+                attack_vector_list = martial_arts_data->get_attack_vectors( *this, attack_vector::ANY, false, 50 );
+                if( attack_vector_list.get_weight() > 0 ) {
+                    do {
+                        attack_vector *tmp_atv = attack_vector_list.pick();
+                        technique_id = pick_technique( t, *cur_weapon, *tmp_atv, critical_hit, false, false, true );
+                        attack_vector_list.add_or_replace( *tmp_atv, 0 );
+                        if( technique_id != tec_none ) {
+                            atv = tmp_atv;
+                        }
+                    } while( technique_id == tec_none && attack_vector_list.get_weight() > 0 );
+                }
             }
         }
 
