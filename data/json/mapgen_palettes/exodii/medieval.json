@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "exodii_stone_palette",
-    "//": "For medieval buildings the exodii have repurposed.",
+    "//": "For medieval buildings the Exodii have repurposed.",
     "terrain": {
       " ": [ [ "t_region_groundcover", 500 ], "t_region_tree" ],
       ".": "t_glassed_sand",

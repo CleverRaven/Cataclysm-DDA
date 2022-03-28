@@ -15,6 +15,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "freezer",
+    "looks_like": "minifreezer",
+    "symbol": "F",
+    "color": "blue",
+    "name": { "str": "freezer" },
+    "description": "A disconnected freezer.  Can be plugged into a power source to start freezing food.",
+    "longest_side": "1400 mm",
+    "insulation": 15,
+    "volume": "900 L",
+    "weight": "50 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]
+  },
+  {
+    "type": "GENERIC",
     "id": "oven",
     "looks_like": "f_oven",
     "symbol": "#",

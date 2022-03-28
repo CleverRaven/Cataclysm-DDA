@@ -40,6 +40,7 @@
       { "item": "mask_gas", "prob": 1 },
       { "item": "flashlight", "prob": 10 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 2 },
       { "item": "survnote", "prob": 5 },
       { "item": "plastic_shopping_bag", "prob": 5 },
       { "item": "box_small", "prob": 5 },

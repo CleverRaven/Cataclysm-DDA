@@ -727,7 +727,7 @@
   {
     "abstract": "base_dragonfly",
     "type": "MONSTER",
-    "name": { "str": "dragonfly" },
+    "name": { "str": "dragonfly", "str_pl": "dragonflies" },
     "default_faction": "aquatic_predator",
     "species": [ "INSECT" ],
     "volume": "750 ml",

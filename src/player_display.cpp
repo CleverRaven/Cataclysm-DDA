@@ -315,7 +315,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
 
     const int height = getmaxy( win ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( profs.size() );
-    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beggining space
+    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beginning space
 
     const std::pair<const int, const int> range = subindex_around_cursor( profs.size(), height, line,
             focused );

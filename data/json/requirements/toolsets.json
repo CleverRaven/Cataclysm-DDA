@@ -165,7 +165,7 @@
   {
     "id": "power_saw_long",
     "type": "requirement",
-    "//": "Power tools able to make long, straigth cuts",
+    "//": "Power tools able to make long, straight cuts",
     "tools": [ [ [ "fake_tablesaw", 50 ], [ "circsaw_off", 100 ], [ "fake_bandsaw", 50 ] ] ]
   },
   {

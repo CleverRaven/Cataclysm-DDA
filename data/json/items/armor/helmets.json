@@ -61,7 +61,7 @@
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
@@ -90,7 +90,7 @@
     "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ]
   },
   {
     "id": "tac_helmet",
@@ -112,7 +112,7 @@
     "warmth": 20,
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 16, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -135,7 +135,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 40, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
@@ -159,6 +159,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -223,6 +224,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
     "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ]
   },
   {
@@ -340,7 +342,7 @@
     "name": { "str": "XS biosilicified chitin helmet" },
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_football",
@@ -364,7 +366,7 @@
     ],
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "PADDED" ]
   },
   {
     "id": "helmet_galea",
@@ -547,8 +549,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -561,7 +563,8 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
       },
       {
         "material": [
@@ -570,14 +573,15 @@
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
       }
     ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_motor_raised",
@@ -600,8 +604,8 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "encumbrance": 25,
         "coverage": 100,
@@ -612,7 +616,7 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_nasal",
@@ -746,17 +750,23 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 2,
-    "material": [ "steel", "iron" ],
+    "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
-    ],
     "warmth": 10,
-    "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 80,
+        "encumbrance": 35
+      }
+    ]
   },
   {
     "id": "xl_helmet_scrap",
@@ -775,7 +785,7 @@
     "name": { "str": "XS scrap helmet" },
     "description": "A helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "OUTER", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "helmet_skid",
@@ -818,7 +828,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "head" ] } ]
   },
   {
@@ -863,7 +873,7 @@
     "name": { "str": "XS Corinthian helm" },
     "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "pot_xlhelmet",
@@ -890,7 +900,7 @@
     "name": { "str": "XS pot helmet" },
     "description": "A helmet made from a soup pot.  It's not very good protection, but it's better than nothing.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "lc_helm_close",
@@ -1043,7 +1053,7 @@
   {
     "id": "xl_mc_helm_close",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel close helm", "str_pl": "XL medium steel close helms (raised)" },
+    "name": { "str": "XL medium steel close helm" },
     "copy-from": "mc_helm_close",
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "xl_mc_helm_close_raised", "menu_text": "Raise" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },

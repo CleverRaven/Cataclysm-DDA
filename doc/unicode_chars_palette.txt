@@ -137,7 +137,7 @@
 ```
 
 
-## 2B00—2BFF Miscellaneous Symbols and Arrows 
+## 2B00—2BFF Miscellaneous Symbols and Arrows
 
 ```
 ⬀⬁⬂⬃⬄⬅⬆⬇⬈⬉⬊⬋⬌⬍
