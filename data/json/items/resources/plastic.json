@@ -83,9 +83,9 @@
     "category": "spare_parts",
     "name": { "str": "plastic sheet" },
     "description": "This is a large sheet of flexible plastic, the sort that might have been used for commercial wrapping or for weather-sealing a home.",
-    "weight": "21 g",
+    "weight": "24 g",
     "volume": "23 ml",
-    "//": ".93 g/ml, based on LDPE. Palette wrap, painter's plastic, etc."
+    "//": "Based on a density around 1.05 grams/mL, like PLA and ABS"
     "price": 0,
     "price_postapoc": 25,
     "material": [ "plastic" ],
