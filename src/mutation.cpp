@@ -403,7 +403,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         recalc_hp();
     }
 
-    for( const itype_id armor : branch.integrated_armor ) {
+    for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
         wear_item( tmparmor, false );
     }
@@ -490,7 +490,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
         recalc_hp();
     }
 
-    for( const itype_id popped_armor : branch.integrated_armor ) {
+    for( const itype_id &popped_armor : branch.integrated_armor ) {
         remove_worn_items_with( [&]( item & armor ) {
             return armor.typeId() == popped_armor;
         } );
