@@ -298,7 +298,7 @@
     ],
     "responses": [
       {
-        "text": "I have some right now. [Hand over a CBM interface wire kit and an external climate control kit.]",
+        "text": "I have some right now.  [Hand over a CBM interface wire kit and an external climate control kit.]",
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -322,7 +322,7 @@
     ],
     "responses": [
       {
-        "text": "Here you go. [Hand over a CBM interface wire kit and an external climate control kit.]",
+        "text": "Here you go.  [Hand over a CBM interface wire kit and an external climate control kit.]",
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
