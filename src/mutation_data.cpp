@@ -513,7 +513,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    for( const JsonValue &jv : jo.get_array( "integrated_armor" ) ) {
+    for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
         integrated_armor.emplace_back( itype_id( jv ) );
     }
 
