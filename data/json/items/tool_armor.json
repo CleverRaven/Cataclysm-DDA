@@ -337,7 +337,7 @@
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true  } ]
   },
   {
     "id": "welding_mask_crude",
@@ -362,7 +362,7 @@
     "material_thickness": 2,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true  } ]
   },
   {
     "id": "welding_mask_crude_raised",
