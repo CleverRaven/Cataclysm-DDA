@@ -153,7 +153,8 @@
     "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through",
-    "repaired_with": "blood"
+    "repaired_with": "blood",
+    "soft": true
   },
   {
     "type": "material",

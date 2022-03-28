@@ -564,7 +564,8 @@
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5,
-        "layers": [ "OUTER" ], "rigid_layer_only": true
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       },
       {
         "material": [
@@ -574,7 +575,8 @@
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 15,
-        "layers": [ "OUTER" ], "rigid_layer_only": true
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },

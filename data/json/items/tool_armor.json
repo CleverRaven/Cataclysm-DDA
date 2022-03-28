@@ -337,7 +337,10 @@
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true  } ]
+    "armor": [
+      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+    ]
   },
   {
     "id": "welding_mask_crude",
@@ -362,7 +365,10 @@
     "material_thickness": 2,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] }, { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true  } ]
+    "armor": [
+      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+    ]
   },
   {
     "id": "welding_mask_crude_raised",
@@ -3081,7 +3087,8 @@
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "eyes" ], "rigid_layer_only": true,
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
         "coverage": 80,
         "encumbrance": 5,
         "layers": [ "OUTER" ]
@@ -3091,7 +3098,8 @@
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "mouth" ], "rigid_layer_only": true,
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
         "coverage": 50,
         "encumbrance": 2,
         "layers": [ "OUTER" ]
@@ -3547,8 +3555,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5,
-      "layers": [ "OUTER" ] }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5, "layers": [ "OUTER" ] }
     ],
     "warmth": 15,
     "material_thickness": 5,
