@@ -19,11 +19,9 @@ static const mutation_category_id mutation_category_FELINE( "FELINE" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
-static const mutation_category_id mutation_category_RAT( "RAT" );
-static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
-static const trait_id trait_GROWL( "GROWL" );
+static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
 static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
@@ -71,16 +69,14 @@ std::string get_mutations_as_string( const Character &you )
 // SMELLY and UGLY would have their FELINE and LUPINE categories strengthened (since they have two
 // mutations in those categories), relative to the MOUSE and RAPTOR categories.
 //
-// Adding GROWL, which is shared by LUPINE / RAT / URSINE, should strengthen the character's LUPINE
+// Adding GOURMAND, which is shared by LUPINE / MOUSE, should strengthen the character's LUPINE
 // category further, and increase the chance to breach that category. If our character has all three
 // mutations, their relative category strengths will look like this:
 //
-// RAT:    1  (growl)
-// MOUSE:  1  (smelly)
 // RAPTOR: 1  (ugly)
-// URSINE: 1  (growl)
+// MOUSE:  2  (smelly. gourmand)
 // FELINE: 2  (smelly, ugly)
-// LUPINE: 3  (smelly, ugly, growl)
+// LUPINE: 3  (smelly, ugly, gourmand)
 //
 // This test illustrates and verifies the above scenario, using the same categories and mutations.
 //
@@ -94,9 +90,7 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_FELINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_RAPTOR] == 0 );
-    CHECK( dummy.mutation_category_level[mutation_category_URSINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_MOUSE] == 0 );
-    CHECK( dummy.mutation_category_level[mutation_category_RAT] == 0 );
 
     // SMELLY mutation: Common to LUPINE, FELINE, and MOUSE
     REQUIRE( dummy.mutate_towards( trait_SMELLY ) );
@@ -120,8 +114,8 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
            dummy.mutation_category_level[mutation_category_RAPTOR] );
 
-    // GROWL mutation: Common to LUPINE, RAT, and URSINE
-    REQUIRE( dummy.mutate_towards( trait_GROWL ) );
+    // GROWL mutation: Common to LUPINE and MOUSE
+    REQUIRE( dummy.mutate_towards( trait_GOURMAND ) );
     // LUPINE has the most mutations now, and should now be the strongest category
     CHECK( get_highest_category( dummy ).str() == "LUPINE" );
     // LUPINE category level should be strictly higher than any other
@@ -131,10 +125,6 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
            dummy.mutation_category_level[mutation_category_MOUSE] );
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
            dummy.mutation_category_level[mutation_category_RAPTOR] );
-    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
-           dummy.mutation_category_level[mutation_category_URSINE] );
-    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
-           dummy.mutation_category_level[mutation_category_RAT] );
 }
 
 // If character has all available mutations in a category (pre- or post-threshold), that should be

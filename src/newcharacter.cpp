@@ -259,6 +259,9 @@ void Character::toggle_trait_deps( const trait_id &tr )
         for( const auto &addition : get_addition_traits( tr ) ) {
             remove_mutation( addition );
         }
+        for( const auto &lower : get_lower_traits( tr ) ) {
+            remove_mutation( lower );
+        }
         remove_mutation( tr );
     }
 }
