@@ -77,7 +77,7 @@ Each subsection of this will consist of an **explanation of the feature**, an **
 
 ### Advanced Armor Definitions
 #### Explanation
-Some items will use an old way of defining armor where their coverage and thickness are loose in the json. This is likely to be phased out. As such I would recommend **always using an advanced armor definition**. Each piece of this will be explained in detail further bellow but the simplest thing you can do is just define an array of objects containing a coverage value, encumbrance, and the covered locations.
+Some items will use an old way of defining armor where their coverage and thickness are loose in the json. This is likely to be phased out. As such I would recommend **always using an advanced armor definition**. Each piece of this will be explained in detail further below but the simplest thing you can do is just define an array of objects containing a coverage value, encumbrance, and the covered locations.
 
 #### Example
 ```json
@@ -145,7 +145,7 @@ Sublocations are a new-ish feature of characters in Cataclysm. Sub-locations are
 * Makes it so that armor only conflicts with armor that shares sublocations with it on it's layer
 * Scales total coverage
 
-So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sublocations and describing coverage you are describing the ammount of the sublocations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
+So if you appropriately use specifically_covers a character can wear multiple pieces on the same limb and layer. For example a character could wear knee pads, and shin guards. Also when defining sublocations and describing coverage you are describing the amount of the sublocations the armor covers. So a pair of knee pads isn't 5% coverage, specifically covering the knees: its 90% coverage specifically covering the knees and the game is smart enough to know your knee is 5% of your leg. This is to make it simpler, just describe how much of the parts covered are covered, not how much of the overall limb.
 
 The strapped layer also has additional sublimbs that are used for hanging items. These currently only exist on the torso and in the json have ```"secondary": true```. They are for things hanging around your neck (like binoculars), your front (like a rifle on a sling), your back (like a backpack).
 
@@ -521,12 +521,12 @@ This is a hopefully exhaustive list of flags you may wish to use on items and wh
 ID | Description
 -- | --
 PERSONAL | On this layer
-SKINTIGHT | On this layer  
-NORMAL | On this layer  
-WAIST | On this layer  
-OUTER | On this layer  
+SKINTIGHT | On this layer
+NORMAL | On this layer
+WAIST | On this layer
+OUTER | On this layer
 BELTED | On this layer
-AURA | On this layer  
+AURA | On this layer
 
 
 #### Clothing stuff
@@ -609,7 +609,7 @@ FLASH_PROTECTION | Protects from flashbangs
 FLOTATION | Causes you to float
 FIN | Makes you swim faster
 PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | Lets players no this item gives no benefits (used on jewelry)
+NO_WEAR_EFFECT | Lets players know this item gives no benefits (used on jewelry)
 PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
 PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
 PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
@@ -630,7 +630,7 @@ The core ideal when making any item but especially armor is that **weight, thick
 Make things as simple as they possibly can be. When a player inspects a t-shirt they shouldn't have to inspect 35 lines of armor data that could be summarized as "basically no protection, keeps you kinda warm". Advanced and dedicated armor can be *very* complicated but try to keep clothing as complex as they need to be to be simulated correctly.
 
 #### Subjective Values
-With the above mentioned you should be able to intuit/research sensible materials, thicknesses, flags, and weight.  Your core variables that are more discretionary are warmth, encumbrance, layer and coverage.  
+With the above mentioned you should be able to intuit/research sensible materials, thicknesses, flags, and weight.  Your core variables that are more discretionary are warmth, encumbrance, layer and coverage.
 
 #### Layer
 Layer should be based on real world intuit however thickness also matters. The loose rule, erring on the side of generosity is (at least for arms, legs and torso)
@@ -644,7 +644,7 @@ Warmth should be based on materials, look at armors similar to what you are maki
 #### Coverage
 Coverage has a big rule on the core team of **No hard, powerful armors with 100% coverage**. This can be subverted slightly by using covered_by_mat to make it so the armors best protection doesn't cover 100% of the body but limbs need to bend so no part of the body can really have 100% coverage with a hard high protection material. Further any armor that **does** have 100% coverage with great protection from hard materials should either be super sci-fi, or made to order. Super covering protective plate mail was made tailored to a persons body in a way mass manufacture gear isn't.
 
-Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.  
+Something a lot of people don't consider is that an armor with 95% coverage is **4 times better** than an armor with 80% coverage when it comes to protecting against attacks.
 
 When balancing coverage try to describe what you would see. Doing multiple armor entries per sublimb can help with this. "well this covers all the elbows and forearms and has some plastic covering 75% of that". Then give it 100% coverage on the elbow and lower arm sublimbs with covered by mat plastic at 75. Then the game is smart enough to figure out how much of the overall arm that all is.
 

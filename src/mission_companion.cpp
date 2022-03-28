@@ -1821,7 +1821,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         }
     }
     Character &player_character = get_player_character();
-    //The loot value needs to be added to the faction - what the player is payed
+    //The loot value needs to be added to the faction - what the player is paid
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
     loot_location.z() = 0;

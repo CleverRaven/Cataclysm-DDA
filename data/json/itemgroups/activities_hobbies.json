@@ -269,6 +269,8 @@
       [ "wire", 50 ],
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
+      [ "hammock", 5 ],
+      [ "hammock_net", 2 ],
       [ "large_tent_kit", 17 ],
       [ "tent_pole", 17 ],
       [ "canteen", 15 ],

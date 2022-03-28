@@ -289,7 +289,7 @@
     "id": "sausage_casings_artificial",
     "copy-from": "spice",
     "type": "COMESTIBLE",
-    "name": { "str": "artifical sausage casing" },
+    "name": { "str": "artificial sausage casing" },
     "description": "Sausage casings made from plastic bags.  Ready to be used for forming meat products.",
     "color": "red",
     "material": [ "plastic" ],

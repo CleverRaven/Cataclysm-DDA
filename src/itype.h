@@ -287,11 +287,11 @@ struct armor_portion_data {
     // these are pre-calc values to save us time later
 
     // the chance that every material applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int best_protection_chance = 100; // NOLINT(cata-serialize)
 
     // the chance that the smallest number of materials possible applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     // this is to test if the armor has unique layering information
@@ -816,7 +816,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    /** Not compatable on weapons that have this mod slot */
+    /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
     // minimum recoil to cycle while this is installed
