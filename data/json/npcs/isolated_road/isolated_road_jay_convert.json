@@ -1,20 +1,32 @@
 [
   {
+    "id": "TALK_BULLET_EXCHANGE_INFO",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "You hit the nail on the head.  You bring me bullets - 5.56, 7.62, 5.54, or .300 - and I'll convert between 'em.  I take a 10% cut, just so you know."
+    ],
+    "responses": [
+      { "text": "Thanks for filling me in.", "topic": "TALK_GUNSMITH_SERVICES" },
+      { "text": "Can we do that now?", "topic": "TALK_BULLET_EXCHANGE" }
+    ]
+  },
+  {
     "id": "TALK_BULLET_EXCHANGE",
     "//": "this is all the dialogue related to converting bullets with Jay",
     "type": "talk_topic",
     "dynamic_line": [
-      "Yup what would you like to convert?  Behind me is what I can do over the counter but larger conversions will take a few days."
+      "Yup, what would you like to convert?  As a reminder, I do 5.56, 7.62, 5.54, or .300.  You want anything else, we can just trade 'em directly over the counter."
     ],
     "responses": [
-      { "text": "Forget it.", "topic": "TALK_GUNSMITH_SERVICES" },
+      { "text": "Nothing for now.", "topic": "TALK_GUNSMITH_SERVICES" },
+      { "text": "Let's see about that over the counter.", "topic": "TALK_GUNSMITH_SERVICES", "effect": "start_trade" },
       {
-        "text": "[1 day] 200 Rounds",
+        "text": "[1 day] 200 rounds.",
         "effect": [ { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "200" } ],
         "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
       },
       {
-        "text": "[5 days] 800 Rounds",
+        "text": "[5 days] 800 rounds.",
         "effect": [ { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" } ],
         "topic": "TALK_GUNSMITH_CONVERT_FROM_TYPE"
       }
@@ -29,12 +41,12 @@
       "context": "artisans",
       "op": "==",
       "value": 200,
-      "yes": "Alright 200 rounds, what are you looking to give me?",
-      "no": "Alright 800 rounds, what are you looking to give me?"
+      "yes": "Alright, 200 rounds.  First off, what are you looking to give me?",
+      "no": "Alright, 800 rounds.  First off, what are you looking to give me?"
     },
     "responses": [
       {
-        "text": "5.56x45",
+        "text": "5.56x45.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "556", "count": 200 } },
@@ -54,7 +66,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "5.56x45",
+        "text": "5.56x45.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "556", "count": 800 } },
@@ -94,7 +106,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "7.62x51",
+        "text": "7.62x51.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "762_51", "count": 800 } },
@@ -114,7 +126,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "7.62x39",
+        "text": "7.62x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "762_m87", "count": 200 } },
@@ -134,7 +146,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "7.62x39",
+        "text": "7.62x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "762_m87", "count": 800 } },
@@ -154,7 +166,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "5.54x39",
+        "text": "5.54x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "545", "count": 200 } },
@@ -174,7 +186,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "5.54x39",
+        "text": "5.54x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "545", "count": 800 } },
@@ -194,7 +206,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": ".300 AAC",
+        "text": ".300 AAC.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "300blk", "count": 200 } },
@@ -214,7 +226,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": ".300 AAC",
+        "text": ".300 AAC.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "300blk", "count": 800 } },
@@ -282,7 +294,7 @@
     },
     "responses": [
       {
-        "text": "5.56x45",
+        "text": "5.56x45.",
         "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 } },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "556" },
@@ -292,7 +304,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "7.62x51",
+        "text": "7.62x51.",
         "condition": {
           "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 }
         },
@@ -304,7 +316,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "7.62x39",
+        "text": "7.62x39.",
         "condition": {
           "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 }
         },
@@ -316,7 +328,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "5.54x39",
+        "text": "5.54x39.",
         "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "545" },
@@ -326,7 +338,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": ".300 AAC",
+        "text": ".300 AAC.",
         "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 } },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "300" },
@@ -346,21 +358,21 @@
       "context": "artisans",
       "op": "==",
       "value": 200,
-      "yes": "Alright, that's 200 rounds minus the 10% service fee, they'll be converted in a day.",
-      "no": "Alright, that's 800 rounds minus the 10% service fee, they'll be converted in 5 days."
+      "yes": "Alright, that's 200 rounds minus the 10% service fee.  They'll be converted in a day.",
+      "no": "Alright, that's 800 rounds minus the 10% service fee.  They'll be converted in 5 days."
     },
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
-      { "text": "Something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
     "id": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET",
     "type": "talk_topic",
-    "dynamic_line": "Sorry it isn't ready yet.",
+    "dynamic_line": "Sorry, it isn't ready yet.",
     "responses": [
       { "text": "See you then.", "topic": "TALK_DONE" },
-      { "text": "Something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   },
   {
@@ -370,7 +382,7 @@
     "responses": [
       { "//": "ALL 556 Converts" },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -397,7 +409,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -424,7 +436,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -445,7 +457,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -466,7 +478,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -493,7 +505,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -520,7 +532,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -541,7 +553,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 },
@@ -563,7 +575,7 @@
       },
       { "//": "ALL 762x39 Converts" },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -584,7 +596,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -605,7 +617,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -626,7 +638,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -647,7 +659,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -674,7 +686,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -701,7 +713,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -722,7 +734,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 },
@@ -744,7 +756,7 @@
       },
       { "//": "ALL 545 Converts" },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -765,7 +777,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -786,7 +798,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -813,7 +825,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -840,7 +852,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -867,7 +879,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -894,7 +906,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -915,7 +927,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 },
@@ -937,7 +949,7 @@
       },
       { "//": "ALL 762 NATO Converts" },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -958,7 +970,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -979,7 +991,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1006,7 +1018,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1033,7 +1045,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1054,7 +1066,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1075,7 +1087,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1096,7 +1108,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 },
@@ -1118,7 +1130,7 @@
       },
       { "//": "ALL Blackout Converts" },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1139,7 +1151,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1160,7 +1172,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1187,7 +1199,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1214,7 +1226,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1235,7 +1247,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1256,7 +1268,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1283,7 +1295,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[pickup ammo] Thanks.",
+        "text": "[Take your new ammo.] Thanks.",
         "condition": {
           "and": [
             { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 },
@@ -1309,7 +1321,7 @@
         ],
         "topic": "TALK_DONE"
       },
-      { "text": "Something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
+      { "text": "There's something else I'd like to talk about.", "topic": "TALK_GUNSMITH_SERVICES" }
     ]
   }
 ]
