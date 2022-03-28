@@ -1,6 +1,6 @@
 [
   {
-    "id": "TALK_BLACKSMITH_SERVICES",
+    "id": [ "TALK_BLACKSMITH_SERVICES", "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY" ],
     "type": "talk_topic",
     "dynamic_line": [
       "Hiya darlin', welcome to the shop.",
@@ -197,6 +197,16 @@
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "You mentioned you'd need some special materials to make that nomad armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            { "u_has_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS"
       },
       {
         "text": "Let's trade.",

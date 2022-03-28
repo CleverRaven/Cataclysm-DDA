@@ -23,7 +23,7 @@
     "id": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT",
     "type": "talk_topic",
     "dynamic_line": [
-      "Yeah!  I feel a lot better now that Cody and I are talking again, and we've been putting some serious work into this stuff.  If you wanted to help source parts and do some testing, we could definitely get some prototypes made."
+      "Yeah!  I feel a lot better now that Jay and I are talking again, and we've been putting some serious work into this stuff.  If you wanted to help source parts and do some testing, we could definitely get some prototypes made."
     ],
     "responses": [
       {
@@ -356,7 +356,7 @@
     "id": "TALK_BLACKSMITH_LOUVERTURE",
     "//": "Sun Mace",
     "type": "talk_topic",
-    "dynamic_line": "Oh, that's one of my sillier ideas.  Jay is convinced it'll never work but I really want to give it a shot.  A traditional mace with gas-venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many RPGs, but it seems worth a shot.  To get this one working I'm gonna need a real deal mace, something - that can handle the pressure - as well as a military grade flamethrower.  Fabrication will definitely take two weeks on this one.",
+    "dynamic_line": "Oh, that's one of my sillier ideas.  Jay is convinced it'll never work but I really want to give it a shot.  A traditional mace with gas-venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many RPGs, but it seems worth a shot.  To get this one working I'm gonna need a real deal mace -  something that can handle the pressure - as well as a military grade flamethrower.  Fabrication will definitely take two weeks on this one.",
     "responses": [
       {
         "text": "[Mace, flamethrower] See you in 2 weeks.",
