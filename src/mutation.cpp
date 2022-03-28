@@ -44,8 +44,6 @@
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
-static const efftype_id effect_stunned( "stunned" );
-
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
 static const json_character_flag json_flag_HUGE( "HUGE" );
@@ -55,13 +53,10 @@ static const json_character_flag json_flag_TINY( "TINY" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
 static const mutation_category_id mutation_category_ANY( "ANY" );
-static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
-static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -75,7 +70,6 @@ static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
@@ -1768,7 +1762,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
     // You're required to have hit third-stage dreams first.
     if( breach_power > 30 ) {
         if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
-            const mutation_branch thrdata = mutation_thresh.obj();
+            const mutation_branch &thrdata = mutation_thresh.obj();
             if( vitamin_get( m_category.vitamin ) >= thrdata.vitamin_cost ) {
                 vitamin_mod( m_category.vitamin, -thrdata.vitamin_cost );
                 add_msg_if_player( m_good,

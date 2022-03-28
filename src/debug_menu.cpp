@@ -1782,6 +1782,7 @@ static void character_edit_menu()
                 case 1: {
                     uilist ssmenu;
                     std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+                    mutation_categories_list.reserve( mutations_category.size() );
                     for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
                         mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
                     }
