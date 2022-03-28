@@ -3600,7 +3600,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 std::string coverage = _( "<bold>This armor is comfortable</bold>" );
                 info.emplace_back( "ARMOR", coverage );
             } else {
-                //only some parts are comfortable
+                // only some parts are comfortable
                 std::string coverage = _( "<bold>Comfortable</bold>:" );
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.comfortable ) {
