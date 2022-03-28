@@ -160,7 +160,7 @@
     "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
-    "category": [ "ELFA", "INSECT", "FISH", "ELFA" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
     "triggers": [
       [
         {
