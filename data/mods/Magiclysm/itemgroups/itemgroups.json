@@ -363,7 +363,7 @@
   {
     "id": "enchanted_misc",
     "type": "item_group",
-    "//": "all enchanted miscellanious items",
+    "//": "all enchanted miscellaneous items",
     "items": [
       { "item": "golemcore", "prob": 10 },
       { "item": "heat_cube", "prob": 100 },

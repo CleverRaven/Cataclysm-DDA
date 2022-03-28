@@ -590,7 +590,7 @@ void activity_tracker::deserialize( const JsonObject &jo )
 }
 
 // migration handling of items that used to have charges instead of real items.
-// remove this migration funciton after 0.F
+// remove this migration function after 0.F
 static void migrate_item_charges( item &it )
 {
     if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
@@ -4241,7 +4241,7 @@ void basecamp::deserialize( const JsonObject &data )
                 e.provides[ id ] = amount;
             }
         }
-        // incase of save corruption, sanity check provides from expansions
+        // in case of save corruption, sanity check provides from expansions
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;

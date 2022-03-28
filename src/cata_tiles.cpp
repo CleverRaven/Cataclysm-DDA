@@ -1828,7 +1828,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
     /*
     *  Note on memory management:
     *  This method must returns pointers to the objects (std::string *id  and tile_type * tile)
-    *  that are valid when this metod returns. Ideally they should have the lifetime
+    *  that are valid when this method returns. Ideally they should have the lifetime
     *  that is equal or exceeds lifetime of `this` or `this::tileset_ptr`.
     *  For example, `id` argument may have shorter lifetime and thus should not be returned!
     *  The result of `find_tile_with_season` is OK to be returned, because it's guaranteed to

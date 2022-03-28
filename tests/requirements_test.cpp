@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "cata_catch.h"
+#include "make_static.h"
 #include "requirements.h"
 #include "type_id.h"
 
@@ -13,6 +14,10 @@ static const itype_id itype_lye( "lye" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_yarn( "yarn" );
+
+static const requirement_id requirement_data_eggs_bird( "eggs_bird" );
+static const requirement_id
+requirement_data_explosives_casting_standard( "explosives_casting_standard" );
 
 static void test_requirement_deduplication(
     const requirement_data::alter_item_comp_vector &before,
@@ -119,4 +124,62 @@ TEST_CASE( "deduplicate_repeated_requirements", "[requirement]" )
     }, {
         { { { itype_rock, 2 } }, { { itype_yarn, 2 } } },
     } );
+}
+
+TEST_CASE( "requirement_extension", "[requirement]" )
+{
+    SECTION( "basic_component_extension" ) {
+        const std::vector<std::vector<item_comp>> &req_comp = requirement_data_eggs_bird->get_components();
+
+        REQUIRE( !req_comp.empty() );
+        REQUIRE( req_comp.size() == 1 );
+        REQUIRE( req_comp.front().size() > 1 );
+
+        bool found_extended_comp = false;
+        for( const item_comp &comp : req_comp[0] ) {
+            if( comp.type == STATIC( itype_id( "test_egg" ) ) ) {
+                found_extended_comp = true;
+                CHECK( comp.count == 2 );
+            }
+        }
+        CHECK( found_extended_comp );
+    }
+
+    SECTION( "multigroup_tool_extension" ) {
+        const std::vector<std::vector<tool_comp>> &req_tool =
+                requirement_data_explosives_casting_standard->get_tools();
+
+        REQUIRE( !req_tool.empty() );
+        REQUIRE( req_tool.size() == 2 );
+        REQUIRE( req_tool[0].size() > 1 );
+        REQUIRE( req_tool[1].size() > 3 );
+
+        std::vector<std::map<const itype_id, bool>> found_itype_maps = {
+            {
+                { STATIC( itype_id( "metal_tank_test" ) ), false }
+            },
+            {
+                { STATIC( itype_id( "test_pipe" ) ), false },
+                { STATIC( itype_id( "test_glass_pipe_mostly_steel" ) ), false },
+                { STATIC( itype_id( "test_glass_pipe_mostly_glass" ) ), false }
+            }
+        };
+
+        for( int i = 0; i < static_cast<int>( req_tool.size() ); i++ ) {
+            for( const tool_comp &tool : req_tool[i] ) {
+                for( std::pair<const itype_id, bool> &f : found_itype_maps[i] ) {
+                    if( tool.type == f.first ) {
+                        f.second = true;
+                    }
+                }
+            }
+        }
+
+        for( const std::map<const itype_id, bool> &f : found_itype_maps ) {
+            for( const std::pair<const itype_id, bool> &found : f ) {
+                CAPTURE( found.first.c_str() );
+                CHECK( found.second );
+            }
+        }
+    }
 }

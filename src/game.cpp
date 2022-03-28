@@ -6289,7 +6289,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     // This lambda returns either absolute coordinates or relative-to-player
-    // corrdinates, depending on whether personal is false or true respectively.
+    // coordinates, depending on whether personal is false or true respectively.
     // In C++20 we could have the return type depend on the parameter using
     // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
@@ -7396,7 +7396,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 void game::list_items_monsters()
 {
     // Search whole reality bubble because each function internally verifies
-    // the visibilty of the items / monsters in question.
+    // the visibility of the items / monsters in question.
     std::vector<Creature *> mons = u.get_visible_creatures( 60 );
     const std::vector<map_item_stack> items = find_nearby_items( 60 );
 
@@ -12009,7 +12009,7 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     slip *= wet_penalty;
-    add_msg_debug( debugmode::DF_GAME, "Slip chance afer wetness penalty %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 

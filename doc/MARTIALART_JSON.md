@@ -113,7 +113,7 @@
         "duration": 15,      // Duration of the effect in turns
         "on_damage": true,   // If true the effect will only be applied if the attack succeeded in doing damage (default true)
         "req_flag": "ANY",   // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
-        "message": "Example" // The message to print if you succesfully apply the effect, %s can be substituted for the target's name
+        "message": "Example" // The message to print if you successfully apply the effect, %s can be substituted for the target's name
     }
 ]
 ```
