@@ -3695,7 +3695,6 @@
       "THRESH_RAT",
       "THRESH_MOUSE",
       "THRESH_BATRACHIAN",
-      "THRESH_MOUSE"
     ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "MOUSE" ]
