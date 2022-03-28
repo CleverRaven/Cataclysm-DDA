@@ -17,8 +17,16 @@ stag-moose (Cervalces scotti)
 giant beaver (Castoroides) 
 glyptodonts, possibly (https://en.wikipedia.org/wiki/Glyptodont)
 giant sloth (Megalonyx)
-shrub-ox, or equiv. (Euceratherium)
+shrub-ox, or woodox (Euceratherium/Bootherium; https://en.wikipedia.org/wiki/Bootherium)
+muskox (Ovibos moschatus)
 ancient bison, or equiv. (Bison antiquus)
+
+
+*dubious range, or more research needed*
+Soergelia meyfeldis, ziegenartige (need more research); https://en.wikipedia.org/wiki/Soergelia;
+Scott's horse (Equus scotti), https://en.wikipedia.org/wiki/Equus_scotti, or different species; probably also in NE, because of long history until extinction;
+Camelops, american camel species, evidence as far as tennessee, but such a long history that NE is a good bet https://en.wikipedia.org/wiki/Camelops
+
 
 Possibly also some birds (Titanis/Paracrax/Aiolornis), if evidence exists and they are cool.
 Possibly some kind of goat, maybe extinct pronghorn species.
