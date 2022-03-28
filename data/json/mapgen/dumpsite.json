@@ -111,8 +111,22 @@
         { "point": "furniture", "id": "f_toilet", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
         { "point": "furniture", "id": "f_sofa", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
         { "point": "furniture", "id": "f_armchair", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
-        { "point": "furniture", "id": "f_floor_lamp", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
-        { "point": "furniture", "id": "f_water_heater", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
+        {
+          "point": "furniture",
+          "id": "f_floor_lamp",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 7,
+          "repeat": [ 1, 3 ]
+        },
+        {
+          "point": "furniture",
+          "id": "f_water_heater",
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "chance": 7,
+          "repeat": [ 1, 3 ]
+        },
         { "point": "furniture", "id": "f_exercise", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
         { "point": "furniture", "id": "f_treadmill", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
         { "point": "furniture", "id": "f_ergometer", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] },
@@ -122,10 +136,38 @@
         { "point": "furniture", "id": "f_bathtub", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 7, "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "dumpsite_vehicles", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 20, "fuel": 0 },
-        { "vehicle": "car_chassis", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 40, "fuel": 0 },
-        { "vehicle": "motorcycle_chassis", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 30, "fuel": 0 },
-        { "vehicle": "quad_bike_chassis", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 10, "fuel": 0 }
+        {
+          "vehicle": "dumpsite_vehicles",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 20,
+          "fuel": 0
+        },
+        {
+          "vehicle": "car_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 40,
+          "fuel": 0
+        },
+        {
+          "vehicle": "motorcycle_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 30,
+          "fuel": 0
+        },
+        {
+          "vehicle": "quad_bike_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 10,
+          "fuel": 0
+        }
       ],
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 5 },
@@ -187,10 +229,38 @@
         { "point": "furniture", "id": "f_bathtub", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 7 }
       ],
       "place_vehicles": [
-        { "vehicle": "dumpsite_vehicles", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 10, "fuel": 0 },
-        { "vehicle": "car_chassis", "x": [ 7, 15 ], "y": [ 7, 15 ], "rotation": [ 0, 90, 180, 270 ], "chance": 20, "fuel": 0 },
-        { "vehicle": "motorcycle_chassis", "x": [ 7, 15 ], "y": [ 7, 10 ], "rotation": [ 0, 90, 180, 270 ], "chance": 15, "fuel": 0 },
-        { "vehicle": "quad_bike_chassis", "x": [ 7, 15 ], "y": [ 7, 10 ], "rotation": [ 0, 90, 180, 270 ], "chance": 5, "fuel": 0 }
+        {
+          "vehicle": "dumpsite_vehicles",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 10,
+          "fuel": 0
+        },
+        {
+          "vehicle": "car_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 15 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 20,
+          "fuel": 0
+        },
+        {
+          "vehicle": "motorcycle_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 10 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 15,
+          "fuel": 0
+        },
+        {
+          "vehicle": "quad_bike_chassis",
+          "x": [ 7, 15 ],
+          "y": [ 7, 10 ],
+          "rotation": [ 0, 90, 180, 270 ],
+          "chance": 5,
+          "fuel": 0
+        }
       ],
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": [ 0, 23 ], "y": [ 0, 11 ], "chance": 5 },
