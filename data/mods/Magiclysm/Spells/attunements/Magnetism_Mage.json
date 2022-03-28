@@ -252,7 +252,7 @@
   {
     "id": "magnetismmage_electrolaser_electro",
     "type": "SPELL",
-    "name": "Electrolaser electric damage",
+    "name": "Electrolaser Electric Damage",
     "description": "Give some electric damage for Electrolaser spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile", "ground" ],
     "effect": "attack",

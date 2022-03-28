@@ -10,7 +10,7 @@
     "symbol": "o",
     "quench": 4,
     "healthy": 1,
-    "calories": 113,
+    "calories": 992,
     "description": "Pale, round egg laid by a dinosaur.",
     "price": 500,
     "material": [ "egg" ],
@@ -33,7 +33,7 @@
     "symbol": "O",
     "quench": 4,
     "healthy": 1,
-    "calories": 113,
+    "calories": 992,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
     "material": [ "egg" ],
@@ -284,10 +284,10 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_maiasaura",
-    "name": "maiasaura egg",
+    "id": "egg_hadrosaurus",
+    "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_maiasaura"
+    "rot_spawn": "GROUP_EGG_hadrosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -302,6 +302,13 @@
     "name": "corythosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_corythosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_maiasaura",
+    "name": "maiasaura egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_maiasaura"
   },
   {
     "type": "COMESTIBLE",

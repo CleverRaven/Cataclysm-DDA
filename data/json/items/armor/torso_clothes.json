@@ -102,7 +102,7 @@
     "id": "combat_shirt",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "combat shirt" },
+    "name": { "str": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
     "weight": "450 g",
     "volume": "3 L",
@@ -218,7 +218,7 @@
     "id": "flag_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "flag shirt" },
+    "name": { "str": "flag t-shirt" },
     "description": "A t-shirt embroidered with the pattern of an American flag.",
     "weight": "158 g",
     "volume": "500 ml",
@@ -412,7 +412,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str_sp": "leotard" },
+    "name": { "str": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "150 g",
     "volume": "500 ml",
@@ -967,31 +967,31 @@
       },
       {
         "id": "doom_song_tshirt",
-        "name": { "str": "doom song tshirt" },
+        "name": { "str": "doom song t-shirt" },
         "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song.  Doom, doom, doom, dooooom!!",
         "weight": 1
       },
       {
         "id": "boba_fetch_tshirt",
-        "name": { "str": "boba fetch tshirt" },
+        "name": { "str": "boba fetch t-shirt" },
         "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
         "weight": 1
       },
       {
         "id": "mouse_portal_tshirt",
-        "name": { "str": "mouse portal tshirt" },
-        "description": "A blue portal with a mouse head sticking out of it.  The mouse is holding some kind of gunlike device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
+        "name": { "str": "mouse portal t-shirt" },
+        "description": "A short woth blue portal with a mouse head sticking out of it.  The mouse is holding some kind of gunlike device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
         "weight": 1
       },
       {
         "id": "ceiling_cthulhu_tshirt",
-        "name": { "str": "ceiling cthulhu tshirt" },
+        "name": { "str": "ceiling cthulhu t-shirt" },
         "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
         "weight": 1
       },
       {
         "id": "pumpkin_time",
-        "name": { "str": "pumpkin time tshirt" },
+        "name": { "str": "pumpkin time t-shirt" },
         "description": "Popping out of the top of a jack o'lantern is a tiny smiling black bat.",
         "weight": 1
       },
@@ -1005,6 +1005,12 @@
         "id": "forbidden_futurama_tshirt",
         "name": { "str": "forbidden robot t-shirt" },
         "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
+        "weight": 1
+      },
+      {
+        "id": "swordocracy_tshirt",
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
         "weight": 1
       }
     ],
@@ -1046,7 +1052,7 @@
       },
       { "id": "anxiety_superpower", "text": "A t-shirt with text 'Anxiety is my super power'." },
       { "id": "visitryleh", "text": "A t-shirt with text 'Greetings from R'YLEH home of Cthulhu'." },
-      { "id": "robot_finds_kitten", "text": "A t-shirt with text 'Play Robot Finds Kitten today'." },
+      { "id": "robot_finds_kitten", "text": "A t-shirt with text 'Play robotfindskitten today'." },
       {
         "id": "survived_apocalypse",
         "text": "A t-shirt with text 'I survived the apocalypse and all I got was this lousy T-shirt?'"

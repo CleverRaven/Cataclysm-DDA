@@ -227,6 +227,7 @@ extern const flag_id flag_ONLY_ONE;
 extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
+extern const flag_id flag_PADDED;
 extern const flag_id flag_PALS_SMALL;
 extern const flag_id flag_PALS_MEDIUM;
 extern const flag_id flag_PALS_LARGE;

@@ -510,35 +510,6 @@
     "components": [ [ [ "rubber_tire_chunk", 24 ] ] ]
   },
   {
-    "result": "chainmail_hauberk",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "1 h 45 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_hauberk_xs",
-    "type": "recipe",
-    "copy-from": "chainmail_hauberk",
-    "time": "1 h 45 m",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hauberk",
-    "type": "recipe",
-    "copy-from": "chainmail_hauberk",
-    "time": "1h 45m",
-    "components": [ [ [ "xl_chainmail_vest", 1 ] ], [ [ "xl_chainmail_arms", 1 ] ], [ [ "xl_chainmail_legs", 1 ] ] ]
-  },
-  {
     "result": "lc_chainmail_hauberk",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -682,78 +653,6 @@
     "copy-from": "qt_chainmail_hauberk",
     "time": "1h 45m",
     "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit",

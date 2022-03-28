@@ -55,7 +55,7 @@ This tier of scrap is properly uncommon, it spawns should be limited to the 'bos
 - Most utility bionics.
 - Laser Weapons.
 - Atomic tools.
-- Singe use invisibility cloak.
+- Single use invisibility cloak.
 
 ### Tier 5
 

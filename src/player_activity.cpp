@@ -337,6 +337,7 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
+                    set_to_null();
                     break;
                 case 3:
                     ignoreQuery = true;
@@ -345,7 +346,9 @@ void player_activity::do_turn( Character &you )
                     break;
             }
         }
-        you.assign_activity( new_act );
+        if( !ignoreQuery && auto_resume ) {
+            you.assign_activity( new_act );
+        }
         return;
     }
     if( *this && type->rooted() ) {

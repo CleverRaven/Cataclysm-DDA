@@ -221,7 +221,7 @@
     "id": "recipes_cryolab",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Working in Boreal Conditions and beyond", "str_pl": "copies of Working in Boreal Conditions and beyond" },
+    "name": { "str": "Working in Boreal Conditions and Beyond", "str_pl": "copies of Working in Boreal Conditions and Beyond" },
     "description": "A corporate manual for conditions of inhospitable cold.  It includes instructions for building devices and substances that will aid in survival in extreme weather or even the lack thereof.",
     "weight": "2000 g",
     "volume": "500 ml",

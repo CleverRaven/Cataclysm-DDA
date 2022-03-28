@@ -74,7 +74,13 @@
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
     "category": [ "MANATOUCHED", "MOUSE", "RAT", "BIRD", "SLIME" ],
-    "cancels": [ "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+    "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+  },
+  {
+    "id": "STR_UP",
+    "type": "mutation",
+    "copy-from": "STR_UP",
+    "extend": { "cancels": [ "WEAK" ] }
   },
   {
     "id": "STR_UP_2",
@@ -95,9 +101,9 @@
     "extend": { "cancels": [ "WEAK" ] }
   },
   {
-    "id": "STR_UP_ALPHA",
+    "id": "STR_ALPHA",
     "type": "mutation",
-    "copy-from": "STR_UP_ALPHA",
+    "copy-from": "STR_ALPHA",
     "extend": { "cancels": [ "WEAK" ] }
   },
   {

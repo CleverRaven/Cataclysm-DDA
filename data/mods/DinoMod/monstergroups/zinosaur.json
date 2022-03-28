@@ -31,9 +31,10 @@
       { "monster": "mon_zodosaurus", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zedmontonia", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zamptosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zaiasaura", "weight": 200, "cost_multiplier": 20, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zadrosaurus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zarasaurolophus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zorythosaurus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
+      { "monster": "mon_zaiasaura", "weight": 200, "cost_multiplier": 20, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zedmontosaurus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zachycephalosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zachyrhinosaurus", "weight": 10, "cost_multiplier": 40, "starts": "3 days" },
@@ -230,8 +231,8 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_zaiasaura_UPGRADE",
-    "monsters": [ { "monster": "mon_saiasaura", "weight": 600 }, { "monster": "mon_zaiasaura_brute", "weight": 400 } ]
+    "name": "GROUP_zadrosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_sadrosaurus", "weight": 600 }, { "monster": "mon_zadrosaurus_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
@@ -242,6 +243,11 @@
     "type": "monstergroup",
     "name": "GROUP_zorythosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_sorythosaurus", "weight": 600 }, { "monster": "mon_zorythosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zaiasaura_UPGRADE",
+    "monsters": [ { "monster": "mon_saiasaura", "weight": 600 }, { "monster": "mon_zaiasaura_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
