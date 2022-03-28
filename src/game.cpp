@@ -6634,7 +6634,6 @@ void game::zones_manager()
                             }
                             const auto new_end_point = zone.get_end_point().raw() - zone.get_start_point().raw() +
                                                        new_start_point.raw();
-                            //const auto new_end_point = m.getlocal(new_end_point2);
                             zone.set_position( std::pair<tripoint, tripoint>( new_start_point.raw(), new_end_point ) );
                             stuff_changed = true;
                         }
