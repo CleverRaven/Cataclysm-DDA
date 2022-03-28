@@ -1761,7 +1761,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = "\"" + challenge + "\"";
+        challenge = pgettext( "opening quote", "\"" ) + challenge + pgettext( "closing quote", "\"" );
     }
 
     // Parse any tags in challenge
