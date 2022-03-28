@@ -3,7 +3,7 @@
     "id": "TALK_BULLET_EXCHANGE_INFO",
     "type": "talk_topic",
     "dynamic_line": [
-      "You hit the nail on the head.  You bring me bullets - 5.56, 7.62, 5.54, or .300 - and I'll convert between 'em.  I take a 10% cut, just so you know."
+      "You hit the nail on the head.  You bring me bullets - 5.56, 7.62, 5.45, or .300 - and I'll convert between 'em.  I take a 10% cut, just so you know."
     ],
     "responses": [
       { "text": "Thanks for filling me in.", "topic": "TALK_GUNSMITH_SERVICES" },
@@ -15,7 +15,7 @@
     "//": "this is all the dialogue related to converting bullets with Jay",
     "type": "talk_topic",
     "dynamic_line": [
-      "Yup, what would you like to convert?  As a reminder, I do 5.56, 7.62, 5.54, or .300.  You want anything else, we can just trade 'em directly over the counter."
+      "Yup, what would you like to convert?  As a reminder, I do 5.56, 7.62, 5.45, or .300.  You want anything else, we can just trade 'em directly over the counter."
     ],
     "responses": [
       { "text": "Nothing for now.", "topic": "TALK_GUNSMITH_SERVICES" },
@@ -170,7 +170,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "5.54x39.",
+        "text": "5.45x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "545", "count": 200 } },
@@ -190,7 +190,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "5.54x39.",
+        "text": "5.45x39.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "545", "count": 800 } },
@@ -332,7 +332,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
-        "text": "5.54x39.",
+        "text": "5.45x39.",
         "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "545" },
