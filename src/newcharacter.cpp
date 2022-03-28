@@ -257,13 +257,14 @@ void Character::toggle_trait_deps( const trait_id &tr )
         }
     } else if( has_trait( tr ) ) {
         for( const auto &addition : get_addition_traits( tr ) ) {
-            remove_mutation( addition );
+            unset_mutation( addition );
         }
         for( const auto &lower : get_lower_traits( tr ) ) {
-            remove_mutation( lower );
+            unset_mutation( lower );
         }
-        remove_mutation( tr );
+        unset_mutation( tr );
     }
+    calc_mutation_levels();
 }
 
 static std::string pools_to_string( const avatar &u, pool_type pool )
