@@ -70,6 +70,16 @@
     ]
   },
   {
+    "id":"EOC_blacksmith_crafting_armor",
+    "type":"effect_on_condition",
+    "effects":[
+    { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+
+    { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+    { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+  ]
+} ,
+  {
     "id": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS",
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
@@ -101,10 +111,10 @@
           ]
         },
         "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 100 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+          { "u_sell_item": "FMCNote", "count": 100, 
+            "true_eocs":"EOC_blacksmith_crafting_armor"
+          }
+
         ],
         "topic": "TALK_DONE"
       },
@@ -117,10 +127,9 @@
           ]
         },
         "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 200 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+          { "u_sell_item": "FMCNote", "count": 200,
+            "true_eocs":"EOC_blacksmith_crafting_armor"
+          }
         ],
         "topic": "TALK_DONE"
       },
@@ -133,10 +142,8 @@
           ]
         },
         "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 300 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+          { "u_sell_item": "FMCNote", "count": 300,
+            "true_eocs":"EOC_blacksmith_crafting_armor" }
         ],
         "topic": "TALK_DONE"
       }

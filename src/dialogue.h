@@ -131,10 +131,10 @@ struct talk_effect_fun_t {
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_spawn_item( const itype_id &item_name, int count, const std::string &container_name );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
-                             const std::string &container_name );
-        void set_u_spend_cash( int amount );
-        void set_u_sell_item( const itype_id &item_name, int cost, int count );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
+                             const std::string &container_name, JsonObject jo );
+        void set_u_spend_cash( int amount, JsonObject jo );
+        void set_u_sell_item( const itype_id &item_name, int cost, int count, JsonObject jo );
+        void set_consume_item( const JsonObject &jo, const std::string &member, int count,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
@@ -160,7 +160,7 @@ struct talk_effect_fun_t {
         void set_add_mission( const std::string &mission_id );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
-                                const translation &name );
+                                const translation &name, JsonObject jo );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -174,8 +174,8 @@ struct talk_effect_fun_t {
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
-        void set_open_dialogue();
-        void set_take_control();
+        void set_open_dialogue( JsonObject jo );
+        void set_take_control( JsonObject jo );
         void set_take_control_menu();
         void operator()( const dialogue &d ) const {
             if( !function ) {
