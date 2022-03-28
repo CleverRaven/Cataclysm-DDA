@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "megafauna",
+    "name": "Megafauna",
+    "authors": [ "merrygin" ],
+    "maintainers": [ "merrygin" ],
+    "description": "Adds extinct megafauna to the game.",
+    "category": "creatures",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  }
+]
