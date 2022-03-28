@@ -23,7 +23,7 @@
         "=|blblblblblblblblblbl|=",
         "=|lb####ffGGGG####lblb|=",
         "=|bl----------------+-|=",
-        "=|lb###fffffff##|00|lS|=",
+        "=|lb###fffffFF##|00|lS|=",
         "=|blblblblblblbl+l2|ll|=",
         "=|lblblblblblblb|00|lT|=",
         "=|---------------|----|=",
@@ -64,7 +64,8 @@
         "0": "f_locker",
         "2": "f_bench",
         "U": "f_stool",
-        "t": "f_table"
+        "t": "f_table",
+        "F": "f_freezer"
       },
       "toilets": { "T": {  } },
       "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },

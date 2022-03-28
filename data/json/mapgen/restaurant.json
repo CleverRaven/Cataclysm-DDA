@@ -24,7 +24,7 @@
         "|---...................|",
         "|Sg|...................|",
         "|Pg+..|-------------|..|",
-        "|--|..|FF#SS##OO##{{|..|",
+        "|--|..|QF#SS##OO##{{|..|",
         "|Pg+..|wgwgwgwgwgwgw|..|",
         "|Sg|..|&&###RR###gwg+..|",
         "|-----------------C-|D||",
@@ -66,7 +66,8 @@
         "T": "f_table",
         "^": "f_indoor_plant",
         "d": "f_dumpster",
-        "{": "f_rack"
+        "{": "f_rack",
+        "Q": "f_freezer"
       },
       "toilets": { "P": {  } },
       "place_items": [
@@ -80,7 +81,7 @@
         { "item": "restaur_table", "x": [ 19, 20 ], "y": [ 12, 13 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "restaur_bath", "x": 2, "y": [ 17, 18 ], "chance": 25 },
         { "item": "restaur_bath", "x": 2, "y": [ 20, 21 ], "chance": 25 },
-        { "item": "restaur_fridge", "x": [ 7, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "restaur_fridge", "x": [ 8, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "restaur_sink", "x": [ 10, 11 ], "y": 18, "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "restaur_kitchen", "x": 9, "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "restaur_kitchen", "x": [ 12, 13 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
@@ -172,7 +173,7 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
         "ssss|-------------|sssss",
-        "____|&wlwF|.......|sssss",
+        "____|&wQwF|.......|sssss",
         "____DwlwlF|A...@2^gsssss",
         "____|lwlw#|.......+sssss",
         "____|#lwlS|A......+sssss",
@@ -240,7 +241,8 @@
         "^": "f_indoor_plant",
         "d": "f_dumpster",
         " ": "f_flower_tulip",
-        "{": "f_rack"
+        "{": "f_rack",
+        "Q": "f_freezer"
       },
       "toilets": { "P": {  } },
       "place_items": [
@@ -356,7 +358,7 @@
         "=|         HtHHtH   tt|=",
         "=|         HtHHtH   HH|=",
         "=|-+-----  -----------|=",
-        "=|S T|< |  ###ffff|xxx|=",
+        "=|S T|< |  ###fffQ|xxx|=",
         "=|r -|L +         c  7|=",
         "=|S T|L |r ##GGGxx|xxx|=",
         "=|--------+-----------|=",
@@ -401,7 +403,8 @@
         "f": "f_fridge",
         "L": "f_locker",
         "r": "f_trashcan",
-        "t": "f_table"
+        "t": "f_table",
+        "Q": "f_freezer"
       },
       "toilets": { "T": {  } },
       "items": { "Y": { "item": "coat_rack", "chance": 35 } },
@@ -422,7 +425,7 @@
         { "item": "soup_bar", "x": 10, "y": 10, "chance": 75, "repeat": [ 1, 6 ] },
         { "item": "soup_bar", "x": 11, "y": 10, "chance": 75, "repeat": [ 1, 6 ] },
         { "item": "coat_rack", "x": 6, "y": [ 17, 18 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "item": "restaur_fridge", "x": [ 14, 17 ], "y": 16, "chance": 60, "repeat": [ 1, 8 ] },
+        { "item": "restaur_fridge", "x": [ 14, 16 ], "y": 16, "chance": 60, "repeat": [ 1, 8 ] },
         { "item": "restaur_kitchen", "x": [ 16, 17 ], "y": 18, "chance": 60, "repeat": [ 1, 8 ] }
       ],
       "place_monsters": [
@@ -524,7 +527,7 @@
         "|---...................|",
         "|Sg|...................|",
         "|Pg+..|-------------|..|",
-        "|--|..|FF#SS##OO##{{|..|",
+        "|--|..|QF#SS##OO##{{|..|",
         "|Pg+..|wgwgwgwgwgwgw|..|",
         "|Sg|..|&&###RR###gwg+..|",
         "|-----------------C-|6M|",
@@ -568,7 +571,8 @@
         "T": "f_table",
         "^": "f_indoor_plant",
         "d": "f_dumpster",
-        "{": "f_rack"
+        "{": "f_rack",
+        "Q": "f_freezer"
       },
       "toilets": { "P": {  } },
       "place_items": [
@@ -582,7 +586,7 @@
         { "item": "restaur_table", "x": [ 19, 20 ], "y": [ 12, 13 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "restaur_bath", "x": 2, "y": [ 17, 18 ], "chance": 25 },
         { "item": "restaur_bath", "x": 2, "y": [ 20, 21 ], "chance": 25 },
-        { "item": "restaur_fridge", "x": [ 7, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "restaur_fridge", "x": [ 8, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "restaur_sink", "x": [ 10, 11 ], "y": 18, "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "restaur_kitchen", "x": 9, "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "restaur_kitchen", "x": [ 12, 13 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },

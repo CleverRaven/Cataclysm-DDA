@@ -27,7 +27,7 @@
         ".#k~~c; |~~~I|p~~~~~~~#.",
         ".#|||| ;||c|||~~ee~|||#.",
         ".#k~~c; c~~~~~~~~~~~~~#.",
-        ".#j~m| ;|mm~r~eeoo~|qq#.",
+        ".#j~m| ;|mm~r~eeoo|qqQ#.",
         ".######c###############.",
         "......```..............."
       ],
@@ -86,7 +86,8 @@
         "s": "f_locker",
         "t": "f_rack",
         "u": "f_table",
-        "v": "f_chair"
+        "v": "f_chair", 
+        "Q": "f_freezer"
       },
       "toilets": { "j": {  } },
       "items": {
@@ -106,7 +107,8 @@
           { "item": "coffee_table", "chance": 20 }
         ],
         "m": { "item": "bar_trash", "chance": 50, "repeat": [ 1, 2 ] },
-        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] }
+        "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
+        "Q": { "item": "diner_back", "chance": 80, "repeat": [ 1, 5 ] }
       },
       "place_loot": [
         { "group": "coffee_prep", "chance": 50, "repeat": [ 4 ], "x": [ 11, 12 ], "y": [ 15, 15 ] },
