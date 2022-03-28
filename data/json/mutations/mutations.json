@@ -2387,7 +2387,7 @@
     "bodytemp_modifiers": [ 250, 500 ],
     "bodytemp_sleep": 100,
     "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-    "category": [ "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "SPIDER", "URSINE" ],
+    "category": [ "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR", "RABBIT_FUR" ]

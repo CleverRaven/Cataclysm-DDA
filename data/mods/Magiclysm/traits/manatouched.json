@@ -118,6 +118,12 @@
   },
   {
     "type": "mutation",
+    "id": "PALE",
+    "copy-from": "PALE",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -126,6 +132,12 @@
     "type": "mutation",
     "id": "BIOLUM0",
     "copy-from": "BIOLUM0",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ROT1",
+    "copy-from": "ROT1",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
@@ -239,12 +251,6 @@
   },
   {
     "type": "mutation",
-    "id": "WEAKSTOMACH",
-    "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
     "id": "BADBACK",
     "copy-from": "BADBACK",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -253,12 +259,6 @@
     "type": "mutation",
     "id": "LIGHTWEIGHT",
     "copy-from": "LIGHTWEIGHT",
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "INT_UP_3",
-    "copy-from": "INT_UP_3",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
