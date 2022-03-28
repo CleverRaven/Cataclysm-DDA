@@ -19,7 +19,11 @@
     ],
     "responses": [
       { "text": "Nothing for now.", "topic": "TALK_GUNSMITH_SERVICES" },
-      { "text": "Let's see about that over the counter.", "topic": "TALK_GUNSMITH_SERVICES", "effect": "start_trade" },
+      {
+        "text": "Let's see what you have in stock right now.",
+        "topic": "TALK_GUNSMITH_SERVICES",
+        "effect": "start_trade"
+      },
       {
         "text": "[1 day] 200 rounds.",
         "effect": [ { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "200" } ],

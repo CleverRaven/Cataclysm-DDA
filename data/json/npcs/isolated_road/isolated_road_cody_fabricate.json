@@ -290,24 +290,9 @@
     "//": "this is dialogue for sharing EXODII secrets",
     "type": "talk_topic",
     "dynamic_line": [
-      "Oh wow, this is really interesting, huh?  The way they balance weight for travel is genius.  If you wanted a real suit of armor for a traveling warrior, I think I could do it with this.  I'm gonna need one of their AC kits and wiring kits, though."
+      "Oh wow, this is really interesting, huh?  The way they balance weight for travel is genius.  If you wanted a real suit of armor for a traveling warrior, I think I could do it with this.  I'll need one of their AC kits and wiring kits, though, whenever it's actually time make the thing."
     ],
     "responses": [
-      {
-        "text": "[Hand over an external climate control kit and a CBM interface wire kit.] Alright.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "exodii_ac_kit", "count": 1 } },
-            { "u_has_items": { "item": "exodii_wire_kit", "count": 1 } }
-          ]
-        },
-        "effect": [
-          { "u_add_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_consume_item": "exodii_ac_kit", "count": 1 },
-          { "u_consume_item": "exodii_wire_kit", "count": 1 }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
       {
         "text": "I'll try and find some.",
         "effect": [ { "u_add_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" } ],
