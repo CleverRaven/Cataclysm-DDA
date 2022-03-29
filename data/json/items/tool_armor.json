@@ -2119,7 +2119,7 @@
     "material": [ "plastic" ],
     "weight": "622 g",
     "volume": "500 ml",
-    "use_action": [ "UNPACK_ITEM" ]
+    "use_action": [ "UNPACK_ITEM", "SOFT" ]
   },
   {
     "id": "emer_blanket_on",
@@ -2137,7 +2137,7 @@
     "to_hit": -3,
     "revert_to": "emer_blanket",
     "use_action": [ "PACK_ITEM" ],
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "warmth": 50,
     "environmental_protection": 1,
     "material_thickness": 0.1,
