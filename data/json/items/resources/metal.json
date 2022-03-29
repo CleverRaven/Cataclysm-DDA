@@ -553,7 +553,7 @@
     "category": "spare_parts",
     "price": 0,
     "price_postapoc": 0,
-    "name": { "str_sp": "slag"},
+    "name": { "str_sp": "slag" },
     "symbol": ".",
     "color": "dark_gray",
     "description": "A chunk of slag, leftover from smelting ore.",

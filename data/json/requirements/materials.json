@@ -285,8 +285,8 @@
     "components": [
       [
         [ "scrap", 50 ],
-		[ "budget_steel_chunk", 4 ],
-		[ "budget_steel_lump", 1 ],
+        [ "budget_steel_chunk", 4 ],
+        [ "budget_steel_lump", 1 ],
         [ "lc_steel_chunk", 4 ],
         [ "lc_steel_lump", 1 ],
         [ "mc_steel_chunk", 4 ],
