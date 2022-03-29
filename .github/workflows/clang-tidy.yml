@@ -26,7 +26,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake" ]'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", ".github/workflows/clang-tidy.yml" ]'
   build:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
@@ -56,4 +56,4 @@ jobs:
       run: bash ./build-scripts/requirements.sh
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
-      run: bash ./build-scripts/build.sh
+      run: bash ./build-scripts/clang-tidy.sh
