@@ -13,7 +13,7 @@ sabre-toothed cat (Smilodon fatalis) [done]
 giant short-faced bear (Arctodus) [done]
 long-nosed peccary [done]
 flat-headed peccary [done]
-woolly mammoth and/or columbian mammoth
+woolly mammoth [partially done];; might need another look regarding harvesting, etc.
 mastodon
 north american lion (Panthera atrox)
 dire wolf (Aenocyon dirus)
