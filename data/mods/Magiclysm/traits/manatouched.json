@@ -73,7 +73,7 @@
     "passive_mods": { "str_mod": -2 },
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
-    "category": [ "MANATOUCHED", "MOUSE", "RAT", "BIRD", "SLIME" ],
+    "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME" ],
     "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
   },
   {
@@ -265,6 +265,54 @@
     "type": "mutation",
     "id": "LIGHT_BONES",
     "copy-from": "LIGHT_BONES",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THINSKIN",
+    "copy-from": "THINSKIN",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTREADER",
+    "copy-from": "FASTREADER",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODMEMORY",
+    "copy-from": "GOODMEMORY",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LOVES_BOOKS",
+    "copy-from": "LOVES_BOOKS",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SAVANT",
+    "copy-from": "SAVANT",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RADIOGENIC",
+    "copy-from": "RADIOGENIC",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MORE_PAIN",
+    "copy-from": "MORE_PAIN",
+    "valid": true,
     "extend": { "category": [ "MANATOUCHED" ] }
   }
 ]

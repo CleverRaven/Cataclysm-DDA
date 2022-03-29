@@ -37,7 +37,7 @@
     "type": "mutation",
     "id": "ADDICTIVE",
     "copy-from": "ADDICTIVE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ] }
   },
   {
     "type": "mutation",
@@ -49,13 +49,14 @@
     "type": "mutation",
     "id": "CLUMSY",
     "copy-from": "CLUMSY",
-    "category": [ "DRAGON_BLACK" ]
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
     "id": "HOARDER",
     "copy-from": "HOARDER",
-    "category": [ "DRAGON_BLACK" ]
+    "valid": true,
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
