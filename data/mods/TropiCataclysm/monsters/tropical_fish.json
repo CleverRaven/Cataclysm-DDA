@@ -65,7 +65,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "pacu" },
-    "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usuall small to medium size."
+    "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usually small to medium size."
   },
   {
     "id": "mon_fish_pacu_giant",
