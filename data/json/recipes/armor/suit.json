@@ -1107,6 +1107,7 @@
     "result": "xl_chainmail_suit_faraday",
     "type": "recipe",
     "copy-from": "chainmail_suit_faraday",
+	"using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 30 ] ],
     "components": [
       [ [ "link_sheet", 3 ], [ "xl_chainmail_hood", 1 ] ],
       [ [ "link_sheet", 10 ], [ "xl_chainmail_vest", 1 ] ],
@@ -1142,7 +1143,7 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_standard_nostretch", 20 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 34 ] ]
   },
   {
     "result": "cloak_fur",
@@ -1157,7 +1158,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_fur_pelt", 3 ] ],
+    "using": [ [ "tailoring_fur_patchwork", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
@@ -1172,7 +1173,7 @@
     "time": "5 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_leather_hide", 3 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ]
   },
@@ -1187,7 +1188,7 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_felt", 18 ] ]
+    "using": [ [ "tailoring_felt_patchwork", 36 ] ]
   },
   {
     "result": "entry_suit",
@@ -1200,7 +1201,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "tailor_portfolio", 8 ] ],
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_nomex", 40 ] ],
+    "using": [ [ "sewing_standard", 200 ], [ "tailoring_nomex_patchwork", 40 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1224,7 +1225,7 @@
     "type": "recipe",
     "copy-from": "entry_suit",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 150 ], [ "fabric_nomex", 30 ] ],
+    "using": [ [ "sewing_standard", 150 ], [ "tailoring_nomex_patchwork", 30 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "sheet_kevlar_layered", 6 ] ],
@@ -1243,7 +1244,7 @@
     "type": "recipe",
     "copy-from": "entry_suit",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 300 ], [ "fabric_nomex", 60 ] ],
+    "using": [ [ "sewing_standard", 300 ], [ "tailoring_nomex_patchwork", 50 ] ],
     "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
     "components": [
       [ [ "sheet_kevlar_layered", 12 ] ],
@@ -1253,7 +1254,7 @@
         [ "ballistic_vest_light", 2 ],
         [ "ballistic_vest_esapi", 2 ],
         [ "swat_armor", 2 ],
-        [ "sheet_kevlar_layered", 48 ]
+        [ "sheet_kevlar_layered", 30 ]
       ]
     ]
   },
@@ -1274,7 +1275,7 @@
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "faux_fur", 6 ], [ "tanned_pelt", 1 ] ]
+      [ [ "faux_fur", 6 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
@@ -1294,7 +1295,7 @@
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "faux_fur", 4 ], [ "tanned_pelt", 1 ] ]
+      [ [ "faux_fur", 4 ] ]
     ]
   },
   {
@@ -1314,7 +1315,7 @@
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "faux_fur", 12 ], [ "tanned_pelt", 2 ] ]
+      [ [ "faux_fur", 12 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
@@ -1335,14 +1336,14 @@
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 35 ], [ "fabric_standard_nostretch", 26 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 35 ], [ "tailoring_cotton_patchwork", 80 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "gambeson_xs",
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 26 ], [ "fabric_standard_nostretch", 19 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 26 ], [ "tailoring_cotton_patchwork", 60 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "gambeson_pants",
@@ -1356,7 +1357,7 @@
     "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 24 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "sewing_standard", 24 ], [ "tailoring_cotton_patchwork", 60 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "gambeson_vest",
@@ -1370,7 +1371,7 @@
     "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 23 ], [ "fabric_standard_nostretch", 18 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 23 ], [ "tailoring_cotton_patchwork", 40 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "gambeson_vest",
@@ -1398,7 +1399,7 @@
     "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 17 ], [ "fabric_standard_nostretch", 13 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "sewing_standard", 17 ], [ "tailoring_cotton_patchwork", 30 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "gambeson_vest_xs",
@@ -1426,16 +1427,14 @@
     "time": "8 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "sewing_standard", 35 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 18 ] ] ]
+    "using": [ [ "armor_kevlar_layered", 27 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_xs",
     "type": "recipe",
     "copy-from": "k_gambeson",
     "time": "8 h",
-    "using": [ [ "sewing_standard", 26 ], [ "tailoring_kevlar_fabric", 9 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 14 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 20 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_pants",
@@ -1449,8 +1448,7 @@
     "time": "5 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "sewing_standard", 24 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 21 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest",
@@ -1463,9 +1461,8 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": [ [ "tailor", 8 ] ],
-    "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "sewing_standard", 23 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 12 ] ] ]
+    "book_learn": [ [ "textbook_armwest", 4 ] ,
+	"using": [ [ "armor_kevlar_layered", 14 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest",
@@ -1493,8 +1490,7 @@
     "time": "5 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "sewing_standard", 17 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_large", 1 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 9 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 11 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest_xs",
@@ -1515,7 +1511,7 @@
     "type": "recipe",
     "copy-from": "gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 52 ], [ "fastener_large", 2 ] ]
+    "using": [ [ "sewing_standard", 45 ], [ "tailoring_cotton_patchwork", 90 ], [ "fastener_large", 2 ] ]
   },
   {
     "result": "xl_gambeson_vest",
@@ -1529,7 +1525,7 @@
     "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "fabric_standard_nostretch", 35 ], [ "fastener_large", 2 ] ]
+    "using": [ [ "sewing_standard", 30 ], [ "tailoring_cotton_patchwork", 23 ], [ "fastener_large", 2 ] ]
   },
   {
     "result": "xl_gambeson_vest",
@@ -1550,8 +1546,7 @@
     "type": "recipe",
     "copy-from": "k_gambeson",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 50 ], [ "tailoring_kevlar_fabric", 24 ], [ "fastener_large", 2 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 36 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 31 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_k_gambeson_vest",
@@ -1565,8 +1560,7 @@
     "time": "6 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "sewing_standard", 33 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_large", 2 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 24 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 16 ], [ "tailoring_kevlar_fabric", 10 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_k_gambeson_vest",
@@ -1587,15 +1581,14 @@
     "type": "recipe",
     "copy-from": "gambeson_pants",
     "time": "5 h",
-    "using": [ [ "sewing_standard", 32 ], [ "fabric_standard_nostretch", 32 ], [ "fastener_small", 2 ] ]
+	"using": [ [ "sewing_standard", 27 ], [ "tailoring_cotton_patchwork", 36 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "xl_k_gambeson_pants",
     "type": "recipe",
     "copy-from": "k_gambeson_pants",
     "time": "5 h",
-    "using": [ [ "sewing_standard", 28 ], [ "tailoring_kevlar_fabric", 16 ], [ "fastener_small", 2 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 25 ] ] ]
+	"using": [ [ "armor_kevlar_layered", 24 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "hsurvivor_jumpsuit",
@@ -1701,14 +1694,14 @@
     "difficulty": 2,
     "time": "48 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 20 ] ]
+    "using": [ [ "sewing_standard", 20 ], [ "tailoring_cotton_patchwork", 20 ] ]
   },
   {
     "result": "jumpsuit_xs",
     "type": "recipe",
     "copy-from": "jumpsuit",
     "time": "48 m",
-    "using": [ [ "sewing_standard", 15 ], [ "fabric_standard_nostretch", 15 ] ]
+    "using": [ [ "sewing_standard", 15 ], [ "tailoring_cotton_patchwork", 15 ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -1720,7 +1713,7 @@
     "difficulty": 2,
     "time": "54 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 30 ] ]
+    "using": [ [ "sewing_standard", 40 ], [ "tailoring_cotton_patchwork", 30 ] ]
   },
   {
     "result": "jumpsuit_xl",
@@ -1733,7 +1726,7 @@
     "difficulty": 2,
     "time": "38 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "fabric_standard_nostretch", 10 ] ],
+    "using": [ [ "sewing_standard", 20 ], [ "tailoring_cotton_patchwork", 10 ] ],
     "components": [ [ [ "jumpsuit", 1 ] ] ]
   },
   {
@@ -1746,7 +1739,8 @@
     "difficulty": 4,
     "time": "2 h 30 m",
     "book_learn": [ [ "tailor_japanese", 4 ] ],
-    "using": [ [ "sewing_standard", 35 ], [ "fabric_standard_nostretch", 25 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 35 ] ],
+	"byproducts": [ [ "cotton_patchwork", 5 ] ]
   },
   {
     "result": "nomex_suit",
@@ -1758,7 +1752,7 @@
     "difficulty": 6,
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 6 ], [ "tailor_portfolio", 7 ] ],
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_nomex", 18 ] ],
+    "using": [  [ "tailoring_nomex_patchwork", 45 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1770,14 +1764,14 @@
     "type": "recipe",
     "copy-from": "nomex_suit",
     "time": "6 h",
-    "using": [ [ "sewing_standard", 30 ], [ "fabric_nomex", 13 ] ]
+    "using": [  [ "tailoring_nomex_patchwork", 34 ] ]
   },
   {
     "result": "xl_nomex_suit",
     "copy-from": "nomex_suit",
     "type": "recipe",
     "time": "6 h 45 m",
-    "using": [ [ "sewing_standard", 80 ], [ "fabric_nomex", 36 ] ]
+	"using": [  [ "tailoring_nomex_patchwork", 52 ] ]
   },
   {
     "result": "shark_suit_faraday",
@@ -1805,7 +1799,7 @@
     "skills_required": [ "tailor", 2 ],
     "time": "7 h",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 52 ], [ "fabric_standard_nostretch", 40 ], [ "soldering_standard", 100 ] ],
+    "using": [ [ "sewing_standard", 52 ], [ "tailoring_cotton_patchwork", 48 ], [ "soldering_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
     "components": [ [ [ "element", 18 ] ], [ [ "cable", 37 ] ] ]
   },
@@ -1845,7 +1839,7 @@
     "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_closures" } ],
     "components": [
-      [ [ "rag", 30 ], [ "sheet_cotton", 30 ], [ "sheet_cotton_patchwork", 30 ], [ "union_suit", 1 ] ],
+      [ [ "sheet_cotton", 36 ], [ "sheet_cotton_patchwork", 36 ], [ "union_suit", 1 ] ],
       [ [ "element", 12 ] ],
       [ [ "cable", 20 ] ]
     ]
