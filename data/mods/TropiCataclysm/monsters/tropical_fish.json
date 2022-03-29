@@ -56,7 +56,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "electric eel" },
-    "description": "An electric eel.  A strange elongated fish known for its hability to use electricty to hunt prey, despite their name they arent actually eels.",
+    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
     "special_when_hit": [ "ZAPBACK", 100 ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
   },
