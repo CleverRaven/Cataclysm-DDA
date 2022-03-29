@@ -4469,6 +4469,18 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         context = group_id.str();
     }
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
+    // If we copy-from, do copy-from
+    // Otherwise, unconditionally overwrite
+    if( jsobj.has_member( "copy-from" ) ) {
+        // We can only copy-from a group with the same id (for now)
+        if( jsobj.get_string( "copy-from" ) != group_id.str() ) {
+            debugmsg( "Item group '%s' tries to copy from different group '%s'", group_id.str(),
+                      jsobj.get_string( "copy-from" ) );
+            return;
+        }
+    } else {
+        isd.reset();
+    }
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -4479,6 +4491,28 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ), context );
 
+    // If it extends, read from the extends block (and extend our itemgroup)
+    // Otherwise, read from the object into the fresh itemgroup
+    // And don't read if it has copy-from because it will not handle that correctly.
+    if( jsobj.has_member( "extend" ) ) {
+        load_item_group_data( jsobj.get_object( "extend" ), ig, subtype );
+    } else if( !jsobj.has_member( "copy-from" ) ) {
+        load_item_group_data( jsobj, ig, subtype );
+    }
+
+    if( jsobj.has_string( "container-item" ) ) {
+        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
+
+    jsobj.read( "on_overflow", ig->on_overflow, false );
+    if( jsobj.has_member( "sealed" ) ) {
+        ig->sealed = jsobj.get_bool( "sealed" );
+    }
+}
+
+void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig,
+        const std::string &subtype )
+{
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
@@ -4536,13 +4570,6 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                 add_entry( *ig, subobj, "group within " + ig->context() );
             }
         }
-    }
-    if( jsobj.has_string( "container-item" ) ) {
-        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
-    }
-    jsobj.read( "on_overflow", ig->on_overflow, false );
-    if( jsobj.has_member( "sealed" ) ) {
-        ig->sealed = jsobj.get_bool( "sealed" );
     }
 }
 
