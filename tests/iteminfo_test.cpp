@@ -469,12 +469,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
@@ -490,12 +490,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n" );
         }
     }
