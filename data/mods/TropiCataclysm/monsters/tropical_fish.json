@@ -78,7 +78,7 @@
     "id": "mon_fish_piranha",
     "type": "MONSTER",
     "name": { "str": "piranha" },
-    "description": "A small to medium fish with a wide diet.  Contrary to popular belief these fish arent vicious predators and instead react to the avaliability of food in their environment.",
+    "description": "A small to medium fish with a wide diet.  Contrary to popular belief these fish are not vicious predators and instead react to the availability of food in their environment.",
     "default_faction": "fish",
     "bodytype": "fish",
     "species": [ "FISH" ],
