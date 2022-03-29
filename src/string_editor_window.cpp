@@ -98,8 +98,9 @@ folded_text::folded_text( const std::string &str, const int line_width )
                 bytes_start = bytes_break;
                 cpts_start = cpts_break;
                 width_start = width_break;
-            } else {
-                // otherwise break before the current character
+            } else if( src_curr > src_start ) {
+                // otherwise break before the current character, but ensure
+                // each line has at least one character
                 lines.emplace_back( folded_line {
                     cpts_start, cpts_curr,
                     std::string( src_start, src_curr )
