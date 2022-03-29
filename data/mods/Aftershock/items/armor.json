@@ -423,7 +423,7 @@
   {
     "id": "wetsuit_cecalia",
     "type": "ARMOR",
-    "name": { "str": "cecalia wetsuit" },
+    "name": { "str": "Cecalia wetsuit" },
     "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
     "volume": "4 L",
