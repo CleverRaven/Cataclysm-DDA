@@ -130,7 +130,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
   {
     "id": "mon_zombie_pig_gas",
@@ -145,8 +145,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
-    "special_attacks": [ { "id": "impale" } ],
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "special_attacks": [ { "id": "impale" } ]
   },
   {
     "id": "mon_wolf_skeleton",
