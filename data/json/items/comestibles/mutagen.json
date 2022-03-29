@@ -155,13 +155,13 @@
     "id": "iv_mutagen_elfa",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "elf-a mutagenic primer" },
+    "name": { "str": "Elf-A mutagenic primer" },
     "description": "A processed mutagenic primer that's a striking sylvan green.",
     "price": 400000,
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the elfa mutagenic primer.",
+      "activation_message": "You inject the Elf-A mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_elfa", 450, 550 ] ]
     }
@@ -494,7 +494,7 @@
     "id": "mutagen_elfa",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "elf-a mutagen" },
+    "name": { "str": "Elf-A mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
     "vitamins": [ [ "mutagen_elfa", 225 ], [ "mutagen", 125 ] ]
