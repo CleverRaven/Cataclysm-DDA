@@ -2632,7 +2632,7 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "teddy bear" },
-    "description": "A mass-produced plush teddy bear.  It is wearing a little red tshirt but no pants.",
+    "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
     "price": 200,
     "price_postapoc": 10,
     "material": [ "cotton" ],

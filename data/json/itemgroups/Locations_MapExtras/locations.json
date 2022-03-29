@@ -2367,6 +2367,8 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
+      [ "hammock", 2 ],
+      [ "hammock_net", 1 ],
       [ "tent_pole", 17 ],
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 10 },
       [ "canteen", 15 ],

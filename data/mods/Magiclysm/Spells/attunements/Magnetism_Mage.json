@@ -207,7 +207,7 @@
     "id": "railgun_sparks",
     "type": "SPELL",
     "name": "Railgun Sparks",
-    "description": "The spark portion of the Railgun spell",
+    "description": "The spark portion of the Railgun spell.",
     "valid_targets": [ "ground", "hostile", "ally" ],
     "effect": "attack",
     "shape": "line",
