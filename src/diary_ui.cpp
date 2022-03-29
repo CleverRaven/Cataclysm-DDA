@@ -37,17 +37,22 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 
     const int top_of_page = entries_per_page * ( *selection / entries_per_page );
 
-    const int bottom_of_page =
-        std::min( top_of_page + entries_per_page, static_cast<int>( list.size() ) );
+    const int bottom_of_page = std::min<int>( top_of_page + entries_per_page, list.size() );
+
+    const int line_width = width - 1 - borderspace;
 
     for( int i = top_of_page; i < bottom_of_page; i++ ) {
 
         const nc_color col = c_white;
         const int y = i - top_of_page;
-        trim_and_print( *win, point( xoffset + 1, y + borderspace ), width - 1 - borderspace,
-                        ( static_cast<int>( *selection ) == i && active ) ? hilite( col ) : col,
-                        ( static_cast<int>( *selection ) == i && active ) ? remove_color_tags( list[i] ) : list[i],
-                        color_error );
+        const bool highlight = *selection == i && active;
+        const nc_color line_color = highlight ? hilite( col ) : col;
+        std::string line_str = list[i];
+        if( highlight ) {
+            line_str = left_justify( remove_color_tags( line_str ), line_width );
+        }
+        trim_and_print( *win, point( xoffset + 1, y + borderspace ), line_width,
+                        line_color, line_str, color_error );
     }
     if( border ) {
         draw_border( *win );
