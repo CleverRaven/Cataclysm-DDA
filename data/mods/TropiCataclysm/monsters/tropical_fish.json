@@ -72,7 +72,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "tambaqui" },
-    "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worlwide."
+    "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worldwide."
   },
   {
     "id": "mon_fish_piranha",
