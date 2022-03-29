@@ -481,8 +481,9 @@ const std::pair<bool, std::string> string_editor_window::query_string()
                     entered = get_input_string_from_file();
                 }
             } else if( ch == KEY_ENTER || ch == '\n' ) {
-                entered = "\n";
-
+                if( edit.empty() ) {
+                    entered = "\n";
+                }
             } else {
                 entered = ev.text;
             }

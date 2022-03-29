@@ -183,9 +183,8 @@ void diary::show_diary_ui( diary *c_diary )
         const point &max = beg_and_max.second;
         const int midx = max.x / 2;
 
-        w_diary = catacurses::newwin( max.y, max.x, beg );
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
-        w_text = catacurses::newwin( max.y - 3, midx - 1, beg + point( 2 + midx, 3 ) );
+        w_text = catacurses::newwin( max.y - 3, max.x - midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
         w_head = catacurses::newwin( 1, max.x, beg + point_south );
 
@@ -193,13 +192,11 @@ void diary::show_diary_ui( diary *c_diary )
     } );
     ui_diary.mark_resize();
     ui_diary.on_redraw( [&]( const ui_adaptor & ) {
-        werase( w_diary );
         werase( w_changes );
         werase( w_text );
         werase( w_border );
         werase( w_head );
 
-        draw_border( w_diary );
         draw_diary_border( &w_border );
 
         print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
@@ -210,7 +207,6 @@ void diary::show_diary_ui( diary *c_diary )
         trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
                         c_diary->get_head_text() );
 
-        wnoutrefresh( w_diary );
         wnoutrefresh( w_border );
         wnoutrefresh( w_head );
         wnoutrefresh( w_changes );
