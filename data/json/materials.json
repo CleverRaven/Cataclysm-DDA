@@ -342,6 +342,7 @@
     "elec_resist": 0,
     "chip_resist": 11,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+	"repaired_with": "scrap",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ]
