@@ -55,7 +55,7 @@ class string_editor_window
 
         /*loop, user input is handled. returns whether user confirmed input and
           the modified string*/
-        const std::pair<bool, std::string> query_string();
+        std::pair<bool, std::string> query_string();
 
     private:
         /*print the editor*/

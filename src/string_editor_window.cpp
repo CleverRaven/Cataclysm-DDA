@@ -311,7 +311,7 @@ void string_editor_window::cursor_updown( const int diff )
     }
 }
 
-const std::pair<bool, std::string> string_editor_window::query_string()
+std::pair<bool, std::string> string_editor_window::query_string()
 {
     if( !ctxt ) {
         create_context();
