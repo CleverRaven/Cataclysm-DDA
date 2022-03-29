@@ -2701,6 +2701,8 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
            "--\n"
+           "<color_c_white>Specifically</color>: The <color_c_cyan>waist</color> (100)."
+           "--\n"
            "<color_c_white>Total capacity</color>:\n"
            "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
            "--\n"
