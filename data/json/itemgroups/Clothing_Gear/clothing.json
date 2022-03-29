@@ -179,7 +179,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 90 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -205,7 +205,7 @@
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest_broken", "prob": 100 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -231,7 +231,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest_heavy", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -258,7 +258,7 @@
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "military_ballistic_vest", "prob": 90 },
       { "group": "loaded_lbv", "prob": 40 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -429,7 +429,7 @@
       { "item": "chestpouch", "prob": 40 },
       { "item": "backpack_tactical_large", "prob": 20 },
       { "item": "tacvest", "prob": 160 },
-      { "item": "molle_pack", "prob": 100 },
+      { "group": "molle_packs", "prob": 100 },
       { "item": "rucksack", "prob": 80 }
     ]
   },
@@ -2086,7 +2086,7 @@
       [ "backpack", 38 ],
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
+      { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],

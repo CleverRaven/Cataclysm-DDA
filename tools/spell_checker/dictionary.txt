@@ -74,6 +74,7 @@ antimateriel
 antipodes
 antlered
 antlion
+anzu
 apatosaurus
 aposematic
 applet
@@ -550,6 +551,8 @@ eyebags
 eyebot
 eyebots
 eyecatching
+eyespot
+eyespots
 eyestalks
 f
 faceplates
@@ -724,6 +727,7 @@ gutskin
 guvnah
 gymnocladus
 h
+hadrosaurus
 haematopoiesis
 hahahahahaha
 hahd
@@ -1018,6 +1022,8 @@ methothexazole
 metrology
 miasaura
 micellular
+microbian
+microbians
 microbrewed
 microcentrifuge
 microcontrollers
@@ -1070,7 +1076,6 @@ mountable
 mouthgear
 mouthpart
 mouthwear
-movecost
 movestr
 mph
 mr
@@ -1163,6 +1168,8 @@ nrmmy
 numpad
 obovate
 octo
+ocularium
+oculariums
 officiants
 offputting
 offroad
@@ -1603,6 +1610,7 @@ std
 steeltoed
 steerable
 stegosaurusfindsrobot
+stenonychosaurus
 stimulative
 stimulatory
 stipe
@@ -1692,6 +1700,7 @@ testbed
 tetradrachm
 th
 thawb
+thawbs
 thermochemistry
 thermoplastics
 thonged
@@ -1719,6 +1728,7 @@ toolmaking
 toolmod
 toolset
 toolshelf
+topazes
 toroids
 torosaurus
 totipotent

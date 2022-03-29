@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "music.h"
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -237,7 +238,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
 // This is an attempt to handle attenuation of sound for underground areas.
-// The main issue it adresses is that you can hear activity
+// The main issue it addresses is that you can hear activity
 // relatively deep underground while on the surface.
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are
@@ -619,6 +620,10 @@ void sounds::process_sound_markers( Character *you )
                 guy->handle_sound( sound.category, description, heard_volume, pos );
             }
             continue;
+        }
+
+        if( sound.category == sound_t::music ) {
+            music::activate_music_id( music::music_id::sound );
         }
 
         // don't print our own noise or things without descriptions

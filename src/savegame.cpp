@@ -587,7 +587,7 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
         } else if( name == "roads_out" ) {
-            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // Legacy data, superseded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
                 connections_out[overmap_connection_local_road];

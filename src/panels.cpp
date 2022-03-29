@@ -569,7 +569,7 @@ static void draw_time( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -1524,7 +1524,7 @@ static void draw_time_classic( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z() >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {

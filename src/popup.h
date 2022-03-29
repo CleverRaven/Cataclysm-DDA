@@ -176,7 +176,7 @@ class query_popup
         query_popup &default_color( const nc_color &d_color );
         /**
          * Specify the desired keyboard mode. Used in keybindings menu to assign
-         * actions to input events of the approriate type of the parent UI.
+         * actions to input events of the appropriate type of the parent UI.
          */
         query_popup &preferred_keyboard_mode( keyboard_mode mode );
 

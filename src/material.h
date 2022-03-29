@@ -100,6 +100,9 @@ class material_type
         bool _soft = false;
         bool _reinforces = false;
 
+        // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
+        float _sheet_thickness = 0.0f;
+
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
         std::vector<translation> _dmg_adj;
@@ -145,6 +148,10 @@ class material_type
         float latent_heat() const;
         float freeze_point() const;
         int density() const;
+
+        bool is_valid_thickness( float thickness ) const;
+        float thickness_multiple() const;
+
         // converts from the breathability enum to a fixed integer value from 0-100
         int breathability() const;
         cata::optional<int> wind_resist() const;

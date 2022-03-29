@@ -1951,7 +1951,7 @@
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
-    "pre_flags": "DIGGABLE",
+    "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
     "pre_terrain": "f_coffin_c",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
@@ -2443,6 +2443,22 @@
     "components": [ [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ],
     "pre_terrain": "t_covered_well",
     "post_terrain": "t_water_pump"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wooden_well",
+    "group": "build_water_well",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ]
+    ],
+    "pre_terrain": "t_covered_well",
+    "post_terrain": "t_wooden_well"
   },
   {
     "type": "construction",
@@ -3101,6 +3117,17 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "minifridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_freezer",
+    "group": "place_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "freezer", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },

@@ -196,6 +196,7 @@ static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_chafing( "chafing" );
 static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -856,7 +857,7 @@ static double modified_sight_speed( double aim_speed_modifier, double effective_
         return 0;
     }
     // When recoil tends to effective_sight_dispersion, the aiming speed bonus will tend to 0
-    // Wehn recoil > 3 * effective_sight_dispersion + 1, attenuation_factor = 1
+    // When recoil > 3 * effective_sight_dispersion + 1, attenuation_factor = 1
     // use 3 * effective_sight_dispersion + 1 instead of 3 * effective_sight_dispersion to avoid min=max
     if( effective_sight_dispersion < 0 ) {
         return 0;
@@ -2225,12 +2226,12 @@ void Character::recalc_sight_limits()
     } else if( has_active_mutation( trait_SHELL2 ) ) {
         // You can kinda see out a bit.
         sight_max = 2;
+    } else if( has_trait( trait_PER_SLIME ) ) {
+        sight_max = 8;
     } else if( ( has_flag( json_flag_MYOPIC ) || ( in_light &&
                  has_flag( json_flag_MYOPIC_IN_LIGHT ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) ) {
-        sight_max = 4;
-    } else if( has_trait( trait_PER_SLIME ) ) {
-        sight_max = 6;
+        sight_max = 12;
     } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
         sight_max = 10;
@@ -2843,19 +2844,22 @@ units::mass Character::weight_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume( const item &it, bool, const item *avoid,
+                                const bool ignore_pkt_settings ) const
 {
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( it ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
-    if( worn.can_pickVolume( it ) ) {
+    if( worn.can_pickVolume( it, ignore_pkt_settings ) ) {
         return true;
     }
     return false;
 }
 
-bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid ) const
+bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
+                                        const bool ignore_pkt_settings ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -2863,11 +2867,12 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid 
     }
 
     const item weapon = get_wielded_item();
-    if( ( avoid == nullptr || &weapon != avoid ) && weapon.can_contain( copy ).success() ) {
+    if( ( avoid == nullptr || &weapon != avoid ) &&
+        weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy );
+    return worn.can_pickVolume( copy, ignore_pkt_settings );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -3420,6 +3425,17 @@ bool Character::has_nv()
     }
 
     return nv;
+}
+
+void Character::calc_discomfort()
+{
+    // clear all instances of discomfort
+    remove_effect( effect_chafing );
+    for( const bodypart_id &bp : worn.where_discomfort() ) {
+        if( bp->feels_discomfort ) {
+            add_effect( effect_chafing, 1_turns, bp, true, 1 );
+        }
+    }
 }
 
 void Character::calc_encumbrance()
@@ -5420,7 +5436,7 @@ bool Character::sees_with_specials( const Creature &critter ) const
 bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
 {
     std::string err;
-    const int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
+    int amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
         if( !container.has_item_with( [&liquid]( const item & it ) {
@@ -5433,6 +5449,11 @@ bool Character::pour_into( item &container, item &liquid, bool ignore_settings )
                                liquid.tname() );
         }
         return false;
+    }
+
+    // get_remaining_capacity_for_liquid doesn't consider the current amount of liquid
+    if( liquid.count_by_charges() ) {
+        amount = std::min( amount, liquid.charges );
     }
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
@@ -8477,6 +8498,26 @@ int Character::get_painkiller() const
     return pkill;
 }
 
+void Character::remove_moncam( mtype_id moncam_id )
+{
+    moncams.erase( moncam_id );
+}
+
+void Character::add_moncam( std::pair<mtype_id, int> moncam )
+{
+    moncams.insert( moncam );
+}
+
+void Character::set_moncams( std::map<mtype_id, int> nmoncams )
+{
+    moncams = nmoncams;
+}
+
+std::map<mtype_id, int> Character::get_moncams() const
+{
+    return moncams;
+}
+
 void Character::use_fire( const int quantity )
 {
     //Okay, so checks for nearby fires first,
@@ -9198,7 +9239,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
-            // multiplier to balance values aroud drench capacity of different body parts
+            // multiplier to balance values around drench capacity of different body parts
             int mult = mutation_value( "sweat_multiplier" ) * get_part_drench_capacity( bp ) / 100;
             mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
                               it.get_max_val( "PERSPIRATION", reduced ) * mult,
@@ -9597,15 +9638,11 @@ npc_attitude Character::get_attitude() const
 bool Character::sees( const tripoint &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_avatar() ? get_map().pl_sees( t, wanted_range ) :
+    bool can_see = is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
                    Creature::sees( t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
-    }
-
-    if( can_see && wanted_range > unimpaired_range() ) {
-        can_see = false;
     }
 
     return can_see;
@@ -10707,7 +10744,7 @@ int Character::impact( const int force, const tripoint &p )
         add_msg_if_player( m_warning, _( "You land on %s." ), target_name );
     }
 
-    if( x_in_y( mod, 1.0f ) ) {
+    if( x_in_y( mod, 1.0f ) && !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
         add_effect( effect_downed, rng( 1_turns, 1_turns + mod * 3_turns ) );
     }
 
