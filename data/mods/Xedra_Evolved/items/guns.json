@@ -1,0 +1,42 @@
+[
+  {
+    "id": "fn57_sup",
+    "copy-from": "fn57",
+    "type": "GUN",
+    "reload_noise_volume": 6,
+    "name": { "str": "FN Five-seveN suppressor" },
+    "description": "Designed to work with FN's proprietary 5.7x28mm round and with a built in suppressor, the Five-seveN is a lightweight integrally suppressed pistol with a very high capacity, best used against armored opponents.",
+    "weight": "600 g",
+    "volume": "551 ml",
+    "longest_side": "194 mm",
+    "price": 124900,
+    "price_postapoc": 2750,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "57" ],
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 440,
+    "durability": 8,
+    "min_cycle_recoil": 81,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
+    "built_in_mods": [ "suppressor_compact" ]
+  }
+]

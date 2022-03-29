@@ -1,0 +1,7 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "monsters": [ { "monster": "mon_spider_disease", "weight": 400, "cost_multiplier": 0 } ]
+  }
+]
