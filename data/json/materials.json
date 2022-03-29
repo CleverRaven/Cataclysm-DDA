@@ -1856,7 +1856,6 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 20,
-    "repaired_with": "lead",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
