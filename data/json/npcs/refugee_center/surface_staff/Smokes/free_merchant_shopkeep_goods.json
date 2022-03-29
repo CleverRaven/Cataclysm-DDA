@@ -1,32 +1,45 @@
 [
   {
-    "//1": "This list tracks the things that Smokes will sell the player.",
-    "//2": "As a general rule of thumb, Smokes should stock tools, spare parts, and other stuff that scavengers bring in; they canonically have a surplus that they trade for food.",
-    "//3": "Speaking of food, Smokes shouldn't ever offer food!  At the moment they need all the stuff they can get.",
-    "//4": "Smokes offers the following things:",
-    "//5": "- A large quantity of Merch, always available;",
-    "//6": "- A guaranteed handful of welding gear, like you might find on a garage rack;",
-    "//7": "- Huge quantities of spare parts, such as solder, thread, nails, tailoring supplies, and so on;",
-    "//8": "- Civilian-grade ammo;",
-    "//9": "- Small quantities of low-end melee weapons, with a chance for civilian-grade guns;",
+    "//01": "This file contains a bunch of item subgroups used to track what Smokes will sell the player.",
+    "//02": "As a general rule of thumb, Smokes should stock tools, spare parts, and other stuff that scavengers bring in; they canonically have a surplus that they trade for food.",
+    "//03": "Speaking of food, Smokes shouldn't ever offer food!  At the moment they need all the stuff they can get.",
+    "//04": "Smokes offers the following things:",
+    "//05": "- A large quantity of Merch, always available;",
+    "//06": "- A guaranteed handful of welding gear, like you might find on a garage rack;",
+    "//07": "- Huge quantities of spare parts, such as solder, thread, nails, tailoring supplies, and so on;",
+    "//08": "- Civilian-grade ammo;",
+    "//09": "- Small quantities of low-end melee weapons, with a chance for civilian-grade guns;",
     "//10": "- A selection of mens' and womens' clothing;",
     "//11": "- A lot of assorted tools and other hardware.",
+    "//12": "This group is specifically for the gear shelf. The comment is just up here to keep it at the top of the file!",
     "type": "item_group",
-    "id": "FREE_MERCHANTS_Shop",
+    "id": "FREE_MERCHANTS_Shop_Gear",
     "subtype": "collection",
     "items": [
-      { "item": "FMCNote", "count": [ 200, 300 ] },
-      { "item": "money_strap_FMCNote", "count": [ 1, 3 ] },
       { "group": "SUS_welding_gear", "count": [ 1, 2 ] },
-      { "group": "FREE_MERCHANTS_Shop_Parts_Generic", "count": [ 40, 50 ] },
-      { "group": "FREE_MERCHANTS_Shop_Parts_Tailoring", "count": [ 5, 8 ] },
       { "group": "FREE_MERCHANTS_Shop_Parts_Mechanics", "count": [ 5, 8 ] },
       { "group": "FREE_MERCHANTS_Shop_Weapons_Ammo", "count": [ 2, 4 ] },
       { "group": "FREE_MERCHANTS_Shop_Weapons_Guns", "prob": 75 },
-      { "group": "FREE_MERCHANTS_Shop_Weapons_Melee" },
-      { "group": "FREE_MERCHANTS_Shop_Clothes", "count": [ 1, 2 ] },
+      { "group": "FREE_MERCHANTS_Shop_Weapons_Melee", "count": [ 1, 2 ] },
+      { "group": "FREE_MERCHANTS_Shop_Clothes", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "FREE_MERCHANTS_Shop_Parts",
+    "subtype": "collection",
+    "items": [
+      { "group": "FREE_MERCHANTS_Shop_Parts_Generic", "count": [ 40, 50 ] },
+      { "group": "FREE_MERCHANTS_Shop_Parts_Tailoring", "count": [ 5, 8 ] },
       { "group": "FREE_MERCHANTS_Shop_Hardware" }
     ]
+  },
+  {
+    "//": "Lots of loose Merch, as well as a few bundles. Nothing much to it.",
+    "type": "item_group",
+    "id": "FREE_MERCHANTS_Shop_Merch",
+    "subtype": "collection",
+    "items": [ { "item": "FMCNote", "count": [ 200, 300 ] }, { "item": "money_strap_FMCNote", "count": [ 1, 3 ] } ]
   },
   {
     "//": "Generic spare parts that can be used in a lot of different places, like nails and such. Thread is included here due to how it's used a lot even outside of tailoring.",
@@ -39,12 +52,14 @@
       { "item": "solder_wire", "charges": [ 75, 90 ] },
       { "item": "thread", "charges": [ 100, 240 ] },
       { "item": "nail", "charges": [ 80, 100 ] },
-      { "item": "duct_tape", "charges": [ 35, 50 ] },
-      { "item": "superglue", "count": [ 0, 1 ] },
+      { "item": "duct_tape", "charges": [ 50, 75 ] },
+      { "item": "cable", "charges": [ 100, 200 ] },
+      { "item": "superglue", "count": [ 0, 2 ] },
       { "item": "glass_shard", "count": [ 150, 200 ] },
       { "item": "clay_lump", "count": [ 2, 3 ] },
       { "item": "splinter", "count": [ 5, 7 ] },
-      { "item": "2x4", "count": [ 1, 3 ] }
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "wire", "count": [ 4, 10 ] }
     ]
   },
   {
@@ -86,10 +101,10 @@
     "id": "FREE_MERCHANTS_Shop_Clothes",
     "subtype": "collection",
     "items": [
-      { "group": "SUS_wardrobe_mens", "count": [ 0, 1 ] },
-      { "group": "SUS_wardrobe_womens", "count": [ 0, 1 ] },
-      { "group": "SUS_dresser_mens", "count": [ 0, 1 ] },
-      { "group": "SUS_dresser_womens", "count": [ 0, 1 ] }
+      { "group": "SUS_wardrobe_mens", "count": [ 1, 2 ] },
+      { "group": "SUS_wardrobe_womens", "count": [ 1, 2 ] },
+      { "group": "SUS_dresser_mens", "count": [ 1, 2 ] },
+      { "group": "SUS_dresser_womens", "count": [ 1, 2 ] }
     ]
   },
   {
@@ -128,10 +143,112 @@
     "id": "FREE_MERCHANTS_Shop_Hardware",
     "subtype": "collection",
     "items": [
-      { "group": "hand_tools", "count": [ 9, 12 ] },
-      { "group": "tools_home", "count": [ 5, 6 ] },
-      { "group": "tools_construction", "count": [ 2, 3 ] },
-      { "group": "hardware_bulk", "count": [ 4, 5 ] }
+      { "group": "hand_tools", "count": [ 12, 20 ] },
+      { "group": "tools_home", "count": [ 12, 20 ] },
+      { "group": "tools_construction", "count": [ 4, 6 ] },
+      { "group": "tools_electronics", "count": 8 },
+      { "group": "hardware_bulk", "count": [ 8, 10 ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "free_merchants_shopkeep_refresh",
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "evac_center_14", "range": 2 },
+        { "compare_int": [ { "global_val": "var", "var_name": "smokes_dead" }, "!=", { "const": 1 } ] },
+        {
+          "not": {
+            "u_compare_time_since_var": "free_merchants_shop_update",
+            "type": "timer",
+            "context": "free_merchants",
+            "op": "<",
+            "time": "7 d"
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "free_merchants_shop_goods_1", "om_terrain": "evac_center_14" },
+      { "mapgen_update": "free_merchants_shop_goods_2", "om_terrain": "evac_center_13" },
+      { "u_add_var": "free_merchants_shop_update", "type": "timer", "context": "free_merchants", "time": true }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "free_merchants_shop_goods_1",
+    "//": "Put a bit of extra stuff in the shop every week if you're checking back, replacing what was there.",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "free_merchants_shop_refresh_gear" ], "x": 0, "y": 23 },
+        { "chunks": [ "free_merchants_shop_refresh_parts" ], "x": 0, "y": 22 }
+      ],
+      "faction_owner": [ { "id": "free_merchants", "x": 0, "y": [ 22, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "free_merchants_shop_goods_2",
+    "//": "We need two of these due to the way the refugee center is laid out; Smokes's office is actually split over two OMTs.",
+    "object": {
+      "place_nested": [ { "chunks": [ "free_merchants_shop_refresh_merch" ], "x": 22, "y": 22 } ],
+      "faction_owner": [ { "id": "free_merchants", "x": 22, "y": 22 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "free_merchants_shop_refresh_gear",
+    "//": "Restock the gear shelf.",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": {
+          "terrain": "t_floor",
+          "furniture": "f_utility_shelf",
+          "items": [ { "item": "FREE_MERCHANTS_Shop_Gear", "chance": 100 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "free_merchants_shop_refresh_parts",
+    "//": "Restock the spare parts shelf.",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": {
+          "terrain": "t_floor",
+          "furniture": "f_utility_shelf",
+          "items": [ { "item": "FREE_MERCHANTS_Shop_Parts", "chance": 100 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "free_merchants_shop_refresh_merch",
+    "//": "Restock the desk with merch.",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_floor" },
+      "mapping": {
+        "X": { "terrain": "t_floor", "furniture": "f_desk", "items": [ { "item": "FREE_MERCHANTS_Shop_Merch", "chance": 100 } ] }
+      }
+    }
   }
 ]

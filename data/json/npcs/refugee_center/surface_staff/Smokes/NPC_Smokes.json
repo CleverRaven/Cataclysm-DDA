@@ -11,7 +11,14 @@
     "mission": 3,
     "chat": "TALK_FREE_MERCHANTS_MERCHANT",
     "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
-    "faction": "free_merchants"
+    "faction": "free_merchants",
+    "death_eocs": [
+      {
+        "id": "EOC_DEATH_NPC_SMOKES",
+        "eoc_type": "NPC_DEATH",
+        "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "smokes_dead" }, "=", { "const": 1 } ] } ]
+      }
+    ]
   },
   {
     "type": "npc_class",
@@ -25,7 +32,6 @@
     "//3": "Most of his dialogue goes in 'free_merchant_shopkeep_dialogue.json'. Dialogue that just does worldbuilding goes into 'free_merchant_shopkeep_dialogue_fluff.json'.",
     "bonus_str": 4,
     "bonus_dex": 2,
-    "shopkeeper_item_group": [ { "group": "FREE_MERCHANTS_Shop", "rigid": true } ],
     "worn_override": "NC_FREE_MERCHANTS_MERCHANT_worn",
     "weapon_override": "NC_FREE_MERCHANTS_MERCHANT_carried",
     "traits": [
