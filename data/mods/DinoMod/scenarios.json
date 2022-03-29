@@ -169,14 +169,7 @@
     "description": "When you wake up, you find yourself in the swamp next to some large eggs.  Something big is nearby.",
     "start_name": "Predator Dinosaur Nest",
     "allowed_locs": [ "sloc_swamp" ],
-    "map_extra": [
-      "mx_nest_acrocanthosaurus",
-      "mx_nest_allosaurus",
-      "mx_nest_ceratosaurus",
-      "mx_nest_siats",
-      "mx_nest_tyrannosaurus",
-      "mx_nest_utahraptor"
-    ],
+    "map_extra": "mx_nest_tyrannosaurus",
     "flags": [ "LONE_START" ]
   }
 ]
