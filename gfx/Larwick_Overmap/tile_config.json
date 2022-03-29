@@ -4639,7 +4639,7 @@
         },
         { "id": "anchor_brown", "fg": 1 },
         { "id": "church_light_dark_gray", "fg": 54 },
-        { "id": "cursor", "fg": 58 },
+        { "id":  [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 57 },
         { "id": "dirt_road_center", "fg": 59 },
         { "id": "dirt_road_end_piece_e", "fg": 66 },
         { "id": "dirt_road_end_piece_n", "fg": 67 },
@@ -4659,7 +4659,8 @@
         { "id": "mission_cursor", "fg": 154 },
         { "id": "parking_light_blue", "fg": 172 },
         { "id": "two_story_light_green", "fg": 265 },
-        { "id": "unknown_terrain", "fg": 267 }
+        { "id": "unknown_terrain", "fg": 267 },
+        { "id": "unknown_map_extra", "fg": 0 }
       ]
     },
     {
