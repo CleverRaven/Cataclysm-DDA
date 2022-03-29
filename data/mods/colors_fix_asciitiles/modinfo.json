@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "colors_fix_asciitiles",
+    "name": "ASCIITiles overmap color fix",
+    "authors": [ "Inglonias" ],
+    "description": "Un-inverts the overmap glyphs of vanilla locations with inverted colors to make ASCIITiles overmaps more readable.",
+    "category": "graphical",
+    "dependencies": [ "dda" ]
+  }
+]
