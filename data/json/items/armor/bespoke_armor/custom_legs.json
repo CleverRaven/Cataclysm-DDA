@@ -184,7 +184,7 @@
     "id": "armor_mercenary_bottom",
     "type": "ARMOR",
     "name": { "str": "mercenary pants" },
-    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from cargo pants padded with kevlar panels and knee pads.  It has a lot of storage space but the added thickness makes it uncomfortable to wear any armor over.",
+    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from cargo pants padded with kevlar panels.  It has a lot of storage space but the added thickness makes it uncomfortable to wear any armor over.",
     "//": "weight is currently an estimation could be better",
     "weight": "3000 g",
     "volume": "7500 ml",
@@ -205,20 +205,7 @@
         "encumbrance": 9,
         "coverage": 100,
         "cover_vitals": 90,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ]
-      },
-      {
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "plastic", "covered_by_mat": 90, "thickness": 2.5 }
-        ],
-        "encumbrance": 0,
-        "volume_encumber_modifier": 0,
-        "coverage": 100,
-        "cover_vitals": 90,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+        "covers": [ "leg_l", "leg_r" ]
       }
     ],
     "pocket_data": [

@@ -425,7 +425,6 @@
     "components": [
       [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "elbow_pads", 1 ] ],
       [ [ "ballistic_vest_esapi", 1 ] ]
     ]
   },

@@ -637,7 +637,7 @@
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ],
-    "components": [ [ [ "pants_army", 1 ], [ "pants_cargo", 1 ] ], [ [ "sheet_kevlar_layered", 24 ] ], [ [ "knee_pads", 1 ] ] ]
+    "components": [ [ [ "pants_army", 1 ], [ "pants_cargo", 1 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   },
   {
     "result": "lsurvivor_pants",
