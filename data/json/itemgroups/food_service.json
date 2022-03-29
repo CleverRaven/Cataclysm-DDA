@@ -254,6 +254,7 @@
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 }
@@ -282,6 +283,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "can_drink", "prob": 60 },
       { "item": "flyer", "prob": 30 },
@@ -352,6 +354,7 @@
       { "item": "cig", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
       [ "wrapper", 35 ],
+      [ "wrapper_foil", 2 ],
       [ "ceramic_plate", 40 ],
       [ "cup_plastic", 40 ],
       { "item": "portable_game", "prob": 10, "charges": [ 0, 100 ] },
@@ -398,6 +401,7 @@
     "items": [
       [ "cup_plastic", 40 ],
       [ "wrapper", 34 ],
+      [ "wrapper_foil", 3 ],
       [ "bag_plastic", 20 ],
       [ "bottle_glass", 30 ],
       [ "can_drink", 30 ],
@@ -449,6 +453,7 @@
       { "item": "tea_raw", "prob": 15 },
       { "item": "tea_green_raw", "prob": 10 },
       { "item": "wrapper", "prob": 75 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "group": "teabag_box", "prob": 10 }
     ]
   },
@@ -542,6 +547,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 17 },
+      { "item": "wrapper_foil", "prob": 1 },
       { "item": "bag_plastic", "prob": 15 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "can_drink", "prob": 10 },
@@ -572,6 +578,7 @@
     "entries": [
       { "item": "cup_plastic", "prob": 60 },
       { "item": "wrapper", "prob": 60 },
+      { "item": "wrapper_foil", "prob": 6 },
       { "item": "bag_plastic", "prob": 45 },
       { "item": "rag", "prob": 10 },
       { "item": "fries", "prob": 25 },
@@ -615,6 +622,7 @@
     "entries": [
       { "item": "cup_plastic", "prob": 50 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bag_plastic", "prob": 50 },
       { "item": "rag", "prob": 50 },
       { "item": "syringe", "prob": 5 },
@@ -1011,6 +1019,7 @@
     "type": "item_group",
     "items": [
       [ "wrapper", 40 ],
+      [ "wrapper_foil", 2 ],
       [ "bag_plastic", 35 ],
       [ "bottle_glass", 35 ],
       [ "rag", 30 ],

@@ -165,6 +165,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "adrenaline_injector", "prob": 4 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "group": "wallets_science", "prob": 2 },
       { "item": "laptop", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "atomic_light", "prob": 10 },

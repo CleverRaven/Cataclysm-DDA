@@ -454,6 +454,34 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "wrapper_foil",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "aluminum_foil", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cup_foil",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "mag_dude", 0 ], [ "mag_survival", 0 ], [ "pocket_survival", 0 ] ],
+    "components": [ [ [ "aluminum_foil", 6 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "type": "recipe",
     "activity_level": "fake",
     "result": "bag_canvas_small",
@@ -684,6 +712,34 @@
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
+  },
+  {
+    "result": "bowl_wood",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "result": "bowl_skull",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "skull_human", 1 ] ] ]
   },
   {
     "type": "recipe",
