@@ -37,7 +37,6 @@ struct folded_line {
 class folded_text
 {
     private:
-        int line_width = 0;
         std::vector<folded_line> lines;
 
     public:
@@ -55,7 +54,6 @@ struct ime_preview_range {
 };
 
 folded_text::folded_text( const std::string &str, const int line_width )
-    : line_width( line_width )
 {
     // string pointer, remaining bytes, total codepoints, and total display width ...
     // ... before current processed character
