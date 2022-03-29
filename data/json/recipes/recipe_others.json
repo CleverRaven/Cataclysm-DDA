@@ -2660,10 +2660,15 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "15 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "time": "2 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "using": [ [ "waterproofing", 1 ] ],
     "reversible": true,
-    "book_learn": [ [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "autolearn": true,
     "components": [
       [
@@ -2674,9 +2679,10 @@
         [ "leather_funnel", 1 ]
       ],
       [ [ "oil_cooker", 1 ] ],
-      [ [ "wire_mesh", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "foot_crank", 1 ] ]
+      [ [ "wire_mesh", 1 ], [ "bag_canvas", 1 ] ],
+      [ [ "2x4", 20 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "stick_long", 1 ] ]
     ]
   },
   {
