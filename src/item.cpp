@@ -3574,16 +3574,18 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
-        if( armor->rigid ) {
-            std::string coverage = _( "<bold>This armor is rigid</bold>" );
-            info.emplace_back( "ARMOR", coverage );
-        } else {
-            //only some parts are rigid
-            std::string coverage = _( "<bold>Rigid</bold>:" );
-            for( const armor_portion_data &entry : armor->sub_data ) {
-                if( entry.rigid ) {
-                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                        coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+        if( armor != nullptr ) {
+            if( armor->rigid ) {
+                std::string coverage = _( "<bold>This armor is rigid</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are rigid
+                std::string coverage = _( "<bold>Rigid</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.rigid ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
                     }
                 }
             }
@@ -3593,16 +3595,18 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_comfortable() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
-        if( armor->comfortable ) {
-            std::string coverage = _( "<bold>This armor is comfortable</bold>" );
-            info.emplace_back( "ARMOR", coverage );
-        } else {
-            //only some parts are comfortable
-            std::string coverage = _( "<bold>Comfortable</bold>:" );
-            for( const armor_portion_data &entry : armor->sub_data ) {
-                if( entry.comfortable ) {
-                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                        coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+        if( armor != nullptr ) {
+            if( armor->comfortable ) {
+                std::string coverage = _( "<bold>This armor is comfortable</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are comfortable
+                std::string coverage = _( "<bold>Comfortable</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.comfortable ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
                     }
                 }
             }
