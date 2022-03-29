@@ -79,15 +79,13 @@ compiledb -n make
 cd ..
 rm -f compile_commands.json && ln -s build/compile_commands.json
 
-./build-scripts/files_changed || echo 'Unable to determine changed files'
-
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
 set +x
 all_cpp_files="$( \
     grep '"file": "' build/compile_commands.json | \
     sed "s+.*$PWD/++;s+\"$++")"
-changed_files="$( ./build-scripts/files_changed || echo unknown )"
+changed_files="$( ( test -f ./files_changed && cat ./files_changed ) || echo unknown )"
 changed_cpp_files="$( \
     echo "$changed_files" | grep -F "$all_cpp_files" || true )"
 if [ -n "$changed_cpp_files" ]
