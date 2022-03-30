@@ -3,7 +3,7 @@
     "id": "mon_changeling",
     "type": "MONSTER",
     "name": { "str": "changeling wanderer" },
-    "description": "The outline looks human but the movements of the limbs are too willowy and sinous, a small knife flickers between it's fingers in and out of sight.  It's clothing or appears to be skintight silvery chain or scale mail, it shifts in the light.",
+    "description": "The outline looks human but the movements of the limbs are too willowy and sinous, a small knife flickers between it's fingers in and out of sight.  It's clothing appears to be skintight silvery chain or scale mail, it shifts in the light.",
     "default_faction": "changeling",
     "looks_like": "mon_feral_human_pipe",
     "bodytype": "human",
