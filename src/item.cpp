@@ -3580,7 +3580,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are rigid
-                std::string coverage = _( "<bold>Rigid Locations</bold>: " );
+                std::string coverage = _( "<bold>Rigid Locations</bold>:" );
                 std::vector<sub_bodypart_id> covered;
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.rigid ) {
@@ -3610,7 +3610,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are comfortable
-                std::string coverage = _( "<bold>Comfortable Locations</bold>: " );
+                std::string coverage = _( "<bold>Comfortable Locations</bold>:" );
                 std::vector<sub_bodypart_id> covered;
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.comfortable ) {
