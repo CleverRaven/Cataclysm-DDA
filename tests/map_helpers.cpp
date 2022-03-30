@@ -64,7 +64,7 @@ void wipe_map_terrain()
     }
     clear_vehicles();
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0, true );
+    here.build_map_cache( 0 );
 }
 
 void clear_creatures()
@@ -170,7 +170,7 @@ void build_test_map( const ter_id &terrain )
     }
 
     here.invalidate_map_cache( 0 );
-    here.build_map_cache( 0, true );
+    here.build_map_cache( 0 );
 }
 
 void player_add_headlamp()
@@ -193,4 +193,5 @@ void set_time( const time_point &time )
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );
+    here.build_lightmap( z, get_player_character().pos() );
 }

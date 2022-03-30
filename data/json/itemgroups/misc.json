@@ -35,7 +35,7 @@
   {
     "id": "silverware",
     "type": "item_group",
-    "//": "Forks, spoons, knives, ect.",
+    "//": "Forks, spoons, knives, etc.",
     "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
   },
   {

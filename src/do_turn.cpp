@@ -20,12 +20,14 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "music.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "popup.h"
 #include "scent_map.h"
+#include "sdlsound.h"
 #include "string_input_popup.h"
 #include "timed_event.h"
 #include "ui_manager.h"
@@ -598,6 +600,8 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    play_music( music::get_music_id_string() );
+
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -655,12 +659,15 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
+
+    music::deactivate_music_id( music::music_id::sound );
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
@@ -769,7 +776,7 @@ bool do_turn()
     const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz, true );
+    m.build_map_cache( levz );
     monmove();
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
@@ -823,6 +830,7 @@ bool do_turn()
         if( g->first_redraw_since_waiting_started ||
             calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
+                m.build_lightmap( levz, u.pos() );
                 ui_manager::redraw();
             }
 
@@ -835,6 +843,7 @@ bool do_turn()
             g->first_redraw_since_waiting_started = false;
         }
     } else {
+        m.build_lightmap( levz, u.pos() );
         // Nothing to wait for now
         g->wait_popup.reset();
         g->first_redraw_since_waiting_started = true;

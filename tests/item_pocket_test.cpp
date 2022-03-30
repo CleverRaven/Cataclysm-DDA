@@ -16,6 +16,7 @@
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -29,10 +30,29 @@
 #include "value_ptr.h"
 
 static const ammotype ammo_test_9mm( "test_9mm" );
+
+static const item_group_id Item_spawn_data_wallet_duct_tape_full( "wallet_duct_tape_full" );
+static const item_group_id Item_spawn_data_wallet_full( "wallet_full" );
+static const item_group_id Item_spawn_data_wallet_industrial_full( "wallet_industrial_full" );
+static const item_group_id
+Item_spawn_data_wallet_industrial_leather_full( "wallet_industrial_leather_full" );
+static const item_group_id Item_spawn_data_wallet_large_full( "wallet_large_full" );
+static const item_group_id Item_spawn_data_wallet_leather_full( "wallet_leather_full" );
+static const item_group_id Item_spawn_data_wallet_military_full( "wallet_military_full" );
+static const item_group_id
+Item_spawn_data_wallet_military_leather_full( "wallet_military_leather_full" );
+static const item_group_id Item_spawn_data_wallet_science_full( "wallet_science_full" );
+static const item_group_id
+Item_spawn_data_wallet_science_leather_full( "wallet_science_leather_full" );
+static const item_group_id
+Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
+static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
+
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
+
 static const item_pocket::pocket_type pocket_container = item_pocket::pocket_type::CONTAINER;
 
 // Pocket Tests
@@ -1734,6 +1754,9 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
     }
     if( !!nested ) {
         CHECK( nested->all_items_top().size() == in_nested );
+        item *top_it = wear ? &u.worn.front() : &u.get_wielded_item();
+        // top-level container still contains nested container
+        CHECK( !!top_it->contained_where( *nested.get_item() ) );
     }
 }
 
@@ -1763,9 +1786,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
     item_location cont2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
     item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
     item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
-    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos() );
+    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
     player_activity act( act_actor );
-    act.auto_resume = autopickup; // true = implies autopickup
     u.assign_activity( act );
 
     item_location pack;
@@ -1806,8 +1828,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none" : "pickup all" ) ) {
-                test_pickup_autoinsert_results( u, wear, {}, autopickup ? 4 : 2, autopickup ? 0 : 2, 0 );
+            THEN( "pickup none" ) {
+                test_pickup_autoinsert_results( u, wear, {}, 4, 0, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1846,8 +1868,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 1, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1859,8 +1881,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 45, 0 );
             }
         }
     }
@@ -1871,8 +1893,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 1, 2 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1881,8 +1903,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 45, 2 );
             }
         }
     }
@@ -1903,8 +1925,62 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
-                test_pickup_autoinsert_results( u, wear, c1, autopickup ? 3 : 1, 45, autopickup ? 0 : 2 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 3, 45, 0 );
+            }
+        }
+    }
+
+    WHEN( "nested rigid container present, nested container whitelisting 1 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup all, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 2, 1 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 44, false, false, true );
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup one, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 2, 45, 1 );
+            }
+        }
+    }
+
+    WHEN( "nested rigid container present, nested container whitelisting 2 items" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 44, false, false, true );
+            item_location c1 = give_item_to_char( u, cont1 );
+            for( auto &pkts : c1->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c1, 1, 45, 2 );
             }
         }
     }
@@ -1934,8 +2010,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c2, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 1, 0 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1959,8 +2035,8 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
                 pkts->settings.set_disabled( true );
             }
-            THEN( ( autopickup ? "pickup none, nested empty" : "pickup all, nested empty" ) ) {
-                test_pickup_autoinsert_results( u, wear, c2, autopickup ? 3 : 1, autopickup ? 1 : 3, 0 );
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 1, 2 );
             }
         }
         WHEN( "no space available in backpack" ) {
@@ -1996,6 +2072,60 @@ static void test_pickup_autoinsert_sub( bool autopickup, bool wear )
             }
         }
     }
+
+    WHEN( "nested soft container present, nested container whitelisting 1 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup all, nested partly filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 2, 1 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 59, false, false, true );
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
+            }
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 60, 0 );
+            }
+        }
+    }
+
+    WHEN( "nested soft container present, nested container whitelisting 2 item" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, 59, false, false, true );
+            item_location c2 = give_item_to_char( u, cont2 );
+            for( auto &pkts : c2->get_contents().get_all_contained_pockets().value() ) {
+                pkts->settings.whitelist_item( obj1->typeId() );
+                pkts->settings.whitelist_item( obj2->typeId() );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
+                REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
+            }
+            THEN( "pickup none, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c2, 3, 60, 0 );
+            }
+        }
+    }
 }
 
 static void test_pickup_autoinsert( bool autopickup )
@@ -2017,5 +2147,223 @@ TEST_CASE( "picking up items respects pocket autoinsert settings", "[pocket][ite
 
     GIVEN( "manual pickup" ) {
         test_pickup_autoinsert( false );
+    }
+}
+
+TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
+{
+    map &m = get_map();
+    Character &u = get_player_character();
+    clear_character( u, true );
+    item water( "water" );
+    item cont_jug( "test_jug_plastic" );
+    item cont_suit( "test_robofac_armor_rig" );
+
+    // Place a container at the character's feet
+    item_location jug_w_water( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
+
+    GIVEN( "character wearing a multipocket liquid container" ) {
+        item_location suit( u, & **u.wear_item( cont_suit, false ) );
+        REQUIRE( !!suit );
+        REQUIRE( suit->is_container_empty() );
+
+        WHEN( "unloading liquid from a full container into worn container" ) {
+            jug_w_water->fill_with( water );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            THEN( "liquid fills the worn container's pockets, some left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 3 );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    CHECK( it->charges == 6 );
+                    total += it->charges;
+                }
+                total += jug_w_water->only_item().charges;
+                CHECK( total == 15 );
+            }
+        }
+
+        WHEN( "unloading liquid from a full container into partly filled worn container" ) {
+            suit->fill_with( water, 4 );
+            jug_w_water->fill_with( water );
+            REQUIRE( suit->only_item().charges == 4 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 15 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            THEN( "liquid fills the worn container's pockets, some left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 7 );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    CHECK( it->charges == 6 );
+                    total += it->charges;
+                }
+                total += jug_w_water->only_item().charges;
+                CHECK( total == 19 );
+            }
+        }
+
+        WHEN( "unloading liquid from an almost empty container into worn container" ) {
+            jug_w_water->fill_with( water, 2 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            m.make_active( jug_w_water );
+            CHECK( jug_w_water->only_item().charges == 0 );
+            jug_w_water->remove_item( jug_w_water->only_item() );
+            THEN( "liquid fills one of the worn container's pockets, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( jug_w_water->is_container_empty() );
+                CHECK( suit->all_items_top().size() == 1 );
+                CHECK( suit->all_items_top().front()->charges == 2 );
+            }
+        }
+
+        WHEN( "unloading liquid from an almost empty container into partly filled worn container" ) {
+            suit->fill_with( water, 5 );
+            jug_w_water->fill_with( water, 2 );
+            REQUIRE( suit->only_item().charges == 5 );
+            REQUIRE( jug_w_water->all_items_top().size() == 1 );
+            REQUIRE( jug_w_water->all_items_top().front()->charges == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = jug_w_water.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = suit;
+            u.moves = 100;
+            liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
+                    nullptr, -1, nullptr, liquid_target );
+            m.make_active( jug_w_water );
+            CHECK( jug_w_water->only_item().charges == 0 );
+            jug_w_water->remove_item( jug_w_water->only_item() );
+            THEN( "liquid fills one of the worn container's pockets, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( jug_w_water->is_container_empty() );
+                CHECK( suit->all_items_top().size() == 2 );
+                int total = 0;
+                for( auto &it : suit->all_items_top() ) {
+                    total += it->charges;
+                    CHECK( it->charges > 0 );
+                    CHECK( it->charges <= 6 );
+                }
+                CHECK( total == 7 );
+            }
+        }
+
+        WHEN( "unloading liquid from worn container into empty container" ) {
+            REQUIRE( jug_w_water->is_container_empty() );
+            suit->fill_with( water );
+            REQUIRE( suit->all_items_top().size() == 2 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = suit.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = jug_w_water;
+            for( auto &it : suit->all_items_top() ) {
+                u.moves = 100;
+                REQUIRE( it->charges == 6 );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                CHECK( u.moves == 0 );
+                CHECK( it->charges == 0 );
+                suit->remove_item( *it );
+            }
+            THEN( "liquid fills most of the empty container, none left over" ) {
+                CHECK( u.moves == 0 );
+                CHECK( !jug_w_water->only_item().is_null() );
+                CHECK( jug_w_water->only_item().charges == 12 );
+                CHECK( suit->is_container_empty() );
+            }
+        }
+
+        WHEN( "unloading liquid from worn container into partly filled container" ) {
+            suit->fill_with( water );
+            jug_w_water->fill_with( water, 8 );
+            REQUIRE( suit->all_items_top().size() == 2 );
+            REQUIRE( jug_w_water->only_item().charges == 8 );
+            struct liquid_dest_opt liquid_target;
+            liquid_target.pos = suit.position();
+            liquid_target.dest_opt = LD_ITEM;
+            liquid_target.item_loc = jug_w_water;
+            for( auto &it : suit->all_items_top() ) {
+                u.moves = 100;
+                REQUIRE( it->charges == 6 );
+                liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
+                if( u.moves == 0 && it->charges == 0 ) {
+                    suit->remove_item( *it );
+                }
+            }
+            THEN( "liquid fills the container, some left over" ) {
+                CHECK( jug_w_water->only_item().charges == 15 );
+                CHECK( suit->all_items_top().size() == 1 );
+                CHECK( suit->all_items_top().front()->charges == 5 );
+            }
+        }
+    }
+}
+
+static bool test_wallet_filled( Item_spawn_data *wallet_group )
+{
+    itype_id wallet_t( wallet_group->container_item.value() );
+    Item_spawn_data::ItemList dummy;
+    dummy.reserve( 20 );
+    wallet_group->create( dummy, calendar::turn, spawn_flags::maximized );
+    REQUIRE( dummy.size() == 1 );
+    int wallets = 0;
+    for( const item &it : dummy ) {
+        if( it.typeId() == wallet_t ) {
+            wallets++;
+            CHECK( !it.empty_container() );
+        }
+    }
+    return wallets == 1;
+}
+
+TEST_CASE( "full wallet spawn test", "[pocket][item]" )
+{
+    const int iters = 100;
+    const std::vector<Item_spawn_data *> groups = {
+        item_controller->get_group( Item_spawn_data_wallet_duct_tape_full ),
+        item_controller->get_group( Item_spawn_data_wallet_full ),
+        item_controller->get_group( Item_spawn_data_wallet_industrial_full ),
+        item_controller->get_group( Item_spawn_data_wallet_industrial_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_large_full ),
+        item_controller->get_group( Item_spawn_data_wallet_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_military_full ),
+        item_controller->get_group( Item_spawn_data_wallet_military_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_leather_full ),
+        item_controller->get_group( Item_spawn_data_wallet_science_stylish_full ),
+        item_controller->get_group( Item_spawn_data_wallet_stylish_full )
+    };
+    for( Item_spawn_data *wg : groups ) {
+        REQUIRE( wg->container_item.has_value() );
+    }
+
+    for( int i = 0; i < iters; i++ ) {
+        for( Item_spawn_data *wg : groups ) {
+            CHECK( test_wallet_filled( wg ) );
+        }
     }
 }

@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": "zoo_0_0",
+    "om_terrain": "dinozoo_0_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -44,7 +44,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
+    "om_terrain": "dinozoo_0_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -129,8 +129,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
-    "//": "variant of zoo_0_1 with broken open bear cage",
+    "om_terrain": "dinozoo_0_1",
+    "//": "variant of dinozoo_0_1 with broken open bear cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -216,7 +216,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_2",
+    "om_terrain": "dinozoo_0_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -302,7 +302,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_0",
+    "om_terrain": "dinozoo_1_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -345,7 +345,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
+    "om_terrain": "dinozoo_1_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -448,8 +448,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
-    "//": "variant of zoo_1_1 with broken open moose cage",
+    "om_terrain": "dinozoo_1_1",
+    "//": "variant of dinozoo_1_1 with broken open moose cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -556,7 +556,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_2",
+    "om_terrain": "dinozoo_1_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -639,7 +639,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_0",
+    "om_terrain": "dinozoo_2_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -682,7 +682,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_1",
+    "om_terrain": "dinozoo_2_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -779,7 +779,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_2",
+    "om_terrain": "dinozoo_2_2",
     "type": "mapgen",
     "weight": 100,
     "object": {

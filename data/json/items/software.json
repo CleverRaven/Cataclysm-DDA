@@ -2,7 +2,7 @@
   {
     "abstract": "AID_abstract",
     "type": "GENERIC",
-    "name": { "str": "abstract autodoc installation data" },
+    "name": { "str": "abstract Autodoc installation data" },
     "symbol": "#",
     "weight": "150 g",
     "volume": "50 ml",
