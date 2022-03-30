@@ -773,6 +773,7 @@
     "id": "archeology_tools",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bone", "prob": 75 } ]
+    "copy-from": "archeology_tools",
+    "extend": { "entries": [ { "item": "bone", "prob": 75 } ] }
   }
 ]
