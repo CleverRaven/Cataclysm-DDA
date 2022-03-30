@@ -9,6 +9,7 @@
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "game_ui.h"
+#include "optional.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
 
@@ -17,6 +18,9 @@ using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
+#if defined( TILES )
+static cata::optional<SDL_Rect> prev_clip_rect;
+#endif
 static ui_stack_t ui_stack;
 
 ui_adaptor::ui_adaptor() : disabling_uis_below( false ), is_debug_message_ui( false ),
@@ -39,6 +43,23 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
     if( redraw_in_progress ) {
         restart_redrawing = true;
     }
+#if defined( TILES )
+    // Reset the clip rect because the debug message UI might be created in a
+    // redraw callback when a clip rect is active. When the UI is deconstructed,
+    // restore the previous clip rect to prevent the redraw callback from
+    // drawing outside the clip area, which will cause stuck graphics. This
+    // alone does not prevent the graphics from becoming borked in other ways,
+    // but `ui_manager` will redo the entire redrawing as soon as the redraw
+    // callback returns.
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+    if( SDL_RenderIsClipEnabled( renderer.get() ) ) {
+        prev_clip_rect = SDL_Rect();
+        SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
+        SDL_RenderSetClipRect( renderer.get(), nullptr );
+    } else {
+        prev_clip_rect = cata::nullopt;
+    }
+#endif
     ui_stack.emplace_back( *this );
 }
 
@@ -47,6 +68,13 @@ ui_adaptor::~ui_adaptor()
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
+#if defined( TILES )
+        // See ui_adaptor( debug_message_ui )
+        if( prev_clip_rect.has_value() ) {
+            const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+            SDL_RenderSetClipRect( renderer.get(), &prev_clip_rect.value() );
+        }
+#endif
     }
     for( auto it = ui_stack.rbegin(); it < ui_stack.rend(); ++it ) {
         if( &it->get() == this ) {

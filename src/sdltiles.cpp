@@ -4012,6 +4012,11 @@ void set_title( const std::string &title )
     }
 }
 
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
+
 #endif // TILES
 
 bool window_contains_point_relative( const catacurses::window &win, const point &p )
