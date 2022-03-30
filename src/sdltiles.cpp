@@ -569,7 +569,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -587,7 +587,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -3414,8 +3414,7 @@ static void CheckMessages()
     // resizing already reinitializes the render target
     if( !resized && render_target_reset ) {
         throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
-        need_invalidate_framebuffers = true;
-        reinitialize_framebuffer();
+        reinitialize_framebuffer( true );
         needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw

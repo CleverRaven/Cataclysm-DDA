@@ -60,6 +60,10 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         prev_clip_rect = cata::nullopt;
     }
 #endif
+    // The debug message might be shown during a normal UI's redraw callback,
+    // so we need to invalidate the frame buffer so it does not interfere
+    // with the display of the debug message.
+    reinitialize_framebuffer( true );
     ui_stack.emplace_back( *this );
 }
 
