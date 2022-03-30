@@ -102,7 +102,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "STURDY", "WAIST" ]
+    "flags": [ "STURDY", "BELTED" ]
   },
   {
     "id": "crt_rec_duster",
