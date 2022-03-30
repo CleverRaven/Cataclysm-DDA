@@ -17,6 +17,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+extern const sub_bodypart_str_id sub_bodypart_sub_limb_debug;
+
 class JsonObject;
 class JsonOut;
 class JsonValue;
@@ -76,7 +78,7 @@ struct sub_body_part_type {
     void load( const JsonObject &jo, const std::string &src );
 
     // combine matching body part strings together for printing
-    static const std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );
+    static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );
 
     // Clears all bps
     static void reset();
