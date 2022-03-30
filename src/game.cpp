@@ -6619,22 +6619,28 @@ void game::zones_manager()
                         static_popup message_pop;
                         message_pop.on_top( true );
                         message_pop.message( "%s", _( "Moving zone." ) );
-                        const auto zone_local_start_point = m.getlocal( zone.get_start_point() );
-                        const auto zone_local_end_point = m.getlocal( zone.get_end_point() );
+                        const tripoint zone_local_start_point = m.getlocal( zone.get_start_point() );
+                        const tripoint zone_local_end_point = m.getlocal( zone.get_end_point() );
                         // local position of the zone center, used to calculate the u.view_offset,
                         // could center the screen to the position it represents
-                        auto view_center = m.getlocal( zone.get_center_point() );
+                        tripoint view_center = m.getlocal( zone.get_center_point() );
                         const look_around_result result_local = look_around( false, view_center,
                                                                 zone_local_start_point, false, false,
                                                                 false, true, zone_local_end_point );
                         if( result_local.position ) {
-                            const auto new_start_point = m.getglobal( *result_local.position );
+                            const tripoint_abs_ms new_start_point = m.getglobal( *result_local.position );
+                            const tripoint_abs_ms new_end_point = zone.get_end_point() - zone.get_start_point() +
+                                                                  new_start_point;
                             if( new_start_point == zone.get_start_point() ) {
                                 break; // Nothing changed, don't save
                             }
-                            const auto new_end_point = zone.get_end_point().raw() - zone.get_start_point().raw() +
-                                                       new_start_point.raw();
-                            zone.set_position( std::pair<tripoint, tripoint>( new_start_point.raw(), new_end_point ) );
+                            if( zone.get_is_personal() ) {
+                                const tripoint_rel_ms new_start_point_rl = new_start_point - u.get_location();
+                                const tripoint_rel_ms new_end_point_rl = new_end_point - u.get_location();
+                                zone.set_position( std::make_pair( new_start_point_rl.raw(), new_end_point_rl.raw() ) );
+                            } else {
+                                zone.set_position( std::make_pair( new_start_point.raw(), new_end_point.raw() ) );
+                            }
                             stuff_changed = true;
                         }
                     }
