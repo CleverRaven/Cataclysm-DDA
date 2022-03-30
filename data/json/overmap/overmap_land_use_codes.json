@@ -129,7 +129,7 @@
     "id": "wetland_saltwater",
     "land_use_code": 14,
     "name": "Saltwater Wetland",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 11, and 27.",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 11 and 27.",
     "sym": "~",
     "color": "light_cyan"
   },
@@ -183,7 +183,7 @@
     "id": "water",
     "land_use_code": 20,
     "name": "Water",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 9, and 22.",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 9 and 22.",
     "sym": "~",
     "color": "light_blue"
   },
