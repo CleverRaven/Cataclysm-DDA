@@ -3,7 +3,7 @@
     "id": "ss_57mm",
     "copy-from": "57mm",
     "type": "AMMO",
-    "name": { "str_sp": "5.7x28mm, subsonic" },
+    "name": { "str_sp": "5.7x28mm SB193" },
     "description": "A subsonic cartridge derived from the 5.7x28mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "relative": {
       "price": 100,
