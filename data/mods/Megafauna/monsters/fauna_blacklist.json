@@ -1,0 +1,8 @@
+[
+    {
+      "type": "MONSTER_BLACKLIST",
+      "monsters": [
+        "mon_wolf_mutant_huge"
+      ]
+    }
+  ]

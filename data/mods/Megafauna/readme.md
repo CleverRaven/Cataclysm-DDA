@@ -13,10 +13,10 @@ sabre-toothed cat (Smilodon fatalis) [done]
 giant short-faced bear (Arctodus) [done]
 long-nosed peccary [done]
 flat-headed peccary [done]
-woolly mammoth [partially done];; might need another look regarding harvesting, etc.
+woolly mammoth [done]
 mastodon
 north american lion (Panthera atrox)
-dire wolf (Aenocyon dirus)
+dire wolf (Aenocyon dirus) [done]
 stag-moose (Cervalces scotti)
 giant beaver (Castoroides) 
 giant sloth (Megalonyx), or other/more species?
