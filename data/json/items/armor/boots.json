@@ -497,7 +497,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "425 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "18 cm",
+        "max_item_length": "20 cm",
         "moves": 125
       },
       {
@@ -507,7 +507,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "425 ml",
         "max_contains_weight": "1 kg",
-        "max_item_length": "18 cm",
+        "max_item_length": "20 cm",
         "moves": 125
       }
     ],
