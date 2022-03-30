@@ -315,7 +315,7 @@
         },
         "reproduction": { "baby_monster": "mon_direwolf_cub", "baby_count": 2, "baby_timer": 700 },
         "baby_flags": [ "SPRING" ],
-        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "KEENNOSE" ]
       },
       {
         "id": "mon_direwolf_cub",
@@ -334,7 +334,6 @@
         "melee_dice_sides": 4,
         "melee_cut": 2,
         "dodge": 2,
-        "harvest": "mammal_fur",
         "upgrades": { "age_grow": 480, "into": "mon_direwolf" }
     }
 ]
