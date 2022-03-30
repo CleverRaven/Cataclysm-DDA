@@ -355,7 +355,7 @@ static void debug_error_prompt(
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 
 #if defined(__ANDROID__)
