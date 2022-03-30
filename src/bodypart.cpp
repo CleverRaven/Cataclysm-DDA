@@ -391,7 +391,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
 
-    optional( jo, was_loaded, "feels_discomfort", feels_discomfort, 0.0 );
+    optional( jo, was_loaded, "feels_discomfort", feels_discomfort, true );
 
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );

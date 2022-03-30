@@ -3107,7 +3107,7 @@
     ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_riot_raised",
@@ -3140,7 +3140,7 @@
     ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_sallet",
