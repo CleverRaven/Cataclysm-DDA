@@ -3535,7 +3535,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_cut_grass_long",
+    "id": "constr_cut_grass_long_advanced",
     "group": "cut_grass",
     "category": "OTHER",
     "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
@@ -3547,7 +3547,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_cut_grass_tall",
+    "id": "constr_cut_grass_tall_advanced",
     "group": "cut_grass",
     "category": "OTHER",
     "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
@@ -3559,7 +3559,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_cut_grass_dead",
+    "id": "constr_cut_grass_dead_advanced",
     "group": "cut_grass",
     "category": "OTHER",
     "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
