@@ -4,7 +4,7 @@
     "id": "example_template",
     "type": "SPELL",
     "name": "Template Spell",
-    "description": "This is a template to show off all the available values",
+    "description": "This is a template to show off all the available values.",
     "message": "As you cast %s, your ears pops!",
     "//2": "The 'message' will replace 'You cast %s!' message when you cast this spell",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],

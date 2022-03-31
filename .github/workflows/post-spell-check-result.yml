@@ -54,11 +54,20 @@ jobs:
                 issue_number: issue_number
               }
             );
-            comments.reverse();
-            const bot_comments = comments.filter(comment => comment.user.type === 'Bot' && comment.user.login === 'github-actions[bot]');
-            if (bot_comments.length > 0 && bot_comments[0].body === body) {
-              console.log("Comment already exists.  Exiting.");
+            const prev_spell_checks = comments.slice(0).reverse()
+                                              .filter(comment => comment.user.type === 'Bot' && comment.user.login === 'github-actions[bot]')
+                                              .filter(comment => comment.body.startsWith("Spell checker"));
+            if (prev_spell_checks.some(comment => comment.body === body)) {
+              console.log("The exact same spell checker comment already exists.  Exiting.");
               return;
+            }
+            for (const comment of prev_spell_checks) {
+              console.log("Deleting previous spell checker comment (comment id: %i)", comment.id);
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+              });
             }
             console.log("Posting comment.");
             await github.rest.issues.createComment({
