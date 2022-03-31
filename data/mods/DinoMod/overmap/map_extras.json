@@ -250,6 +250,16 @@
     "autonote": true
   },
   {
+    "id": "mx_nest_stenonychosaurus",
+    "type": "map_extra",
+    "name": { "str": "stenonychosaurus nest" },
+    "description": "A stenonychosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stenonychosaurus" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true
+  },
+  {
     "id": "mx_nest_torosaurus",
     "type": "map_extra",
     "name": { "str": "torosaurus nest" },

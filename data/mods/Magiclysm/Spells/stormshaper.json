@@ -30,7 +30,7 @@
     "id": "shocking_lash_base",
     "type": "SPELL",
     "name": "Shocking Lash Base",
-    "description": "Reference spell definition used for Shocking Lash and Shocking Lash Jump",
+    "description": "Reference spell definition used for Shocking Lash and Shocking Lash Jump.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],

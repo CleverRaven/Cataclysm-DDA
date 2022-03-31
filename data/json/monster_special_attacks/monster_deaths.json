@@ -90,8 +90,8 @@
   {
     "id": "death_halfworm",
     "type": "SPELL",
-    "name": { "str": "Halfworm Death" },
-    "description": "Spawns two halfworms.",
+    "name": { "str": "Half Worm Death" },
+    "description": "Spawns two half worms.",
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
@@ -441,7 +441,7 @@
   {
     "id": "death_boomer_glow",
     "type": "SPELL",
-    "name": { "str": "Boomer Glow Death" },
+    "name": { "str": "Boomer Death - Glow" },
     "description": "Boomers and glow.",
     "valid_targets": [ "ground", "hostile", "ally", "self" ],
     "shape": "blast",
@@ -471,8 +471,8 @@
   {
     "id": "death_ratking",
     "type": "SPELL",
-    "name": { "str": "Ratking Death" },
-    "description": "Ratking dies.",
+    "name": { "str": "Rat King Death" },
+    "description": "Rat king dies.",
     "valid_targets": [ "hostile", "ally" ],
     "shape": "blast",
     "effect": "remove_effect",
