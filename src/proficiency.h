@@ -47,12 +47,25 @@ struct proficiency_bonus {
     void deserialize( const JsonObject &jo );
 };
 
+struct proficiency_category {
+    proficiency_category_id id;
+    translation _name;
+    translation _description;
+    bool was_loaded = false;
+
+    static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
+    static void reset();
+    void load( const JsonObject &jo, const std::string &src );
+    static const std::vector<proficiency_category> &get_all();
+};
+
 class proficiency
 {
         friend class generic_factory<proficiency>;
         friend struct mod_tracker;
 
         proficiency_id id;
+        proficiency_category_id _category;
         std::vector<std::pair<proficiency_id, mod_id>> src;
         bool was_loaded = false;
 
