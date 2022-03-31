@@ -14,7 +14,7 @@ giant short-faced bear (Arctodus) [done]
 long-nosed peccary [done]
 flat-headed peccary [done]
 woolly mammoth [done]
-mastodon
+mastodon [done]
 north american lion (Panthera atrox)
 dire wolf (Aenocyon dirus) [done]
 stag-moose (Cervalces scotti)

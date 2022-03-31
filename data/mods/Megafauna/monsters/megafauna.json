@@ -56,7 +56,8 @@
         "melee_cut": 2,
         "dodge": 2,
         "harvest": "mammal_fur",
-        "upgrades": { "age_grow": 480, "into": "mon_sabcat" }
+        "upgrades": { "age_grow": 480, "into": "mon_sabcat" },
+        "flags": [ "NO_BREED", "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
     },
     {
         "id": "mon_shortface",
@@ -118,7 +119,8 @@
         "melee_cut": 3,
         "dodge": 2,
         "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-        "upgrades": { "age_grow": 550, "into": "mon_shortface" }
+        "upgrades": { "age_grow": 550, "into": "mon_shortface" },
+        "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ]
     },
     {
         "id": "mon_peccary_flathead",
@@ -161,7 +163,7 @@
         "id": "mon_flathead_piglet",
         "type": "MONSTER",
         "copy-from": "mon_peccary_flathead",
-        "name": { "str": "flat-headed peccary cub" },
+        "name": { "str": "flat-headed peccary piglet" },
         "description": "A juvenile flat-headed peccary - a stocky, short-legged, pig-like animal.  Its playful squeaks delight your heart.",
         "volume": "17 L",
         "weight": "12 kg",
@@ -176,7 +178,7 @@
         "dodge": 2,
         "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
         "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ],
+        "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ],
         "upgrades": { "age_grow": 48, "into": "mon_peccary_flathead" }
     },
     {
@@ -209,7 +211,8 @@
         "id": "mon_longnose_piglet",
         "type": "MONSTER",
         "copy-from": "mon_flathead_piglet",
-        "description": "A juvenile long-nosed peccary - a stocky, short-legged, pig-like animal.  Its playful squeaks delight your heart."
+        "description": "A juvenile long-nosed peccary - a stocky, short-legged, pig-like animal.  Its playful squeaks delight your heart.",
+        "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
     },
     {
         "id": "mon_mammoth",
@@ -223,7 +226,7 @@
         "volume": "6400 L",
         "weight": "6000 kg",
         "hp": 600,
-        "speed": 80,
+        "speed": 100,
         "material": [ "flesh" ],
         "symbol": "M",
         "color": "brown",
@@ -249,7 +252,7 @@
             { "id": "smash", "cooldown": 20, "throw_strength": 60, "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ] },
             { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "pierce", "amount": 50 } ] }
         ],
-        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "DESTROYS", "PUSH_MON" ]
+        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "BASHES", "DESTROYS", "PUSH_MON" ]
     },
     {
         "id": "mon_mammoth_cub",
@@ -277,8 +280,77 @@
             [ "EAT_CROPS", 60]
         ],
         "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "PUSH_MON" ],
+        "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "PUSH_MON" ],
         "upgrades": { "age_grow": 400, "into": "mon_mammoth" }
+    },
+    {
+        "id": "mon_mastodon",
+        "type": "MONSTER",
+        "name": { "str": "mastodon" },
+        "description": "Shorter, but more massive than a woolly mammoth, and - crucially - much less hairy.  Its trunk lazily swings around its two massive, upward-curving tusks.",
+        "default_faction": "herbivore",
+        "bodytype": "elephant",
+        "categories": [ "WILDLIFE" ],
+        "species": [ "MAMMAL" ],
+        "volume": "7600 L",
+        "weight": "7200 kg",
+        "hp": 670,
+        "speed": 90,
+        "material": [ "flesh" ],
+        "symbol": "M",
+        "color": "light_grey",
+        "aggression": -20,
+        "morale": 80,
+        "melee_skill": 8,
+        "melee_dice": 5,
+        "melee_dice_sides": 8,
+        "melee_cut": 5,
+        "dodge": 1,
+        "armor_bash": 5,
+        "armor_elec": 3,
+        "vision_night": 5,
+        "path_settings": { "max_dist": 10 },
+        "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+        "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 1 },
+        "harvest": "mammoth",
+        "reproduction": { "baby_monster": "mon_mastodon_cub", "baby_count": 1, "baby_timer": 2000 },
+        "baby_flags": [ "AUTUMN" ],
+        "special_attacks": [ 
+            [ "EAT_FOOD", 100 ], 
+            [ "EAT_CROPS", 100], 
+            { "id": "smash", "cooldown": 20, "throw_strength": 60, "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ] },
+            { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "pierce", "amount": 60 } ] }
+        ],
+        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "BASHES", "DESTROYS", "PUSH_MON" ]
+    },
+    {
+        "id": "mon_mastodon_cub",
+        "type": "MONSTER",
+        "copy-from": "mon_mastodon",
+        "name": { "str": "mastodon cub" },
+        "description": "This big baby mastodon is already quite muscular, but the menacing tusks of their parents have not grown yet.",
+        "volume": "260 L",
+        "weight": "240 kg",
+        "hp": 120,
+        "speed": 70,
+        "symbol": "m",
+        "morale": 30,
+        "melee_skill": 2,
+        "melee_dice": 2,
+        "melee_dice_sides": 8,
+        "melee_cut": 1,
+        "dodge": 1,
+        "armor_bash": 2,
+        "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+        "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
+        "harvest": "mammal_large_leather",
+        "special_attacks": [ 
+            [ "EAT_FOOD", 60 ], 
+            [ "EAT_CROPS", 60]
+        ],
+        "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+        "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "PUSH_MON" ],
+        "upgrades": { "age_grow": 400, "into": "mon_mastodon" }
     },
     {
         "id": "mon_direwolf",
@@ -334,6 +406,8 @@
         "melee_dice_sides": 4,
         "melee_cut": 2,
         "dodge": 2,
-        "upgrades": { "age_grow": 480, "into": "mon_direwolf" }
-    }
+        "upgrades": { "age_grow": 480, "into": "mon_direwolf" },
+        "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "KEENNOSE" ]
+    },
+
 ]
