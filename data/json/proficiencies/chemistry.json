@@ -55,31 +55,37 @@
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5,
     "required_proficiencies": [ "prof_organic_chemistry", "prof_intro_biology" ],
-    "time_to_learn": "8 h"
+    "time_to_learn": "8 h",
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
   },
   {
     "type": "proficiency",
     "id": "prof_physiology",
-    "category": "prof_chem",
+    "category": "prof_weakpoint",
     "name": { "str": "Physiology" },
     "description": "An in-depth understanding of how humans and animals operate.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5,
     "required_proficiencies": [ "prof_intro_biology" ],
-    "time_to_learn": "12 h"
+    "time_to_learn": "12 h",
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
   },
   {
     "type": "proficiency",
     "id": "prof_xenology",
-    "category": "prof_chem",
+    "category": "prof_weakpoint",
     "name": { "str": "Xenology" },
     "description": "You are beginning to grasp a general idea of how alien and post-Cataclysm mutated creatures function and operate.",
     "can_learn": true,
     "default_time_multiplier": 2.0,
     "default_fail_multiplier": 3.0,
     "required_proficiencies": [ "prof_intro_biology" ],
-    "time_to_learn": "12 h"
+    "time_to_learn": "12 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
   },
   {
     "type": "proficiency",
