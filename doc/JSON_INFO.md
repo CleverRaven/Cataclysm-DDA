@@ -410,7 +410,7 @@ order of the entries does not matter.
 }
 ```
 
-Currently, only some JSON values support this syntax (see [here](doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+Currently, only some JSON values support this syntax (see [here](/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 ## Comments
 
@@ -1795,7 +1795,7 @@ Any or all of the following alterations can be made to the event stream:
 
 * Add new fields to each event based on event field transformations.  The event
   field transformations can be found in
-  [`event_field_transformation.cpp`](../src/event_field_transformation.cpp).
+  [`event_field_transformations.cpp`](/src/event_field_transformations.cpp).
 * Filter events based on the values they contain to produce a stream containing
   some subset of the input stream.
 * Drop some fields which are not of interest in the output stream.
