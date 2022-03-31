@@ -1107,7 +1107,7 @@
     "result": "xl_chainmail_suit_faraday",
     "type": "recipe",
     "copy-from": "chainmail_suit_faraday",
-	"using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 30 ] ],
+    "using": [ [ "chainmail_standard", 20 ], [ "fabric_standard_nostretch", 30 ] ],
     "components": [
       [ [ "link_sheet", 3 ], [ "xl_chainmail_hood", 1 ] ],
       [ [ "link_sheet", 10 ], [ "xl_chainmail_vest", 1 ] ],
@@ -1434,7 +1434,7 @@
     "type": "recipe",
     "copy-from": "k_gambeson",
     "time": "8 h",
-	"using": [ [ "armor_kevlar_layered", 20 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 20 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_pants",
@@ -1448,7 +1448,7 @@
     "time": "5 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-	"using": [ [ "armor_kevlar_layered", 21 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 21 ], [ "tailoring_kevlar_fabric", 12 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest",
@@ -1461,8 +1461,8 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": [ [ "tailor", 8 ] ],
-    "book_learn": [ [ "textbook_armwest", 4 ] ,
-	"using": [ [ "armor_kevlar_layered", 14 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
+    "book_learn": [ [ "textbook_armwest", 4 ] ],
+    "using": [ [ "armor_kevlar_layered", 14 ], [ "tailoring_kevlar_fabric", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest",
@@ -1490,7 +1490,7 @@
     "time": "5 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-	"using": [ [ "armor_kevlar_layered", 11 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 11 ], [ "tailoring_kevlar_fabric", 6 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "k_gambeson_vest_xs",
@@ -1546,7 +1546,7 @@
     "type": "recipe",
     "copy-from": "k_gambeson",
     "time": "6 h 45 m",
-	"using": [ [ "armor_kevlar_layered", 31 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 31 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_k_gambeson_vest",
@@ -1560,7 +1560,7 @@
     "time": "6 h",
     "autolearn": [ [ "tailor", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-	"using": [ [ "armor_kevlar_layered", 16 ], [ "tailoring_kevlar_fabric", 10 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 16 ], [ "tailoring_kevlar_fabric", 10 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_k_gambeson_vest",
@@ -1581,14 +1581,14 @@
     "type": "recipe",
     "copy-from": "gambeson_pants",
     "time": "5 h",
-	"using": [ [ "sewing_standard", 27 ], [ "tailoring_cotton_patchwork", 36 ], [ "fastener_small", 2 ] ]
+    "using": [ [ "sewing_standard", 27 ], [ "tailoring_cotton_patchwork", 36 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "xl_k_gambeson_pants",
     "type": "recipe",
     "copy-from": "k_gambeson_pants",
     "time": "5 h",
-	"using": [ [ "armor_kevlar_layered", 24 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "armor_kevlar_layered", 24 ], [ "tailoring_kevlar_fabric", 14 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "hsurvivor_jumpsuit",
@@ -1740,7 +1740,7 @@
     "time": "2 h 30 m",
     "book_learn": [ [ "tailor_japanese", 4 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 35 ] ],
-	"byproducts": [ [ "cotton_patchwork", 5 ] ]
+    "byproducts": [ [ "cotton_patchwork", 5 ] ]
   },
   {
     "result": "nomex_suit",
@@ -1752,7 +1752,7 @@
     "difficulty": 6,
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 6 ], [ "tailor_portfolio", 7 ] ],
-    "using": [  [ "tailoring_nomex_patchwork", 45 ] ],
+    "using": [ [ "tailoring_nomex_patchwork", 45 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1764,14 +1764,14 @@
     "type": "recipe",
     "copy-from": "nomex_suit",
     "time": "6 h",
-    "using": [  [ "tailoring_nomex_patchwork", 34 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 34 ] ]
   },
   {
     "result": "xl_nomex_suit",
     "copy-from": "nomex_suit",
     "type": "recipe",
     "time": "6 h 45 m",
-	"using": [  [ "tailoring_nomex_patchwork", 52 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 52 ] ]
   },
   {
     "result": "shark_suit_faraday",
@@ -1887,7 +1887,7 @@
     "using": [ [ "tailoring_neoprene_patchwork", 33 ] ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
-	"components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "wetsuit_spring",
@@ -1902,7 +1902,7 @@
     "using": [ [ "tailoring_neoprene_patchwork", 22 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
-	"components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "wool_suit",
