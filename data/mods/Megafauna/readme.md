@@ -15,7 +15,7 @@ long-nosed peccary [done]
 flat-headed peccary [done]
 woolly mammoth [done]
 mastodon [done]
-north american lion (Panthera atrox)
+north american lion (Panthera atrox) [done]
 dire wolf (Aenocyon dirus) [done]
 stag-moose (Cervalces scotti)
 giant beaver (Castoroides) 
@@ -40,6 +40,8 @@ Possibly some kind of goat, maybe extinct pronghorn species?
 *Add/adjust monster groups*
 Blacklist monsters that don't fit time frame
 Add new monsters to monster groups
+
+*test and tweak*
 
 *Additional/Future*
 Think of cool stuff to do with animal products, like sabrecat teeth or mammoth tusks (i.e., adjust/make new harvest groups)
