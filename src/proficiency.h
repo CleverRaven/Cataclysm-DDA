@@ -25,6 +25,7 @@ struct learning_proficiency;
 template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
+class Character;
 
 enum class proficiency_bonus_type : int {
     strength,
@@ -202,5 +203,7 @@ class book_proficiency_bonuses
         // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
 };
+
+void show_proficiencies_window( const Character &u );
 
 #endif // CATA_SRC_PROFICIENCY_H
