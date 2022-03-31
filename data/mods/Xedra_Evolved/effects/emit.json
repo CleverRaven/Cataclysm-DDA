@@ -1,0 +1,11 @@
+[
+  {
+    "id": "emit_changeling_mist",
+    "type": "emit",
+    "//": "Slow infrequent leak of changeling mist",
+    "field": "fd_mirrored",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  }
+]

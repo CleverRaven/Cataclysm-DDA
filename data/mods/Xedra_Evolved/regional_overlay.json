@@ -1,0 +1,47 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "road": {
+        "chance": 75,
+        "extras": {
+          "mx_golden_monolith": 10,
+          "mx_military": 50,
+          "mx_science": 400,
+          "mx_collegekids": 500,
+          "mx_roadblock": 1000,
+          "mx_bandits_block": 800,
+          "mx_drugdeal": 300,
+          "mx_supplydrop": 100,
+          "mx_portal": 50,
+          "mx_crater": 100,
+          "mx_portal_in": 40,
+          "mx_roadworks": 1000,
+          "mx_mayhem": 500,
+          "mx_casings": 1000,
+          "mx_corpses": 300,
+          "mx_prison_bus": 150
+        }
+      }
+    },
+    "forest_trail_settings": {
+      "chance": 2,
+      "border_point_chance": 2,
+      "minimum_forest_size": 100,
+      "random_point_min": 4,
+      "random_point_max": 50,
+      "random_point_size_scalar": 100,
+      "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
+      "trail_center_variance": 3,
+      "trail_width_offset_min": 1,
+      "trail_width_offset_max": 3,
+      "clear_trail_terrain": false,
+      "trail_terrain": { "t_dirt": 1 },
+      "chance": 5,
+      "extras": { "mx_golden_monolith": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
+    }
+  }
+]

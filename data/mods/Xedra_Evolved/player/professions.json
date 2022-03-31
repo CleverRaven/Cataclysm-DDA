@@ -13,8 +13,7 @@
     "subtype": "collection",
     "id": "diazepam_scrip",
     "entries": [
-      { "item": "diazepam", "container_item": "bottle_plastic_pill_prescription", "charges": 20 },
-      { "item": "fn57mag", "ammo-item": "ss_57mm", "charges": 20 }
+      { "item": "diazepam", "container_item": "bottle_plastic_pill_prescription", "charges": 20 }
     ]
   },
   {
@@ -38,7 +37,6 @@
           "shoulder_holster",
           "badge_zebra",
           "gloves_leather",
-          "knit_scarf",
           "wristwatch",
           "socks",
           "dress_shoes",
