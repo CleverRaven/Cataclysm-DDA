@@ -1935,7 +1935,7 @@
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your kevlar gambeson a bit tighter.",
+      "msg": "You adjust your Kevlar gambeson a bit tighter.",
       "target": "k_gambeson",
       "menu_text": "Adjust tighter"
     }
@@ -1950,7 +1950,7 @@
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your kevlar gambeson a bit tighter.",
+      "msg": "You adjust your Kevlar gambeson a bit tighter.",
       "target": "k_gambeson_vest",
       "menu_text": "Adjust tighter"
     }
@@ -2147,7 +2147,7 @@
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your XL kevlar gambeson vest a bit tighter.",
+      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
       "target": "xl_k_gambeson_vest",
       "menu_text": "Adjust tighter"
     }
@@ -2161,7 +2161,7 @@
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your XL kevlar gambeson vest a bit tighter.",
+      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
       "target": "k_gambeson_vest_xs",
       "menu_text": "Adjust tighter"
     }

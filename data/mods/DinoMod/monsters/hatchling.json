@@ -13,13 +13,15 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "magenta and green hatchling",
     "default_faction": "dilophosaurus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
     "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus_juvenile" },
     "extend": { "flags": "SWIMS" }
   },
   {
     "id": "mon_ceratosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "brown and white hatchling",
     "default_faction": "ceratosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus_juvenile" }
@@ -30,13 +32,15 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
     "default_faction": "spinosaurus_hatchling",
+    "weight": "4 kg",
+    "volume": "4 L",
     "upgrades": { "age_grow": 30, "into": "mon_spinosaurus_juvenile" },
     "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_allosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "brown and white hatchling",
     "default_faction": "allosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_allosaurus_juvenile" }
@@ -44,7 +48,7 @@
   {
     "id": "mon_acrocanthosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "brown and white hatchling",
     "default_faction": "acrocanthosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
@@ -52,7 +56,7 @@
   {
     "id": "mon_siats_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "brown and white hatchling",
     "default_faction": "siats_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
@@ -60,7 +64,7 @@
   {
     "id": "mon_gorgosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "gorgosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_gorgosaurus_juvenile" }
@@ -68,7 +72,7 @@
   {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "albertosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
@@ -77,14 +81,14 @@
     "id": "mon_qianzhousaurus_hatchling",
     "type": "MONSTER",
     "name": "light red and white hatchling",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "default_faction": "qianzhousaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
   {
     "id": "mon_tyrannosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_spinosaurus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "tyrannosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
@@ -97,8 +101,8 @@
     "default_faction": "compsognathus_hatchling",
     "categories": [ "DINOSAUR" ],
     "species": [ "DINOSAUR" ],
-    "volume": "2 L",
-    "weight": "2 kg",
+    "volume": "50 ml",
+    "weight": "57 g",
     "hp": 2,
     "speed": 40,
     "material": [ "flesh" ],
@@ -133,7 +137,7 @@
   {
     "id": "mon_gallimimus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light green and yellow hatchling",
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
@@ -164,7 +168,7 @@
   {
     "id": "mon_anzu_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "green and magenta hatchling",
     "default_faction": "anzu_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_anzu_juvenile" },
@@ -181,7 +185,7 @@
   {
     "id": "mon_deinonychus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "red and green hatchling",
     "default_faction": "deinonychus_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_deinonychus_juvenile" }
@@ -189,10 +193,18 @@
   {
     "id": "mon_utahraptor_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "dark gray and white hatchling",
     "default_faction": "utahraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
+  },
+  {
+    "id": "mon_stenonychosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and white hatchling",
+    "default_faction": "stenonychosaurus_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_stenonychosaurus" }
   },
   {
     "id": "mon_eoraptor_hatchling",
@@ -209,55 +221,58 @@
     "type": "MONSTER",
     "name": "amargasaurus hatchling",
     "copy-from": "mon_gallimimus_hatchling",
+    "weight": "4 kg",
+    "volume": "4 L",
     "upgrades": { "age_grow": 50, "into": "mon_amargasaurus_juvenile" }
   },
   {
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_apatosaurus_juvenile" }
   },
   {
     "id": "mon_brontosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_brontosaurus_juvenile" }
   },
   {
     "id": "mon_diplodocus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" }
   },
   {
     "id": "mon_camarasaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_camarasaurus_juvenile" }
   },
   {
     "id": "mon_brachiosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_brachiosaurus_juvenile" }
   },
   {
     "id": "mon_alamosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_amargasaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_alamosaurus_juvenile" }
   },
   {
     "id": "mon_scutellosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_gallimimus_hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" }
   },
   {
@@ -394,7 +409,7 @@
   {
     "id": "mon_pteranodon_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light gray and yellow hatchling",
     "default_faction": "pteranodon_young",
     "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
@@ -402,7 +417,7 @@
   {
     "id": "mon_quetzalcoatlus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
     "name": "light gray and yellow hatchling",
     "default_faction": "quetzalcoatlus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
@@ -410,7 +425,7 @@
   {
     "id": "mon_mosasaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
+    "copy-from": "mon_spinosaurus_hatchling",
     "name": "mosasaurus hatchling",
     "description": "A tiny aquatic reptile hatchling with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",

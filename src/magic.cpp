@@ -669,7 +669,7 @@ std::string spell::damage_string() const
         }
     }
     if( has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-        damage_string = string_format( "%s%% %s", damage_string, _( "of current hp" ) );
+        damage_string = string_format( "%s%% %s", damage_string, _( "of current HP" ) );
     }
     return damage_string;
 }

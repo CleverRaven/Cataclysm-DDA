@@ -88,7 +88,7 @@
     "id": "dark_sight",
     "type": "SPELL",
     "name": "Dark Sight",
-    "description": "Gives you the power to see in the dark",
+    "description": "Gives you the power to see in the dark.",
     "message": "Your eyes glow green for a moment.  Now your sight can pierce the darkest shadows.",
     "valid_targets": [ "self" ],
     "effect": "attack",

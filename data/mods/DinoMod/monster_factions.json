@@ -306,6 +306,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "stenonychosaurus",
+    "base_faction": "small_predator",
+    "friendly": "stenonychosaurus_hatchling"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stenonychosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": "stenonychosaurus"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "dimorphodon",
     "base_faction": "small_fisher"
   },
