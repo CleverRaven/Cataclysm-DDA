@@ -3529,7 +3529,7 @@
     "qualities": [ [ { "id": "GRASS_CUT", "level": 1 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "4 m",
-    "byproducts": [ { "item": "straw_pile", "count": [ 1, 3 ] } ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
   },
@@ -3565,7 +3565,7 @@
     "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 s",
-    "byproducts": [ { "item": "straw_pile", "count": [ 3, 6 ] } ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 2, 4 ] } ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
   },
