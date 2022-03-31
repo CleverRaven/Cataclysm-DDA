@@ -1884,9 +1884,10 @@
     "difficulty": 4,
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 50 ], [ "fabric_standard_nostretch", 12 ], [ "fabric_neoprene", 12 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 33 ] ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
+	"components": [ [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "wetsuit_spring",
@@ -1898,9 +1899,10 @@
     "difficulty": 3,
     "time": "7 h 30 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 8 ], [ "fabric_neoprene", 8 ] ],
+    "using": [ [ "tailoring_neoprene_patchwork", 22 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ]
+    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
+	"components": [ [ [ "zipper_long_plastic", 1 ] ] ]
   },
   {
     "result": "wool_suit",
@@ -1912,7 +1914,7 @@
     "difficulty": 3,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ], [ "fabric_felt", 24 ] ]
+    "using": [ [ "tailoring_felt_patchwork", 14 ] ]
   },
   {
     "result": "yukata",
@@ -1924,7 +1926,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "book_learn": [ [ "tailor_japanese", 3 ] ],
-    "using": [ [ "sewing_standard", 18 ], [ "fabric_standard_nostretch", 16 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
     "result": "zentai",
@@ -1936,7 +1938,7 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 36 ], [ "fabric_lycra", 34 ] ],
+    "using": [ [ "tailoring_lycra_patchwork", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
@@ -1961,7 +1963,7 @@
     "difficulty": 5,
     "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -1978,7 +1980,7 @@
     "type": "recipe",
     "copy-from": "armor_lc_lightplate",
     "time": "40 d 16 h 19 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2036,7 +2038,7 @@
     "difficulty": 5,
     "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2053,7 +2055,7 @@
     "type": "recipe",
     "copy-from": "armor_mc_lightplate",
     "time": "40 d 16 h 19 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2111,7 +2113,7 @@
     "difficulty": 5,
     "time": "37 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "hc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "hc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2128,7 +2130,7 @@
     "type": "recipe",
     "copy-from": "armor_hc_lightplate",
     "time": "40 d 16 h 19 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2186,7 +2188,7 @@
     "difficulty": 6,
     "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2203,7 +2205,7 @@
     "type": "recipe",
     "copy-from": "armor_ch_lightplate",
     "time": "44 d 17 h 57 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
   },
@@ -2261,7 +2263,7 @@
     "difficulty": 7,
     "time": "41 d 9 h 36 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2279,7 +2281,7 @@
     "type": "recipe",
     "copy-from": "armor_qt_lightplate",
     "time": "46 d 18 h 46 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
@@ -2337,7 +2339,7 @@
     "difficulty": 6,
     "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2354,7 +2356,7 @@
     "type": "recipe",
     "copy-from": "armor_lc_plate",
     "time": "44 d 17 h 57 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2408,7 +2410,7 @@
     "difficulty": 6,
     "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2425,7 +2427,7 @@
     "type": "recipe",
     "copy-from": "armor_mc_plate",
     "time": "44 d 17 h 57 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2479,7 +2481,7 @@
     "difficulty": 6,
     "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "hc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "hc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2496,7 +2498,7 @@
     "type": "recipe",
     "copy-from": "armor_hc_plate",
     "time": "44 d 17 h 57 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2550,7 +2552,7 @@
     "difficulty": 7,
     "time": "43 d 13 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2567,7 +2569,7 @@
     "type": "recipe",
     "copy-from": "armor_ch_plate",
     "time": "49 d 5 h 20 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2621,7 +2623,7 @@
     "difficulty": 8,
     "time": "45 d 12 h 57 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2638,7 +2640,7 @@
     "type": "recipe",
     "copy-from": "armor_qt_plate",
     "time": "51 d 11 h 2 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2692,7 +2694,7 @@
     "difficulty": 7,
     "time": "43 d ",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2709,7 +2711,7 @@
     "type": "recipe",
     "copy-from": "armor_lc_heavyplate",
     "time": "48 d  19 h 35 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2767,7 +2769,7 @@
     "difficulty": 7,
     "time": "43 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2784,7 +2786,7 @@
     "type": "recipe",
     "copy-from": "armor_mc_heavyplate",
     "time": "43 d",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2842,7 +2844,7 @@
     "difficulty": 7,
     "time": "43 d",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "hc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 115 ], [ "hc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2859,7 +2861,7 @@
     "type": "recipe",
     "copy-from": "armor_hc_heavyplate",
     "time": "48 d  19 h 35 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "hc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2917,7 +2919,7 @@
     "difficulty": 8,
     "time": "47 d 12 h 28 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2934,7 +2936,7 @@
     "type": "recipe",
     "copy-from": "armor_ch_heavyplate",
     "time": "53 d 16 h 44 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
   },
@@ -2992,7 +2994,7 @@
     "difficulty": 9,
     "time": "49 d 16 h 19 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "fabric_leather_fur_hide", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 115 ], [ "mc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -3010,7 +3012,7 @@
     "type": "recipe",
     "copy-from": "armor_qt_heavyplate",
     "time": "56 d 3 h 19 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "fabric_leather_fur_hide", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },

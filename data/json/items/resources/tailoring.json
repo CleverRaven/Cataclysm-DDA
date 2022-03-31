@@ -96,8 +96,8 @@
     "name": { "str_sp": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "weight": "2 g",
-    "volume": "15 ml",
+    "weight": "1 g",
+    "volume": "6 ml",
     "material": [ "neoprene" ]
   },
   {
@@ -430,9 +430,9 @@
     "category": "spare_parts",
     "name": { "str": "neoprene sheet" },
     "description": "A sheet of neoprene, a synthetic rubber, suitable for making underwater gear.",
-    "weight": "51 g",
-    "volume": "464 ml",
-    "//": "250GSM, .25mm thick neoprene",
+    "weight": "26 g",
+    "volume": "186 ml",
+    "//": "110GSM, 1mm thick neoprene",
     "price": 5000,
     "price_postapoc": 100,
     "material": [ "neoprene" ],

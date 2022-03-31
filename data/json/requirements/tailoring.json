@@ -402,21 +402,21 @@
   {
     "id": "tailoring_neoprene",
     "type": "requirement",
-    "//": "45g per unit. Crafting neoprene items, per 51 g of neoprene; 6 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 60 minutes per unit if hand-stitching.",
+    "//": "25g per unit. Crafting neoprene items, per 26 g of neoprene; 1 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 60 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_neoprene", 1 ] ], [ [ "filament", 5, "LIST" ] ] ]
   },
   {
     "id": "tailoring_neoprene_patchwork",
     "type": "requirement",
-    "//": "45g per unit. Crafting possibly-patchwork neoprene items, per 51 g of neoprene; 6 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 60 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
+    "//": "25g per unit. Crafting possibly-patchwork neoprene items, per 26 g of neoprene; 1 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 60 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet).",
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_neoprene", 1 ], [ "sheet_neoprene_patchwork", 1 ] ], [ [ "filament", 5, "LIST" ] ] ]
   },
   {
     "id": "tailoring_neoprene_small",
     "type": "requirement",
-    "//": "5g per unit. Crafting possibly-patchwork neoprene items, per 6 g of neoprene; 1 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 30 minutes per unit if hand-stitching.",
+    "//": "3g per unit. Crafting possibly-patchwork neoprene items, per 3 g of neoprene; .5 g + excessive weight of material is wasted, producing neoprene scraps as byproducts.  Superglue and duct tape will usually be needed for extra waterproofing.  Time needed is usually 30 minutes per unit if hand-stitching.",
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 1 ] ], [ [ "filament", 3, "LIST" ] ] ]
   },
