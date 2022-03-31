@@ -147,8 +147,8 @@
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "components": [
       [ [ "leather", 1 ], [ "fur", 1 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "scrap_bronze", 5 ] ],
-      [ [ "stick", 2 ], [ "2x4", 1 ] ]
+      [ [ "scrap_bronze", 6 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ]
     ]
   },
   {
