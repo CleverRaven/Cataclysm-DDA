@@ -93,6 +93,9 @@ class translation
          *
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
+         *
+         * When adding other comparison functions, please also update
+         * `tools/clang-tidy-plugin/NoStaticTranslationCheck.cpp`.
          **/
         bool translated_lt( const translation &that ) const;
         bool translated_eq( const translation &that ) const;

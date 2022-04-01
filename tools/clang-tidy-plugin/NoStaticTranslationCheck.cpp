@@ -20,9 +20,17 @@ void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
         callExpr(
             hasAncestor( varDecl( hasStaticStorageDuration() ) ),
             callee(
-                functionDecl(
-                    hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
-                                "n_gettext", "npgettext" )
+                decl(
+                    anyOf(
+                        functionDecl(
+                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                                        "n_gettext", "npgettext" )
+                        ),
+                        cxxMethodDecl(
+                            ofClass( hasName( "translation" ) ),
+                            hasAnyName( "translated", "translated_eq", "translated_ne", "translated_lt" )
+                        )
+                    )
                 )
             )
         ).bind( "translationCall" ),
@@ -39,11 +47,8 @@ void NoStaticTranslationCheck::check( const MatchFinder::MatchResult &Result )
     }
     diag(
         translationCall->getBeginLoc(),
-        "Gettext calls in static variable initialization will cause text to be "
-        "untranslated (global static) or not updated when switching language "
-        "(local static). Consider using translation objects (to_translation() or pl_translation()) "
-        "or translate_marker(), and translate the text on demand "
-        "(with translation::translated() or gettext calls outside static vars)"
+        "Translation functions should not be called when initializing a static variable.  "
+        "See the `### Static string variables` section in `doc/TRANSLATING.md` for details."
     );
 }
 

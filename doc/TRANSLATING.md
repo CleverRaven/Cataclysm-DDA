@@ -311,6 +311,23 @@ you also need to update `extract_json_strings.py` and run `lang/update_pot.sh`
 to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
+### Static string variables
+
+Translation functions should not be called when initializing a static variable.
+For global static variables, calling these functions does nothing because the
+translation system is not yet initialized. For local static variables, the
+translation will only happen once and switching language in-game will not work
+properly. Consider using translation objects (`to_translation()` or `pl_translation()`)
+to mark the string for extraction and call `translation::translated()` on the
+fly to ensure the string is properly translated each time.
+
+Note if a string becomes translated in-game after you add a translation function
+call to the initialization of a global static variable, it usually means a
+translation call is already made when the string is used, and your newly added
+translation call happens to mark the string for extraction. In this case, using
+a translation object is also recommended to avoid calling the translation
+function twice.
+
 ### Recommendations
 
 In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper

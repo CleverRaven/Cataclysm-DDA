@@ -58,6 +58,11 @@ std::string npgettext( const std::string &, const std::string &, const std::stri
 class translation
 {
     public:
+        std::string translated( int num = 1 ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
+
         static translation to_translation( const std::string & );
         static translation to_translation( const std::string &, const std::string & );
         static translation pl_translation( const std::string &, const std::string & );
