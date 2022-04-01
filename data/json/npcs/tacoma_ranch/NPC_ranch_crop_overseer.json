@@ -28,7 +28,7 @@
           "and": [
             { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
             {
-              "not": { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
             }
           ]
         }
@@ -39,7 +39,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -57,7 +57,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD",
     "dynamic_line": {
-      "u_has_var": "purchased_field_1",
+      "npc_has_var": "purchased_field_1",
       "type": "dialogue",
       "context": "tacoma_ranch",
       "value": "yes",
@@ -76,7 +76,7 @@
           "and": [
             { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
             {
-              "not": { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
             }
           ]
         }
@@ -89,9 +89,9 @@
             { "and": [ { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] },
             {
               "and": [
-                { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+                { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
                 {
-                  "not": { "u_has_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+                  "not": { "npc_has_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
                 }
               ]
             }
@@ -101,7 +101,7 @@
       {
         "text": "I'm looking to expand my field…",
         "topic": "TALK_RANCH_CROP_OVERSEER_FIELD_ASK_CONVERT_FIELD",
-        "condition": { "u_has_any_trait": [ "NPC_CONSTRUCTION_LEV_1", "NPC_CONSTRUCTION_LEV_2" ] }
+        "condition": { "npc_has_any_trait": [ "NPC_CONSTRUCTION_LEV_1", "NPC_CONSTRUCTION_LEV_2" ] }
       },
       {
         "text": "I'd like to plant some seeds…",
@@ -109,7 +109,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -119,7 +119,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+            { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
           ]
         }
       },
@@ -148,7 +148,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_sell_item": "FMCNote", "count": 350 },
-          { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
           {
             "u_message": "<npc_name> jots your name down on a ledger and yells out to nearby laborers to begin plowing your new field.",
@@ -186,9 +186,9 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_UPGRADE_FENCE",
         "condition": {
           "and": [
-            { "u_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+            { "npc_has_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
             {
-              "not": { "u_has_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+              "not": { "npc_has_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
             }
           ]
         }
@@ -208,7 +208,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_sell_item": "FMCNote", "count": 200 },
-          { "u_add_trait": "NPC_CONSTRUCTION_LEV_2" },
+          { "npc_add_trait": "NPC_CONSTRUCTION_LEV_2" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy", "om_terrain": "ranch_camp_63" },
           {
             "u_message": "After counting your money, <npc_name> directs a nearby laborer to begin constructing a fence around your plot…",
@@ -242,7 +242,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_sell_item": "FMCNote", "count": 300 },
-          { "u_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "npc_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence", "om_terrain": "ranch_camp_63" },
           {
             "u_message": "After counting your money, <npc_name> directs a nearby laborer to begin constructing a fence around your plot…",
@@ -268,7 +268,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD_ASK_CONVERT_FIELD",
-    "dynamic_line": "We can plow some more land around your field to give you room for up to 144 plants, but you're going to lose anything you already have planted.  Still interested?",
+    "dynamic_line": {
+      "npc_has_trait": "NPC_CONSTRUCTION_LEV_2",
+      "yes": "We can plow some more land around your field to give you room for more plants, but you're going to lose anything you already have planted.  The fence will also get moved and expanded.  Everything can be done for 200 merch.  Still interested?",
+      "no": "We can plow some more land around your field to give you room for more plants, but you're going to lose anything you already have planted.  It'll cost 100 merch to expand.  Still interested?"
+    },
     "responses": [
       {
         "text": "[200 merch] Yeah, let's do it.",
@@ -278,8 +282,10 @@
           { "u_sell_item": "FMCNote", "count": 200 },
           { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
           { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_2" },
-          { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
-          { "u_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "npc_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_legacy_clear", "om_terrain": "ranch_camp_63" },
+          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy_clear", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence", "om_terrain": "ranch_camp_63" }
         ]
@@ -297,7 +303,8 @@
         "effect": [
           { "u_sell_item": "FMCNote", "count": 100 },
           { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
-          { "u_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
+          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_legacy_clear", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" }
         ]
       },
