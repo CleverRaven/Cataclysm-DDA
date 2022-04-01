@@ -917,7 +917,6 @@
     "longest_side": "22 cm",
     "price": 50,
     "price_postapoc": 50,
-    "bashing": 2,
     "cutting": 10,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "uneven" },
     "material": [ "steel" ],
