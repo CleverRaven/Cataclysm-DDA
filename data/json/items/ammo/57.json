@@ -23,7 +23,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "ss_57mm",
+    "id": "57mm_ss",
     "copy-from": "57mm",
     "type": "AMMO",
     "name": { "str_sp": "5.7x28mm SB193" },
