@@ -3591,7 +3591,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 if( !covered.empty() ) {
-                    std::vector<translation> to_print = sub_body_part_type::consolidate( covered );
+                    std::set<translation> to_print = body_part_type::consolidate( covered );
                     for( const translation &entry : to_print ) {
                         coverage += string_format( _( " The <info>%s</info>." ), entry );
                     }
@@ -3620,7 +3620,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     }
                 }
                 if( !covered.empty() ) {
-                    std::vector<translation> to_print = sub_body_part_type::consolidate( covered );
+                    std::set<translation> to_print = body_part_type::consolidate( covered );
                     for( const translation &entry : to_print ) {
                         coverage += string_format( _( " The <info>%s</info>." ), entry );
                     }
