@@ -904,6 +904,27 @@
     "category": "weapons"
   },
   {
+    "id": "karambit",
+    "type": "TOOL",
+    "name": { "str": "karambit" },
+    "description": "A traditional Indonesian small knife.  This one is sharp and could be an effective weapon.",
+    "looks_like": "kirpan",
+    "weight": "153 g",
+    "volume": "260 ml",
+    "longest_side": "22 cm",
+    "price": 50,
+    "price_postapoc": 50,
+    "cutting": 10,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "uneven" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
     "id": "kirpan",
     "type": "TOOL",
     "name": { "str": "kirpan" },
