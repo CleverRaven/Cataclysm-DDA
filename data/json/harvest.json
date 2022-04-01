@@ -30,6 +30,11 @@
     "entries": [ { "drop": "carrot_wild" } ]
   },
   {
+    "id": "jerusalem_artichoke_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "jerusalem_artichoke", "base_num": [ 1, 3 ] } ]
+  },
+  {
     "id": "wild_sarsaparilla_harv",
     "type": "harvest",
     "entries": [ { "drop": "wild_sarsaparilla_root" } ]

@@ -1225,6 +1225,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "jerusalem_artichoke_sauteed",
+    "name": { "str": "sauteed jerusalem artichoke" },
+    "copy-from": "jerusalem_artichoke",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "description": "Most of its inulin has been converted into fructose after cooking and it now tastes plesantly sweet.",
+    "price": 0,
+    "healthy": 0,
+    "calories": 120,
+    "delete": { "flags": [ "RAW" ] },
+    "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
+    "fun": 1,
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 11 ], [ "vitC", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cooked_bell_pepper",
     "name": { "str": "cooked bell pepper" },
     "copy-from": "bell_pepper",
