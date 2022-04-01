@@ -86,6 +86,46 @@
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "cloak_vampire",
+    "type": "ARMOR",
+    "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },
+    "description": "A black and red sinister looking hooded cloak meant to be thrown over your body.  Its currently showing the black side in the exterior.  Use it to reverse it and show the red side.",
+    "weight": "150 g",
+    "volume": "2500 ml",
+    "price": 10800,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cloack",
+    "color": "black",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "FANCY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "use_action": {
+      "type": "transform",
+      "msg": "Your cloak is now bathed in blood.",
+      "target": "cloak_vampire_red",
+      "menu_text": "Reverse the colors"
+    }
+  },
+  {
+    "id": "cloak_vampire_red",
+    "copy-from": "cloak_vampire",
+    "type": "ARMOR",
+    "name": { "str": "sinister cloak (red)", "str_pl": "sinister cloaks (red)" },
+    "description": "A red and black sinister looking hooded cloak meant to be thrown over your body.  Its currently showing the red side in the exterior.  Use it to reverse it and show the black side.",
+    "color": "red",
+    "use_action": {
+      "type": "transform",
+      "msg": "Your cloak is now one with the night.",
+      "target": "cloak_vampire",
+      "menu_text": "Reverse the colors"
+    }
+  },
+  {
     "id": "cloak_fur",
     "type": "ARMOR",
     "name": { "str": "fur cloak" },

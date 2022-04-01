@@ -1756,7 +1756,10 @@
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
     "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
-    "description": "A pair of shiny ruby and silver earrings."
+    "description": "A pair of shiny ruby and silver earrings.",
+    "snippet_category": [
+      { "id": "vampire_earring", "text": "A pair of blood looking ruby and silver earrings, adorned with sinister motifs." }
+    ]
   },
   {
     "id": "peridot_silver_earring",
@@ -2112,7 +2115,13 @@
     "copy-from": "garnet_silver_ring",
     "type": "ARMOR",
     "name": { "str": "ruby and silver ring" },
-    "description": "A silver ring with a ruby mounted on top of it."
+    "description": "A silver ring with a ruby mounted on top of it.",
+    "snippet_category": [
+      {
+        "id": "vampire_ring",
+        "text": "A silver ring with a sinister claw clutching a blood looking ruby mounted on top of it."
+      }
+    ]
   },
   {
     "id": "peridot_silver_ring",
@@ -2845,7 +2854,8 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "ruby and silver pendant necklace" },
-    "description": "A shiny, silver necklace adorned with a ruby pendant."
+    "description": "A shiny, silver necklace adorned with a ruby pendant.",
+    "snippet_category": [ { "id": "vampire_necklace", "text": "A sinister silver necklace adorned with a blood looking ruby pendant." } ]
   },
   {
     "id": "peridot_silver_pendant_necklace",
@@ -3327,7 +3337,8 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "ruby and silver tiara" },
-    "description": "A shiny, silver tiara adorned with rubies."
+    "description": "A shiny, silver tiara adorned with rubies.",
+    "snippet_category": [ { "id": "vampire_tiara", "text": "A sinister dark silver tiara adorned with blood looking rubies." } ]
   },
   {
     "id": "peridot_silver_tiara",

@@ -340,6 +340,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "sinister_cane",
+    "name": { "str": "sinister cane" },
+    "description": "A sinister looking cane made of plastic.  It has a shiny red orb gripped by claws at the handle.",
+    "copy-from": "cane",
+    "weight": "91 g",
+    "color": "red",
+    "symbol": "/",
+    "material": [ "plastic" ],
+    "bashing": 2,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "price_postapoc": 10,
+    "extend": { "flags": [ "FRAGILE_MELEE" ] }
+  },
+  {
+    "type": "GENERIC",
     "id": "makeshift_cane",
     "name": { "str": "makeshift walking cane" },
     "description": "An improvised cane.  It also works as a basic bashing weapon in a pinch.",

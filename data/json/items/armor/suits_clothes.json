@@ -132,6 +132,106 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "ghost_robe",
+    "repairs_like": "cloak",
+    "type": "ARMOR",
+    "name": { "str": "ghost's robe" },
+    "description": "A white hooded ghost's robe characteristic of souls haunting the living world.",
+    "weight": "348 g",
+    "volume": "500 ml",
+    "price": 2800,
+    "price_postapoc": 80,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "white",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 2 }
+    ],
+    "warmth": 8,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "ghost_robe_sheet",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "cheap ghost's robe" },
+    "description": "A cheap ghost's robe made with a white sheet and with some cuts for the eyes.  It uses a simple hat for keeping the costume in place.",
+    "weight": "880 g",
+    "volume": "550 ml",
+    "price": 2000,
+    "price_postapoc": 60,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sheet",
+    "color": "white",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 2 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80 },
+      { "covers": [ "eyes" ], "coverage": 5, "encumbrance": 1 }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "grim_reaper_robe",
+    "repairs_like": "cloak",
+    "type": "ARMOR",
+    "name": { "str": "grim reaper's robe" },
+    "description": "A black hooded grim reaper's robe with a face cover to hide the lack of facial skin of the user.  It combines nicely with a scythe.  Use it to remove the face cover and show yourself before your victims.",
+    "weight": "453 g",
+    "volume": "550 ml",
+    "price": 3500,
+    "price_postapoc": 90,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cloak",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "mouth", "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 2 }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "The darkness surrounding your face lightens.",
+      "target": "grim_reaper_robe_faceless",
+      "menu_text": "Remove face cover"
+    },
+    "warmth": 10,
+    "material_thickness": 0.1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "grim_reaper_robe_faceless",
+    "copy-from": "grim_reaper_robe",
+    "type": "ARMOR",
+    "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
+    "description": "A black hooded grim reaper's robe with the face cover removed to show the lack of facial skin of the user.  It combines nicely with a scythe.  Use it to adjust the face cover in place and hide your lack of facial features.",
+    "use_action": {
+      "type": "transform",
+      "msg": "You shroud your face in darkness.",
+      "target": "grim_reaper_robe",
+      "menu_text": "Adjust face cover"
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 2 }
+    ]
+  },
+  {
     "id": "jumpsuit",
     "type": "ARMOR",
     "name": { "str": "jumpsuit" },
@@ -198,6 +298,56 @@
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": { "str": "skeleton jumpsuit" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion too.",
+    "weight": "939 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 60,
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You now have a skull as head.",
+      "target": "jumpsuit_skeleton_zipped",
+      "menu_text": "Zip the head portion"
+    },
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "extend": { "flags": [ "HOOD" ] }
+  },
+  {
+    "id": "jumpsuit_skeleton_zipped",
+    "copy-from": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "name": { "str": "skeleton jumpsuit (zipped)", "str_pl": "skeleton jumpsuits (zipped)" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It covers all the way up to your head and gives a skull pattern to your face.  Use it to unzip the head portion.",
+    "use_action": {
+      "type": "transform",
+      "msg": "You facial skin is now visible.",
+      "target": "jumpsuit_skeleton",
+      "menu_text": "Unzip the head portion"
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 100, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ]
   },
   {
     "id": "robofac_jumpsuit",
