@@ -111,7 +111,7 @@
   {
     "id": "lf_milk_standard",
     "type": "requirement",
-    "//": "Any kind of lactose-free plant-based milk.",
+    "//": "Any kind of lactose-free plant-based milk. Not for use in fermentation recipes.",
     "components": [ [ [ "soy_milk", 1 ], [ "almond_milk", 1 ] ] ]
   },
   {
