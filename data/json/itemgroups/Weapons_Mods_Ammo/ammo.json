@@ -83,7 +83,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
-      { "item": "ss_57mm", "prob": 15 },
+      { "item": "57mm_ss", "prob": 15 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
