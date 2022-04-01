@@ -14,7 +14,7 @@ add_library(CataAnalyzerPlugin MODULE
         JsonTranslationInputCheck.cpp
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
-        NoStaticGettextCheck.cpp
+        NoStaticTranslationCheck.cpp
         OtMatchCheck.cpp
         PointInitializationCheck.cpp
         RedundantParenthesesCheck.cpp

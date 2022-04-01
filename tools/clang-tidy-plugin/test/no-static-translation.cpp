@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy %s cata-no-static-translation %t -- -plugins=%cata_plugin -- -I %test_include
 
 #include "mock-translation.h"
 
@@ -8,7 +8,7 @@ class foo
         foo( const char *, const char * );
 };
 
-// ok, doesn't contain gettext calls
+// ok, doesn't contain translation calls
 const std::string global_str_0 = "global_str_0";
 
 const std::string global_str_1 = _( "global_str_1" );
@@ -68,7 +68,7 @@ class bar
         static const std::string class_static_str1;
 };
 
-// ok, no gettext call
+// ok, no translation call
 const std::string bar::class_static_str0 = "class_static_str0";
 
 const std::string bar::class_static_str1 = _( "class_static_str1" );
