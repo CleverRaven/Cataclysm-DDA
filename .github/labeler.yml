@@ -28,6 +28,13 @@
   - "**/CMakeLists.txt"
   - "**/*.cmake"
 
+"Crafting / Construction / Recipes":
+  - data/json/recipes/**/*
+  - data/json/construction.json
+  - data/json/construction_category.json
+  - data/json/construction_group.json
+  - data/json/deconstruction.json
+
 "NPC / Factions":
   - data/json/npcs/**/*
 
@@ -81,3 +88,6 @@
 
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
+
+"Mods":
+  - data/mods/**/*
