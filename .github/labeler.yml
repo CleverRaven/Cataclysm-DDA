@@ -86,6 +86,9 @@
 "Mods: Magiclysm":
   - data/mods/Magiclysm/**/*
 
+"Mods: Innawood 🌲":
+  -data/mods/innawood/**/*
+
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
