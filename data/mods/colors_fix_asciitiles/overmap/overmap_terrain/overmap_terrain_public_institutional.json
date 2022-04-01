@@ -193,7 +193,7 @@
     "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0" ],
     "name": "town hall",
     "sym": "^",
-    "color": "black",
+    "color": "white",
     "see_cost": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -202,7 +202,7 @@
     "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1" ],
     "name": "town hall",
     "sym": "^",
-    "color": "black",
+    "color": "white",
     "see_cost": 2,
     "mondensity": 2
   },
@@ -211,7 +211,7 @@
     "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
     "name": "town hall",
     "sym": "^",
-    "color": "black",
+    "color": "white",
     "see_cost": 2,
     "mondensity": 1
   }
