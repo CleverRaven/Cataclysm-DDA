@@ -85,7 +85,7 @@
     "description": "This is a large sheet of flexible plastic, the sort that might have been used for commercial wrapping or for weather-sealing a home.",
     "weight": "24 g",
     "volume": "23 ml",
-    "//": "Based on a density around 1.05 grams/mL, like PLA and ABS"
+    "//": "Based on a density around 1.05 grams/mL, like PLA and ABS",
     "price": 0,
     "price_postapoc": 25,
     "material": [ "plastic" ],
