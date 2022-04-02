@@ -4,6 +4,7 @@
     "type": "mission_definition",
     "name": { "str": "Break into armory to retrieve valued possession" },
     "copy-from": "MISSION_GET_CITY_COP_MOMENTO",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 10,
     "value": 1000000,
     "dialogue": {
