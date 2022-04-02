@@ -1,0 +1,184 @@
+[
+  {
+    "id": "boots_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
+    "description": "Boots lined with glimmer fur for warmth.",
+    "copy-from": "boots_fur",
+    "price": 19000,
+    "price_postapoc": 1750,
+    "material": [ "leather", "fae_fur" ],
+    "color": "brown_red",
+    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "xl_boots_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL glimmer fur boots", "str_pl": "pairs of XL glimmer fur boots" },
+    "copy-from": "boots_glimmer_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_glimmer_fur",
+    "type": "ARMOR",
+    "copy-from": "boots_glimmer_fur",
+    "looks_like": "boots_glimmer_fur",
+    "name": { "str": "pair of XS glimmer fur boots", "str_pl": "pairs of XS glimmer fur boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "cloak_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur cloak" },
+    "description": "A heavy glimmer fur cloak meant to be thrown over your body.  The shimmering nature of the fur made these garments coveted before the Cataclysm.",
+    "copy-from": "cloak_fur",
+    "price": 34500,
+    "price_postapoc": 2750,
+    "material": [ "fae_fur" ],
+    "color": "brown_red",
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "coat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur coat" },
+    "description": "A glimmer fur coat with a couple small pockets.  Extremely warm and very rare before the Cataclysm.",
+    "copy-from": "coat_fur",
+    "price": 65000,
+    "price_postapoc": 900,
+    "material": [ "fae_fur", "cotton" ],
+    "color": "brown_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 26, 26 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 80,
+    "material_thickness": 2,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "xl_coat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL glimmer fur coat" },
+    "copy-from": "coat_glimmer_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_coat_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_glimmer_fur",
+    "looks_like": "coat_glimmer_fur",
+    "name": { "str": "XS glimmer fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "duster_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur duster" },
+    "description": "A thick glimmer fur full-length duster.  Has many pockets for storage.  Shimmers in direct sunlight and would have been fancy clothing prior to the Cataclysm.",
+    "copy-from": "duster_fur",
+    "price": 197900,
+    "price_postapoc": 2500,
+    "material": [ "fae_fur" ],
+    "color": "brown_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
+  },
+  {
+    "id": "xl_duster_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL glimmer fur duster" },
+    "copy-from": "duster_glimmer_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_duster_glimmer_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_glimmer_fur",
+    "looks_like": "duster_glimmer_fur",
+    "name": { "str": "XS glimmer fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  }
+]

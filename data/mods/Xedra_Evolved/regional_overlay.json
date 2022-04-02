@@ -24,24 +24,6 @@
           "mx_prison_bus": 150
         }
       }
-    },
-    "forest_trail_settings": {
-      "chance": 2,
-      "border_point_chance": 2,
-      "minimum_forest_size": 100,
-      "random_point_min": 4,
-      "random_point_max": 50,
-      "random_point_size_scalar": 100,
-      "trailhead_chance": 1,
-      "trailhead_road_distance": 6,
-      "trail_center_variance": 3,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 },
-      "chance": 5,
-      "extras": { "mx_golden_monolith": 1 },
-      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     }
   }
 ]

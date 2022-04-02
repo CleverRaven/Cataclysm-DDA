@@ -1,0 +1,48 @@
+[
+  {
+    "id": "faewild",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "faewild dust" },
+    "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 2500,
+    "charges": 5,
+    "stack_size": 100,
+    "symbol": ":",
+    "color": "pink",
+    "stim": 20,
+    "fun": 25,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You rub the glittering dust into your gums.",
+      "effects": [ { "id": "faewild", "duration": 3600 } ]
+    }
+  },
+  {
+    "id": "lotus_blossom",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "lotus blossom" },
+    "description": "A drug that became popular over the last few years before the cataclysm.  It appears to be exactly as it's street name, a dark purple lotus blossum.  It's known to be a strong painkiller while also causing vivid hallucinations.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 2500,
+    "charges": 5,
+    "stack_size": 100,
+    "symbol": "*",
+    "color": "purple",
+    "stim": -20,
+    "fun": 45,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You eat the purple lotus blossom.",
+      "effects": [ { "id": "hallu", "duration": 900 }, { "id": "pkill3", "duration": 180 }, { "id": "pkill2", "duration": 600 } ]
+    }
+  }
+]

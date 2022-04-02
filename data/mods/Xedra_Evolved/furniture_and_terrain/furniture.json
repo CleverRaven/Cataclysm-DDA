@@ -10,9 +10,10 @@
     "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.",
     "light_emitted": 15,
     "emissions": [ "emit_changeling_mist" ],
+    "required_str": -1,
     "bash": {
-      "str_min": 30,
-      "str_max": 160,
+      "str_min": 600,
+      "str_max": 860,
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]

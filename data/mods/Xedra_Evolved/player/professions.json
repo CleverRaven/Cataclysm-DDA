@@ -12,9 +12,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "diazepam_scrip",
-    "entries": [
-      { "item": "diazepam", "container_item": "bottle_plastic_pill_prescription", "charges": 20 }
-    ]
+    "entries": [ { "item": "diazepam", "container_item": "bottle_plastic_pill_prescription", "charges": 20 } ]
   },
   {
     "type": "profession",

@@ -11,12 +11,14 @@
         "intensity_upgrade_chance": 10,
         "intensity_upgrade_duration": "6 hours"
       },
-      { "name": "nauseating tension", "color": "cyan",
+      {
+        "name": "nauseating tension",
+        "color": "cyan",
         "monster_spawn_chance": 200,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
         "monster_spawn_group": "GROUP_CHANGELING_MIRRORED_FIELD"
-       },
+      },
       {
         "name": "broken reflections",
         "color": "magenta_yellow",

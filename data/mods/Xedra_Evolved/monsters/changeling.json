@@ -176,7 +176,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "demihuman",
-    "special_attacks": [ { "id": "sharp_objects", "attack_upper": false, "cooldown": 15 } ],
+    "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 } ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
