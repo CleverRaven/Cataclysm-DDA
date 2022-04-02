@@ -3759,7 +3759,12 @@
     "price": 2800,
     "price_postapoc": 1400,
     "to_hit": -3,
-    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "armored_welding_mask_raised", "menu_text": "Raise" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You push your %s up your head.",
+      "target": "armored_welding_mask_raised",
+      "menu_text": "Raise"
+    },
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 } ],
     "symbol": "[",
     "color": "dark_gray",
