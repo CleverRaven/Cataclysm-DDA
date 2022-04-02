@@ -783,7 +783,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id, str.translated( base_camps::recover_ally_string )
+            mission_key.add_return( miss_id, base_camps::recover_ally_string.translated()
                                     + dir_abbr + str.translated( base_camps::expansion_string ),
                                     entry, avail );
         }
