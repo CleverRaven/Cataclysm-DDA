@@ -1814,6 +1814,7 @@
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
+    "repairs_like": "UPS_off",
     "weight": "1020 g",
     "volume": "1 L",
     "to_hit": -3,
@@ -1843,7 +1844,7 @@
   {
     "id": "goggles_nv_on",
     "copy-from": "goggles_nv",
-    "repairs_like": "goggles_nv",
+    "repairs_like": "UPS_off",
     "type": "TOOL_ARMOR",
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
@@ -1868,6 +1869,7 @@
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
+    "repairs_like": "UPS_off",
     "weight": "1240 g",
     "volume": "1 L",
     "to_hit": -3,
@@ -1897,7 +1899,7 @@
   {
     "id": "goggles_ir_on",
     "copy-from": "goggles_ir",
-    "repairs_like": "goggles_ir",
+    "repairs_like": "UPS_off",
     "type": "TOOL_ARMOR",
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
