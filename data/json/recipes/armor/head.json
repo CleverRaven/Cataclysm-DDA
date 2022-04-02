@@ -2775,7 +2775,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "1 h 12 m",
-    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "welding_mask", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ]
