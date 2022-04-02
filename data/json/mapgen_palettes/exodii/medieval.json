@@ -33,7 +33,7 @@
       "c": [ "f_metal_crate_r", "f_metal_crate_c" ],
       "C": [ "f_metal_crate_r", "f_metal_crate_c" ],
       "g": "f_capacitor",
-	  "S": "f_exodii_directions_sign",
+      "S": "f_exodii_directions_sign",
       "{": "f_ground_cable",
       ".": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ] ],
       ",": [ [ "f_null", 2000 ], [ "f_rubble_rock", 100 ], [ "f_boulder_small", 12 ], "f_boulder_medium" ]
