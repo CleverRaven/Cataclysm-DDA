@@ -3760,7 +3760,7 @@
     "price_postapoc": 1400,
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "tagilla_mask_raised", "menu_text": "Raise" },
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 }
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 },
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 5,
@@ -3786,7 +3786,7 @@
     "price_postapoc": 1400,
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You push your %s back down.", "target": "tagilla_mask", "menu_text": "Lower" },
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 }
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 },
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 5,
