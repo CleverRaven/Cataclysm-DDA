@@ -177,7 +177,7 @@
     "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us six liters of anesthetic, we'll fix you up with a wire and everything.",
     "responses": [
       {
-        "text": "Two, uh, anesthetic kits, coming up.  Can we talk about something else?",
+        "text": "Six liters of, uh, anesthetic, coming up.  Can we talk about something else?",
         "condition": {
           "not": {
             "or": [
@@ -190,7 +190,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "Two, uh, anesthetic kits, coming up.  I'd better start looking.",
+        "text": "Six liters of, uh, anesthetic, coming up.  I'd better start looking.",
         "condition": {
           "not": {
             "or": [
