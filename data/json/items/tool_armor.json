@@ -3748,7 +3748,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   },
   {
-    "id": "tagilla_mask",
+    "id": "armored_welding_mask",
     "repairs_like": "goggles_swim",
     "looks_like": "welding_mask_crude",
     "type": "TOOL_ARMOR",
@@ -3759,7 +3759,7 @@
     "price": 2800,
     "price_postapoc": 1400,
     "to_hit": -3,
-    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "tagilla_mask_raised", "menu_text": "Raise" },
+    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "armored_welding_mask_raised", "menu_text": "Raise" },
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 } ],
     "symbol": "[",
     "color": "dark_gray",
@@ -3774,7 +3774,7 @@
     ]
   },
   {
-    "id": "tagilla_mask_raised",
+    "id": "armored_welding_mask_raised",
     "repairs_like": "goggles_swim",
     "looks_like": "welding_mask_crude_raised",
     "type": "TOOL_ARMOR",
@@ -3785,7 +3785,7 @@
     "price": 2800,
     "price_postapoc": 1400,
     "to_hit": -3,
-    "use_action": { "type": "transform", "msg": "You push your %s back down.", "target": "tagilla_mask", "menu_text": "Lower" },
+    "use_action": { "type": "transform", "msg": "You push your %s back down.", "target": "armored_welding_mask", "menu_text": "Lower" },
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 } ],
     "symbol": "[",
     "color": "dark_gray",
