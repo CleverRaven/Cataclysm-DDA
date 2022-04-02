@@ -142,6 +142,11 @@ proficiency_id proficiency::prof_id() const
     return id;
 }
 
+proficiency_category_id proficiency::prof_category() const
+{
+    return _category;
+}
+
 std::string proficiency::name() const
 {
     return _name.translated();

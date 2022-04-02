@@ -96,6 +96,7 @@ class proficiency
         bool can_learn() const;
         bool ignore_focus() const;
         proficiency_id prof_id() const;
+        proficiency_category_id prof_category() const;
         std::string name() const;
         std::string description() const;
 
