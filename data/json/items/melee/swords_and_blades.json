@@ -922,7 +922,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [  "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
