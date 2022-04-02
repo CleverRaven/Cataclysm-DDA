@@ -10,7 +10,7 @@
     "longest_side": "40 cm",
     "price": 23000,
     "price_postapoc": 3000,
-    "//": "should be very innacurate and hard to aim by comparison.  Setting handling to that of pistols",
+    "//": "should be very inaccurate and hard to aim by comparison.  Setting handling to that of pistols",
     "handling": 10,
     "relative": {
       "range": -30,
@@ -28,9 +28,9 @@
   {
     "id": "pulverizer",
     "copy-from": "hammer_sledge",
-    "name": { "str": "the Pulverizer" },
+    "name": { "str": "the Disorder" },
     "type": "GENERIC",
-    "description": "A large, heavy hammer converted for use as a weapon.  Has a notable safety on the side and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off the blanks are engaged sending a moving piston forward causing massive damage.",
+    "description": "A large, heavy hammer converted for use as a weapon.  Has a notable safety on the side and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off the blanks are engaged sending a moving piston forward causing massive damage.  Etched into the head are the words 'she's lost control'.",
     "proportional": { "weight": 1.2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "powder_blank": 1 } } ],
     "extend": { "flags": [ "RELOAD_EJECT" ] },
@@ -58,7 +58,7 @@
   {
     "id": "bring_the_sun",
     "type": "SPELL",
-    "name": { "str": "Ignite gasoline" },
+    "name": { "str": "Ignite Gasoline" },
     "description": "Releases a blast of ignited gasoline directly in front of you.",
     "effect": "attack",
     "shape": "cone",

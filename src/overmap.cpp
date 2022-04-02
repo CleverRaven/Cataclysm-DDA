@@ -1212,7 +1212,7 @@ struct fixed_overmap_special_data : overmap_special_data {
 
             // If the connection has a "from" hint specified, then figure out what the
             // resulting direction from the hinted location to the connection point is,
-            // and use that as the intial direction to be passed off to the connection
+            // and use that as the initial direction to be passed off to the connection
             // building code.
             if( elem.from ) {
                 const direction calculated_direction = direction_from( *elem.from, elem.p );
@@ -1660,7 +1660,7 @@ struct mutable_overmap_placement_rule {
                     } else if( opposite_om_join->second.join_id != opposite_join ) {
                         debugmsg( "in phase of %s, %s has adjacent pieces %s at %s and %s at "
                                   "%s where the former has a join %s pointed towards the latter, "
-                                  "expecting a matching join %s wheras the latter has the join %s "
+                                  "expecting a matching join %s whereas the latter has the join %s "
                                   "pointed towards the former",
                                   context, description(), piece.overmap_id, piece.pos.to_string(),
                                   other_piece.overmap_id, other_piece.pos.to_string(),
@@ -1802,7 +1802,7 @@ class joins_tracker
                 if( unresolved.any_at( j_pos ) ) {
                     std::vector<iterator> unr = unresolved.all_at( j_pos );
                     if( unr.empty() ) {
-                        cata_fatal( "inconcistency between all_at and any_at" );
+                        cata_fatal( "inconsistency between all_at and any_at" );
                     } else {
                         const join &unr_j = *unr.front();
                         cata_fatal( "postponed and unresolved should be disjoint but are not at "
@@ -4860,10 +4860,14 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     //Normally distribute shops and parks
     //Clamp at 1/2 radius to prevent houses from spawning in the city center.
     //Parks are nearly guaranteed to have a non-zero chance of spawning anywhere in the city.
-    int shop_normal = std::max( static_cast<int>( normal_roll( shop_radius, shop_sigma ) ),
-                                shop_radius );
-    int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
-                                park_radius );
+    int shop_normal = shop_radius;
+    if( shop_sigma > 0 ) {
+        shop_normal = std::max( shop_normal, static_cast<int>( normal_roll( shop_radius, shop_sigma ) ) );
+    }
+    int park_normal = park_radius;
+    if( park_sigma > 0 ) {
+        park_normal = std::max( park_normal, static_cast<int>( normal_roll( park_radius, park_sigma ) ) );
+    }
 
     if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
@@ -5375,7 +5379,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
                 }
             }
 
-            //Stop roads from running right next to eachother
+            //Stop roads from running right next to each other
             if( collisions >= 3 ) {
                 collided = true;
                 break;

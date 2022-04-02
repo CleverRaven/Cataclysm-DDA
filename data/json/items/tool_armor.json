@@ -30,8 +30,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "wood", "cotton" ],
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ],
-    "armor": [ { "encumbrance": 140 } ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
     "id": "arm_xs_splint",
@@ -44,8 +43,7 @@
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 50,
-    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ],
-    "armor": [ { "encumbrance": 35 } ]
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
     "id": "tourniquet_upper",
@@ -186,8 +184,7 @@
     "symbol": ";",
     "color": "light_gray",
     "material_thickness": 1,
-    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ],
-    "armor": [ { "coverage": 1 } ]
+    "flags": [ "DEAF", "OVERSIZE", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "gobag",
@@ -256,8 +253,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "wood", "cotton" ],
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 140, "coverage": 75, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "leg_xs_splint",
@@ -269,8 +265,7 @@
     "volume": "500 ml",
     "price": 25000,
     "price_postapoc": 50,
-    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ],
-    "armor": [ { "encumbrance": 35 } ]
+    "flags": [ "UNDERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "miner_hat",
@@ -1347,7 +1342,7 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 30, "coverage": 75 } ]
+    "armor": [ { "encumbrance": 30, "coverage": 75, "covers": [ "mouth" ] } ]
   },
   {
     "id": "rebreather_xs_on",
@@ -1362,7 +1357,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xs" },
     "covers": [ "mouth" ],
     "environmental_protection": 15,
-    "armor": [ { "encumbrance": 20 } ]
+    "armor": [ { "encumbrance": 20, "coverage": 75, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_filter",
@@ -2844,7 +2839,7 @@
     "price": 200,
     "price_postapoc": 50,
     "material": [ "steel", "cotton" ],
-    "flags": [ "WATER_FRIENDLY" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "symbol": "[",
     "use_action": {
       "type": "manualnoise",
@@ -2857,7 +2852,7 @@
       "noise": 38,
       "moves": 100
     },
-    "armor": [ { "coverage": 1 } ]
+    "armor": [ { "coverage": 1, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "id": "powered_earmuffs",
@@ -2960,8 +2955,7 @@
       "need_charges_msg": "The earplugs's batteries are dead."
     },
     "material_thickness": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
-    "armor": [ { "coverage": 1 } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
   },
   {
     "id": "powered_earplugs_on",

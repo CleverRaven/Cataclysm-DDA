@@ -2899,7 +2899,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             act->set_to_null();
 
             if( u_see ) {
-                add_msg( m_bad, _( "The autodoc suffers a catastrophic failure." ) );
+                add_msg( m_bad, _( "The Autodoc suffers a catastrophic failure." ) );
 
                 you->add_msg_player_or_npc( m_bad,
                                             _( "The Autodoc's failure damages you greatly." ),

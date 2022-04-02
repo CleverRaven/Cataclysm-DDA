@@ -3422,7 +3422,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                                get_base_env_resist( *this ) );
             printed_any = true;
         }
-        // if we haven't printed any armor data acknowlege that
+        // if we haven't printed any armor data acknowledge that
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
@@ -3569,6 +3569,48 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         info.emplace_back( "ARMOR", coverage );
+    }
+
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
+        // if the item has no armor data it doesn't cover that part
+        const islot_armor *armor = find_armor_data();
+        if( armor != nullptr ) {
+            if( armor->rigid ) {
+                std::string coverage = _( "<bold>This armor is rigid</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are rigid
+                std::string coverage = _( "<bold>Rigid</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.rigid ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_comfortable() ) {
+        // if the item has no armor data it doesn't cover that part
+        const islot_armor *armor = find_armor_data();
+        if( armor != nullptr ) {
+            if( armor->comfortable ) {
+                std::string coverage = _( "<bold>This armor is comfortable</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are comfortable
+                std::string coverage = _( "<bold>Comfortable</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.comfortable ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
@@ -4894,14 +4936,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
+                                   _( "* This items pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() ) {
             info.emplace_back( "BASE",
-                               _( "* This item is <info>not rigid</info>.  Its"
+                               _( "* This items pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }
@@ -5748,7 +5790,7 @@ std::string item::dirt_symbol() const
     std::string dirt_symbol;
     // TODO: MATERIALS put this in json
 
-    // these symbols are unicode square characeters of different heights, representing a rough
+    // these symbols are unicode square characters of different heights, representing a rough
     // estimation of fouling in a gun. This appears instead of "faulty"
     // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
@@ -7359,7 +7401,9 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
             if( bp == bpid ) {
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( bp == body_part_torso && contents.has_additional_pockets() ) {
-                    const auto it = std::find( data.layers.begin(), data.layers.end(), layer_level::BELTED );
+                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
+                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
+                    } );
                     //if the item doesn't already cover belted
                     if( it == data.layers.end() ) {
                         std::vector<layer_level> with_belted = data.layers;
@@ -7394,13 +7438,16 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
                 // if the item has additional pockets and is on the torso it should also be strapped
                 if( ( sbp == sub_body_part_torso_upper || sbp == sub_body_part_torso_lower ) &&
                     contents.has_additional_pockets() ) {
-                    const auto it = std::find( data.layers.begin(), data.layers.end(), layer_level::BELTED );
+                    const auto it = std::find_if( data.layers.begin(), data.layers.end(), []( layer_level ll ) {
+                        return ll == layer_level::BELTED || ll == layer_level::WAIST;
+                    } );
                     //if the item doesn't already cover belted
                     if( it == data.layers.end() ) {
                         std::vector<layer_level> with_belted = data.layers;
                         with_belted.push_back( layer_level::BELTED );
                         return with_belted;
                     }
+                    return data.layers;
                 } else {
                     return data.layers;
                 }
@@ -7445,6 +7492,20 @@ bool item::has_layer( const std::vector<layer_level> &ll, const sub_bodypart_id 
         }
     }
     return false;
+}
+
+layer_level item::get_highest_layer( const sub_bodypart_id sbp ) const
+{
+    layer_level highest_layer = layer_level::PERSONAL;
+
+    // find highest layer from this item
+    for( layer_level our_layer : get_layer( sbp ) ) {
+        if( our_layer > highest_layer ) {
+            highest_layer = our_layer;
+        }
+    }
+
+    return highest_layer;
 }
 
 item::cover_type item::get_cover_type( damage_type type )
@@ -9433,7 +9494,8 @@ ret_val<bool> item::is_compatible( const item &it ) const
     return contents.is_compatible( it );
 }
 
-ret_val<bool> item::can_contain( const item &it, const bool nested ) const
+ret_val<bool> item::can_contain( const item &it, const bool nested,
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
@@ -9447,13 +9509,25 @@ ret_val<bool> item::can_contain( const item &it, const bool nested ) const
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<bool>::make_failure();
     }
-    for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( internal_it->can_contain( it, true ).success() ) {
-            return ret_val<bool>::make_success();
+    for( const item_pocket *pkt : contents.get_all_contained_pockets().value() ) {
+        if( pkt->empty() ) {
+            continue;
+        }
+        // If the current pocket has restrictions or blacklists the item,
+        // try the nested pocket regardless of whether it's soft or rigid.
+        const bool ignore_rigidity =
+            !pkt->settings.accepts_item( it ) ||
+            !pkt->get_pocket_data()->get_flag_restrictions().empty();
+        for( const item *internal_it : pkt->all_items_top() ) {
+            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings ).success() ) {
+                return ret_val<bool>::make_success();
+            }
         }
     }
 
-    return nested ? contents.can_contain_rigid( it ) : contents.can_contain( it );
+    return nested && !ignore_rigidity ?
+           contents.can_contain_rigid( it, ignore_pkt_settings ) :
+           contents.can_contain( it, ignore_pkt_settings );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -9471,10 +9545,12 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const item *avoid, const bool allow_sealed, const bool ignore_settings, const bool nested )
+        const item *avoid, const bool allow_sealed, const bool ignore_settings,
+        const bool nested, bool ignore_rigidity )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings, nested );
+    return contents.best_pocket( it, nested_location, avoid, allow_sealed, ignore_settings,
+                                 nested, ignore_rigidity );
 }
 
 bool item::spill_contents( Character &c )
@@ -9913,7 +9989,7 @@ int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
 
-    // Magagzine in the item
+    // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
         ret += mag->ammo_remaining();
@@ -11276,7 +11352,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( e->is_tool() ) {
-            if( e->typeId() == what ) {
+            if( e->typeId() == what || e->ammo_current() == what ) {
                 int n;
                 if( carrier ) {
                     n = e->ammo_consume( qty, pos, carrier );
@@ -12580,7 +12656,7 @@ bool item::process_internal( Character *carrier, const tripoint &pos,
             return true;
         }
     } else {
-        // guns are never active so we only need thck this on inactive items. For performance reasons.
+        // guns are never active so we only need thick this on inactive items. For performance reasons.
         if( has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
             return process_blackpowder_fouling( carrier );
         }
@@ -12668,6 +12744,104 @@ bool item::is_soft() const
         return mid.first->soft();
     } );
 }
+
+bool item::is_rigid() const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return false;
+    } else if( has_flag( flag_HARD ) ) {
+        return true;
+    }
+
+    // if the item has no armor data it isn't rigid
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return false;
+    }
+
+    for( const armor_portion_data &portion : armor->sub_data ) {
+        if( portion.rigid ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool item::is_comfortable() const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
+    // if the item has no armor data it isn't rigid
+    const islot_armor *armor = find_armor_data();
+    if( armor == nullptr ) {
+        return true;
+    }
+
+    for( const armor_portion_data &portion : armor->sub_data ) {
+        if( portion.comfortable ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+template <typename T>
+bool item::is_bp_rigid( const T &bp ) const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        return false;
+    } else if( has_flag( flag_HARD ) ) {
+        return true;
+    }
+
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return false;
+    }
+
+    return portion->rigid;
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_rigid<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_rigid<bodypart_id>( const bodypart_id &bp ) const;
+
+template <typename T>
+bool item::is_bp_comfortable( const T &bp ) const
+{
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) || has_flag( flag_PADDED ) ) {
+        return true;
+    } else if( has_flag( flag_HARD ) ) {
+        return false;
+    }
+
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return false;
+    }
+
+    return portion->comfortable;
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_comfortable<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_comfortable<bodypart_id>( const bodypart_id &bp ) const;
 
 bool item::is_reloadable() const
 {

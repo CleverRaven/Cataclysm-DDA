@@ -151,7 +151,7 @@
     "type": "furniture",
     "id": "f_alien_table",
     "name": "fleshy altar",
-    "description": "This pulsing protuberance juts from the floor, its sides covered in scaled, oozing skin.  The surface is flat, but undulates softly.  A handful of unidentifiable appendages reach from the sides, suggesting a sort of nightmarish living autodoc.",
+    "description": "This pulsing protuberance juts from the floor, its sides covered in scaled, oozing skin.  The surface is flat, but undulates softly.  A handful of unidentifiable appendages reach from the sides, suggesting a sort of nightmarish living Autodoc.",
     "symbol": "n",
     "color": "pink",
     "move_cost_mod": -1,
