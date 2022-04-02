@@ -88,6 +88,7 @@
   {
     "id": "cloak_vampire",
     "type": "ARMOR",
+    "repairs_like": "cloak",
     "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },
     "description": "A black and red sinister looking hooded cloak meant to be thrown over your body.  Its currently showing the black side in the exterior.  Use it to reverse it and show the red side.",
     "weight": "150 g",
@@ -97,7 +98,7 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "cloack",
+    "looks_like": "cloak",
     "color": "black",
     "warmth": 10,
     "material_thickness": 0.2,
@@ -114,6 +115,7 @@
   {
     "id": "cloak_vampire_red",
     "copy-from": "cloak_vampire",
+    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "sinister cloak (red)", "str_pl": "sinister cloaks (red)" },
     "description": "A red and black sinister looking hooded cloak meant to be thrown over your body.  Its currently showing the red side in the exterior.  Use it to reverse it and show the black side.",

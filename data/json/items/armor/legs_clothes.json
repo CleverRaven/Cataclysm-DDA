@@ -753,6 +753,25 @@
     "warmth": 70
   },
   {
+    "id": "trousers_ninja",
+    "type": "ARMOR",
+    "repairs_like": "pants",
+    "name": { "str_sp": "ninja trousers" },
+    "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "price": 4800,
+    "price_postapoc": 40,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "pants_leather",
     "type": "ARMOR",
     "name": { "str_sp": "leather pants" },

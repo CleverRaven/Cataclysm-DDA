@@ -216,6 +216,7 @@
   {
     "id": "grim_reaper_robe_faceless",
     "copy-from": "grim_reaper_robe",
+    "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
     "description": "A black hooded grim reaper's robe with the face cover removed to show the lack of facial skin of the user.  It combines nicely with a scythe.  Use it to adjust the face cover in place and hide your lack of facial features.",

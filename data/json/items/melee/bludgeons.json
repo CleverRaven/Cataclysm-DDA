@@ -341,6 +341,7 @@
   {
     "type": "GENERIC",
     "id": "sinister_cane",
+    "repairs_like": "hollow_cane",
     "name": { "str": "sinister cane" },
     "description": "A sinister looking cane made of plastic.  It has a shiny red orb gripped by claws at the handle.",
     "copy-from": "cane",

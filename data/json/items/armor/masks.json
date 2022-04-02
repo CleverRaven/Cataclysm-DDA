@@ -20,6 +20,7 @@
   {
     "id": "balaclava_skull",
     "type": "ARMOR",
+    "repairs_like": "balclava",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull's balaclava covering the head and face, commonly used by motorcycle drivers and as part of a costume.",
@@ -233,6 +234,7 @@
     "id": "mask_skull",
     "type": "ARMOR",
     "category": "armor",
+    "repairs_like": "mask_hockey",
     "name": { "str": "skull mask" },
     "description": "A skull plastic mask that covers the face.  Spooky.",
     "weight": "50 g",
