@@ -2467,6 +2467,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Hour Timer",
+    "category": "DEFAULTMODE",
+    "id": "debug_hour_timer"
+  },
+  {
+    "type": "keybinding",
     "category": "DEBUG_SPELLS",
     "id": "TOGGLE_ALL_SPELL",
     "name": "Toggle all spells",
