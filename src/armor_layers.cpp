@@ -1004,6 +1004,7 @@ void outfit::sort_armor( Character &guy )
                    "[<color_yellow>%s</color>] / [<color_yellow>%s</color>] to scroll the right list.\n"
                    "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n"
                    "[<color_yellow>%s</color>] to change the side on which item is worn.\n"
+                   "[<color_yellow>%s</color>] to toggle armor visibility on character sprite.\n"
                    "[<color_yellow>%s</color>] to sort armor into natural layer order.\n"
                    "[<color_yellow>%s</color>] to equip a new item.\n"
                    "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n"

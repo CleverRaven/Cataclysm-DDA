@@ -660,7 +660,7 @@
     "type": "COMESTIBLE",
     "id": "drink_virgin_mary",
     "looks_like": "drink_bloody_mary",
-    "name": { "str_sp": "virgin mary cocktail" },
+    "name": { "str_sp": "Virgin Mary cocktail" },
     "weight": "258 g",
     "color": "red",
     "spoils_in": "5 days",

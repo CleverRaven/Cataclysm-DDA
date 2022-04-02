@@ -1094,7 +1094,7 @@
   {
     "id": "soda_pop",
     "type": "requirement",
-    "//": "Soda's and such. Anything carbonated that isn't alcholic or an energy drink.",
+    "//": "Soda's and such. Anything carbonated that isn't alcoholic or an energy drink.",
     "components": [
       [
         [ "cola", 1 ],

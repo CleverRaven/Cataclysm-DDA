@@ -4774,7 +4774,7 @@ bool mattack::darkman( monster *z )
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
     }
-    // Wont do the combat stuff unless it can see you
+    // Won't do the combat stuff unless it can see you
     if( !z->sees( player_character ) ) {
         return true;
     }

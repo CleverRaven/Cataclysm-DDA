@@ -787,7 +787,7 @@ hrm
 hrmmm
 hsh
 hsss
-http
+https
 hulled
 humaniform
 humaniforms
@@ -1610,6 +1610,7 @@ std
 steeltoed
 steerable
 stegosaurusfindsrobot
+stenonychosaurus
 stimulative
 stimulatory
 stipe
@@ -1931,6 +1932,7 @@ yipe
 ynn
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z

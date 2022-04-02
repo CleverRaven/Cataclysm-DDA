@@ -624,7 +624,7 @@ void diary::set_page_text( std::string text )
 void diary::new_page()
 {
     std::unique_ptr<diary_page> page( new diary_page() );
-    page -> m_text = " ";
+    page -> m_text = std::string();
     page -> turn = calendar::turn;
     page -> kills = g ->get_kill_tracker().kills;
     page -> npc_kills = g->get_kill_tracker().npc_kills;

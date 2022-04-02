@@ -70,6 +70,9 @@ class ui_adaptor
         struct disable_uis_below {
         };
 
+        struct debug_message_ui {
+        };
+
         /**
          * Construct a `ui_adaptor` which is automatically added to the UI stack,
          * and removed from the stack when it is deconstructed. (When declared as
@@ -78,9 +81,17 @@ class ui_adaptor
         ui_adaptor();
         /**
          * `ui_adaptor` constructed this way will block any UIs below from being
-         * redrawn or resized until it is deconstructed. It is used for `debug_msg`.
+         * redrawn or resized until it is deconstructed.
          **/
         explicit ui_adaptor( disable_uis_below );
+        /**
+         * Special constructor used by debug.cpp when showing a debug message
+         * popup. If the UI is constructed when a redraw call is in progress,
+         * The redraw call will be restarted after this UI is deconstructed and
+         * the in progress callback returns, in order to prevent incorrect
+         * graphics caused by overwritten screen area and resizing.
+         **/
+        explicit ui_adaptor( debug_message_ui );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
         ~ui_adaptor();
@@ -125,9 +136,6 @@ class ui_adaptor
          * - Call any function that does these things, except for `debugmsg`
          *
          * Otherwise, display glitches or even crashes might happen.
-         *
-         * Calling `debugmsg` inside the callbacks is (semi-)supported, but may
-         * cause display glitches after the debug message is closed.
          **/
         void on_redraw( const redraw_callback_t &fun );
         /* See `on_redraw`. */
@@ -170,6 +178,7 @@ class ui_adaptor
         screen_resize_callback_t screen_resized_cb;
 
         bool disabling_uis_below;
+        bool is_debug_message_ui;
 
         mutable bool invalidated;
         mutable bool deferred_resize;
@@ -198,10 +207,10 @@ namespace ui_manager
 void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
 /**
  * Invalidate the top window and redraw all invalidated windows.
- * Note that `ui_manager` may redraw multiple times when the game window is
- * resized or the system requests a redraw during input calls, so any data
- * that may change after a resize or on each redraw should be calculated within
- * the respective callbacks.
+ * Note that `ui_manager` may redraw multiple times when a `ui_adaptor` callback
+ * calls `debugmsg`, the game window is resized, or the system requests a redraw,
+ * so any data that may change after a resize or on each redraw should be
+ * calculated within the respective callbacks.
  **/
 void redraw();
 /**
