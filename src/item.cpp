@@ -189,7 +189,6 @@ static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
 static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
 static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
@@ -3461,111 +3460,17 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
         std::string coverage = _( "<bold>Covers</bold>:" );
-        if( covers( bodypart_id( "head" ) ) ) {
-            coverage += _( " The <info>head</info>." );
-        }
-        if( covers( bodypart_id( "eyes" ) ) ) {
-            coverage += _( " The <info>eyes</info>." );
-        }
-        if( covers( bodypart_id( "mouth" ) ) ) {
-            coverage += _( " The <info>mouth</info>." );
-        }
-        if( covers( bodypart_id( "torso" ) ) ) {
-            coverage += _( " The <info>torso</info>." );
-        }
+        std::vector<sub_bodypart_id> covered = get_covered_sub_body_parts();
 
-        if( is_sided() && ( covers( bodypart_id( "arm_l" ) ) || covers( bodypart_id( "arm_r" ) ) ) ) {
-            coverage += _( " Either <info>arm</info>." );
-        } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) ) ) {
-            coverage += _( " The <info>arms</info>." );
-        } else if( covers( bodypart_id( "arm_l" ) ) ) {
-            coverage += _( " The <info>left arm</info>." );
-        } else if( covers( bodypart_id( "arm_r" ) ) ) {
-            coverage += _( " The <info>right arm</info>." );
-        }
-
-        if( is_sided() && ( covers( bodypart_id( "hand_l" ) ) || covers( bodypart_id( "hand_r" ) ) ) ) {
-            coverage += _( " Either <info>hand</info>." );
-        } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) ) ) {
-            coverage += _( " The <info>hands</info>." );
-        } else if( covers( bodypart_id( "hand_l" ) ) ) {
-            coverage += _( " The <info>left hand</info>." );
-        } else if( covers( bodypart_id( "hand_r" ) ) ) {
-            coverage += _( " The <info>right hand</info>." );
-        }
-
-        if( is_sided() && ( covers( bodypart_id( "leg_l" ) ) || covers( bodypart_id( "leg_r" ) ) ) ) {
-            coverage += _( " Either <info>leg</info>." );
-        } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) ) ) {
-            coverage += _( " The <info>legs</info>." );
-        } else if( covers( bodypart_id( "leg_l" ) ) ) {
-            coverage += _( " The <info>left leg</info>." );
-        } else if( covers( bodypart_id( "leg_r" ) ) ) {
-            coverage += _( " The <info>right leg</info>." );
-        }
-
-        if( is_sided() && ( covers( bodypart_id( "foot_l" ) ) || covers( bodypart_id( "foot_r" ) ) ) ) {
-            coverage += _( " Either <info>foot</info>." );
-        } else if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) ) ) {
-            coverage += _( " The <info>feet</info>." );
-        } else if( covers( bodypart_id( "foot_l" ) ) ) {
-            coverage += _( " The <info>left foot</info>." );
-        } else if( covers( bodypart_id( "foot_r" ) ) ) {
-            coverage += _( " The <info>right foot</info>." );
+        if( !covered.empty() ) {
+            std::set<translation> to_print = body_part_type::consolidate( covered );
+            for( const translation &entry : to_print ) {
+                coverage += string_format( _( " The <info>%s</info>." ), entry );
+            }
         }
 
         if( !covers_anything ) {
             coverage += _( " <info>Nothing</info>." );
-        }
-
-        info.emplace_back( "ARMOR", coverage );
-    }
-
-    if( this->has_sublocations() || this->is_gun() ) {
-        std::string coverage = _( "<bold>Specifically</bold>:" );
-
-        std::vector<sub_bodypart_id> covered = this->get_covered_sub_body_parts();
-        // go through all coverages and try to pair up groups
-        for( size_t i = 0; i < covered.size(); i++ ) {
-            const sub_bodypart_id &sbp = covered[i];
-            if( sbp == sub_bodypart_id( "sub_limb_debug" ) ) {
-                // if we have already covered this value as a pair continue
-                continue;
-            }
-            sub_bodypart_id temp;
-            // if our sub part has an opposite
-            if( sbp->opposite != sub_body_part_sub_limb_debug ) {
-                temp = sbp->opposite;
-            } else {
-                // if it doesn't have an opposite print it alone and continue
-                coverage += string_format( _( " The <info>%s</info>" ), sbp->name );
-                coverage += string_format( " (%d).",
-                                           this->get_coverage( sbp ) );
-                continue;
-            }
-
-            bool found = false;
-            for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
-                 ++sbp_it ) {
-                // go through each body part and test if its partner is there as well
-                if( temp == *sbp_it ) {
-                    // add the multiple name not the single
-                    coverage += string_format( _( " The <info>%s</info>" ), sbp->name_multiple );
-                    // average the coverage of both locations
-                    coverage += string_format( " (%d).",
-                                               ( this->get_coverage( sbp ) + this->get_coverage( *sbp_it ) ) / 2 );
-                    found = true;
-                    // set the found part to a null value
-                    *sbp_it = sub_body_part_sub_limb_debug;
-                    break;
-                }
-            }
-            // if we didn't find its pair print it normally
-            if( !found ) {
-                coverage += string_format( _( " The <info>%s</info>" ), sbp->name );
-                coverage += string_format( " (%d).",
-                                           this->get_coverage( sbp ) );
-            }
         }
 
         info.emplace_back( "ARMOR", coverage );

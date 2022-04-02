@@ -542,7 +542,8 @@ float body_part_type::damage_resistance( const damage_unit &du ) const
     return armor.get_effective_resist( du );
 }
 
-std::set<translation> body_part_type::consolidate( std::vector<sub_bodypart_id> &covered )
+std::set<translation> body_part_type::consolidate( std::vector<sub_bodypart_id>
+        &covered )
 {
     std::set<translation> to_return;
     std::vector<bodypart_id> full_bps;
@@ -558,19 +559,18 @@ std::set<translation> body_part_type::consolidate( std::vector<sub_bodypart_id> 
         // try to find all matching sublimbs from the parent
         bool found_all = true;
         for( const sub_bodypart_id &searching : sbp->parent->sub_parts ) {
-            found_all = std::find( covered.begin(), covered.end(), searching ) != covered.end();
+            found_all = std::find( covered.begin(), covered.end(), searching ) != covered.end() && found_all;
         }
 
         // if found all consolidate all the limb bits together
         // TODO: shouldn't need so many loops to do this
         if( found_all ) {
+            full_bps.push_back( sbp->parent );
             // set the initial to a skipped value
-            covered[i] = sub_body_part_sub_limb_debug;
             for( const sub_bodypart_id &searching : sbp->parent->sub_parts ) {
                 auto sbp_it = std::find( covered.begin(), covered.end(), searching );
                 *sbp_it = sub_body_part_sub_limb_debug;
             }
-            full_bps.push_back( sbp->parent );
         }
     }
 
