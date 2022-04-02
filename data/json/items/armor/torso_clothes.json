@@ -864,9 +864,7 @@
     "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "sinister dress", "str_pl": "sinister dresses" },
-    "description": {
-      "str": "A black and red sleeved long dress, with a collar and decorations in style of a vampire duchess."
-    },
+    "description": { "str": "A black and red sleeved long dress, with a collar and decorations in style of a vampire duchess." },
     "weight": "800 g",
     "volume": "3500 ml",
     "price": 18000,
@@ -880,11 +878,7 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 7
-      }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
     ]
   },
   {
@@ -892,9 +886,7 @@
     "repairs_like": "sundress",
     "type": "ARMOR",
     "name": { "str": "short sinister dress", "str_pl": "short sinister dresses" },
-    "description": {
-      "str": "A short red dress made in gothic lolita fashion."
-    },
+    "description": { "str": "A short red dress made in gothic lolita fashion." },
     "weight": "600 g",
     "volume": "2000 ml",
     "price": 16000,
