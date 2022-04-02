@@ -309,6 +309,7 @@
     "volume": "4 L",
     "warmth": 0,
     "material": [ "nylon" ],
+    "repairs_like": "survivor_suit",
     "use_action": [ { "type": "attach_molle", "size": 3 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
