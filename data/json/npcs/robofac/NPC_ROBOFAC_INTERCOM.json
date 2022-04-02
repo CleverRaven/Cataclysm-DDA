@@ -539,7 +539,7 @@
       { "text": "…Hello?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
       { "text": "Um, can anyone hear me?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
       {
-        "text": "[Tap the camera lens.] Look, I know someone's listening.  What is this place?",
+        "text": "[Tap the camera lens.]  Look, I know someone's listening.  What is this place?",
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_1"
       },
       {
