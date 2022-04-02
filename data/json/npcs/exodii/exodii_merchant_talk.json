@@ -226,8 +226,8 @@
       },
       {
         "text": "I've brought the anesthetic for you.  Can you help me out?",
-        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 6000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
-        "effect": [ { "u_sell_item": "anesthetic", "count": 6000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
+        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
