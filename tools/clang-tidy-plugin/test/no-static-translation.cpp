@@ -40,6 +40,7 @@ const std::string global_translation_translated = to_translation(
 
 // ok, a translation object will be properly translated
 const translation compare = to_translation( "compare" );
+const translation compare2 = to_translation( "compare2" );
 
 const bool global_translation_translated_eq = to_translation(
             "global_translation_translated_eq" ).translated_eq( compare );
@@ -52,6 +53,36 @@ const bool global_translation_translated_ne = to_translation(
 const bool global_translation_translated_lt = to_translation(
             "global_translation_translated_lt" ).translated_lt( compare );
 // CHECK-MESSAGES: [[@LINE-2]]:47: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translation_translated_gt = to_translation(
+            "global_translation_translated_gt" ).translated_gt( compare );
+// CHECK-MESSAGES: [[@LINE-2]]:47: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translation_translated_le = to_translation(
+            "global_translation_translated_le" ).translated_le( compare );
+// CHECK-MESSAGES: [[@LINE-2]]:47: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translation_translated_ge = to_translation(
+            "global_translation_translated_ge" ).translated_ge( compare );
+// CHECK-MESSAGES: [[@LINE-2]]:47: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_less = translated_less()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:37: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_greater = translated_greater()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:40: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_less_equal = translated_less_equal()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:43: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_greater_equal = translated_greater_equal()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:46: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_equal_to = translated_equal_to()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:41: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
+
+const bool global_translated_not_equal_to = translated_not_equal_to()( compare, compare2 );
+// CHECK-MESSAGES: [[@LINE-1]]:45: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
 
 static const char *const global_static_cstr = _( "global_static_cstr" );
 // CHECK-MESSAGES: [[@LINE-1]]:47: warning: Translation functions should not be called when initializing a static variable.  See the `### Static string variables` section in `doc/TRANSLATING.md` for details.
