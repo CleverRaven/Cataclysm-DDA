@@ -321,7 +321,7 @@
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
     "price": 2000000000,
-    "price_postapoc": -100
+    "price_postapoc": 0
   },
   {
     "id": "old_key",
