@@ -914,14 +914,15 @@
     "longest_side": "22 cm",
     "price": 50,
     "price_postapoc": 50,
-    "cutting": 10,
+    "cutting": 8,
+    "bashing": 1,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [  "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
