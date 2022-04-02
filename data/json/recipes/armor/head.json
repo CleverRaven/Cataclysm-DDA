@@ -2773,11 +2773,15 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h 12 m",
-    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 3 ] ],
+    "difficulty": 4,
+    "time": "2 h 12 m",
+    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 3 ], [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "welding_mask", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" } ]
+    "components": [ [ [ "welding_mask", 1 ] ], [ [ "nomex", 3 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_polymerworking" }
+    ]
   }
 ]
