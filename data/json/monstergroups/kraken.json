@@ -1,0 +1,23 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_KRAKEN",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_octupus_stalker_spawn", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_kraken_guard", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_kraken_queen", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_octupus_stalker", "weight": 870, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_KRAKEN_SURFACE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_kraken_guard", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_octupus_stalker_spawn", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_octupus_stalker", "weight": 852, "cost_multiplier": 0 }
+    ]
+  }
+]

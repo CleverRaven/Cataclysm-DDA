@@ -3829,20 +3829,20 @@
     "id": "DELETE PAGE",
     "name": "Delete page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "d" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "d" ] } ]
   },
   {
     "type": "keybinding",
     "id": "EXPORT_DIARY",
     "name": "Export diary to .txt",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",
     "id": "NEW_PAGE",
     "name": "Add new page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "n" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
   }
 ]
