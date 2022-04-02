@@ -3746,5 +3746,52 @@
     "revert_to": "ice_utility_exoskeleton_off",
     "weight_capacity_bonus": "190 kg",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
+  },
+{
+    "id": "tagilla_mask",
+    "repairs_like": "goggles_swim",
+    "looks_like": "welding_mask_crude",
+	"type": "TOOL_ARMOR",
+    "name": { "str": "armored welding mask" },
+    "description": "A modified welding mask, covered in armor steel, with the darkening element removed, and 'УБЕЙ' painted on the front. Activate to raise the visor.",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "price": 2800,
+    "price_postapoc": 1400,
+    "to_hit": -3,
+    "use_action": { "type": "transform", "msg": "You push your %s up your head.", "target": "tagilla_mask_raised", "menu_text": "Raise" },
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 }
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 10,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "SUN_GLASSES", "OUTER" ],
+    "armor": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 65 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 30 },
+      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 65 }
+	  ]
+  },
+  {
+    "id": "tagilla_mask_raised",
+    "repairs_like": "goggles_swim",
+    "looks_like": "welding_mask_crude_raised",
+	"type": "TOOL_ARMOR",
+    "name": { "str": "raised armored welding mask" },
+    "description": "A modified welding mask, covered in armor steel, with the darkening element removed, and 'УБЕЙ' painted on the front, now raised. Activate to lower the visor.",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "price": 2800,
+    "price_postapoc": 1400,
+    "to_hit": -3,
+    "use_action": { "type": "transform", "msg": "You push your %s back down.", "target": "tagilla_mask", "menu_text": "Lower" },
+    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 9 }
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 10,
+	"flags": [ "OUTER"]
+    "armor": [ { "encumbrance": 65, "coverage": 90, "covers": [ "head" ] } ]
   }
 ]
