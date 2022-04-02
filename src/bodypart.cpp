@@ -558,17 +558,18 @@ std::set<translation> body_part_type::consolidate( std::vector<sub_bodypart_id>
 
         // try to find all matching sublimbs from the parent
         bool found_all = true;
-        for( const sub_bodypart_id &searching : sbp->parent->sub_parts ) {
-            found_all = std::find( covered.begin(), covered.end(), searching ) != covered.end() && found_all;
+        for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
+            found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
+                        found_all;
         }
 
         // if found all consolidate all the limb bits together
         // TODO: shouldn't need so many loops to do this
         if( found_all ) {
-            full_bps.push_back( sbp->parent );
+            full_bps.emplace_back( sbp->parent );
             // set the initial to a skipped value
-            for( const sub_bodypart_id &searching : sbp->parent->sub_parts ) {
-                auto sbp_it = std::find( covered.begin(), covered.end(), searching );
+            for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
+                auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
                 *sbp_it = sub_body_part_sub_limb_debug;
             }
         }
