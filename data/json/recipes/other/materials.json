@@ -70,7 +70,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "sheet_metal", -1 ] ] ],
+    "tools": [ [ [ "sheet_metal", -1 ], [ "wood_panel", -1 ] ] ],
     "components": [ [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
