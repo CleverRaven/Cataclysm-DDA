@@ -34,6 +34,7 @@
       [ "splinter", 40 ],
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
+      { "item": "ref_matches", "prob": 5, "charges-min": 0, "charges-max": 32 },
       [ "jug_plastic", 1 ],
       [ "bottle_plastic", 10 ],
       [ "razor_blade", 5 ],

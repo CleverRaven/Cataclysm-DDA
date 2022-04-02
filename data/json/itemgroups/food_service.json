@@ -249,6 +249,7 @@
     "entries": [
       { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "bucket", "prob": 5 },

@@ -27,7 +27,7 @@
     "name": { "str": "XL bell cuirass", "str_pl": "XL bell cuirasses" },
     "copy-from": "armor_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_armor_cuirass",
@@ -35,6 +35,44 @@
     "copy-from": "armor_cuirass",
     "looks_like": "armor_cuirass",
     "name": { "str": "XS bell cuirass", "str_pl": "XS bell cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
+    "category": "armor",
+    "description": "A solid, single piece cuirass made from bronze.  It isn't particularly well designed, but it does it's job.",
+    "weight": "4896 g",
+    "volume": "6 L",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "bronze" ],
+    "symbol": "[",
+    "looks_like": "armor_cuirass",
+    "color": "yellow",
+    "longest_side": "60 cm",
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "xl_cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "XL bronze cuirass", "str_pl": "XL bronze cuirasses" },
+    "copy-from": "cuirass_bronze",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_cuirass_bronze",
+    "type": "ARMOR",
+    "name": { "str": "XS bronze cuirass", "str_pl": "XS bronze cuirasses" },
+    "copy-from": "cuirass_bronze",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
