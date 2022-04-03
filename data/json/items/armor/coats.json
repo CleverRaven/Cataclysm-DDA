@@ -277,7 +277,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
   },
   {
     "id": "coat_straw",
@@ -872,7 +872,7 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
   },
   {
     "id": "jacket_army_modern",
@@ -1001,7 +1001,7 @@
     ],
     "warmth": 25,
     "material_thickness": 0.15,
-    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
   },
   {
     "id": "jacket_flannel",
@@ -1248,7 +1248,7 @@
     "warmth": 25,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
   },
   {
     "id": "judo_gi",
@@ -1731,7 +1731,7 @@
     "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "SOFT" ]
   },
   {
     "id": "sleeveless_duster",
@@ -2398,6 +2398,6 @@
     "warmth": 50,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
   }
 ]
