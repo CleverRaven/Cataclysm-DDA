@@ -39,7 +39,7 @@
     "id": "mon_octupus_stalker_spawn",
     "type": "MONSTER",
     "copy-from": "mon_octupus_stalker",
-    "name": { "str": "octopus spawn", "str_pl": "octopi spawn" },
+    "name": { "str": "octopus spawn" },
     "description": "A young Cecaelia.  If one is out here, a very protective parent is likely nearby.",
     "volume": "45 L",
     "weight": "60 kg",
