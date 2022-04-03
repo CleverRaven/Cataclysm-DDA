@@ -16,10 +16,14 @@
 // |  Proficiency 3                 |  Category: Miscellaneous Crafts        |
 // |  Proficiency 4                 |  Pre-requisite:                        |
 // |  Proficiency 5                 |  Proficiency 2, Proficiency 4, ...     |
-// |  Proficiency 6                 |  Description:                          |
-// |  Proficiency 7                 |  Lorem ipsum etc........               |
-// |  Proficiency 8                 |                                        |
+// |  Proficiency 6                 |  Leads to:                             |
+// |  Proficiency 7                 |  Proficiency 6, Proficiency 7, ...     |
+// |  Proficiency 8                 |  Description:                          |
+// |  Proficiency 9                 |  Lorem ipsum etc........               |
+// |  Proficiency 10                |                                        |
 // ...
+
+using display_prof_deps = std::pair<display_proficiency, std::vector<proficiency_id>>;
 
 struct _prof_window {
     input_context ctxt;
@@ -31,9 +35,9 @@ struct _prof_window {
 
     const Character *u = nullptr;
     std::vector<const proficiency_category *> cats;
-    std::vector<display_proficiency> all_profs;
-    std::vector<display_proficiency *> filtered_profs;
-    std::map<int, std::vector<display_proficiency *>> profs_by_cat;
+    std::vector<display_prof_deps> all_profs;
+    std::vector<display_prof_deps *> filtered_profs;
+    std::map<int, std::vector<display_prof_deps *>> profs_by_cat;
     std::string filter_str;
     int max_rows = 0;
     int column_width = 0;
@@ -47,7 +51,7 @@ struct _prof_window {
     explicit _prof_window( const Character *u ) : u( u ) {}
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void filter();
-    std::vector<display_proficiency *> &get_current_set();
+    std::vector<display_prof_deps *> &get_current_set();
     void populate_categories();
     void init_ui_windows();
     void draw_borders();
@@ -57,7 +61,7 @@ struct _prof_window {
     void run();
 };
 
-std::vector<display_proficiency *> &_prof_window::get_current_set()
+std::vector<display_prof_deps *> &_prof_window::get_current_set()
 {
     return filter_str.empty() ? profs_by_cat[current_cat] : filtered_profs;
 }
@@ -105,18 +109,18 @@ void _prof_window::filter()
             return;
         }
     }
-    for( display_proficiency &dp : all_profs ) {
+    for( display_prof_deps &dp : all_profs ) {
         if( prefix == _prof_filter_prefix::AS_PROGRESS ) {
-            if( prog_val < dp.practice * 100.0f ) {
+            if( prog_val < dp.first.practice * 100.0f ) {
                 filtered_profs.push_back( &dp );
             }
             continue;
         }
-        if( ( prefix == _prof_filter_prefix::LEARNED && !dp.known ) ||
-            ( prefix == _prof_filter_prefix::UNLEARNED && dp.known ) ) {
+        if( ( prefix == _prof_filter_prefix::LEARNED && !dp.first.known ) ||
+            ( prefix == _prof_filter_prefix::UNLEARNED && dp.first.known ) ) {
             continue;
         }
-        if( qry == "*" || lcmatch( dp.id->name(), qry ) ) {
+        if( qry == "*" || lcmatch( dp.first.id->name(), qry ) ) {
             filtered_profs.push_back( &dp );
         }
     }
@@ -124,15 +128,28 @@ void _prof_window::filter()
 
 void _prof_window::populate_categories()
 {
-    all_profs = u->display_proficiencies();
+    for( display_proficiency &p : u->display_proficiencies() ) {
+        all_profs.push_back( { p, {} } );
+    }
+    for( const proficiency &p : proficiency::get_all() ) {
+        for( const proficiency_id &pid : p.required_proficiencies() ) {
+            auto iter = std::find_if( all_profs.begin(), all_profs.end(),
+            [&pid]( const display_prof_deps & dpd ) {
+                return dpd.first.id == pid;
+            } );
+            if( iter != all_profs.end() ) {
+                iter->second.push_back( p.prof_id() );
+            }
+        }
+    }
     cats.push_back( nullptr );
     for( const proficiency_category &pc : proficiency_category::get_all() ) {
         cats.push_back( &pc );
     }
 
     for( int i = 0; i < static_cast<int>( cats.size() ); i++ ) {
-        for( display_proficiency &dp : all_profs ) {
-            if( i == 0 || dp.id->prof_category() == cats[i]->id ) {
+        for( display_prof_deps &dp : all_profs ) {
+            if( i == 0 || dp.first.id->prof_category() == cats[i]->id ) {
                 profs_by_cat[i].push_back( &dp );
             }
         }
@@ -142,30 +159,46 @@ void _prof_window::populate_categories()
 void _prof_window::draw_details()
 {
     werase( w_details );
-    std::vector<display_proficiency *> &cur_set = get_current_set();
+    std::vector<display_prof_deps *> &cur_set = get_current_set();
     if( !cur_set.empty() ) {
-        display_proficiency *p = cur_set[sel_prof];
-        //NOLINTNEXTLINE(cata-use-named-point-constants)
-        trim_and_print( w_details, point( 1, 0 ), column_width - 2, c_white,
-                        string_format( "%s: %s", colorize( _( "Time to learn" ), c_magenta ),
-                                       to_string( p->id->time_to_learn() ) ) );
-        //NOLINTNEXTLINE(cata-use-named-point-constants)
-        trim_and_print( w_details, point( 1, 1 ), column_width - 2, c_white,
-                        string_format( "%s: %.2f%%", colorize( _( "Progress" ), c_magenta ), p->practice * 100.0f ) );
-        trim_and_print( w_details, point( 1, 2 ), column_width - 2, c_white,
+        int y = 0;
+        display_prof_deps *p = cur_set[sel_prof];
+        // Time to learn
+        std::string ttl = !p->first.id->can_learn() ? colorize( _( "Can't learn" ), c_dark_gray ) :
+                          to_string( p->first.id->time_to_learn() );
+        trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
+                        string_format( "%s: %s", colorize( _( "Time to learn" ), c_magenta ), ttl ) );
+        // Progress
+        trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
+                        string_format( "%s: %.2f%%", colorize( _( "Progress" ), c_magenta ), p->first.practice * 100.0f ) );
+        // Category
+        trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
                         string_format( "%s: %s", colorize( _( "Category" ), c_magenta ),
-                                       p->id->prof_category()->_name.translated() ) );
-        trim_and_print( w_details, point( 1, 3 ), column_width - 2, c_white,
+                                       p->first.id->prof_category()->_name.translated() ) );
+        // Pre-requisites
+        trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
                         string_format( "%s:", colorize( _( "Pre-requisites" ), c_magenta ) ) );
-        std::vector<std::string> reqs = foldstring( enumerate_as_string( p->id->required_proficiencies(),
+        std::vector<std::string> reqs =
+            foldstring( enumerate_as_string( p->first.id->required_proficiencies(),
         []( const proficiency_id & pid ) {
             return colorize( pid->name(), c_yellow );
         }, enumeration_conjunction::and_ ), column_width - 2 );
         for( int i = 0; i < static_cast<int>( reqs.size() ); i++ ) {
-            trim_and_print( w_details, point( 1, i + 4 ), column_width - 1, c_white, reqs[i] );
+            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, reqs[i] );
         }
-        fold_and_print( w_details, point( 1, 4 + reqs.size() ), column_width - 1, c_light_gray,
-                        string_format( "%s: %s", colorize( _( "Description" ), c_magenta ), p->id->description() ) );
+        // Leads to
+        trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
+                        string_format( "%s:", colorize( _( "Leads to" ), c_magenta ) ) );
+        std::vector<std::string> leads = foldstring( enumerate_as_string( p->second,
+        []( const proficiency_id & pid ) {
+            return colorize( pid->name(), c_yellow );
+        }, enumeration_conjunction::and_ ), column_width - 2 );
+        for( int i = 0; i < static_cast<int>( leads.size() ); i++ ) {
+            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, leads[i] );
+        }
+        // Description
+        fold_and_print( w_details, point( 1, y ), column_width - 1, c_light_gray,
+                        string_format( "%s: %s", colorize( _( "Description" ), c_magenta ), p->first.id->description() ) );
     }
     wnoutrefresh( w_details );
 }
@@ -173,15 +206,15 @@ void _prof_window::draw_details()
 void _prof_window::draw_profs()
 {
     werase( w_profs );
-    std::vector<display_proficiency *> &cur_set = get_current_set();
+    std::vector<display_prof_deps *> &cur_set = get_current_set();
     for( int i = 0; i < max_rows && i + top_prof < static_cast<int>( cur_set.size() ); i++ ) {
-        nc_color colr = cur_set[i + top_prof]->color;
+        nc_color colr = cur_set[i + top_prof]->first.color;
         if( sel_prof == i + top_prof ) {
             colr = hilite( colr );
             mvwputch( w_profs, point( 1, i ), c_yellow, '>' );
         }
         mvwprintz( w_profs, point( 2, i ), colr,
-                   trim_by_length( cur_set[i + top_prof]->id->name(), column_width - 2 ) );
+                   trim_by_length( cur_set[i + top_prof]->first.id->name(), column_width - 2 ) );
     }
     wnoutrefresh( w_profs );
 }
@@ -294,7 +327,7 @@ void _prof_window::run()
     while( !done ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        std::vector<display_proficiency *> &cur_set = get_current_set();
+        std::vector<display_prof_deps *> &cur_set = get_current_set();
         if( action == "UP" ) {
             sel_prof--;
             if( sel_prof < 0 ) {
