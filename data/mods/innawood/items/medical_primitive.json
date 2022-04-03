@@ -22,7 +22,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "salved birchbark bandage" },
-    "description": "Birchbark bandages with added garlic salve. They're better for wounds but not as good as real bandages.",
+    "description": "Birchbark bandages with added garlic salve . They're better for wounds but not as good as real bandages.",
     "weight": "70 g",
     "volume": "250 ml",
     "price": 25,
