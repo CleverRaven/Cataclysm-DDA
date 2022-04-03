@@ -76,7 +76,7 @@
     "time": "20 m",
     "difficulty": 2,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ], [ "ink_standard", 20 ] ],
+    "using": [ [ "sewing_standard", 12 ], [ "drawing_tool", 20 ] ],
     "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
   },
   {
