@@ -5,7 +5,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "egg_dino", "prob": 2, "count-min": 2, "count-max": 5 },
-      { "item": "egg_dino_theropod", "prob": 2, "count-min": 2, "count-max": 5 }
+      { "item": "egg_dino_small", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_large", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod", "prob": 2, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod_small", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod_large", "prob": 1, "count-min": 2, "count-max": 5 }
     ]
   },
   {
@@ -14,7 +18,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "egg_dino", "prob": 2, "count-min": 2, "count-max": 5 },
-      { "item": "egg_dino_theropod", "prob": 2, "count-min": 2, "count-max": 5 }
+      { "item": "egg_dino_small", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_large", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod", "prob": 2, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod_small", "prob": 1, "count-min": 2, "count-max": 5 },
+      { "item": "egg_dino_theropod_large", "prob": 1, "count-min": 2, "count-max": 5 }
     ]
   }
 ]

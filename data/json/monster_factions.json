@@ -34,7 +34,13 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "aquatic_predator" ],
+    "hate": [ "aquatic_predator", "kraken" ],
+    "by_mood": [ "fish" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "kraken",
+    "hate": [ "aquatic_predator", "zombie_aquatic" ],
     "by_mood": [ "fish" ]
   },
   {
@@ -129,7 +135,7 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
-    "by_mood": [ "bear", "big_cat" ],
+    "by_mood": [ "bear", "big_cat", "kraken" ],
     "neutral": [
       "zombie",
       "bot",
@@ -529,7 +535,7 @@
     "name": "aquatic_predator",
     "base_faction": "insect",
     "neutral": [ "bot", "insect", "animal", "zombie" ],
-    "hate": [ "fish", "zombie_aquatic" ]
+    "hate": [ "fish", "zombie_aquatic", "kraken" ]
   },
   {
     "type": "MONSTER_FACTION",

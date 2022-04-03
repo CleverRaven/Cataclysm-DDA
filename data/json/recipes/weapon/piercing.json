@@ -623,7 +623,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ], [ "pointy_stick_long", 1 ] ] ]
+    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",

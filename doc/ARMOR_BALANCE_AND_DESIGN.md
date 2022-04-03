@@ -609,7 +609,7 @@ FLASH_PROTECTION | Protects from flashbangs
 FLOTATION | Causes you to float
 FIN | Makes you swim faster
 PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | Lets players no this item gives no benefits (used on jewelry)
+NO_WEAR_EFFECT | Lets players know this item gives no benefits (used on jewelry)
 PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
 PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
 PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)

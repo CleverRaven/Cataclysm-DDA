@@ -114,7 +114,7 @@
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "points": 4,
-    "description": "Your skin is developing kevlar-like qualities.  Makes you slower though.",
+    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
