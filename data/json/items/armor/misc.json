@@ -221,7 +221,7 @@
     "repairs_like": "mouthpiece",
     "type": "ARMOR",
     "name": { "str_sp": "vampire fangs" },
-    "description": "A piece of white vampire fangs made of plastic.",
+    "description": "A pair of white vampire fangs made of plastic.",
     "weight": "23 g",
     "volume": "250 ml",
     "price": 500,

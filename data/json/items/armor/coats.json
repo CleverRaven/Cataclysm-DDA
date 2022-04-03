@@ -1090,7 +1090,7 @@
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "ninja jacket" },
-    "description": "This is a wrap over black jacket.  Commonly used for sneaky individuals hiding in the dark of the night.  It includes a pair of cotton gauntlets and a sash.",
+    "description": "This is a wrap over black jacket.  Commonly used by stealthy individuals hiding in the dark of the night.  It includes a pair of cotton gauntlets and a sash.",
     "weight": "120 g",
     "volume": "1550 ml",
     "price": 7000,
