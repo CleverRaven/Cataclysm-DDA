@@ -1061,7 +1061,10 @@
     "method": "json",
     "object": {
       "translate_ter": [ { "from": "t_dirtmound", "to": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "item_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+      ]
     }
   },
   {

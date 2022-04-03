@@ -270,8 +270,8 @@
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD_ASK_CONVERT_FIELD",
     "dynamic_line": {
       "npc_has_trait": "NPC_CONSTRUCTION_LEV_2",
-      "yes": "We can plow some more land around your field to give you room for more plants, but you're going to lose anything you already have planted.  The fence will also get moved and expanded.  Everything can be done for 200 merch.  Still interested?",
-      "no": "We can plow some more land around your field to give you room for more plants, but you're going to lose anything you already have planted.  It'll cost 100 merch to expand.  Still interested?"
+      "yes": "We can plow some more land around your field to give you room for more plants.  Any existing plants or items in the way will be destroyed.  The fence will also get moved and expanded.  Everything can be done for 200 merch.  Still interested?",
+      "no": "We can plow some more land around your field to give you room for more plants.  Any existing plants or items in the way will be destroyed.  It'll only cost 100 merch to expand.  Still interested?"
     },
     "responses": [
       {
