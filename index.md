@@ -28,7 +28,6 @@ These are resources provided by third parties that the project sees as helpful t
 * [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
 * [Item Browser](http://cdda-trunk.chezzo.com/)
 * [Hitchhiker's Guide to the Cataclysm](https://nornagon.github.io/cdda-guide/)
-* [Game Launcher](https://discourse.cataclysmdda.org/t/cdda-game-launcher-automatic-updates-and-more)
 
 ## System Requirements
 ### Minimum
