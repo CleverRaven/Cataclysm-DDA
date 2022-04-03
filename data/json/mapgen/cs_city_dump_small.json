@@ -66,7 +66,7 @@
         "o": "t_pavement",
         "y": "t_pavement_y",
         "=": "t_dirt",
-		"*": "t_dirt"
+        "*": "t_dirt"
       },
       "furniture": {
         "c": "f_trashcan",
@@ -75,7 +75,24 @@
         "B": "f_bathtub",
         "=": "f_barricade_road",
         "z": "f_bulletin",
-		"*": [ "f_sink", "f_fridge", "f_glass_fridge", "f_oven", [ "f_wreckage", 10 ], "f_ash", [ "f_rubble_rock", 10 ], [ "f_rubble", 10 ], "f_toilet", "f_exercise", "f_washer", "f_dryer", "f_freezer","f_hay", "f_trashcan", "f_crate_o" ]
+        "*": [
+          "f_sink",
+          "f_fridge",
+          "f_glass_fridge",
+          "f_oven",
+          [ "f_wreckage", 10 ],
+          "f_ash",
+          [ "f_rubble_rock", 10 ],
+          [ "f_rubble", 10 ],
+          "f_toilet",
+          "f_exercise",
+          "f_washer",
+          "f_dryer",
+          "f_freezer",
+          "f_hay",
+          "f_trashcan",
+          "f_crate_o"
+        ]
       },
       "place_vehicles": [
         { "vehicle": "pickup", "x": 11, "y": 5, "rotation": 270, "chance": 30 },
