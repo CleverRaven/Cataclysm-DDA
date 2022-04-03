@@ -118,7 +118,7 @@
     "id": "brush_axe",
     "type": "GENERIC",
     "name": { "str": "brush axe" },
-    "description": "Also known as a bill, this is a long, slightly curved and hooked blade on the end of a sturdy shaft . Could be used to thoroughly ruin something's day, or cut grass and branches.",
+    "description": "Also known as a bill, this is a long, slightly curved and hooked blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut grass and branches.",
     "weight": "3000 g",
     "volume": "2500 ml",
     "longest_side": "150 cm",
