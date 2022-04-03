@@ -42,8 +42,8 @@
   - "data/json/bionics.json"
 
 "Player Faction Base / Camp":
-  - "src/basecamp.(cpp|h)"
-  - "src/faction_camp.(cpp|h)"
+  - "src/basecamp.*"
+  - "src/faction_camp.*"
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
