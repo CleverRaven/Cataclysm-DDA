@@ -260,7 +260,7 @@ shared_ptr_fast<ui_adaptor> _prof_window::create_or_get_ui_adaptor()
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
             init_ui_windows();
-            cui.position_from_window( catacurses::stdscr );
+            cui.position_from_window( w_border );
         } );
         current_ui->mark_resize();
         current_ui->on_redraw( [this]( const ui_adaptor & ) {
@@ -289,7 +289,6 @@ void _prof_window::run()
 
     populate_categories();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    init_ui_windows();
 
     bool done = false;
     while( !done ) {
@@ -307,19 +306,23 @@ void _prof_window::run()
                 sel_prof = 0;
             }
         } else if( action == "LEFT" || action == "PREV_CATEGORY" ) {
-            current_cat--;
-            if( current_cat < 0 ) {
-                current_cat = std::max( static_cast<int>( cats.size() ) - 1, 0 );
+            if( filter_str.empty() ) {
+                current_cat--;
+                if( current_cat < 0 ) {
+                    current_cat = std::max( static_cast<int>( cats.size() ) - 1, 0 );
+                }
+                sel_prof = 0;
+                top_prof = 0;
             }
-            sel_prof = 0;
-            top_prof = 0;
         } else if( action == "RIGHT" || action == "NEXT_CATEGORY" ) {
-            current_cat++;
-            if( current_cat >= static_cast<int>( cats.size() ) ) {
-                current_cat = 0;
+            if( filter_str.empty() ) {
+                current_cat++;
+                if( current_cat >= static_cast<int>( cats.size() ) ) {
+                    current_cat = 0;
+                }
+                sel_prof = 0;
+                top_prof = 0;
             }
-            sel_prof = 0;
-            top_prof = 0;
         } else if( action == "FILTER" ) {
             //~ Refers to single-character search prefixes, like p: or s:
             std::string desc( _( "Available prefixes:" ) );
@@ -331,7 +334,7 @@ void _prof_window::run()
             desc += _( "<color_c_light_cyan>p:</color>  Returns proficiencies above the given progress.  "
                        "ex: <color_c_yellow>p:95.00</color>" );
             desc += "\n\n";
-            desc += _( "By default, the filter applies to proficiencies containing the given string."
+            desc += _( "By default, the filter applies to proficiencies containing the given string.  "
                        "Using just a glob <color_c_yellow>*</color> matches anything.\n"
                        "ex: <color_c_yellow>l:*</color> returns all learned proficiencies." );
             desc += "\n\n";
