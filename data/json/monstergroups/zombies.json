@@ -637,5 +637,10 @@
       { "monster": "mon_zombie_plated", "weight": 50, "starts": "20 days" },
       { "monster": "mon_zombie_shell", "weight": 20, "starts": "40 days" }
     ]
+  },
+  {
+    "name": "GROUP_MINERS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_miner" } ]
   }
 ]
