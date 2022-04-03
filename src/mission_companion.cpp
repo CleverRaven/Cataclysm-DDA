@@ -1527,27 +1527,30 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
+                const item item_seed = item( seed->type, calendar::turn );
                 tmp = item( seed_data.fruit_id, calendar::turn );
                 if( tmp.typeId() == plant_types[plant_index] ) {
                     number_plots++;
+
+                    int plant_count = rng( skillLevel / 2, skillLevel );
+                    plant_count *= bay.furn( plot )->plant->harvest_multiplier;
+                    plant_count = std::min( std::max( plant_count, 1 ), 12 );
+
+                    // Multiply by the plant's and seed's base charges to mimic creating
+                    // items similar to iexamine::harvest_plant
+                    number_plants += plant_count * tmp.charges;
+                    number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
+
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
                     bay.ter_set( plot, t_dirtmound );
-                    int plantCount = rng( skillLevel / 2, skillLevel );
-                    if( plantCount >= 9 ) {
-                        plantCount = 9;
-                    } else if( plantCount <= 0 ) {
-                        plantCount = 1;
-                    }
-                    number_plants += plantCount;
-                    number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                 }
             }
         }
     }
     bay.save();
     tmp = item( plant_types[plant_index], calendar::turn );
-    int merch_amount = ( number_plants * tmp.price( true ) - number_plots * 2.5 ) / 250;
+    int merch_amount = std::max( 0, ( number_plants * tmp.price( true ) / 250 ) - number_plots );
     bool liquidate = false;
 
     if( !player_character.has_amount( itype_FMCNote, number_plots ) ) {
@@ -1561,7 +1564,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
     //Add fruit
     if( liquidate ) {
-        add_msg( _( "The %s are sold for %d merch…" ), plant_names[plant_index], merch_amount);
+        add_msg( _( "The %s are sold for %d merch…" ), plant_names[plant_index], merch_amount );
         item merch = item( itype_FMCNote );
         player_character.i_add_or_drop( merch, merch_amount );
     } else {
