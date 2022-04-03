@@ -746,6 +746,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stationary_scutcher",
+    "name": "Build Stationary Scutcher"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
