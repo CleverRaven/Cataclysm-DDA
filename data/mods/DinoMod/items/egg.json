@@ -146,6 +146,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_appalachiosaurus",
+    "name": "appalachiosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_appalachiosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_gorgosaurus",
     "name": "gorgosaurus egg",
     "copy-from": "egg_dino_theropod",

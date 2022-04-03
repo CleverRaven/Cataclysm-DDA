@@ -434,7 +434,7 @@
     "looks_like": "gloves_wraps",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS", "SOFT" ],
     "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -681,7 +681,7 @@
     "color": "white",
     "material_thickness": 0.1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT" ],
     "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -741,7 +741,7 @@
     "warmth": 10,
     "material_thickness": 0.35,
     "environmental_protection": 8,
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "SOFT" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {

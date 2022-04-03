@@ -2638,6 +2638,8 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
 
+    optional( jo, false, "rigid_layer_only", rigid_layer_only, false );
+
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
         max_encumber = jo.get_array( "encumbrance" ).get_int( 1 );
