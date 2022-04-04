@@ -1468,7 +1468,6 @@ void Item_factory::init()
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
-    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
