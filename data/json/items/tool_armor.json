@@ -337,7 +337,10 @@
     "material_thickness": 3,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+    ]
   },
   {
     "id": "welding_mask_crude",
@@ -362,7 +365,10 @@
     "material_thickness": 2,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 90, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [
+      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+    ]
   },
   {
     "id": "welding_mask_crude_raised",
@@ -902,8 +908,8 @@
     "price": 150000,
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
     "warmth": 65,
     "material": [ "kevlar_rigid", "nomex" ],
@@ -1399,8 +1405,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1425,8 +1431,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1452,8 +1458,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1479,8 +1485,8 @@
     "symbol": "[",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
     "qualities": [ [ "GLARE", 1 ] ],
@@ -1507,8 +1513,8 @@
     "symbol": "[",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 15,
     "qualities": [ [ "GLARE", 1 ] ],
@@ -1553,8 +1559,8 @@
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3
@@ -1577,8 +1583,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
     "material_thickness": 3,
@@ -1604,8 +1610,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 15,
     "material_thickness": 3,
@@ -1631,8 +1637,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 25 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 }
     ],
     "warmth": 15,
     "material_thickness": 3,
@@ -1658,8 +1664,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 25 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 }
     ],
     "warmth": 15,
     "material_thickness": 3,
@@ -1685,8 +1691,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 15,
     "material_thickness": 3,
@@ -1756,8 +1762,8 @@
     "symbol": "[",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 75,
     "material_thickness": 3,
@@ -1783,8 +1789,8 @@
     "symbol": "[",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 35 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
     ],
     "warmth": 75,
     "material_thickness": 3,
@@ -1810,7 +1816,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE" ],
+    "flags": [ "FRAGILE", "OUTER" ],
     "price": 92000,
     "price_postapoc": 3500,
     "material": [ "plastic", "steel" ],
@@ -1838,7 +1844,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_nv_on",
@@ -1848,13 +1854,13 @@
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID" ],
+    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": 375,
     "revert_to": "goggles_nv",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_ir",
@@ -1864,7 +1870,7 @@
     "color": "dark_gray",
     "name": { "str": "pair of infrared goggles", "str_pl": "pairs of infrared goggles" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE" ],
+    "flags": [ "FRAGILE", "OUTER" ],
     "price": 92000,
     "price_postapoc": 2500,
     "material": [ "plastic", "steel" ],
@@ -1892,7 +1898,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "goggles_ir_on",
@@ -1902,12 +1908,12 @@
     "name": { "str": "pair of infrared goggles (on)", "str_pl": "pairs of infrared goggles (on)" },
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID" ],
+    "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
     "power_draw": 1000,
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "warmth": 25,
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "wearable_rx12",
@@ -1977,8 +1983,8 @@
     "warmth": 15,
     "environmental_protection": 10,
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 30 }
     ],
     "material_thickness": 2
   },
@@ -2030,8 +2036,8 @@
     "warmth": 15,
     "environmental_protection": 10,
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 30 }
     ],
     "material_thickness": 2
   },
@@ -2131,7 +2137,7 @@
     "to_hit": -3,
     "revert_to": "emer_blanket",
     "use_action": [ "PACK_ITEM" ],
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "warmth": 50,
     "environmental_protection": 1,
     "material_thickness": 0.1,
@@ -3082,6 +3088,7 @@
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "eyes" ],
+        "rigid_layer_only": true,
         "coverage": 80,
         "encumbrance": 5,
         "layers": [ "OUTER" ]
@@ -3092,6 +3099,7 @@
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "mouth" ],
+        "rigid_layer_only": true,
         "coverage": 50,
         "encumbrance": 2,
         "layers": [ "OUTER" ]
@@ -3099,7 +3107,7 @@
     ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_riot_raised",
@@ -3132,7 +3140,7 @@
     ],
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "helmet_sallet",
@@ -3547,7 +3555,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5, "layers": [ "OUTER" ] }
     ],
     "warmth": 15,
     "material_thickness": 5,
