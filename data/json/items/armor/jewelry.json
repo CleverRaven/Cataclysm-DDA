@@ -611,7 +611,7 @@
       {
         "id": "vampire_cufflinks",
         "name": { "str": "vampire cufflinks" },
-        "text": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
         "weight": 1
       }
     ]
@@ -683,7 +683,7 @@
       {
         "id": "dark_cufflinks",
         "name": { "str": "dark cufflinks" },
-        "text": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
+        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
         "weight": 1
       }
     ],
@@ -1812,7 +1812,7 @@
       {
         "id": "vampire_earring",
         "name": { "str": "vampire earrings" },
-        "text": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
         "weight": 1
       }
     ]
@@ -1884,7 +1884,7 @@
       {
         "id": "dark_earring",
         "name": { "str": "dark earrings" },
-        "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
         "weight": 1
       }
     ],
@@ -2210,7 +2210,7 @@
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
-        "text": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
         "weight": 1
       }
     ]
@@ -2282,7 +2282,7 @@
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
-        "text": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
         "weight": 1
       }
     ],
@@ -2623,7 +2623,7 @@
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
-        "text": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
         "weight": 1
       }
     ]
@@ -2695,7 +2695,7 @@
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
-        "text": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
         "weight": 1
       }
     ],
@@ -3027,7 +3027,7 @@
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
-        "text": "A sinister silver necklace adorned with a blood-red ruby pendant.",
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
         "weight": 1
       }
     ]
@@ -3099,7 +3099,7 @@
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
-        "text": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
         "weight": 1
       }
     ],
@@ -3559,7 +3559,7 @@
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
-        "text": "A sinister dark silver tiara adorned with blood-red rubies.",
+        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
         "weight": 1
       }
     ]
@@ -3628,7 +3628,7 @@
     "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
-      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "text": "A dark silver tiara adorned with onyx.", "weight": 1 }
+      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx.", "weight": 1 }
     ],
     "color": "dark_gray"
   }
