@@ -28,7 +28,7 @@
     "vision_night": 30,
     "harvest": "mutant_meatslug",
     "fear_triggers": [ "FIRE" ],
-    "death_drops": "dissect_gastropod_sample_huge",
+    "dissect": "dissect_gastropod_sample_huge",
     "regenerates": 50,
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
@@ -40,7 +40,7 @@
     "copy-from": "mon_slug_giant",
     "volume": "62500 ml",
     "weight": "81500 g",
-    "death_drops": "dissect_gastropod_sample_single",
+    "dissect": "dissect_gastropod_sample_single",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "upgrades": { "half_life": 14, "into": "mon_slug_giant" }
   },
@@ -72,7 +72,7 @@
     "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "mutant_meatslug",
-    "death_drops": "dissect_gastropod_sample_small",
+    "dissect": "dissect_gastropod_sample_small",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "BASHES", "ACIDPROOF", "ACIDTRAIL", "ARTHROPOD_BLOOD" ]

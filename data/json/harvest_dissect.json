@@ -336,6 +336,12 @@
     "entries": [ { "drop": "lizard_sample_huge", "type": "mutagen_group" } ]
   },
   {
+    "id": "dissect_lupine_sample_single",
+    "type": "harvest",
+    "message": "<mutagen_sample_harvest>",
+    "entries": [ { "drop": "lupine_sample_single", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_lupine_sample_small",
     "type": "harvest",
     "message": "<mutagen_sample_harvest>",
@@ -496,6 +502,12 @@
     "type": "harvest",
     "message": "<mutagen_sample_harvest>",
     "entries": [ { "drop": "rat_sample_huge", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_slime_sample_single",
+    "type": "harvest",
+    "message": "<mutagen_sample_harvest>",
+    "entries": [ { "drop": "slime_sample_single", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_slime_sample_small",

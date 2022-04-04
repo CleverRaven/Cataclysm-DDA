@@ -126,7 +126,7 @@
     "vision_night": 8,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_human",
-    "dissect": "dissect_bovine_sample_large",
+    "dissect": "dissect_cattle_sample_large",
     "death_drops": "mon_mutant_experimental_death_drops",
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
@@ -323,7 +323,7 @@
     "armor_elec": 1,
     "dodge": 5,
     "harvest": "mutant_human",
-    "dissect": "mutant_human_sample_single",
+    "dissect": "dissect_human_sample_single",
     "fear_triggers": [ "FIRE" ],
     "death_drops": {
       "subtype": "collection",
