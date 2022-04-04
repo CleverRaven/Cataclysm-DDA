@@ -86,6 +86,49 @@
     "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "cheerleader_skirt",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "cheerleader skirt" },
+    "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "warmth": 2,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "cheerleader_skirt_short",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "cheerleader skirt" },
+    "description": "A very short, breezy and red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to practice cheerleading.",
+    "weight": "70 g",
+    "volume": "200 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
     "id": "fishing_waders",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",

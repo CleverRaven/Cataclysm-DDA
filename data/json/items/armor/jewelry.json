@@ -606,10 +606,13 @@
     "type": "ARMOR",
     "name": { "str_sp": "ruby and silver cufflinks" },
     "description": "A pair of cufflinks with inset rubies.",
-    "snippet_category": [
+    "variant_type": "generic",
+    "variants": [
       {
         "id": "vampire_cufflinks",
-        "text": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood."
+        "name": { "str": "vampire cufflinks" },
+        "text": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
+        "weight": 1
       }
     ]
   },
@@ -675,8 +678,14 @@
     "type": "ARMOR",
     "name": { "str_sp": "onyx and silver cufflinks" },
     "description": "A pair of cufflinks with inset onyx.",
-    "snippet_category": [
-      { "id": "dark_cufflinks", "text": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations." }
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "dark_cufflinks",
+        "name": { "str": "dark cufflinks" },
+        "text": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
+        "weight": 1
+      }
     ],
     "color": "dark_gray"
   },
@@ -1798,7 +1807,15 @@
     "type": "ARMOR",
     "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
     "description": "A pair of shiny ruby and silver earrings.",
-    "snippet_category": [ { "id": "vampire_earring", "text": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs." } ]
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "vampire_earring",
+        "name": { "str": "vampire earrings" },
+        "text": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_earring",
@@ -1862,7 +1879,15 @@
     "type": "ARMOR",
     "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
     "description": "A pair of shiny onyx and silver earrings.",
-    "snippet_category": [ { "id": "dark_earring", "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts." } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "dark_earring",
+        "name": { "str": "dark earrings" },
+        "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
+        "weight": 1
+      }
+    ],
     "color": "dark_gray"
   },
   {
@@ -2180,8 +2205,14 @@
     "type": "ARMOR",
     "name": { "str": "ruby and silver ring" },
     "description": "A silver ring with a ruby mounted on top of it.",
-    "snippet_category": [
-      { "id": "vampire_ring", "text": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it." }
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "vampire_ring",
+        "name": { "str": "vampire ring" },
+        "text": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
+        "weight": 1
+      }
     ]
   },
   {
@@ -2246,8 +2277,14 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver ring" },
     "description": "A silver ring with an onyx mounted on top of it.",
-    "snippet_category": [
-      { "id": "dark_ring", "text": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it." }
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "dark_ring",
+        "name": { "str": "dark ring" },
+        "text": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
+        "weight": 1
+      }
     ],
     "color": "dark_gray"
   },
@@ -2581,10 +2618,13 @@
     "type": "ARMOR",
     "name": { "str": "ruby and silver bracelet" },
     "description": "A silver bracelet with sparkling rubies.",
-    "snippet_category": [
+    "variant_type": "generic",
+    "variants": [
       {
         "id": "vampire_bracelet",
-        "text": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts."
+        "name": { "str": "vampire bracelet" },
+        "text": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
+        "weight": 1
       }
     ]
   },
@@ -2650,10 +2690,13 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver bracelet" },
     "description": "A silver bracelet with onyx.",
-    "snippet_category": [
+    "variant_type": "generic",
+    "variants": [
       {
         "id": "dark_bracelet",
-        "text": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye."
+        "name": { "str": "dark bracelet" },
+        "text": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
+        "weight": 1
       }
     ],
     "color": "dark_gray"
@@ -2979,7 +3022,15 @@
     "type": "ARMOR",
     "name": { "str": "ruby and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a ruby pendant.",
-    "snippet_category": [ { "id": "vampire_necklace", "text": "A sinister silver necklace adorned with a blood-red ruby pendant." } ]
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "vampire_necklace",
+        "name": { "str": "vampire necklace" },
+        "text": "A sinister silver necklace adorned with a blood-red ruby pendant.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_pendant_necklace",
@@ -3043,7 +3094,15 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
-    "snippet_category": [ { "id": "dark_necklace", "text": "A dark silver necklace with an onyx pendant in the shape of a dark heart." } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "dark_necklace",
+        "name": { "str": "dark necklace" },
+        "text": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
+        "weight": 1
+      }
+    ],
     "color": "dark_gray"
   },
   {
@@ -3495,7 +3554,15 @@
     "type": "ARMOR",
     "name": { "str": "ruby and silver tiara" },
     "description": "A shiny, silver tiara adorned with rubies.",
-    "snippet_category": [ { "id": "vampire_tiara", "text": "A sinister dark silver tiara adorned with blood-red rubies." } ]
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "vampire_tiara",
+        "name": { "str": "vampire tiara" },
+        "text": "A sinister dark silver tiara adorned with blood-red rubies.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "peridot_silver_tiara",
@@ -3559,7 +3626,10 @@
     "type": "ARMOR",
     "name": { "str": "onyx and silver tiara" },
     "description": "A shiny, silver tiara adorned with onyx.",
-    "snippet_category": [ { "id": "dark_tiara", "text": "A dark silver tiara adorned with onyx." } ],
+    "variant_type": "generic",
+    "variants": [
+      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "text": "A dark silver tiara adorned with onyx.", "weight": 1 }
+    ],
     "color": "dark_gray"
   }
 ]
