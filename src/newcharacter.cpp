@@ -242,7 +242,7 @@ static int skill_points_left( const avatar &u, pool_type pool )
     return 0;
 }
 
-// Toggle this trait and all dependencies (sets mutation category levels)
+// Toggle this trait and all prereqs, removing upgrades on removal
 void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
@@ -256,24 +256,15 @@ void Character::toggle_trait_deps( const trait_id &tr )
             rc++;
         }
     } else if( has_trait( tr ) ) {
-        int rc = 0;
-        std::unordered_map<trait_id, int> deps;
-        build_mut_dependency_map( tr, deps, 0 );
-        while( rc < depth_max && ( has_trait( tr ) ||
-        std::any_of( deps.begin(), deps.end(), [this]( const std::pair<trait_id, int> &dep ) {
-        return has_trait( dep.first );
-        } ) ) ) {
-            for( const auto &dep : deps ) {
-                if( has_trait( dep.first ) ) {
-                    remove_mutation( dep.first );
-                }
-            }
-            if( has_trait( tr ) ) {
-                remove_mutation( tr );
-            }
-            rc++;
+        for( const auto &addition : get_addition_traits( tr ) ) {
+            unset_mutation( addition );
         }
+        for( const auto &lower : get_lower_traits( tr ) ) {
+            unset_mutation( lower );
+        }
+        unset_mutation( tr );
     }
+    calc_mutation_levels();
 }
 
 static std::string pools_to_string( const avatar &u, pool_type pool )
