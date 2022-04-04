@@ -139,7 +139,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ztruthiomimus_UPGRADE",
-    "monsters": [ { "monster": "mon_sktruthiomus", "weight": 600 }, { "monster": "mon_ztruthiomimus_brute", "weight": 400 } ]
+    "monsters": [ { "monster": "mon_sktruthiomimus", "weight": 600 }, { "monster": "mon_ztruthiomimus_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
