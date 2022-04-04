@@ -176,7 +176,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "milk_standard", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ] ],
+      [ [ "milk_standard", 2, "LIST" ] ],
       [
         [ "chocolate", 1 ],
         [ "peanutbutter", 1 ],
@@ -244,7 +244,7 @@
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
-      [ [ "milk_standard", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ] ],
+      [ [ "milk_standard", 2, "LIST" ] ],
       [
         [ "chocolate", 1 ],
         [ "peanutbutter", 1 ],
