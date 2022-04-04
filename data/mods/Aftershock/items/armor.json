@@ -302,7 +302,7 @@
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xlpolice_belt",
@@ -312,7 +312,7 @@
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xltac_fullhelmet",
