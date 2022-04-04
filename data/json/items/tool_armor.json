@@ -3547,7 +3547,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5, "rigid_layer_only": true }
     ],
     "warmth": 15,
     "material_thickness": 5,
@@ -3592,7 +3592,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5, "rigid_layer_only": true }
     ],
     "warmth": 15,
     "material_thickness": 5,
