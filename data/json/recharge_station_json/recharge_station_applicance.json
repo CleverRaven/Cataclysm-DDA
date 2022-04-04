@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_trunk_recharge_station",
-    "name": { "str": "trunk_recharge_station" },
+    "name": { "str": "trunk recharge station" },
     "symbol": "o",
     "categories": [ "cargo" ],
     "color": "light_green",
