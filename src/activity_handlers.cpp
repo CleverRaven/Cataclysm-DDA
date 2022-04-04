@@ -526,7 +526,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
             corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
         you.add_msg_if_player( m_info,
-                               _( "It would be futile to search for implants inside this badly damaged corpse." ) );
+                               _( "It would be futile to dissect this badly damaged corpse." ) );
         act.targets.pop_back();
         return;
     }
@@ -822,7 +822,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
-    for( const harvest_entry &entry : *mt.harvest ) {
+    for( const harvest_entry &entry : action == butcher_type::DISSECT ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
@@ -833,7 +833,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( !entry.type->dissect_only() ) {
+        } else if( action != butcher_type::DISSECT ) {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
@@ -846,24 +846,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             drop = item::find_type( drop_id );
         }
 
-        if( entry.type->dissect_only() ) {
-            if( action == butcher_type::FIELD_DRESS ) {
-                const translation msg = entry.type->field_dress_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-            if( action == butcher_type::QUICK ||
-                action == butcher_type::FULL ||
-                action == butcher_type::DISMEMBER ) {
-                const translation msg = entry.type->butcher_msg( false );
-                if( !msg.empty() ) {
-                    add_msg( m_bad, msg.translated() );
-                }
-                continue;
-            }
-        }
         if( action == butcher_type::DISSECT ) {
             int roll = roll_butchery_dissect( skill_level, you.dex_cur,
                                               tool_quality ) - corpse_item->damage_level();

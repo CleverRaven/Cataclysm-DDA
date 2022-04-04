@@ -37,7 +37,7 @@
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
-    "harvest": "mutant_rodent"
+    "harvest": "mutant_mammal_small_fur"
   },
   {
     "id": "mon_zap_rat",

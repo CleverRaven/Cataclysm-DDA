@@ -379,6 +379,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        harvest_id dissect;
         shearing_data shearing;
         speed_description_id speed_desc;
 

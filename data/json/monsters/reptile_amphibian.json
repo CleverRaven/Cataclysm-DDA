@@ -82,7 +82,7 @@
     "dodge": 2,
     "armor_bash": 4,
     "armor_elec": 1,
-    "harvest": "mutant_animal_large_noskin_frog",
+    "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
     "upgrades": { "half_life": 50, "into": "mon_frog_mother" },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
@@ -117,7 +117,7 @@
     "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
-    "harvest": "reptile_large_leather",
+    "harvest": "mutant_mammal_large_leather",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -201,7 +201,7 @@
     "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "mutant_animal_large_reptile_noskin",
+    "harvest": "mutant_animal_large_noskin",
     "special_attacks": [
       [ "RATTLE", 6 ],
       {
