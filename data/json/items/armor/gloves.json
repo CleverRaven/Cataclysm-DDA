@@ -52,14 +52,14 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 20
