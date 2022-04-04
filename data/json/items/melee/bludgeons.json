@@ -355,7 +355,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "wizard_cane_cheap",
     "repairs_like": "hollow_cane",
     "name": { "str": "wizard cane (off)", "str_pl": "wizard canes (off)" },
@@ -391,7 +391,7 @@
   {
     "id": "wizard_cane_cheap_on",
     "copy-from": "wizard_cane",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "wizard cane (on)", "str_pl": "wizard canes (on)" },
     "power_draw": 1000,
     "revert_to": "wizard_cane_cheap",
@@ -406,7 +406,7 @@
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "wizard_cane",
     "repairs_like": "hollow_cane",
     "name": { "str": "wizard cane (off)", "str_pl": "wizard canes (off)" },
@@ -441,7 +441,7 @@
   {
     "id": "wizard_cane_on",
     "copy-from": "wizard_cane",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "wizard cane (on)", "str_pl": "wizard canes (on)" },
     "power_draw": 10000,
     "revert_to": "wizard_cane",
