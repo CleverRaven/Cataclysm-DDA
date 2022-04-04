@@ -11,7 +11,9 @@
       [ [ 0, 0, 0 ], [ "field" ] ],
       [ [ 1, 0, 0 ], [ "field" ] ],
       [ [ 0, 1, 0 ], [ "field" ] ],
-      [ [ 1, 1, 0 ], [ "field" ] ]
+      [ [ 1, 1, 0 ], [ "field" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 1, -1 ], [ "subterranean_empty" ] ]
     ],
     "joins": [
       "parking_lot_to_road",
@@ -47,13 +49,15 @@
         "overmap": "mine_shaft_middle_north",
         "east": "shaft_middle_to_shaft_middle",
         "above": "surface_to_shaft",
-        "below": "shaft_lower_to_shaft_middle"
+        "below": "shaft_lower_to_shaft_middle",
+        "locations": [ "subterranean_empty" ]
       },
       "shaft_east": {
         "overmap": "mine_shaft_middle_east_north",
         "west": "shaft_middle_to_shaft_middle",
         "above": "surface_to_shaft",
-        "below": "shaft_lower_to_shaft_middle"
+        "below": "shaft_lower_to_shaft_middle",
+        "locations": [ "subterranean_empty" ]
       },
       "tunnels_west": {
         "overmap": "mine_shaft_lower_north",
@@ -132,27 +136,37 @@
         { "overmap": "corner", "max": { "poisson": 5 } },
         { "overmap": "tee", "max": { "poisson": 10 } }
       ],
-      [ { "overmap": "slope_down_to_-3", "max": 1 } ],
+      [
+        {
+          "name": "-2_to_-3",
+          "chunk": [ { "overmap": "slope_down_to_-3", "pos": [ 0, 0, -2 ] }, { "overmap": "slope_up_to_-2", "pos": [ 0, 0, -3 ] } ],
+          "max": 1
+        }
+      ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
         { "overmap": "corner", "weight": 100 },
         { "overmap": "tee", "weight": 10 }
       ],
-      [ { "overmap": "slope_up_to_-2", "max": 1 } ],
       [
         { "overmap": "-3_straight_tunnel", "max": { "poisson": 20 } },
         { "overmap": "-3_corner", "max": { "poisson": 5 } },
         { "overmap": "-3_tee", "max": { "poisson": 10 } }
       ],
-      [ { "overmap": "slope_down_to_-4", "max": 1 } ],
+      [
+        {
+          "name": "-3_to_-4",
+          "chunk": [ { "overmap": "slope_down_to_-4", "pos": [ 0, 0, -3 ] }, { "overmap": "slope_up_to_-3", "pos": [ 0, 0, -4 ] } ],
+          "max": 1
+        }
+      ],
       [
         { "overmap": "-3_dead_end", "weight": 2000 },
         { "overmap": "-3_straight_tunnel", "weight": 100 },
         { "overmap": "-3_corner", "weight": 100 },
         { "overmap": "-3_tee", "weight": 10 }
       ],
-      [ { "overmap": "slope_up_to_-3", "max": 1 } ],
       [
         { "overmap": "-4_straight_tunnel", "max": { "poisson": 20 } },
         { "overmap": "-4_corner", "max": { "poisson": 5 } },
