@@ -132,6 +132,34 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "flag_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "flag jumpsuit" },
+    "description": "A jumpsuit embroidered with the pattern of an American flag.  Provides decent storage and is not very encumbering.",
+    "weight": "558 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
     "id": "ghost_robe",
     "repairs_like": "cloak",
     "type": "ARMOR",
