@@ -2508,7 +2508,7 @@
   },
   {
     "id": "onyx_gold_bracelet",
-    "copy-from": "garne_gold_bracelet",
+    "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and gold bracelet" },
     "description": "A gold bracelet with onyx.",
