@@ -88,7 +88,7 @@
       }
     ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -135,7 +135,7 @@
       }
     ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -179,7 +179,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "ARMOR",
