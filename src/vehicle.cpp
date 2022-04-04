@@ -1875,7 +1875,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
             handler.add_item_or_charges( dest, i, true );
         }
     }
-    refresh();
+    refresh( false );
     coeff_air_changed = true;
     return shift_if_needed( handler.get_map_ref() );
 }
@@ -1884,18 +1884,26 @@ bool vehicle::__part_removal_actual()
 {
     bool changed = false;
     map &here = get_map();
-    for( std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */ ) {
-        if( it->removed ) {
-            vehicle_stack items = get_items( std::distance( parts.begin(), it ) );
-            while( !items.empty() ) {
-                items.erase( items.begin() );
+    for( std::vector<vehicle_part>::iterator it = parts.end(); it != parts.begin(); /*noop*/ ) {
+        --it;
+        if( it->removed || it->is_fake ) {
+            // We are first stripping out removed parts and marking
+            // their corresponding real parts as "not fake" so they are regenerated,
+            // and then removing any parts that have been marked as removed.
+            // This is assured by iterating from the end to the beginning as
+            // fake parts are always at the end of the parts vector.
+            if( it->is_fake ) {
+                parts[it->fake_part_to].has_fake = false;
+            } else {
+                vehicle_stack items = get_items( std::distance( parts.begin(), it ) );
+                while( !items.empty() ) {
+                    items.erase( items.begin() );
+                }
             }
             const tripoint pt = global_part_pos3( *it );
             here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
-        } else {
-            ++it;
         }
     }
     return changed;
@@ -5651,10 +5659,6 @@ void vehicle::refresh( const bool remove_fakes )
     if( no_refresh ) {
         return;
     }
-    bool wreck = has_tag( "wreckage" );
-    if( remove_fakes || wreck ) {
-        remove_fake_parts();
-    }
 
     alternators.clear();
     engines.clear();
@@ -5867,6 +5871,10 @@ void vehicle::refresh( const bool remove_fakes )
         if( edge_info.is_edge_mount() ) {
             // get a copy of the real part and install it as an inactive fake part
             vehicle_part &part_real = parts.at( real_index );
+            if( part_real.has_fake == true &&
+                static_cast<size_t>( part_real.fake_part_at ) < parts.size() ) {
+                return;
+            }
             vehicle_part part_fake( parts.at( real_index ) );
             part_real.has_fake = true;
             part_fake.is_fake = true;
@@ -5896,7 +5904,7 @@ void vehicle::refresh( const bool remove_fakes )
     };
     // re-install fake parts - this could be done in a separate function, but we want to
     // guarantee that the fake parts were removed before being added
-    if( remove_fakes && !wreck ) {
+    if( remove_fakes && !has_tag( "wreckage" ) ) {
         // add all the obstacles first
         for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
             add_fake_part( rp.first, "OBSTACLE" );
