@@ -54,6 +54,51 @@
     "material": [ "kevlar" ]
   },
   {
+    "id": "bee_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str_sp": "bee dress" },
+    "description": "A short black and yellow dress, reminiscent of a bee.  It includes bee wings, a hood, and a pair of antenna.",
+    "weight": "739 g",
+    "volume": "4000 ml",
+    "price": 7500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 8, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 4, 4 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 4, 5 ]
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
     "id": "blazer",
     "type": "ARMOR",
     "name": { "str": "blazer" },
@@ -630,6 +675,29 @@
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "mummy_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str_sp": "mummy dress", "str_pl": "mummy dresses" },
+    "description": "A white and apparently tattered dress made in semblance of ancient mummies.  Very easy to move in, but it doesn't offer any type of protection.",
+    "weight": "10 g",
+    "volume": "2000 ml",
+    "price": 5000,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85 },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 100 },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "FRAGILE" ]
   },
   {
     "id": "ninja_dress",

@@ -361,6 +361,29 @@
     "color": "brown"
   },
   {
+    "id": "mummy_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "name": { "str_sp": "mummy jumpsuit" },
+    "description": "A white and apparently tattered dress made in semblance of ancient mummies.  Very easy to move in, but it doesn't offer any type of protection.",
+    "weight": "639 g",
+    "volume": "3500 ml",
+    "price": 8500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 1 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
     "id": "subsuit_xl",
     "repairs_like": "jumpsuit",
     "type": "ARMOR",
