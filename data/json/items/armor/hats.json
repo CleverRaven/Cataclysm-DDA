@@ -665,7 +665,7 @@
     "id": "pointed_hat",
     "type": "ARMOR",
     "name": "pointed hat",
-    "description": "A black pointed hat like the ones witches use.",
+    "description": "A black pointed hat suitable for a witch.",
     "weight": "40 g",
     "volume": "2 L",
     "price": 3000,

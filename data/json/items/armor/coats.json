@@ -1654,7 +1654,7 @@
     "repairs_like": "robe",
     "type": "ARMOR",
     "name": { "str": "wizard robe" },
-    "description": "A mysterious and arcane looking robe, signifier of status in the wizarding world.  It has a hood and some pockets for your magical artifacts.",
+    "description": "A mysterious and arcane-looking robe, signifying status in the wizarding world.  It has a hood and some pockets for your magical artifacts.",
     "weight": "911 g",
     "volume": "5 L",
     "price": 5000,
