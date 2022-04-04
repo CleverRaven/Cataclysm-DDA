@@ -149,7 +149,7 @@
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_struthiomus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_struthiomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dyoplosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
