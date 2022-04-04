@@ -143,64 +143,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "tyrannosaurus",
-    "base_faction": "predator_dino",
-    "hate": [ "animal", "zombie", "human" ],
-    "by_mood": "tyrannosaurus",
-    "friendly": [ "tyrannosaurus_juvenile", "tyrannosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "tyrannosaurus_juvenile",
-    "base_faction": "small_predator",
-    "friendly": [ "tyrannosaurus", "tyrannosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "tyrannosaurus_hatchling",
-    "base_faction": "very_small_predator",
-    "friendly": [ "tyrannosaurus", "tyrannosaurus_juvenile" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gorgosaurus",
-    "base_faction": "predator_dino",
-    "by_mood": "gorgosaurus",
-    "friendly": [ "gorgosaurus_juvenile", "gorgosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gorgosaurus_juvenile",
-    "base_faction": "small_predator",
-    "friendly": [ "gorgosaurus", "gorgosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gorgosaurus_hatchling",
-    "base_faction": "very_small_predator",
-    "friendly": [ "gorgosaurus", "gorgosaurus_juvenile" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "albertosaurus",
-    "base_faction": "predator_dino",
-    "by_mood": "albertosaurus",
-    "friendly": [ "albertosaurus_juvenile", "albertosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "albertosaurus_juvenile",
-    "base_faction": "small_predator",
-    "friendly": [ "albertosaurus", "albertosaurus_hatchling" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "albertosaurus_hatchling",
-    "base_faction": "very_small_predator",
-    "friendly": [ "albertosaurus", "albertosaurus_juvenile" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "allosaurus",
     "base_faction": "predator_dino",
     "friendly": [ "allosaurus_juvenile", "allosaurus_hatchling" ]
@@ -254,6 +196,83 @@
     "name": "siats_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "siats", "siats_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus",
+    "base_faction": "predator_dino",
+    "by_mood": "appalachiosaurus",
+    "friendly": [ "appalachiosaurus_juvenile", "appalachiosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "appalachiosaurus", "appalachiosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "appalachiosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "appalachiosaurus", "appalachiosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus",
+    "base_faction": "predator_dino",
+    "by_mood": "gorgosaurus",
+    "friendly": [ "gorgosaurus_juvenile", "gorgosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gorgosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "gorgosaurus", "gorgosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus",
+    "base_faction": "predator_dino",
+    "by_mood": "albertosaurus",
+    "friendly": [ "albertosaurus_juvenile", "albertosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "albertosaurus", "albertosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "albertosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "albertosaurus", "albertosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "by_mood": "tyrannosaurus",
+    "friendly": [ "tyrannosaurus_juvenile", "tyrannosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "tyrannosaurus", "tyrannosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "tyrannosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "tyrannosaurus", "tyrannosaurus_juvenile" ]
   },
   {
     "type": "MONSTER_FACTION",

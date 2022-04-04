@@ -631,7 +631,7 @@
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
@@ -639,7 +639,7 @@
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -853,6 +853,54 @@
         "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ]
       }
     ]
+  },
+  {
+    "id": "armguard_bronze",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of bronze vambraces", "str_pl": "pairs of bronze vambraces" },
+    "description": "A pair of bronze arm guards with a simple leather lining.",
+    "weight": "2270 g",
+    "volume": "5250 ml",
+    "price": 40000,
+    "price_postapoc": 750,
+    "to_hit": 1,
+    "material": [ "bronze", "leather" ],
+    "symbol": "[",
+    "looks_like": "armguard_lightplate",
+    "color": "yellow",
+    "warmth": 15,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 5,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armguard_bronze",
+    "type": "ARMOR",
+    "copy-from": "armguard_bronze",
+    "name": { "str": "XL bronze vambraces", "str_pl": "pairs of XL bronze vambraces" },
+    "description": "A pair of gigantic bronze arm guards with a simple leather lining.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armguard_bronze",
+    "type": "ARMOR",
+    "copy-from": "armguard_bronze",
+    "name": { "str": "XS bronze vambraces", "str_pl": "pairs of XS bronze vambraces" },
+    "description": "A pair of tiny bronze arm guards with a simple leather lining.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "vambrace_larmor",

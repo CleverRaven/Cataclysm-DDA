@@ -4824,7 +4824,7 @@ bool mattack::slimespring( monster *z )
             player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
-            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            // Yes, your slime microbian(s) handle/don't all Bad Damage at the same time.
             for( const bodypart_id &bp_healed :
                  player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 if( player_character.has_effect( effect_bite, bp_healed.id() ) ) {
