@@ -963,7 +963,6 @@ bool oter_t::is_hardcoded() const
         "lab_core",
         "lab_stairs",
         "lab_finale",
-        "looted_building",  // pseudo-terrain
         "slimepit",
         "slimepit_down",
         "temple_finale",
