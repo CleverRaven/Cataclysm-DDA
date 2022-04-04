@@ -118,6 +118,7 @@
     "vision_day": 3,
     "vision_night": 35,
     "harvest": "mutant_mammal_large_leather",
+    "death_drops": "dissect_lizard_sample_large",
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
       {
@@ -164,6 +165,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mammal_tiny",
+    "death_drops": "dissect_lizard_sample_single",
     "special_attacks": [ [ "RATTLE", 6 ] ],
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -202,6 +204,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mutant_animal_large_noskin",
+    "death_drops": "dissect_lizard_sample_small",
     "special_attacks": [
       [ "RATTLE", 6 ],
       {
@@ -242,6 +245,7 @@
     "vision_day": 1,
     "vision_night": 30,
     "harvest": "mutant_animal_large_noskin",
+    "death_drops": "dissect_lizard_sample_single",
     "path_settings": { "max_dist": 5 },
     "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
   }
