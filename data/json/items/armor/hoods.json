@@ -324,7 +324,7 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "WATERPROOF", "OUTER", "SOFT" ],
     "armor": [ { "coverage": 100, "covers": [ "head" ] } ]
   },
   {

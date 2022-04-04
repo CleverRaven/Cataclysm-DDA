@@ -2129,6 +2129,37 @@
     "components": [ [ [ "scrap_bronze", 38 ] ] ]
   },
   {
+    "result": "cuirass_bronze",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "9 h 40 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 12 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 22 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+  },
+  {
+    "result": "xs_cuirass_bronze",
+    "type": "recipe",
+    "copy-from": "cuirass_bronze",
+    "time": "9 h 40 m",
+    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 15 ] ] ]
+  },
+  {
+    "result": "xl_cuirass_bronze",
+    "type": "recipe",
+    "copy-from": "cuirass_bronze",
+    "time": "11 h",
+    "using": [ [ "forging_standard", 18 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 32 ] ] ]
+  },
+  {
     "result": "armor_lc_light_chestplate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",

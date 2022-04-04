@@ -25,12 +25,13 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
-        "coverage": 5,
+        "coverage": 50,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
@@ -52,8 +53,8 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "material_thickness": 2,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "judo_belt_black",
@@ -136,8 +137,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "obi_gi",
@@ -182,12 +183,13 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to holder?", "holster_msg": "You attach your %s to your %s." },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
-        "coverage": 5,
+        "coverage": 50,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_waist" ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
@@ -220,8 +222,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "tool_belt",
@@ -287,8 +289,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "webbing_belt",
@@ -320,13 +322,13 @@
       { "type": "attach_molle", "size": 4 },
       { "type": "detach_molle" }
     ],
-    "flags": [ "WAIST", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 1,
-        "coverage": 5,
+        "coverage": 50,
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_lower" ],
+        "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
     ]

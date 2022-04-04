@@ -23,6 +23,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 95, 100 ] },
       { "item": "ref_lighter", "prob": 5, "charges": [ 40, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 19, 20 ] },
+      { "item": "ref_matches", "prob": 50, "charges": [ 31, 32 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
@@ -1005,6 +1006,7 @@
     "entries": [
       { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },

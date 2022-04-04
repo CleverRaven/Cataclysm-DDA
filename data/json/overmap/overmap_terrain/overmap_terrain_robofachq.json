@@ -75,5 +75,21 @@
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofachq_subcc_a0", "robofachq_subcc_a1", "robofachq_subcc_a2", "robofachq_subcc_a3" ],
+    "name": "subway C&C",
+    "sym": "S",
+    "color": "yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "robofachq_subline_a0", "robofachq_subline_a1", "robofachq_subline_a2", "robofachq_subline_a3" ],
+    "name": "hidden terminal",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5
   }
 ]
