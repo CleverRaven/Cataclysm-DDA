@@ -119,6 +119,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
@@ -656,16 +657,21 @@ damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id
 
 std::string spell::damage_string() const
 {
+    std::string damage_string;
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
-        return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
+        damage_string = string_format( "%d-%d", min_leveled_damage(), type->max_damage );
     } else {
         const int dmg = damage();
         if( dmg >= 0 ) {
-            return string_format( "%d", dmg );
+            damage_string = string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", std::abs( dmg ) );
+            damage_string = string_format( "+%d", std::abs( dmg ) );
         }
     }
+    if( has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+        damage_string = string_format( "%s%% %s", damage_string, _( "of current HP" ) );
+    }
+    return damage_string;
 }
 
 cata::optional<tripoint> spell::select_target( Creature *source )

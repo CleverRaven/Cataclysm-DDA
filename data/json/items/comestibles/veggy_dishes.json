@@ -450,7 +450,7 @@
     "id": "beansnrice",
     "name": { "str_sp": "beans and rice" },
     "weight": "440 g",
-    "//": "real world measurements: 250ml of cooked beans weighs 240g wiht 316 calories, 250ml of cooked rice weighs 200g with 260 calories",
+    "//": "real world measurements: 250ml of cooked beans weighs 240g with 316 calories, 250ml of cooked rice weighs 200g with 260 calories",
     "color": "light_gray",
     "spoils_in": "10 days",
     "comestible_type": "FOOD",
@@ -551,7 +551,7 @@
   {
     "type": "COMESTIBLE",
     "id": "plantain_cooked",
-    "name": { "str_sp": "cooked plantains" },
+    "name": { "str": "roasted cooking banana" },
     "weight": "118 g",
     "color": "yellow",
     "spoils_in": "2 days",

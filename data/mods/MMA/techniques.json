@@ -176,7 +176,7 @@
     "type": "technique",
     "id": "mma_tec_iron_heart_wide_crit",
     "name": "Scything Blade",
-    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap throug %s and those nearby" ],
+    "messages": [ "You cleanly reap through %s and those nearby", "<npcname> cleanly reap through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,

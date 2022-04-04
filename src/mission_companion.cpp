@@ -80,8 +80,8 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 static const oter_str_id oter_looted_hospital( "looted_hospital" );
 static const oter_str_id oter_looted_hospital_roof( "looted_hospital_roof" );
 static const oter_str_id oter_looted_house( "looted_house" );
-static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
 static const oter_str_id oter_looted_house_basement( "looted_house_basement" );
+static const oter_str_id oter_looted_house_roof( "looted_house_roof" );
 static const oter_str_id oter_open_air( "open_air" );
 
 static const skill_id skill_bashing( "bashing" );
@@ -659,7 +659,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
     mission_key.add_start( miss_id, _( "Assign Ally to Carpentry Work" ), entry );
     std::vector<npc_ptr>  npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: 6 merch/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
+        entry = _( "Profit: 5 merch/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         bool avail = false;
 
         for( auto &elem : npc_list ) {
@@ -1706,7 +1706,6 @@ bool talk_function::scavenging_patrol_return( npc &p )
     }
 
     int merch_amount = rng( 20, 75 );
-
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from patrol having earned %d merch and a fair bit of experience…" ),
            comp->get_name(), merch_amount );
@@ -1759,6 +1758,7 @@ bool talk_function::scavenging_raid_return( npc &p )
     Character &player_character = get_player_character();
     tripoint_abs_omt loot_location = player_character.global_omt_location();
     std::set<item> all_returned_items;
+
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
         tripoint_abs_omt site = overmap_buffer.find_closest(
                                     loot_location, "house", 0, false, ot_match_type::prefix );
@@ -1793,7 +1793,6 @@ bool talk_function::scavenging_raid_return( npc &p )
     }
 
     int merch_amount = rng( 50, 100 );
-
     companion_skill_trainer( *comp, "combat", experience * 10_minutes, 10 );
     popup( _( "%s returns from the raid having earned %d merch and a fair bit of experience…" ),
            comp->get_name(), merch_amount );

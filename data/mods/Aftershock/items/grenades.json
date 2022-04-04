@@ -44,7 +44,7 @@
     "looks_like": "c4",
     "name": "demolition charge",
     "price": "450 USD",
-    "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  Its configured to work alongside a radio detonator, and will explode immediately after activation.",
+    "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's configured to work alongside a radio detonator, and will explode immediately after activation.",
     "use_action": {
       "need_wielding": true,
       "target": "afs_demo_charge_act",
@@ -62,7 +62,7 @@
     "copy-from": "afs_demo_charge",
     "name": "active demolition charge",
     "looks_like": "c4armed",
-    "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  Its currently active.",
+    "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's currently active.",
     "initial_charges": 1,
     "max_charges": 1,
     "turns_per_charge": 1,

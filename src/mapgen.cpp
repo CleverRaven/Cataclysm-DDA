@@ -1338,7 +1338,7 @@ class mapgen_value
                 std::vector<std::string> possible_values = on->all_possible_results( params );
                 for( const std::string &value : possible_values ) {
                     if( !cases.count( value ) ) {
-                        debugmsg( "mapgen '%s' has switch whcih does not account for potential "
+                        debugmsg( "mapgen '%s' has switch which does not account for potential "
                                   "case '%s' of the switched-on value", context, value );
                     }
                 }
@@ -6750,7 +6750,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         first_veh->install_part( target_point, *vp );
                     }
 
-                    // this couuld probably be done in a single loop with installing parts above
+                    // this could probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {

@@ -48,7 +48,6 @@ static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
