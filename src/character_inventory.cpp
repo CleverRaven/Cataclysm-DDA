@@ -277,6 +277,17 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     return retval;
 }
 
+bool Character::i_drop_at( item &it, int qty )
+{
+    bool retval = true;
+    map &here = get_map();
+    for( int i = 0; i < qty; ++i ) {
+        retval &= !here.add_item_or_charges( pos(), it ).is_null();
+    }
+
+    return retval;
+}
+
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
     for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
