@@ -1,0 +1,21 @@
+[
+  {
+    "result": "trunk_recharge_station",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "5 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+	"subcategory": "CSC_APPLIANCE_UTILITY",
+    "skills_required": [ [ "electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "frame", 1 ] ],
+      [ [ "recharge_station", 1 ] ]
+    ]
+  }
+]

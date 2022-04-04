@@ -1,0 +1,28 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "trunk_recharge_station",
+    "name": {
+      "str": "trunk recharging station"
+    },
+    "description": "A universal recharging station integrated into a storage compartment.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.",
+    "weight": "30000 g",
+    "color": "cyan",
+    "symbol": "]",
+    "material": [
+      "steel",
+	  "plastic"
+	],
+    "volume": "215 L",
+    "price": 95500,
+    "price_postapoc": 1100,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
+  }
+]

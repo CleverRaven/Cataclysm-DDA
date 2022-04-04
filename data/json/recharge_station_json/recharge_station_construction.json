@@ -1,0 +1,13 @@
+[
+  {
+    "type": "construction",
+    "id": "ap_trunk_recharge_station",
+    "group": "place_ap_trunk_recharge_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "4 m",
+    "components": [ [ [ "trunk_recharge_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  }
+]
