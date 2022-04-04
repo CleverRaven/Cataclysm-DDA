@@ -6767,46 +6767,52 @@ std::string get_stat_name( character_stat Stat )
     return pgettext( "fake stat there's an error", "ERR" );
 }
 
-void Character::build_mut_dependency_map( const trait_id &mut,
-        std::unordered_map<trait_id, int> &dependency_map, int distance )
+int Character::mutation_height( const trait_id &mut )
 {
-    // Skip base traits and traits we've seen with a lower distance
-    const auto lowest_distance = dependency_map.find( mut );
-    if( !has_base_trait( mut ) && ( lowest_distance == dependency_map.end() ||
-                                    distance < lowest_distance->second ) ) {
-        dependency_map[mut] = distance;
-        // Recurse over all prerequisite and replacement mutations
-        const mutation_branch &mdata = mut.obj();
-        for( const trait_id &i : mdata.prereqs ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( const trait_id &i : mdata.prereqs2 ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( const trait_id &i : mdata.replacements ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
+    const mutation_branch &mdata = mut.obj();
+    int height_prereqs = 0;
+    int height_prereqs2 = 0;
+    for( const trait_id &prereq : mdata.prereqs ) {
+        height_prereqs = std::max( mutation_height( prereq ), height_prereqs );
     }
+    for( const trait_id &prereq : mdata.prereqs2 ) {
+        height_prereqs2 = std::max( mutation_height( prereq ), height_prereqs2 );
+    }
+    return std::max( height_prereqs, height_prereqs2 ) + 1;
 }
 
-void Character::set_highest_cat_level()
+void Character::calc_mutation_levels()
 {
     mutation_category_level.clear();
+    // This intentionally counts multiple leads_to mutations
+    // from the same root mutation as having full height
 
     // For each of our mutations...
     for( const trait_id &mut : get_mutations() ) {
-        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
-        std::unordered_map<trait_id, int> dependency_map;
-        build_mut_dependency_map( mut, dependency_map, 0 );
-
-        // Then use the map to set the category levels
-        for( const std::pair<const trait_id, int> &i : dependency_map ) {
-            const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( json_flag_NON_THRESH ) ) {
-                for( const mutation_category_id &cat : mdata.category ) {
-                    // Decay category strength based on how far it is from the current mutation
-                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
-                }
+        const mutation_branch &mdata = mut.obj();
+        if( mdata.threshold ) {
+            // Thresholds are worth 10, and technically support multiple categories
+            for( const mutation_category_id &cat : mdata.category ) {
+                mutation_category_level[cat] += 10;
+            }
+            continue;
+        }
+        // ... if we don't have a valid addititive version...
+        bool have_upgrade = false;
+        for( const trait_id &upgrade : mdata.additions ) {
+            const mutation_branch &upgradedata = upgrade.obj();
+            if( has_trait( upgrade ) && !upgradedata.flags.count( json_flag_NON_THRESH ) ) {
+                have_upgrade = true;
+                break;
+            }
+        }
+        if( !have_upgrade && !mdata.flags.count( json_flag_NON_THRESH ) ) {
+            // ... find the mutations distance from normalcy...
+            int mut_height = mutation_height( mut );
+            // ... and for each category it falls in...
+            for( const mutation_category_id &cat : mdata.category ) {
+                // ... add the height and a constant value
+                mutation_category_level[cat] += mut_height + 2;
             }
         }
     }
@@ -6844,23 +6850,6 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
     }
     return weighted_output;
-}
-
-/// Returns the mutation category with the highest strength
-mutation_category_id Character::get_highest_category() const
-{
-    int iLevel = 0;
-    mutation_category_id sMaxCat;
-
-    for( const std::pair<const mutation_category_id, int> &elem : mutation_category_level ) {
-        if( elem.second > iLevel ) {
-            sMaxCat = elem.first;
-            iLevel = elem.second;
-        } else if( elem.second == iLevel ) {
-            sMaxCat = mutation_category_id();  // no category on ties
-        }
-    }
-    return sMaxCat;
 }
 
 void Character::recalculate_bodyparts()
