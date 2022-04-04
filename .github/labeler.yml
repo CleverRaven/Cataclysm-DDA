@@ -48,6 +48,11 @@
 "Bionics":
   - "data/json/bionics.json"
 
+"Map / Mapgen":
+  - mapgen/**/*
+  - mapgen_palettes/**/*
+  - overmap/**/*
+
 "Player Faction Base / Camp":
   - "src/basecamp.(cpp|h)"
   - "src/faction_camp.(cpp|h)"
