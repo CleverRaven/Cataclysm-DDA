@@ -3628,7 +3628,12 @@
     "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
-      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx.", "weight": 1 }
+      {
+        "id": "dark_tiara",
+        "name": { "str": "dark tiara" },
+        "description": "A dark silver tiara adorned with onyx.",
+        "weight": 1
+      }
     ],
     "color": "dark_gray"
   }
