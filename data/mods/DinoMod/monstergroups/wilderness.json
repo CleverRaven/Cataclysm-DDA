@@ -394,9 +394,10 @@
       { "monster": "mon_allosaurus", "weight": 400, "cost_multiplier": 30, "conditions": [ "NIGHT" ] },
       { "monster": "mon_acrocanthosaurus", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
       { "monster": "mon_siats", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
-      { "monster": "mon_tyrannosaurus", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_appalachiosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
       { "monster": "mon_gorgosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
       { "monster": "mon_albertosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_tyrannosaurus", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
       {
         "monster": "mon_compsognathus",
         "weight": 600,
@@ -447,6 +448,13 @@
         "conditions": [ "DAY" ]
       },
       { "monster": "mon_utahraptor", "weight": 100, "cost_multiplier": 30, "conditions": [ "DAY" ] },
+      {
+        "monster": "mon_stenonychosaurus",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "DAY" ]
+      },
       {
         "monster": "mon_eoraptor",
         "weight": 200,

@@ -839,7 +839,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             return;
         }
         if( !long_descrip.empty() ) {
-            long_descrip += "  ";
+            long_descrip += _( "  " );
         }
         long_descrip += text;
     };

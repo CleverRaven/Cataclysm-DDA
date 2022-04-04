@@ -3574,16 +3574,18 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
-        if( armor->rigid ) {
-            std::string coverage = _( "<bold>This armor is rigid</bold>" );
-            info.emplace_back( "ARMOR", coverage );
-        } else {
-            //only some parts are rigid
-            std::string coverage = _( "<bold>Rigid</bold>:" );
-            for( const armor_portion_data &entry : armor->sub_data ) {
-                if( entry.rigid ) {
-                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                        coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+        if( armor != nullptr ) {
+            if( armor->rigid ) {
+                std::string coverage = _( "<bold>This armor is rigid</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are rigid
+                std::string coverage = _( "<bold>Rigid</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.rigid ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
                     }
                 }
             }
@@ -3593,16 +3595,18 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_comfortable() ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
-        if( armor->comfortable ) {
-            std::string coverage = _( "<bold>This armor is comfortable</bold>" );
-            info.emplace_back( "ARMOR", coverage );
-        } else {
-            //only some parts are comfortable
-            std::string coverage = _( "<bold>Comfortable</bold>:" );
-            for( const armor_portion_data &entry : armor->sub_data ) {
-                if( entry.comfortable ) {
-                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                        coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+        if( armor != nullptr ) {
+            if( armor->comfortable ) {
+                std::string coverage = _( "<bold>This armor is comfortable</bold>" );
+                info.emplace_back( "ARMOR", coverage );
+            } else {
+                // only some parts are comfortable
+                std::string coverage = _( "<bold>Comfortable</bold>:" );
+                for( const armor_portion_data &entry : armor->sub_data ) {
+                    if( entry.comfortable ) {
+                        for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                        }
                     }
                 }
             }
@@ -12813,6 +12817,34 @@ bool item::is_bp_rigid( const T &bp ) const
 template bool item::is_bp_rigid<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
 
 template bool item::is_bp_rigid<bodypart_id>( const bodypart_id &bp ) const;
+
+template <typename T>
+bool item::is_bp_rigid_selective( const T &bp ) const
+{
+    bool is_rigid;
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return false;
+    }
+
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        is_rigid = false;
+    } else if( has_flag( flag_HARD ) ) {
+        is_rigid = true;
+    } else {
+        is_rigid = portion->rigid;
+    }
+
+    return is_rigid && portion->rigid_layer_only;
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_rigid_selective<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_rigid_selective<bodypart_id>( const bodypart_id &bp ) const;
 
 template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const

@@ -277,6 +277,17 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     return retval;
 }
 
+bool Character::i_drop_at( item &it, int qty )
+{
+    bool retval = true;
+    map &here = get_map();
+    for( int i = 0; i < qty; ++i ) {
+        retval &= !here.add_item_or_charges( pos(), it ).is_null();
+    }
+
+    return retval;
+}
+
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
     for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
@@ -491,6 +502,32 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                     return ptr->store( guy, e, *item_location( obj ) );
                 }
             } );
+        } else if( e.get_contents().has_additional_pockets() && e.can_contain( *obj ).success() ) {
+            opts.emplace_back( dispose_option{
+                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
+                guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
+                [&guy, &e, obj] {
+                    item &it = *item_location( obj );
+                    guy.store( e, it, false, e.insert_cost( it ), item_pocket::pocket_type::CONTAINER, true );
+                    return !guy.has_item( it );
+                }
+            } );
+            int pkt_idx = 0;
+            for( const item *it : e.get_contents().get_added_pockets() ) {
+                item_pocket *con = const_cast<item_pocket *>( e.get_contents().get_added_pocket( pkt_idx++ ) );
+                if( !con || !con->can_contain( *obj ).success() ) {
+                    continue;
+                }
+                opts.emplace_back( dispose_option{
+                    string_format( "  >%s", it->tname() ), true, it->invlet,
+                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *it ) ),
+                    [&guy, it, con, obj] {
+                        item &i = *item_location( obj );
+                        guy.store( con, i, false, it->insert_cost( i ) );
+                        return !guy.has_item( i );
+                    }
+                } );
+            }
         }
     }
 }

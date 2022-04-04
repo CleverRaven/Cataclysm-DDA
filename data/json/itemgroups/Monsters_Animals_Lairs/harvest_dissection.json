@@ -114,6 +114,24 @@
     "entries": [ { "item": "beast_sample", "count-min": 1, "count-max": 4 } ]
   },
   {
+    "id": "cephalopod_sample",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "cephalopod_sample_2",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "cephalopod_sample_3",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cephalopod_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
     "id": "lupine_sample",
     "type": "item_group",
     "subtype": "collection",

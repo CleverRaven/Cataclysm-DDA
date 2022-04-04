@@ -16,7 +16,7 @@
     "id": "afs_cargo_crate",
     "type": "TOOL",
     "name": { "str": "cargo crate" },
-    "description": "A standard orbital cargo transfer container.  Its faceted corners are adorned with the livery of company you dont recognize.",
+    "description": "A standard orbital cargo transfer container.  Its faceted corners are adorned with the livery of company you don't recognize.",
     "weight": "2710 g",
     "volume": "30 L",
     "price_postapoc": 3000,

@@ -56,7 +56,20 @@
     "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 8, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "xl_gloves_lsurvivor_fingerless",
@@ -94,7 +107,20 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "encumbrance": 16, "coverage": 85, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 16,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "xl_gloves_survivor_fingerless",

@@ -22,7 +22,7 @@
       }
     ],
     "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bead_ear",
@@ -77,7 +77,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bronze_medal",
@@ -984,7 +984,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "silver_ear",

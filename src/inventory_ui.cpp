@@ -40,7 +40,6 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
-#include "visitable.h"
 #include "vpart_position.h"
 
 #if defined(__ANDROID__)
@@ -97,6 +96,14 @@ void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &d
             ++it;
         }
     }
+}
+
+bool is_worn_ablative( item_location const &container, item_location const &child )
+{
+    // if the item is in an ablative pocket then put it with the item it is in
+    // first do a short circuit test if the parent has ablative pockets at all
+    return container->is_ablative() && container->is_worn_by_player() &&
+           container->contained_where( *child )->get_pocket_data()->ablative;
 }
 
 bool always_yes( const inventory_entry & )
@@ -932,19 +939,21 @@ void inventory_column::add_entry( const inventory_entry &entry )
         return;
     }
     bool has_loc = false;
-    if( entry.is_item() && entry.locations.front().where() == item_location::type::container ) {
+    if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
 
         auto entry_with_loc = std::find_if( entries.begin(),
-        entries.end(), [&entry_item]( const inventory_entry & entry ) {
+        entries.end(), [&entry_item, this]( const inventory_entry & entry ) {
             if( !entry.is_item() ) {
                 return false;
             }
             item_location found_entry_item = entry.locations.front();
-            return found_entry_item.where() == item_location::type::container &&
-                   entry_item->display_stacked_with( *found_entry_item ) &&
-                   found_entry_item.has_parent() &&
-                   entry_item.parent_item() == found_entry_item.parent_item();
+            // this would be much simpler if item::parent_item() didn't call debugmsg
+            return entry_item.position() == found_entry_item.position() and
+                   ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
+                     ( entry_item.has_parent() and found_entry_item.has_parent() and
+                       entry_item.parent_item() == found_entry_item.parent_item() ) ) and
+                   entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
             has_loc = true;
@@ -1061,7 +1070,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     std::stable_sort( entries.begin(), entries.end(),
     [this]( const inventory_entry & lhs, const inventory_entry & rhs ) {
         if( *lhs.get_category_ptr() == *rhs.get_category_ptr() ) {
-            if( indent_entries() ) {
+            if( preset.indent_entries() ) {
                 return indented_sort_compare( lhs, rhs );
             }
 
@@ -1391,51 +1400,6 @@ void selection_column::on_change( const inventory_entry &entry )
         }
     }
 }
-
-// TODO: Move it into some 'item_stack' class.
-static std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                                   const std::list<item>::const_iterator &to, bool check_components = false )
-{
-    std::vector<std::list<item *>> res;
-
-    for( auto it = from; it != to; ++it ) {
-        auto match = std::find_if( res.begin(), res.end(),
-        [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
-        } );
-
-        if( match != res.end() ) {
-            match->push_back( const_cast<item *>( &*it ) );
-        } else {
-            res.emplace_back( 1, const_cast<item *>( &*it ) );
-        }
-    }
-
-    return res;
-}
-
-// TODO: Move it into some 'item_stack' class.
-static std::vector<std::list<item *>> restack_items( const item_stack::const_iterator &from,
-                                   const item_stack::const_iterator &to, bool check_components = false )
-{
-    std::vector<std::list<item *>> res;
-
-    for( auto it = from; it != to; ++it ) {
-        auto match = std::find_if( res.begin(), res.end(),
-        [ &it, check_components ]( const std::list<item *> &e ) {
-            return it->display_stacked_with( *const_cast<item *>( e.back() ), check_components );
-        } );
-
-        if( match != res.end() ) {
-            match->push_back( const_cast<item *>( &*it ) );
-        } else {
-            res.emplace_back( 1, const_cast<item *>( &*it ) );
-        }
-    }
-
-    return res;
-}
-
 const item_category *inventory_selector::naturalize_category( const item_category &category,
         const tripoint &pos )
 {
@@ -1501,47 +1465,6 @@ void inventory_selector::add_entry( inventory_column &target_column,
     }
 }
 
-void inventory_selector::add_item( inventory_column &target_column,
-                                   item_location &&location,
-                                   const item_category *custom_category,
-                                   item *topmost_parent )
-{
-    add_entry( target_column,
-               std::vector<item_location>( 1, location ),
-               custom_category, 0, topmost_parent );
-    for( item *it : location->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        add_item( target_column, item_location( location, it ), custom_category,
-                  get_topmost_parent( topmost_parent, location, preset ) );
-    }
-}
-
-void inventory_selector::add_items( inventory_column &target_column,
-                                    const std::function<item_location( item * )> &locator,
-                                    const std::vector<std::list<item *>> &stacks,
-                                    const item_category *custom_category )
-{
-    const item_category *nat_category = nullptr;
-
-    for( const auto &elem : stacks ) {
-        std::vector<item_location> locations;
-        std::transform( elem.begin(), elem.end(), std::back_inserter( locations ), locator );
-        item_location const &loc = locations.front();
-
-        if( custom_category == nullptr ) {
-            nat_category = &loc->get_category_of_contents();
-        } else if( nat_category == nullptr && preset.is_shown( loc ) ) {
-            nat_category = naturalize_category( *custom_category, loc.position() );
-        }
-
-        add_entry( target_column, std::move( locations ), nat_category );
-        for( item *it_elem : elem ) {
-            item_location parent = locator( it_elem );
-            add_contained_items( parent, target_column, custom_category, get_topmost_parent( nullptr, parent,
-                                 preset ) );
-        }
-    }
-}
-
 void inventory_selector::add_contained_items( item_location &container )
 {
     add_contained_items( container, own_inv_column );
@@ -1554,17 +1477,17 @@ void inventory_selector::add_contained_items( item_location &container, inventor
         return;
     }
 
-    for( item *it : container->all_items_top() ) {
+    for( item *it : container->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         item_location child( container, it );
+        item_category const *hacked_cat = custom_category;
+        inventory_column *hacked_col = &column;
+        if( is_worn_ablative( container, child ) ) {
+            hacked_cat = &item_category_ITEMS_WORN.obj();
+            hacked_col = &own_gear_column;
+        }
+        add_entry( *hacked_col, std::vector<item_location>( 1, child ), hacked_cat, 0, topmost_parent );
         add_contained_items( child, column, custom_category, get_topmost_parent( topmost_parent, child,
                              preset ) );
-        const item_category *nat_category = nullptr;
-        if( custom_category == nullptr ) {
-            nat_category = &child->get_category_of_contents();
-        } else if( preset.is_shown( child ) ) {
-            nat_category = naturalize_category( *custom_category, child.position() );
-        }
-        add_entry( column, std::vector<item_location>( 1, child ), nat_category, 0, topmost_parent );
     }
 }
 
@@ -1582,27 +1505,19 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 
 void inventory_selector::add_character_items( Character &character )
 {
-    character.visit_items( [ this, &character ]( item * it, item * ) {
-        if( it == &character.get_wielded_item() ) {
-            add_item( own_gear_column, item_location( character, it ),
-                      &item_category_WEAPON_HELD.obj() );
-        } else if( character.is_worn( *it ) ) {
-            add_item( own_gear_column, item_location( character, it ),
-                      &item_category_ITEMS_WORN.obj() );
-        }
-        return VisitResponse::NEXT;
-    } );
-    // Visitable interface does not support stacks so it has to be here
-    for( std::list<item> *elem : character.inv->slice() ) {
-        add_items( own_inv_column, [&character]( item * it ) {
-            return item_location( character, it );
-        }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
-        &item_category_ITEMS_WORN.obj() );
+    item &weapon = character.get_wielded_item();
+    if( !weapon.is_null() ) {
+        item_location loc( character, &weapon );
+        add_entry( own_gear_column, std::vector<item_location>( 1, loc ),
+                   &item_category_WEAPON_HELD.obj() );
+        add_contained_items( loc, own_inv_column, nullptr, &*loc );
     }
-    // this is a little trick; we want the default behavior for contained items to be in own_inv_column
-    // and this function iterates over all the entries after we added them to the inventory selector
-    // to put them in the right place
-    toggle_categorize_contained();
+    for( item_location &worn_item : character.top_items_loc() ) {
+        add_entry( own_gear_column, std::vector<item_location>( 1, worn_item ),
+                   &item_category_ITEMS_WORN.obj() );
+        add_contained_items( worn_item, own_inv_column, nullptr, &*worn_item );
+    }
+    own_inv_column.set_indent_entries_override( false );
 }
 
 void inventory_selector::add_map_items( const tripoint &target )
@@ -1612,11 +1527,9 @@ void inventory_selector::add_map_items( const tripoint &target )
         map_stack items = here.i_at( target );
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
-        const item_category *const custom_cat = _categorize_map_items ? nullptr : &map_cat;
-
-        add_items( map_column, [ &target ]( item * it ) {
-            return item_location( map_cursor( target ), it );
-        }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), custom_cat );
+        _add_map_items( target, map_cat, items, [target]( item & it ) {
+            return item_location( map_cursor( target ), &it );
+        } );
     }
 }
 
@@ -1632,13 +1545,23 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle_stack items = veh->get_items( part );
     const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
-    const item_category *const custom_cat = _categorize_map_items ? nullptr : &vehicle_cat;
+    _add_map_items( target, vehicle_cat, items, [veh, part]( item & it ) {
+        return item_location( vehicle_cursor( *veh, part ), &it );
+    } );
+}
 
-    const bool check_components = this->preset.get_checking_components();
+void inventory_selector::_add_map_items( tripoint const &target, item_category const &cat,
+        item_stack &items, std::function<item_location( item & )> const &floc )
+{
+    item_category const *const custom_cat =
+        _categorize_map_items ? nullptr : naturalize_category( cat, target );
+    inventory_column *const col = _categorize_map_items ? &own_inv_column : &map_column;
 
-    add_items( map_column, [ veh, part ]( item * it ) {
-        return item_location( vehicle_cursor( *veh, part ), it );
-    }, restack_items( items.begin(), items.end(), check_components ), custom_cat );
+    for( item &it : items ) {
+        item_location loc = floc( it );
+        add_entry( *col, std::vector<item_location>( 1, loc ), custom_cat );
+        add_contained_items( loc, *col, custom_cat, &*loc );
+    }
 }
 
 void inventory_selector::add_nearby_items( int radius )
@@ -2439,9 +2362,6 @@ bool inventory_selector::is_overflown( size_t client_width ) const
 
 void inventory_selector::toggle_categorize_contained()
 {
-    const auto return_true = []( const inventory_entry & ) {
-        return true;
-    };
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
     };
@@ -2452,7 +2372,9 @@ void inventory_selector::toggle_categorize_contained()
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
-            if( entry->any_item().where() == item_location::type::container ) {
+            item_location const loc = entry->locations.front();
+            if( entry->any_item().where() == item_location::type::container and
+                !is_worn_ablative( loc.parent_item(), loc ) ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
                     ancestor = ancestor.parent_item();
@@ -2462,27 +2384,15 @@ void inventory_selector::toggle_categorize_contained()
                     // might have been merged from the map column
                     custom_category = entry->get_category_ptr();
                 }
-                item_location const loc = entry->locations.front();
-                // if the item is in an ablative pocket then put it with the item it is in
-                // first do a short circuit test if the parent has ablative pockets at all
-                if( loc.parent_item()->is_ablative() && loc.parent_item()->is_worn_by_player() &&
-                    loc.parent_item()->contained_where( *loc )->get_pocket_data()->ablative ) {
-                    custom_category = &item_category_ITEMS_WORN.obj();
-                    inventory_entry const nested_plate( entry->locations, custom_category );
-                    replacement_column.add_entry( nested_plate );
-                } else {
-                    add_entry( own_inv_column, std::move( entry->locations ),
-                               /*custom_category=*/custom_category,
-                               /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
-                }
+                add_entry( own_inv_column, std::move( entry->locations ),
+                           /*custom_category=*/custom_category,
+                           /*chosen_count=*/entry->chosen_count, entry->topmost_parent );
             } else {
                 replacement_column.add_entry( *entry );
             }
         }
         own_gear_column.clear();
-        for( inventory_entry *entry : replacement_column.get_entries( return_true, true ) ) {
-            own_gear_column.add_entry( *entry );
-        }
+        replacement_column.move_entries_to( own_gear_column );
         own_inv_column.set_indent_entries_override( false );
     } else {
         for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
@@ -3434,7 +3344,7 @@ input_context const *trade_selector::get_ctxt() const
     return &_ctxt_trade;
 }
 
-void trade_selector::categorize_map_items( bool toggle )
+void inventory_selector::categorize_map_items( bool toggle )
 {
     _categorize_map_items = toggle;
 }

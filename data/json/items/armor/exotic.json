@@ -180,7 +180,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT" ]
   },
   {
     "id": "migo_skin_off",
@@ -221,7 +221,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ]
   },
   {
     "id": "feeding_kit",
