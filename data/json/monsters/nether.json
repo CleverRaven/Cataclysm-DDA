@@ -1157,7 +1157,7 @@
   {
     "id": "mon_archunk_weak",
     "type": "MONSTER",
-    "name": { "str": "chunk of unknown material" },
+    "name": { "str": "chunk of unknown material", "str_pl": "chunks of unknown material" },
     "description": "This formless, pitch-black mass wriggles on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its wriggling intensifies as if it reacted to you.",
     "default_faction": "nether",
     "species": [ "HORROR" ],
