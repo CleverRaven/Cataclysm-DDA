@@ -387,6 +387,14 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
   {
+    "result": "onyx_silver_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "onyx", 1 ] ] ]
+  },
+  {
     "result": "diamond_silver_ring",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2816,6 +2824,14 @@
     "components": [ [ [ "gold_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_gold_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_gold_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2942,6 +2958,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "onyx_gold_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "onyx", 2 ] ] ]
   },
   {
     "result": "diamond_gold_earring",
@@ -3839,6 +3863,14 @@
     "components": [ [ [ "gold_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
   {
+    "result": "onyx_gold_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "onyx", 1 ] ] ]
+  },
+  {
     "result": "roadmap",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4014,6 +4046,14 @@
     "components": [ [ [ "silver_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_silver_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_silver_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4132,6 +4172,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "onyx_silver_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "onyx", 2 ] ] ]
   },
   {
     "result": "diamond_silver_earring",
@@ -5205,6 +5253,14 @@
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_platinum_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_platinum_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5333,6 +5389,14 @@
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "pearl", 2 ] ] ]
   },
   {
+    "result": "onyx_platinum_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "onyx", 2 ] ] ]
+  },
+  {
     "result": "diamond_platinum_earring",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5459,6 +5523,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
+    "result": "onyx_platinum_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "onyx", 1 ] ] ]
   },
   {
     "result": "diamond_platinum_ring",

@@ -1002,7 +1002,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
