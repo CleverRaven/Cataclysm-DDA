@@ -3343,9 +3343,8 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     for( const vpart_reference &vpr : get_all_parts() ) {
         if( vpr.part().is_tank() && vpr.part().ammo_current() == ftype &&
             vpr.part().base.only_item().made_of( phase_id::LIQUID ) ) {
-            float mass = to_gram( vpr.part().base.only_item().weight() );
-            total_energy += vpr.part().base.only_item().specific_energy * mass;
-            total_mass += mass;
+            total_energy += vpr.part().base.only_item().get_item_thermal_energy();
+            total_mass += to_gram( vpr.part().base.only_item().weight() );
         }
     }
     return total_energy / total_mass;
@@ -5871,7 +5870,7 @@ void vehicle::refresh( const bool remove_fakes )
         if( edge_info.is_edge_mount() ) {
             // get a copy of the real part and install it as an inactive fake part
             vehicle_part &part_real = parts.at( real_index );
-            if( part_real.has_fake == true &&
+            if( part_real.has_fake &&
                 static_cast<size_t>( part_real.fake_part_at ) < parts.size() ) {
                 return;
             }
@@ -5920,11 +5919,6 @@ void vehicle::refresh( const bool remove_fakes )
     std::set<int> smzs = precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     // update the fakes, and then repopulate the cache
     update_active_fakes();
-    map &here = get_map();
-    here.add_vehicle_to_cache( this );
-    for( const int dirty_z : smzs ) {
-        here.on_vehicle_moved( dirty_z );
-    }
     check_environmental_effects = true;
     insides_dirty = true;
     zones_dirty = true;
@@ -7434,7 +7428,8 @@ int vehicle::get_non_fake_part( const int part_num )
             return part_num;
         }
     }
-    debugmsg( "Returning -1 for get_non_fake_part on part_num %d on %s.", part_num, disp_name() );
+    debugmsg( "Returning -1 for get_non_fake_part on part_num %d on %s, which has %d parts.", part_num,
+              disp_name(), parts.size() );
     return -1;
 }
 
