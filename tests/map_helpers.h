@@ -7,10 +7,11 @@
 #include "calendar.h"
 #include "type_id.h"
 
+class map;
 class monster;
 struct tripoint;
 
-void wipe_map_terrain();
+void wipe_map_terrain( map *target = nullptr );
 void clear_creatures();
 void clear_npcs();
 void clear_fields( int zlevel );
@@ -20,7 +21,7 @@ void clear_map();
 void clear_radiation();
 void clear_map_and_put_player_underground();
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start );
-void clear_vehicles();
+void clear_vehicles( map *target = nullptr );
 void build_test_map( const ter_id &terrain );
 void player_add_headlamp();
 void set_time( const time_point &time );
