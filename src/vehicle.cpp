@@ -1877,7 +1877,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     }
     refresh();
     coeff_air_changed = true;
-    return shift_if_needed();
+    return shift_if_needed( handler.get_map_ref() );
 }
 
 bool vehicle::__part_removal_actual()
@@ -1915,7 +1915,7 @@ void vehicle::part_removal_cleanup()
             here.add_vehicle_to_cache( this );
         }
     }
-    shift_if_needed();
+    shift_if_needed( here );
     refresh( false ); // Rebuild cached indices
     coeff_air_dirty = coeff_air_changed;
     coeff_air_changed = false;
@@ -2046,7 +2046,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     carried_vehicles.push_back( carried_parts );
     std::vector<std::vector<point>> carried_mounts;
     carried_mounts.push_back( new_mounts );
-    const bool success = split_vehicles( carried_vehicles, new_vehicles, carried_mounts );
+    const bool success = split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts );
     if( success ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
@@ -2071,16 +2071,16 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
 }
 
 // split the current vehicle into up to 3 new vehicles that do not connect to each other
-bool vehicle::find_and_split_vehicles( int exclude )
+bool vehicle::find_and_split_vehicles( map &here, int exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
     std::set<int> checked_parts;
     checked_parts.insert( exclude );
 
-    return find_and_split_vehicles( checked_parts );
+    return find_and_split_vehicles( here, checked_parts );
 }
 
-bool vehicle::find_and_split_vehicles( std::set<int> exclude )
+bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
     std::set<int> checked_parts = exclude;
@@ -2151,10 +2151,10 @@ bool vehicle::find_and_split_vehicles( std::set<int> exclude )
     }
 
     if( !all_vehicles.empty() ) {
-        bool success = split_vehicles( all_vehicles );
+        bool success = split_vehicles( here, all_vehicles );
         if( success ) {
             // update the active cache
-            shift_parts( point_zero );
+            shift_parts( here, point_zero );
             return true;
         }
     }
@@ -2184,13 +2184,13 @@ void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
 // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
 // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
 // at those mount points
-bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+bool vehicle::split_vehicles( map &here,
+                              const std::vector<std::vector <int>> &new_vehs,
                               const std::vector<vehicle *> &new_vehicles,
                               const std::vector<std::vector <point>> &new_mounts )
 {
     bool did_split = false;
     size_t i = 0;
-    map &here = get_map();
     for( i = 0; i < new_vehs.size(); i ++ ) {
         std::vector<int> split_parts = new_vehs[ i ];
         if( split_parts.empty() ) {
@@ -2330,7 +2330,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->refresh();
         } else {
             // include refresh
-            new_vehicle->shift_parts( point_zero - mnt_offset );
+            new_vehicle->shift_parts( here, point_zero - mnt_offset );
         }
 
         // update the precalc points
@@ -2345,14 +2345,14 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
     return did_split;
 }
 
-bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs )
+bool vehicle::split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs )
 {
     std::vector<vehicle *> null_vehicles;
     std::vector<std::vector <point>> null_mounts;
     std::vector<point> nothing;
     null_vehicles.assign( new_vehs.size(), nullptr );
     null_mounts.assign( new_vehs.size(), nothing );
-    return split_vehicles( new_vehs, null_vehicles, null_mounts );
+    return split_vehicles( here, new_vehs, null_vehicles, null_mounts );
 }
 
 item_location vehicle::part_base( int p )
@@ -5166,7 +5166,7 @@ void vehicle::do_engine_damage( size_t e, int strain )
     if( is_engine_on( e ) && !is_perpetual_type( e ) &&
         engine_fuel_left( e ) && rng( 1, 100 ) < strain ) {
         int dmg = rng( 0, strain * 4 );
-        damage_direct( engines[e], dmg );
+        damage_direct( get_map(), engines[e], dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else {
@@ -6536,7 +6536,7 @@ void vehicle::unboard_all()
     }
 }
 
-int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
+int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
 {
     if( dmg < 1 ) {
         return dmg;
@@ -6592,7 +6592,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     int armor_part = part_with_feature( p, "ARMOR", true );
     if( armor_part < 0 ) {
         // Not covered by armor -- damage part
-        damage_dealt = damage_direct( target_part, dmg, type );
+        damage_dealt = damage_direct( here, target_part, dmg, type );
     } else {
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
         int protection = part_info( armor_part ).damage_reduction[ static_cast<int>( type )];
@@ -6605,11 +6605,11 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         // as removing a part only changes indices after the
         // removed part.
         if( armor_part < target_part ) {
-            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
-            damage_dealt = damage_direct( armor_part, dmg, type );
+            damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( here, armor_part, dmg, type );
         } else {
-            damage_dealt = damage_direct( armor_part, dmg, type );
-            damage_direct( target_part, overhead ? dmg : dmg - protection, type );
+            damage_dealt = damage_direct( here, armor_part, dmg, type );
+            damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
         }
     }
 
@@ -6638,7 +6638,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
                     net_dmg = std::max( 0, net_dmg - parts[ shock_absorber ].info().bonus );
                 }
             }
-            damage_direct( p, net_dmg, type );
+            damage_direct( get_map(), p, net_dmg, type );
         }
     }
 }
@@ -6650,7 +6650,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
  * (0, 0) part is always present.
  * @param delta How much to shift along each axis
  */
-void vehicle::shift_parts( const point &delta )
+void vehicle::shift_parts( map &here, const point &delta )
 {
     // Don't invalidate the active item cache's location!
     active_items.subtract_locations( delta );
@@ -6673,7 +6673,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().rebuild_vehicle_level_caches();
+    here.rebuild_vehicle_level_caches();
 }
 
 /**
@@ -6681,7 +6681,7 @@ void vehicle::shift_parts( const point &delta )
  * adjust if necessary.
  * @return bool true if the shift was needed.
  */
-bool vehicle::shift_if_needed()
+bool vehicle::shift_if_needed( map &here )
 {
     std::vector<int> vehicle_origin = parts_at_relative( point_zero, true );
     if( !vehicle_origin.empty() && !parts[ vehicle_origin[ 0 ] ].removed ) {
@@ -6693,7 +6693,7 @@ bool vehicle::shift_if_needed()
         if( vp.info().location == "structure"
             && !vp.has_feature( "PROTRUSION" )
             && !vp.part().removed ) {
-            shift_parts( vp.mount() );
+            shift_parts( here, vp.mount() );
             refresh();
             return true;
         }
@@ -6701,7 +6701,7 @@ bool vehicle::shift_if_needed()
     // There are only parts with PROTRUSION left, choose one of them.
     for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.part().removed ) {
-            shift_parts( vp.mount() );
+            shift_parts( here, vp.mount() );
             refresh();
             return true;
         }
@@ -6711,13 +6711,17 @@ bool vehicle::shift_if_needed()
 
 int vehicle::break_off( int p, int dmg )
 {
+    return break_off( get_map(), p, dmg );
+}
+
+int vehicle::break_off( map &here, int p, int dmg )
+{
     /* Already-destroyed part - chance it could be torn off into pieces.
      * Chance increases with damage, and decreases with part max durability
      * (so lights, etc are easily removed; frames and plating not so much) */
     if( rng( 0, part_info( p ).durability / 10 ) >= dmg ) {
         return dmg;
     }
-    map &here = get_map();
     const tripoint pos = global_part_pos3( p );
     const auto scatter_parts = [&]( const vehicle_part & pt ) {
         for( const item &piece : pt.pieces_for_broken_part() ) {
@@ -6732,6 +6736,12 @@ int vehicle::break_off( int p, int dmg )
             }
         }
     };
+    std::unique_ptr<RemovePartHandler> handler_ptr;
+    if( g && &get_map() == &here ) {
+        handler_ptr = std::make_unique<DefaultRemovePartHandler>();
+    } else {
+        handler_ptr = std::make_unique<MapgenRemovePartHandler>( here );
+    }
     if( part_info( p ).location == part_location_structure ) {
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, true );
@@ -6755,20 +6765,20 @@ int vehicle::break_off( int p, int dmg )
                     here.add_item_or_charges( pos, part_as_item );
                 }
             }
-            remove_part( parts_in_square[index] );
+            remove_part( parts_in_square[index], *handler_ptr );
         }
         // After clearing the frame, remove it.
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         scatter_parts( parts[p] );
-        remove_part( p );
-        find_and_split_vehicles( p );
+        remove_part( p, *handler_ptr );
+        find_and_split_vehicles( here, p );
     } else {
         //Just break it off
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
 
         scatter_parts( parts[p] );
         const point position = parts[p].mount;
-        remove_part( p );
+        remove_part( p, *handler_ptr );
 
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
@@ -6789,7 +6799,7 @@ int vehicle::break_off( int p, int dmg )
                 if( remove ) {
                     item part_as_item = parts[part].properties_to_item();
                     here.add_item_or_charges( pos, part_as_item );
-                    remove_part( part );
+                    remove_part( part, *handler_ptr );
                 }
             }
         }
@@ -6827,7 +6837,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     return true;
 }
 
-int vehicle::damage_direct( int p, int dmg, damage_type type )
+int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
 {
     // Make sure p is within range and hasn't been removed already
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
@@ -6837,10 +6847,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( is_autodriving ) {
         stop_autodriving();
     }
-    map &here = get_map();
     here.set_memory_seen_cache_dirty( global_part_pos3( p ) );
     if( parts[p].is_broken() ) {
-        return break_off( p, dmg );
+        return break_off( here, p, dmg );
     }
 
     int tsh = std::min( 20, part_info( p ).durability / 10 );
@@ -6890,7 +6899,12 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         if( part_flag( p, "TOW_CABLE" ) ) {
             invalidate_towing( true );
         } else {
-            remove_part( p );
+            if( !g || &get_map() != &here ) {
+                MapgenRemovePartHandler handler( here );
+                remove_part( p, handler );
+            } else {
+                remove_part( p );
+            }
         }
     }
 

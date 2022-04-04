@@ -741,9 +741,10 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( int p, int dmg, damage_type type = damage_type::PURE );
+        int damage_direct( map &here, int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( int p, int dmg );
+        int break_off( map &here, int p, int dmg );
         // Returns if it did actually explode
         bool explode_fuel( int p, damage_type type );
         //damages vehicle controls and security system
@@ -996,17 +997,17 @@ class vehicle
         bool remove_carried_vehicle( const std::vector<int> &carried_parts );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
-        bool find_and_split_vehicles( int exclude );
-        bool find_and_split_vehicles( std::set<int> exclude );
+        bool find_and_split_vehicles( map &here, int exclude );
+        bool find_and_split_vehicles( map &here, std::set<int> exclude );
         // relocate passengers to the same part on a new vehicle
         void relocate_passengers( const std::vector<Character *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
-        bool split_vehicles( const std::vector<std::vector <int>> &new_vehs,
+        bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs,
                              const std::vector<vehicle *> &new_vehicles,
                              const std::vector<std::vector <point>> &new_mounts );
-        bool split_vehicles( const std::vector<std::vector <int>> &new_veh );
+        bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
@@ -1628,14 +1629,14 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
+        int damage( map &here, int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-        void shift_parts( const point &delta );
-        bool shift_if_needed();
+        void shift_parts( map &here, const point &delta );
+        bool shift_if_needed( map &here );
 
         void shed_loose_parts();
 
@@ -2184,6 +2185,7 @@ class RemovePartHandler
         virtual void set_floor_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
         virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
+        virtual map &get_map_ref() = 0;
 };
 
 class DefaultRemovePartHandler : public RemovePartHandler
@@ -2208,6 +2210,9 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void removed( vehicle &veh, const int part ) override;
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
             base.release_monster( loc, 1 );
+        }
+        map &get_map_ref() override {
+            return get_map();
         }
 };
 
@@ -2256,6 +2261,9 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // still containing the animal.
             // This should not happend during mapgen anyway.
             // TODO: *if* this actually happens: create a spawn point for the animal instead.
+        }
+        map &get_map_ref() override {
+            return m;
         }
 };
 

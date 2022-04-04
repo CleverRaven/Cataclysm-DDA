@@ -562,7 +562,7 @@ void vehicle::thrust( int thd, int z )
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
                     int dmg = rng( 0, 10 );
-                    damage_direct( e, dmg );
+                    damage_direct( get_map(), e, dmg );
                 }
             }
         }
@@ -1190,7 +1190,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
             explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
-            damage_direct( pwh, veh_data.damage );
+            damage_direct( here, pwh, veh_data.damage );
         }
         bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {

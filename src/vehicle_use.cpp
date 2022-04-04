@@ -530,6 +530,7 @@ void vehicle::smash_security_system()
         }
     }
     Character &player_character = get_player_character();
+    map &here = get_map();
     //controls and security must both be valid
     if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
@@ -539,7 +540,7 @@ void vehicle::smash_security_system()
         int rand = rng( 1, 100 );
 
         if( percent_controls > rand ) {
-            damage_direct( c, part_info( c ).durability / 4 );
+            damage_direct( here, c, part_info( c ).durability / 4 );
 
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
                 player_character.controlling_vehicle = false;
@@ -550,7 +551,7 @@ void vehicle::smash_security_system()
             }
         }
         if( percent_alarm > rand ) {
-            damage_direct( s, part_info( s ).durability / 5 );
+            damage_direct( here, s, part_info( s ).durability / 5 );
             // chance to disable alarm immediately, or disable on destruction
             if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
@@ -1418,7 +1419,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, damage_type::BASH, false );
+            damage( here, vp.part_index(), v_damage, damage_type::BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1487,7 +1488,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
+                    damage( here, planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }

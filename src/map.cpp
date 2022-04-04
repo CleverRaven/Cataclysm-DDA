@@ -584,10 +584,10 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             // don't try to deal damage to invalid part (probably removed or destroyed)
             if( part_num != -1 ) {
                 if( veh.part_info( part_num ).rotor_diameter() > 0 ) {
-                    veh.damage( part_num, coll_dmg, damage_type::BASH, true );
+                    veh.damage( *this, part_num, coll_dmg, damage_type::BASH, true );
                 } else {
                     impulse += coll_dmg;
-                    veh.damage( part_num, coll_dmg, damage_type::BASH );
+                    veh.damage( *this, part_num, coll_dmg, damage_type::BASH );
                     veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
                 }
             }
@@ -891,10 +891,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         }
 
         epicenter1 += veh.part( coll_parm ).mount;
-        veh.damage( coll_parm, dmg1_part, damage_type::BASH );
+        veh.damage( *this, coll_parm, dmg1_part, damage_type::BASH );
 
         epicenter2 += veh2.part( target_parm ).mount;
-        veh2.damage( target_parm, dmg2_part, damage_type::BASH );
+        veh2.damage( *this, target_parm, dmg2_part, damage_type::BASH );
     }
 
     epicenter2.x /= coll_parts_cnt;
@@ -3712,7 +3712,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 {
     // Smash vehicle if present
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        vp->vehicle().damage( vp->part_index(), params.strength, damage_type::BASH );
+        vp->vehicle().damage( *this, vp->part_index(), params.strength, damage_type::BASH );
         if( !params.silent ) {
             sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
                            "smash_success", "hit_vehicle" );
@@ -3818,7 +3818,7 @@ void map::crush( const tripoint &p )
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         // Arbitrary number is better than collapsing house roof crushing APCs
-        vp->vehicle().damage( vp->part_index(), rng( 100, 1000 ), damage_type::BASH, false );
+        vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_type::BASH, false );
     }
 }
 
@@ -3847,7 +3847,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const bool laser = ammo_effects.count( "LASER" );
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        dam = vp->vehicle().damage( vp->part_index(), dam, main_damage_type, hit_items );
+        dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
     }
 
     const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {

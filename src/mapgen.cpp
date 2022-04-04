@@ -6563,7 +6563,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         }
                         parts_to_check.insert( parts_in_square[index] );
                     }
-                    veh_to_add->find_and_split_vehicles( parts_to_check );
+                    veh_to_add->find_and_split_vehicles( *this, parts_to_check );
                 }
             }
 
