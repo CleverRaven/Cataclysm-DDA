@@ -949,8 +949,8 @@
       },
       {
         "id": "my_little_nazgul_tshirt",
-        "name": { "str": "my little nazgul t-shirt" },
-        "description": "A light grey t-shirt with a drawing of a Nazgul riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "name": { "str": "My Little Nazgûl t-shirt" },
+        "description": "A light grey t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
         "weight": 1
       },
       {
@@ -973,7 +973,7 @@
       },
       {
         "id": "boba_fetch_tshirt",
-        "name": { "str": "boba fetch t-shirt" },
+        "name": { "str": "Boba Fetch t-shirt" },
         "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
         "weight": 1
       },
@@ -985,7 +985,7 @@
       },
       {
         "id": "ceiling_cthulhu_tshirt",
-        "name": { "str": "ceiling cthulhu t-shirt" },
+        "name": { "str": "Ceiling Cthulhu t-shirt" },
         "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
         "weight": 1
       },
