@@ -1840,7 +1840,7 @@ bool mattack::fungus( monster *z )
 bool mattack::fungus_corporate( monster *z )
 {
     if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
             get_map().add_item( z->pos(), item( "sporeos" ) );
@@ -2946,8 +2946,8 @@ bool mattack::grab_drag( monster *z )
 
     if( target->has_effect( effect_under_operation ) ) {
         target->add_msg_player_or_npc( m_good,
-                                       _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
-                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
+                                       _( "The %s tries to drag you, but you're securely fastened in the Autodoc." ),
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the Autodoc." ), z->name() );
         return false;
     }
 
@@ -4774,7 +4774,7 @@ bool mattack::darkman( monster *z )
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
     }
-    // Wont do the combat stuff unless it can see you
+    // Won't do the combat stuff unless it can see you
     if( !z->sees( player_character ) ) {
         return true;
     }

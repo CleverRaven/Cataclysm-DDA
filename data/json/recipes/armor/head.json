@@ -2245,54 +2245,6 @@
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ]
   },
   {
-    "result": "chainmail_hood",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "3 h",
-    "reversible": true,
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 2 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
-  },
-  {
-    "result": "xs_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 38 ] ], [ [ "wire", 2 ] ], [ [ "rag", 3 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "more_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h 20 m",
-    "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "chainmail_hood",
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 2 ] ], [ [ "rag", 6 ] ] ]
-  },
-  {
-    "result": "xs_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 2 ] ], [ [ "rag", 4 ] ] ]
-  },
-  {
     "result": "lc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2571,6 +2523,37 @@
     "result": "xl_helmet_corinthian",
     "type": "recipe",
     "copy-from": "helmet_corinthian",
+    "time": "10 h 20 m",
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 10 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "helmet_bronze",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "9 h 10 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+  },
+  {
+    "result": "xs_helmet_bronze",
+    "type": "recipe",
+    "copy-from": "helmet_bronze",
+    "time": "9 h 10 m",
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 5 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
+  },
+  {
+    "result": "xl_helmet_bronze",
+    "type": "recipe",
+    "copy-from": "helmet_bronze",
     "time": "10 h 20 m",
     "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 10 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]

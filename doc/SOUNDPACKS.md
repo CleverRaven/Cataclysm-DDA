@@ -113,7 +113,7 @@ A playlist can be included with a format like this:
 ]
 ```
 
-Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different. 
+Playlists are similar to sound effects in that they are each identified by an id. However, their similarities end there. Playlists cannot overlap each other unlike sound effects, they do not have optional fields such as variant and season, and the exact formatting for the files field is slightly different.
 
 Playlists are governed mainly by their id, which dictate in which situation a given playlist will be activated. Different situations trigger different ids, and if more than one ids are active at the same time, then the conflict is resolved by a priority model. Basically, each music id are given a hard-coded priority, where ids with higher priority takes precedent.
 
@@ -176,7 +176,7 @@ Divided by sections for clarity.
 * `environment thunder_near|thunder_far`
 * `environment daytime|nighttime`
 * `environment indoors|indoors_rain|underground`
-* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY`
+* `environment <weather_type>` # examples: `WEATHER_DRIZZLE|WEATHER_RAINY|WEATHER_THUNDER|WEATHER_FLURRIES|WEATHER_SNOW|WEATHER_SNOWSTORM|WEATHER_CLEAR|WEATHER_SUNNY|WEATHER_CLOUDY|WEATHER_PORTAL_STORM`
 * `environment alarm|church_bells|police_siren`
 * `environment deafness_shock|deafness_tone_start|deafness_tone_light|deafness_tone_medium|deafness_tone_heavy`
 
@@ -213,7 +213,6 @@ Triggered by seeing large numbers of zombies.
 * `mon_death zombie_death|zombie_gibbed`
 * `mon_bite bite_miss|bite_hit`
 * `melee_attack monster_melee_hit`
-* `player_laugh laugh_f|laugh_m`
 
 ### Player movement sfx
 
@@ -234,7 +233,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 
 ### Player death and end-game
 
-* `clean_up_at_end game_over|death_m|death_f`
+* `clean_up_at_end death_m|death_f`
 
 ### Various bionics
 

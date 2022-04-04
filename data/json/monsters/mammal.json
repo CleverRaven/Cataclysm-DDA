@@ -2521,7 +2521,7 @@
   {
     "id": "mon_reindeer",
     "type": "MONSTER",
-    "name": { "str": "Reindeer" },
+    "name": { "str_sp": "reindeer" },
     "description": "Also known as the caribou, this deer is native to North America and parts of Eurasia.  Although usually friendly, they can be aggressive during the autumn and winter mating season as well as when hungry.",
     "default_faction": "herbivore",
     "bodytype": "horse",

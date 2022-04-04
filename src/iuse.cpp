@@ -2170,7 +2170,8 @@ class exosuit_interact
             }
 
             const item_filter filter = [&flags, pkt, it]( const item & i ) {
-                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) );
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) ) &&
+                       pkt->can_contain( i ).success();
             };
 
             std::vector<item_location> candidates;
@@ -2212,14 +2213,14 @@ class exosuit_interact
                 } );
                 moves += to_moves<int>( 5_seconds );
             }
-
-            if( pkt->insert_item( *candidates[ret] ).success() ) {
+            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            if( rval.success() ) {
                 candidates[ret].remove_item();
                 moves += to_moves<int>( 5_seconds );
                 return moves;
             }
-            debugmsg( "Could not insert item \"%s\" into pocket \"%s\"", candidates[ret]->type_name(),
-                      get_pocket_name( pkt ) );
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\": %s",
+                      candidates[ret]->type_name(), get_pocket_name( pkt ), rval.str() );
             return moves;
         }
 };
@@ -2978,7 +2979,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
         } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
             p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
@@ -4579,7 +4580,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
-        as_m.entries.emplace_back( 1, true, '1', _( "Robot finds Kitten" ) );
+        as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
@@ -7199,7 +7200,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         }
     }
 
-    // scan for everythin NOT near critters
+    // scan for everything NOT near critters
     object_names_collection obj_coll = enumerate_objects_around_point( aim_point, 2, aim_point, 2,
                                        camera_pos, min_visible_volume, false,
                                        ignored_points, vehicles_recorded );

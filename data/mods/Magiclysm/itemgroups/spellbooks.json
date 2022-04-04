@@ -22,6 +22,7 @@
       [ "spell_scroll_chilling_touch", 50 ],
       [ "spell_scroll_magic_missile", 50 ],
       [ "spell_scroll_bleed", 50 ],
+      [ "spell_scroll_disruption_bolt", 50 ],
       [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_bless", 25 ],
       [ "spell_scroll_create_atomic_lamp", 25 ],
@@ -167,6 +168,7 @@
       [ "pyro", 60 ],
       [ "eshaper_spellbook", 60 ],
       [ "techno_em", 60 ],
+      [ "animist_spirits", 60 ],
       [ "wizard_advanced", 60 ],
       [ "stat_up_spellbook", 45 ]
     ]

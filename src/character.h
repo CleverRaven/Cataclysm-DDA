@@ -844,6 +844,10 @@ class Character : public Creature, public visitable
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
         int get_part_hp_max( const bodypart_id &id ) const;
+
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness( const w_point &weather );
+
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -853,10 +857,6 @@ class Character : public Creature, public visitable
          * - underwater
          * - clothes
          */
-
-        /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( const w_point &weather );
-
         void recalc_sight_limits();
         /**
          * Returns the apparent light level at which the player can see.
@@ -1253,6 +1253,8 @@ class Character : public Creature, public visitable
     public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
+        /** Calculate any discomfort your current clothes are causing. */
+        void calc_discomfort();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
         // recalculates bodyparts based on enchantments modifying them and the default anatomy.
@@ -1504,7 +1506,10 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    bool check_best_pkt = false );
+        void store( item_pocket *pocket, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
@@ -1783,7 +1788,7 @@ class Character : public Creature, public visitable
          * Check any already unsealed pockets in items pointed to by `containers`
          * and propagate the unsealed status through the container tree. In the
          * process the player may be asked to handle containers or spill contents,
-         * so make sure all unsealed containers are passed to this fucntion in a
+         * so make sure all unsealed containers are passed to this function in a
          * single batch; items (not limited to the ones listed in `containers` and
          * their contents) may be invalidated or moved after a call to this function.
          *
@@ -1949,8 +1954,10 @@ class Character : public Creature, public visitable
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr ) const;
-        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr ) const;
+        bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
+                             const bool ignore_pkt_settings = true ) const;
+        bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
+                                     const bool ignore_pkt_settings = true ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2667,6 +2674,12 @@ class Character : public Creature, public visitable
         int get_painkiller() const;
         void react_to_felt_pain( int intensity );
 
+        /** Monster cameras are mtype_ids with an integer range of transmission */
+        void remove_moncam( mtype_id moncam_id );
+        void add_moncam( std::pair<mtype_id, int> moncam );
+        void set_moncams( std::map<mtype_id, int> nmoncams );
+        std::map<mtype_id, int> get_moncams() const;
+
         void spores();
         void blossoms();
 
@@ -3128,7 +3141,7 @@ class Character : public Creature, public visitable
 
         using trap_map = std::map<tripoint, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
-        // specific trap - it will consider visibile and known traps.
+        // specific trap - it will consider visible and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
 
@@ -3191,7 +3204,7 @@ class Character : public Creature, public visitable
         void hardcoded_effects( effect &it );
 
         /** Estimate effect duration based on player relevant skill.
-        @param error_magnitude Maximum error, with zero in the relavant skill.
+        @param error_magnitude Maximum error, with zero in the relevant skill.
         @param minimum_error Maximum error when skill is >= threshold */
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
@@ -3391,6 +3404,9 @@ class Character : public Creature, public visitable
         units::energy power_level;
         units::energy max_power_level_cached;
         units::energy max_power_level_modifier;
+
+        // Additional vision sources, currently only used by avatars
+        std::map<mtype_id, int> moncams;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

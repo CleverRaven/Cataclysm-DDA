@@ -590,7 +590,7 @@ void activity_tracker::deserialize( const JsonObject &jo )
 }
 
 // migration handling of items that used to have charges instead of real items.
-// remove this migration funciton after 0.F
+// remove this migration function after 0.F
 static void migrate_item_charges( item &it )
 {
     if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
@@ -732,6 +732,8 @@ void Character::load( const JsonObject &data )
             spent_upgrade_points = str_upgrade + dex_upgrade + int_upgrade + per_upgrade;
         }
     }
+
+    data.read( "moncams", moncams );
 
     data.read( "magic", magic );
 
@@ -1240,6 +1242,7 @@ void Character::store( JsonOut &json ) const
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
+    json.member( "moncams", moncams );
     json.member( "magic", magic );
     json.member( "martial_arts_data", martial_arts_data );
     // "Fracking Toasters" - Saul Tigh, toaster
@@ -4238,7 +4241,7 @@ void basecamp::deserialize( const JsonObject &data )
                 e.provides[ id ] = amount;
             }
         }
-        // incase of save corruption, sanity check provides from expansions
+        // in case of save corruption, sanity check provides from expansions
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;

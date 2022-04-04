@@ -327,6 +327,21 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return rhs.settings.priority() > this->settings.priority();
     }
 
+    // if we've somehow bypassed the pocket autoinsert rules, check them here
+    if( !rhs.settings.accepts_item( it ) ) {
+        return false;
+    } else if( !this->settings.accepts_item( it ) ) {
+        return true;
+    }
+
+    const bool rhs_whitelisted = !rhs.settings.get_item_whitelist().empty() ||
+                                 !rhs.settings.get_category_whitelist().empty();
+    const bool lhs_whitelisted = !this->settings.get_item_whitelist().empty() ||
+                                 !this->settings.get_category_whitelist().empty();
+    if( rhs_whitelisted != lhs_whitelisted ) {
+        return rhs_whitelisted;
+    }
+
     const bool rhs_it_stack = rhs.has_item_stacks_with( it );
     if( has_item_stacks_with( it ) != rhs_it_stack ) {
         return rhs_it_stack;
@@ -1811,13 +1826,18 @@ item_pocket *item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     item_pocket *ret = nullptr;
+    // If the current pocket has restrictions or blacklists the item,
+    // try the nested pocket regardless of whether it's soft or rigid.
+    const bool ignore_rigidity =
+        !settings.accepts_item( it ) ||
+        !get_pocket_data()->get_flag_restrictions().empty();
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
         item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+                                     allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity ).second;
         if( nested_pocket != nullptr &&
             ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
             ret = nested_pocket;

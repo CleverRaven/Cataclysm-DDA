@@ -3,8 +3,8 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": { "str": "CRIT Blade-work manual" },
-    "description": "An advanced military manual on CRIT Blade-work.",
+    "name": { "str": "C.R.I.T Blade-work manual" },
+    "description": "An advanced military manual on C.R.I.T Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },
   {
@@ -15,7 +15,7 @@
   {
     "type": "martial_art",
     "id": "style_crt_blade",
-    "name": "CRIT Blade-work",
+    "name": "C.R.I.T Blade-work",
     "description": "An offensive style centered around rapid slashes and prodding.  Each attack landed increases combat ability but leaves you increasingly vulnerable",
     "initiate": [ "You prepare to whittle down your enemies.", "%s initiates blade-work." ],
     "arm_block": 99,

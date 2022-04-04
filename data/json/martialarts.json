@@ -1502,6 +1502,19 @@
         "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5.0 } ]
       }
     ],
-    "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
+    "onkill_eocs": [ "EOC_BIOLUM3_cast" ],
+    "ongethit_eocs": [
+      {
+        "id": "EOC_MA_DEBUG_GETHIT",
+        "effect": [
+          {
+            "u_message": "The wound triggers your rare disease, Bleedalotitis - fortunately you have a lot of blood.",
+            "type": "mixed"
+          },
+          { "u_set_field": "fd_blood", "radius": 10 }
+        ]
+      }
+    ],
+    "techniques": [ "tec_debug_slow", "tec_debug_arpen", "tec_debug_eoc_demo" ]
   }
 ]
