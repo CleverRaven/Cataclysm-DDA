@@ -708,12 +708,12 @@ void Character::activate_mutation( const trait_id &mut )
         monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
-            add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
+            add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slime microbian!" ) );
             tdata.powered = false;
             return;
         }
         add_msg_if_player( m_good,
-                           _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
+                           _( "You focus, and with a pleasant splitting feeling, birth a new slime microbian!" ) );
         slime->friendly = -1;
         add_msg_if_player( m_good, SNIPPET.random_from_category( "slime_generate" ).value_or(
                                translation() ).translated() );
