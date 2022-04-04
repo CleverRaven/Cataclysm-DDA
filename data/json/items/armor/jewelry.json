@@ -1862,12 +1862,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
     "description": "A pair of shiny onyx and silver earrings.",
-    "snippet_category": [
-      {
-        "id": "dark_earring",
-        "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts."
-      }
-    ],
+    "snippet_category": [ { "id": "dark_earring", "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts." } ],
     "color": "dark_gray"
   },
   {
