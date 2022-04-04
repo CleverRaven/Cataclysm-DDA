@@ -310,7 +310,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zornithomimus_brute",
-    "name": { "str": "Ornery Ornithomimus" },
+    "name": { "str_sp": "Ornery Ornithomimus" },
     "copy-from": "mon_zallimimus_brute",
     "looks_like": "mon_gallimimus",
     "volume": "170 L",
@@ -1501,7 +1501,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sktruthiomimus",
-    "name": { "str": "skeletal struthiomimus" },
+    "name": { "str_sp": "skeletal struthiomimus" },
     "copy-from": "mon_sallimimus",
     "looks_like": "mon_gallimimus",
     "volume": "420 L",
@@ -1514,7 +1514,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sornithomimus",
-    "name": { "str": "skeletal ornithomimus" },
+    "name": { "str_sp": "skeletal ornithomimus" },
     "copy-from": "mon_sallimimus",
     "looks_like": "mon_gallimimus",
     "volume": "170 L",
