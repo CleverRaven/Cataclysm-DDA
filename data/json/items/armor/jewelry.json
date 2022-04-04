@@ -1865,7 +1865,7 @@
     "snippet_category": [
       {
         "id": "dark_earring",
-        "text": "A pair of dark silver earrings with a couple of onyx in the shape of two dark hearts."
+        "text": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts."
       }
     ],
     "color": "dark_gray"
@@ -2252,7 +2252,7 @@
     "name": { "str": "onyx and silver ring" },
     "description": "A silver ring with an onyx mounted on top of it.",
     "snippet_category": [
-      { "id": "dark_ring", "text": "A dark silver ring with skulls decorations and a pitch black onyx mounted on top of it." }
+      { "id": "dark_ring", "text": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it." }
     ],
     "color": "dark_gray"
   },
@@ -2919,7 +2919,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "onyx and gold pendant necklace" },
-    "description": "A shiny, gold necklace adorned with an onyx pendant.",
+    "description": "A shiny gold necklace adorned with an onyx pendant.",
     "color": "dark_gray"
   },
   {
@@ -3175,7 +3175,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum pendant necklace" },
-    "description": "A shiny, platinum necklace adorned with an onyx pendant.",
+    "description": "A shiny platinum necklace adorned with an onyx pendant.",
     "color": "dark_gray"
   },
   {
@@ -3304,7 +3304,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with onyx.",
+    "description": "A shiny platinum tiara adorned with onyx.",
     "color": "dark_gray"
   },
   {
@@ -3433,7 +3433,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and gold tiara" },
-    "description": "A shiny, gold tiara adorned with onyx.",
+    "description": "A shiny gold tiara adorned with onyx.",
     "color": "dark_gray"
   },
   {
