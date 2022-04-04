@@ -720,7 +720,7 @@
     "name": { "str": "santa dress", "str_pl": "santa dresses" },
     "description": {
       "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
-      "str": "A red sleeved dress with white faux fur as trim.  For when you want to be Mrs. Claus on Christmas, or perhaps Santa going clubbing."
+      "str": "A sleeved red dress with white faux fur as trim.  For when you want to be Mrs. Claus on Christmas, or perhaps Santa going clubbing."
     },
     "weight": "800 g",
     "volume": "3500 ml",
@@ -751,7 +751,7 @@
     "repairs_like": "dress",
     "type": "ARMOR",
     "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
-    "description": "A red sleeved long dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
+    "description": "A sleeved long red dress with white faux fur as trim.  This is a fancy version for a queen of the north pole.",
     "weight": "1200 g",
     "volume": "3850 ml",
     "price": 25000,
@@ -1325,6 +1325,102 @@
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [ { "encumbrance": [ 4, 8 ], "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "witch_dress",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "witch dress", "str_pl": "witch dresses" },
+    "description": { "str": "A black sleeved dress with pointed cuts at the edges.  Perfect for halloween night." },
+    "weight": "258 g",
+    "volume": "1500 ml",
+    "price": 14000,
+    "price_postapoc": 40,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": 3 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 90 }
+    ]
+  },
+  {
+    "id": "witch_dress_long",
+    "repairs_like": "dress",
+    "type": "ARMOR",
+    "name": { "str": "long witch dress", "str_pl": "long witch dresses" },
+    "description": "A sleeved long black dress typical of a witch.  It includes a pouch for storing potions and other magical items.",
+    "weight": "700 g",
+    "volume": "3750 ml",
+    "price": 18000,
+    "price_postapoc": 60,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "dress",
+    "color": "dark_gray",
+    "warmth": 15,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 8, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "13 cm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "id": "witch_dress_short",
+    "repairs_like": "sundress",
+    "type": "ARMOR",
+    "name": { "str": "short witch dress", "str_pl": "short witch dresses" },
+    "description": { "str": "A short black dress typically used by witches." },
+    "weight": "200 g",
+    "volume": "1500 ml",
+    "price": 12000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sundress",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": 3 },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 1
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+    ]
   },
   {
     "id": "wool_hoodie",
