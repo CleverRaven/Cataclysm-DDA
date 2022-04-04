@@ -8,7 +8,7 @@ Geographically, species from modern day New England are the focus, again for a m
 **ToDo**
 
 *List of creatures that should be added*
-
+[done] -> First implementation done 
 sabre-toothed cat (Smilodon fatalis) [done]
 giant short-faced bear (Arctodus) [done]
 long-nosed peccary [done]
@@ -17,9 +17,9 @@ woolly mammoth [done]
 mastodon [done]
 north american lion (Panthera atrox) [done]
 dire wolf (Aenocyon dirus) [done]
-stag-moose (Cervalces scotti)
-giant beaver (Castoroides) 
-giant sloth (Megalonyx), or other/more species?
+stag-moose (Cervalces scotti) [done]
+giant beaver (Castoroides) [done]
+giant sloth (Megalonyx), or other/more species? [done]
 shrub-ox, or woodox (Euceratherium/Bootherium; https://en.wikipedia.org/wiki/Bootherium)
 muskox (Ovibos moschatus)
 ancient bison, or equiv. (Bison antiquus)
@@ -38,10 +38,24 @@ Possibly some kind of goat, maybe extinct pronghorn species?
 
 
 *Add/adjust monster groups*
-Blacklist monsters that don't fit time frame
-Add new monsters to monster groups
+Blacklist monsters that don't fit time frame:
+- all domesticated animals (cows, pigs, chicken, horses, cats, dogs)
+- introduced species (wild boars)
+- overlapping mutant variants (e.g, dire wolf)
 
-*test and tweak*
+
+Add new monsters to monster groups/implement spawn:
+- tweak spawn rates
+- consider if spawns should occour in specific types of region (meaning, costum moster groups apart from "forest")
+
+
+*tests and tweaks*
+- revamp descriptions (goal is immersive description, not wiki info or strategies how to deal with them)
+- tweak factions/categories/sizes
+- tweak combat stats (HP, damage etc)
+- tweak reproduction data (gestation times, grow-up-times etc)
+-  
+
 
 *Additional/Future*
 Think of cool stuff to do with animal products, like sabrecat teeth or mammoth tusks (i.e., adjust/make new harvest groups)
@@ -56,3 +70,15 @@ Late Pleistocene Flora
 Touch mapgen to create more realistic pleistocene biomes
 Mutations/Mutagen line fitting the setting (Mammoth Mutagen, for example)
 
+**domesticated replacements**
+*meat/leather production*(pigs) = flat headed peccaries (sligthly smaller, but otherwise sameish use)
+
+*wool* (sheep) = mammoths? seems awesome, but a bit over the top too. otherwise bison variants, musk oxen, camelops
+
+*milk* (cow, goat) = bison, oxen, possibly horse?, possibly camelops?
+
+*transport* (horse, cow) = long nose peccary, scotts horse, mammoth/Mastodon, bison/ox, camelops
+
+*eggs* (chicken, ducks, geese) = Auks, but ducks and geese are already fine
+
+*pet* (dogs, cats) = make bobcats pets, dire wolves, larger cats as well?
