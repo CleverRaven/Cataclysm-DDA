@@ -812,7 +812,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    const int entry_count = mt.harvest->get_all().size();
+    const int entry_count = ( action == butcher_type::DISSECT &&
+                              !mt.dissect.is_empty() ) ? mt.dissect->get_all().size() : mt.harvest->get_all().size();
     int monster_weight_remaining = monster_weight;
     int practice = 0;
 
@@ -822,7 +823,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     map &here = get_map();
-    for( const harvest_entry &entry : action == butcher_type::DISSECT ? *mt.dissect : *mt.harvest ) {
+    for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
+                                        !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
         const int skill_level = butchery_dissect_skill_level( you, tool_quality, entry.type );
         const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
         practice += ( 4 + butchery ) / entry_count;
@@ -1092,8 +1094,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     }
 
     if( action == butcher_type::DISSECT ) {
-        you.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
-                      0 ) + 4 );
+        you.practice( skill_firstaid, std::max( 0, practice ), mt.size + std::min( tool_quality, 3 ) + 2 );
         mt.families.practice_dissect( you );
     } else {
         you.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - creature_size::medium,
