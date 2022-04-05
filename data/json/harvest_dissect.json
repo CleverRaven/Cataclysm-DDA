@@ -598,5 +598,43 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [ { "drop": "ursine_sample_huge", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_mon_broken_cyborg",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this failed experiment.",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "cyborg_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  },
+  {
+    "id": "dissect_mon_zomborg",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this flesh and metal monster.  Much of it is just scrap metal, but some of the electronics look surprisingly intact.",
+    "entries": [
+      {
+        "drop": "Zomborg_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "Zomborg_CBM_harvest_power",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED", "FILTHY" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
   }
 ]

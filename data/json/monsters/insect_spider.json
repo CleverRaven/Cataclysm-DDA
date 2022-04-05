@@ -919,7 +919,7 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
-    "dissect": "dissect_insect_sample_small",
+    "dissect": "dissect_insect_sample_large",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],

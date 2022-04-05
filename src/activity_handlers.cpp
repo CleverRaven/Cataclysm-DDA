@@ -365,13 +365,13 @@ bool activity_handlers::resume_for_multi_activities( Character &you )
 static bool check_butcher_dissect( const int roll )
 {
     // Failure rates for dissection rolls
-    // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
+    // 100% at roll 0, 66% at roll 1, 50% at roll 2, 40% @ 3, 33% @ 4, 28% @ 5, ... , 16% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
-    const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
+                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+    const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
 
@@ -765,6 +765,8 @@ static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 
     if( tool_quality < 0 ) {
         skill_shift -= rng_float( 0, -tool_quality / 5.0 );
+    } else {
+        skill_shift += std::min( tool_quality, 4 );
     }
 
     return static_cast<int>( std::round( skill_shift ) );
@@ -852,7 +854,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             int roll = roll_butchery_dissect( skill_level, you.dex_cur,
                                               tool_quality ) - corpse_item->damage_level();
             roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
             add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
                            0 - corpse_item->damage_level() );
             bool dissect_success = false;
