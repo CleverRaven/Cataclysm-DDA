@@ -1,52 +1,62 @@
 [
   {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nest_RandEnc_roadstop",
-    "//": "Select a possible random encounter that would make sense at a roadside outhouse.  This is a prototype version that only includes a merchant.  Doing this using cascading nested mapgen so that these same random encounter templates can be placed in other maps rather than being designed to only fit in this one.",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_nested": [
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_add",
+    "recurrence": 3600,
+    "global": true,
+    "eoc_type": "OM_MOVE",
+    "condition": {
+      "and": [
+        { "u_near_om_location": "roadstop_a", "range": 2 },
+        { "is_day": true },
+        { "one_in_chance": 100 },
+        { "days_since_cataclysm": 5 },
         {
-          "chunks": [
-            [ "RandEnc_FM_Caravan_Rand_8x8", 100 ]
-          ],
-          "x": 0,
-          "y": 15
+          "not": [
+            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" },
+            { "is_season": "winter" }
+          ]
         }
       ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_roadstop_a_add", "om_terrain": "roadstop_a" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "caravan", "time": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_remove",
+    "recurrence": 600,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
+        {
+          "not": [
+            { "u_near_om_location": "roadstop_a", "range": 2 }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
+    "//": "Adds a random encounter at this roadstop",
+    "object": {
+      "place_npcs": [ { "class": "evac_broker", "x": 8, "y": 18 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "RandEnc_FM_Caravan_Rand_8x8",
-    "//": "Adds a free merchant caravan that has stopped for a rest.  This one just has a generic random free merchant trader.",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
+    "//": "removes a random encounter at this roadstop",
     "object": {
-      "mapgensize": [ 8, 8 ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nest_roadstop_zombies1",
-    "//": "Scatters just a couple zombies and the car they came in on.",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": [ 8, 20 ] "y": [ 17, 20 ] } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 19 ], "y": [ 6, 19 ], "chance": 100 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nest_roadstop_zombies2",
-    "//": "Scatters a few zombies and cars.",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": [ 8, 12 ] "y": [ 17, 20 ] } ],
-      "place_vehicles": [ { "chance": 80, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": [ 16, 20 ] "y": [ 17, 20 ] } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 19 ], "y": [ 6, 19 ], "chance": 100 }, "repeat": [ 2, 3 ] ]
     }
   },
   {
@@ -100,19 +110,6 @@
         { "item": "magazines", "x": [ 11, 12 ], "y": 9, "chance": 80 },
         { "item": "trash", "x": [ 11, 12 ], "y": 11, "chance": 80 },
         { "item": "magazines", "x": [ 11, 12 ], "y": 13, "chance": 90 }
-      ],
-      "place_nested": [
-        {
-          "//": "Overlay a single nested map over the whole region.  It may contain nothing, a few zombies, a lot of zombies, or no zombies at all and a script for random encounters to occur here.",
-          "chunks": [
-            [ "null", 50 ],
-            [ "nest_roadstop_zombies1", 20 ],
-            [ "nest_roadstop_zombies2", 10 ],
-            [ "nest_RandEnc_roadstop", 20 ]
-          ],
-          "x": 0,
-          "y": 0
-        }
       ]
     }
   },
@@ -225,20 +222,7 @@
         { "item": "trash", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 60 },
         { "item": "methlab", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 50 }
       ],
-      "place_item": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 } ],
-      "place_nested": [
-        {
-          "//": "Overlay a single nested map over the whole region.  It may contain nothing, a few zombies, a lot of zombies, or no zombies at all and a script for random encounters to occur here.",
-          "chunks": [
-            [ "null", 50 ],
-            [ "nest_roadstop_zombies1", 20 ],
-            [ "nest_roadstop_zombies2", 10 ],
-            [ "nest_RandEnc_roadstop", 20 ]
-          ],
-          "x": 0,
-          "y": 0
-        }
-      ]
+      "place_item": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 22, "chance": 50, "amount": 1 } ]
     }
   },
   {
