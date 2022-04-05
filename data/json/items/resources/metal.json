@@ -591,11 +591,11 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "5kgaluminum",
+    "id": "5laluminum",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l aluminum ingot" },
-    "description": "A 5 L ingot of solid aluminum.",
+    "name": { "str_sp": "5L aluminum ingot" },
+    "description": "A five-liter ingot of solid aluminum.",
     "weight": "13500 g",
     "volume": "5 L",
     "price": 370,
@@ -606,11 +606,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgaluminum",
+    "id": "10laluminum",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l aluminum ingot" },
-    "description": "A 10 L ingot of solid aluminum.",
+    "name": { "str_sp": "10L aluminum ingot" },
+    "description": "A ten-liter ingot of solid aluminum.",
     "weight": "13500 g",
     "volume": "10 L",
     "price": 7400,
@@ -621,11 +621,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgbrass",
+    "id": "5lbrass",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l brass ingot" },
-    "description": "A 5 L ingot of solid brass.",
+    "name": { "str_sp": "5L brass ingot" },
+    "description": "A five-liter ingot of solid brass.",
     "weight": "43650 g",
     "volume": "5 L",
     "price": 572740,
@@ -636,11 +636,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgbrass",
+    "id": "10lbrass",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l brass ingot" },
-    "description": "A 10 L ingot of solid brass.",
+    "name": { "str_sp": "10L brass ingot" },
+    "description": "A ten-liter ingot of solid brass.",
     "weight": "87300 g",
     "volume": "10 L",
     "price": 1145475,
@@ -651,11 +651,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgbronze",
+    "id": "5lbronze",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l bronze ingot" },
-    "description": "A 5 L ingot of solid bronze.",
+    "name": { "str_sp": "5L bronze ingot" },
+    "description": "A five-liter ingot of solid bronze.",
     "weight": "38450 g",
     "volume": "5 L",
     "price": 650195,
@@ -666,11 +666,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgbronze",
+    "id": "10lbronze",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l bronze ingot" },
-    "description": "A 10 L ingot of solid bronze.",
+    "name": { "str_sp": "10L bronze ingot" },
+    "description": "A ten-liter ingot of solid bronze.",
     "weight": "89600 g",
     "volume": "10 L",
     "price": 1300400,
@@ -681,11 +681,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgcopper",
+    "id": "5lcopper",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l copper ingot" },
-    "description": "A 5 L ingot of solid copper.",
+    "name": { "str_sp": "5L copper ingot" },
+    "description": "A five-liter ingot of solid copper.",
     "weight": "44800 g",
     "volume": "5 L",
     "price": 11575,
@@ -696,11 +696,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgcopper",
+    "id": "10lcopper",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l copper ingot" },
-    "description": "A 10 L ingot of solid copper.",
+    "name": { "str_sp": "10L copper ingot" },
+    "description": "A ten-liter ingot of solid copper.",
     "weight": "89600 g",
     "volume": "10 L",
     "price": 23150,
@@ -711,11 +711,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kggold",
+    "id": "5lgold",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l gold ingot" },
-    "description": "A 5 L ingot of solid gold.",
+    "name": { "str_sp": "5L gold ingot" },
+    "description": "A five-liter ingot of solid gold.",
     "weight": "96500 g",
     "volume": "5 L",
     "price": 10000000,
@@ -726,11 +726,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kggold",
+    "id": "10lgold",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l gold ingot" },
-    "description": "A 10 L ingot of solid gold.",
+    "name": { "str_sp": "10L gold ingot" },
+    "description": "A ten-liter ingot of solid gold.",
     "weight": "193000 g",
     "volume": "10 L",
     "price": 20000000,
@@ -741,11 +741,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgiron",
+    "id": "5liron",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l iron ingot" },
-    "description": "A 5 L ingot of solid iron.",
+    "name": { "str_sp": "5L iron ingot" },
+    "description": "A five-liter ingot of solid iron.",
     "weight": "56700 g",
     "volume": "5 L",
     "price": 10000,
@@ -756,11 +756,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgiron",
+    "id": "10liron",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l iron ingot" },
-    "description": "A 10 L ingot of solid iron.",
+    "name": { "str_sp": "10L iron ingot" },
+    "description": "A ten-liter ingot of solid iron.",
     "weight": "113400 g",
     "volume": "10 L",
     "price": 20000,
@@ -771,11 +771,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kglead",
+    "id": "5llead",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l lead ingot" },
-    "description": "A 5 L ingot of solid lead.",
+    "name": { "str_sp": "5L lead ingot" },
+    "description": "A five-liter ingot of solid lead.",
     "weight": "56700 g",
     "volume": "5 L",
     "price": 8333300,
@@ -786,11 +786,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kglead",
+    "id": "10llead",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l lead ingot" },
-    "description": "A 10 L ingot of solid lead.",
+    "name": { "str_sp": "10L lead ingot" },
+    "description": "A ten-liter ingot of solid lead.",
     "weight": "113400 g",
     "volume": "10 L",
     "price": 16666600,
@@ -801,11 +801,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgplatinum",
+    "id": "5lplatinum",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l platinum ingot" },
-    "description": "A 5 L ingot of solid platinum.",
+    "name": { "str_sp": "5L platinum ingot" },
+    "description": "A five-liter ingot of solid platinum.",
     "weight": "107250 g",
     "volume": "5 L",
     "price": 100000000,
@@ -816,11 +816,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgplatinum",
+    "id": "10lplatinum",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l platinum ingot" },
-    "description": "A 10 L ingot of solid platinum.",
+    "name": { "str_sp": "10L platinum ingot" },
+    "description": "A ten-liter ingot of solid platinum.",
     "weight": "214500 g",
     "volume": "10 L",
     "price": 200000000,
@@ -831,11 +831,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgsilver",
+    "id": "5lsilver",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l silver ingot" },
-    "description": "A 5 L ingot of solid silver.",
+    "name": { "str_sp": "5L silver ingot" },
+    "description": "A five-liter ingot of solid silver.",
     "weight": "52450 g",
     "volume": "5 L",
     "price": 16666600,
@@ -846,11 +846,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgsilver",
+    "id": "10lsilver",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l silver ingot" },
-    "description": "A 10 L ingot of solid silver.",
+    "name": { "str_sp": "10L silver ingot" },
+    "description": "A ten-liter ingot of solid silver.",
     "weight": "104900 g",
     "volume": "10 L",
     "price": 33333300,
@@ -861,11 +861,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgsteel",
+    "id": "5lsteel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 20000,
@@ -876,11 +876,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgsteel",
+    "id": "10lsteel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 40000,
@@ -891,11 +891,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgbudget_steel",
+    "id": "5lbudget_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l budget steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L budget steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 20000,
@@ -906,11 +906,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgbudget_steel",
+    "id": "10lbudget_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l budget steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L budget steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 40000,
@@ -921,11 +921,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kglc_steel",
+    "id": "5llc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l mild steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L mild steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 22000,
@@ -936,11 +936,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kglc_steel",
+    "id": "10llc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l mild steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L mild steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 44000,
@@ -951,11 +951,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgmc_steel",
+    "id": "5lmc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l medium steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L medium steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 24000,
@@ -966,11 +966,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgmc_steel",
+    "id": "10lmc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l medium steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L medium steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 48000,
@@ -981,11 +981,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kghc_steel",
+    "id": "5lhc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l high steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L high steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 26000,
@@ -996,11 +996,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kghc_steel",
+    "id": "10lhc_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l high steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L high steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 52000,
@@ -1011,11 +1011,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "5kgch_steel",
+    "id": "5lch_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "5 l high steel ingot" },
-    "description": "A 5 L ingot of solid steel.",
+    "name": { "str_sp": "5L high steel ingot" },
+    "description": "A five-liter ingot of solid steel.",
     "weight": "39295 g",
     "volume": "5 L",
     "price": 26000,
@@ -1026,11 +1026,11 @@
     "ammo_type": "components"
   },
   {
-    "id": "10kgch_steel",
+    "id": "10lch_steel",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "10 l high steel ingot" },
-    "description": "A 10 L ingot of solid steel.",
+    "name": { "str_sp": "10L high steel ingot" },
+    "description": "A ten-liter ingot of solid steel.",
     "weight": "78590 g",
     "volume": "10 L",
     "price": 52000,
