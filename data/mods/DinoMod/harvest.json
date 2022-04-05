@@ -105,7 +105,6 @@
   },
   {
     "id": "dissect_dino_large_pred",
-    "//": "drops large stomach",
     "type": "harvest",
     "entries": [
       { "drop": "spider", "type": "bionic_group" },
