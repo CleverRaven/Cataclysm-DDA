@@ -332,7 +332,7 @@
     "color": "light_red",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "HELMET_COMPAT", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -375,7 +375,16 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY",
+      "PADDED"
+    ],
     "armor": [
       {
         "material": [
@@ -422,7 +431,16 @@
     "color": "light_red",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "HELMET_COMPAT", "WATER_FRIENDLY" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "NORMAL",
+      "HELMET_COMPAT",
+      "WATER_FRIENDLY",
+      "PADDED"
+    ],
     "armor": [
       {
         "material": [
@@ -472,7 +490,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -496,7 +514,7 @@
     "symbol": ";",
     "color": "brown",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -696,7 +714,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
     "environmental_protection": 1,
     "techniques": [ "RAPID" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
