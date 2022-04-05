@@ -3580,13 +3580,22 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are rigid
-                std::string coverage = _( "<bold>Rigid</bold>:" );
+                std::string coverage = _( "<bold>Rigid Locations</bold>:" );
+                std::vector<sub_bodypart_id> covered;
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.rigid ) {
                         for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                            covered.emplace_back( sbp );
                         }
                     }
+                }
+
+                if( !covered.empty() ) {
+                    std::vector<translation> to_print = sub_body_part_type::consolidate( covered );
+                    for( const translation &entry : to_print ) {
+                        coverage += string_format( _( " The <info>%s</info>." ), entry );
+                    }
+                    info.emplace_back( "ARMOR", coverage );
                 }
             }
         }
@@ -3601,13 +3610,21 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.emplace_back( "ARMOR", coverage );
             } else {
                 // only some parts are comfortable
-                std::string coverage = _( "<bold>Comfortable</bold>:" );
+                std::string coverage = _( "<bold>Comfortable Locations</bold>:" );
+                std::vector<sub_bodypart_id> covered;
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.comfortable ) {
                         for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                            coverage += string_format( _( ", <info>%s</info>" ), sbp->name );
+                            covered.emplace_back( sbp );
                         }
                     }
+                }
+                if( !covered.empty() ) {
+                    std::vector<translation> to_print = sub_body_part_type::consolidate( covered );
+                    for( const translation &entry : to_print ) {
+                        coverage += string_format( _( " The <info>%s</info>." ), entry );
+                    }
+                    info.emplace_back( "ARMOR", coverage );
                 }
             }
         }
@@ -12817,6 +12834,34 @@ bool item::is_bp_rigid( const T &bp ) const
 template bool item::is_bp_rigid<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
 
 template bool item::is_bp_rigid<bodypart_id>( const bodypart_id &bp ) const;
+
+template <typename T>
+bool item::is_bp_rigid_selective( const T &bp ) const
+{
+    bool is_rigid;
+
+    const armor_portion_data *portion = portion_for_bodypart( bp );
+
+    if( !portion ) {
+        return false;
+    }
+
+    // overrides for the item overall
+    if( has_flag( flag_SOFT ) ) {
+        is_rigid = false;
+    } else if( has_flag( flag_HARD ) ) {
+        is_rigid = true;
+    } else {
+        is_rigid = portion->rigid;
+    }
+
+    return is_rigid && portion->rigid_layer_only;
+}
+
+// initialize for sub_bodyparts and body parts
+template bool item::is_bp_rigid_selective<sub_bodypart_id>( const sub_bodypart_id &bp ) const;
+
+template bool item::is_bp_rigid_selective<bodypart_id>( const bodypart_id &bp ) const;
 
 template <typename T>
 bool item::is_bp_comfortable( const T &bp ) const

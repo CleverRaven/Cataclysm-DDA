@@ -875,7 +875,7 @@ bool game::start_game()
     }
 
     //Create mutation_category_level
-    u.set_highest_cat_level();
+    u.calc_mutation_levels();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
     if( scen->has_flag( "FIRE_START" ) ) {

@@ -733,6 +733,24 @@
     ]
   },
   {
+    "id": "oil_press_primitive",
+    "type": "TOOL",
+    "name": { "str": "oil powered manual oil press", "str_pl": "oil powered manual oil presses" },
+    "description": "A barrel with a large screw press for creating vegetable oil.  A lamp oil cooker heats the raw material to increase extraction efficiency.",
+    "weight": "12000 g",
+    "volume": "20 L",
+    "looks_like": "oil_press_manual",
+    "price": 12000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "bashing": 7,
+    "material": [ "wood" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "lamp_oil" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ]
+  },
+  {
     "id": "pastaextruder",
     "type": "GENERIC",
     "category": "tools",
