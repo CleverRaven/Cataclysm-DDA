@@ -826,7 +826,7 @@ void game::chat()
     }
 
     if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
+        message = string_format( _( "\"%s\"" ), yell_msg );
     }
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
