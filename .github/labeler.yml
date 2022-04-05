@@ -39,7 +39,7 @@
   - "**/npcs/**/*"
 
 "Appliance/Power Grid":
-  - "**/appliance/**/*"
+  - "**/appliance**"
 
 "Monsters":
   - "**/monsters/**/*"
@@ -62,8 +62,8 @@
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
-  - "**//gun/**/*"
-  - "**//ammo/**/*"
+  - "**/gun/**/*"
+  - "**/ammo/**/*"
 
 "SDL: Tiles / Sound":
   - gfx/**/*
