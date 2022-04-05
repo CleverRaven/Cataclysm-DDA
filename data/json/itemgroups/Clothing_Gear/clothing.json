@@ -1428,6 +1428,12 @@
       [ "flag_bikini_top", 2 ],
       [ "flag_bikini_bottom", 2 ],
       [ "flag_swimsuit", 2 ],
+      [ "pom_poms", 5 ],
+      [ "sinister_cane", 2 ],
+      [ "wizard_cane_cheap", 2 ],
+      [ "wizard_cane", 1 ],
+      [ "scythe_fake", 2 ],
+      [ "scythe_toy", 2 ],
       { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
       { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
       { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
