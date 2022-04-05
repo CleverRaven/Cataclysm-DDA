@@ -55,6 +55,14 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FUNGAL_CARETAKER",
+    "default": "mon_fungaloid",
+    "//": "Group for fungal caretakers to evolve",
+    "monsters": [
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FUNGI_URBAN",
     "monsters": [
       { "monster": "mon_fungal_tendril", "weight": 755, "cost_multiplier": 0 },
