@@ -1211,6 +1211,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_ap_trunk_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_box_battery_charger",
+    "name": "Place Battery Charger"
+  },
+  {
+    "type": "construction_group",
     "id": "reveal_wall_wiring",
     "name": "Reveal Wall Wirings"
   },
