@@ -38,6 +38,9 @@
 "NPC / Factions":
   - "**/npcs/**/*"
 
+"Appliance/Power Grid":
+  - "**/appliance/**/*"
+
 "Monsters":
   - "**/monsters/**/*"
 
