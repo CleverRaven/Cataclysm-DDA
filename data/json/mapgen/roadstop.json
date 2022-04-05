@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_Roadstop_remove",
-    "recurrence": 600,
+    "recurrence": 200,
     "global": true,
     "condition": {
       "and": [
