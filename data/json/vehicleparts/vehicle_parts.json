@@ -2463,7 +2463,7 @@
   {
     "type": "vehicle_part",
     "id": "extension_cable",
-    "name": { "str": "extension_cable" },
+    "name": { "str": "extension cord" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",

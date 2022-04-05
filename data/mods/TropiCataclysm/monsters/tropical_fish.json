@@ -43,5 +43,79 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND", "HURT" ],
     "upgrades": { "age_grow": 365, "into": "mon_shark" },
     "flags": [ "FISHABLE", "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fish_lungfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "lungfish", "str_pl": "lungfishes" },
+    "description": "A lungfish.  This strange fish has relatives in both Africa and Australia, all of them can breathe air and some consider them living fossils."
+  },
+  {
+    "id": "mon_fish_eel_electric",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "electric eel" },
+    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
+  },
+  {
+    "id": "mon_fish_pacu",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "pacu" },
+    "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usually small to medium size."
+  },
+  {
+    "id": "mon_fish_pacu_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tambaqui" },
+    "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worldwide."
+  },
+  {
+    "id": "mon_fish_piranha",
+    "type": "MONSTER",
+    "name": { "str": "piranha" },
+    "description": "A small to medium fish with a wide diet.  Contrary to popular belief these fish are not vicious predators and instead react to the availability of food in their environment.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "3200 ml",
+    "weight": "3200 g",
+    "hp": 15,
+    "speed": 180,
+    "material": [ "flesh" ],
+    "symbol": "t",
+    "color": "light_green",
+    "aggression": 15,
+    "morale": 60,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "dodge": 6,
+    "vision_day": 1,
+    "vision_night": 30,
+    "harvest": "fish_small",
+    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "path_settings": { "max_dist": 5 },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fish_arowana",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "arowana" },
+    "description": "A member of the Osteoglossidade family.  These fishes can be found on South America, Asia and Australia."
+  },
+  {
+    "id": "mon_fish_arapaima",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "arapaima" },
+    "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
   }
 ]

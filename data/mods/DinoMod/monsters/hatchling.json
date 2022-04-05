@@ -62,6 +62,14 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
+    "id": "mon_appalachiosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dilophosaurus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "appalachiosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_appalachiosaurus_juvenile" }
+  },
+  {
     "id": "mon_gorgosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dilophosaurus_hatchling",
