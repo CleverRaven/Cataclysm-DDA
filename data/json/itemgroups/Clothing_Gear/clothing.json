@@ -716,6 +716,7 @@
       { "item": "tourmaline_silver_cufflinks", "prob": 50 },
       { "item": "alexandrite_silver_cufflinks", "prob": 50 },
       { "item": "pearl_silver_cufflinks", "prob": 50 },
+      { "item": "onyx_silver_cufflinks", "prob": 50 },
       { "item": "opal_silver_cufflinks", "prob": 50 },
       { "item": "ruby_silver_cufflinks", "prob": 50 },
       { "item": "garnet_silver_cufflinks", "prob": 50 }
@@ -737,6 +738,7 @@
       { "item": "tourmaline_gold_cufflinks", "prob": 50 },
       { "item": "alexandrite_gold_cufflinks", "prob": 50 },
       { "item": "pearl_gold_cufflinks", "prob": 50 },
+      { "item": "onyx_gold_cufflinks", "prob": 50 },
       { "item": "opal_gold_cufflinks", "prob": 50 },
       { "item": "ruby_gold_cufflinks", "prob": 50 },
       { "item": "garnet_gold_cufflinks", "prob": 50 }
@@ -758,6 +760,7 @@
       { "item": "tourmaline_platinum_cufflinks", "prob": 50 },
       { "item": "alexandrite_platinum_cufflinks", "prob": 50 },
       { "item": "pearl_platinum_cufflinks", "prob": 50 },
+      { "item": "onyx_platinum_cufflinks", "prob": 50 },
       { "item": "opal_platinum_cufflinks", "prob": 50 },
       { "item": "ruby_platinum_cufflinks", "prob": 50 },
       { "item": "garnet_platinum_cufflinks", "prob": 50 }
@@ -798,6 +801,7 @@
       [ "tourmaline_silver_tiara", 50 ],
       [ "alexandrite_silver_tiara", 50 ],
       [ "pearl_silver_tiara", 50 ],
+      [ "onyx_silver_tiara", 50 ],
       [ "opal_silver_tiara", 50 ],
       [ "ruby_silver_tiara", 50 ],
       [ "garnet_silver_tiara", 50 ]
@@ -818,6 +822,7 @@
       [ "tourmaline_gold_tiara", 50 ],
       [ "alexandrite_gold_tiara", 50 ],
       [ "pearl_gold_tiara", 50 ],
+      [ "onyx_gold_tiara", 50 ],
       [ "opal_gold_tiara", 50 ],
       [ "ruby_gold_tiara", 50 ],
       [ "garnet_gold_tiara", 50 ]
@@ -838,6 +843,7 @@
       [ "tourmaline_platinum_tiara", 50 ],
       [ "alexandrite_platinum_tiara", 50 ],
       [ "pearl_platinum_tiara", 50 ],
+      [ "onyx_platinum_tiara", 50 ],
       [ "opal_platinum_tiara", 50 ],
       [ "ruby_platinum_tiara", 50 ],
       [ "garnet_platinum_tiara", 50 ]
@@ -859,6 +865,7 @@
       [ "tourmaline_silver_pendant_necklace", 50 ],
       [ "alexandrite_silver_pendant_necklace", 50 ],
       [ "pearl_silver_pendant_necklace", 50 ],
+      [ "onyx_silver_pendant_necklace", 50 ],
       [ "opal_silver_pendant_necklace", 50 ],
       [ "ruby_silver_pendant_necklace", 50 ],
       [ "garnet_silver_pendant_necklace", 50 ]
@@ -880,6 +887,7 @@
       [ "tourmaline_gold_pendant_necklace", 50 ],
       [ "alexandrite_gold_pendant_necklace", 50 ],
       [ "pearl_gold_pendant_necklace", 50 ],
+      [ "onyx_gold_pendant_necklace", 50 ],
       [ "opal_gold_pendant_necklace", 50 ],
       [ "ruby_gold_pendant_necklace", 50 ],
       [ "garnet_gold_pendant_necklace", 50 ]
@@ -901,6 +909,7 @@
       [ "tourmaline_platinum_pendant_necklace", 50 ],
       [ "alexandrite_platinum_pendant_necklace", 50 ],
       [ "pearl_platinum_pendant_necklace", 50 ],
+      [ "onyx_platinum_pendant_necklace", 50 ],
       [ "opal_platinum_pendant_necklace", 50 ],
       [ "ruby_platinum_pendant_necklace", 50 ],
       [ "garnet_platinum_pendant_necklace", 50 ]
@@ -922,6 +931,7 @@
       [ "tourmaline_silver_earring", 50 ],
       [ "alexandrite_silver_earring", 50 ],
       [ "pearl_silver_earring", 50 ],
+      [ "onyx_silver_earring", 50 ],
       [ "opal_silver_earring", 50 ],
       [ "ruby_silver_earring", 50 ],
       [ "garnet_silver_earring", 50 ]
@@ -943,6 +953,7 @@
       [ "tourmaline_gold_earring", 50 ],
       [ "alexandrite_gold_earring", 50 ],
       [ "pearl_gold_earring", 50 ],
+      [ "onyx_gold_earring", 50 ],
       [ "opal_gold_earring", 50 ],
       [ "ruby_gold_earring", 50 ],
       [ "garnet_gold_earring", 50 ]
@@ -964,6 +975,7 @@
       [ "tourmaline_platinum_earring", 50 ],
       [ "alexandrite_platinum_earring", 50 ],
       [ "pearl_platinum_earring", 50 ],
+      [ "onyx_platinum_earring", 50 ],
       [ "opal_platinum_earring", 50 ],
       [ "ruby_platinum_earring", 50 ],
       [ "garnet_platinum_earring", 50 ]
@@ -985,6 +997,7 @@
       [ "tourmaline_silver_ring", 50 ],
       [ "alexandrite_silver_ring", 50 ],
       [ "pearl_silver_ring", 50 ],
+      [ "onyx_silver_ring", 50 ],
       [ "opal_silver_ring", 50 ],
       [ "ruby_silver_ring", 50 ],
       [ "garnet_silver_ring", 50 ]
@@ -1006,6 +1019,7 @@
       [ "tourmaline_gold_ring", 50 ],
       [ "alexandrite_gold_ring", 50 ],
       [ "pearl_gold_ring", 50 ],
+      [ "onyx_gold_ring", 50 ],
       [ "opal_gold_ring", 50 ],
       [ "ruby_gold_ring", 50 ],
       [ "garnet_gold_ring", 50 ]
@@ -1027,6 +1041,7 @@
       [ "tourmaline_platinum_ring", 50 ],
       [ "alexandrite_platinum_ring", 50 ],
       [ "pearl_platinum_ring", 50 ],
+      [ "onyx_platinum_ring", 50 ],
       [ "opal_platinum_ring", 50 ],
       [ "ruby_platinum_ring", 50 ],
       [ "garnet_platinum_ring", 50 ]
@@ -1049,6 +1064,7 @@
       { "item": "tourmaline_silver_bracelet", "prob": 50 },
       { "item": "alexandrite_silver_bracelet", "prob": 50 },
       { "item": "pearl_silver_bracelet", "prob": 50 },
+      { "item": "onyx_silver_bracelet", "prob": 50 },
       { "item": "opal_silver_bracelet", "prob": 50 },
       { "item": "ruby_silver_bracelet", "prob": 50 },
       { "item": "garnet_silver_bracelet", "prob": 50 }
@@ -1071,6 +1087,7 @@
       { "item": "tourmaline_gold_bracelet", "prob": 50 },
       { "item": "alexandrite_gold_bracelet", "prob": 50 },
       { "item": "pearl_gold_bracelet", "prob": 50 },
+      { "item": "onyx_gold_bracelet", "prob": 50 },
       { "item": "opal_gold_bracelet", "prob": 50 },
       { "item": "ruby_gold_bracelet", "prob": 50 },
       { "item": "garnet_gold_bracelet", "prob": 50 }
@@ -1093,6 +1110,7 @@
       { "item": "tourmaline_platinum_bracelet", "prob": 50 },
       { "item": "alexandrite_platinum_bracelet", "prob": 50 },
       { "item": "pearl_platinum_bracelet", "prob": 50 },
+      { "item": "onyx_platinum_bracelet", "prob": 50 },
       { "item": "opal_platinum_bracelet", "prob": 50 },
       { "item": "ruby_platinum_bracelet", "prob": 50 },
       { "item": "garnet_platinum_bracelet", "prob": 50 }

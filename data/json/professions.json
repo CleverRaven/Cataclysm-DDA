@@ -2620,12 +2620,12 @@
           "tobacco",
           "rolling_paper",
           "wristwatch",
-          "silver_ear"
+          "dark_ring"
         ],
         "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_mp3" }, { "group": "charged_ref_lighter" } ]
       },
-      "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
-      "female": [ "skirt", "corset", "boxer_shorts", "stockings" ]
+      "male": [ "pants_cargo", "tank_top", "boxer_shorts", "silver_ear" ],
+      "female": [ "skirt", "corset", "boxer_shorts", "stockings", "dark_earring" ]
     }
   },
   {
