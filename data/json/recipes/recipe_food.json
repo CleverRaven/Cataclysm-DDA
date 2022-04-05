@@ -4099,12 +4099,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "hickory_nut_shelled", 4 ] ],
-      [
-        [ "milk_standard_raw", 1, "LIST" ],
-        [ "lf_milk_standard", 1, "LIST" ],
-        [ "milk_powder", 1 ],
-        [ "con_milk", 1 ]
-      ],
+      [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "sugar_standard", 2, "LIST" ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ]
