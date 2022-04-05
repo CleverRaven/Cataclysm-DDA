@@ -447,14 +447,14 @@ void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &m
         condition = [item_id, count, charges, is_npc]( const T & d ) {
             const talker *actor = d.actor( is_npc );
             if( charges == 0 && item::count_by_charges( item_id ) ) {
-                return actor->has_charges( item_id, count );
+                return actor->has_charges( item_id, count, true );
             }
             if( charges > 0 && count == 0 ) {
-                return actor->has_charges( item_id, charges );
+                return actor->has_charges( item_id, charges, true );
             }
             bool has_enough_charges = true;
             if( charges > 0 ) {
-                has_enough_charges = actor->has_charges( item_id, charges );
+                has_enough_charges = actor->has_charges( item_id, charges, true );
             }
             return has_enough_charges && actor->has_amount( item_id, count );
         };
