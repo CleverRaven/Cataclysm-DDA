@@ -328,7 +328,9 @@
               { "item": "pants", "prob": 100 },
               { "item": "pants_leather", "prob": 30 },
               { "item": "pants_cargo", "prob": 30 },
-              { "item": "shorts_cargo", "prob": 60 }
+              { "item": "shorts_cargo", "prob": 60 },
+              { "item": "flag_pants", "prob": 1 },
+              { "item": "flag_pants", "prob": 70, "event": "independence_day" }
             ]
           },
           { "item": "leather_belt", "prob": 30 }
@@ -388,7 +390,10 @@
               { "item": "jacket_windbreaker", "prob": 20 },
               { "item": "sweater", "prob": 50 },
               { "item": "turtleneck", "prob": 30 },
-              { "item": "trenchcoat", "prob": 10 }
+              { "item": "trenchcoat", "prob": 10 },
+              { "group": "costume_jackets", "prob": 1 },
+              { "group": "costume_jackets", "prob": 40, "event": "halloween" },
+              { "group": "christmas_jackets", "prob": 15, "event": "christmas" }
             ],
             "prob": 30
           }
@@ -695,7 +700,8 @@
       [ "gold_bracelet", 20 ],
       { "group": "earrings_silver", "prob": 10 },
       { "group": "earrings_gold", "prob": 10 },
-      { "group": "earrings_platinum", "prob": 10 }
+      { "group": "earrings_platinum", "prob": 10 },
+      { "group": "costume_jewelry", "prob": 1 }
     ]
   },
   {
@@ -1120,13 +1126,18 @@
     "type": "item_group",
     "id": "shirts_summer_unisex",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 5 }, { "item": "tank_top", "prob": 5 } ]
+    "entries": [ { "item": "tshirt", "prob": 5 }, { "item": "tank_top", "prob": 5 }, { "item": "flag_shirt", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "shirts_summer_womens",
     "subtype": "distribution",
-    "entries": [ { "item": "camisole", "prob": 5 }, { "item": "halter_top", "prob": 5 } ]
+    "entries": [
+      { "item": "camisole", "prob": 5 },
+      { "item": "halter_top", "prob": 5 },
+      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "cheerleader_top_short", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -1139,7 +1150,9 @@
       { "item": "tights", "prob": 4 },
       { "item": "hot_pants", "prob": 4 },
       { "item": "hot_pants_fur", "prob": 1 },
-      { "item": "hot_pants_leather", "prob": 1 }
+      { "item": "hot_pants_leather", "prob": 1 },
+      { "item": "cheerleader_skirt", "prob": 1 },
+      { "item": "cheerleader_skirt_short", "prob": 1 }
     ]
   },
   {
@@ -1206,8 +1219,12 @@
       { "item": "hot_pants_fur", "prob": 5 },
       { "item": "hot_pants_leather", "prob": 25 },
       { "item": "breeches", "prob": 25 },
+      { "item": "flag_pants", "prob": 10 },
+      { "item": "trousers_ninja", "prob": 1 },
       { "group": "pants_mens", "prob": 10 },
-      { "group": "christmas_pants_male", "prob": 150, "event": "christmas" }
+      { "item": "flag_pants", "prob": 70, "event": "independence_day" },
+      { "group": "christmas_pants_male", "prob": 150, "event": "christmas" },
+      { "group": "costume_pants", "prob": 150, "event": "halloween" }
     ]
   },
   {
@@ -1219,7 +1236,10 @@
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
-      { "item": "nanoskirt", "prob": 10 }
+      { "item": "nanoskirt", "prob": 10 },
+      { "item": "cheerleader_skirt", "prob": 1 },
+      { "item": "cheerleader_skirt_short", "prob": 1 },
+      { "group": "costume_skirts", "prob": 200, "event": "halloween" }
     ]
   },
   {
@@ -1369,7 +1389,48 @@
       [ "santa_beard", 1 ],
       [ "santa_dress", 1 ],
       [ "santa_dress_long", 1 ],
-      [ "santa_dress_short", 1 ]
+      [ "santa_dress_short", 1 ],
+      [ "cloak_vampire", 1 ],
+      [ "cloak_black", 1 ],
+      [ "robe_wizard", 1 ],
+      [ "ghost_robe", 1 ],
+      [ "grim_reaper_robe", 1 ],
+      [ "jacket_ninja", 1 ],
+      [ "bee_dress", 1 ],
+      [ "cheerleader_dress", 1 ],
+      [ "mummy_dress", 1 ],
+      [ "ninja_dress", 1 ],
+      [ "ninja_dress_sleeveless", 1 ],
+      [ "sinister_dress", 1 ],
+      [ "sinister_dress_short", 1 ],
+      [ "sinister_gown", 1 ],
+      [ "witch_dress", 1 ],
+      [ "mummy_dress", 1 ],
+      [ "witch_dress_long", 1 ],
+      [ "witch_dress_short", 1 ],
+      [ "gloves_black", 5 ],
+      [ "gloves_skeleton", 1 ],
+      [ "gloves_claws", 1 ],
+      [ "wizard_hat_costume", 1 ],
+      [ "pointed_hat", 1 ],
+      [ "hood_ninja", 1 ],
+      [ "balaclava_skull", 1 ],
+      [ "mask_skull", 1 ],
+      [ "cheerleader_skirt", 5 ],
+      [ "cheerleader_skirt_short", 1 ],
+      [ "flag_pants", 5 ],
+      [ "trousers_ninja", 1 ],
+      [ "cheerleader_top", 5 ],
+      [ "cheerleader_top_short", 1 ],
+      [ "flag_jumpsuit", 2 ],
+      [ "jumpsuit_skeleton", 1 ],
+      [ "mummy_jumpsuit", 1 ],
+      [ "flag_bikini_top", 2 ],
+      [ "flag_bikini_bottom", 2 ],
+      [ "flag_swimsuit", 2 ],
+      { "group": "independence_all_clothing", "prob": 100, "event": "independence_day" },
+      { "group": "christmas_all_clothing", "prob": 100, "event": "christmas" },
+      { "group": "costume_all_clothing", "prob": 100, "event": "halloween" }
     ]
   },
   {
@@ -1421,15 +1482,12 @@
       [ "b_shorts", 15 ],
       [ "kilt", 2 ],
       [ "nanoskirt", 10 ],
-      { "group": "costume_pants", "prob": 1 }
+      [ "flag_pants", 5 ],
+      { "group": "costume_pants_skirts", "prob": 1 },
+      { "item": "flag_pants", "prob": 100, "event": "independence_day" },
+      { "group": "christmas_pants_male", "prob": 100, "event": "christmas" },
+      { "group": "costume_pants_skirts", "prob": 100, "event": "halloween" }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_pants",
-    "//": "pants for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [ { "item": "santa_pants", "prob": 10 }, { "item": "santa_shorts", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -1457,7 +1515,9 @@
       [ "halter_top", 50 ],
       [ "linuxtshirt", 10 ],
       [ "sleeveless_tunic", 5 ],
-      [ "poncho", 20 ]
+      [ "poncho", 20 ],
+      { "item": "flag_shirt", "prob": 50, "event": "independence_day" },
+      { "group": "costume_shirts", "prob": 70, "event": "halloween" }
     ]
   },
   {
@@ -1476,15 +1536,10 @@
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
       [ "apron_leather", 1 ],
-      { "group": "costume_jackets", "prob": 1 }
+      { "group": "costume_jackets", "prob": 1 },
+      { "group": "costume_jackets", "prob": 50, "event": "halloween" },
+      { "group": "christmas_jackets", "prob": 50, "event": "christmas" }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_jackets",
-    "//": "jackets for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [ { "item": "santa_jacket", "prob": 10 }, { "item": "santa_jacket_short", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -1648,7 +1703,8 @@
       [ "eboshi", 30 ],
       [ "balclava", 20 ],
       [ "porkpie", 30 ],
-      { "group": "christmas_hats", "prob": 850, "event": "christmas" }
+      { "group": "costume_hats_hoods", "prob": 450, "event": "halloween" },
+      { "group": "christmas_hats", "prob": 450, "event": "christmas" }
     ]
   },
   {
@@ -1736,7 +1792,15 @@
   {
     "type": "item_group",
     "id": "dresses",
-    "items": [ [ "dress", 55 ], [ "sundress", 43 ], [ "gown", 10 ], [ "dress_wedding", 2 ] ]
+    "items": [
+      [ "dress", 55 ],
+      [ "sundress", 43 ],
+      [ "gown", 10 ],
+      [ "dress_wedding", 2 ],
+      { "group": "costume_dresses", "prob": 1 },
+      { "group": "costume_dresses", "prob": 15, "event": "halloween" },
+      { "group": "christmas_dresses", "prob": 15, "event": "christmas" }
+    ]
   },
   {
     "type": "item_group",
@@ -1749,14 +1813,22 @@
       [ "bikini_top", 10 ],
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
+      [ "flag_bikini_top", 5 ],
       [ "corset", 5 ],
-      [ "corset_waist", 5 ]
+      [ "corset_waist", 5 ],
+      { "item": "flag_bikini_top", "prob": 70, "event": "independence_day" }
     ]
   },
   {
     "type": "item_group",
     "id": "female_underwear_bottom",
-    "items": [ [ "panties", 70 ], [ "boy_shorts", 50 ], [ "bikini_bottom", 10 ] ]
+    "items": [
+      [ "panties", 70 ],
+      [ "boy_shorts", 50 ],
+      [ "bikini_bottom", 10 ],
+      [ "flag_bikini_bottom", 5 ],
+      { "item": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
+    ]
   },
   {
     "type": "item_group",
@@ -1968,7 +2040,45 @@
       { "item": "santa_beard", "prob": 1 },
       { "item": "santa_dress", "prob": 1 },
       { "item": "santa_dress_long", "prob": 1 },
-      { "item": "santa_dress_short", "prob": 1 }
+      { "item": "santa_dress_short", "prob": 1 },
+      { "item": "cloak_vampire", "prob": 1 },
+      { "item": "cloak_black", "prob": 1 },
+      { "item": "robe_wizard", "prob": 1 },
+      { "item": "ghost_robe", "prob": 1 },
+      { "item": "grim_reaper_robe", "prob": 1 },
+      { "item": "jacket_ninja", "prob": 1 },
+      { "item": "bee_dress", "prob": 1 },
+      { "item": "cheerleader_dress", "prob": 1 },
+      { "item": "mummy_dress", "prob": 1 },
+      { "item": "ninja_dress", "prob": 1 },
+      { "item": "ninja_dress_sleeveless", "prob": 1 },
+      { "item": "sinister_dress", "prob": 1 },
+      { "item": "sinister_dress_short", "prob": 1 },
+      { "item": "sinister_gown", "prob": 1 },
+      { "item": "witch_dress", "prob": 1 },
+      { "item": "mummy_dress", "prob": 1 },
+      { "item": "witch_dress_long", "prob": 1 },
+      { "item": "witch_dress_short", "prob": 1 },
+      { "item": "gloves_black", "prob": 5 },
+      { "item": "gloves_skeleton", "prob": 1 },
+      { "item": "gloves_claws", "prob": 1 },
+      { "item": "wizard_hat_costume", "prob": 1 },
+      { "item": "pointed_hat", "prob": 1 },
+      { "item": "hood_ninja", "prob": 1 },
+      { "item": "balaclava_skull", "prob": 1 },
+      { "item": "mask_skull", "prob": 1 },
+      { "item": "cheerleader_skirt", "prob": 5 },
+      { "item": "cheerleader_skirt_short", "prob": 1 },
+      { "item": "flag_pants", "prob": 5 },
+      { "item": "trousers_ninja", "prob": 1 },
+      { "item": "cheerleader_top", "prob": 5 },
+      { "item": "cheerleader_top_short", "prob": 1 },
+      { "item": "flag_jumpsuit", "prob": 2 },
+      { "item": "jumpsuit_skeleton", "prob": 1 },
+      { "item": "mummy_jumpsuit", "prob": 1 },
+      { "item": "flag_bikini_top", "prob": 2 },
+      { "item": "flag_bikini_bottom", "prob": 2 },
+      { "item": "flag_swimsuit", "prob": 2 }
     ]
   },
   {
@@ -1992,12 +2102,25 @@
   {
     "type": "item_group",
     "id": "swimmer_torso",
-    "items": [ [ "bikini_top", 50 ], [ "dive_bag", 5 ], [ "flotation_vest", 10 ], [ "scuba_tank", 2 ] ]
+    "items": [
+      [ "bikini_top", 50 ],
+      [ "flag_bikini_top", 10 ],
+      [ "dive_bag", 5 ],
+      [ "flotation_vest", 10 ],
+      [ "scuba_tank", 2 ],
+      { "item": "flag_bikini_top", "prob": 50, "event": "independence_day" }
+    ]
   },
   {
     "type": "item_group",
     "id": "swimmer_pants",
-    "items": [ [ "trunks", 80 ], [ "bikini_bottom", 35 ], [ "hot_pants", 30 ] ]
+    "items": [
+      [ "trunks", 80 ],
+      [ "bikini_bottom", 35 ],
+      [ "flag_bikini_bottom", 10 ],
+      [ "hot_pants", 30 ],
+      { "item": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
+    ]
   },
   {
     "type": "item_group",
@@ -2007,7 +2130,12 @@
   {
     "type": "item_group",
     "id": "swimmer_wetsuit",
-    "items": [ [ "wetsuit", 90 ], [ "wetsuit_spring", 10 ] ]
+    "items": [
+      [ "wetsuit", 85 ],
+      [ "wetsuit_spring", 10 ],
+      [ "flag_swimsuit", 5 ],
+      { "item": "flag_swimsuit", "prob ": 60, "event ": "independence_day " }
+    ]
   },
   {
     "type": "item_group",
@@ -2754,7 +2882,10 @@
       { "item": "hat_ball", "prob": 40 },
       { "item": "fedora", "prob": 15 },
       { "item": "hat_cotton", "prob": 30 },
-      { "item": "hat_knit", "prob": 20 }
+      { "item": "hat_knit", "prob": 20 },
+      { "group": "costume_jackets", "prob": 1 },
+      { "group": "costume_jackets", "prob": 50, "event": "halloween" },
+      { "group": "christmas_jackets", "prob": 50, "event": "christmas" }
     ]
   },
   {
@@ -2847,7 +2978,45 @@
       [ "santa_beard", 1 ],
       [ "santa_dress", 1 ],
       [ "santa_dress_long", 1 ],
-      [ "santa_dress_short", 1 ]
+      [ "santa_dress_short", 1 ],
+      [ "cloak_vampire", 1 ],
+      [ "cloak_black", 1 ],
+      [ "robe_wizard", 1 ],
+      [ "ghost_robe", 1 ],
+      [ "grim_reaper_robe", 1 ],
+      [ "jacket_ninja", 1 ],
+      [ "bee_dress", 1 ],
+      [ "cheerleader_dress", 1 ],
+      [ "mummy_dress", 1 ],
+      [ "ninja_dress", 1 ],
+      [ "ninja_dress_sleeveless", 1 ],
+      [ "sinister_dress", 1 ],
+      [ "sinister_dress_short", 1 ],
+      [ "sinister_gown", 1 ],
+      [ "witch_dress", 1 ],
+      [ "mummy_dress", 1 ],
+      [ "witch_dress_long", 1 ],
+      [ "witch_dress_short", 1 ],
+      [ "gloves_black", 5 ],
+      [ "gloves_skeleton", 1 ],
+      [ "gloves_claws", 1 ],
+      [ "wizard_hat_costume", 1 ],
+      [ "pointed_hat", 1 ],
+      [ "hood_ninja", 1 ],
+      [ "balaclava_skull", 1 ],
+      [ "mask_skull", 1 ],
+      [ "cheerleader_skirt", 5 ],
+      [ "cheerleader_skirt_short", 1 ],
+      [ "flag_pants", 5 ],
+      [ "trousers_ninja", 1 ],
+      [ "cheerleader_top", 5 ],
+      [ "cheerleader_top_short", 1 ],
+      [ "flag_jumpsuit", 2 ],
+      [ "jumpsuit_skeleton", 1 ],
+      [ "mummy_jumpsuit", 1 ],
+      [ "flag_bikini_top", 2 ],
+      [ "flag_bikini_bottom", 2 ],
+      [ "flag_swimsuit", 2 ]
     ]
   },
   {
@@ -2863,8 +3032,11 @@
       { "item": "gloves_fingerless", "prob": 15 },
       { "item": "gloves_liner", "prob": 15 },
       { "item": "gloves_white", "prob": 10 },
+      { "item": "gloves_black", "prob": 10 },
       { "item": "mittens", "prob": 5 },
       { "item": "thermal_gloves", "prob": 2 },
+      { "group": "costume_gloves", "prob": 1 },
+      { "group": "costume_gloves", "prob": 70, "event": "halloween" },
       { "group": "christmas_common_gloves", "prob": 70, "event": "christmas" }
     ]
   },
@@ -2959,19 +3131,8 @@
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
       { "item": "hat_ball", "prob": 50 },
-      { "group": "costume_hats_unisex", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_hats_unisex",
-    "//": "hats for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "santa_hat", "prob": 10 },
-      { "item": "hat_sombrero", "prob": 5 },
-      { "item": "cowboy_hat", "prob": 5 },
-      { "item": "tricorne", "prob": 1 }
+      { "group": "costume_hats_hoods", "prob": 1 },
+      { "group": "costume_hats_hoods", "prob": 80, "event": "halloween" }
     ]
   },
   {
@@ -2986,19 +3147,8 @@
       { "item": "mask_hockey", "prob": 10 },
       { "item": "mouthpiece", "prob": 5 },
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
-      { "group": "costume_masks_unisex", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_masks_unisex",
-    "//": "masks for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "santa_beard", "prob": 10 },
-      { "item": "mask_guy_fawkes", "prob": 10 },
-      { "item": "mask_hockey", "prob": 10 },
-      { "item": "bondage_mask", "prob": 5 }
+      { "group": "costume_masks", "prob": 5 },
+      { "group": "costume_masks", "prob": 25, "event": "halloween" }
     ]
   },
   {
@@ -3060,7 +3210,9 @@
       { "item": "tunic", "prob": 10 },
       { "item": "waistcoat", "prob": 10 },
       { "item": "wool_hoodie", "prob": 10 },
-      { "item": "hoodie", "prob": 40 }
+      { "item": "hoodie", "prob": 40 },
+      { "item": "flag_shirt", "prob": 50, "event": "independence_day" },
+      { "group": "costume_shirts", "prob": 50, "event": "halloween" }
     ]
   },
   {
@@ -3068,7 +3220,11 @@
     "type": "item_group",
     "//": "womens shirts",
     "subtype": "distribution",
-    "items": [ { "item": "halter_top", "prob": 30 } ]
+    "items": [
+      { "item": "halter_top", "prob": 30 },
+      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "cheerleader_top_short", "prob": 1 }
+    ]
   },
   {
     "id": "underwear_unisex",
@@ -3092,11 +3248,13 @@
     "subtype": "distribution",
     "items": [
       { "item": "bikini_bottom", "prob": 20 },
+      { "item": "flag_bikini_bottom", "prob": 10 },
       { "item": "boy_shorts", "prob": 30 },
       { "item": "bra", "prob": 60 },
       { "item": "panties", "prob": 70 },
       { "item": "bikini_top", "prob": 20 },
       { "item": "bikini_top_fur", "prob": 5 },
+      { "item": "flag_bikini_top", "prob": 5 },
       { "item": "bikini_top_leather", "prob": 10 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
@@ -3104,7 +3262,9 @@
       { "item": "sports_bra", "prob": 50 },
       { "item": "stockings", "prob": 20 },
       { "item": "garter_belt", "prob": 10 },
-      { "item": "tights", "prob": 20 }
+      { "item": "tights", "prob": 20 },
+      { "group": "costume_independence_undergarments_women", "prob": 70, "event": "independence_day" },
+      { "group": "costume_undergarments_women", "prob": 70, "event": "halloween" }
     ]
   },
   {
@@ -3190,18 +3350,11 @@
       { "item": "wetsuit_gloves", "prob": 5 },
       { "item": "gloves_fur", "prob": 5 },
       { "item": "thermal_gloves", "prob": 2 },
-      { "group": "costume_gloves_unisex", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_gloves_unisex",
-    "//": "gloves for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "gloves_white", "prob": 10 },
-      { "item": "santa_gloves", "prob": 5 },
-      { "item": "gloves_leather", "prob": 5 }
+      { "item": "gloves_white", "prob": 5 },
+      { "item": "gloves_black", "prob": 5 },
+      { "group": "costume_gloves", "prob": 1 },
+      { "group": "costume_gloves", "prob": 70, "event": "halloween" },
+      { "group": "christmas_common_gloves", "prob": 70, "event": "christmas" }
     ]
   },
   {
@@ -3301,18 +3454,9 @@
       { "item": "sundress", "prob": 10 },
       { "item": "gown", "prob": 4 },
       { "item": "dress_wedding", "prob": 2 },
-      { "group": "costume_dresses_womens", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "costume_dresses_womens",
-    "//": "dresses for costumes, cosplay and costume parties ",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "santa_dress", "prob": 10 },
-      { "item": "santa_dress_short", "prob": 5 },
-      { "item": "santa_dress_long", "prob": 1 }
+      { "group": "costume_dresses", "prob": 1 },
+      { "group": "costume_dresses", "prob": 15, "event": "halloween" },
+      { "group": "christmas_dresses", "prob": 15, "event": "christmas" }
     ]
   },
   {
@@ -3336,7 +3480,9 @@
       { "item": "zentai", "prob": 5 },
       { "item": "wetsuit", "prob": 2 },
       { "item": "union_suit", "prob": 40 },
-      { "item": "wetsuit_spring", "prob": 2 }
+      { "item": "wetsuit_spring", "prob": 2 },
+      { "item": "flag_jumpsuit", "prob": 70, "event": "independence_day" },
+      { "group": "costume_suits", "prob": 70, "event": "halloween" }
     ]
   },
   {
@@ -3356,7 +3502,13 @@
       { "item": "sundress", "prob": 60 },
       { "item": "gown", "prob": 20 },
       { "item": "dress", "prob": 60 },
-      { "item": "veil_wedding", "prob": 5 }
+      { "item": "veil_wedding", "prob": 5 },
+      { "group": "santa_dress_long", "prob": 1 },
+      { "group": "sinister_dress", "prob": 1 },
+      { "group": "sinister_gown", "prob": 1 },
+      { "group": "witch_dress_long", "prob": 1 },
+      { "group": "costume_dresses", "prob": 50, "event": "halloween" },
+      { "group": "christmas_dresses", "prob": 50, "event": "christmas" }
     ]
   },
   {
@@ -3371,7 +3523,10 @@
           { "item": "cloak_wool", "prob": 40 },
           { "item": "cloak_leather", "prob": 20 },
           { "item": "cloak_fur", "prob": 10 },
-          { "item": "jedi_cloak", "prob": 5 }
+          { "item": "jedi_cloak", "prob": 1 },
+          { "group": "costume_cloacks", "prob": 1 },
+          { "item": "american_flag", "prob": 100, "event": "independence_day" },
+          { "group": "costume_cloacks", "prob": 100, "event": "halloween" }
         ],
         "prob": 20
       },
@@ -3409,7 +3564,9 @@
           { "item": "greatcoat", "prob": 35 },
           { "item": "coat_faux_fur", "prob": 20 },
           { "item": "coat_fur", "prob": 10 },
-          { "item": "coat_fur_sf", "prob": 5 }
+          { "item": "coat_fur_sf", "prob": 5 },
+          { "group": "costume_coats", "prob": 1 },
+          { "group": "costume_coats", "prob": 100, "event": "halloween" }
         ],
         "prob": 80
       },
@@ -3422,7 +3579,10 @@
           { "item": "jacket_light", "prob": 60 },
           { "item": "jacket_windbreaker", "prob": 70 },
           { "item": "poncho", "prob": 30 },
-          { "item": "ski_jacket", "prob": 25 }
+          { "item": "ski_jacket", "prob": 25 },
+          { "group": "costume_jackets", "prob": 1 },
+          { "group": "costume_jackets", "prob": 100, "event": "halloween" },
+          { "group": "christmas_jackets", "prob": 50, "event": "christmas" }
         ],
         "prob": 60
       },
@@ -3439,7 +3599,7 @@
         ],
         "prob": 40
       },
-      { "group": "christmas_coats_unisex", "prob": 80, "event": "christmas" }
+      { "group": "christmas_coats_unisex", "prob": 40, "event": "christmas" }
     ]
   },
   {
@@ -3657,7 +3817,11 @@
       { "item": "binoculars", "prob": 2 },
       { "item": "whistle", "prob": 3 },
       { "item": "harmonica_holder", "prob": 1 },
-      { "group": "flask_liquor", "prob": 3 }
+      { "group": "flask_liquor", "prob": 3 },
+      { "group": "costume_accessories", "prob": 1 },
+      { "group": "costume_jewelry", "prob": 1 },
+      { "group": "costume_accessories", "prob": 30, "event": "halloween" },
+      { "group": "costume_jewelry", "prob": 30, "event": "halloween" }
     ]
   },
   {
