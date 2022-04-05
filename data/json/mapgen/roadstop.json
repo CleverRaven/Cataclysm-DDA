@@ -36,7 +36,8 @@
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" },
-      { "remove_npc": "FM_caravan_merchant_random" }
+      { "remove_npc": "FM_caravan_merchant_random" },
+      { "remove_npc": "FM_caravan_guard_generic" }
     ]
   },
   {
@@ -45,7 +46,7 @@
     "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
     "//": "Adds a random encounter at this roadstop",
     "object": {
-      "place_npcs": [ { "class": "FM_caravan_merchant_random", "x": 8, "y": 18 } ]
+      "place_npcs": [ { "class": "FM_caravan_merchant_random", "x": 8, "y": 18 }, { "class": "FM_caravan_guard_generic", "x": 9, "y": 21 } ]
     }
   },
   {
