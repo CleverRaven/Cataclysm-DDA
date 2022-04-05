@@ -22,7 +22,7 @@
       [ "art_knot", 100 ],
       [ "art_crescent", 100 ]
     ]
-  },     
+  },
   {
     "type": "item_group",
     "id": "ps_artifact_weak",
