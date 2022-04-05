@@ -339,7 +339,7 @@
     "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery"
   },
-    {
+  {
     "type": "vehicle_part",
     "id": "ap_trunk_recharge_station",
     "name": { "str": "trunk recharging station" },
@@ -382,7 +382,7 @@
     "breaks_into": [
       { "item": "splinter", "count": [ 3, 5 ] },
       { "item": "nail", "charges": [ 10, 15 ] },
-	  { "item": "plastic_chunk", "prob": 50 },
+      { "item": "plastic_chunk", "prob": 50 },
       { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
