@@ -239,7 +239,6 @@ static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_mu
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
-static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
