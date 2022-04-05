@@ -1025,21 +1025,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "type": "GENERIC",
-    "id": "rabbit_foot",
-    "symbol": "!",
-    "color": "white",
-    "name": { "str": "stale rabbit sample" },
-    "description": "Gone bad, useless for real science.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
-    "volume": "250 ml",
-    "category": "spare_parts"
-  },
-  {
     "id": "armor_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger gear" },

@@ -655,7 +655,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "reptile_sample", 1 ] ] ],
+    "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "lizard_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
