@@ -35,18 +35,13 @@
     "default_faction": "herbivore",
     "material": [ "flesh" ],
     "harvest": "mon_test_bovine",
-    "dissect": "dissect_mon_test_bovine",
+    "dissect": "dissect_cattle_sample_single",
     "symbol": "B",
     "volume": "81500 ml",
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
-  },
-  {
-    "id": "dissect_mon_test_bovine",
-    "type": "harvest",
-    "entries": [ { "drop": "cattle_sample", "type": "mutagen_group" } ]
   },
   {
     "id": "mon_test_bovine",
