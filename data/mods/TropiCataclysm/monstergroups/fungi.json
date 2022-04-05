@@ -58,8 +58,7 @@
     "name": "GROUP_FUNGAL_CARETAKER",
     "default": "mon_fungaloid",
     "//": "Group for fungal caretakers to evolve",
-    "monsters": [
-    ]
+    "monsters": [  ]
   },
   {
     "type": "monstergroup",
