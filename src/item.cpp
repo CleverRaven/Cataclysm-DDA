@@ -189,7 +189,6 @@ static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
 static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
 static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
