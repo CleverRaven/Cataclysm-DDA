@@ -35,7 +35,7 @@
     "default_faction": "herbivore",
     "material": [ "flesh" ],
     "harvest": "mon_test_bovine",
-    "harvest": "dissect_mon_test_bovine",
+    "dissect": "dissect_mon_test_bovine",
     "symbol": "B",
     "volume": "81500 ml",
     "weight": "81500 g",
