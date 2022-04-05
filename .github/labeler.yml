@@ -29,21 +29,21 @@
   - "**/*.cmake"
 
 "Crafting / Construction / Recipes":
-  - data/json/recipes/**/*
+  - "**/recipes/**/*"
   - data/json/construction.json
   - data/json/construction_category.json
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
 "NPC / Factions":
-  - data/json/npcs/**/*
+  - "**/npcs/**/*"
 
 "Monsters":
-  - data/json/monsters/**/*
+  - "**/monsters/**/*"
 
 "Spawn":
-  - data/json/itemgroups/**/*
-  - data/json/monstergroups/**/*
+  - "**/itemgroups/**/*"
+  - "**/monstergroups/**/*"
 
 "Bionics":
   - "**/bionics.*"
@@ -59,8 +59,8 @@
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
-  - data/json/items/gun/**/*
-  - data/json/items/ammo/**/*
+  - "**//gun/**/*"
+  - "**//ammo/**/*"
 
 "SDL: Tiles / Sound":
   - gfx/**/*
