@@ -409,7 +409,7 @@
       }
     ]
   },
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_WEAK",
     "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
@@ -424,11 +424,10 @@
         "lifespan": [ "7 minutes", "10 minutes" ],
         "spawn_message": "A chunk of reality gets loose and falls on the ground.",
         "spawn_message_plural": "Chunks of reality get loose and fall on the ground."
-
       }
     ]
   },
-        {
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_MEDIUM",
     "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
@@ -443,11 +442,10 @@
         "lifespan": [ "7 minutes", "10 minutes" ],
         "spawn_message": "Reality twists and deforms as a wriggling chunk of it falls on the ground.",
         "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
-
       }
     ]
   },
-      {
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_STRONG",
     "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
