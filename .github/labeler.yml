@@ -46,12 +46,12 @@
   - data/json/monstergroups/**/*
 
 "Bionics":
-  - "data/json/bionics.json"
+  - "**/bionics.*"
 
 "Map / Mapgen":
-  - mapgen/**/*
-  - mapgen_palettes/**/*
-  - overmap/**/*
+  - "**/mapgen/**/*"
+  - "**/mapgen_palettes/**/*"
+  - "**/overmap/**/*"
 
 "Player Faction Base / Camp":
   - "src/basecamp.(cpp|h)"
