@@ -21,7 +21,7 @@
     "fun": 4
   },
   {
-    "id": "sourdough_young",
+    "id": "sourdough_young_uncovered",
     "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "juvenile sourdough starter" },
@@ -37,7 +37,7 @@
     "fun": -5,
     "calories": 192,
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_uncovered",
       "msg": "After feeding it and caring for it for a week, your sourdough starter is finally ready for the big leagues.",
       "moves": 50,
       "type": "delayed_transform",
@@ -46,7 +46,7 @@
     }
   },
   {
-    "id": "sourdough_split",
+    "id": "sourdough_split_uncovered",
     "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "freshly fed sourdough starter" },
@@ -62,7 +62,7 @@
     "fun": -5,
     "calories": 192,
     "use_action": {
-      "target": "sourdough_starter",
+      "target": "sourdough_starter_uncovered",
       "msg": "The starter is now stinky and bubbly, and looks ready for cooking.",
       "moves": 50,
       "type": "delayed_transform",
@@ -71,7 +71,7 @@
     }
   },
   {
-    "id": "sourdough_starter",
+    "id": "sourdough_starter_uncovered",
     "type": "COMESTIBLE",
     "category": "food",
     "name": { "str": "sourdough starter" },
