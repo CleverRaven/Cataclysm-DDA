@@ -210,10 +210,10 @@
     "id": "TALK_BLACKSMITH_OBREZ",
     "//": "Obrez Mace",
     "type": "talk_topic",
-    "dynamic_line": "The Obrez is a classic Mosin-Nagant that someone has cut down and removed the stock of.  The idea was that in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it, a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin - any variant will do - and 50 Merch for parts, and I can get this one working in a week.",
+    "dynamic_line": "The Obrez is a classic Mosin-Nagant that someone has cut down and removed the stock of.  The idea was that in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it, a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin - any variant will do - and 50 merch for parts, and I can get this one working in a week.",
     "responses": [
       {
-        "text": "[Mosin-Nagant M44, 50 Merch] See you in a week.",
+        "text": "[Mosin-Nagant M44, 50 merch] See you in a week.",
         "condition": {
           "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
@@ -228,7 +228,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[Mosin-Nagant 1891/30, 50 Merch] See you in a week.",
+        "text": "[Mosin-Nagant 1891/30, 50 merch] See you in a week.",
         "condition": {
           "and": [ { "u_has_items": { "item": "mosin91_30", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
@@ -268,10 +268,10 @@
     "id": "TALK_BLACKSMITH_PRESSIN",
     "//": "Pressin Pistol Knife",
     "type": "talk_topic",
-    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 Merch, and a week.",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
     "responses": [
       {
-        "text": "[P230, switchblade, 20 Merch] See you in a week.",
+        "text": "[P230, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "sig_p230", "count": 1 } },
@@ -291,7 +291,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[PPK, switchblade, 20 Merch] See you in a week.",
+        "text": "[PPK, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "walther_ppk", "count": 1 } },
@@ -311,7 +311,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[P-32, switchblade, 20 Merch] See you in a week.",
+        "text": "[P-32, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "kp32", "count": 1 } },
@@ -399,10 +399,10 @@
     "id": "TALK_BLACKSMITH_DISORDER",
     "//": "Disorder sledge hammer",
     "type": "talk_topic",
-    "dynamic_line": "The Disorder is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… boom.  The blank goes off and sends the piston straight down into whatever poor fucker you hit it with.  I'll need a sledge hammer, 80 Merch, and at least 20 .22 LR rounds.  Fabrication will definitely take two weeks on this one.",
+    "dynamic_line": "The Disorder is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… boom.  The blank goes off and sends the piston straight down into whatever poor fucker you hit it with.  I'll need a sledge hammer, 80 merch, and at least 20 .22 LR rounds.  Fabrication will definitely take two weeks on this one.",
     "responses": [
       {
-        "text": "[Sledge hammer, 80 Merch, 20 .22 LR] See you in 2 weeks.",
+        "text": "[Sledge hammer, 80 merch, 20 .22 LR] See you in 2 weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "hammer_sledge", "count": 1 } },

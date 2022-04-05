@@ -13,24 +13,24 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": [
-      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank.  Materials costs are 100 Merch per 2mm.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
+      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank.  Materials costs are 100 merch per 2mm.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
     ],
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 Merch, 2mm] I like to stay light.",
+        "text": "[100 merch, 2mm] I like to stay light.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[200 Merch, 4mm] A middle ground would be good.",
+        "text": "[200 merch, 4mm] A middle ground would be good.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[300 Merch, 6mm] Never skimp on protection.",
+        "text": "[300 merch, 6mm] Never skimp on protection.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
@@ -79,21 +79,21 @@
       "context": "artisans",
       "op": "==",
       "value": 3,
-      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that, I'll take the Merch up front and we can start taking some very invasive measurements.",
+      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
       "no": {
         "u_compare_var": "blacksmith_wait",
         "type": "number",
         "context": "artisans",
         "op": "==",
         "value": 4,
-        "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that, I'll take the Merch up front and we can start taking some very invasive measurements.",
-        "no": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that, I'll take the Merch up front and we can start taking some very invasive measurements."
+        "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
+        "no": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements."
       }
     },
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[100 Merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
@@ -109,7 +109,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[200 Merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[200 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 200 } },
@@ -125,7 +125,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[300 Merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[300 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 300 } },
