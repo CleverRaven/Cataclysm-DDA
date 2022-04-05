@@ -636,8 +636,8 @@
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
-          "mx_exocrash_1": 10,
-          "mx_exocrash_2": 10
+          "mx_exocrash_1": 5,
+          "mx_exocrash_2": 5
         }
       },
       "road": {
@@ -660,8 +660,8 @@
           "mx_corpses": 300,
           "mx_prison_bus": 150,
           "mx_prison_van": 10,
-          "mx_exocrash_1": 10,
-          "mx_exocrash_2": 10
+          "mx_exocrash_1": 5,
+          "mx_exocrash_2": 5
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
