@@ -88,6 +88,7 @@
     "skills_required": [ [ "electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
     "components": [ [ [ "frame", 1 ] ], [ [ "recharge_station", 1 ] ], [ [ "heavy_battery_cell", 1 ] ] ]
   },
   {
@@ -104,6 +105,7 @@
     "skills_required": [ [ "electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
     "components": [ [ [ "frame_wood", 1 ] ], [ [ "battery_charger", 1 ] ], [ [ "medium_battery_cell", 1 ] ] ]
   }
 ]
