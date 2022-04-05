@@ -1178,15 +1178,19 @@
     "armor_fire": 20,
     "armor_elec": 20,
     "bleed_rate": 0,
-    "special_attacks": [ [ "TENTACLE", 2 ], 
-        {
-          "type": "spell",
-          "spell_data": { "id": "spawning_zombie_die", "hit_self": true },
-          "cooldown": 20,
-          "monster_message": "The chunk painfully twists and tears itself as it reacts to your presence!"
-        }
-      ],
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The material stabilizes and reforms itself into a small chunk of unknown composition." },
+    "special_attacks": [
+      [ "TENTACLE", 2 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "spawning_zombie_die", "hit_self": true },
+        "cooldown": 20,
+        "monster_message": "The chunk painfully twists and tears itself as it reacts to your presence!"
+      }
+    ],
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
+    },
     "death_drops": "ps_artifact_weak",
     "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ]
   },
