@@ -585,8 +585,8 @@
   {
     "id": "death_slimespring",
     "type": "SPELL",
-    "name": { "str": "Slimespring Death" },
-    "description": "Slimespring dies.",
+    "name": { "str": "Slime Microbian Death" },
+    "description": "Slime microbian dies.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "shape": "blast",

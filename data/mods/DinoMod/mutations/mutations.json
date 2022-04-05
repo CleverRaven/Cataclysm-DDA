@@ -41,6 +41,12 @@
   },
   {
     "type": "mutation",
+    "id": "HERBIVORE",
+    "copy-from": "HERBIVORE",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
     "id": "RUMINANT",
     "copy-from": "RUMINANT",
     "extend": { "category": [ "STEGO" ] }
@@ -232,6 +238,12 @@
   },
   {
     "type": "mutation",
+    "id": "NAILS",
+    "copy-from": "NAILS",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "CLAWS",
     "copy-from": "CLAWS",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
@@ -269,9 +281,21 @@
   },
   {
     "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
     "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_STUB",
+    "copy-from": "TAIL_STUB",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -388,8 +412,32 @@
   },
   {
     "type": "mutation",
+    "id": "UGLY",
+    "copy-from": "UGLY",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFORMED",
+    "copy-from": "DEFORMED",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "DEFORMED2",
     "copy-from": "DEFORMED2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST",
+    "copy-from": "THIRST",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST2",
+    "copy-from": "THIRST2",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
@@ -400,14 +448,32 @@
   },
   {
     "type": "mutation",
+    "id": "PONDEROUS1",
+    "copy-from": "PONDEROUS1",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PONDEROUS2",
     "copy-from": "PONDEROUS2",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
+    "id": "COLDBLOOD",
+    "copy-from": "COLDBLOOD",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
     "id": "COLDBLOOD2",
     "copy-from": "COLDBLOOD2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD3",
+    "copy-from": "COLDBLOOD3",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {

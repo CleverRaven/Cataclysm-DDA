@@ -494,7 +494,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "oil_press_manual", 50 ] ] ],
+    "tools": [ [ [ "oil_press_manual", 50 ], [ "oil_press_primitive", 50 ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "//": "Oil extraction yield is around ~40% by weight, 600g input ~> 250 mL oil",
     "components": [

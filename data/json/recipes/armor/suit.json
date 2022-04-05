@@ -406,17 +406,17 @@
     ]
   },
   {
-    "result": "armor_scavenger",
+    "result": "armor_mercenary_top",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 8,
+    "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],
-    "time": "1 h 20 m",
+    "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
+    "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -424,15 +424,8 @@
     ],
     "components": [
       [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "chestrig", 1 ] ],
-      [ [ "mbag", 1 ], [ "runner_bag", 1 ] ],
-      [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "XL_holster", 1 ] ],
-      [ [ "sheath", 1 ] ],
-      [ [ "pants_army", 1 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "swat_armor", 1 ] ]
+      [ [ "ballistic_vest_esapi", 1 ] ]
     ]
   },
   {

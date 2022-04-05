@@ -83,8 +83,8 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
     "warmth": 25,
     "material_thickness": 8,
@@ -361,8 +361,8 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 0 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0 }
     ],
     "warmth": 10,
     "material_thickness": 4,
@@ -564,7 +564,8 @@
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       },
       {
         "material": [
@@ -574,7 +575,8 @@
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 15,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
