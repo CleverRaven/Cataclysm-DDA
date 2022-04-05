@@ -31,15 +31,12 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
-        {
-          "not": [
-            { "u_near_om_location": "roadstop_a", "range": 2 }
-        }
+        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" }
       ]
     },
     "effect": [
-      { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" }
+      { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" },
+      { "remove_npc": "FM_caravan_merchant_random" }
     ]
   },
   {
@@ -48,7 +45,7 @@
     "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
     "//": "Adds a random encounter at this roadstop",
     "object": {
-      "place_npcs": [ { "class": "evac_broker", "x": 8, "y": 18 } ]
+      "place_npcs": [ { "class": "FM_caravan_merchant_random", "x": 8, "y": 18 } ]
     }
   },
   {
@@ -111,18 +108,6 @@
         { "item": "trash", "x": [ 11, 12 ], "y": 11, "chance": 80 },
         { "item": "magazines", "x": [ 11, 12 ], "y": 13, "chance": 90 }
       ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "nest_RandEnc_NPC_roadstop",
-    "//": "Random encounter with NPCs at a roadside bathroom.",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": [ 8, 12 ] "y": [ 17, 20 ] } ],
-      "place_vehicles": [ { "chance": 80, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": [ 16, 20 ] "y": [ 17, 20 ] } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 19 ], "y": [ 6, 19 ], "chance": 100 }, "repeat": [ 2, 3 ] ]
     }
   },
   {
