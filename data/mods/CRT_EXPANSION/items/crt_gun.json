@@ -2,7 +2,7 @@
   {
     "id": "crt_laser_pistol",
     "type": "GUN",
-    "name": "CRIT .5 LP",
+    "name": "C.R.I.T .5 LP",
     "description": "Experimental low power sidearm under development in C.R.I.T R&D, the .5 LP is a relatively weak but accurate laser pistol.  The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
     "weight": "650 g",
     "volume": "750 ml",
@@ -37,7 +37,7 @@
   {
     "id": "crt_laser_gatling",
     "type": "GUN",
-    "name": "CRIT Chain Laser",
+    "name": "C.R.I.T Chain Laser",
     "description": "A tried and true favorite from the bowels of R&D hell.  Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": "2650 g",
     "volume": "2500 ml",
@@ -63,7 +63,7 @@
   {
     "id": "crt_laser_carbine",
     "type": "GUN",
-    "name": "CRIT Laser Carbine",
+    "name": "C.R.I.T Laser Carbine",
     "description": "A short-barrel lightweight laser gun developed by C.R.I.T R&D.  Mainly developed to test out a new breakthrough in laser weapons.",
     "weight": "2150 g",
     "volume": "2 L",
@@ -98,7 +98,7 @@
   {
     "id": "crt_energy_rifle",
     "type": "GUN",
-    "name": "CRIT Energy Rifle",
+    "name": "C.R.I.T Energy Rifle",
     "description": "A heavy energy gun developed by C.R.I.T R&D.  Mainly developed to test out a new breakthrough in hybrid weaponry.",
     "weight": "5150 g",
     "volume": "2500 ml",
@@ -133,7 +133,7 @@
   {
     "id": "crt_cqb_si",
     "type": "GUN",
-    "name": "CRIT CQB Standard Issue",
+    "name": "C.R.I.T CQB Standard Issue",
     "description": "A simple combination gun.  This military-grade semi-auto carbine couples the mid-range versatility of the 9mm with the power of the 12 gauge shotgun.  To further compliment the CQB aspect, the stock is built to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -160,7 +160,7 @@
   {
     "id": "crt_fire_glove",
     "type": "GUN",
-    "name": "CRIT Fire Glove",
+    "name": "C.R.I.T Fire Glove",
     "description": "Experimental CQB weapon system under development in C.R.I.T R&D.",
     "weight": "650 g",
     "volume": "750 ml",

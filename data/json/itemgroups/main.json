@@ -12,8 +12,6 @@
       { "item": "antifungal", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "antiparasitic", "prob": 20, "charges": [ 1, 10 ] },
       { "item": "armor_chitin", "prob": 10 },
-      { "item": "bio_blade", "prob": 10 },
-      { "item": "bio_speed", "prob": 10 },
       { "item": "bot_c4_hack", "prob": 30 },
       { "item": "c4", "prob": 50 },
       { "item": "canister_goo", "prob": 80 },
