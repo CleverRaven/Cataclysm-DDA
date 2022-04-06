@@ -210,7 +210,7 @@
     "id": "dks_mon_lurker_rectified",
     "type": "MONSTER",
     "name": { "str": "recycler" },
-    "description": "A sleek mass of hairy tentacles originate from a metallic core that looks like a mix between a garbage disposal and a clamp, golden pinpoints of dim light dotting its chassis.  It seems adept at collecting small pieces of junk and debris to mulch them into their bae parts - you included.",
+    "description": "A sleek mass of hairy tentacles originate from a metallic core that looks like a mix between a garbage disposal and a clamp, golden pinpoints of dim light dotting its chassis.  It seems adept at collecting small pieces of junk and debris to mulch them into their base parts - you included.",
     "default_faction": "invader_alien",
     "bodytype": "spider",
     "categories": [ "ALIEN" ],

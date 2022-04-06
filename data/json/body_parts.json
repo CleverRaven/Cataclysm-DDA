@@ -29,7 +29,7 @@
     "drench_capacity": 4000,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
-    "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back" ]
+    "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ]
   },
   {
     "id": "head",
@@ -444,7 +444,7 @@
   {
     "id": "torso_hanging_front",
     "type": "sub_body_part",
-    "max_coverage": 40,
+    "max_coverage": 35,
     "parent": "torso",
     "secondary": true,
     "side": 0,
@@ -455,13 +455,23 @@
   {
     "id": "torso_hanging_back",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 45,
     "parent": "torso",
     "secondary": true,
     "side": 0,
     "name": "item hangs off your back",
     "opposite": "torso_hanging_front",
     "name_multiple": "item hangs off you"
+  },
+  {
+    "id": "torso_waist",
+    "type": "sub_body_part",
+    "max_coverage": 10,
+    "parent": "torso",
+    "secondary": true,
+    "side": 0,
+    "name": "waist",
+    "opposite": "sub_limb_debug"
   },
   {
     "id": "arm_shoulder_r",

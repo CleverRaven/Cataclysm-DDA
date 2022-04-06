@@ -1,7 +1,7 @@
 [
   {
     "om_terrain": "exo_safehouse_stone_0",
-    "//": "A medieval stone barn from the exodii's most recently visited world, converted to a safehouse for their scouts to hole up in, and transported to our world during the portal storms.",
+    "//": "A medieval stone barn from the Exodii's most recently visited world, converted to a safehouse for their scouts to hole up in, and transported to our world during the portal storms.",
     "type": "mapgen",
     "weight": 100,
     "method": "json",
@@ -28,7 +28,7 @@
         " .,,;;x;;;;;;;;;x;,,,.. ",
         " ..,,;x;;;;;;;;;x;,,,.. ",
         "  ..,,xxxxx;;xxxx;,,..  ",
-        "  ...,,,,,,,,,,,,,,...  ",
+        "  ...,,,S,,,,,,,,,,...  ",
         "    ....,,,,,,,,....    ",
         "       ..........       "
       ],

@@ -384,7 +384,7 @@ struct quotient_remainder_tripoint {
 
 // project_remain returns a helper struct, intended to be used with std::tie
 // to pull out the two components of the result.
-// For exmaple, when splitting a point:
+// For example, when splitting a point:
 //  point_abs_sm val;
 //  point_abs_om quotient;
 //  point_om_sm remainder;

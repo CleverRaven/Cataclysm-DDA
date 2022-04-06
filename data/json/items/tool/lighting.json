@@ -367,8 +367,8 @@
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
-    "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
-    "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Using this flashlight will turn it on and provide light even underwater, assuming it is charged with batteries.",
+    "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },
+    "description": "This is a heavy-duty tubular aluminum LED flashlight as often used by security guards.  Using this flashlight will turn it on and provide light even underwater, assuming it is charged with batteries.",
     "weight": "450 g",
     "volume": "470 ml",
     "longest_side": "37 cm",
@@ -383,11 +383,11 @@
     "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
-      "msg": "You turn the heavy duty flashlight on.",
+      "msg": "You turn the heavy-duty flashlight on.",
       "target": "heavy_flashlight_on",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The heavy duty flashlight's batteries are dead."
+      "need_charges_msg": "The heavy-duty flashlight's batteries are dead."
     },
     "pocket_data": [
       {
@@ -402,14 +402,14 @@
     "id": "heavy_flashlight_on",
     "copy-from": "heavy_flashlight",
     "type": "TOOL",
-    "name": { "str": "heavy duty flashlight (on)", "str_pl": "heavy duty flashlights (on)" },
+    "name": { "str": "heavy-duty flashlight (on)", "str_pl": "heavy-duty flashlights (on)" },
     "power_draw": 15000,
     "revert_to": "heavy_flashlight",
     "use_action": {
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "type": "transform",
-      "msg": "You turn the heavy duty flashlight off.",
+      "msg": "You turn the heavy-duty flashlight off.",
       "target": "heavy_flashlight"
     },
     "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
@@ -417,7 +417,7 @@
   {
     "abstract": "lightstrip_base",
     "type": "TOOL",
-    "name": { "str": "lightstrip_base" },
+    "name": { "str": "lightstrip base" },
     "weight": "27 g",
     "volume": "50 ml",
     "price": 500,

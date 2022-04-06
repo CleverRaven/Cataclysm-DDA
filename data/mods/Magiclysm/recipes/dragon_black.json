@@ -50,7 +50,7 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "//": "volume of black dragon hide is leather x8 so it neeeds x8 filament",
+    "//": "volume of black dragon hide is leather x8 so it needs x8 filament",
     "using": [ [ "filament", 64 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "black_dragon_tanned_hide", 10 ] ] ],
