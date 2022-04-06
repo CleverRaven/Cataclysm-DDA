@@ -17,6 +17,8 @@
       { "monster": "mon_tyrannosaurus", "weight": 8, "cost_multiplier": 40 },
       { "monster": "mon_compsognathus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_gallimimus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_struthiomimus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_ornithomimus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_albertonykus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -59,6 +61,8 @@
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_struthiomimus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ornithomimus", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertonykus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_scutellosaurus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -88,6 +92,8 @@
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gallimimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_struthiomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ornithomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertonykus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
@@ -143,6 +149,8 @@
     "name": "GROUP_DINOSAUR_HARMLESS_JUVENILE",
     "monsters": [
       { "monster": "mon_gallimimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_struthiomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_ornithomimus_juvenile", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dyoplosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ankylosaurus_juvenile", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },

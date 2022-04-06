@@ -545,14 +545,11 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    //Makes the doctor awesome at installing but not perfect
+    //Makes the doctor awesome at uninstalling but not perfect
     if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
-            false ) ) {
-        player_character.amount_of(
-            bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        player_character.uninstall_bionic( *bionics[bionic_index], p, false );
+            false, 20 ) ) {
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
     }
-
 }
 
 void talk_function::give_equipment( npc &p )

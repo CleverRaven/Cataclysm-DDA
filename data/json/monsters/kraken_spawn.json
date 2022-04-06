@@ -2,7 +2,7 @@
   {
     "id": "mon_octupus_stalker",
     "type": "MONSTER",
-    "name": { "str": "Stalker Octopus", "str_pl": "Stalker Octopi" },
+    "name": { "str": "stalker octopus", "str_pl": "stalker octopuses" },
     "description": "This octopus seems larger than you remember from visits to the aquarium and doesn't seem as slowed by land as would be expected.  Its body seems to mimic its surroundings.",
     "default_faction": "kraken",
     "bodytype": "human",
@@ -39,7 +39,7 @@
     "id": "mon_octupus_stalker_spawn",
     "type": "MONSTER",
     "copy-from": "mon_octupus_stalker",
-    "name": { "str": "Octopus Spawn", "str_pl": "Octopi spawn" },
+    "name": { "str": "octopus spawn" },
     "description": "A young Cecaelia.  If one is out here, a very protective parent is likely nearby.",
     "volume": "45 L",
     "weight": "60 kg",
