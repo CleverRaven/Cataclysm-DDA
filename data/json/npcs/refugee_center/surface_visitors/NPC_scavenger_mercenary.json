@@ -121,7 +121,7 @@
   {
     "id": "TALK_SCAVENGER_MERC_MERCH",
     "type": "talk_topic",
-    "dynamic_line": "Merchs are what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need Merch.",
+    "dynamic_line": "Merch is what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need merch.",
     "responses": [
       { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
       { "text": "Okay, how much merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
