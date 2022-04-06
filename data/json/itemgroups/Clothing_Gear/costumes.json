@@ -4,7 +4,7 @@
     "id": "costume_all",
     "//": "mainly used for places of storage for costumes (like boxes in basements)",
     "subtype": "distribution",
-    "entries": [ { "group": "costume_all_clothing", "prob": 85 }, { "group": "costume_misc_items", "prob": 15 } ]
+    "entries": [ { "group": "costume_all_clothing", "prob": 95 }, { "group": "costume_misc_items", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -12,10 +12,10 @@
     "//": "These are not really clothing, but spawn with all of the clothing in certain locations",
     "subtype": "distribution",
     "entries": [
-      { "item": "pom_poms", "prob": 80 },
-      { "item": "sinister_cane", "prob": 50 },
-      { "item": "wizard_cane_cheap", "prob": 50, "charges": [ 0, 100 ] },
-      { "item": "wizard_cane", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "pom_poms", "prob": 40 },
+      { "item": "sinister_cane", "prob": 40 },
+      { "item": "wizard_cane_cheap", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "wizard_cane", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "scythe_fake", "prob": 5 },
       { "item": "scythe_toy", "prob": 5 },
       { "item": "bokken_fake", "prob": 1 },
@@ -93,11 +93,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "santa_jacket", "prob": 50 },
-      { "item": "santa_jacket_short", "prob": 50 },
-      { "item": "jacket_chef", "prob": 50 },
-      { "item": "jacket_leather", "prob": 50 },
-      { "item": "jacket_army", "prob": 50 },
-      { "item": "jacket_ninja", "prob": 50 }
+      { "item": "santa_jacket_short", "prob": 25 },
+      { "item": "jacket_chef", "prob": 25 },
+      { "item": "jacket_leather", "prob": 40 },
+      { "item": "jacket_army", "prob": 25 },
+      { "item": "jacket_ninja", "prob": 25 }
     ]
   },
   {
