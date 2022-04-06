@@ -22,6 +22,7 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -207,6 +208,10 @@ class inventory_selector_preset
             return check_components;
         }
 
+        item_pocket::pocket_type get_pocket_type() const {
+            return _pk_type;
+        }
+
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
 
@@ -233,6 +238,8 @@ class inventory_selector_preset
 
         // whether to indent contained entries in the menu
         bool _indent_entries = true;
+
+        item_pocket::pocket_type _pk_type = item_pocket::pocket_type::CONTAINER;
 
     private:
         class cell_t
