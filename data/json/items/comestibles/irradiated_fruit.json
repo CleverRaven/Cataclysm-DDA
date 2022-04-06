@@ -4,7 +4,7 @@
     "id": "irradiated_rose_hips",
     "copy-from": "rose_hips",
     "name": { "str_sp": "irradiated rose hips" },
-    "description": "Irradiated rose hips.",
+    "description": "An irradiated rose hips.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic",
