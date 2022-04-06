@@ -465,7 +465,7 @@ void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
                                     << id.c_str() << " (" << name << ")";
     }
 
-    assign( jo, "color", color, strict );
+    assign( jo, "color", color );
 
 }
 
@@ -740,7 +740,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
-    assign( jo, "color", color, strict );
+    assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
 
     if( jo.has_member( "looks_like" ) ) {
