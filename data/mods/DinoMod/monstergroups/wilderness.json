@@ -13,6 +13,20 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_struthiomimus",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_ornithomimus",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_albertonykus",
         "weight": 20,
         "cost_multiplier": 0,
@@ -407,6 +421,20 @@
       },
       {
         "monster": "mon_gallimimus",
+        "weight": 200,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_struthiomimus",
+        "weight": 200,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_ornithomimus",
         "weight": 200,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],

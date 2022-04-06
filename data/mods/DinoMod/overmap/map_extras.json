@@ -140,6 +140,16 @@
     "autonote": true
   },
   {
+    "id": "mx_nest_gallimimus",
+    "type": "map_extra",
+    "name": { "str": "gallimimus nest" },
+    "description": "A gallimimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gallimimus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
     "id": "mx_nest_gorgosaurus",
     "type": "map_extra",
     "name": { "str": "gorgosaurus nest" },
@@ -185,6 +195,16 @@
     "name": { "str": "nodosaurus nest" },
     "description": "A nodosaurus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nodosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_ornithomimus",
+    "type": "map_extra",
+    "name": { "str": "ornithomimus nest" },
+    "description": "An ornithomimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_ornithomimus" },
     "sym": "D",
     "color": "light_green",
     "autonote": true
@@ -267,6 +287,16 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stenonychosaurus" },
     "sym": "D",
     "color": "yellow",
+    "autonote": true
+  },
+  {
+    "id": "mx_nest_struthiomimus",
+    "type": "map_extra",
+    "name": { "str": "struthiomimus nest" },
+    "description": "A struthiomimus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_struthiomimus" },
+    "sym": "D",
+    "color": "light_green",
     "autonote": true
   },
   {

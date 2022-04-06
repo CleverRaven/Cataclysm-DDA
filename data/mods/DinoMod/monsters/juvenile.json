@@ -14,14 +14,9 @@
   {
     "id": "mon_ceratosaurus_juvenile",
     "type": "MONSTER",
-    "name": "magenta and green two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "ceratosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "brown_white",
-    "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "SWIMS" ]
+    "copy-from": "mon_dilophosaurus_juvenile",
+    "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" }
   },
   {
     "id": "mon_spinosaurus_juvenile",
@@ -185,6 +180,18 @@
     "harvest": "bird_small"
   },
   {
+    "id": "mon_struthiomimus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 70, "into": "mon_struthiomimus" }
+  },
+  {
+    "id": "mon_ornithomimus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" }
+  },
+  {
     "id": "mon_nothronychus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta two-legged juvenile",
@@ -258,60 +265,42 @@
   {
     "id": "mon_apatosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_zapatosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_apatosaurus" }
   },
   {
     "id": "mon_brontosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_zrontosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brontosaurus" }
   },
   {
     "id": "mon_diplodocus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_ziplodocus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_diplodocus" }
   },
   {
     "id": "mon_camarasaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_zamarasaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
   },
   {
     "id": "mon_brachiosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_zrachiosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
   },
   {
     "id": "mon_alamosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta sauropod juvenile",
-    "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "copy-from": "mon_amargasaurus_juvenile",
-    "hp": 200,
     "zombify_into": "mon_zalamosaurus_juvenile",
     "armor_bash": 7,
     "armor_cut": 9,
@@ -336,25 +325,19 @@
   {
     "id": "mon_ankylosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
   },
   {
     "id": "mon_nodosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
   },
   {
     "id": "mon_edmontonia_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontonia" }
   },
   {
@@ -378,37 +361,25 @@
   {
     "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "yellow",
+    "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
   },
   {
     "id": "mon_corythosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "yellow",
+    "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
   },
   {
     "id": "mon_maiasaura_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "yellow",
+    "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
   },
   {
     "id": "mon_edmontosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "yellow",
+    "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
   },
   {
@@ -468,14 +439,9 @@
   {
     "id": "mon_quetzalcoatlus_juvenile",
     "type": "MONSTER",
-    "name": "winged juvenile",
-    "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "quetzalcoatlus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "color": "light_gray_yellow",
-    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" },
-    "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "FLIES", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "HIT_AND_RUN" ]
+    "copy-from": "mon_pteranodon_juvenile",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }
   },
   {
     "id": "mon_mosasaurus_juvenile",

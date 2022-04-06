@@ -28,18 +28,7 @@
     "description": "Small, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
     "reproduction": { "baby_egg": "egg_coelophysis", "baby_count": 3, "baby_timer": 24 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "HIT_AND_RUN",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CLIMBS",
-      "SWARMS",
-      "GROUP_MORALE"
-    ],
+    "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "vision_day": 50,
     "death_drops": {  },
     "harvest": "dino_feather_leather",
@@ -199,8 +188,7 @@
     "zombify_into": "mon_zacrocanthosaurus",
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
-    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
+    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -213,8 +201,7 @@
     "zombify_into": "mon_ziats",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ], { "type": "bite", "cooldown": 10 } ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
-    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
+    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -430,7 +417,7 @@
     "reproduction": { "baby_egg": "egg_gallimimus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "special_attacks": [ [ "EAT_CROP", 60 ], [ "scratch", 20 ] ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -446,6 +433,31 @@
     "harvest": "dino_feather_leather",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_struthiomimus",
+    "name": { "str_sp": "struthiomimus" },
+    "copy-from": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 180,
+    "zombify_into": "mon_ztruthiomimus",
+    "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks somewhat like a reptilian ostrich with a long stiff tail.",
+    "reproduction": { "baby_egg": "egg_struthiomimus", "baby_count": 3, "baby_timer": 12 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ornithomimus",
+    "name": { "str_sp": "ornithomimus" },
+    "copy-from": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 160,
+    "zombify_into": "mon_zornithomimus",
+    "description": "A feathered bipedal dinosaur, standing as tall as a human.  It looks somewhat like a reptilian ostrich with a small toothless beak and curved claws good for climbing.",
+    "reproduction": { "baby_egg": "egg_ornithomimus", "baby_count": 3, "baby_timer": 12 },
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",
@@ -508,7 +520,7 @@
     "dodge": 4,
     "hp": 160,
     "zombify_into": "mon_zothronychus",
-    "description": "A large feathered bipedal dinosaur with a pot-bellied stomach and a long neck.  Sharp claws extend from its dextrous hands.",
+    "description": "A large feathered bipedal dinosaur with a pot-bellied stomach and a long neck.  Sharp claws extend from its dexterous hands.",
     "reproduction": { "baby_egg": "egg_nothronychus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
@@ -547,7 +559,7 @@
     "dodge": 5,
     "hp": 120,
     "zombify_into": "mon_zanzu",
-    "description": "A large feathered bipedal dinosaur with a long neck, a beak and a large head crest.  Sharp claws extend from its dextrous hands.",
+    "description": "A large feathered bipedal dinosaur with a long neck, a beak and a large head crest.  Sharp claws extend from its dexterous hands.",
     "reproduction": { "baby_egg": "egg_anzu", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
@@ -832,8 +844,7 @@
     "speed": 60,
     "zombify_into": "mon_ziplodocus",
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
-    "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
+    "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -901,7 +912,7 @@
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
     "harvest": "mammal_tiny"
   },
   {
@@ -1008,17 +1019,15 @@
     "type": "MONSTER",
     "id": "mon_nodosaurus",
     "name": { "str_sp": "nodosaurus" },
-    "copy-from": "mon_ankylosaurus",
+    "copy-from": "mon_dyoplosaurus",
     "hp": 270,
     "zombify_into": "mon_zodosaurus",
-    "armor_bash": 15,
     "armor_cut": 20,
     "armor_bullet": 10,
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
     "type": "MONSTER",
@@ -1034,8 +1043,7 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
     "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE" ]
+    "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
     "type": "MONSTER",
