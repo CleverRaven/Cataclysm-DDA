@@ -170,6 +170,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
+    optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
@@ -1745,6 +1746,11 @@ bool item_pocket::rigid() const
 bool item_pocket::watertight() const
 {
     return data->watertight;
+}
+
+bool item_pocket::transparent() const
+{
+    return data->transparent || ( data->open_container && !sealed() );
 }
 
 bool item_pocket::is_standard_type() const

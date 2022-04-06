@@ -108,6 +108,10 @@ class item_contents
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
 
+        /** returns a list of pointers to all visible or remembered content items that are not mods */
+        std::list<item *> all_known_contents();
+        std::list<const item *> all_known_contents() const;
+
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
