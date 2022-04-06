@@ -13,7 +13,7 @@
 #include "json.h"
 #include "type_id.h"
 
-const sub_bodypart_str_id sub_bodypart_sub_limb_debug( "sub_limb_debug" );
+const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
 namespace
 {
@@ -90,13 +90,13 @@ std::vector<translation> sub_body_part_type::consolidate( std::vector<sub_bodypa
     std::vector<translation> to_return;
     for( size_t i = 0; i < covered.size(); i++ ) {
         const sub_bodypart_id &sbp = covered[i];
-        if( sbp == sub_bodypart_sub_limb_debug ) {
+        if( sbp == sub_body_part_sub_limb_debug ) {
             // if we have already covered this value as a pair continue
             continue;
         }
         sub_bodypart_id temp;
         // if our sub part has an opposite
-        if( sbp->opposite != sub_bodypart_sub_limb_debug ) {
+        if( sbp->opposite != sub_body_part_sub_limb_debug ) {
             temp = sbp->opposite;
         } else {
             // if it doesn't have an opposite add it to the return vector alone and continue
@@ -113,7 +113,7 @@ std::vector<translation> sub_body_part_type::consolidate( std::vector<sub_bodypa
                 to_return.push_back( sbp->name_multiple );
                 found = true;
                 // set the found part to a null value
-                *sbp_it = sub_bodypart_sub_limb_debug;
+                *sbp_it = sub_body_part_sub_limb_debug;
                 break;
             }
         }
