@@ -69,28 +69,6 @@
     "object": { "remove_vehicles": [ { "vehicles": [ "pickup" ], "x": [ 1, 15 ], "y": [ 16, 23 ] } ] }
   },
   {
-    "type": "npc",
-    "id": "FM_caravan_merchant_random",
-    "//": "Random NPC, non persistent, can direct you to the free merchants and sell you things.",
-    "name_suffix": "Caravan Merchant",
-    "class": "NC_TRADER",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_CARAVAN_MERCHANT_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "FM_caravan_guard_generic",
-    "//": "Random NPC, non persistent, doesn't have much to say.",
-    "name_suffix": "Caravan Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_CARAVAN_GUARD_GENERIC",
-    "faction": "free_merchants"
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "roadstop" ],
