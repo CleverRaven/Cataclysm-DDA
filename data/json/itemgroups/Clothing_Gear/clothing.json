@@ -2095,6 +2095,19 @@
   },
   {
     "type": "item_group",
+    "id": "swimmer_set_any",
+    "//": "clothing sets for swimming",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "swimmer_head", "prob": 25 },
+      { "group": "swimmer_torso", "prob": 50 },
+      { "group": "swimmer_pants", "prob": 50 },
+      { "group": "swimmer_shoes", "prob": 25 },
+      { "group": "swimmer_wetsuit", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "swimmer_head",
     "items": [
       [ "goggles_swim", 90 ],
@@ -2140,7 +2153,7 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob ": 60, "event": "independence_day " }
+      { "item": "flag_swimsuit", "prob ": 60, "event": "independence_day" }
     ]
   },
   {

@@ -1,6 +1,30 @@
 [
   {
     "type": "item_group",
+    "id": "costume_all",
+    "//": "mainly used for places of storage for costumes (like boxes in basements)",
+    "subtype": "distribution",
+    "entries": [ { "group": "costume_all_clothing", "prob": 85 }, { "group": "costume_misc_items", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_misc_items",
+    "//": "These are not really clothing, but spawn with all of the clothing in certain locations",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pom_poms", "prob": 80 },
+      { "item": "sinister_cane", "prob": 50 },
+      { "item": "wizard_cane_cheap", "prob": 50, "charges": [ 0, 100 ] },
+      { "item": "wizard_cane", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "scythe_fake", "prob": 5 },
+      { "item": "scythe_toy", "prob": 5 },
+      { "item": "bokken_fake", "prob": 1 },
+      { "item": "katana_fake", "prob": 1 },
+      { "item": "longsword_fake", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "costume_all_clothing",
     "//": "mainly used for places for general clothing (like a dresser or a clothing store warehouse)",
     "subtype": "distribution",

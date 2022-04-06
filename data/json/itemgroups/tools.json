@@ -224,6 +224,7 @@
       [ "pitchfork", 60 ],
       { "item": "trimmer_off", "prob": 20, "charges": [ 0, 600 ] },
       [ "scythe", 40 ],
+      [ "scythe_fake", 1 ],
       [ "shovel", 120 ],
       [ "sickle", 40 ],
       [ "rake", 20 ],
