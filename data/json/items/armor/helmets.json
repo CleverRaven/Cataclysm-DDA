@@ -179,7 +179,7 @@
     "color": "light_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0 }
+      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0, "rigid_layer_only": true }
     ],
     "warmth": 10,
     "material_thickness": 4,
