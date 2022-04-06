@@ -1719,23 +1719,17 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    if( it.is_container() ) {
-        for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
-            if( !pocket->settings.is_collapsed() ) {
-                return hint_rating::good;
-            }
+    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
+        if( !pocket->settings.is_collapsed() ) {
+            return hint_rating::good;
         }
-        return hint_rating::cant;
     }
     return hint_rating::cant;
 }
 
 static hint_rating rate_action_expand( const item &it )
 {
-    if( !it.is_container() ) {
-        return hint_rating::cant;
-    }
-    for( const item_pocket *pocket : it.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2141,10 +2135,8 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    if( oThisItem.is_container() ) {
-                        for( item_pocket *pocket : oThisItem.get_all_contained_pockets().value() ) {
-                            pocket->settings.set_collapse( cMenu == '>' );
-                        }
+                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets().value() ) {
+                        pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
                 default:

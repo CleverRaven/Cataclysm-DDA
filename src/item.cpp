@@ -294,7 +294,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *pocket : contents.get_all_standard_pockets().value() ) {
             pocket->settings.set_collapse( true );
         }
     }
@@ -6318,7 +6318,7 @@ std::string item::display_name( unsigned int quantity ) const
 
 bool item::is_collapsed() const
 {
-    std::vector<const item_pocket *> const &pck = get_all_contained_pockets().value();
+    std::vector<const item_pocket *> const &pck = get_all_standard_pockets().value();
     return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
         return !it->empty() && it->settings.is_collapsed();
     } );
@@ -9216,6 +9216,16 @@ ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() cons
 ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
 {
     return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_standard_pockets() const
+{
+    return contents.get_all_standard_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_standard_pockets()
+{
+    return contents.get_all_standard_pockets();
 }
 
 item_pocket *item::contained_where( const item &contained )

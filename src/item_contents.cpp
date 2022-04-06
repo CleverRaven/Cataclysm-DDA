@@ -1479,13 +1479,14 @@ const
     return total_weight;
 }
 
-ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
+ret_val<std::vector<const item_pocket *>> item_contents::get_pockets( const
+                                       std::function<bool( item_pocket const & )> &filter ) const
 {
     std::vector<const item_pocket *> pockets;
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( filter( pocket ) ) {
             found = true;
             pockets.push_back( &pocket );
         }
@@ -1497,13 +1498,14 @@ ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pocke
     }
 }
 
-ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+ret_val<std::vector<item_pocket *>> item_contents::get_pockets( const
+                                 std::function<bool( item_pocket const & )> &filter )
 {
     std::vector<item_pocket *> pockets;
     bool found = false;
 
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( filter( pocket ) ) {
             found = true;
             pockets.push_back( &pocket );
         }
@@ -1513,6 +1515,34 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     } else {
         return ret_val<std::vector<item_pocket *>>::make_failure( pockets );
     }
+}
+
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( item_pocket::pocket_type::CONTAINER );
+    } );
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( item_pocket::pocket_type::CONTAINER );
+    } );
+}
+
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_standard_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_standard_type();
+    } );
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_standard_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 std::vector<const item *> item_contents::get_added_pockets() const
