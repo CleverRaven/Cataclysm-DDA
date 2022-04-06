@@ -1482,7 +1482,11 @@ void inventory_selector::add_contained_items( item_location &container, inventor
         return;
     }
 
-    for( item *it : container->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    std::list<item *> const items = preset.get_pocket_type() == item_pocket::pocket_type::LAST
+                                    ? container->all_items_top()
+                                    : container->all_items_top( preset.get_pocket_type() );
+
+    for( item *it : items ) {
         item_location child( container, it );
         item_category const *hacked_cat = custom_category;
         inventory_column *hacked_col = &column;
