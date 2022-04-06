@@ -168,7 +168,7 @@
   },
   {
     "type": "vehicle_part",
-    "id":"ap_drill_press",
+    "id": "ap_drill_press",
     "name": { "str": "drill press" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -195,7 +195,7 @@
   },
   {
     "type": "vehicle_part",
-    "id":"ap_tablesaw",
+    "id": "ap_tablesaw",
     "name": { "str": "table saw" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -222,7 +222,7 @@
   },
   {
     "type": "vehicle_part",
-    "id":"ap_mitresaw",
+    "id": "ap_mitresaw",
     "name": { "str": "mitre saw" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -249,7 +249,7 @@
   },
   {
     "type": "vehicle_part",
-    "id":"ap_bandsaw",
+    "id": "ap_bandsaw",
     "name": { "str": "band saw" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
@@ -276,7 +276,7 @@
   },
   {
     "type": "vehicle_part",
-    "id":"ap_planer",
+    "id": "ap_planer",
     "name": { "str": "planer" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
