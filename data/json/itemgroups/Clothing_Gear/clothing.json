@@ -2153,7 +2153,7 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob ": 60, "event": "independence_day" }
+      { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" }
     ]
   },
   {
