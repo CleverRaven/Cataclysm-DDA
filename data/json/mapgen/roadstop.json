@@ -30,9 +30,7 @@
     "recurrence": 200,
     "global": true,
     "condition": {
-      "and": [
-        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" }
-      ]
+      "and": [ { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" } ]
     },
     "effect": [
       { "mapgen_update": "nest_RandEnc_roadstop_a_remove", "om_terrain": "roadstop_a" },
@@ -46,7 +44,21 @@
     "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
     "//": "Adds a random encounter at this roadstop",
     "object": {
-      "place_npcs": [ { "class": "FM_caravan_merchant_random", "x": 8, "y": 18 }, { "class": "FM_caravan_guard_generic", "x": 9, "y": 21 } ]
+      "place_npcs": [
+        { "class": "FM_caravan_merchant_random", "x": 10, "y": 18 },
+        { "class": "FM_caravan_guard_generic", "x": 11, "y": 21 }
+      ],
+      "place_vehicles": [
+        {
+          "vehicle": [ "pickup" ],
+          "chance": 100,
+          "fuel": 50,
+          "faction": "free_merchants",
+          "x": [ 4 ],
+          "y": [ 16 ],
+          "//": "to-do: Add gear to the back of the truck, put the guard in the cab and the merchant on the tailgate"
+        }
+      ]
     }
   },
   {
@@ -54,8 +66,7 @@
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
     "//": "removes a random encounter at this roadstop",
-    "object": {
-    }
+    "object": { "remove_vehicles": [ { "vehicles": [ "pickup" ], "x": [ 1, 15 ], "y": [ 16, 23 ] } ] }
   },
   {
     "type": "npc",
