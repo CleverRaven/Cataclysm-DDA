@@ -5992,12 +5992,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                       //~ [container item name] " > [inner item name] (qty)
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
+
+            if( is_collapsed() ) {
+                contents_suffix_text += string_format( " %s", _( "hidden" ) );
+            }
         }
-    } else if( !contents.empty() && contents.num_item_stacks() != 0 ) {
-        contents_suffix_text = string_format( npgettext( "item name",
-                                              //~ [container item name] " > [count] item"
-                                              " > %1$zd item", " > %1$zd items",
-                                              contents.num_item_stacks() ), contents.num_item_stacks() );
+    } else if( !contents.empty_container() && contents.num_item_stacks() != 0 ) {
+        std::string const suffix =
+            npgettext( "item name",
+                       //~ [container item name] " > [count] item"
+                       " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
+        std::string const hidden =
+            is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
+        contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
     }
 
     Character &player_character = get_player_character();
@@ -6316,12 +6323,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    std::string collapsed;
-    if( is_collapsed() ) {
-        collapsed = string_format( " %s", _( "hidden" ) );
-    }
-
-    return string_format( "%s%s%s%s", name, sidetxt, amt, collapsed );
+    return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
 bool item::is_collapsed() const
