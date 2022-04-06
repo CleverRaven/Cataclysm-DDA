@@ -399,7 +399,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Refugees2_Fatima",
-    "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
+    "dynamic_line": "Fatima's a sweety, but she's a total dork.  I know, I know, it's backwards for the engineer to call the heavy-duty mechanic a nerd, but hey.  I call it like it is.  She and I have been doing some odd jobs around the upstairs here, fixing up old machinery and things.",
     "responses": [
       { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
