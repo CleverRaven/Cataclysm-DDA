@@ -38,6 +38,9 @@
 "NPC / Factions":
   - "**/npcs/**/*"
 
+"Info / User Interface":
+  - "**/ui/**/*"
+
 "Appliance/Power Grid":
   - "**/appliance**"
 
