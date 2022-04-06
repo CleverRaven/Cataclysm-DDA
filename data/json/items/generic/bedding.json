@@ -204,7 +204,7 @@
     "material": [ "plastic" ],
     "weight": "622 g",
     "volume": "500 ml",
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "warmth": 50,
     "environmental_protection": 1,
     "material_thickness": 0.1,
