@@ -341,8 +341,8 @@
   },
   {
     "type": "vehicle_part",
-    "id": "ap_trunk_recharge_station",
-    "name": { "str": "trunk recharging station" },
+    "id": "ap_foot_locker_recharge_station",
+    "name": { "str": "foot locker recharging station" },
     "symbol": "o",
     "categories": [ "cargo" ],
     "color": "light_green",
@@ -353,7 +353,7 @@
     "description": "An appliance for recharging batteries.  When turned on, it steadily charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space, drawing from its internal capacity.",
     "bonus": 600,
     "size": 800,
-    "item": "trunk_recharge_station",
+    "item": "foot_locker_recharge_station",
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 3 ] },

@@ -75,7 +75,7 @@
     ]
   },
   {
-    "result": "trunk_recharge_station",
+    "result": "foot_locker_recharge_station",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "reversible": true,
@@ -101,7 +101,7 @@
     "time": "5 m",
     "autolearn": [ [ "electronics", 1 ] ],
     "category": "CC_APPLIANCE",
-    "subcategory": "CSC_APPLIANCE_UTILITY",
+    "subcategory": "CSC_APPLIANCE_UTILITY",u
     "skills_required": [ [ "electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],

@@ -123,9 +123,9 @@
   {
     "type": "MAGAZINE",
     "category": "other",
-    "id": "trunk_recharge_station",
-    "name": { "str": "trunk recharging station" },
-    "description": "A universal recharging station integrated into a large steel storage compartment.  When set up as an appliance and turned on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space, drawing from its internal capacity.",
+    "id": "foot_locker_recharge_station",
+    "name": { "str": "foot locker recharging station" },
+    "description": "A universal recharging station integrated into a steel storage compartment.  When set up as an appliance and turned on, it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space, drawing from its internal capacity.",
     "weight": "30000 g",
     "color": "cyan",
     "symbol": "]",
