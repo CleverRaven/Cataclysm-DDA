@@ -1,7 +1,7 @@
 # Translating Cataclysm: DDA
 
 * [Translators](#translators)
-  * [Getting Started](#getting-Started)
+  * [Getting Started](#getting-started)
   * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
