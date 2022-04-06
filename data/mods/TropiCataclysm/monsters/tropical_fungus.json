@@ -139,7 +139,7 @@
     "armor_elec": 7,
     "harvest": "fungaloid_mass",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
-    "reproduction": { "baby_monster": "mon_fungal_saproling", "baby_count": 1, "baby_timer": 1 },
+    "reproduction": { "baby_monster": "mon_fungaloid_saproling", "baby_count": 1, "baby_timer": 1 },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN", "IMMOBILE" ]
   },
@@ -165,7 +165,7 @@
     "melee_cut": 1,
     "armor_elec": 1,
     "harvest": "fungaloid",
-    "upgrades": { "age_grow": 14, "into": "mon_fungal_caretaker" },
+    "upgrades": { "age_grow": 14, "into": "mon_fungaloid_caretaker" },
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
   },
   {
