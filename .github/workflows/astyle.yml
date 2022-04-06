@@ -1,6 +1,13 @@
 name: astyle
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '.astylerc'
+    - '.github/workflows/astyle.yml'
 
 jobs:
   skip-duplicates:

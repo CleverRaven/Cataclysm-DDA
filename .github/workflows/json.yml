@@ -1,6 +1,10 @@
 name: JSON Validation
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+    - '**.json'
+    - '.github/workflows/json.yml'
 
 jobs:
   skip-duplicates:
