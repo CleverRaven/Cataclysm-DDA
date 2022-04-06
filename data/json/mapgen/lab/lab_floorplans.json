@@ -490,7 +490,7 @@
     }
   },
   {
-    "//": "autodoc operating theater",
+    "//": "Autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -570,7 +570,7 @@
     }
   },
   {
-    "//": "medical wing, autodoc + centrifuge, monster in autodoc room",
+    "//": "medical wing, Autodoc + centrifuge, monster in Autodoc room",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -874,7 +874,7 @@
       "terrain": { ",": "t_floor_blue", "&": "t_radio_tower", "g": "t_wall_glass", "G": "t_door_glass_lab_c", "r": "t_railing_h" },
       "computers": {
         "6": {
-          "name": "Mk IV Algorithmic Data Analyzer",
+          "name": "Algorithmic Data Analyzer Mk. IV",
           "security": 4,
           "options": [
             { "name": "Run Decryption Algorithm", "action": "data_anal", "security": 4 },

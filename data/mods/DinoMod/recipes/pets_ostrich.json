@@ -25,10 +25,12 @@
   {
     "result": "chainmail_armor_ostrich",
     "type": "recipe",
-    "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_OSTRICH ARMOR",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "700 m",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
     "using": [ [ "chainmail_standard", 14 ] ],
     "components": [
       [ [ "link_sheet", 70 ] ],

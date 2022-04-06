@@ -1,22 +1,69 @@
-"C++":
+"[C++]":
   - "**/*.cpp"
   - "**/*.h"
 
-"Json":
+"[JSON]":
   - "**/*.json"
 
-"Python":
+"[Python]":
   - "**/*.py"
 
-"Documentation":
+"<Documentation>":
   - "**/*.md"
   - doc/**/*
+  - doxygen_doc/**/*
 
 "Code: Tooling":
   - tools/**/*
+  - .github/**/*
+  - utilities/**/*
 
-"Code: Test":
+"Code: Tests":
   - tests/**/*
+
+"Code: Build":
+  - build-data/**/*
+  - build-scripts/**/*
+  - "**/Makefile"
+  - "**/CMakeLists.txt"
+  - "**/*.cmake"
+
+"Crafting / Construction / Recipes":
+  - "**/recipes/**/*"
+  - data/json/construction.json
+  - data/json/construction_category.json
+  - data/json/construction_group.json
+  - data/json/deconstruction.json
+
+"NPC / Factions":
+  - "**/npcs/**/*"
+
+"Appliance/Power Grid":
+  - "**/appliance**"
+
+"Monsters":
+  - "**/monsters/**/*"
+
+"Spawn":
+  - "**/itemgroups/**/*"
+  - "**/monstergroups/**/*"
+
+"Bionics":
+  - "**/bionics.*"
+
+"Map / Mapgen":
+  - "**/mapgen/**/*"
+  - "**/mapgen_palettes/**/*"
+  - "**/overmap/**/*"
+
+"Player Faction Base / Camp":
+  - "src/basecamp.(cpp|h)"
+  - "src/faction_camp.(cpp|h)"
+  - data/json/mapgen/basecamps/**/*
+
+"Items: Ammo / Guns":
+  - "**/gun/**/*"
+  - "**/ammo/**/*"
 
 "SDL: Tiles / Sound":
   - gfx/**/*
@@ -35,7 +82,7 @@
 "Mods: Dark Skies":
   - data/mods/Dark-Skies-Above/**/*
 
-"Mods: Dinoclysm":
+"Mods: DinoMod":
   - data/mods/DinoMod/**/*
 
 "Mods: Generic Guns":
@@ -47,5 +94,11 @@
 "Mods: Magiclysm":
   - data/mods/Magiclysm/**/*
 
+"Mods: Innawood 🌲":
+  - data/mods/innawood/**/*
+
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
+
+"Mods":
+  - data/mods/**/*

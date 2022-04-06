@@ -53,6 +53,8 @@ static const itype_id itype_needle_bone( "needle_bone" );
 static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_scissors( "scissors" );
 static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_test_cracklins( "test_cracklins" );
+static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
@@ -85,6 +87,8 @@ static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
+static const recipe_id recipe_test_tallow( "test_tallow" );
+static const recipe_id recipe_test_tallow2( "test_tallow2" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -221,7 +225,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an appropriate book" ) {
-        dummy.worn.emplace_back( "backpack" );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item &craftbook = dummy.i_add( item( "manual_electronics" ) );
         REQUIRE( craftbook.is_book() );
         REQUIRE_FALSE( craftbook.type->book->recipes.empty() );
@@ -264,8 +268,8 @@ TEST_CASE( "available_recipes", "[recipes]" )
     }
 
     GIVEN( "an eink pc with a sushi recipe" ) {
-        const recipe *r2 = &recipe_sushi_rice.obj();
-        dummy.worn.emplace_back( "backpack" );
+        const recipe *r2 = &recipe_id( recipe_sushi_rice ).obj();
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
         eink.set_var( "EIPC_RECIPES", ",sushi_rice," );
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
@@ -360,7 +364,7 @@ static void give_tools( const std::vector<item> &tools )
     player_character.inv->clear();
     player_character.remove_weapon();
     const item backpack( "debug_backpack" );
-    player_character.worn.push_back( backpack );
+    player_character.worn.wear_item( player_character, backpack, false, false );
 
     std::vector<item> boil;
     for( const item &gear : tools ) {
@@ -459,7 +463,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
 {
     avatar dummy;
     clear_character( dummy );
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
     item &ups = dummy.i_add( item( "UPS_off" ) );
     item ups_mag( ups.magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
@@ -1116,7 +1120,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
@@ -1167,11 +1171,11 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
-            REQUIRE( !( *c.worn.begin()->all_items_top().begin() )->empty_container() );
+            REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
                 craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
                 cmd.execute( true );
@@ -1217,7 +1221,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
@@ -1225,7 +1229,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             c.i_add( full_plastic_bottle );
             c.i_add( full_plastic_bottle );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            REQUIRE( c.worn.begin()->all_items_top().size() == 6 );
+            REQUIRE( c.worn.front().all_items_top().size() == 6 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 6 );
                 craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
@@ -1233,7 +1237,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
                 CHECK( m.i_at( c.pos() ).empty() );
-                CHECK( c.worn.begin()->all_items_top().size() == 6 );
+                CHECK( c.worn.front().all_items_top().size() == 6 );
             }
         }
 
@@ -1272,14 +1276,14 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
             c.i_add( full_plastic_bottle );
             c.i_add( full_plastic_bottle );
             c.i_add( full_plastic_bottle );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            REQUIRE( c.worn.begin()->all_items_top().size() == 5 );
+            REQUIRE( c.worn.front().all_items_top().size() == 5 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 5 );
                 craft_command cmd( &*recipe_makeshift_funnel, 1, false, &c, c.pos() );
@@ -1287,7 +1291,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
                 CHECK( m.i_at( c.pos() ).empty() );
-                CHECK( c.worn.begin()->all_items_top().size() == 5 );
+                CHECK( c.worn.front().all_items_top().size() == 5 );
             }
         }
     }
@@ -1324,7 +1328,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
@@ -1375,7 +1379,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
@@ -1386,7 +1390,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
             c.i_add( plastic_bottle );
-            REQUIRE( !( *c.worn.begin()->all_items_top().begin() )->empty_container() );
+            REQUIRE( !( *c.worn.front().all_items_top().begin() )->empty_container() );
             THEN( "player is prompted" ) {
                 craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
                 cmd.execute( true );
@@ -1432,7 +1436,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
@@ -1447,7 +1451,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             c.i_add( full_plastic_bottle );
             c.i_add( full_plastic_bottle );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            REQUIRE( c.worn.begin()->all_items_top().size() == 13 );
+            REQUIRE( c.worn.front().all_items_top().size() == 13 );
             THEN( "no prompt" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 13 );
                 craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
@@ -1455,7 +1459,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == true );
                 CHECK( m.i_at( c.pos() ).empty() );
-                CHECK( c.worn.begin()->all_items_top().size() == 13 );
+                CHECK( c.worn.front().all_items_top().size() == 13 );
             }
         }
 
@@ -1494,7 +1498,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             Character &c = get_player_character();
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            c.worn.push_back( backpack );
+            c.worn.wear_item( c, backpack, false, false );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
             c.i_add( empty_plastic_bottle );
@@ -1506,7 +1510,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             c.i_add( full_plastic_bottle );
             c.i_add( full_plastic_bottle );
             REQUIRE( m.i_at( c.pos() ).empty() );
-            REQUIRE( c.worn.begin()->all_items_top().size() == 10 );
+            REQUIRE( c.worn.front().all_items_top().size() == 10 );
             THEN( "player is prompted" ) {
                 REQUIRE( c.crafting_inventory().count_item( empty_plastic_bottle.typeId() ) == 10 );
                 craft_command cmd( &*recipe_makeshift_funnel, 3, false, &c, c.pos() );
@@ -1514,7 +1518,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
                 item_filter filter = recipe_makeshift_funnel->get_component_filter();
                 CHECK( cmd.continue_prompt_liquids( filter, true ) == false );
                 CHECK( m.i_at( c.pos() ).empty() );
-                CHECK( c.worn.begin()->all_items_top().size() == 10 );
+                CHECK( c.worn.front().all_items_top().size() == 10 );
             }
         }
     }
@@ -1596,6 +1600,109 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
             }
+        }
+    }
+}
+
+static bool found_all_in_list( const std::vector<item> &items,
+                               std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> &expected )
+{
+    bool ret = true;
+    for( const item &i : items ) {
+        bool expected_item = false;
+        for( auto &found : expected ) {
+            if( i.typeId() == found.first ) {
+                expected_item = true;
+                found.second.second += i.count_by_charges() ? i.charges : 1;
+            }
+        }
+        if( !expected_item ) {
+            ret = false;
+        }
+    }
+    for( const auto &found : expected ) {
+        CAPTURE( found.first.c_str() );
+        CHECK( found.second.second >= found.second.first.first );
+        CHECK( found.second.second <= found.second.first.second );
+    }
+    return ret;
+}
+
+TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
+{
+    GIVEN( "recipe with byproducts, normal definition" ) {
+        const recipe *r = &recipe_test_tallow.obj();
+        REQUIRE( r->has_byproducts() );
+        const int count_cracklins = 4;
+        const int count_gum = 10;
+
+        WHEN( "crafting in batch of 1" ) {
+            const int batch = 1;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 2" ) {
+            const int batch = 2;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 10" ) {
+            const int batch = 10;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins * batch, count_cracklins * batch }, 0 } },
+                { itype_test_gum, { { count_gum * batch, count_gum * batch }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+    }
+
+    GIVEN( "recipe with byproducts, item group definition" ) {
+        const recipe *r = &recipe_test_tallow2.obj();
+        REQUIRE( r->has_byproducts() );
+        const int count_cracklins = 1; // defined "charges" doesn't produce full stack
+        const int count_gum = 10;
+        const int lo = 2;
+        const int hi = 3;
+
+        WHEN( "crafting in batch of 1" ) {
+            const int batch = 1;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 2" ) {
+            const int batch = 2;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
+        }
+
+        WHEN( "crafting in batch of 10" ) {
+            const int batch = 10;
+            std::vector<item> bps = r->create_byproducts( batch );
+            std::map<const itype_id, std::pair<std::pair<const int, const int>, int>> found_itype_count = {
+                { itype_test_cracklins, { { count_cracklins *batch * lo, count_cracklins *batch * hi }, 0 } },
+                { itype_test_gum, { { count_gum *batch * lo, count_gum *batch * hi }, 0 } }
+            };
+            CHECK( found_all_in_list( bps, found_itype_count ) );
         }
     }
 }

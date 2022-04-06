@@ -504,7 +504,7 @@
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
     "healthy": 1,
-    "description": "A handful roasted nuts from an oak tree.",
+    "description": "A handful of roasted nuts from an oak tree.",
     "price": 90,
     "price_postapoc": 200,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
@@ -513,7 +513,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns_cooked",
-    "name": { "str_sp": "cooked acorn meal" },
+    "name": { "str_sp": "cooked acorns" },
     "weight": "22 g",
     "color": "brown",
     "spoils_in": "30 days",

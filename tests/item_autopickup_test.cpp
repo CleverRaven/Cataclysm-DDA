@@ -403,6 +403,31 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
             REQUIRE( item_sealed_tuna.find_in_container( backpack )->all_pockets_sealed() );
         }
     }
+    // small tin can (sealed) > canned tuna fish (WL), canned meat
+    WHEN( "there is a sealed container on the ground containing no whitelisted items" ) {
+        item item_small_tin_can = item( itype_can_food );
+        item item_bottle_plastic = item( itype_bottle_plastic );
+        unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
+        unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+
+        // insert items inside can and seal it
+        item_small_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
+        item_small_tin_can.force_insert_item( *item_canned_meat.get(), pocket_type_container );
+        item_small_tin_can.seal();
+
+        unique_item item_sealed_tuna = unique_item( item_small_tin_can );
+        REQUIRE( item_sealed_tuna.spawn_item( ground ) );
+        // autopickup something other than the sealed items
+        unique_item item_red_herring = unique_item( item_bottle_plastic );
+        add_autopickup_rule( item_red_herring.get(), true );
+        THEN( "nothing should be picked up" ) {
+            simulate_auto_pickup( ground, they );
+            expect_to_find( backpack, {} );
+            // make sure the item seal was not broken
+            REQUIRE( item_sealed_tuna.is_on_ground( ground ) );
+            REQUIRE( item_sealed_tuna.find_on_ground( ground )->all_pockets_sealed() );
+        }
+    }
 }
 
 TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][item]" )

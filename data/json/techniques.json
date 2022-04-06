@@ -149,6 +149,27 @@
   },
   {
     "type": "technique",
+    "id": "SWEETSPOT",
+    "name": "Sweet Spot Hit",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "stun_dur": 1,
+    "knockback_dist": 2,
+    "//": "this should basically always happen if you get the crit",
+    "weighting": 10,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.1 },
+      { "stat": "damage", "type": "bash", "scale": 2.5 },
+      { "stat": "damage", "type": "cut", "scale": 2.5 },
+      { "stat": "damage", "type": "stab", "scale": 2.5 }
+    ],
+    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
     "melee_allowed": true,
@@ -681,7 +702,7 @@
     "type": "technique",
     "id": "tec_dragon_strike",
     "name": "Dragon Strike",
-    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname> descends upon %s with a powerful Dragon Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
@@ -2011,6 +2032,27 @@
     ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_eoc_demo",
+    "name": "Extreme Offensive Chop!",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "skill_requirements": [ { "name": "speech", "level": 10 } ],
+    "weighting": 100,
+    "messages": [ "You strike %s with an Extreme Offensive Chop", "<npcname> strikes %s with an Extreme Offensive Chop" ],
+    "eocs": [
+      {
+        "id": "EOC_TECH_DEBGU_EOC_DEMO",
+        "effect": [
+          { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
+          "follow",
+          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+        ]
+      }
+    ],
     "attack_vectors": [ "WEAPON", "HAND" ]
   }
 ]

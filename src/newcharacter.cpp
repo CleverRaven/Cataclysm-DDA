@@ -211,7 +211,7 @@ struct multi_pool {
     // The amount of unspent points in the pool without counting the borrowed points
     const int pure_stat_points, pure_trait_points, pure_skill_points;
     // The amount of points awailable in a pool minus the points that are borrowed
-    // by lower pools plus the poits that can be borrowed from higher pools
+    // by lower pools plus the points that can be borrowed from higher pools
     const int stat_points_left, trait_points_left, skill_points_left;
     explicit multi_pool( const avatar &u ):
         pure_stat_points( stat_point_pool() - stat_points_used( u ) ),
@@ -242,7 +242,7 @@ static int skill_points_left( const avatar &u, pool_type pool )
     return 0;
 }
 
-// Toggle this trait and all dependencies (sets mutation category levels)
+// Toggle this trait and all prereqs, removing upgrades on removal
 void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
@@ -256,24 +256,15 @@ void Character::toggle_trait_deps( const trait_id &tr )
             rc++;
         }
     } else if( has_trait( tr ) ) {
-        int rc = 0;
-        std::unordered_map<trait_id, int> deps;
-        build_mut_dependency_map( tr, deps, 0 );
-        while( rc < depth_max && ( has_trait( tr ) ||
-        std::any_of( deps.begin(), deps.end(), [this]( const std::pair<trait_id, int> &dep ) {
-        return has_trait( dep.first );
-        } ) ) ) {
-            for( const auto &dep : deps ) {
-                if( has_trait( dep.first ) ) {
-                    remove_mutation( dep.first );
-                }
-            }
-            if( has_trait( tr ) ) {
-                remove_mutation( tr );
-            }
-            rc++;
+        for( const auto &addition : get_addition_traits( tr ) ) {
+            unset_mutation( addition );
         }
+        for( const auto &lower : get_lower_traits( tr ) ) {
+            unset_mutation( lower );
+        }
+        unset_mutation( tr );
     }
+    calc_mutation_levels();
 }
 
 static std::string pools_to_string( const avatar &u, pool_type pool )
@@ -1247,8 +1238,15 @@ tab_direction set_traits( avatar &u, pool_type pool )
         const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
                                              traits_iter.id ) != proftraits.end();
 
+        bool is_hobby_locked_trait = false;
+        for( const profession *hobby : u.hobbies ) {
+            is_hobby_locked_trait = hobby->is_locked_trait( traits_iter.id );
+            break;
+        }
+
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ) {
+        if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ||
+            is_hobby_locked_trait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
 
@@ -1534,7 +1532,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
             }
 
             // Select the current page, if not empty
-            // There should always be atleast one not empty page
+            // There should always be at least one not empty page
             iCurrentLine[0] = 0;
             iCurrentLine[1] = 0;
             iCurrentLine[2] = 0;

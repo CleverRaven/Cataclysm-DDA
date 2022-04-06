@@ -155,7 +155,7 @@
     "symbol": "q",
     "color": "cyan_green",
     "name": { "str": "cephalopod sample" },
-    "description": "A sample from the most alien of earth's inhabitants.  Octopus, squids and things with tentacles will likely have what you're looking for..",
+    "description": "A sample from the most alien of earth's inhabitants.  Octopus, squids and things with tentacles will likely have what you're looking for.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "flesh" ],

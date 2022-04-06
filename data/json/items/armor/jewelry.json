@@ -12,8 +12,17 @@
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
     "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bead_ear",
@@ -59,7 +68,16 @@
     "material": [ "wood", "plastic" ],
     "symbol": "[",
     "color": "red",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "bronze_medal",
@@ -218,6 +236,7 @@
     "symbol": "[",
     "looks_like": "ring_engagement",
     "color": "yellow",
+    "sided": true,
     "armor": [
       {
         "encumbrance": 0,
@@ -275,6 +294,7 @@
     "symbol": "[",
     "looks_like": "silver_bracelet",
     "color": "brown",
+    "sided": true,
     "armor": [
       {
         "encumbrance": 0,
@@ -358,6 +378,7 @@
     "symbol": "[",
     "looks_like": "ring_purity",
     "color": "brown",
+    "sided": true,
     "armor": [
       {
         "encumbrance": 0,
@@ -496,7 +517,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and gold cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -615,7 +636,7 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and silver cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -734,7 +755,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset blue topaz.",
+    "description": "A pair of cufflinks with inset blue topazes.",
     "color": "light_blue"
   },
   {
@@ -780,6 +801,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "sided": true,
     "armor": [
       {
         "encumbrance": 0,
@@ -889,6 +911,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "NO_WEAR_EFFECT" ]
   },
@@ -952,7 +975,16 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "silver_ear",
@@ -1089,6 +1121,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "sided": true,
     "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
@@ -1177,6 +1210,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1192,6 +1226,7 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1207,6 +1242,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1222,6 +1258,7 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1237,6 +1274,7 @@
     "material": [ "gold", "diamond" ],
     "symbol": "[",
     "color": "yellow",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1308,6 +1346,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1372,8 +1411,7 @@
     "color": "yellow",
     "//": "should cover TORSO but give no encumbrance penalties",
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 2 } ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_cybercop",
@@ -1910,6 +1948,7 @@
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -2032,6 +2071,7 @@
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
@@ -2154,6 +2194,7 @@
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
@@ -2277,6 +2318,7 @@
     "looks_like": "gold_bracelet",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
@@ -2356,7 +2398,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold bracelet" },
-    "description": "A gold bracelet with sparkling blue topaz.",
+    "description": "A gold bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2400,6 +2442,7 @@
     "looks_like": "silver_bracelet",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
@@ -2479,7 +2522,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver bracelet" },
-    "description": "A silver bracelet with sparkling blue topaz.",
+    "description": "A silver bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2523,6 +2566,7 @@
     "looks_like": "platinum_bracelet",
     "symbol": "[",
     "color": "red",
+    "sided": true,
     "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
@@ -2602,7 +2646,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling blue topaz.",
+    "description": "A platinum bracelet with sparkling blue topazes.",
     "color": "light_blue"
   },
   {
@@ -2624,7 +2668,7 @@
   {
     "id": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and gold necklace" },
+    "name": { "str": "garnet and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -2743,7 +2787,7 @@
   {
     "id": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and silver necklace" },
+    "name": { "str": "garnet and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -2862,7 +2906,7 @@
   {
     "id": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "garnet and platinum necklace" },
+    "name": { "str": "garnet and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "1 ml",
@@ -2993,7 +3037,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -3009,7 +3053,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with amethyst.",
+    "description": "A shiny, platinum tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3017,7 +3061,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with aquamarine.",
+    "description": "A shiny, platinum tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3080,7 +3124,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with blue topaz.",
+    "description": "A shiny, platinum tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3114,7 +3158,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3130,7 +3174,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and gold tiara" },
-    "description": "A shiny, gold tiara adorned with amethyst.",
+    "description": "A shiny, gold tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3138,7 +3182,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and gold tiara" },
-    "description": "A shiny, gold tiara adorned with aquamarine.",
+    "description": "A shiny, gold tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3201,7 +3245,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold tiara" },
-    "description": "A shiny, gold tiara adorned with blue topaz.",
+    "description": "A shiny, gold tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
@@ -3235,7 +3279,7 @@
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
     "id": "diamond_silver_tiara",
@@ -3251,7 +3295,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "amethyst and silver tiara" },
-    "description": "A shiny, silver tiara adorned with amethyst.",
+    "description": "A shiny, silver tiara adorned with amethysts.",
     "color": "blue"
   },
   {
@@ -3259,7 +3303,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "aquamarine and silver tiara" },
-    "description": "A shiny, silver tiara adorned with aquamarine.",
+    "description": "A shiny, silver tiara adorned with aquamarines.",
     "color": "light_blue"
   },
   {
@@ -3322,7 +3366,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver tiara" },
-    "description": "A shiny, silver tiara adorned with blue topaz.",
+    "description": "A shiny, silver tiara adorned with blue topazes.",
     "color": "light_blue"
   },
   {
