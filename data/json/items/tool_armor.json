@@ -3602,7 +3602,7 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5, "layers": [ "OUTER" ] }
     ],
     "warmth": 15,
     "material_thickness": 5,

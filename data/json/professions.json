@@ -1152,7 +1152,6 @@
           "pants_army",
           "wetsuit_hood",
           "tac_helmet",
-          "glasses_bal",
           "wetsuit_gloves",
           "gloves_tactical",
           "socks",
@@ -1164,6 +1163,7 @@
           { "group": "charged_two_way_radio" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "chestrig", "contents-group": "army_mags_mp5" },
           {
@@ -1707,7 +1707,6 @@
           "sweatshirt",
           "sneakers",
           "gloves_tactical",
-          "glasses_bal",
           "hat_ball",
           "badge_deputy",
           "wristwatch",
@@ -1715,6 +1714,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
