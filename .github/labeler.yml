@@ -28,18 +28,33 @@
   - "**/CMakeLists.txt"
   - "**/*.cmake"
 
+"Crafting / Construction / Recipes":
+  - "**/recipes/**/*"
+  - data/json/construction.json
+  - data/json/construction_category.json
+  - data/json/construction_group.json
+  - data/json/deconstruction.json
+
 "NPC / Factions":
-  - data/json/npcs/**/*
+  - "**/npcs/**/*"
+
+"Appliance/Power Grid":
+  - "**/appliance**"
 
 "Monsters":
-  - data/json/monsters/**/*
+  - "**/monsters/**/*"
 
 "Spawn":
-  - data/json/itemgroups/**/*
-  - data/json/monstergroups/**/*
+  - "**/itemgroups/**/*"
+  - "**/monstergroups/**/*"
 
 "Bionics":
-  - "data/json/bionics.json"
+  - "**/bionics.*"
+
+"Map / Mapgen":
+  - "**/mapgen/**/*"
+  - "**/mapgen_palettes/**/*"
+  - "**/overmap/**/*"
 
 "Player Faction Base / Camp":
   - "src/basecamp.(cpp|h)"
@@ -47,8 +62,8 @@
   - data/json/mapgen/basecamps/**/*
 
 "Items: Ammo / Guns":
-  - data/json/items/gun/**/*
-  - data/json/items/ammo/**/*
+  - "**/gun/**/*"
+  - "**/ammo/**/*"
 
 "SDL: Tiles / Sound":
   - gfx/**/*
@@ -79,5 +94,11 @@
 "Mods: Magiclysm":
   - data/mods/Magiclysm/**/*
 
+"Mods: Innawood 🌲":
+  - data/mods/innawood/**/*
+
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
+
+"Mods":
+  - data/mods/**/*
