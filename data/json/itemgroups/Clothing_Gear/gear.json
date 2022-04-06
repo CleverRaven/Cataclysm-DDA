@@ -211,11 +211,8 @@
     "subtype": "distribution",
     "//": "armor that a civilian might have."
     "entries": [
-      { "group": "civilian_plate_carrier", "prob": 20 },
-      { "group": "loaded_lbv", "prob": 20 },
-      { "item": "kevlar", "prob": 20 },
-      { "item": "mask_gas", "prob": 20 },
-      { "item": "mask_dust", "prob": 20 }
+      { "group": "civilian_face_armor", "prob": 20 },
+      { "group": "civilian_body_armor", "prob": 20 }
     ]
   },
   {
@@ -224,8 +221,6 @@
     "subtype": "distribution",
     "//": "armor that a civilian might have."
     "entries": [
-      { "group": "civilian_plate_carrier", "prob": 20 },
-      { "group": "loaded_lbv", "prob": 20 },
       { "item": "kevlar", "prob": 20 }
     ]
   },
@@ -239,13 +234,5 @@
       { "item": "mask_dust", "prob": 20 },
       { "item": "glasses_bal", "prob": 20 }
     ]
-  },
-  {
-    "id": "civilian_plate_carrier",
-    "type": "item_group",
-    "//": "armor that a civilian might have."
-    "container-item": "ballistic_vest_light",
-    "subtype": "collection",
-    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
   }
 ]

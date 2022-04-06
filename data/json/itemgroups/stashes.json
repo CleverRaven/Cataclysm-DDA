@@ -88,13 +88,41 @@
     "subtype": "collection",
     "entries": [
       { "group": "bugout_first_aid", "prob": 50 },
-      { "group": "bugout_small_gun", "prob": 50 },
-      { "group": "bugout_gun", "prob": 50 },
-      { "group": "bugout_long_gun", "prob": 50 },
-      { "group": "bugout_food", "prob": 50 },
-      { "group": "bugout_water", "prob": 50 },
-      { "group": "bugout_extras", "prob": 50 },
-      { "group": "bugout_bad_pack", "prob": 50 }
+      { "group": "bugout_small_gun", "prob": 90 },
+      { "group": "bugout_food", "prob": 100 },
+      { "group": "bugout_water", "prob": 100 },
+      { "group": "bugout_extras", "repeat": 2, "prob": 75 },
+    ]
+  },
+  {
+    "id": "medium_bugout",
+    "type": "item_group",
+    "//": "a medium bugout, stuff people would have had if preppers, or they had forsight",
+    "container-item": "backpack_hiking",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugout_first_aid", "prob": 90 },
+      { "group": "bugout_gun", "prob": 100 },
+      { "group": "bugout_food", "prob": 100, "repeat": [1, 3] },
+      { "group": "bugout_water", "prob": 100, "repeat": [1, 3] },
+      { "group": "bugout_extras", "repeat": 4 "prob": 75 },
+      { "group": "civilian_armor", "prob": 70 }
+    ]
+  },
+  {
+    "id": "heavy_bugout",
+    "type": "item_group",
+    "//": "a huge bugout, stuff for people waiting their whole lives for the apocalypse",
+    "container-item": "backpack_tactical_large",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugout_first_aid", "repeat": 2, "prob": 90 },
+      { "group": "bugout_small_gun", "prob": 100 },
+      { "group": "bugout_long_gun", "prob": 80 },
+      { "group": "bugout_food", "prob": 100, "repeat": [1, 5] },
+      { "group": "bugout_water", "prob": 100, "repeat": [1, 5] },
+      { "group": "bugout_extras", "repeat": 6 "prob": 75 },
+      { "group": "civilian_armor", "repeat": 2, "prob": 70 }
     ]
   },
   {
@@ -195,8 +223,8 @@
       { "group": "full_survival_kit", "prob": 10 },
       { "group": "used_survival_kit", "prob": 20 },
       { "group": "premium_contents", "count": 1, "prob": 10 },
-      { "group": "civilian_armor", "prob": 10 },
-      { "group": "hiking", "count": 2, "prob": 10}
+      { "group": "hiking", "count": 2, "prob": 75},
+      { "group": "bugout_bad_pack", "prob": 100}
     ]
   },
   {
