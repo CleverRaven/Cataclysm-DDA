@@ -53,7 +53,7 @@
     "time": "20 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "withered", 10 ] ], [ [ "string_6", 2 ], [ "cordage_6", 2 ] ] ],
+    "components": [ [ [ "withered", 10 ] ], [ [ "cordage_short", 2, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ]
   },
   {
