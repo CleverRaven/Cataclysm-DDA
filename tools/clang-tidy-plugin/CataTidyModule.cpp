@@ -36,6 +36,10 @@
 #include "UTF8ToLowerUpperCheck.h"
 #include "XYCheck.h"
 
+#if defined( CATA_CLANG_TIDY_EXECUTABLE )
+#include "tool/ClangTidyMain.h"
+#endif
+
 namespace clang
 {
 namespace tidy
@@ -110,3 +114,10 @@ X( "cata-module", "Adds Cataclysm-DDA checks." );
 
 } // namespace tidy
 } // namespace clang
+
+#if defined( CATA_CLANG_TIDY_EXECUTABLE )
+int main( int argc, const char **argv )
+{
+    return clang::tidy::clangTidyMain( argc, argv );
+}
+#endif
