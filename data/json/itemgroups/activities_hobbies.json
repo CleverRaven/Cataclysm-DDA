@@ -463,7 +463,7 @@
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
-      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] }
     ]
   },
   {
