@@ -62,7 +62,7 @@
     "symbol": "7",
     "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.  Can be placed and plugged into a power source.",
     "color": "yellow_red",
-    "name": { "str": "drill press" },
+    "name": { "str": "drill press", "str_pl": "drill presses" },
     "material": [ "budget_steel" ],
     "//": "Based off JET J-2500 Drill Press",
     "longest_side": "137 cm",
