@@ -2528,7 +2528,7 @@ void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string 
     std::string npc_id;
     mandatory( jo, false, member, npc_id );
     function = [npc_id]( const dialogue & ) {
-        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc &npc ) -> bool {
+        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
             return npc.idz == npc_id;
         } );
         for( npc *npc : npc_list ) {
