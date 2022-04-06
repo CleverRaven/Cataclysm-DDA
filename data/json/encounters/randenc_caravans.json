@@ -2,8 +2,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_Roadstop_add",
+    "recurrence": 6000,
     "global": true,
-    "eoc_type": "OM_MOVE",
     "condition": {
       "and": [
         { "u_near_om_location": "roadstop_a", "range": 2 },
@@ -13,6 +13,7 @@
         {
           "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
         },
+        { "not": { "u_at_om_location": "roadstop_a" } },
         { "not": { "is_season": "winter" } }
       ]
     },
