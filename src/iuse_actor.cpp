@@ -2586,7 +2586,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER );
+                               item_pocket::pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -3394,7 +3394,7 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
-    // each tier of proficiency cuts requred time by half
+    // each tier of proficiency cuts required time by half
     int cost = move_cost;
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
@@ -4108,7 +4108,7 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     }
 
     item &obj = *loc.get_item();
-    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    p.add_msg_if_player( _( "You attach %s to your MOLLE webbing." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
 
@@ -4328,7 +4328,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        // set gun to default incase this changes anything
+        // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;

@@ -466,7 +466,7 @@
     "variants": [
       {
         "id": "remington_870_express",
-        "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
+        "name": { "str": "Remington 870 Express", "str_pl": "Remington 870 Expresses" },
         "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
         "weight": 1
       }
@@ -529,7 +529,7 @@
       {
         "id": "saiga_12",
         "name": { "str": "Saiga-12" },
-        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
+        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
         "weight": 1
       }
     ],

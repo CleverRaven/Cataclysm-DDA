@@ -428,8 +428,10 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
                     body_parts_with_stacking_penalty.push_back( bp );
                 }
                 for( auto it = worn.begin(); it != worn_item_it; ++it ) {
-                    if( it->get_layer( sbp ) > layer && it->covers( sbp ) ) {
-                        bad_items_within.insert( it->type_name() );
+                    if( it->covers( sbp ) ) {
+                        if( it->get_highest_layer( sbp ) > worn_item_it->get_highest_layer( sbp ) ) {
+                            bad_items_within.insert( it->type_name() );
+                        }
                     }
                 }
             }
@@ -1002,6 +1004,7 @@ void outfit::sort_armor( Character &guy )
                    "[<color_yellow>%s</color>] / [<color_yellow>%s</color>] to scroll the right list.\n"
                    "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n"
                    "[<color_yellow>%s</color>] to change the side on which item is worn.\n"
+                   "[<color_yellow>%s</color>] to toggle armor visibility on character sprite.\n"
                    "[<color_yellow>%s</color>] to sort armor into natural layer order.\n"
                    "[<color_yellow>%s</color>] to equip a new item.\n"
                    "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n"

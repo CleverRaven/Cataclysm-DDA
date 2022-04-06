@@ -13,7 +13,7 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 26,
-    "description": "A very concentrated form of mana potion.  You need a syringe to inject it and prime your body for mutation.",
+    "description": "A very concentrated form of mana potion.",
     "price": 1000,
     "volume": "500 ml",
     "phase": "liquid",
@@ -24,7 +24,7 @@
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
     },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "MUTAGEN_PRIMER" ],
     "freezing_point": -30,
     "fun": -15
   },

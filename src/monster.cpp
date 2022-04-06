@@ -2753,7 +2753,7 @@ void monster::process_effects()
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
     int regeneration_amount = type->regenerates;
-    //Apply effect-triggered regeneartion modifers
+    //Apply effect-triggered regeneartion modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
             regeneration_amount += regeneration_modifier.second;
@@ -2834,7 +2834,7 @@ bool monster::make_fungus()
         return true;
     }
     if( type->has_flag( MF_NO_FUNG_DMG ) ) {
-        return true; // Retrun true when monster is immune to fungal damage.
+        return true; // Return true when monster is immune to fungal damage.
     }
     if( type->fungalize_into.is_empty() ) {
         return false;

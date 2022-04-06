@@ -32,6 +32,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "afs_tattered_garment",
+    "name": { "str_sp": "tattered garments" },
+    "category": "other",
+    "description": "Time and the elements have reduced them to a mound of filthy ribbons.",
+    "weight": "1175 g",
+    "volume": "3 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "rag",
+    "color": "brown"
+  },
+  {
+    "type": "GENERIC",
     "id": "afs_scrap_titanium",
     "symbol": ",",
     "color": "light_gray",
