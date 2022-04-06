@@ -11,7 +11,7 @@
 #include "JsonTranslationInputCheck.h"
 #include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
-#include "NoStaticGettextCheck.h"
+#include "NoStaticTranslationCheck.h"
 #include "OtMatchCheck.h"
 #include "PointInitializationCheck.h"
 #include "RedundantParenthesesCheck.h"
@@ -70,7 +70,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
             CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
-            CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
+            CheckFactories.registerCheck<NoStaticTranslationCheck>( "cata-no-static-translation" );
             CheckFactories.registerCheck<OtMatchCheck>( "cata-ot-match" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
             CheckFactories.registerCheck<RedundantParenthesesCheck>( "cata-redundant-parentheses" );
