@@ -1816,7 +1816,7 @@
     "dodge": 6,
     "vision_night": 5,
     "harvest": "mammal_small_fur",
-    "dissect": "dissect_feline_sample_single",
+    "dissect": "dissect_lupine_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
