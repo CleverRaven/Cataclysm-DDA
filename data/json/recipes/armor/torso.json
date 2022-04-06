@@ -903,7 +903,7 @@
     "time": "14 h 45 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ], [ "fabric_standard_nostretch", 15 ] ],
-    "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [
@@ -934,7 +934,7 @@
     "copy-from": "lsurvivor_armor",
     "time": "14 h 45 m",
     "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 11 ] ],
-    "tools": [ [ [ "welder", 18 ], [ "welder_crude", 27 ], [ "soldering_iron", 27 ], [ "toolset", 27 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "coat_rain", 1 ] ],
       [
@@ -964,7 +964,7 @@
     "copy-from": "lsurvivor_armor",
     "time": "16 h 35 m",
     "using": [ [ "sewing_standard", 90 ], [ "fabric_standard_nostretch", 22 ] ],
-    "tools": [ [ [ "welder", 24 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "coat_rain", 2 ] ],
       [

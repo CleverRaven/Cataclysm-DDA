@@ -100,7 +100,8 @@
           }
         ]
       },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "phones_case", "damage": [ 0, 4 ], "prob": 5 }
     ]
   },
   {

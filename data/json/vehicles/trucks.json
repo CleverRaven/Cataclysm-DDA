@@ -433,7 +433,7 @@
   {
     "id": "tatra_truck",
     "type": "vehicle",
-    "name": "Heavy Duty Cargo Truck",
+    "name": "Heavy-duty Cargo Truck",
     "blueprint": [
       [ "-OO--+O- " ],
       [ "|+++'#'|>" ],
