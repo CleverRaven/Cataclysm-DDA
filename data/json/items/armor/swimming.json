@@ -7,6 +7,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_bikini_bottom",
+        "name": { "str": "bikini bottom" },
+        "description": "A simple bikini bottom.",
+        "weight": 90
+      },
+      {
         "id": "flag_bikini_bottom",
         "name": { "str": "flag bikini bottom" },
         "description": "A simple bikini bottom embroidered with the pattern of an American flag",

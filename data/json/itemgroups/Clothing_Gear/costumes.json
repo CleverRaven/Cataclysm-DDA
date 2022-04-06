@@ -177,12 +177,12 @@
     "//": "jewelry for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "dark_cufflinks", "prob": 10 },
-      { "item": "dark_earring", "prob": 25 },
-      { "item": "dark_ring", "prob": 25 },
-      { "item": "dark_bracelet", "prob": 10 },
-      { "item": "dark_necklace", "prob": 15 },
-      { "item": "dark_tiara", "prob": 15 }
+      { "item": "onyx_silver_cufflinks", "variant": "dark_cufflinks", "prob": 10 },
+      { "item": "onyx_silver_earring", "variant": "dark_earring", "prob": 25 },
+      { "item": "onyx_silver_ring", "variant": "dark_ring", "prob": 25 },
+      { "item": "onyx_silver_bracelet", "variant": "dark_bracelet", "prob": 10 },
+      { "item": "onyx_silver_pendant_necklace", "variant": "dark_necklace", "prob": 15 },
+      { "item": "onyx_silver_tiara", "variant": "dark_tiara", "prob": 15 }
     ]
   },
   {
@@ -191,12 +191,12 @@
     "//": "jewelry for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "vampire_cufflinks", "prob": 10 },
-      { "item": "vampire_earring", "prob": 25 },
-      { "item": "vampire_ring", "prob": 25 },
-      { "item": "vampire_bracelet", "prob": 10 },
-      { "item": "vampire_necklace", "prob": 15 },
-      { "item": "vampire_tiara", "prob": 15 }
+      { "item": "ruby_silver_cufflinks", "variant": "vampire_cufflinks", "prob": 10 },
+      { "item": "ruby_silver_earring", "variant": "vampire_earring", "prob": 25 },
+      { "item": "ruby_silver_ring", "variant": "vampire_ring", "prob": 25 },
+      { "item": "ruby_silver_bracelet", "variant": "vampire_bracelet", "prob": 10 },
+      { "item": "ruby_silver_pendant_necklace", "variant": "vampire_necklace", "prob": 15 },
+      { "item": "garnet_silver_tiara", "variant": "vampire_tiara", "prob": 15 }
     ]
   },
   {
@@ -290,8 +290,8 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "flag_bikini_top", "prob": 10 },
-      { "item": "flag_bikini_bottom", "prob": 10 },
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 10 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 15 },
       { "item": "wetsuit_spring", "prob": 5 },
       { "item": "corset", "prob": 20 },
@@ -321,8 +321,8 @@
     "//": "women undergarments for independence day",
     "subtype": "distribution",
     "entries": [
-      { "item": "flag_bikini_top", "prob": 40 },
-      { "item": "flag_bikini_bottom", "prob": 40 },
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 40 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 40 },
       { "item": "flag_swimsuit", "prob": 10 }
     ]
   },

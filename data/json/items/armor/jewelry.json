@@ -609,6 +609,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_cufflinks",
+        "name": { "str_sp": "ruby and silver cufflinks" },
+        "description": "A pair of cufflinks with inset rubies.",
+        "weight": 99
+      },
+      {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
         "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
@@ -680,6 +686,12 @@
     "description": "A pair of cufflinks with inset onyx.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_cufflinks",
+        "name": { "str_sp": "onyx and silver cufflinks" },
+        "description": "A pair of cufflinks with inset onyx.",
+        "weight": 99
+      },
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
@@ -1810,6 +1822,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_earring",
+        "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+        "description": "A pair of shiny ruby and silver earrings.",
+        "weight": 99
+      },
+      {
         "id": "vampire_earring",
         "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
         "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
@@ -1881,6 +1899,12 @@
     "description": "A pair of shiny onyx and silver earrings.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_earring",
+        "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+        "description": "A pair of shiny onyx and silver earrings.",
+        "weight": 99
+      },
       {
         "id": "dark_earring",
         "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
@@ -2208,6 +2232,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_ring",
+        "name": { "str": "ruby and silver ring" },
+        "description": "A silver ring with a ruby mounted on top of it.",
+        "weight": 99
+      },
+      {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
         "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
@@ -2279,6 +2309,12 @@
     "description": "A silver ring with an onyx mounted on top of it.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_ring",
+        "name": { "str": "onyx and silver ring" },
+        "description": "A silver ring with an onyx mounted on top of it.",
+        "weight": 99
+      },
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
@@ -2621,6 +2657,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_bracelet",
+        "name": { "str": "ruby and silver bracelet" },
+        "description": "A silver bracelet with sparkling rubies.",
+        "weight": 99
+      },
+      {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
         "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
@@ -2692,6 +2734,12 @@
     "description": "A silver bracelet with onyx.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_bracelet",
+        "name": { "str": "onyx and silver bracelet" },
+        "description": "A silver bracelet with onyx.",
+        "weight": 99
+      },
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
@@ -3025,6 +3073,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_pendant_necklace",
+        "name": { "str": "ruby and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with a ruby pendant.",
+        "weight": 99
+      },
+      {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
         "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
@@ -3096,6 +3150,12 @@
     "description": "A shiny, silver necklace adorned with an onyx pendant.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_pendant_necklace",
+        "name": { "str": "onyx and silver pendant necklace" },
+        "description": "A shiny, silver necklace adorned with an onyx pendant.",
+        "weight": 99
+      },
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
@@ -3557,6 +3617,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_ruby_silver_tiara",
+        "name": { "str": "ruby and silver tiara" },
+        "description": "A shiny, silver tiara adorned with rubies.",
+        "weight": 99
+      },
+      {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
         "description": "A sinister dark silver tiara adorned with blood-red rubies.",
@@ -3628,6 +3694,12 @@
     "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
+      {
+        "id": "generic_onyx_silver_tiara",
+        "name": { "str": "onyx and silver tiara" },
+        "description": "A shiny, silver tiara adorned with onyx.",
+        "weight": 99
+      },
       {
         "id": "dark_tiara",
         "name": { "str": "dark tiara" },

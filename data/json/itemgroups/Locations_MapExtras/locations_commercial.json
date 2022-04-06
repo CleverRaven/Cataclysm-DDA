@@ -229,7 +229,7 @@
       [ "sinister_cane", 2 ],
       [ "wizard_cane_cheap", 2 ],
       [ "wizard_cane", 1 ],
-      [ "costume_jewelry", 1 ],
+      { "group": "costume_jewelry", "prob": 1 },
       [ "advanced_ecig", 5 ],
       [ "television", 10 ],
       [ "microwave", 5 ],

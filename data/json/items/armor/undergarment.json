@@ -149,6 +149,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "generic_bikini_top",
+        "name": { "str": "bikini top" },
+        "description": "A simple bikini top.",
+        "weight": 90
+      },
+      {
         "id": "flag_bikini_top",
         "name": { "str": "flag bikini top" },
         "description": "A simple bikini top embroidered with the pattern of an American flag",

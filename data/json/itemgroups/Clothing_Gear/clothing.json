@@ -1425,8 +1425,8 @@
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
-      [ "flag_bikini_top", 2 ],
-      [ "flag_bikini_bottom", 2 ],
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       [ "flag_swimsuit", 2 ],
       [ "pom_poms", 5 ],
       [ "sinister_cane", 2 ],
@@ -1819,10 +1819,10 @@
       [ "bikini_top", 10 ],
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
-      [ "flag_bikini_top", 5 ],
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 5 },
       [ "corset", 5 ],
       [ "corset_waist", 5 ],
-      { "item": "flag_bikini_top", "prob": 70, "event": "independence_day" }
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 70, "event": "independence_day" }
     ]
   },
   {
@@ -1832,8 +1832,8 @@
       [ "panties", 70 ],
       [ "boy_shorts", 50 ],
       [ "bikini_bottom", 10 ],
-      [ "flag_bikini_bottom", 5 ],
-      { "item": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 5 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
     ]
   },
   {
@@ -2082,8 +2082,8 @@
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
-      { "item": "flag_bikini_top", "prob": 2 },
-      { "item": "flag_bikini_bottom", "prob": 2 },
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       { "item": "flag_swimsuit", "prob": 2 }
     ]
   },
@@ -2123,11 +2123,11 @@
     "id": "swimmer_torso",
     "items": [
       [ "bikini_top", 50 ],
-      [ "flag_bikini_top", 10 ],
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 10 },
       [ "dive_bag", 5 ],
       [ "flotation_vest", 10 ],
       [ "scuba_tank", 2 ],
-      { "item": "flag_bikini_top", "prob": 50, "event": "independence_day" }
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 50, "event": "independence_day" }
     ]
   },
   {
@@ -2136,9 +2136,9 @@
     "items": [
       [ "trunks", 80 ],
       [ "bikini_bottom", 35 ],
-      [ "flag_bikini_bottom", 10 ],
       [ "hot_pants", 30 ],
-      { "item": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
     ]
   },
   {
@@ -3033,8 +3033,8 @@
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
-      [ "flag_bikini_top", 2 ],
-      [ "flag_bikini_bottom", 2 ],
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 2 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 2 },
       [ "flag_swimsuit", 2 ]
     ]
   },
@@ -3267,13 +3267,13 @@
     "subtype": "distribution",
     "items": [
       { "item": "bikini_bottom", "prob": 20 },
-      { "item": "flag_bikini_bottom", "prob": 10 },
+      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
       { "item": "boy_shorts", "prob": 30 },
       { "item": "bra", "prob": 60 },
       { "item": "panties", "prob": 70 },
       { "item": "bikini_top", "prob": 20 },
       { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "flag_bikini_top", "prob": 5 },
+      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 5 },
       { "item": "bikini_top_leather", "prob": 10 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
