@@ -58,7 +58,17 @@
     "name": "GROUP_FUNGAL_CARETAKER",
     "default": "mon_fungaloid",
     "//": "Group for fungal caretakers to evolve",
-    "monsters": [  ]
+    "monsters": [
+      { "monster": "mon_fungaloid", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_shambler", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_young", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_lasher", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_thorny", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_slimy", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_breather", "weight": 20, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_cultivator", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_ganglion", "weight": 10, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",
