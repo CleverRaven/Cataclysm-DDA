@@ -236,7 +236,7 @@
   {
     "name": "GROUP_EGG_FUNGUS",
     "type": "monstergroup",
-    "default": "mon_fungal_saproling",
-    "monsters": [ { "monster": "mon_fungal_saproling", "freq": 100, "cost_multiplier": 1 } ]
+    "default": "mon_fungaloid_saproling",
+    "monsters": [ { "monster": "mon_fungaloid_saproling", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]
