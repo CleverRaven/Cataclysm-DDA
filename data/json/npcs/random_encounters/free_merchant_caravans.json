@@ -56,7 +56,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_Threatening",
-    "dynamic_line": "No, not at all. Just being cautious.  You know how it gets out here.  We're not looking for trouble.  In fact, if you've got anything worthwhile, maybe we could do a little trading.",
+    "dynamic_line": "No, not at all.  Just being cautious.  You know how it gets out here.  We're not looking for trouble.  In fact, if you've got anything worthwhile, maybe we could do a little trading.",
     "responses": [
       { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
       { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_Job" },
@@ -76,7 +76,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_Story",
-    "dynamic_line": "We're with a larger group of survivors, working out of one of the old FEMA bunkers. Folks have taken to calling us Free Merchants, although that sounds kinda on the nose to me. We know about a few survivor groups and we make regular trips around, sharing supplies back and forth and bringing them home. We're on the way back now.",
+    "dynamic_line": "We're with a larger group of survivors, working out of one of the old FEMA bunkers.  Folks have taken to calling us Free Merchants, although that sounds kinda on the nose to me.  We know about a few survivor groups and we make regular trips around, sharing supplies back and forth and bringing them home.  We're on the way back now.",
     "responses": [
       { "text": "That's interesting.  Well, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
       {
@@ -122,7 +122,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_Home",
-    "dynamic_line": "Here, I'll mark it on your map. Feel free to come by and trade, or if you're the type, we might have use for your services as a merc.",
+    "dynamic_line": "Here, I'll mark it on your map.  Feel free to come by and trade, or if you're the type, we might have use for your services as a merc.",
     "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
     "responses": [
       { "text": "Hey, thanks.  Well, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
@@ -143,7 +143,7 @@
         "topic": "TALK_CARAVAN_MERCHANT_Trade",
         "effect": "start_trade"
       },
-      { "text": "Thanks. What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "Thanks.  What were we talking about before?", "topic": "TALK_NONE" },
       { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
     ]
   },
@@ -170,7 +170,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_A_Job",
-    "dynamic_line": "I'm a caravan guard, working for the free merchants.  I'm an independent contractor though.  Seems like a good way to get safety in numbers and try to find a safe place to settle down.",
+    "dynamic_line": "I'm a caravan guard, working for the Free Merchants.  I'm an independent contractor though.  Seems like a good way to get safety in numbers and try to find a safe place to settle down.",
     "responses": [
       { "text": "So you're working for these guys, but aren't one of them?", "topic": "TALK_CARAVAN_GUARD_A_Merc" },
       { "text": "You looking for work?  I might be hiring.", "topic": "TALK_CARAVAN_GUARD_A_Hire" },
