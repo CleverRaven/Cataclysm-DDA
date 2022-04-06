@@ -180,7 +180,7 @@
       { "id": "CUT", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ [ "rock_flaking_any", 1, "LIST" ] ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock_flaking_any", 1, "LIST" ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
