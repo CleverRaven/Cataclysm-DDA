@@ -645,29 +645,10 @@ struct item_info_cache {
     item dummy;
 };
 
-static item_info_data item_info_data_from_recipe( item_info_cache &info_cache,
-        int *item_info_scroll, int *item_info_scroll_popup, const recipe *rec, const int count,
-        int &scroll_pos )
-{
-    if( info_cache.last_recipe != rec ) {
-        info_cache.last_recipe = rec;
-        info_cache.dummy = rec->create_result();
-        info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
-        ( *item_info_scroll ) = 0;
-        ( *item_info_scroll_popup ) = 0;
-    }
-    std::vector<iteminfo> info;
-    info_cache.dummy.info( true, info, count );
-    item_info_data data( info_cache.dummy.tname( count ),
-                         info_cache.dummy.type_name( count ),
-                         info, {}, scroll_pos );
-    return data;
-}
-
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
+    recipe_result_info_cache result_info;
     recipe_info_cache r_info_cache;
-    item_info_cache i_info_cache;
     int recipe_info_scroll = 0;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
@@ -996,8 +977,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else {
-                item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
-                                      &item_info_scroll_popup, cur_recipe, batch_size, item_info_scroll );
+                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll );
                 data.without_getch = true;
                 data.without_border = true;
                 data.scrollbar_left = false;
@@ -1324,8 +1304,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = item_info_data_from_recipe( i_info_cache, &item_info_scroll,
-                                  &item_info_scroll_popup, current[line], 1, item_info_scroll_popup );
+            item_info_data data = result_info.get_result_data( current[line], 1, item_info_scroll_popup );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
                 const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
