@@ -83,7 +83,7 @@
     "color": "yellow",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE", "PADDED" ],
-    "armor": [ { "coverage": 50, "covers": [ "mouth" ],  "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 50, "covers": [ "mouth" ], "rigid_layer_only": true } ]
   },
   {
     "id": "tie_skinny",
