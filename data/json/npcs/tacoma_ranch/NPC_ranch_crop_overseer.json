@@ -285,7 +285,10 @@
           { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "npc_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_legacy_clear", "om_terrain": "ranch_camp_63" },
-          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy_clear", "om_terrain": "ranch_camp_63" },
+          {
+            "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy_clear",
+            "om_terrain": "ranch_camp_63"
+          },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence", "om_terrain": "ranch_camp_63" }
         ]
