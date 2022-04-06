@@ -7,7 +7,18 @@
     "city_distance": [ 10, 40 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "WILDERNESS" ],
-    "check_for_locations": [ [ [ 0, 0, 0 ], [ "land" ] ], [ [ 1, 0, 0 ], [ "land" ] ], [ [ 0, 1, 0 ], [ "land" ] ], [ [ 1, 1, 0 ], [ "land" ] ] ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ 1, 1, 0 ], [ "land" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -2 ], [ "subterranean_empty" ] ],
+      [ [ 1, 1, -2 ], [ "subterranean_empty" ] ],
+      [ [ -1, 1, -2 ], [ "subterranean_empty" ] ],
+      [ [ -2, 1, -2 ], [ "subterranean_empty" ] ]
+    ],
     "joins": [
       "parking_lot_to_road",
       "surface_to_shaft",
@@ -31,6 +42,13 @@
       "tunnels_east": { "overmap": "mine_shaft_lower_east_north", "above": "shaft_lower_to_shaft_middle" },
       "tunnel_entrance": { "overmap": "mine_tunnel_ew", "east": "tunnel_entrance_to_tunnels", "west": "tunnel_to_tunnel" },
       "tee": { "overmap": "mine_tunnel_nes", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "cross": {
+        "overmap": "mine_tunnel_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
       "straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
       "corner": { "overmap": "mine_tunnel_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
       "dead_end": { "overmap": "mine_tunnel_end_south", "north": "tunnel_to_tunnel" },
@@ -40,6 +58,13 @@
         "north": "-3_tunnel_to_-3_tunnel",
         "east": "-3_tunnel_to_-3_tunnel",
         "south": "-3_tunnel_to_-3_tunnel"
+      },
+      "-3_cross": {
+        "overmap": "mine_tunnel_nesw",
+        "north": "-3_tunnel_to_-3_tunnel",
+        "east": "-3_tunnel_to_-3_tunnel",
+        "south": "-3_tunnel_to_-3_tunnel",
+        "west": "-3_tunnel_to_-3_tunnel"
       },
       "-3_straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "-3_tunnel_to_-3_tunnel", "south": "-3_tunnel_to_-3_tunnel" },
       "-3_corner": { "overmap": "mine_tunnel_ne", "north": "-3_tunnel_to_-3_tunnel", "east": "-3_tunnel_to_-3_tunnel" },
@@ -51,6 +76,13 @@
         "north": "-4_tunnel_to_-4_tunnel",
         "east": "-4_tunnel_to_-4_tunnel",
         "south": "-4_tunnel_to_-4_tunnel"
+      },
+      "-4_cross": {
+        "overmap": "mine_tunnel_nesw",
+        "north": "-4_tunnel_to_-4_tunnel",
+        "east": "-4_tunnel_to_-4_tunnel",
+        "south": "-4_tunnel_to_-4_tunnel",
+        "west": "-4_tunnel_to_-4_tunnel"
       },
       "-4_straight_tunnel": { "overmap": "mine_tunnel_ns", "north": "-4_tunnel_to_-4_tunnel", "south": "-4_tunnel_to_-4_tunnel" },
       "-4_corner": { "overmap": "mine_tunnel_ne", "north": "-4_tunnel_to_-4_tunnel", "east": "-4_tunnel_to_-4_tunnel" },
@@ -93,7 +125,8 @@
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
         { "overmap": "corner", "weight": 100 },
-        { "overmap": "tee", "weight": 10 }
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "cross", "weight": 1 }
       ],
       [
         { "overmap": "-3_straight_tunnel", "max": { "poisson": 20 } },
@@ -111,7 +144,8 @@
         { "overmap": "-3_dead_end", "weight": 2000 },
         { "overmap": "-3_straight_tunnel", "weight": 100 },
         { "overmap": "-3_corner", "weight": 100 },
-        { "overmap": "-3_tee", "weight": 10 }
+        { "overmap": "-3_tee", "weight": 10 },
+        { "overmap": "-3_cross", "weight": 1 }
       ],
       [
         { "overmap": "-4_straight_tunnel", "max": { "poisson": 20 } },
@@ -129,7 +163,8 @@
         { "overmap": "-4_dead_end", "weight": 2000 },
         { "overmap": "-4_straight_tunnel", "weight": 100 },
         { "overmap": "-4_corner", "weight": 100 },
-        { "overmap": "-4_tee", "weight": 10 }
+        { "overmap": "-4_tee", "weight": 10 },
+        { "overmap": "-4_cross", "weight": 1 }
       ]
     ]
   }
