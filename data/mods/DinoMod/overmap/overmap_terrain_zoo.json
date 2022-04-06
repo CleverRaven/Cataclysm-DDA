@@ -1,7 +1,7 @@
 [
   {
     "type": "city_building",
-    "id": "DinoZoo",
+    "id": "dinozoo",
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "dinozoo_0_0_north" },
