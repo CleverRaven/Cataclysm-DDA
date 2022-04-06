@@ -29,6 +29,7 @@
       { "item": "vampire_fangs", "prob": 40 },
       { "item": "santa_belt", "prob": 30 },
       { "item": "apron_leather", "prob": 25 },
+      { "item": "clown_nose", "prob": 20 },
       { "item": "suitcase_m", "prob": 4 },
       { "item": "hakama", "prob": 1 }
     ]
@@ -127,6 +128,7 @@
       { "item": "santa_hat", "prob": 25 },
       { "item": "hat_sombrero", "prob": 20 },
       { "item": "cowboy_hat", "prob": 20 },
+      { "item": "clown_wig", "prob": 15 },
       { "item": "tricorne", "prob": 5 },
       { "item": "wizard_hat_costume", "prob": 25 },
       { "item": "pointed_hat", "prob": 20 },
@@ -299,5 +301,30 @@
       { "item": "flag_bikini_bottom", "prob": 40 },
       { "item": "flag_swimsuit", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_cheerleader_set_any",
+    "//": "clothing sets for any cheerleader costume/outfit",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "costume_cheerleader", "prob": 50 },
+      { "group": "costume_cheerleader_short", "prob": 25 },
+      { "item": "cheerleader_dress", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_cheerleader_set",
+    "//": "clothing set for a normal cheerleader outfit",
+    "subtype": "collection",
+    "entries": [ { "item": "cheerleader_top", "prob": 100 }, { "item": "cheerleader_skirt", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "costume_cheerleader_short_set",
+    "//": "clothing set for a sexy cheerleader costume",
+    "subtype": "collection",
+    "entries": [ { "item": "cheerleader_top_short", "prob": 100 }, { "item": "cheerleader_skirt_short", "prob": 100 } ]
   }
 ]

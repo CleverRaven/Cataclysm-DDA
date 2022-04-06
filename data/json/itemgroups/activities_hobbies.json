@@ -9,6 +9,7 @@
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       [ "bat", 60 ],
       [ "bat_nerf", 60 ],
+      [ "pom_poms", 40 ],
       [ "boxing_gloves", 35 ],
       [ "pool_cue", 30 ],
       [ "bat_metal", 60 ],

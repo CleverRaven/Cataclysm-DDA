@@ -689,6 +689,7 @@
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
+      [ "pom_poms", 30 ],
       [ "baseball", 30 ],
       [ "football", 20 ],
       [ "frisbee", 40 ],
@@ -707,7 +708,11 @@
       [ "bat", 10 ],
       { "item": "creepy_doll", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
-      [ "whistle", 3 ]
+      [ "whistle", 3 ],
+      { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "wizard_cane", "prob": 10, "charges": [ 50, 100 ] },
+      [ "sinister_cane", 10 ],
+      [ "scythe_toy", 10 ]
     ]
   },
   {
@@ -814,6 +819,11 @@
       [ "bat_metal", 60 ],
       [ "boxing_gloves", 40 ],
       [ "baseball", 60 ],
+      [ "pom_poms", 30 ],
+      [ "cheerleader_top", 15 ],
+      [ "cheerleader_top_short", 15 ],
+      [ "cheerleader_skirt", 15 ],
+      [ "cheerleader_skirt_short", 15 ],
       [ "football_armor", 30 ],
       [ "helmet_football", 10 ],
       [ "football", 60 ],
@@ -1189,7 +1199,7 @@
       { "item": "aspirin", "prob": 10, "charges": [ 1, 10 ] },
       [ "karate_gi", 10 ],
       [ "judo_gi", 5 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
       [ "cheerleader_dress", 5 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 5 ],
