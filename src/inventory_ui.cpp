@@ -873,11 +873,9 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
 
     bool collapsed = false;
     for( item_location &loc : locations ) {
-        if( loc.get_item()->is_container() ) {
-            for( item_pocket *pocket : loc->get_all_contained_pockets().value() ) {
-                pocket->settings.set_collapse( collapse );
-                collapsed = true;
-            }
+        for( item_pocket *pocket : loc->get_all_standard_pockets().value() ) {
+            pocket->settings.set_collapse( collapse );
+            collapsed = true;
         }
     }
 
@@ -3151,11 +3149,6 @@ bool inventory_examiner::check_parent_item()
 
 int inventory_examiner::cleanup()
 {
-    if( parent_was_collapsed ) {
-        for( item_pocket *pocket : parent_item->get_all_contained_pockets().value() ) {
-            pocket->settings.set_collapse( true );
-        }
-    }
     if( changes_made ) {
         return EXAMINED_CONTENTS_WITH_CHANGES;
     } else {
@@ -3187,17 +3180,6 @@ int inventory_examiner::execute()
 {
     if( !check_parent_item() ) {
         return NO_CONTENTS_TO_EXAMINE;
-    }
-
-    if( parent_item->is_collapsed() ) {
-        parent_was_collapsed = true;
-        /*This is based on inventory_column::set_collapsed(), but very deliberately only goes one layer deep.
-          If it went deeper, we would need to remember the status of each nested item.
-         */
-        for( item_pocket *pocket : parent_item->get_all_contained_pockets().value() ) {
-            pocket->settings.set_collapse( false );
-        }
-        set_title( parent_item->display_name() ); //Update the title to reflect that things aren't hidden
     }
 
     //Account for the indentation from the fact we're looking into a container
