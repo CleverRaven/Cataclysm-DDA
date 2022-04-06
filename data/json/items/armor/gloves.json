@@ -1404,7 +1404,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str_sp": "hardened steel mitten gauntlet", "str_pl": "pairs of hardened steel mitten gauntlets" },
+    "name": { "str": "hardened steel mitten gauntlet", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "armor": [
       {
         "material": [
