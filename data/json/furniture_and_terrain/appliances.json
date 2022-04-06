@@ -169,7 +169,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_drill_press",
-    "name": { "str": "drill press", "str_pl": "drill presses" },
+    "name": { "str": "drill press" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
     "color": "yellow_red",
