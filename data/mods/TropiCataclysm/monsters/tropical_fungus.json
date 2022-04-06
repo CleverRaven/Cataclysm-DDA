@@ -56,7 +56,7 @@
     "flags": [ "SEES", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
-    "id": "mon_scorpion_fungal",
+    "id": "mon_scorpion_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal scorpion" },
     "description": "A huge scorpion infected with fungus.  The stinger on its tail gushes with an ominous gray liquid.",
