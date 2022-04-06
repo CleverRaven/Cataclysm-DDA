@@ -111,7 +111,7 @@
     "id": "cheerleader_skirt_short",
     "repairs_like": "skirt",
     "type": "ARMOR",
-    "name": { "str": "cheerleader skirt" },
+    "name": { "str": "short cheerleader skirt" },
     "description": "A very short, breezy and red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to practice cheerleading.",
     "weight": "70 g",
     "volume": "200 ml",
