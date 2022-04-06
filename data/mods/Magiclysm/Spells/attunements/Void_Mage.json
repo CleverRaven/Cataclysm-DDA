@@ -117,7 +117,7 @@
     "id": "horizon_vortex_bash",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex bash damage",
+    "name": "Horizon Vortex Bash Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "bash"
   },
@@ -133,7 +133,7 @@
     "id": "horizon_vortex_cold",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex cold damage",
+    "name": "Horizon Vortex Cold Damage",
     "damage_type": "cold",
     "max_level": 35
   },

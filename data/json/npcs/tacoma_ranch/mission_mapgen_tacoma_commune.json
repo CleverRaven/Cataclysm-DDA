@@ -777,17 +777,17 @@
         "w....w.........0",
         "wwwwww.........0",
         "     w.........w",
-        "     ..........w",
+        "     f.........w",
         "     w.........w",
         "     www.....www",
         "       w.....w  ",
         "       w.....w  ",
-        "       0......  ",
+        "       0.....f  ",
         "       w.....w  ",
         "       wwwwwww  ",
         "                "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_frame" }
+      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "0": "t_window_empty", "f": "t_door_frame" }
     }
   },
   {
@@ -797,33 +797,58 @@
     "object": {
       "mapgensize": [ 16, 16 ],
       "rows": [
-        "wwwwww          ",
-        "w....wwww[[[wwww",
-        "[....w........rw",
-        "[.............rw",
-        "w....w..cc.cc.r[",
-        "wwwwww..cc.cc.r[",
-        "     w..cc.cc.rw",
-        "     +..cc.cc.rw",
-        "     w........rw",
-        "     www.....www",
-        "       w.....w  ",
-        "       w..c..w  ",
-        "       [..c..+  ",
-        "       w..c..w  ",
-        "       wwwwwww  ",
+        "                ",
+        "         [[[    ",
+        "[             r ",
+        "[             r ",
+        "        cc cc r[",
+        "        cclcc r[",
+        "        cc cc r ",
+        "     +  cc cc r ",
+        "              r ",
+        "                ",
+        "          l     ",
+        "          c     ",
+        "       [  c  +  ",
+        "          c     ",
+        "                ",
         "                "
       ],
-      "terrain": {
-        "w": "t_wall",
-        ".": "t_dirtfloor",
-        "[": "t_window_boarded_noglass",
-        "+": "t_door_c",
-        "r": "t_dirtfloor",
-        "c": "t_dirtfloor"
-      },
+      "terrain": { "[": "t_window_boarded_noglass", "+": "t_door_c", "l": "t_dirtfloor_olight" },
       "furniture": { "c": "f_counter", "r": "f_rack" },
       "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_junk_shop_shed_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "wfww",
+        "w  w",
+        "w  w",
+        "wwww"
+      ],
+      "terrain": { "w": "t_wall_half", "f": "t_door_frame" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tacoma_commune_junk_shop_shed_2",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "wdww",
+        "w..w",
+        "w.sw",
+        "wwww"
+      ],
+      "terrain": { "w": "t_wall_wood", "d": "t_door_locked", ".": "t_dirtfloor", "s": "t_dirtfloor" },
+      "furniture": { "s": "f_woodstove" },
+      "place_item": [ { "item": "log", "x": 2, "y": 1, "amount": [ 3, 5 ] } ]
     }
   },
   {

@@ -1823,18 +1823,29 @@ static bool magic_train( player_activity *act, Character *you )
 void activity_handlers::teach_finish( player_activity *act, Character *you )
 {
     const skill_id sk( act->name );
+    const proficiency_id pr( act->name );
+    const matype_id ma( act->name );
+    const spell_id sp( act->name );
+
+    std::string subject;
     if( sk.is_valid() ) {
-        const std::string sk_name = sk.obj().name();
-        if( you->is_avatar() ) {
-            add_msg( m_good, _( "You finish teaching %s." ), sk_name );
-        } else {
-            add_msg( m_good, _( "%s finishes teaching %s." ), you->name, sk_name );
-        }
-        act->set_to_null();
-        return;
+        subject = sk->name();
+    } else if( pr.is_valid() ) {
+        subject = pr->name();
+    } else if( ma.is_valid() ) {
+        subject = ma->name.translated();
+    } else if( sp.is_valid() ) {
+        subject = sp->name.translated();
+    } else {
+        debugmsg( "teach_finish without a valid skill or style or spell name" );
     }
 
-    debugmsg( "teach_finish without a valid skill or style or spell name" );
+    if( you->is_avatar() ) {
+        add_msg( m_good, _( "You finish teaching %s." ), subject );
+    } else {
+        add_msg( m_good, _( "%s finishes teaching %s." ), you->name, subject );
+    }
+
     act->set_to_null();
 }
 

@@ -374,8 +374,86 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "test_tool_belt_pocket_mix",
+    "type": "ARMOR",
+    "name": { "str": "tool belt" },
+    "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
+    "weight": "2000 g",
+    "volume": "2250 ml",
+    "price": 4500,
+    "price_postapoc": 1500,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "40 cm",
+        "moves": 100,
+        "name": "P1"
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "name": "P2"
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "name": "P3"
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "name": "P4"
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "name": "P5"
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "name": "P6"
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "test_utility_belt",
@@ -459,8 +537,41 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 30, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "test_flashlight",
+    "type": "TOOL",
+    "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
+    "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "blue",
+    "weight": "280 g",
+    "volume": "270 ml",
+    "longest_side": "14 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the flashlight on.",
+      "target": "flashlight_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The flashlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
   },
   {
     "type": "GENERIC",
@@ -1068,7 +1179,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "test_complex_tanktop",
@@ -1333,7 +1444,7 @@
         "moves": 220
       }
     ],
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "test_balloon",
@@ -1559,7 +1670,7 @@
     "sided": true,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
@@ -2634,7 +2745,7 @@
         }
       ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x250ml",
@@ -2702,7 +2813,7 @@
         }
       ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x1L",
@@ -2749,7 +2860,7 @@
         }
       ]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "test_restricted_container_holder",
@@ -3026,7 +3137,7 @@
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
-    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "test_longshirt",

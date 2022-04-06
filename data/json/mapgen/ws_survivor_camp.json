@@ -1,16 +1,5 @@
 [
   {
-    "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SURVIVOR_CAMP",
-    "monsters": [
-      { "monster": "mon_zombie_survivor", "weight": 550, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_rot", "weight": 150, "cost_multiplier": 0 },
-      { "monster": "mon_dog_zombie_cop", "weight": 100, "cost_multiplier": 0 }
-    ]
-  },
-  {
     "type": "item_group",
     "id": "sc_loot_general",
     "items": [
@@ -66,59 +55,53 @@
     "om_terrain": [ "ws_survivor_camp" ],
     "weight": 1000,
     "object": {
+      "predecessor_mapgen": "field",
       "rows": [
-        ",,..,...................",
-        "...,,,.....p......,.....",
-        "........p......p....p.,.",
-        "..,..,.p..,..p...p......",
-        "..,p...........,...,.p..",
-        "......p....p......p...,.",
-        ",...p..p..,..,..p,...p..",
-        "...p......,,,..,........",
-        "....,.p.,,,,,,,,p..,....",
-        "..,p...,,www,,,,,...p...",
-        "..,,.,,,,,,,,,,w,..,,p..",
-        ".p..p..,,,,O,,,,,p,..,..",
-        "....p.,,.ss,srr..,..p...",
-        "..p.....,sCdCr.,...,..,.",
-        "...,..,p,rCcC,.,p...p...",
-        "..,p....,.CCC,........,.",
-        "......p..,.,.,....p.....",
-        ".,...p,......p.....,.p..",
-        "...p...p.......,.p......",
-        ".,.,....,.p..p....p..p,.",
-        "....p,..p.p.,..p........",
-        ".p..,........p....p...,.",
-        ".,.p...p.......p..,..p..",
-        "..,....,....,..........,"
+        "       pp      pp       ",
+        " pppppppp      pppppppp ",
+        "pppppppp        pppppppp",
+        "pppssr          ssr  ppp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp           ww       pp",
+        "pp ssr       ww ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp         O          pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp ssr          ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "ppp                  ppp",
+        "pppppppppppppppppppppppp",
+        " pppppppppppppppppppppp "
       ],
-      "terrain": {
-        ".": "t_grass",
-        ",": "t_dirt",
-        "O": "t_pit_shallow",
-        "p": "t_grass",
-        "c": "t_dirt",
-        "C": "t_dirt",
-        "d": "t_dirt",
-        "r": "t_dirt",
-        "s": "t_dirt",
-        "w": "t_dirt"
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "E": { "chunks": [ [ "tent_3x3_E", 10 ], [ "tent_5x5_E", 20 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_3x3_W", 10 ], [ "tent_5x5_W", 20 ], [ "null", 5 ] ] }
       },
-      "furniture": { "c": "f_groundsheet", "C": "f_canvas_wall", "d": "f_canvas_door" },
+      "terrain": { "O": "t_pit_shallow", "p": "t_region_groundcover" },
+      "furniture": { "O": "f_firering" },
       "items": {
         "c": { "item": "sc_loot_rare", "chance": 30 },
         "r": { "item": "sc_loot_general", "chance": 30 },
         "s": { "item": "sc_loot_equipment", "chance": 30 },
         "w": { "item": "stash_wood", "chance": 30 }
       },
-      "add": [ { "item": "ash", "chance": 2, "x": 11, "y": 11, "repeat": 2 }, { "item": "charcoal", "chance": 3, "x": 11, "y": 11 } ],
-      "traps": { "p": { "trap": "tr_spike_pit" } },
+      "traps": { "p": [ "tr_spike_pit", "tr_null" ] },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 11, "y": 10 },
-        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 10, "y": 9 },
-        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 12, "y": 8 }
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 10 },
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 10, "y": 9 },
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 12, "y": 8 }
       ],
-      "place_vehicles": [ { "vehicle": "surv_car", "x": 4, "y": 1, "chance": 20, "rotation": 0, "status": -1, "fuel": 1 } ]
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 20, "rotation": 270 } ]
     }
   }
 ]
