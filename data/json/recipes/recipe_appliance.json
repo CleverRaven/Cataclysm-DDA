@@ -101,7 +101,7 @@
     "time": "5 m",
     "autolearn": [ [ "electronics", 1 ] ],
     "category": "CC_APPLIANCE",
-    "subcategory": "CSC_APPLIANCE_UTILITY",u
+    "subcategory": "CSC_APPLIANCE_UTILITY",
     "skills_required": [ [ "electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
