@@ -50,7 +50,7 @@
       ],
       "place_vehicles": [
         {
-          "vehicle": "pickup",
+          "vehicle": "FM_early_pickup",
           "chance": 100,
           "fuel": 50,
           "faction": "free_merchants",
@@ -65,6 +65,6 @@
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
     "//": "removes a random encounter at this roadstop",
-    "object": { "remove_vehicles": [ { "vehicles": [ "pickup" ], "x": [ 1, 15 ], "y": [ 1, 10 ] } ] }
+    "object": { "remove_vehicles": [ { "vehicles": [ "FM_early_pickup" ], "x": [ 1, 15 ], "y": [ 1, 10 ] } ] }
   }
 ]
