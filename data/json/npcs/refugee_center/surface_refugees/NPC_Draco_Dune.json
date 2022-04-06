@@ -335,7 +335,7 @@
     "dynamic_line": {
       "npc_has_effect": "u_sold_to_Draco",
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
-      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer… I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer… I can scrounge up some merch bucks for, say, five joints or joints-worth of the good stuff."
     },
     "responses": [
       {
