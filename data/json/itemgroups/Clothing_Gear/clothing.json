@@ -2140,7 +2140,7 @@
       [ "wetsuit", 85 ],
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
-      { "item": "flag_swimsuit", "prob ": 60, "event ": "independence_day " }
+      { "item": "flag_swimsuit", "prob ": 60, "event": "independence_day " }
     ]
   },
   {
@@ -3509,10 +3509,10 @@
       { "item": "gown", "prob": 20 },
       { "item": "dress", "prob": 60 },
       { "item": "veil_wedding", "prob": 5 },
-      { "group": "santa_dress_long", "prob": 1 },
-      { "group": "sinister_dress", "prob": 1 },
-      { "group": "sinister_gown", "prob": 1 },
-      { "group": "witch_dress_long", "prob": 1 },
+      { "item": "santa_dress_long", "prob": 1 },
+      { "item": "sinister_dress", "prob": 1 },
+      { "item": "sinister_gown", "prob": 1 },
+      { "item": "witch_dress_long", "prob": 1 },
       { "group": "costume_dresses", "prob": 50, "event": "halloween" },
       { "group": "christmas_dresses", "prob": 50, "event": "christmas" }
     ]

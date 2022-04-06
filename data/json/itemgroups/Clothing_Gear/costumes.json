@@ -308,8 +308,8 @@
     "//": "clothing sets for any cheerleader costume/outfit",
     "subtype": "distribution",
     "entries": [
-      { "group": "costume_cheerleader", "prob": 50 },
-      { "group": "costume_cheerleader_short", "prob": 25 },
+      { "group": "costume_cheerleader_set", "prob": 50 },
+      { "group": "costume_cheerleader_short_set", "prob": 25 },
       { "item": "cheerleader_dress", "prob": 25 }
     ]
   },
