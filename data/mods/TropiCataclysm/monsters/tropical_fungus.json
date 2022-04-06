@@ -87,7 +87,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS", "INSECTICIDEPROOF" ]
   },
   {
-    "id": "mon_fungal_cultivator",
+    "id": "mon_fungaloid_cultivator",
     "type": "MONSTER",
     "name": { "str": "fungal cultivator" },
     "description": "A massive mycoid that shambles around the spore infested environment.  Clusters of small fungal pods seem to grow and from its body.",
@@ -117,7 +117,7 @@
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN" ]
   },
   {
-    "id": "mon_fungal_ganglion",
+    "id": "mon_fungaloid_ganglion",
     "type": "MONSTER",
     "name": { "str": "fungal ganglion" },
     "description": "An enormous fungus rooted to the ground that seems to be the nexus for all the fungus in the area.  It periodicaly gives birth to new saprolings.",
@@ -144,7 +144,7 @@
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN", "IMMOBILE" ]
   },
   {
-    "id": "mon_fungal_saproling",
+    "id": "mon_fungaloid_saproling",
     "type": "MONSTER",
     "name": { "str": "saproling" },
     "description": "A very small mycoid born out of a fungal pod.  Very vulnerable but overtime it will become a proper fungaloid.",
@@ -169,7 +169,7 @@
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
   },
   {
-    "id": "mon_fungal_caretaker",
+    "id": "mon_fungaloid_caretaker",
     "type": "MONSTER",
     "name": { "str": "fungal caretaker" },
     "description": "A young mycoid that has grown some time on the spore growth.  It is still a juvenile but it can already fend for itself to a degree.",
@@ -195,7 +195,7 @@
     "flags": [ "HEARS", "SMELLS", "NOHEAD" ]
   },
   {
-    "id": "mon_fungal_lasher",
+    "id": "mon_fungaloid_lasher",
     "type": "MONSTER",
     "name": { "str": "fungal perforator" },
     "description": "A skittering fungal creature with a sharp needle-like appendage.  Its sting probably contains spores.",
@@ -226,7 +226,7 @@
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
   },
   {
-    "id": "mon_fungal_thorny",
+    "id": "mon_fungaloid_thorny",
     "type": "MONSTER",
     "name": { "str": "fungal quillbag" },
     "description": "A strange fungal creature with a thorny covering.  The barbs on its body may contain spores.",
@@ -256,7 +256,7 @@
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
   },
   {
-    "id": "mon_fungal_slimy",
+    "id": "mon_fungaloid_slimy",
     "type": "MONSTER",
     "name": { "str": "fungal moldspring" },
     "description": "A large and amorphous fungal creature.  It slithers around the ground leaving a trail of spores in its wake.",
@@ -287,7 +287,7 @@
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
   },
   {
-    "id": "mon_fungal_breather",
+    "id": "mon_fungaloid_breather",
     "type": "MONSTER",
     "name": { "str": "fungal dispersor" },
     "description": "A strange fungal creature similar to a moving ballon.  It releases a cloud of spores in all directions.",
