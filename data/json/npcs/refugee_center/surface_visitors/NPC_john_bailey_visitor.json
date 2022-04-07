@@ -1,0 +1,13 @@
+[
+  {
+    "type": "npc",
+    "id": "RC_John_Bailey_visiting",
+    "//": "A survivor who sometimes visits the refugee center.",
+    "name_suffix": "Survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_RC_SURVIVOR_1",
+    "faction": "no_faction"
+  },
+]
