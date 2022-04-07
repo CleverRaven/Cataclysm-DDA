@@ -178,7 +178,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -203,7 +203,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 100 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -229,7 +229,7 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest_heavy", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -255,7 +255,7 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "military_ballistic_vest", "prob": 90 },
-      { "item": "molle_pack", "prob": 85 },
+      { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
         "distribution": [
@@ -426,7 +426,7 @@
       { "item": "chestpouch", "prob": 40 },
       { "item": "backpack_tactical_large", "prob": 20 },
       { "item": "tacvest", "prob": 160 },
-      { "item": "molle_pack", "prob": 100 },
+      { "group": "molle_packs", "prob": 100 },
       { "item": "rucksack", "prob": 80 }
     ]
   },
@@ -2083,7 +2083,7 @@
       [ "backpack", 38 ],
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
-      [ "molle_pack", 8 ],
+      { "group": "molle_backpacks_and_accessories", "prob": 8 },
       [ "duffelbag", 15 ],
       [ "dump_pouch", 20 ],
       [ "legrig", 10 ],
@@ -2134,6 +2134,7 @@
       [ "bootsheath", 8 ],
       [ "holster", 15 ],
       [ "sholster", 10 ],
+      [ "shoulder_holster", 1 ],
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_grenade", 8 ],
       [ "solarpack", 5 ],
@@ -2238,6 +2239,7 @@
       [ "motorbike_boots", 5 ],
       [ "holster", 8 ],
       [ "sholster", 4 ],
+      [ "shoulder_holster", 1 ],
       [ "bootstrap", 3 ],
       [ "legpouch", 12 ],
       [ "legpouch_large", 6 ],
@@ -3594,6 +3596,7 @@
       { "item": "back_holster", "prob": 10 },
       { "item": "holster", "prob": 30 },
       { "item": "sholster", "prob": 10 },
+      { "item": "shoulder_holster", "prob": 1 },
       { "item": "bholster", "prob": 10 },
       { "item": "bbholster", "prob": 8 }
     ]

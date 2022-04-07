@@ -235,7 +235,7 @@ struct mutation_branch {
         cata::optional<float> stomach_size_multiplier = cata::nullopt;
         // the modifier for the vomit chance
         cata::optional<float> vomit_multiplier = cata::nullopt;
-        // the modifier for sweat ammount
+        // the modifier for sweat amount
         cata::optional<float> sweat_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
@@ -291,6 +291,8 @@ struct mutation_branch {
         cata::optional<bool> hide_on_activated = cata::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
         cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        /** Monster cameras added by this mutation */
+        std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */

@@ -459,6 +459,7 @@
     "warmth": 0,
     "material": [ "nylon" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "repairs_like": "survivor_suit",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

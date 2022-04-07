@@ -97,7 +97,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGUS_BIG_BLOSSOM``` Spreads fire suppressing fungal haze.
 - ```FUNGUS_BRISTLE``` Perform barbed tendril attack that can cause fungal infections.
 - ```FUNGUS_CORPORATE``` Used solely by Crazy Cataclysm. This will cause runtime errors if used without, and spawns SpOreos on top of the creature.
-- ```FUNGUS_FORTIFY``` Grows fungal hedgerows, and advances player on the mycus threshold path.
+- ```FUNGUS_FORTIFY``` Grows fungal hedgerows, and advances player on the Mycus threshold path.
 - ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
 - ```FUNGUS_HAZE``` Spawns fungal fields.
 - ```FUNGUS_INJECT``` Perform needle attack that can cause fungal infections.

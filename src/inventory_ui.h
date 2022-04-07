@@ -31,6 +31,7 @@
 
 class Character;
 class item;
+class item_stack;
 class string_input_popup;
 class ui_adaptor;
 struct point;
@@ -606,6 +607,8 @@ class inventory_selector
             return this->use_invlet;
         }
 
+        void categorize_map_items( bool toggle );
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 3>;
@@ -626,16 +629,6 @@ class inventory_selector
                         std::vector<item_location> &&locations,
                         const item_category *custom_category = nullptr,
                         size_t chosen_count = 0, item *topmost_parent = nullptr );
-
-        void add_item( inventory_column &target_column,
-                       item_location &&location,
-                       const item_category *custom_category = nullptr,
-                       item *topmost_parent = nullptr );
-
-        void add_items( inventory_column &target_column,
-                        const std::function<item_location( item * )> &locator,
-                        const std::vector<std::list<item *>> &stacks,
-                        const item_category *custom_category = nullptr );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
@@ -728,6 +721,8 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
+        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+                             std::function<item_location( item & )> const &floc );
 
     public:
         /**
