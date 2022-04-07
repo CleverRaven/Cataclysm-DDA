@@ -194,48 +194,6 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_drill_press",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "drill press", "str_pl": "drill presses" }
-  },
-  {
-    "id": "fake_tablesaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "table saw" }
-  },
-  {
-    "id": "fake_mitresaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "mitre saw" }
-  },
-  {
-    "id": "fake_bandsaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "band saw" }
-  },
-  {
-    "id": "fake_router",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "router table" }
-  },
-  {
-    "id": "fake_planer",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "planer" }
-  },
-  {
-    "id": "fake_jointer",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "jointer" }
-  },
-  {
     "id": "fake_hydraulic_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
@@ -258,6 +216,65 @@
     "type": "TOOL",
     "copy-from": "fake_power_tool",
     "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_appliance_tool",
+    "name": { "str": "fake appliance tool" },
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "drill_press_tool",
+    "type": "TOOL",
+    "name": { "str": "drill press", "str_pl": "drill presses" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "tablesaw_tool",
+    "type": "TOOL",
+    "name": { "str": "table saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "mitresaw_tool",
+    "type": "TOOL",
+    "name": { "str": "mitre saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "bandsaw_tool",
+    "type": "TOOL",
+    "name": { "str": "band saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "router_tool",
+    "type": "TOOL",
+    "name": { "str": "router" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "planer_tool",
+    "type": "TOOL",
+    "name": { "str": "planer" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "jointer_tool",
+    "type": "TOOL",
+    "name": { "str": "jointer" },
+    "copy-from": "fake_appliance_tool"
   },
   {
     "id": "fake_water_purifier",
