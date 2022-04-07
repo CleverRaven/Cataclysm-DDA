@@ -78,10 +78,10 @@
     "color": "yellow_red",
     "name": { "str": "table saw" },
     "material": [ "aluminum" ],
-    "//": "Based off DEWALT 10-Inch Table Saw",
-    "longest_side": "80 cm",
-    "volume": "300 L",
-    "weight": "50 kg"
+    "//": "Based off Powermatic PM1000 Table Saw",
+    "longest_side": "135 cm",
+    "volume": "500 L",
+    "weight": "130 kg"
   },
   {
     "type": "GENERIC",
@@ -95,7 +95,7 @@
     "//": "Based off DEWALT 12-Inch Sliding Compound Miter Saw",
     "longest_side": "120 cm",
     "volume": "170 L",
-    "weight": "25 kg"
+    "weight": "30 kg"
   },
   {
     "type": "GENERIC",
@@ -106,10 +106,24 @@
     "color": "yellow_cyan",
     "name": { "str": "band saw" },
     "material": [ "aluminum" ],
-    "//": "Based off RIKON 10-3061 Deluxe Bandsaw",
-    "longest_side": "90 cm",
-    "volume": "130 L",
-    "weight": "35 kg"
+    "//": "Based off JET JWBS-18-3 Woodworking Band Saw",
+    "longest_side": "216 cm",
+    "volume": "500 L",
+    "weight": "225 kg"
+  },
+  {
+    "type": "GENERIC",
+    "id": "router",
+    "looks_like": "f_machinery_light",
+    "symbol": "7",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.  Can be placed and plugged into a power source.",
+    "color": "yellow_green",
+    "name": { "str": "router" },
+    "material": [ "aluminum" ],
+    "//": "Based off Powermatic TS29 Shaper.  TODO: When support for multi-tile appliances is added, this can stretch two tiles",
+    "longest_side": "147 cm",
+    "volume": "500 L",
+    "weight": "500 kg"
   },
   {
     "type": "GENERIC",
@@ -120,10 +134,24 @@
     "color": "yellow_white",
     "name": { "str": "planer" },
     "material": [ "aluminum" ],
-    "//": "Based off DEWALT 1800W Portable Thickness Planer",
-    "longest_side": "62 cm",
-    "volume": "160 L",
-    "weight": "40 kg"
+    "//": "Based off JET JWP-15BHH Woodworking Planer",
+    "longest_side": "121 cm",
+    "volume": "500 L",
+    "weight": "130 kg"
+  },
+  {
+    "type": "GENERIC",
+    "id": "jointer",
+    "looks_like": "f_machinery_light",
+    "symbol": "7",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.  Can be placed and plugged into a power source.",
+    "color": "yellow_magenta",
+    "name": { "str": "jointer" },
+    "material": [ "aluminum" ],
+    "//": "Based off Powermatic PJ-882 Jointer.  TODO: When support for multi-tile appliances is added, this can stretch two tiles",
+    "longest_side": "220 cm",
+    "volume": "260 L",
+    "weight": "300 kg"
   },
   {
     "type": "TOOL",
