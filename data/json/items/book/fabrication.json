@@ -184,7 +184,7 @@
     "volume": "1500 ml",
     "price": 12000,
     "price_postapoc": 1750,
-    "material": [ "paper", "plastic" ],,
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "blue",
     "skill": "fabrication",
