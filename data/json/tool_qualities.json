@@ -63,6 +63,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "SOLDERING",
+    "name": { "str": "soldering" }
+  },
+  {
+    "type": "tool_quality",
     "id": "HAMMER",
     "name": { "str": "hammering" }
   },

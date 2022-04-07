@@ -1164,6 +1164,23 @@
     ]
   },
   {
+    "id": "soldering_iron_improvised",
+    "type": "TOOL",
+    "name": { "str": "improvised soldering iron" },
+    "description": "This is a short piece of wire or a nail secured inbetween two short pieces of wood tied together with some cordage.  Could be used for soldering if paired with a source of heat.",
+    "weight": "350 g",
+    "volume": "250 ml",
+    "longest_side": "25 cm",
+    "price": 0,
+    "price_postapoc": 100,
+    "cutting": 1,
+    "material": [ "wood", "steel" ],
+    "symbol": ",",
+    "color": "brown",
+    "qualities": [ [ "SOLDERING", 1 ] ],
+    "flags": [ "FRAGILE_MELEE", "SPEAR", "BELT_CLIP" ]
+  },
+  {
     "id": "tire_iron",
     "type": "TOOL",
     "name": { "str": "tire iron" },
