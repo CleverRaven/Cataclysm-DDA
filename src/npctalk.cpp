@@ -3486,7 +3486,6 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
     }
 
     function = [mission_names]( const dialogue & d ) {
-        avatar &player_character = get_avatar();
         npc *p = d.actor( true )->get_npc();
 
         for( const std::string mission_name : mission_names ) {
