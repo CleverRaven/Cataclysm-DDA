@@ -932,13 +932,14 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
     // stub
 }
 
-void inventory_column::add_entry( const inventory_entry &entry )
+inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 {
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
-        return;
+        return nullptr;
     }
-    bool has_loc = false;
+    entries_cell_cache.clear();
+    paging_is_valid = false;
     if( entry.is_item() ) {
         item_location entry_item = entry.locations.front();
 
@@ -954,24 +955,23 @@ void inventory_column::add_entry( const inventory_entry &entry )
                    ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
                      ( entry_item.has_parent() and found_entry_item.has_parent() and
                        entry_item.parent_item() == found_entry_item.parent_item() ) ) and
+                   entry_item->is_collapsed() == found_entry_item->is_collapsed() and
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
-            has_loc = true;
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             inventory_entry nentry( locations, entry.get_category_ptr() );
             nentry.topmost_parent = entry_with_loc->topmost_parent;
             nentry.generation = entry_with_loc->generation;
+            nentry.collapsed = entry_with_loc->collapsed;
             entries.erase( entry_with_loc );
-            add_entry( nentry );
+            return add_entry( nentry );
         }
     }
-    if( !has_loc ) {
-        entries.emplace_back( entry );
-    }
-    entries_cell_cache.clear();
-    paging_is_valid = false;
+
+    entries.emplace_back( entry );
+    return &entries.back();
 }
 
 void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
@@ -1271,8 +1271,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( entry.collapsed && cell_index == 0 ) {
-                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray, "<" );
+                if( cell_index == 0 and entry.chevron ) {
+                    trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray,
+                                    entry.collapsed ? "▶" : "▼" );
                 }
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
@@ -1443,13 +1444,13 @@ const item_category *inventory_selector::naturalize_category( const item_categor
     return &categories.back();
 }
 
-void inventory_selector::add_entry( inventory_column &target_column,
-                                    std::vector<item_location> &&locations,
-                                    const item_category *custom_category,
-                                    const size_t chosen_count, item *topmost_parent )
+inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
+        std::vector<item_location> &&locations,
+        const item_category *custom_category,
+        const size_t chosen_count, item *topmost_parent )
 {
     if( !preset.is_shown( locations.front() ) ) {
-        return;
+        return nullptr;
     }
 
     is_empty = false;
@@ -1460,30 +1461,51 @@ void inventory_selector::add_entry( inventory_column &target_column,
     entry.collapsed = locations.front()->is_collapsed();
     entry.topmost_parent = topmost_parent;
     entry.generation = entry_generation_number++;
-    target_column.add_entry( entry );
+    inventory_entry *const ret = target_column.add_entry( entry );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
         current_ui->mark_resize();
     }
+
+    return ret;
 }
 
-void inventory_selector::add_contained_items( item_location &container )
+bool inventory_selector::add_entry_rec( inventory_column &entry_column,
+                                        inventory_column &children_column, item_location &loc,
+                                        item_category const *entry_category,
+                                        item_category const *children_category,
+                                        item *topmost_parent )
 {
-    add_contained_items( container, own_inv_column );
+    bool const vis_contents =
+        add_contained_items( loc, children_column, children_category,
+                             get_topmost_parent( topmost_parent, loc, preset ) );
+    inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
+                                    entry_category, 0, topmost_parent );
+    if( nentry != nullptr ) {
+        nentry->chevron = vis_contents;
+        return true;
+    }
+    return vis_contents;
 }
 
-void inventory_selector::add_contained_items( item_location &container, inventory_column &column,
+bool inventory_selector::add_contained_items( item_location &container )
+{
+    return add_contained_items( container, own_inv_column );
+}
+
+bool inventory_selector::add_contained_items( item_location &container, inventory_column &column,
         const item_category *const custom_category, item *topmost_parent )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
-        return;
+        return false;
     }
 
     std::list<item *> const items = preset.get_pocket_type() == item_pocket::pocket_type::LAST
                                     ? container->all_items_top()
                                     : container->all_items_top( preset.get_pocket_type() );
 
+    bool vis_top = false;
     for( item *it : items ) {
         item_location child( container, it );
         item_category const *hacked_cat = custom_category;
@@ -1492,10 +1514,10 @@ void inventory_selector::add_contained_items( item_location &container, inventor
             hacked_cat = &item_category_ITEMS_WORN.obj();
             hacked_col = &own_gear_column;
         }
-        add_entry( *hacked_col, std::vector<item_location>( 1, child ), hacked_cat, 0, topmost_parent );
-        add_contained_items( child, column, custom_category, get_topmost_parent( topmost_parent, child,
-                             preset ) );
+        vis_top |= add_entry_rec( *hacked_col, column, child, hacked_cat, custom_category,
+                                  topmost_parent );
     }
+    return vis_top;
 }
 
 void inventory_selector::add_contained_ebooks( item_location &container )
@@ -1515,14 +1537,10 @@ void inventory_selector::add_character_items( Character &character )
     item &weapon = character.get_wielded_item();
     if( !weapon.is_null() ) {
         item_location loc( character, &weapon );
-        add_entry( own_gear_column, std::vector<item_location>( 1, loc ),
-                   &item_category_WEAPON_HELD.obj() );
-        add_contained_items( loc, own_inv_column, nullptr, &*loc );
+        add_entry_rec( own_gear_column, own_inv_column, loc, &item_category_WEAPON_HELD.obj() );
     }
     for( item_location &worn_item : character.top_items_loc() ) {
-        add_entry( own_gear_column, std::vector<item_location>( 1, worn_item ),
-                   &item_category_ITEMS_WORN.obj() );
-        add_contained_items( worn_item, own_inv_column, nullptr, &*worn_item );
+        add_entry_rec( own_gear_column, own_inv_column, worn_item, &item_category_ITEMS_WORN.obj() );
     }
     own_inv_column.set_indent_entries_override( false );
 }
@@ -1566,8 +1584,7 @@ void inventory_selector::_add_map_items( tripoint const &target, item_category c
 
     for( item &it : items ) {
         item_location loc = floc( it );
-        add_entry( *col, std::vector<item_location>( 1, loc ), custom_cat );
-        add_contained_items( loc, *col, custom_cat, &*loc );
+        add_entry_rec( *col, *col, loc, custom_cat, custom_cat );
     }
 }
 
