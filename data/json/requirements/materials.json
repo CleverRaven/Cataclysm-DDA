@@ -225,6 +225,14 @@
     ]
   },
   {
+    "id": "filament_durable",
+    "type": "requirement",
+    "//": "Materials for use when sewing high end items, restricted to only the armarid threads.",
+    "components": [
+      [ [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
+    ]
+  },
+  {
     "id": "glazing",
     "type": "requirement",
     "//": "Materials for glazing pottery",
