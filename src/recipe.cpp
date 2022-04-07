@@ -399,7 +399,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     if( jso.has_string( "pre" ) ) {
                         bp_update_oter.emplace_back( std::make_pair( jso.get_string( "pre" ), id ) );
                     } else if( jso.has_array( "pre" ) ) {
-                        for( const std::string pre : jso.get_string_array( "pre" ) ) {
+                        for( const std::string &pre : jso.get_string_array( "pre" ) ) {
                             bp_update_oter.emplace_back( std::make_pair( pre, id ) );
                         }
                     }
@@ -410,7 +410,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 if( jso.has_string( "pre" ) ) {
                     bp_update_oter.emplace_back( std::make_pair( jso.get_string( "pre" ), id ) );
                 } else if( jso.has_array( "pre" ) ) {
-                    for( const std::string pre : jso.get_string_array( "pre" ) ) {
+                    for( const std::string &pre : jso.get_string_array( "pre" ) ) {
                         bp_update_oter.emplace_back( std::make_pair( pre, id ) );
                     }
                 }
