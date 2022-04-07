@@ -47,6 +47,9 @@
 "Monsters":
   - "**/monsters/**/*"
 
+"Limbs":
+  - "src/bodypart.*"
+
 "Spawn":
   - "**/itemgroups/**/*"
   - "**/monstergroups/**/*"
@@ -67,6 +70,7 @@
 "Items: Ammo / Guns":
   - "**/gun/**/*"
   - "**/ammo/**/*"
+  - "src/item.*"
 
 "SDL: Tiles / Sound":
   - gfx/**/*
@@ -74,6 +78,7 @@
 
 "Translation":
   - lang/**/*
+  - "src/translation.*"
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
