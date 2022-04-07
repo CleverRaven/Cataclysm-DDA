@@ -273,7 +273,7 @@
     "name": { "str": "NRE recorder" },
     "description": "A strange apparatus, seemingly consisting of a glass encased microphone linked to a small thermal printer and digital screen.  The screen remains perpetually blank, save for a battery indicator on its upper right, and on its left side lies a single red button: \"PRINT DATA\".",
     "weight": "225 g",
-    "volume": "500 ml",
+    "volume": "2735 ml",
     "price": 15000,
     "price_postapoc": 100,
     "bashing": 2,
