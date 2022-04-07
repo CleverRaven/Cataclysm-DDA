@@ -1738,6 +1738,7 @@
     "type": "ARMOR",
     "name": { "str": "grim reaper's robe (faceless)", "str_pl": "grim reaper's robes (faceless)" },
     "description": "A black hooded grim reaper's robe with the face cover removed to show the lack of facial skin of the user.  It combines nicely with a scythe.  Use it to adjust the face cover in place and hide your lack of facial features.",
+    "//": "'Faceless' as in 'face cover'less and because, without the cover of darkness (A black face cover) a real grim reaper would really be faceless",
     "use_action": {
       "type": "transform",
       "msg": "You shroud your face in darkness.",
