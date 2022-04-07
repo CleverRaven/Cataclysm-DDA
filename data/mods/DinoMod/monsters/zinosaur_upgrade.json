@@ -164,7 +164,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zryptosaurus_BRUTE" },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
