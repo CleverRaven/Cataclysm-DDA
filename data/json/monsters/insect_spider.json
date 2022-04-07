@@ -355,7 +355,7 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "families": [ "prof_wp_basic_bug", "prof_wp_flying" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
     "weakpoints": [
       {
         "name": "the head",
@@ -491,7 +491,7 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "families": [ "prof_wp_basic_bug" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "weakpoints": [
       {
         "name": "the head",
@@ -739,7 +739,7 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "families": [ "prof_wp_basic_bug", "prof_wp_flying" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
     "weakpoints": [
       {
         "name": "the head",
@@ -1522,7 +1522,7 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "families": [ "prof_wp_basic_bug", "prof_wp_flying" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
     "weakpoints": [
       {
         "name": "the head",
@@ -1948,7 +1948,7 @@
     "symbol": "e",
     "aggression": 100,
     "morale": 100,
-    "families": [ "prof_wp_basic_bug" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "weakpoints": [
       {
         "name": "the head",
@@ -2625,7 +2625,7 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ],
-    "families": [ "prof_wp_basic_bug", "prof_wp_flying" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_flying" ],
     "weakpoints": [
       {
         "name": "beneath the outer wings",
@@ -2810,7 +2810,7 @@
     "armor_bullet": 50,
     "armor_acid": 18,
     "armor_fire": 8,
-    "families": [ "prof_wp_basic_bug" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "weakpoints": [
       { "name": "a soft section of chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 },
       { "name": "a crack in the chitin", "armor_mult": { "physical": 0 }, "coverage": 5 }
@@ -2869,7 +2869,7 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 45, "armor_multiplier": 0.5 } ]
       }
     ],
-    "families": [ "prof_wp_basic_bug" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "weakpoints": [ { "name": "a foul scar in the chitin", "armor_mult": { "physical": 0.33 }, "coverage": 20 } ],
     "harvest": "arachnid_beetle_mega",
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 364 },
