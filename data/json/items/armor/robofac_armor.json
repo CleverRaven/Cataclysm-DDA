@@ -384,7 +384,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 prototype mantle",
-    "description": "3D printed armor for the upper body, made of thick and flexible polymer with metallic fibers for reinforcement.  Several buckles and straps allow it to be adjusted to fit you comfortably.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Several buckles and straps allow it to be adjusted to fit you comfortably.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -393,7 +393,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 kinetic mantle",
-    "description": "3D printed armor for the upper body, made of thick and flexible polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -403,7 +403,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 turnout mantle",
-    "description": "3D printed armor for the upper body, made of thick and flexible polymer with metallic fibers for reinforcement.  This model features heat-resistant materials in the construction, providing protection from extreme heat without sacrificing its overall performance.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model features heat-resistant materials in the construction, providing protection from extreme heat without sacrificing its overall performance.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -413,7 +413,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
-    "description": "3D printed armor for the upper body, made of thick and flexible polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of aramid fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of synthetic fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -423,7 +423,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_mantle",
     "name": "Hub 01 soldier mantle",
-    "description": "3D printed armor for the upper body, sporting a professional finish and stellar ergonomics.  Made of extremely tough UHMW polyethylene combined with treated aramid fibers, it provides military-grade defense against zombies, bullets, zombies with bullets, and plenty of other things that the Cataclysm can throw at you.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the upper body, sporting a professional finish and stellar ergonomics.  Made of extremely tough UHMW polyethylene combined with treated aramid fabric, it provides military-grade defense against zombies, bullets, zombies with bullets, and plenty of other things that the Cataclysm can throw at you.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
       { "type": "steel", "portion": 1 },
@@ -457,7 +457,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 turnout skirt",
-    "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This version incorporates tight-fitting Nomex leggings to provide some protection from extreme heat.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This version incorporates tight-fitting leggings that provide some protection from extreme heat.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -467,7 +467,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
-    "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of bullet-resistant material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of high-strength material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
@@ -477,7 +477,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_skirt",
     "name": "Hub 01 soldier skirt",
-    "description": "3D printed armor for the thighs and knees, sporting a professional finish and stellar ergonomics.  Composed of segmented polyethylene armor plates featuring a flexible metal core sandwiched between impact-resistant layers of aramid sheets, it provides excellent protection for the upper legs to ensure that you'll stay on your feet when it really matters.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
+    "description": "3D printed armor for the thighs and knees, sporting a professional finish and stellar ergonomics.  Composed of segmented polyethylene armor plates featuring a dense metal core sandwiched between layers of composite-grade aramid fabric, it provides excellent protection for the upper legs to ensure that you'll stay on your feet when it really matters.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
       { "type": "steel", "portion": 1 },
@@ -546,7 +546,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
-    "description": "3D printed leg guards, consisting of a thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, fits comfortably against your body.",
+    "description": "3D printed leg guards, consisting of a thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
