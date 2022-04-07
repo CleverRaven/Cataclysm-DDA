@@ -268,7 +268,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted electric oil press" },
     "item": "oil_press_electric",
-    "description": "A heavy duty press used to create vegetable oil from nuts or seeds.",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
     "categories": [ "utility" ],
     "location": "center",
     "symbol": "Y",

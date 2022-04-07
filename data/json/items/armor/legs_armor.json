@@ -129,49 +129,6 @@
     "armor": [ { "encumbrance": [ 24, 30 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "chainmail_legs",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
-    "description": "Customized chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "weight": "4212 g",
-    "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "steel", "iron" ],
-    "symbol": "[",
-    "looks_like": "legguard_hard",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "chainmail_legs",
-    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
-    "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_chainmail_legs",
-    "type": "ARMOR",
-    "copy-from": "chainmail_legs",
-    "name": { "str": "XS chainmail leggings", "str_pl": "pairs of XS chainmail leggings" },
-    "description": "Customized chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "chainmail_junk_legs",
     "type": "ARMOR",
     "category": "armor",
@@ -182,14 +139,14 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -389,6 +346,7 @@
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
+    "repairs_like": "legguard_bronze",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
@@ -542,7 +500,6 @@
     "id": "xs_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "looks_like": "legguard_bronze",
     "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
     "description": "A pair of tiny bronze leg guards with a simple leather lining.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },

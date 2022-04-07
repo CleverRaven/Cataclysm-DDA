@@ -623,7 +623,7 @@
   {
     "id": "gas_charger",
     "type": "TOOL",
-    "name": { "str": "gas-powered UPS (off)", "str_pl": "fueled UPSes (off)" },
+    "name": { "str": "gas-powered UPS (off)", "str_pl": "gas-powered UPSes (off)" },
     "description": "This is a compact thermoelectric generator.  Burns gas to charge UPS devices.  Use it to turn it on.",
     "weight": "680 g",
     "volume": "2500 ml",
@@ -658,7 +658,7 @@
     "id": "gas_charger_on",
     "copy-from": "gas_charger",
     "type": "TOOL",
-    "name": { "str": "gas-powered UPS (on)", "str_pl": "fueled UPSes (on)" },
+    "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "This is a compact thermoelectric generator.  When connected to a fuel tank, it will slowly charge UPS-compatible devices.",
     "power_draw": 60,
     "revert_to": "gas_charger",

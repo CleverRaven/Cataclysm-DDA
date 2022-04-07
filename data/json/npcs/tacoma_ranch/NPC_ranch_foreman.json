@@ -501,7 +501,7 @@
           "om_terrain": "ranch_camp_59",
           "place_nested": [
             { "chunks": [ "tacoma_commune_toolshed_8" ], "x": 13, "y": 17 },
-            { "chunks": [ "tacoma_commune_clinic_8" ], "x": 0, "y": 2 }
+            { "chunks": [ "tacoma_commune_clinic_8" ], "x": 2, "y": 0 }
           ]
         },
         {
@@ -549,8 +549,9 @@
           "om_terrain": "ranch_camp_59",
           "place_nested": [
             { "chunks": [ "tacoma_commune_toolshed_9_done" ], "x": 13, "y": 17 },
-            { "chunks": [ "tacoma_commune_clinic_9" ], "x": 0, "y": 2 }
-          ]
+            { "chunks": [ "tacoma_commune_clinic_9" ], "x": 2, "y": 0 }
+          ],
+          "set": [ { "square": "terrain", "id": "t_dirt", "x": 10, "y": 23, "x2": 12, "y2": 23 } ]
         },
         {
           "om_terrain": "ranch_camp_68",
@@ -580,6 +581,11 @@
       "success": "I appreciate it.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 3, "y": 0 } ] }
+      ]
     }
   },
   {
@@ -606,7 +612,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 0, "y": 2 } ] },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10" ], "x": 2, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_10" ], "x": 0, "y": 4 } ]
@@ -638,7 +644,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 0, "y": 2 } ] },
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_11" ], "x": 3, "y": 0 } ] },
         {
           "om_terrain": "ranch_camp_60",
           "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_11" ], "x": 0, "y": 4 } ]
@@ -691,7 +697,7 @@
     "followup": "MISSION_RANCH_FOREMAN_13",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We have the basic equipment that we need, but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
+      "offer": "We have the basic equipment that we need, but without a functioning power grid, we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Cars can be found in traffic jams along roads or in parking lots… I'm sure you can find a few.",

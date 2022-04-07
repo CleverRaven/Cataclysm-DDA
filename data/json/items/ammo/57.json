@@ -23,6 +23,19 @@
     "effects": [ "COOKOFF" ]
   },
   {
+    "id": "57mm_ss",
+    "copy-from": "57mm",
+    "type": "AMMO",
+    "name": { "str_sp": "5.7x28mm SB193" },
+    "description": "A subsonic cartridge derived from the 5.7x28mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
+    "relative": {
+      "price": 100,
+      "range": -1,
+      "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": -6 },
+      "recoil": -40
+    }
+  },
+  {
     "id": "bp_57mm",
     "copy-from": "57mm",
     "type": "AMMO",

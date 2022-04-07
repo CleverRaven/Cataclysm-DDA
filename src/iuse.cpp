@@ -2979,7 +2979,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
         } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
             p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
@@ -5968,11 +5968,9 @@ cata::optional<int> iuse::bell( Character *p, item *it, bool, const tripoint & )
             auto cattle_level =
                 p->mutation_category_level.find( mutation_category_CATTLE );
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
-                                         0 :
-                                         ( cattle_level->second ) / 8
-                                       );
+                                         0 : cattle_level->second );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
-                p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );
+                p->add_morale( MORALE_MUSIC, 1, std::min( cow_factor, 100 ) );
             }
         }
     } else {
@@ -7200,7 +7198,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         }
     }
 
-    // scan for everythin NOT near critters
+    // scan for everything NOT near critters
     object_names_collection obj_coll = enumerate_objects_around_point( aim_point, 2, aim_point, 2,
                                        camera_pos, min_visible_volume, false,
                                        ignored_points, vehicles_recorded );

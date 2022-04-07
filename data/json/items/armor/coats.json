@@ -277,7 +277,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
   },
   {
     "id": "coat_straw",
@@ -811,7 +811,7 @@
     "id": "jacket_army",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "army jacket" },
+    "name": { "str": "army jacket" },
     "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
     "weight": "780 g",
     "volume": "3 L",
@@ -872,13 +872,13 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
   },
   {
     "id": "jacket_army_modern",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "combat blouse" },
+    "name": { "str": "combat blouse" },
     "description": "A sleek blouse in a camouflage pattern with angled breast pockets and lots of loop velcro for affixing patches.  You might call it a jacket but it's really a blouse.  It has a pocket for your pen!",
     "weight": "650 g",
     "volume": "3 L",
@@ -1001,7 +1001,7 @@
     ],
     "warmth": 25,
     "material_thickness": 0.15,
-    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
   },
   {
     "id": "jacket_flannel",
@@ -1248,7 +1248,7 @@
     "warmth": 25,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
   },
   {
     "id": "judo_gi",
@@ -1350,7 +1350,7 @@
   {
     "id": "kimono",
     "type": "ARMOR",
-    "name": { "str_sp": "kimono" },
+    "name": { "str": "kimono" },
     "description": "A traditional, ankle-length Japanese robe, wrapped around the body with a sash.",
     "weight": "1200 g",
     "volume": "5 L",
@@ -1731,7 +1731,7 @@
     "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "SOFT" ]
   },
   {
     "id": "sleeveless_duster",
@@ -2086,7 +2086,7 @@
     "id": "thawb",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "thawb" },
+    "name": { "str": "thawb" },
     "description": "A long, loose-fitting robe with wide sleeves.  A traditional Arab garment.",
     "weight": "1200 g",
     "volume": "4500 ml",
@@ -2398,6 +2398,6 @@
     "warmth": 50,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
   }
 ]

@@ -331,9 +331,9 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max += this_max;
     }
 
-    for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
-        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+    std::vector<item> byproducts = rec.create_byproducts();
+    for( const item &byproduct : byproducts ) {
+        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
@@ -1304,11 +1304,8 @@ void Character::modify_morale( item &food, const int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level[mutation_category_URSINE] > 40 ) {
-        // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
-                        mutation_category_level[mutation_category_URSINE] / 12;
+        mutation_category_level[mutation_category_URSINE] > 20 ) {
+        int honey_fun = std::min( mutation_category_level[mutation_category_URSINE] / 5, 20 );
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {

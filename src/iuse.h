@@ -230,7 +230,7 @@ void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
-// Helper for validating a potential taget of robot control
+// Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists

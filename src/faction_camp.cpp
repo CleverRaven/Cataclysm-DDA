@@ -191,8 +191,8 @@ struct mass_volume {
 
 namespace base_camps
 {
-static const std::string recover_ally_string = "Recover Ally, ";
-static const std::string expansion_string = " Expansion";
+static const translation recover_ally_string = to_translation( "Recover Ally, " );
+static const translation expansion_string = to_translation( " Expansion" );
 
 
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
@@ -783,8 +783,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id, _( base_camps::recover_ally_string )
-                                    + dir_abbr + _( base_camps::expansion_string ),
+            mission_key.add_return( miss_id, base_camps::recover_ally_string.translated()
+                                    + dir_abbr + base_camps::expansion_string.translated(),
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
@@ -807,7 +807,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id,
-                                        _( base_camps::recover_ally_string ) + dir_abbr +
+                                        base_camps::recover_ally_string.translated() + dir_abbr +
                                         " " + upgrade.name, entry, avail );
             }
         }

@@ -1556,7 +1556,7 @@ item item_contents::remove_pocket( int index )
         std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
     }
 
-    // at this point reveresed past the pockets we want to get rid of so now start going forward
+    // at this point reversed past the pockets we want to get rid of so now start going forward
     auto it = std::next( rit ).base();
     units::volume total_nonrigid_volume = 0_ml;
     for( item_pocket *i_pocket : additional_pockets[index].get_all_contained_pockets().value() ) {
@@ -1578,6 +1578,27 @@ item item_contents::remove_pocket( int index )
     additional_pockets.erase( additional_pockets.begin() + index );
 
     return it_return;
+}
+
+const item_pocket *item_contents::get_added_pocket( int index ) const
+{
+    if( additional_pockets.empty() || index >= static_cast<int>( additional_pockets.size() ) ) {
+        return nullptr;
+    }
+
+    // start at the first pocket
+    auto rit = contents.rbegin();
+
+    // find the pockets to remove from the item
+    for( int i = additional_pockets.size() - 1; i >= index; --i ) {
+        // move the iterator past all the pockets we aren't removing
+        std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
+    }
+
+    // at this point reversed past the pockets we want to get rid of so now start going forward
+    auto it = std::next( rit ).base();
+
+    return &*it;
 }
 
 bool item_contents::has_additional_pockets() const

@@ -1566,6 +1566,22 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_body_temp_delta();
             };
+        } else if( checked_value == "npc_trust" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_trust();
+            };
+        } else if( checked_value == "npc_fear" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_fear();
+            };
+        } else if( checked_value == "npc_value" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_value();
+            };
+        } else if( checked_value == "npc_anger" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_npc_anger();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {

@@ -826,7 +826,7 @@ void game::chat()
     }
 
     if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
+        message = string_format( _( "\"%s\"" ), yell_msg );
     }
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
@@ -1761,7 +1761,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = "\"" + challenge + "\"";
+        challenge = string_format( _( "\"%s\"" ), challenge );
     }
 
     // Parse any tags in challenge
@@ -3214,6 +3214,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "npc_trust" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_trust( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_fear" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_fear( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_value" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_value( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_anger" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_anger( handle_min_max( d, input, min, max ) );
+            };
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );
@@ -4321,6 +4337,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( end_conversation ),
             WRAP( insult_combat ),
             WRAP( give_equipment ),
+            WRAP( lesser_give_aid ),
+            WRAP( lesser_give_all_aid ),
             WRAP( give_aid ),
             WRAP( give_all_aid ),
             WRAP( barber_beard ),
