@@ -228,9 +228,7 @@
     "id": "filament_durable",
     "type": "requirement",
     "//": "Materials for use when sewing high end items, restricted to only the aramid threads.",
-    "components": [
-      [ [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ]
-    ]
+    "components": [ [ [ "thread_nomex", 1 ], [ "thread_kevlar", 1 ] ] ]
   },
   {
     "id": "glazing",
