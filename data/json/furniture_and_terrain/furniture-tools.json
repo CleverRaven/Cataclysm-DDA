@@ -611,13 +611,14 @@
     "id": "f_drill_press",
     "name": "drill press",
     "looks_like": "f_machinery_light",
-    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking, if supplied with power from UPS.",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "drill_press", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -629,20 +630,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "spike", "count": 1 },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_drill_press"
+    }
   },
   {
     "type": "furniture",
@@ -676,14 +664,14 @@
     "id": "f_tablesaw",
     "name": "table saw",
     "looks_like": "f_machinery_light",
-    "description": "A rotating sawblade set into a large flat table, for making straight measured cuts, if supplied with power from UPS.  One of the key tools in a carpenter's arsenal.",
+    "description": "A rotating sawblade set into a large flat table, for making straight measured cuts, a key tool in any carpenter's arsenal.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
-    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "tablesaw", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -695,34 +683,21 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "circsaw_blade", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_tablesaw"
+    }
   },
   {
     "type": "furniture",
     "id": "f_mitresaw",
     "name": "mitre saw",
     "looks_like": "f_machinery_light",
-    "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry, if supplied with power from UPS.",
+    "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
-    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "mitresaw", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -734,33 +709,21 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "circsaw_blade", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_mitresaw"
+    }
   },
   {
     "type": "furniture",
     "id": "f_bandsaw",
     "name": "band saw",
     "looks_like": "f_machinery_light",
-    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle, if supplied with power from UPS.",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "bandsaw", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -772,33 +735,21 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "wire", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_bandsaw"
+    }
   },
   {
     "type": "furniture",
     "id": "f_router",
     "name": "router table",
     "looks_like": "f_machinery_light",
-    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff, if supplied with power from UPS.",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_green",
     "move_cost_mod": 8,
     "coverage": 35,
     "required_str": 14,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "router", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -810,33 +761,21 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "spike", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_router"
+    }
   },
   {
     "type": "furniture",
     "id": "f_planer",
     "name": "planer",
     "looks_like": "f_machinery_light",
-    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width, if supplied with power from UPS.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width, particularly great if working with raw lumber stock, but also good just for shaving wood down to size.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_white",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 12,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "planer", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -848,33 +787,21 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "blade", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_planer"
+    }
   },
   {
     "type": "furniture",
     "id": "f_jointer",
     "name": "jointer",
     "looks_like": "f_machinery_light",
-    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed, if supplied with power from UPS.",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.  Can be disassembled and plugged into a power source.",
     "symbol": "7",
     "color": "yellow_magenta",
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 14,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "jointer", "count": 1 } ] },
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -886,20 +813,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
       ]
-    },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "blade", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    },
-    "crafting_pseudo_item": "fake_jointer"
+    }
   },
   {
     "type": "furniture",

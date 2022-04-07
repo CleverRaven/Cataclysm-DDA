@@ -134,7 +134,7 @@
     "id": "armor_mercenary_top",
     "type": "ARMOR",
     "name": { "str": "mercenary coat" },
-    "description": "A sturdy coat fit for a soldier of fortune.  Made from a ballistic vest combined with a military jacket reinforced with soft armor panels.  Has pockets for armor inserts and MOLLE rigging to attach accessories.",
+    "description": "A sturdy coat fit for a soldier of fortune.  Made from a ballistic vest combined with a military jacket reinforced with soft armor panels.  Has pockets for armor inserts and MOLLE webbing to attach accessories.",
     "//": "weight is currently an estimation could be better",
     "weight": "5500 g",
     "volume": "7500 ml",

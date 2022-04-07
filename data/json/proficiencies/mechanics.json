@@ -2,6 +2,7 @@
   {
     "type": "proficiency",
     "id": "prof_basic_engines",
+    "category": "prof_mechanic",
     "name": { "str": "Simple Engines" },
     "description": "Maintaining and building simple engines.",
     "can_learn": true,
