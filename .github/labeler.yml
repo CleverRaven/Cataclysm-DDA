@@ -40,6 +40,9 @@
 
 "Info / User Interface":
   - "**/ui/**/*"
+  - "**/widget/**/*"
+  - "src/list_view.*"
+  - "src/surroundings_menu.*"
 
 "Appliance/Power Grid":
   - "**/appliance**"
