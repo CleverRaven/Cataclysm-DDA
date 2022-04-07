@@ -201,10 +201,10 @@
   {
     "result": "xlsurvivor_jumpsuit",
     "type": "recipe",
-    "copy-from": "sewing_kevlar",
+    "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "8 h 10 m",
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_lycra", 30 ] ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 30 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
