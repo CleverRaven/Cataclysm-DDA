@@ -454,7 +454,12 @@
       {
         "text": "Listen, something happened earlier.  The world got… bad.  Things felt very wrong.  Do you know anything about that?",
         "condition": {
-          "and": [ { "not": { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" } } ]
+          "and": [
+            { "u_has_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
       },
