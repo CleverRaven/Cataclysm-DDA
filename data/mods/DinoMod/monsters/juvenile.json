@@ -190,7 +190,7 @@
     "melee_cut": 1,
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"
   },
@@ -327,6 +327,7 @@
     "name": "green and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
@@ -335,6 +336,7 @@
     "name": "brown and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
   },
   {
@@ -362,6 +364,7 @@
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "yellow",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
@@ -371,6 +374,7 @@
     "description": "A small two-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "yellow",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
@@ -401,6 +405,7 @@
     "id": "mon_pachycephalosaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_juvenile",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
   },
   {
