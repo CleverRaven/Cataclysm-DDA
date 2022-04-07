@@ -430,7 +430,7 @@
     "id": "TALK_BLACKSMITH_DISORDER_COMPLETE",
     "//": "making the pulverizer",
     "type": "talk_topic",
-    "dynamic_line": "The beast is done!  Really heavy duty but really packs a punch.  Be careful with your fingers.  I'm serious, this thing could tear 'em off.",
+    "dynamic_line": "The beast is done!  Really heavy-duty, but really packs a punch.  Be careful with your fingers.  I'm serious, this thing could tear 'em off.",
     "responses": [
       {
         "text": "Thanks.",

@@ -278,6 +278,7 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 202,
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
@@ -292,6 +293,33 @@
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ztruthiomimus_brute",
+    "name": { "str": "Struthiomimus Striker" },
+    "copy-from": "mon_zallimimus_brute",
+    "looks_like": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 210,
+    "attack_cost": 210,
+    "burn_into": "mon_ztruthiomimus_scorched",
+    "fungalize_into": "mon_ztruthiomimus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zornithomimus_brute",
+    "name": { "str_sp": "Ornery Ornithomimus" },
+    "copy-from": "mon_zallimimus_brute",
+    "looks_like": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 185,
+    "attack_cost": 185,
+    "burn_into": "mon_zornithomimus_scorched",
+    "fungalize_into": "mon_zornithomimus_fungus",
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",
@@ -1453,6 +1481,7 @@
     "armor_bash": 0,
     "description": "Monstrous columns of dense bone lifting sharp teeth dripping with black goo.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "attack_cost": 118,
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -1468,6 +1497,33 @@
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sktruthiomimus",
+    "name": { "str_sp": "skeletal struthiomimus" },
+    "copy-from": "mon_sallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 122,
+    "attack_cost": 122,
+    "burn_into": "mon_ztruthiomimus_scorched",
+    "fungalize_into": "mon_ztruthiomimus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sornithomimus",
+    "name": { "str_sp": "skeletal ornithomimus" },
+    "copy-from": "mon_sallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 109,
+    "attack_cost": 109,
+    "burn_into": "mon_zornithomimus_scorched",
+    "fungalize_into": "mon_zornithomimus_fungus",
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",

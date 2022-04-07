@@ -88,14 +88,14 @@
       }
     ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_greater",
     "name": { "str": "greater dimensional toolbelt" },
-    "description": "A heavy duty workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold far more than they should with a substantial weight reduction.",
+    "description": "A heavy-duty workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold far more than they should with a substantial weight reduction.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -135,7 +135,7 @@
       }
     ],
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -179,7 +179,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "material": [ "leather" ],
-    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "ARMOR",

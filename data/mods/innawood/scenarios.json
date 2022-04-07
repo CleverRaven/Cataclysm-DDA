@@ -3,7 +3,7 @@
     "type": "scenario",
     "id": "evacuee",
     "//": "Overriding evacuee to put it at the top of the list of available scenarios.",
-    "name": "In a cave",
+    "name": "In a Cave",
     "points": 0,
     "description": "Somehow, you found yourself in a cave.  Someone else is with you.",
     "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],
@@ -13,7 +13,7 @@
   {
     "type": "scenario",
     "id": "cave_lonesome",
-    "name": "A lonely cave",
+    "name": "A Lonely Cave",
     "points": -1,
     "description": "Somehow, you found yourself in a cave.  Seems like you're on your own.",
     "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],

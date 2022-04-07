@@ -12,6 +12,7 @@
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "holster",
+    "repairs_like": "tool_belt",
     "color": "yellow",
     "pocket_data": [
       { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
@@ -167,6 +168,7 @@
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "fireman_belt",
+    "repairs_like": "tool_belt",
     "color": "brown",
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
@@ -209,6 +211,8 @@
     "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "[",
+    "looks_like": "leather_belt",
+    "repairs_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1.5,
     "pocket_data": [
@@ -304,6 +308,7 @@
     "material": [ "nylon", "steel" ],
     "symbol": "[",
     "looks_like": "leather_belt",
+    "repairs_like": "tool_belt",
     "color": "yellow",
     "material_thickness": 1.5,
     "pocket_data": [
