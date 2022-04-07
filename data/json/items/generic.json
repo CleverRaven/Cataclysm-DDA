@@ -166,7 +166,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": "50 ml",
+    "volume": "4 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -176,7 +176,7 @@
     "name": { "str": "NRE printout" },
     "description": "A long sequence of overlapping numbers plotted in thermal paper, at times so densely packed that they disappear into thick blots of oxide colored ink.  Blots and numbers appear to be arranged in a strangely pleasing pattern.",
     "weight": "3 g",
-    "volume": "4 ml"
+    "volume": "8 ml"
   },
   {
     "type": "GENERIC",
