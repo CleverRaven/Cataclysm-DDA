@@ -23,7 +23,7 @@
     "repairs_like": "balclava",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
-    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle drivers and as part of a costume.",
+    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
     "warmth": 10,
     "material_thickness": 0.2
   },
