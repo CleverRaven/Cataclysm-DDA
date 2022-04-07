@@ -1015,20 +1015,20 @@
       },
       {
         "id": "black_phillip_tshirt",
-        "name": { "str": "Black Phillip t-shirt", "str_pl": "Black Phillip t-shirts" },
+        "name": { "str": "Black Phillip t-shirt" },
         "description": "A black t-shirt with an old style cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
         "weight": 1
       },
       {
         "id": "disney_parody_tshirt",
-        "name": { "str": "theme park parody t-shirt", "str_pl": "theme park parody t-shirts" },
+        "name": { "str": "theme park parody t-shirt" },
         "description": "A black t-shirt with a stylized princesses castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
         "weight": 1
       },
       {
         "id": "start_a_cult_tshirt",
         "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
-        "description": "A hooded child stands behind a lectern, his mouth open and his arms held high. A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+        "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
         "weight": 1
       }
     ],
