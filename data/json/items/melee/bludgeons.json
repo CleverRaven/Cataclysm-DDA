@@ -784,6 +784,27 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
+    "type": "GENERIC",
+    "id": "mace_bronze",
+    "name": { "str": "bronze mace" },
+    "description": "While nothing more than a bronze sphere on a stick, it is still surprisingly effective.",
+    "weight": "1600 g",
+    "color": "yellow",
+    "symbol": "/",
+    "looks_like": "mace",
+    "material": [ "bronze", "wood" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "DURABLE_MELEE" ],
+    "weapon_category": [ "MACES" ],
+    "volume": "1250 ml",
+    "longest_side": "60 cm",
+    "bashing": 30,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "price": 11000,
+    "price_postapoc": 2000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
     "id": "makeshift_sap",
     "type": "GENERIC",
     "symbol": "/",

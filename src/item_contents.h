@@ -181,6 +181,9 @@ class item_contents
         // returns the item that was attached
         item remove_pocket( int index );
 
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
+
         std::vector<const item *> get_added_pockets() const;
 
         bool has_additional_pockets() const;

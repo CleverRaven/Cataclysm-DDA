@@ -52,7 +52,6 @@
     "name_suffix": "Banker",
     "name_unique": "Jay Ruckers",
     "gender": "male",
-    "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "JAY_RUCKERS",
     "attitude": 0,
     "mission": 3,

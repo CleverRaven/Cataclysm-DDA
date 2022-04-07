@@ -74,6 +74,21 @@ fail are computed using [separate formulas](https://github.com/CleverRaven/Catac
 and their multipliers may be given separately in the proficiency JSON and any recipes using them.
 
 
+## Proficiency categories
+
+In order to better organize proficiencies in the in-game UI, each proficiency belongs to a specific
+category pointing to a JSON defined `"proficiency_category"` object:
+
+```JSON
+{
+  "type": "proficiency_category",
+  "id": "prof_archery",
+  "name": "Archery",
+  "description": "Proficiencies for all things bow and arrows.  Includes knowledge and experience of making and modifying bows, as well as archery form and posture."
+}
+```
+
+
 ## Definition
 
 Proficiencies are defined in JSON files in the `data/json/proficiencies` directory.  Files are named
@@ -87,6 +102,7 @@ Within these are the standard list of JSON objects having "type": "proficiency".
   {
     "type": "proficiency",
     "id": "prof_bow_master",
+    "category": "prof_archery",
     "name": { "str": "Master Archer's Form" },
     "description": "You are a master at the art of Archery.",
     "can_learn": true,
@@ -105,6 +121,7 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 |---    |---        |---   |---
 | `id`  | Mandatory | String | Internal id of the proficiency, used for all JSON and code references to it.
 | `type` | Mandatory | String | Must be `proficiency` for all proficiencies.
+| `category` | Mandatory | String | Internal id of the associated `proficiency_category` object.
 | `name` | Mandatory | String | Name of the proficiency, used for all in-game display.
 | `description` | Mandatory | String | Description of what abilities or special knowledge the proficiency entails
 | `can_learn`   | Mandatory | Bool | Whether or not this proficiency can be learned through normal means during the game.

@@ -77,6 +77,7 @@ antlion
 anzu
 apatosaurus
 aposematic
+appalachiosaurus
 applet
 aprotic
 aquacultural
@@ -1186,6 +1187,7 @@ opengl
 openingly
 opy
 orichalcum
+ornithomimus
 orrery
 otes
 otha
@@ -1540,7 +1542,6 @@ slamfire
 slapjack
 sld
 sleepin
-slimespring
 sludged
 sluglike
 smallmouth
@@ -1630,6 +1631,7 @@ stratoscomm
 streetfighters
 stressfully
 strobus
+struthiomimus
 stungun
 stupidass
 stylette

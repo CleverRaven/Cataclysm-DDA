@@ -1769,9 +1769,47 @@ static void character_edit_menu()
         case D_NEEDS:
             character_edit_needs_menu( you );
             break;
-        case D_MUTATE:
-            wishmutate( &you );
+        case D_MUTATE: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'm', _( "Mutate" ) );
+            smenu.addentry( 1, true, 'c', _( "Mutate category" ) );
+            smenu.addentry( 2, true, 'r', _( "Reset mutations" ) );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0:
+                    wishmutate( &you );
+                    break;
+                case 1: {
+                    uilist ssmenu;
+                    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+                    mutation_categories_list.reserve( mutations_category.size() );
+                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+                    }
+                    ssmenu.text = _( "Choose mutation category:" );
+                    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+                    int menu_ind = 0;
+                    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+                        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+                        ++menu_ind;
+                    }
+                    ssmenu.query();
+                    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast<int>( mutation_categories_list.size() ) ) {
+                        you.give_all_mutations( mutation_category_trait::get_category(
+                                                    mutation_categories_list[ssmenu.ret].second ), query_yn( _( "Include post-threshold traits?" ) ) );
+                    }
+                    break;
+                }
+                case 2:
+                    if( query_yn( _( "Remove all mutations?" ) ) ) {
+                        you.unset_all_mutations();
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
+        }
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );

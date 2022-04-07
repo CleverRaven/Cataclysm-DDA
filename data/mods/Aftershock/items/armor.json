@@ -302,7 +302,7 @@
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xlpolice_belt",
@@ -312,7 +312,7 @@
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xltac_fullhelmet",
@@ -357,7 +357,7 @@
     "name": { "str": "communications cap" },
     "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
     ],
     "color": "brown"
@@ -423,7 +423,7 @@
   {
     "id": "wetsuit_cecalia",
     "type": "ARMOR",
-    "name": { "str": "cecalia wetsuit" },
+    "name": { "str": "Cecalia wetsuit" },
     "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
     "volume": "4 L",
