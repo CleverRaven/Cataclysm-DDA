@@ -2133,7 +2133,7 @@
     "extend": { "flags": [ "OUTER" ] },
     "use_action": {
       "type": "transform",
-      "msg": "You adjust your XL kevlar gambeson a bit tighter.",
+      "msg": "You adjust your XL Kevlar gambeson a bit tighter.",
       "target": "xl_k_gambeson",
       "menu_text": "Adjust tighter"
     }
