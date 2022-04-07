@@ -160,6 +160,7 @@ class inventory_entry
         // topmost visible parent, used for visibility checks
         item *topmost_parent = nullptr;
         size_t generation = 0;
+        bool chevron = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -343,7 +344,7 @@ class inventory_column
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
-        void add_entry( const inventory_entry &entry );
+        inventory_entry *add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
@@ -560,8 +561,8 @@ class inventory_selector
                                      const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
-        void add_contained_items( item_location &container );
-        void add_contained_items( item_location &container, inventory_column &column,
+        bool add_contained_items( item_location &container );
+        bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item *topmost_parent = nullptr );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
@@ -632,10 +633,15 @@ class inventory_selector
         const item_category *naturalize_category( const item_category &category,
                 const tripoint &pos );
 
-        void add_entry( inventory_column &target_column,
-                        std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr,
-                        size_t chosen_count = 0, item *topmost_parent = nullptr );
+        inventory_entry *add_entry( inventory_column &target_column,
+                                    std::vector<item_location> &&locations,
+                                    const item_category *custom_category = nullptr,
+                                    size_t chosen_count = 0, item *topmost_parent = nullptr );
+
+        bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
+                            item_location &loc, item_category const *entry_category = nullptr,
+                            item_category const *children_category = nullptr,
+                            item *topmost_parent = nullptr );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
