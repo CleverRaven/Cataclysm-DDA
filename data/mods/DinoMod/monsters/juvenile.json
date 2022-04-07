@@ -77,6 +77,21 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED" ]
   },
   {
+    "id": "mon_dryptosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "dryptosaurus juvenile",
+    "description": "Large teeth, fierce eyes, and a powerful frame to drive this juvenile forward, with claws and a feathered mullet and tail.",
+    "default_faction": "dryptosaurus_juvenile",
+    "copy-from": "mon_dryptosaurus",
+    "volume": "750 L",
+    "weight": "750 kg",
+    "aggression": 50,
+    "hp": 100,
+    "upgrades": { "age_grow": 365, "into": "mon_dryptosaurus" },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "NO_BREED", "CLIMBS" ]
+  },
+  {
     "id": "mon_appalachiosaurus_juvenile",
     "type": "MONSTER",
     "name": "appalachiosaurus juvenile",
