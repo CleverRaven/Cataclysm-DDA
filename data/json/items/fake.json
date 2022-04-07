@@ -43,6 +43,7 @@
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],
       [ "SAW_M_FINE", 1 ],
+      [ "SOLDERING", 1 ],
       [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW", 1 ],
