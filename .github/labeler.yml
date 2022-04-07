@@ -59,6 +59,7 @@
 
 "Limbs":
   - "src/bodypart.*"
+  - "data/json/limb_scores.json"
 
 "Spawn":
   - "**/itemgroups/**/*"
