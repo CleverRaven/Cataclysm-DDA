@@ -426,7 +426,7 @@
       { "item": "chestpouch", "prob": 40 },
       { "item": "backpack_tactical_large", "prob": 20 },
       { "item": "tacvest", "prob": 160 },
-      { "group": "molle_packs", "prob": 100 },
+      { "group": "molle_backpacks_and_accessories", "prob": 100 },
       { "item": "rucksack", "prob": 80 }
     ]
   },
