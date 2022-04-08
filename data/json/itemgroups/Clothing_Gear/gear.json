@@ -230,7 +230,7 @@
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
     "entries": [
-      { "item": "mask_gas", "prob": 20 },
+      { "item": "mask_gas", "prob": 20, "charges": 100 },
       { "item": "mask_dust", "prob": 20 },
       { "item": "glasses_bal", "prob": 20 }
     ]

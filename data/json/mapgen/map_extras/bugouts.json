@@ -25,7 +25,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_collegekids",
+    "update_mapgen_id": "mx_bugout",
     "object": {
       "rows": [
         "                        ",
