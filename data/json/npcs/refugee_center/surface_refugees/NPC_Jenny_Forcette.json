@@ -128,32 +128,35 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_1",
-    "dynamic_line": {
-      "u_has_effect": "u_met_Jenny_Forcette",
-      "yes": [ "Hello again.", "Nice to see you again.", "What's up?" ],
-      "no": "Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette."
+    "dynamic_line": { "*is a thin woman in her early thirties, with the sort of pale, freckled skin that looks like it would burn if she thought too hard about the sun.  Her clothes and bearing suggest she might once have been carefully put-together, but she now has the harried look of someone with too many worries and too little sleep.  She looks up from a laptop and smiles as you approach.  \"Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette." },
+    "speaker_effect": { 
+      "effect": [ 
+        { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes"},
+        { "npc_first_topic": "TALK_REFUGEE_JENNY_1a" }
+      ]
     },
     "responses": [
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
-        "effect": { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_JENNY_2"
-      },
-      {
-        "text": "Hi, Jenny.  What are you up to these days?",
-        "condition": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Nice meeting you.  I'd best get going, though.",
-        "effect": { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_JENNY_1a",
+    "dynamic_line": { [ "Hello again.", "Nice to see you again.", "What's up?" ] },
+    "responses": [
+      {
+        "text": "Hi, Jenny.  What are you up to these days?",
+        "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Sorry Jenny, I can't stay to chat.",
-        "condition": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
