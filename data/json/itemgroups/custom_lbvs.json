@@ -82,7 +82,7 @@
   {
     "type": "item_group",
     "id": "molle_backpacks_contents",
-    "//": "stuff that might be in a molle pack"
+    "//": "stuff that might be in a molle pack",
     "subtype": "collection",
     "entries": [
       { "item": "camelbak", "prob": 40 },
