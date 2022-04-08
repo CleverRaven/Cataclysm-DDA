@@ -460,7 +460,6 @@ class recipe_result_info_cache
                                std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
         void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
                               const std::string &classification, const bool uses_charges );
-        void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
         void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string title );
     public:
         item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos,
@@ -478,8 +477,6 @@ void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         bool uses_charges = dummy_item.count_by_charges();
         get_item_header( dummy_item, bp.second, summary_info, _( "With byproduct" ), uses_charges );
         get_item_details( dummy_item, bp.second, details_info, byproduct_string, uses_charges );
-        //Add dividers between item details
-        insert_iteminfo_blank_line( details_info );
     }
 }
 
@@ -601,11 +598,6 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
     item_info_data data( "", "", info, {}, scroll_pos );
     return data;
-}
-
-void recipe_result_info_cache::insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec )
-{
-    info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
