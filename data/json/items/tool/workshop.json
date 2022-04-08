@@ -602,7 +602,7 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
-      [ "SOLDERING", 2 ],
+      [ "SOLDER", 2 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
@@ -1091,7 +1091,7 @@
       [ "HAMMER_FINE", 1 ],
       [ "HAMMER", 3 ],
       [ "PRY", 1 ],
-      [ "SOLDERING", 2 ],
+      [ "SOLDER", 2 ],
       [ "SAW_M_FINE", 1 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 1 ],
@@ -1155,7 +1155,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "qualities": [ [ "SOLDERING", 2 ] ],
+    "qualities": [ [ "SOLDER", 2 ] ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
@@ -1180,7 +1180,7 @@
     "material": [ "wood", "steel" ],
     "symbol": ",",
     "color": "brown",
-    "qualities": [ [ "SOLDERING", 1 ] ],
+    "qualities": [ [ "SOLDER", 1 ] ],
     "flags": [ "FRAGILE_MELEE", "SPEAR", "BELT_CLIP" ]
   },
   {
