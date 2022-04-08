@@ -128,43 +128,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_1",
-    "dynamic_line": { "*is a thin woman in her early thirties, with the sort of pale, freckled skin that looks like it would burn if she thought too hard about the sun.  Her clothes and bearing suggest she might once have been carefully put-together, but she now has the harried look of someone with too many worries and too little sleep.  She looks up from a laptop and smiles as you approach.  \"Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette." },
-    "speaker_effect": { 
-      "effect": [ 
-        { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes"},
+    "dynamic_line": "*is a thin woman in her early thirties, with the sort of pale, freckled skin that looks like it would burn if she thought too hard about the sun.  Her clothes and bearing suggest she might once have been carefully put-together, but she now has the harried look of someone with too many worries and too little sleep.  She looks up from a laptop and smiles as you approach.  \"Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_JENNY_1a" }
       ]
     },
     "responses": [
-      {
-        "text": "Nice meeting you.  What are you doing on that computer?",
-        "topic": "TALK_REFUGEE_JENNY_2"
-      },
-      {
-        "text": "Nice meeting you.  I'd best get going, though.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice meeting you.  What are you doing on that computer?", "topic": "TALK_REFUGEE_JENNY_2" },
+      { "text": "Nice meeting you.  I'd best get going, though.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_1a",
-    "dynamic_line": { [ "Hello again.", "Nice to see you again.", "What's up?" ] },
+    "dynamic_line": [
+      "*looks up from her computer and gives you a quick, thin smile.  \"Hello again.",
+      "*tips the lid of her laptop closed and looks up.  \"Nice to see you again."
+    ],
     "responses": [
-      {
-        "text": "Hi, Jenny.  What are you up to these days?",
-        "topic": "TALK_REFUGEE_JENNY_2"
-      },
-      {
-        "text": "Sorry Jenny, I can't stay to chat.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Hi, Jenny.  What are you up to these days?", "topic": "TALK_REFUGEE_JENNY_2" },
+      { "text": "Sorry Jenny, I can't stay to chat.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_2",
-    "dynamic_line": "I'm puttering around, I always have stuff on the go.  Gotta keep busy, keep my mind off stuff, you know?",
+    "dynamic_line": "I'm puttering around, I always have stuff on the go.\"  Jenny rubs the bridge of her nose briefly, blinking fatigue from her eyes.  \"Gotta keep busy, keep my mind off stuff, you know?",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -173,7 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Background1",
-    "dynamic_line": "Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.  I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.",
+    "dynamic_line": "Me?  I trained at MIT in mechanical engineering, I worked for a long time as senior engineer at Marduk Thermal in Rhode Island.  It was a good job, but I landed my dream gig at Boston Dynamics and moved up north to start there.\"  She tips back her head and lets out a long, whistful sigh.  \"I had just finished my orientation and was going to start work when the riots started.  Just my damn luck.",
     "responses": [
       {
         "text": "That's impressive, but there must be more to you than just your job.",
@@ -193,7 +184,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Background2",
-    "dynamic_line": "Ha!  You must not know many engineers, hey?  I guess there's more to me than engineering, but most of my hobbies come back to it one way or the other.  It's not that I live for my work, doing engineering for a heating company wasn't some great dream, but when I got home I'd putter with the projects I wanted to do instead of the ones they made me do.  You know?  And of course, I had my friends and things, we'd go out or hang out and play board games and stuff.  Maybe some day I'll get a board game group started up here, although there's nothing wrong with the card games we've got now.  Plus I don't think Zombicide would hold the same interest for me as it used to.",
+    "dynamic_line": "*grins and tugs at her shirt, an uncharacteristically crisp white T-shirt sporting a brightly colored penguin holding a slide rule, and a rainbow slogan reading 'sudo build it the way I told you to'.  \"Ha!  You must not know many engineers, hey?  I guess there's more to me than engineering, but most of my hobbies come back to it one way or the other.  It's not that I live for my work, doing engineering for a heating company wasn't some great dream, but when I got home I'd putter with the projects I wanted to do instead of the ones they made me do.  You know?  And of course, I had my friends and things, we'd go out or hang out and play board games and stuff.  Maybe some day I'll get a board game group started up here, although there's nothing wrong with the card games we've got now.  Plus I don't think Zombicide would hold the same interest for me as it used to.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
