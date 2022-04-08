@@ -192,7 +192,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "petfood": { "food": [ "DOGFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "pet": "The %s lets out a happy squeak as you give its head a small scritch." },
+    "pet": "The %s lets out a happy squeak as you give its head a small scritch.",
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -2544,3 +2544,4 @@
     "upgrades": { "age_grow": 500, "into": "mon_reindeer" }
   }
 ]
+
