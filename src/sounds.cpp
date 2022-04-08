@@ -287,8 +287,8 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::destructive_activity:
         case sounds::sound_t::alarm:
         case sounds::sound_t::combat:
-            return false;
         case sounds::sound_t::movement:
+            return false;
         case sounds::sound_t::speech:
         case sounds::sound_t::electronic_speech:
         case sounds::sound_t::alert:

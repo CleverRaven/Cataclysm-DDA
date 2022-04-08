@@ -2137,6 +2137,7 @@
       [ "bootsheath", 8 ],
       [ "holster", 15 ],
       [ "sholster", 10 ],
+      [ "shoulder_holster", 1 ],
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_grenade", 8 ],
       [ "solarpack", 5 ],
@@ -2240,6 +2241,7 @@
       [ "motorbike_boots", 5 ],
       [ "holster", 8 ],
       [ "sholster", 4 ],
+      [ "shoulder_holster", 1 ],
       [ "bootstrap", 3 ],
       [ "legpouch", 12 ],
       [ "legpouch_large", 6 ],
@@ -3596,6 +3598,7 @@
       { "item": "back_holster", "prob": 10 },
       { "item": "holster", "prob": 30 },
       { "item": "sholster", "prob": 10 },
+      { "item": "shoulder_holster", "prob": 1 },
       { "item": "bholster", "prob": 10 },
       { "item": "bbholster", "prob": 8 }
     ]

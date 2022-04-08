@@ -304,6 +304,7 @@
     "aggression": 100,
     "morale": 100,
     "speed": 135,
+    "attack_cost": 135,
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 4,
@@ -322,6 +323,35 @@
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ztruthiomimus",
+    "name": { "str": "struthiomimus zombie" },
+    "copy-from": "mon_zallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 140,
+    "attack_cost": 140,
+    "burn_into": "mon_ztruthiomimus_scorched",
+    "fungalize_into": "mon_ztruthiomimus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ztruthiomimus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zornithomimus",
+    "name": { "str": "ornithomimus zombie" },
+    "copy-from": "mon_zallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 125,
+    "attack_cost": 125,
+    "burn_into": "mon_zornithomimus_scorched",
+    "fungalize_into": "mon_zornithomimus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zornithomimus_UPGRADE" },
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",
@@ -481,7 +511,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zrontosaurus",
-    "name": { "str": "Brontosaurus zombie" },
+    "name": { "str": "brontosaurus zombie" },
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_apatosaurus",
     "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail.",

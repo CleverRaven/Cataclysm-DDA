@@ -13,15 +13,15 @@
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
+static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
+static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
-static const mutation_category_id mutation_category_RAT( "RAT" );
-static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
-static const trait_id trait_GROWL( "GROWL" );
+static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
 static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
@@ -32,45 +32,20 @@ static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 
 static std::string get_mutations_as_string( const Character &you );
 
-// Mutate player toward every mutation in a category (optionally including post-threshold mutations)
-//
-// Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
-// one they ultimately end up with depends on the order they were loaded from JSON
-static void give_all_mutations( Character &you, const mutation_category_trait &category,
-                                const bool include_postthresh )
+static mutation_category_id get_highest_category( const Character &you )
 {
-    you.set_body();
-    const std::vector<trait_id> category_mutations = mutations_category[category.id];
+    int iLevel = 0;
+    mutation_category_id sMaxCat;
 
-    // Add the threshold mutation first
-    if( include_postthresh && !category.threshold_mut.is_empty() ) {
-        you.set_mutation( category.threshold_mut );
-    }
-
-    for( const trait_id &mut : category_mutations ) {
-        const mutation_branch &mut_data = *mut;
-        if( include_postthresh || ( !mut_data.threshold && mut_data.threshreq.empty() ) ) {
-            // Try up to 10 times to mutate towards this trait
-            int mutation_attempts = 10;
-            while( mutation_attempts > 0 && you.mutation_ok( mut, false, false ) ) {
-                INFO( "Current mutations: " << get_mutations_as_string( you ) );
-                INFO( "Mutating towards " << mut.c_str() );
-                you.mutate_towards( mut );
-                --mutation_attempts;
-            }
+    for( const std::pair<const mutation_category_id, int> &elem : you.mutation_category_level ) {
+        if( elem.second > iLevel ) {
+            sMaxCat = elem.first;
+            iLevel = elem.second;
+        } else if( elem.second == iLevel ) {
+            sMaxCat = mutation_category_id();  // no category on ties
         }
     }
-}
-
-// Return total strength of all mutation categories combined
-static int get_total_category_strength( const Character &you )
-{
-    int total = 0;
-    for( const std::pair<const mutation_category_id, int> &cat : you.mutation_category_level ) {
-        total += cat.second;
-    }
-
-    return total;
+    return sMaxCat;
 }
 
 // Returns the list of mutations a player has as a string, for debugging
@@ -94,16 +69,14 @@ std::string get_mutations_as_string( const Character &you )
 // SMELLY and UGLY would have their FELINE and LUPINE categories strengthened (since they have two
 // mutations in those categories), relative to the MOUSE and RAPTOR categories.
 //
-// Adding GROWL, which is shared by LUPINE / RAT / URSINE, should strengthen the character's LUPINE
+// Adding GOURMAND, which is shared by LUPINE / MOUSE, should strengthen the character's LUPINE
 // category further, and increase the chance to breach that category. If our character has all three
 // mutations, their relative category strengths will look like this:
 //
-// RAT:    1  (growl)
-// MOUSE:  1  (smelly)
 // RAPTOR: 1  (ugly)
-// URSINE: 1  (growl)
+// MOUSE:  2  (smelly. gourmand)
 // FELINE: 2  (smelly, ugly)
-// LUPINE: 3  (smelly, ugly, growl)
+// LUPINE: 3  (smelly, ugly, gourmand)
 //
 // This test illustrates and verifies the above scenario, using the same categories and mutations.
 //
@@ -112,19 +85,17 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
     npc dummy;
 
     // With no mutations, no category is the highest
-    CHECK( dummy.get_highest_category().str().empty() );
+    CHECK( get_highest_category( dummy ).str().empty() );
     // All categories are at level 0
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_FELINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_RAPTOR] == 0 );
-    CHECK( dummy.mutation_category_level[mutation_category_URSINE] == 0 );
     CHECK( dummy.mutation_category_level[mutation_category_MOUSE] == 0 );
-    CHECK( dummy.mutation_category_level[mutation_category_RAT] == 0 );
 
     // SMELLY mutation: Common to LUPINE, FELINE, and MOUSE
     REQUIRE( dummy.mutate_towards( trait_SMELLY ) );
     // No category should be highest
-    CHECK( dummy.get_highest_category().str().empty() );
+    CHECK( get_highest_category( dummy ).str().empty() );
     // All levels should be equal
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] ==
            dummy.mutation_category_level[mutation_category_FELINE] );
@@ -134,7 +105,7 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
     // UGLY mutation: Common to LUPINE, FELINE, and RAPTOR
     REQUIRE( dummy.mutate_towards( trait_UGLY ) );
     // Still no highest, since LUPINE and FELINE should be tied
-    CHECK( dummy.get_highest_category().str().empty() );
+    CHECK( get_highest_category( dummy ).str().empty() );
     // LUPINE and FELINE should be equal level, and both stronger than MOUSE or RAPTOR
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] ==
            dummy.mutation_category_level[mutation_category_FELINE] );
@@ -143,10 +114,10 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
            dummy.mutation_category_level[mutation_category_RAPTOR] );
 
-    // GROWL mutation: Common to LUPINE, RAT, and URSINE
-    REQUIRE( dummy.mutate_towards( trait_GROWL ) );
+    // GROWL mutation: Common to LUPINE and MOUSE
+    REQUIRE( dummy.mutate_towards( trait_GOURMAND ) );
     // LUPINE has the most mutations now, and should now be the strongest category
-    CHECK( dummy.get_highest_category().str() == "LUPINE" );
+    CHECK( get_highest_category( dummy ).str() == "LUPINE" );
     // LUPINE category level should be strictly higher than any other
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
            dummy.mutation_category_level[mutation_category_FELINE] );
@@ -154,10 +125,6 @@ TEST_CASE( "mutation category strength based on current mutations", "[mutations]
            dummy.mutation_category_level[mutation_category_MOUSE] );
     CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
            dummy.mutation_category_level[mutation_category_RAPTOR] );
-    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
-           dummy.mutation_category_level[mutation_category_URSINE] );
-    CHECK( dummy.mutation_category_level[mutation_category_LUPINE] >
-           dummy.mutation_category_level[mutation_category_RAT] );
 }
 
 // If character has all available mutations in a category (pre- or post-threshold), that should be
@@ -178,44 +145,46 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_str ) {
             npc dummy;
-            give_all_mutations( dummy, cur_cat, false );
+            dummy.set_body();
+            dummy.give_all_mutations( cur_cat, false );
 
             THEN( cat_str + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category().str() == cat_str );
+                CHECK( get_highest_category( dummy ).str() == cat_str );
             }
         }
 
         GIVEN( "The player has all mutations for " + cat_str ) {
             npc dummy;
-            give_all_mutations( dummy, cur_cat, true );
+            dummy.set_body();
+            dummy.give_all_mutations( cur_cat, true );
 
             THEN( cat_str + " is the strongest category" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( dummy.get_highest_category().str() == cat_str );
+                CHECK( get_highest_category( dummy ).str() == cat_str );
             }
         }
     }
 }
 
 // If character has all the pre-threshold mutations for a category, they should have a chance of
-// breaching the threshold. The chance of breach is expected to be between 20% and 40%; this range
-// is somewhat arbitrary, but the idea is that each category should have a distinctive collection of
-// mutations, and categories should not be too similar or too different from each other.
+// breaching the threshold on mutation. The chance of breach is expected to be between 55% and 90%
+// given that the breach power is rolled out of 100.  In addition, a power below 30 is ignored.
 //
-// If a category breach chance falls below 20% (0.2), it suggests that category shares too many
-// mutations with other categories. In other words, the category is not distinct enough from others.
+// If a category breach power falls below 55, it suggests that category lacks enough pre-threshold mutations
+// to comfortably cross the Threshold
+// If a category breach power goes above 90, it suggests that category has too many pre-threshold mutations
+// which suggests that some should be moved to post-threshold
 //
-// If a category breach chance goes above 40% (0.4), it suggests that category has too many special
-// mutations of its own, and should have more mutations in common with other categories.  In other
-// words, the category is too distinct from others.
+// When creating or editing a category, remember that 55 and 90 are limits, not suggestions
+// 65-75 is the suggested range
 //
-// This test verifies the breach-chance expectation for all mutation categories.
-TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach chance",
+// This test verifies the breach-power expectation for all mutation categories.
+TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach power",
            "[mutations][breach]" )
 {
-    const float BREACH_CHANCE_MIN = 0.2f;
-    const float BREACH_CHANCE_MAX = 0.4f;
+    const int BREACH_POWER_MIN = 55;
+    const int BREACH_POWER_MAX = 90;
 
     for( const std::pair<mutation_category_id, mutation_category_trait> cat :
          mutation_category_trait::get_all() ) {
@@ -231,16 +200,29 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id.str() ) {
             npc dummy;
-            give_all_mutations( dummy, cur_cat, false );
+            dummy.set_body();
+            dummy.give_all_mutations( cur_cat, false );
 
-            const int category_strength = dummy.mutation_category_level[cat_id];
-            const int total_strength = get_total_category_strength( dummy );
-            float breach_chance = category_strength / static_cast<float>( total_strength );
-
-            THEN( "Threshold breach chance is between 0.2 and 0.4" ) {
+            const int breach_chance = dummy.mutation_category_level[cat_id];
+            if( cat_id == mutation_category_ALPHA ) {
+                THEN( "Alpha Threshold breach power is between 35 and 60" ) {
+                    INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
+                    CHECK( breach_chance >= 35 );
+                    CHECK( breach_chance <= 60 );
+                }
+                continue;
+            } else if( cat_id == mutation_category_CHIMERA ) {
+                THEN( "Chimera Threshold breach power is between 100 and 160" ) {
+                    INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
+                    CHECK( breach_chance >= 100 );
+                    CHECK( breach_chance <= 160 );
+                }
+                continue;
+            }
+            THEN( "Threshold breach power is between 55 and 90" ) {
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                CHECK( breach_chance >= BREACH_CHANCE_MIN );
-                CHECK( breach_chance <= BREACH_CHANCE_MAX );
+                CHECK( breach_chance >= BREACH_POWER_MIN );
+                CHECK( breach_chance <= BREACH_POWER_MAX );
             }
         }
     }

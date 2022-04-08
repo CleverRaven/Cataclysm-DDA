@@ -24,6 +24,8 @@
 #include "trait_group.h"
 #include "translations.h"
 
+static const mutation_category_id mutation_category_ANY( "ANY" );
+
 static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
 
 using TraitGroupMap =
@@ -601,6 +603,24 @@ void mutation_branch::check_consistency()
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
+        for( const trait_id &replacement : mdata.replacements ) {
+            const mutation_branch &rdata = replacement.obj();
+            for( const mutation_category_id &cat : rdata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
+                              cat.c_str(), replacement.c_str() );
+                }
+            }
+        }
+        for( const trait_id &addition : mdata.additions ) {
+            const mutation_branch &adata = addition.obj();
+            for( const mutation_category_id &cat : adata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
+                              addition.c_str() );
+                }
+            }
+        }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
@@ -703,6 +723,7 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
+        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
     }
     finalize_trait_blacklist();
 }
