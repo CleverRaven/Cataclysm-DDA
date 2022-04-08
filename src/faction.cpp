@@ -891,11 +891,12 @@ void faction_manager::display() const
                     for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        creatures[i]->nname() );
+                                        string_format( "%s  %s", colorize( creatures[i]->sym,
+                                                       selection == i ? hilite( creatures[i]->color ) : creatures[i]->color ),
+                                                       creatures[i]->nname() ) );
                     }
                     if( !cur_creature.is_null() ) {
-                        int y = 2;
-                        fold_and_print( w_missions, point( 31, ++y ), w, c_light_gray, cur_creature->get_description() );
+                        cur_creature->faction_display( w_missions, point( 31, 3 ), w );
                     } else {
                         fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
                     }
