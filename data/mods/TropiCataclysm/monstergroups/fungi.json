@@ -16,6 +16,7 @@
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_fungal_wall", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_queen", "weight": 0, "cost_multiplier": 0 }
     ]
@@ -45,6 +46,7 @@
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_fungal_hedgerow", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_tower", "weight": 0, "cost_multiplier": 0 }
     ]
@@ -65,6 +67,7 @@
       { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_bushelephant_fungal", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_seeder", "weight": 0, "cost_multiplier": 0 }
     ]
   },
