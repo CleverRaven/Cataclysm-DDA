@@ -470,11 +470,14 @@ class recipe_result_info_cache
 void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
 {
+    const std::string byproduct_string = _( "Byproduct" );
+
     for( const std::pair<const itype_id, int> &bp : rec->get_byproducts() ) {
+        insert_iteminfo_block_separator( details_info, byproduct_string );
         item dummy_item = item( bp.first );
         bool uses_charges = dummy_item.count_by_charges();
-        get_item_header( dummy_item, bp.second, summary_info, "With byproduct", uses_charges );
-        get_item_details( dummy_item, bp.second, details_info, "Byproduct", uses_charges );
+        get_item_header( dummy_item, bp.second, summary_info, _( "With byproduct" ), uses_charges );
+        get_item_details( dummy_item, bp.second, details_info, byproduct_string, uses_charges );
         //Add dividers between item details
         insert_iteminfo_blank_line( details_info );
     }
@@ -506,14 +509,14 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
     if( uses_charges ) {
         dummy_item.charges *= total_quantity;
         info.emplace_back( "DESCRIPTION",
-                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name() ) );
+                           "<bold>" + classification + ": </bold>" + dummy_item.display_name() );
         //Reset charges so that multiple calls to this function don't produce unexpected results
         dummy_item.charges /= total_quantity;
     } else {
         //Add summary line.  Don't need to indicate count if there's only 1
         info.emplace_back( "DESCRIPTION",
-                           _( "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
-                              ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) ) );
+                           "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
+                           ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
     }
 }
 
@@ -546,16 +549,24 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     bool result_uses_charges = dummy_result.count_by_charges();
     item dummy_container;
 
+    //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
+    const std::string result_string = _( "Result" );
+    const std::string recipe_output_string = _( "Recipe Outputs" );
+    const std::string recipe_result_string = _( "Recipe Result" );
+    const std::string container_string = _( "Container" );
+    const std::string in_container_string = _( "In container" );
+    const std::string container_info_string = _( "Container Information" );
+
     //Set up summary at top so people know they can look further to learn about byproducts and such
     //First, see if we need it at all:
     if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
         //We don't need a summary for a single item, just give us the details
-        insert_iteminfo_block_separator( details_info, "Recipe Result" );
-        get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+        insert_iteminfo_block_separator( details_info, recipe_result_string );
+        get_item_details( dummy_result, 1, details_info, result_string, result_uses_charges );
 
     } else { //We do need a summary
         //Top of the header
-        insert_iteminfo_block_separator( info, "Recipe Outputs" );
+        insert_iteminfo_block_separator( info, recipe_output_string );
         //If the primary result uses charges and is in a container, need to calculate number of charges
         if( result_uses_charges ) {
             dummy_result.charges *= rec->makes_amount();
@@ -564,29 +575,28 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
         if( rec->container_id() != itype_id::NULL_ID() ) {
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
-            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
-            get_item_header( dummy_container, 1, info, "In container",
+            get_item_header( dummy_result, 1, info, recipe_result_string, result_uses_charges );
+            get_item_header( dummy_container, 1, info, in_container_string,
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
-            insert_iteminfo_block_separator( details_info, "Recipe Result" );
-            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+            insert_iteminfo_block_separator( details_info, recipe_result_string );
+            get_item_details( dummy_result, 1, details_info, recipe_result_string, result_uses_charges );
 
-            insert_iteminfo_block_separator( details_info, "Container Information" );
-            get_item_details( dummy_container, 1, details_info, "Container", false );
+            insert_iteminfo_block_separator( details_info, container_info_string );
+            get_item_details( dummy_container, 1, details_info, container_string, false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
-            get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            get_item_header( dummy_result, 1, info, recipe_result_string, result_uses_charges );
             //Add the details 'header'
-            insert_iteminfo_block_separator( details_info, "Recipe Result" );
+            insert_iteminfo_block_separator( details_info, recipe_result_string );
             //Get the item details:
-            get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
+            get_item_details( dummy_result, 1, details_info, recipe_result_string, result_uses_charges );
         }
         if( rec->has_byproducts() ) {
-            insert_iteminfo_block_separator( details_info, "Byproducts" );
             get_byproducts_data( rec, info, details_info );
         }
+        info.emplace_back( "DESCRIPTION", "  " );  //Blank line for formatting
     }
-    info.emplace_back( "DESCRIPTION", "  " );  //Blank line for formatting
     //Merge summary and details
     info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
     item_info_data data( "", "", info, {}, scroll_pos );
@@ -602,9 +612,9 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
         const std::string title )
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
-    info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( _( title ), 0,
+    info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,
                            panel_width ), ' ' ) +
-                           _( "<bold>" + _( title ) + "</bold>" ) );
+                           "<bold>" + title + "</bold>" );
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
