@@ -64,7 +64,7 @@
   {
     "type": "tool_quality",
     "id": "SOLDERING",
-    "name": { "str": "soldering" }
+    "name": { "str": "soldering tool" }
   },
   {
     "type": "tool_quality",
