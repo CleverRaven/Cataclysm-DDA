@@ -450,7 +450,8 @@ class recipe_result_info_cache
 {
         std::vector<iteminfo> info;
         const recipe *last_recipe = nullptr;
-        int last_width = 0;
+        int last_terminal_width = 0;
+        int panel_width;
         int cached_batch_size = 1;
 
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
@@ -459,23 +460,23 @@ class recipe_result_info_cache
                                std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
         void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
                               const std::string &classification, const bool uses_charges );
-        void insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec );
         void insert_iteminfo_blank_line( std::vector<iteminfo> &info_vec );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string title );
     public:
-        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos );
+        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos,
+                                        const catacurses::window &window );
 };
 
 void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
 {
     for( const std::pair<const itype_id, int> &bp : rec->get_byproducts() ) {
-        //Add dividers between item details
-        insert_iteminfo_blank_line( details_info );
-        insert_iteminfo_separator_line( details_info );
         item dummy_item = item( bp.first );
         bool uses_charges = dummy_item.count_by_charges();
         get_item_header( dummy_item, bp.second, summary_info, "With byproduct", uses_charges );
         get_item_details( dummy_item, bp.second, details_info, "Byproduct", uses_charges );
+        //Add dividers between item details
+        insert_iteminfo_blank_line( details_info );
     }
 }
 
@@ -517,12 +518,12 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
 }
 
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
-        int &scroll_pos )
+        int &scroll_pos, const catacurses::window &window )
 {
     /* If the recipe has not changed, return the cached version in info.
        Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
        has changed, the info needs to be regenerated */
-    if( rec == last_recipe && rec != nullptr && TERMX == last_width &&
+    if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
         batch_size == cached_batch_size ) {
         item_info_data data( "", "", info, {}, scroll_pos );
         return data;
@@ -531,7 +532,8 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     cached_batch_size = batch_size;
     last_recipe = rec;
     scroll_pos = 0;
-    last_width = TERMX;
+    last_terminal_width = TERMX;
+    panel_width = getmaxx( window );
 
     info.clear(); //New recipe, new info
 
@@ -548,9 +550,12 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     //First, see if we need it at all:
     if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
         //We don't need a summary for a single item, just give us the details
+        insert_iteminfo_block_separator( details_info, "Recipe Result" );
         get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
 
     } else { //We do need a summary
+        //Top of the header
+        insert_iteminfo_block_separator( info, "Recipe Outputs" );
         //If the primary result uses charges and is in a container, need to calculate number of charges
         if( result_uses_charges ) {
             dummy_result.charges *= rec->makes_amount();
@@ -563,23 +568,25 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
             get_item_header( dummy_container, 1, info, "In container",
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
+            insert_iteminfo_block_separator( details_info, "Recipe Result" );
             get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
-            insert_iteminfo_blank_line( details_info );
-            insert_iteminfo_separator_line( details_info );
+
+            insert_iteminfo_block_separator( details_info, "Container Information" );
             get_item_details( dummy_container, 1, details_info, "Container", false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
             get_item_header( dummy_result, 1, info, "Result", result_uses_charges );
+            //Add the details 'header'
+            insert_iteminfo_block_separator( details_info, "Recipe Result" );
             //Get the item details:
             get_item_details( dummy_result, 1, details_info, "Result", result_uses_charges );
         }
         if( rec->has_byproducts() ) {
+            insert_iteminfo_block_separator( details_info, "Byproducts" );
             get_byproducts_data( rec, info, details_info );
         }
-
-        //Add a separator between the summary and details
-        insert_iteminfo_separator_line( info );
     }
+    info.emplace_back( "DESCRIPTION", "  " );  //Blank line for formatting
     //Merge summary and details
     info.insert( std::end( info ), std::begin( details_info ), std::end( details_info ) );
     item_info_data data( "", "", info, {}, scroll_pos );
@@ -591,12 +598,14 @@ void recipe_result_info_cache::insert_iteminfo_blank_line( std::vector<iteminfo>
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-void recipe_result_info_cache::insert_iteminfo_separator_line( std::vector<iteminfo> &info_vec )
+void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
+        const std::string title )
 {
-    /*Calculation is the current method for calculating the width of the iteminfo panel.  TODO: Link it back
-      to the previously calculated value so that this won't break if the calculation changes. */
-    info_vec.emplace_back( "DESCRIPTION", std::string( std::min( TERMX,
-                           FULL_SCREEN_WIDTH * 2 ) - FULL_SCREEN_WIDTH - 1, '-' ) );
+    info_vec.emplace_back( "DESCRIPTION", "--" );
+    info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( _( title ), 0,
+                           panel_width ), ' ' ) +
+                           _( "<bold>" + _( title ) + "</bold>" ) );
+    info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
 static std::pair<std::vector<const recipe *>, bool>
@@ -977,7 +986,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else {
-                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll );
+                item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll,
+                                      w_iteminfo );
                 data.without_getch = true;
                 data.without_border = true;
                 data.scrollbar_left = false;
@@ -1304,7 +1314,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
 
-            item_info_data data = result_info.get_result_data( current[line], 1, item_info_scroll_popup );
+            item_info_data data = result_info.get_result_data( current[line], 1, item_info_scroll_popup,
+                                  w_iteminfo );
             data.handle_scrolling = true;
             draw_item_info( []() -> catacurses::window {
                 const int width = std::min( TERMX, FULL_SCREEN_WIDTH );
