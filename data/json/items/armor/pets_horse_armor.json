@@ -155,7 +155,7 @@
     "price": 50000,
     "price_postapoc": 10000,
     "material": [ "iron", "leather" ],
-    "weight": "125 kg",
+    "weight": "30 kg",
     "volume": "150 L",
     "material_thickness": 4
   },
@@ -169,7 +169,7 @@
     "price": 60000,
     "price_postapoc": 15000,
     "material": [ "steel", "leather" ],
-    "weight": "300 kg",
+    "weight": "50 kg",
     "volume": "150 L",
     "material_thickness": 4
   },
@@ -183,7 +183,7 @@
     "price": 50000,
     "price_postapoc": 10000,
     "material": [ "bronze", "leather" ],
-    "weight": "235 kg",
+    "weight": "30 kg",
     "volume": "150 L",
     "material_thickness": 4
   },
