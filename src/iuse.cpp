@@ -7351,6 +7351,9 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
         // position of <monster type string>
         const size_t mon_str_pos = monster_photos.find( "," + mtype + "," );
 
+        // monster gets recorded by the character, add to known types
+        p.set_knows_creature_type( monster_p->type->id );
+
         if( mon_str_pos == std::string::npos ) { // new monster
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
         } else { // replace quality character, if new photo is better
