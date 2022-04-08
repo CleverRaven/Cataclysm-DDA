@@ -11,6 +11,11 @@
       { "monster": "mon_zombie_fungus", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_boomer_fungus", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child_fungus", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_lasher", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_thorny", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_slimy", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_breather", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_cultivator", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_fungal_wall", "weight": 0, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_queen", "weight": 0, "cost_multiplier": 0 }
     ]
@@ -85,8 +90,8 @@
     "name": "GROUP_FUNGI_URBAN",
     "default": "mon_zombie_fungus",
     "monsters": [
-      { "monster": "mon_fungaloid_saproling", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_fungaloid_caretaker", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_saproling", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_fungaloid_caretaker", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie_fungus", "weight": 70, "cost_multiplier": 0 },
       { "monster": "mon_zombie_child_fungus", "weight": 70, "cost_multiplier": 0 },
       { "monster": "mon_boomer_fungus", "weight": 30, "cost_multiplier": 0 },
