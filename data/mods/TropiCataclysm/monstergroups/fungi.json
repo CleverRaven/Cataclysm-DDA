@@ -88,14 +88,23 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FUNGI_URBAN",
-    "default": "mon_zombie_fungus",
+    "default": "mon_fungaloid",
     "monsters": [
-      { "monster": "mon_fungaloid_saproling", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_fungaloid_caretaker", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_zombie_fungus", "weight": 70, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_child_fungus", "weight": 70, "cost_multiplier": 0 },
-      { "monster": "mon_boomer_fungus", "weight": 30, "cost_multiplier": 0 },
-      { "monster": "mon_skeleton_fungus", "weight": 30, "cost_multiplier": 0 }
+      { "monster": "mon_fungaloid_caretaker", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_fungaloid", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid", "weight": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_fungaloid_shambler", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_lasher", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_thorny", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_slimy", "weight": 160, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fungaloid_breather", "weight": 160, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_fungaloid_cultivator", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_child_fungus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_boomer_fungus", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_skeleton_fungus", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_smoker_fungus", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_skeleton_brute_fungus", "weight": 60, "cost_multiplier": 0 }
     ]
   }
 ]
