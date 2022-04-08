@@ -210,19 +210,14 @@
     "id": "civilian_armor",
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
-    "entries": [
-      { "group": "civilian_face_armor", "prob": 20 },
-      { "group": "civilian_body_armor", "prob": 20 }
-    ]
+    "entries": [ { "group": "civilian_face_armor", "prob": 20 }, { "group": "civilian_body_armor", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "civilian_body_armor",
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
-    "entries": [
-      { "item": "kevlar", "prob": 20 }
-    ]
+    "entries": [ { "item": "kevlar", "prob": 20 } ]
   },
   {
     "type": "item_group",
