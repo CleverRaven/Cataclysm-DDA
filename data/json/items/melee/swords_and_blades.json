@@ -1545,7 +1545,6 @@
     "price_postapoc": 3000,
     "bashing": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
-    "//": "comment only to kick off tests. dekete me",
     "material": [ "steel", "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
