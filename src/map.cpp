@@ -5179,7 +5179,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
             //~ Select components from the map to consume. %d = number of components left to consume.
             imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
             for( const item_location &loc : locs ) {
-                imenu.addentry( loc->tname() + " (" + loc.describe() + ")" );
+                imenu.addentry( loc->display_name() + " (" + loc.describe() + ")" );
             }
             imenu.query();
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= locs.size() ) {
