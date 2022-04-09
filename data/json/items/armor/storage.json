@@ -773,8 +773,8 @@
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 10, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "fanny",
@@ -988,8 +988,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "legrig",
@@ -1563,8 +1563,8 @@
       }
     ],
     "material_thickness": 0.2,
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "rucksack",

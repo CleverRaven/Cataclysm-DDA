@@ -1506,7 +1506,10 @@ class Character : public Creature, public visitable
          */
         void store( item &container, item &put, bool penalties = true,
                     int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER,
+                    bool check_best_pkt = false );
+        void store( item_pocket *pocket, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
@@ -1780,6 +1783,11 @@ class Character : public Creature, public visitable
          */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr,
                             const item *original_inventory_item = nullptr );
+
+        /** Drops items at player location
+        *  An optional qty can be provided (and will perform better than separate calls).
+        */
+        bool i_drop_at( item &it, int qty = 1 );
 
         /**
          * Check any already unsealed pockets in items pointed to by `containers`

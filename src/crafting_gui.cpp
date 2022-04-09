@@ -780,6 +780,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     int num_recipe = 0;
     int batch_line = 0;
     const recipe *chosen = nullptr;
+    int last_line = -1;
 
     Character &player_character = get_player_character();
     const inventory &crafting_inv = player_character.crafting_inventory();
@@ -1222,6 +1223,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             // list.
             user_moved_line = false;
             uistate.read_recipes.insert( current[line]->ident() );
+            if( last_line != -1 ) {
+                uistate.read_recipes.insert( current[last_line]->ident() );
+                last_line = -1;
+            }
             recalc_unread = true;
         }
 
@@ -1269,9 +1274,11 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "DOWN" ) {
+            last_line = line;
             line++;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "UP" ) {
+            last_line = line;
             line--;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "PAGE_DOWN" ) {

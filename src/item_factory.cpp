@@ -1822,6 +1822,11 @@ void Item_factory::check_definitions() const
                 }
             }
 
+            // waist is deprecated
+            if( type->has_flag( flag_WAIST ) ) {
+                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the belted layer.  If you are making new content make it belted specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
+            }
+
             // check that no item has more coverage on any location than the max coverage (100)
             for( const armor_portion_data &portion : type->armor->sub_data ) {
                 if( 100 < portion.coverage || 100 < portion.cover_melee ||
@@ -2637,6 +2642,8 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
+
+    optional( jo, false, "rigid_layer_only", rigid_layer_only, false );
 
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );

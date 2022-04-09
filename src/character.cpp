@@ -11013,10 +11013,32 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 }
 
 void Character::store( item &container, item &put, bool penalties, int base_cost,
-                       item_pocket::pocket_type pk_type )
+                       item_pocket::pocket_type pk_type, bool check_best_pkt )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ), pk_type );
+    if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
+        container.get_all_contained_pockets().value().size() > 1 ) {
+        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
+    } else {
+        container.put_in( i_rem( &put ), pk_type );
+    }
+    calc_encumbrance();
+}
+
+void Character::store( item_pocket *pocket, item &put, bool penalties, int base_cost )
+{
+    if( !pocket ) {
+        return;
+    }
+
+    item_location char_item( *this, &null_item_reference() );
+    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false, false );
+    if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
+        pocket = pkt_best;
+    }
+    moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
+                       pocket->obtain_cost( put ) );
+    pocket->insert_item( i_rem( &put ) );
     calc_encumbrance();
 }
 
