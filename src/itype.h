@@ -619,6 +619,8 @@ struct itype_variant_data {
     translation alt_description;
     ascii_art_id art;
 
+    bool append = false; // if the description should be appended to the base description.
+
     int weight = 0;
 
     void deserialize( const JsonObject &jo );
