@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_KINDRED_COOPER",
     "name": { "str": "Rogue Kindred" },
-    "job_description": "I have to gather more bones",
+    "job_description": "I have to gather more bones.",
     "traits": [
       { "trait": "OUTDOORSMAN" },
       { "trait": "INSOMNIA" },
