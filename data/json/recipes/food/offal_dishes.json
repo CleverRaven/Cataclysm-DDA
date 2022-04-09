@@ -152,7 +152,12 @@
     "components": [
       [ [ "meat_liver", 3, "LIST" ] ],
       [ [ "fry_oil", 1, "LIST" ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [
+        [ "milk_standard_raw", 1, "LIST" ],
+        [ "lf_milk_standard", 1, "LIST" ],
+        [ "con_milk", 1 ],
+        [ "can_coconut", 1 ]
+      ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
@@ -249,7 +254,12 @@
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour_any", 2, "LIST" ] ],
       [ [ "salt", 3 ] ],
-      [ [ "milk_standard_raw", 2, "LIST" ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ]
+      [
+        [ "milk_standard_raw", 2, "LIST" ],
+        [ "lf_milk_standard", 2, "LIST" ],
+        [ "con_milk", 2 ],
+        [ "can_coconut", 2 ]
+      ]
     ]
   },
   {
@@ -446,7 +456,7 @@
       [ [ "any_butter", 4, "LIST" ] ],
       [ [ "salt", 6 ] ],
       [ [ "pepper", 3 ] ],
-      [ [ "milk_standard", 1, "LIST" ] ]
+      [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ] ]
     ]
   },
   {

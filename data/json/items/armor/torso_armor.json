@@ -198,6 +198,7 @@
     "symbol": "[",
     "longest_side": "60 cm",
     "looks_like": "armor_lorica",
+    "repairs_like": "armor_cuirass",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,

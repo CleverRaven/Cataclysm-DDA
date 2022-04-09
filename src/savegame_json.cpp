@@ -775,6 +775,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
+    data.read( "known_monsters", known_monsters );
+
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
@@ -1250,6 +1252,9 @@ void Character::store( JsonOut &json ) const
 
     json.member_as_string( "move_mode",  move_mode );
 
+    // monsters recorded by the character
+    json.member( "known_monsters", known_monsters );
+
     // storing the mount
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
@@ -1529,7 +1534,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "magic", magic );
 
-    set_highest_cat_level();
+    calc_mutation_levels();
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {

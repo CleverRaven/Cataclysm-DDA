@@ -1906,6 +1906,9 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                     const vpart_info &new_vpi = new_vpid.obj();
                     ret = find_tile_looks_like( "vp_" + new_vpi.looks_like, category, "",
                                                 looks_like_jumps_limit - 1 );
+                    if( !ret.has_value() ) {
+                        ret = find_tile_looks_like( new_vpi.looks_like, category, "", looks_like_jumps_limit - 1 );
+                    }
                 }
             }
             return ret;
