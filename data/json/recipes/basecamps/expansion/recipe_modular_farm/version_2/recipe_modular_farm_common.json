@@ -42,19 +42,7 @@
     "blueprint_requires": [ { "id": "fbmf_2" } ],
     "skill_used": "fabrication",
     "time": "48 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -71,19 +59,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_1" } ],
     "skill_used": "fabrication",
     "time": "48 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -100,19 +76,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_2" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -129,19 +93,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_3" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -158,19 +110,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_4" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -187,19 +127,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_5" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -216,19 +144,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_6" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -245,19 +161,7 @@
     "blueprint_requires": [ { "id": "fbmf_2_plot_7" } ],
     "skill_used": "fabrication",
     "time": "1 h 36 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },
   {
     "type": "recipe",
@@ -271,19 +175,7 @@
     "blueprint_update_oter": [ { "pre": "faction_base_farm_2_0", "id": "faction_base_farm_2_noplots" } ],
     "construction_blueprint": "fbmf_2_fence_1",
     "blueprint_name": "erect a fence",
-    "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_requires": [ { "id": "fbmf_2" } ]
   },
   {
     "type": "recipe",
@@ -297,19 +189,7 @@
     "blueprint_update_oter": [ { "pre": "faction_base_farm_2_0", "id": "faction_base_farm_2_noplots" } ],
     "construction_blueprint": "fbmf_2_fence_2",
     "blueprint_name": "erect a fence",
-    "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_requires": [ { "id": "fbmf_2" } ]
   },
   {
     "type": "recipe",
@@ -323,19 +203,7 @@
     "blueprint_update_oter": [ { "pre": "faction_base_farm_2_0", "id": "faction_base_farm_2_noplots" } ],
     "construction_blueprint": "fbmf_2_fence_3",
     "blueprint_name": "erect a fence",
-    "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_requires": [ { "id": "fbmf_2" } ]
   },
   {
     "type": "recipe",
@@ -349,19 +217,7 @@
     "blueprint_update_oter": [ { "pre": "faction_base_farm_2_0", "id": "faction_base_farm_2_noplots" } ],
     "construction_blueprint": "fbmf_2_fence_4",
     "blueprint_name": "erect a fence",
-    "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_requires": [ { "id": "fbmf_2" } ]
   },
   {
     "type": "recipe",
@@ -376,19 +232,7 @@
     "construction_blueprint": "fbmf_2_fence_5",
     "blueprint_name": "erect a fence",
     "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "blueprint_excludes": [ { "id": "fbmf_2_gate" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmf_2_gate" } ]
   },
   {
     "type": "recipe",
@@ -403,18 +247,6 @@
     "construction_blueprint": "fbmf_2_gate",
     "blueprint_name": "build a palisade gate",
     "blueprint_requires": [ { "id": "fbmf_2" } ],
-    "blueprint_excludes": [ { "id": "fbmf_2_fence_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmf_2_fence_5" } ]
   }
 ]

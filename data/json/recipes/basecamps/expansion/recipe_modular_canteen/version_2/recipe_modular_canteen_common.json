@@ -48,19 +48,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmk_2_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "fake_fireplace", "pot" ],
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -84,19 +72,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmk_2_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "fake_fireplace", "pot" ],
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ], [ [ "pan", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -111,19 +87,7 @@
     "blueprint_name": "build a well",
     "blueprint_requires": [ { "id": "fbmk_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_well" }, { "id": "water_well" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_well" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_well" } ]
   },
   {
     "type": "recipe",
@@ -138,19 +102,7 @@
     "blueprint_name": "build kitchen counters",
     "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_counters" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_counters" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_counters" } ]
   },
   {
     "type": "recipe",
@@ -167,19 +119,7 @@
     "blueprint_requires": [ { "id": "fbmk_2_fire" }, { "id": "fbmk_2_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_2_smoking" }, { "id": "fbmk_2_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_smoking" } ],
-    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ]
   },
   {
     "type": "recipe",
@@ -194,19 +134,7 @@
     "blueprint_name": "build root cellars",
     "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_root_cellar" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_root_cellar" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_root_cellar" } ]
   },
   {
     "type": "recipe",
@@ -221,19 +149,7 @@
     "blueprint_name": "furnish the pantry",
     "blueprint_requires": [ { "id": "fbmk_2_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_2_pantry_furniture" }, { "id": "pantry" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_pantry_furniture" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_pantry_furniture" } ]
   },
   {
     "type": "recipe",
@@ -250,19 +166,7 @@
     "blueprint_requires": [ { "id": "fbmk_2_smoking" } ],
     "blueprint_provides": [ { "id": "fbmk_2_butchery" }, { "id": "fbmk_2_recipes_3" }, { "id": "trapping" }, { "id": "hunting" } ],
     "blueprint_excludes": [ { "id": "fbmk_2_butchery" } ],
-    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -278,19 +182,7 @@
     "blueprint_name": "furnish the dining room",
     "blueprint_requires": [ { "id": "fbmk_2_dining_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_dining_furniture" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_dining_furniture" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_dining_furniture" } ]
   },
   {
     "type": "recipe",
@@ -306,19 +198,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_well" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_1" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_1" } ]
   },
   {
     "type": "recipe",
@@ -334,19 +214,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_1" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_2" } ]
   },
   {
     "type": "recipe",
@@ -362,19 +230,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_3" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_3" } ]
   },
   {
     "type": "recipe",
@@ -390,19 +246,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_3" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_4" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_4" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_4" } ]
   },
   {
     "type": "recipe",
@@ -418,19 +262,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_4" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_5" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_5" } ]
   },
   {
     "type": "recipe",
@@ -446,19 +278,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_5" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_6" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_6" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_6" } ]
   },
   {
     "type": "recipe",
@@ -474,19 +294,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_6" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_7" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_7" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_7" } ]
   },
   {
     "type": "recipe",
@@ -502,19 +310,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_7" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_8" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_8" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_8" } ]
   },
   {
     "type": "recipe",
@@ -530,19 +326,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_8" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_9" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_9" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_9" } ]
   },
   {
     "type": "recipe",
@@ -558,19 +342,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_9" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_10" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_10" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_10" } ]
   },
   {
     "type": "recipe",
@@ -586,19 +358,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_10" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_11" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_11" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_11" } ]
   },
   {
     "type": "recipe",
@@ -614,19 +374,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_11" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_12" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_12" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_12" } ]
   },
   {
     "type": "recipe",
@@ -642,19 +390,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_12" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_13" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_13" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_13" } ]
   },
   {
     "type": "recipe",
@@ -670,19 +406,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_13" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_14" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_14" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_14" } ]
   },
   {
     "type": "recipe",
@@ -698,19 +422,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_14" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_15" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_15" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_15" } ]
   },
   {
     "type": "recipe",
@@ -726,19 +438,7 @@
     "blueprint_name": "build some planters",
     "blueprint_requires": [ { "id": "fbmk_2_planters_15" } ],
     "blueprint_provides": [ { "id": "fbmk_2_planters_16" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_planters_16" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_planters_16" } ]
   },
   {
     "type": "recipe",
@@ -754,19 +454,7 @@
     "blueprint_name": "build salt water tanks",
     "blueprint_requires": [ { "id": "fbmk_2_pantry_room" } ],
     "blueprint_provides": [ { "id": "fbmk_2_tank" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_tank" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_tank" } ]
   },
   {
     "type": "recipe",
@@ -782,19 +470,7 @@
     "blueprint_name": "install some brewery vats",
     "blueprint_requires": [ { "id": "fbmk_2_brewery" } ],
     "blueprint_provides": [ { "id": "fbmk_2_vat" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_vat" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_vat" } ]
   },
   {
     "type": "recipe",
@@ -810,19 +486,7 @@
     "blueprint_name": "install some brewery racks",
     "blueprint_requires": [ { "id": "fbmk_2_brewery" } ],
     "blueprint_provides": [ { "id": "fbmk_2_display" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_display" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_display" } ]
   },
   {
     "type": "recipe",
@@ -838,19 +502,7 @@
     "blueprint_name": "install a still in the brewery",
     "blueprint_requires": [ { "id": "fbmk_2_brewery" } ],
     "blueprint_provides": [ { "id": "fbmk_2_still" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_still" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_still" } ]
   },
   {
     "type": "recipe",
@@ -866,19 +518,7 @@
     "blueprint_name": "build a windmill",
     "blueprint_requires": [ { "id": "fbmk_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_windmill" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_windmill" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_windmill" } ]
   },
   {
     "type": "recipe",
@@ -894,18 +534,6 @@
     "blueprint_name": "build a bench and a bird bath",
     "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_bench_bath" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_bench_bath" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_bench_bath" } ]
   }
 ]

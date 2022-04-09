@@ -12,19 +12,7 @@
     "blueprint_name": "build the first concrete garage section",
     "blueprint_requires": [ { "id": "fbmg_2" } ],
     "blueprint_provides": [ { "id": "fbmg_2_1" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_1" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "build the second concrete garage section",
     "blueprint_requires": [ { "id": "fbmg_2_1" } ],
     "blueprint_provides": [ { "id": "fbmg_2_2" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_2" } ]
   },
   {
     "type": "recipe",
@@ -67,19 +43,7 @@
     "blueprint_name": "build an inner concrete wall",
     "blueprint_requires": [ { "id": "fbmg_2_3" } ],
     "blueprint_provides": [ { "id": "fbmg_2_wall" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_wall" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_wall" } ]
   },
   {
     "type": "recipe",
@@ -94,19 +58,7 @@
     "blueprint_name": "extend the first wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_3" } ],
     "blueprint_provides": [ { "id": "fbmg_2_4" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_4" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_4" } ]
   },
   {
     "type": "recipe",
@@ -121,19 +73,7 @@
     "blueprint_name": "extend the second wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_4" } ],
     "blueprint_provides": [ { "id": "fbmg_2_5" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_5" } ]
   },
   {
     "type": "recipe",
@@ -148,19 +88,7 @@
     "blueprint_name": "extend the first wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_6" } ],
     "blueprint_provides": [ { "id": "fbmg_2_7" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_7" }, { "id": "fbmg_2_gate_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_7" }, { "id": "fbmg_2_gate_2" } ]
   },
   {
     "type": "recipe",
@@ -175,19 +103,7 @@
     "blueprint_name": "extend the second wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_7" } ],
     "blueprint_provides": [ { "id": "fbmg_2_8" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_8" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_8" } ]
   },
   {
     "type": "recipe",
@@ -202,19 +118,7 @@
     "blueprint_name": "extend the first wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_9" } ],
     "blueprint_provides": [ { "id": "fbmg_2_10" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_10" }, { "id": "fbmg_2_gate_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_10" }, { "id": "fbmg_2_gate_3" } ]
   },
   {
     "type": "recipe",
@@ -229,18 +133,6 @@
     "blueprint_name": "extend the second wall using concrete",
     "blueprint_requires": [ { "id": "fbmg_2_10" } ],
     "blueprint_provides": [ { "id": "fbmg_2_11" } ],
-    "blueprint_excludes": [ { "id": "fbmg_2_11" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmg_2_11" } ]
   }
 ]

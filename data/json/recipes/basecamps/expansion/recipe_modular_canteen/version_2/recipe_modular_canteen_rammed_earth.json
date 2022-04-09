@@ -12,19 +12,7 @@
     "blueprint_name": "build the rammed earth kitchen",
     "blueprint_requires": [ { "id": "fbmk_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_center" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_center" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "finish the rammed earth kitchen",
     "blueprint_requires": [ { "id": "fbmk_2_center" } ],
     "blueprint_provides": [ { "id": "fbmk_2_center_2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_center_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_center_2" } ]
   },
   {
     "type": "recipe",
@@ -66,19 +42,7 @@
     "blueprint_name": "build a rammed earth roofed area for smoking racks",
     "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_smoking_area" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_smoking_area" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_smoking_area" } ]
   },
   {
     "type": "recipe",
@@ -93,19 +57,7 @@
     "blueprint_name": "build a rammed earth pantry",
     "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_pantry_room" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_pantry_room" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_pantry_room" } ]
   },
   {
     "type": "recipe",
@@ -120,19 +72,7 @@
     "blueprint_name": "build first dining rammed earth section",
     "blueprint_requires": [ { "id": "fbmk_2_smoking_area" } ],
     "blueprint_provides": [ { "id": "fbmk_2_dining_1" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_dining_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_dining_1" } ]
   },
   {
     "type": "recipe",
@@ -147,19 +87,7 @@
     "blueprint_name": "build second dining rammed earth section",
     "blueprint_requires": [ { "id": "fbmk_2_dining_1" } ],
     "blueprint_provides": [ { "id": "fbmk_2_dining_2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_dining_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_dining_2" } ]
   },
   {
     "type": "recipe",
@@ -174,18 +102,6 @@
     "blueprint_name": "build rammed earth brewery",
     "blueprint_requires": [ { "id": "fbmk_2" } ],
     "blueprint_provides": [ { "id": "fbmk_2_brewery" } ],
-    "blueprint_excludes": [ { "id": "fbmk_2_brewery" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmk_2_brewery" } ]
   }
 ]

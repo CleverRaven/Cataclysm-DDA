@@ -12,19 +12,7 @@
     "blueprint_name": "smithy metal wall",
     "blueprint_requires": [ { "id": "fbmw_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_smithy_1" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_smithy_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_1" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "metal kiln protection",
     "blueprint_requires": [ { "id": "fbmw_2_smithy_1" } ],
     "blueprint_provides": [ { "id": "fbmw_2_smithy_2" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_smithy_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_2" } ]
   },
   {
     "type": "recipe",
@@ -66,19 +42,7 @@
     "blueprint_name": "last metal smithy section",
     "blueprint_requires": [ { "id": "fbmw_2_smithy_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_smithy_3" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_smithy_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_smithy_3" } ]
   },
   {
     "type": "recipe",
@@ -93,19 +57,7 @@
     "blueprint_name": "metal walled pottery",
     "blueprint_requires": [ { "id": "fbmw_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_pottery" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_pottery" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_pottery" } ]
   },
   {
     "type": "recipe",
@@ -120,19 +72,7 @@
     "blueprint_name": "metal walled glassblower's cottage",
     "blueprint_requires": [ { "id": "fbmw_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_glassblower" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_glassblower" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_glassblower" } ]
   },
   {
     "type": "recipe",
@@ -147,18 +87,6 @@
     "blueprint_name": "metal walled tannery",
     "blueprint_requires": [ { "id": "fbmw_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_tanner" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_tanner" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_tanner" } ]
   }
 ]

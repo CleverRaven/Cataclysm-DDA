@@ -40,19 +40,7 @@
     "blueprint_name": "chicken coop yard",
     "blueprint_requires": [ { "id": "fbml_2_coop" } ],
     "blueprint_provides": [ { "id": "fbml_2_coop_yard" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_coop_yard" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_coop_yard" } ]
   },
   {
     "type": "recipe",
@@ -67,19 +55,7 @@
     "blueprint_name": "remote paddock fence",
     "blueprint_requires": [ { "id": "fbml_2_stall_5" }, { "id": "fbml_2_coop" } ],
     "blueprint_provides": [ { "id": "fbml_2_remote_fence" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_remote_fence" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_remote_fence" } ]
   },
   {
     "type": "recipe",
@@ -94,19 +70,7 @@
     "blueprint_name": "side paddock fence",
     "blueprint_requires": [ { "id": "fbml_2_coop_yard" }, { "id": "fbml_2_shack" } ],
     "blueprint_provides": [ { "id": "fbml_2_side_fence" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_side_fence" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_side_fence" } ]
   },
   {
     "type": "recipe",
@@ -121,18 +85,6 @@
     "blueprint_name": "near paddock fence",
     "blueprint_requires": [ { "id": "fbml_2_stall_1" }, { "id": "fbml_2_shack" } ],
     "blueprint_provides": [ { "id": "fbml_2_near_fence" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_near_fence" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_near_fence" } ]
   }
 ]

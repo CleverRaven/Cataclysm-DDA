@@ -12,19 +12,7 @@
     "blueprint_name": "concrete chicken coop",
     "blueprint_requires": [ { "id": "fbml_2" } ],
     "blueprint_provides": [ { "id": "fbml_2_coop" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_coop" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_coop" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "concrete storage shack",
     "blueprint_requires": [ { "id": "fbml_2" } ],
     "blueprint_provides": [ { "id": "fbml_2_shack" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_shack" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_shack" } ]
   },
   {
     "type": "recipe",
@@ -66,19 +42,7 @@
     "blueprint_name": "concrete stable",
     "blueprint_requires": [ { "id": "fbml_2" } ],
     "blueprint_provides": [ { "id": "fbml_2_stall_1" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_stall_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_stall_1" } ]
   },
   {
     "type": "recipe",
@@ -93,19 +57,7 @@
     "blueprint_name": "concrete stable",
     "blueprint_requires": [ { "id": "fbml_2_stall_1" } ],
     "blueprint_provides": [ { "id": "fbml_2_stall_2" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_stall_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_stall_2" } ]
   },
   {
     "type": "recipe",
@@ -120,19 +72,7 @@
     "blueprint_name": "concrete stable",
     "blueprint_requires": [ { "id": "fbml_2_stall_2" } ],
     "blueprint_provides": [ { "id": "fbml_2_stall_3" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_stall_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_stall_3" } ]
   },
   {
     "type": "recipe",
@@ -147,19 +87,7 @@
     "blueprint_name": "concrete stable",
     "blueprint_requires": [ { "id": "fbml_2_stall_3" } ],
     "blueprint_provides": [ { "id": "fbml_2_stall_4" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_stall_4" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_stall_4" } ]
   },
   {
     "type": "recipe",
@@ -174,18 +102,6 @@
     "blueprint_name": "concrete stable",
     "blueprint_requires": [ { "id": "fbml_2_stall_4" } ],
     "blueprint_provides": [ { "id": "fbml_2_stall_5" } ],
-    "blueprint_excludes": [ { "id": "fbml_2_stall_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbml_2_stall_5" } ]
   }
 ]

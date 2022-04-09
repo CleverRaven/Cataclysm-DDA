@@ -12,19 +12,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section A",
     "blueprint_requires": [ { "id": "fbms_2_1" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_1" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_1" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section B",
     "blueprint_requires": [ { "id": "fbms_2_2" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_2" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_2" } ]
   },
   {
     "type": "recipe",
@@ -66,19 +42,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section C",
     "blueprint_requires": [ { "id": "fbms_2_3" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_3" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_3" } ]
   },
   {
     "type": "recipe",
@@ -93,19 +57,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section D",
     "blueprint_requires": [ { "id": "fbms_2_3" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_4" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_4" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_4" } ]
   },
   {
     "type": "recipe",
@@ -120,19 +72,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section E",
     "blueprint_requires": [ { "id": "fbms_2_4" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_5" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_5" } ]
   },
   {
     "type": "recipe",
@@ -147,19 +87,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section F",
     "blueprint_requires": [ { "id": "fbms_2_5" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_6" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_6" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_6" } ]
   },
   {
     "type": "recipe",
@@ -174,19 +102,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section G",
     "blueprint_requires": [ { "id": "fbms_2_6" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_7" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_7" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_7" } ]
   },
   {
     "type": "recipe",
@@ -201,19 +117,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section H",
     "blueprint_requires": [ { "id": "fbms_2_6" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_8" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_8" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_8" } ]
   },
   {
     "type": "recipe",
@@ -228,19 +132,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section I",
     "blueprint_requires": [ { "id": "fbms_2_7" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_9" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_9" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_9" } ]
   },
   {
     "type": "recipe",
@@ -255,19 +147,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section J",
     "blueprint_requires": [ { "id": "fbms_2_8" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_10" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_10" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_10" } ]
   },
   {
     "type": "recipe",
@@ -282,19 +162,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section K",
     "blueprint_requires": [ { "id": "fbms_2_9" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_11" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_11" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_11" } ]
   },
   {
     "type": "recipe",
@@ -309,19 +177,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section L",
     "blueprint_requires": [ { "id": "fbms_2_9" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_12" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_12" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_12" } ]
   },
   {
     "type": "recipe",
@@ -336,19 +192,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section M",
     "blueprint_requires": [ { "id": "fbms_2_10" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_13" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_13" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_13" } ]
   },
   {
     "type": "recipe",
@@ -363,19 +207,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section N",
     "blueprint_requires": [ { "id": "fbms_2_11" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_14" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_14" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_14" } ]
   },
   {
     "type": "recipe",
@@ -390,19 +222,7 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section O",
     "blueprint_requires": [ { "id": "fbms_2_12" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_15" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_15" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_15" } ]
   },
   {
     "type": "recipe",
@@ -417,18 +237,6 @@
     "blueprint_name": "place 1 ½ aisles of lockers in section P",
     "blueprint_requires": [ { "id": "fbms_2_12" } ],
     "blueprint_provides": [ { "id": "fbms_2_storage_16" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_storage_16" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_storage_16" } ]
   }
 ]

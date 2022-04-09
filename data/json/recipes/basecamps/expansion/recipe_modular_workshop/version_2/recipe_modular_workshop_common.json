@@ -42,19 +42,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_1" }, { "id": "blacksmith" }, { "id": "fbmw_2_blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_1" } ],
     "blueprint_resources": [ "fake_forge", "fake_fireplace", "makeshift_hammer" ],
-    "components": [ [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,19 +59,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_2" }, { "id": "fbmw_2_blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_2" } ],
     "blueprint_resources": [ "fake_char_kiln", "fake_char_kiln", "crucible" ],
-    "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -100,19 +76,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_3" }, { "id": "fbmw_2_blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_3" } ],
     "blueprint_resources": [ "anvil" ],
-    "components": [ [ [ "anvil", 1 ] ], [ [ "55gal_drum", 1 ] ], [ [ "30gal_drum", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "anvil", 1 ] ], [ [ "55gal_drum", 1 ] ], [ [ "30gal_drum", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -129,19 +93,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_4" }, { "id": "fbmw_2_blacksmith_recipes_4" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_4" } ],
     "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
-    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -158,19 +110,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_5" }, { "id": "fbmw_2_blacksmith_recipes_5" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_5" } ],
     "blueprint_resources": [ "hammer_sledge", "copper_knife" ],
-    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -187,19 +127,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_smithy_6" }, { "id": "fbmw_2_blacksmith_recipes_6" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_smithy_6" } ],
     "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
-    "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -215,19 +143,7 @@
     "blueprint_requires": [ { "id": "fbmw_2_pottery" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_pottery" }, { "id": "blacksmith" }, { "id": "fbmw_2_potter_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_pottery" } ],
-    "blueprint_resources": [ "fake_clay_kiln" ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_resources": [ "fake_clay_kiln" ]
   },
   {
     "type": "recipe",
@@ -244,19 +160,7 @@
     "blueprint_provides": [ { "id": "fbmw_2_common_glassblower" }, { "id": "blacksmith" }, { "id": "fbmw_2_glassblower_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_glassblower" } ],
     "components": [ [ [ "chisel", 1 ] ], [ [ "tongs", 1 ] ], [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ] ],
-    "blueprint_resources": [ "fake_forge", "chisel", "tongs", "crucible" ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_resources": [ "fake_forge", "chisel", "tongs", "crucible" ]
   },
   {
     "type": "recipe",
@@ -271,19 +175,7 @@
     "blueprint_name": "tanner furniture",
     "blueprint_requires": [ { "id": "fbmw_2_tanner" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_tanner" }, { "id": "blacksmith" }, { "id": "fbmw_2_recipes_salt_water" } ],
-    "blueprint_excludes": [ { "id": "fbmw_2_common_tanner" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbmw_2_common_tanner" } ]
   },
   {
     "type": "recipe",
@@ -299,18 +191,6 @@
     "blueprint_requires": [ { "id": "fbmw_2_pottery" } ],
     "blueprint_provides": [ { "id": "fbmw_2_common_recreation" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_common_recreation" } ],
-    "components": [ [ [ "55gal_drum", 1 ] ] ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "components": [ [ [ "55gal_drum", 1 ] ] ]
   }
 ]

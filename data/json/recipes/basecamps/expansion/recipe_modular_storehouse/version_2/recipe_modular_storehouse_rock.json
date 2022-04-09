@@ -12,19 +12,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2" } ],
     "blueprint_provides": [ { "id": "fbms_2_1" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_1" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_1" } ]
   },
   {
     "type": "recipe",
@@ -39,19 +27,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_1" } ],
     "blueprint_provides": [ { "id": "fbms_2_2" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_2" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_2" } ]
   },
   {
     "type": "recipe",
@@ -66,19 +42,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_2" } ],
     "blueprint_provides": [ { "id": "fbms_2_3" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_3" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_3" } ]
   },
   {
     "type": "recipe",
@@ -93,19 +57,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_3" } ],
     "blueprint_provides": [ { "id": "fbms_2_4" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_4" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_4" } ]
   },
   {
     "type": "recipe",
@@ -120,19 +72,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_4" } ],
     "blueprint_provides": [ { "id": "fbms_2_5" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_5" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_5" } ]
   },
   {
     "type": "recipe",
@@ -147,19 +87,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_5" } ],
     "blueprint_provides": [ { "id": "fbms_2_6" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_6" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_6" } ]
   },
   {
     "type": "recipe",
@@ -174,19 +102,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_6" } ],
     "blueprint_provides": [ { "id": "fbms_2_7" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_7" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_7" } ]
   },
   {
     "type": "recipe",
@@ -201,19 +117,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_7" } ],
     "blueprint_provides": [ { "id": "fbms_2_8" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_8" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_8" } ]
   },
   {
     "type": "recipe",
@@ -228,19 +132,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_8" } ],
     "blueprint_provides": [ { "id": "fbms_2_9" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_9" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_9" } ]
   },
   {
     "type": "recipe",
@@ -255,19 +147,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_9" } ],
     "blueprint_provides": [ { "id": "fbms_2_10" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_10" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_10" } ]
   },
   {
     "type": "recipe",
@@ -282,19 +162,7 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_10" } ],
     "blueprint_provides": [ { "id": "fbms_2_11" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_11" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_11" } ]
   },
   {
     "type": "recipe",
@@ -309,18 +177,6 @@
     "blueprint_name": "rock storage section",
     "blueprint_requires": [ { "id": "fbms_2_11" } ],
     "blueprint_provides": [ { "id": "fbms_2_12" } ],
-    "blueprint_excludes": [ { "id": "fbms_2_12" } ],
-    "flags": [
-      "MAP_MIRROR_HORIZONTAL_IF_N",
-      "MAP_ROTATE_90_IF_NE",
-      "MAP_MIRROR_HORIZONTAL_IF_E",
-      "MAP_ROTATE_90_IF_E",
-      "MAP_ROTATE_180_IF_SE",
-      "MAP_MIRROR_HORIZONTAL_IF_S",
-      "MAP_ROTATE_180_IF_S",
-      "MAP_ROTATE_270_IF_SW",
-      "MAP_MIRROR_HORIZONTAL_IF_W",
-      "MAP_ROTATE_270_IF_W"
-    ]
+    "blueprint_excludes": [ { "id": "fbms_2_12" } ]
   }
 ]

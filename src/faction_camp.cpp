@@ -2930,7 +2930,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                 if( !farm_json ) {
                     farm_json = std::make_unique<fake_map>();
                     mapgendata dat( omt_tgt, *farm_json, 0, calendar::turn, nullptr );
-                    if( !run_mapgen_func( dat.terrain_type()->get_mapgen_id(), dat ) ) {
+                    if( !run_mapgen_func( oter_id( dat.terrain_type() )->get_mapgen_id(), dat ) ) {
                         debugmsg( "Failed to run mapgen for farm map" );
                         break;
                     }
@@ -3267,14 +3267,18 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
         return false;
     }
 
+    // Copy existing tile's rotation for overmap updates
+    const oter_id &omt_ref = overmap_buffer.ter( upos );
+    const std::string direction = oter_get_rotation_string( omt_ref );
+
     // Update the overmap tile. Farm plowing needs this to see original plowed plots
     for( const auto &update_oter : making.blueprint_update_oter() ) {
         if( update_oter.first == "any" ) {
-            overmap_buffer.ter_set( upos, oter_id( update_oter.second ) );
+            overmap_buffer.ter_set( upos, oter_id( update_oter.second + direction ) );
             break;
         } else {
             if( overmap_buffer.check_ot_existing( update_oter.first, ot_match_type::prefix, upos ) ) {
-                overmap_buffer.ter_set( upos, oter_id( update_oter.second ) );
+                overmap_buffer.ter_set( upos, oter_id( update_oter.second + direction ) );
                 break;
             }
         }
@@ -3888,7 +3892,14 @@ bool basecamp::survey_return( const mission_id miss_id )
                expansion_type->blueprint_name() );
         return false;
     }
-    overmap_buffer.ter_set( where, oter_id( expansion_type.str() ) );
+
+    std::string rot;
+    oter_str_id expansion_str( expansion_type.str() );
+    // Is rotatable
+    if( !expansion_str.is_valid() ) {
+        rot = "_" + io::enum_to_string( om_direction::type( rotation ) );
+    }
+    overmap_buffer.ter_set( where, oter_id( expansion_type.str() + rot ) );
     add_expansion( expansion_type.str(), where, dir );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, skill_construction.str(), 2 );

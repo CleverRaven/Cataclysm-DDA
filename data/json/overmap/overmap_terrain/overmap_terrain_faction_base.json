@@ -140,7 +140,8 @@
     "id": "faction_base_workshop_2_0",
     "copy-from": "faction_base_camp_0",
     "name": "fabrication workshop 2 survey",
-    "color": "cyan"
+    "color": "cyan",
+    "delete": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -180,7 +181,8 @@
     "id": "faction_base_livestock_2_0",
     "copy-from": "faction_base_camp_0",
     "name": "livestock survey 2",
-    "color": "pink"
+    "color": "pink",
+    "delete": { "flags": [ "NO_ROTATE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -196,7 +198,7 @@
     "copy-from": "faction_base_camp_0",
     "name": "store house survey 2",
     "color": "cyan",
-    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+    "delete": { "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -220,7 +222,7 @@
     "copy-from": "faction_base_camp_0",
     "name": "canteen survey 2",
     "color": "i_green",
-    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+    "delete": { "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -228,7 +230,7 @@
     "copy-from": "faction_base_camp_0",
     "name": "farm survey 2",
     "color": "i_brown",
-    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+    "delete": { "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -252,7 +254,7 @@
     "copy-from": "faction_base_camp_0",
     "name": "garage survey 2",
     "color": "i_light_gray",
-    "delete": { "flags": [ "SOURCE_PEOPLE" ] }
+    "delete": { "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ] }
   },
   {
     "type": "overmap_terrain",
