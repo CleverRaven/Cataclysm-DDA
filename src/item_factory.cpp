@@ -1093,10 +1093,8 @@ void Item_factory::finalize_post( itype &obj )
             int coverage_counted = 0;
             int combined_breathability = 0;
 
-            // if armor has a breathability overide, use it instead of calculating it
-            if( armor_data.breathability >= 0 ) {
-                combined_breathability = armor_data.breathability;
-            } else {
+            // only calcuate the breathability if the armor has no valid loaded value
+            if( armor_data.breathability < 0 || armor_data.breathability > 100 ) {
                 for( const part_material &mat : sorted_mats ) {
                     // this isn't perfect since its impossible to know the positions of each material relatively
                     // so some guessing is done
@@ -1110,9 +1108,9 @@ void Item_factory::finalize_post( itype &obj )
                         break;
                     }
                 }
+                // whatever isn't covered is as good as skin so 100%
+                armor_data.breathability = (combined_breathability / 100) + (100 - coverage_counted);
             }
-            // whatever isn't covered is as good as skin so 100%
-            armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
         }
 
         for( const armor_portion_data &armor_data : obj.armor->data ) {
