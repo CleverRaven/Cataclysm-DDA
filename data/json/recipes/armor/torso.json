@@ -918,13 +918,7 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 150 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "kevlar_plate", 16 ]
-      ]
+      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "kevlar_plate", 16 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
@@ -949,13 +943,7 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 113 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "kevlar_plate", 12 ]
-      ]
+      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "kevlar_plate", 12 ] ]
     ]
   },
   {
@@ -979,7 +967,7 @@
         [ "fanny", 1 ]
       ],
       [ [ "duct_tape", 225 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_esapi", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 32 ] ]
+      [ [ "kevlar", 2 ], [ "ballistic_vest_esapi", 2 ], [ "kevlar_plate", 32 ] ]
     ]
   },
   {

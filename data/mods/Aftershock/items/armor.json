@@ -201,7 +201,7 @@
     "type": "ARMOR",
     "category": "armor",
     "//": "Based on US Army SPCS",
-    "name": { "str": "empty XL  ballistic vest" },
+    "name": { "str": "empty XL ballistic vest" },
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
