@@ -67,7 +67,7 @@
     "id": "milk_evap",
     "name": { "str_sp": "evaporated milk" },
     "copy-from": "milk",
-    "weight": "245 g",
+    "weight": "312 g",
     "container": "can_medium",
     "calories": 207,
     "description": "Milk that's had about 60% of its water removed prior to canning.",
