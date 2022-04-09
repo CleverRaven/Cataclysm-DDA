@@ -38,11 +38,28 @@
 "NPC / Factions":
   - "**/npcs/**/*"
 
+"Info / User Interface":
+  - "**/ui/**/*"
+  - "**/widget/**/*"
+  - "src/list_view.*"
+  - "src/surroundings_menu.*"
+
 "Appliance/Power Grid":
   - "**/appliance**"
 
 "Monsters":
   - "**/monsters/**/*"
+
+"Lore":
+  - data/json/npcs/BG_trait_groups.json
+  - data/json/npcs/Personality_trait_groups.json
+  - data/json/npcs/personality_traits.json
+  - "**/Backgrounds/**/*"
+  - "**/snippets/**/*"
+
+"Limbs":
+  - "src/bodypart.*"
+  - "data/json/limb_scores.json"
 
 "Spawn":
   - "**/itemgroups/**/*"
@@ -71,6 +88,7 @@
 
 "Translation":
   - lang/**/*
+  - "src/translation.*"
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
