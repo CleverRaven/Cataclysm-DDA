@@ -99,9 +99,11 @@ static const string_id<class npc_template> npc_template_commune_guard( "commune_
 static const string_id<class npc_template> npc_template_thug( "thug" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+
+static const std::string var_PURCHASED_FIELD_1_FENCE =
+    "npctalk_var_dialogue_tacoma_ranch_purchased_field_1_fence";
 
 static const std::string role_id_faction_camp = "FACTION_CAMP";
 
@@ -151,22 +153,6 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
     },
     {
         "Caravan_Commune_Center_Job",
-        no_translation( "" )
-    },
-    {
-        "Purchase_East_Field",
-        no_translation( "" )
-    },
-    {
-        "Upgrade_East_Field",
-        no_translation( "" )
-    },
-    {
-        "Plant_East_Field",
-        no_translation( "" )
-    },
-    {
-        "Harvest_East_Field",
         no_translation( "" )
     },
     //  Faction camp missions
@@ -472,7 +458,6 @@ void scavenger_patrol( mission_data &mission_key, npc &p );
 void scavenger_raid( mission_data &mission_key, npc &p );
 void commune_menial( mission_data &mission_key, npc &p );
 void commune_carpentry( mission_data &mission_key, npc &p );
-void commune_farmfield( mission_data &mission_key, npc &p );
 void commune_forage( mission_data &mission_key, npc &p );
 void commune_refuge_caravan( mission_data &mission_key, npc &p );
 bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
@@ -493,7 +478,6 @@ void talk_function::companion_mission( npc &p )
         }
     } else if( role_id == "COMMUNE CROPS" ) {
         title = _( "Agricultural Missions" );
-        commune_farmfield( mission_key, p );
         commune_forage( mission_key, p );
         commune_refuge_caravan( mission_key, p );
     } else if( role_id == "FOREMAN" ) {
@@ -505,6 +489,12 @@ void talk_function::companion_mission( npc &p )
     } else if( role_id == "REFUGEE MERCHANT" ) {
         title = _( "Free Merchant Missions" );
         commune_refuge_caravan( mission_key, p );
+    } else if( role_id == "PLANT FIELD" ) {
+        field_plant( p, omt_ranch_camp_63 );
+        return;
+    } else if( role_id == "HARVEST FIELD" ) {
+        field_harvest( p, omt_ranch_camp_63 );
+        return;
     } else {
         return;
     }
@@ -628,80 +618,6 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
         }
         mission_key.add_return( miss_id,
                                 _( "Recover Ally from Carpentry Work" ), entry, avail );
-    }
-}
-
-void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
-{
-    mission_id miss_id = { No_Mission, "", cata::nullopt };
-    if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $1000\n\n\n"
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                ..#....**\n" // NOLINT(cata-text-style)
-                               "                ..#Ov..**\n" // NOLINT(cata-text-style)
-                               "                ...O|....\n\n" // NOLINT(cata-text-style)
-                               "We're willing to let you purchase a field at a substantial "
-                               "discount to use for your own agricultural enterprises.  We'll "
-                               "plow it for you so you know exactly what is yours… after you "
-                               "have a field you can hire workers to plant or harvest crops for "
-                               "you.  If the crop is something we have a demand for, we'll be "
-                               "willing to liquidate it." );
-        miss_id.id = Purchase_East_Field;
-        mission_key.add_start( miss_id, _( "Purchase East Field" ), entry );
-    }
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
-        std::string entry = _( "Cost: $5500\n\n"
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ..#....**" // NOLINT(cata-text-style)
-                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                               "Protecting your field with a sturdy picket fence will keep most "
-                               "wildlife from nibbling your crops apart.  You can expect yields to "
-                               "increase." );
-        miss_id.id = Upgrade_East_Field;
-        mission_key.add_start( miss_id, _( "Upgrade East Field" ), entry );
-    }
-
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $3.00/plot\n\n"
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ..#....**" // NOLINT(cata-text-style)
-                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                               "We'll plant the field with your choice of crop if you are willing "
-                               "to finance it.  When the crop is ready to harvest you can have us "
-                               "liquidate it or harvest it for you." );
-        miss_id.id = Plant_East_Field;
-        mission_key.add_start( miss_id, _( "Plant East Field" ), entry );
-        entry = _( "Cost: $2.00/plot\n\n"
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ........." // NOLINT(cata-text-style)
-                   "\n              ..#....**" // NOLINT(cata-text-style)
-                   "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                   "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                   "You can either have us liquidate the crop and give you the cash or pay us to "
-                   "harvest it for you." );
-        miss_id.id = Harvest_East_Field;
-        mission_key.add_start( miss_id, _( "Harvest East Field" ), entry );
     }
 }
 
@@ -1150,22 +1066,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             }
             break;
 
-        case Purchase_East_Field:
-            field_build_1( p );
-            break;
-
-        case Upgrade_East_Field:
-            field_build_2( p );
-            break;
-
-        case Plant_East_Field:
-            field_plant( p, omt_ranch_camp_63 );
-            break;
-
-        case Harvest_East_Field:
-            field_harvest( p, omt_ranch_camp_63 );
-            break;
-
         case No_Mission:
             return false;
 
@@ -1458,59 +1358,6 @@ npc_ptr talk_function::temp_npc( const string_id<npc_template> &type )
     return temp;
 }
 
-//The field is designed as more of a convenience than a profit opportunity.
-void talk_function::field_build_1( npc &p )
-{
-    Character &player_character = get_player_character();
-    if( player_character.cash < 100000 ) {
-        popup( _( "I'm sorry, you don't have enough money." ) );
-        return;
-    }
-    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
-    player_character.cash += -100000;
-    const tripoint_abs_omt site =
-        overmap_buffer.find_closest( player_character.global_omt_location(), omt_ranch_camp_63, 20,
-                                     false );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_dirt, point( 5, 4 ), point( 15, 14 ) );
-    bay.draw_square_ter( t_dirtmound, point( 6, 5 ), point( 6, 13 ) );
-    bay.draw_square_ter( t_dirtmound, point( 8, 5 ), point( 8, 13 ) );
-    bay.draw_square_ter( t_dirtmound, point( 10, 5 ), point( 10, 13 ) );
-    bay.draw_square_ter( t_dirtmound, point( 12, 5 ), point( 12, 13 ) );
-    bay.draw_square_ter( t_dirtmound, point( 14, 5 ), point( 14, 13 ) );
-    bay.save();
-    popup( _( "%s jots your name down on a ledger and yells out to nearby laborers to begin "
-              "plowing your new field." ), p.get_name() );
-}
-
-//Really expensive, but that is so you can't tear down the fence and sell the wood for a profit!
-void talk_function::field_build_2( npc &p )
-{
-    Character &player_character = get_player_character();
-    if( player_character.cash < 550000 ) {
-        popup( _( "I'm sorry, you don't have enough money." ) );
-        return;
-    }
-    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
-    player_character.cash += -550000;
-    const tripoint_abs_omt site =
-        overmap_buffer.find_closest( player_character.global_omt_location(), omt_ranch_camp_63, 20,
-                                     false );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
-    bay.draw_square_ter( t_fence, point( 4, 15 ), point( 16, 15 ) );
-    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 4, 15 ) );
-    bay.draw_square_ter( t_fence, point( 16, 3 ), point( 16, 15 ) );
-    bay.draw_square_ter( t_fencegate_c, point( 10, 3 ), point( 10, 3 ) );
-    bay.draw_square_ter( t_fencegate_c, point( 10, 15 ), point( 10, 15 ) );
-    bay.draw_square_ter( t_fencegate_c, point( 4, 9 ), point( 4, 9 ) );
-    bay.save();
-    popup( _( "After counting your money %s directs a nearby laborer to begin constructing a "
-              "fence around your plot…" ), p.get_name() );
-}
-
 void talk_function::field_plant( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
@@ -1574,15 +1421,28 @@ void talk_function::field_plant( npc &p, const std::string &place )
         limiting_number = empty_plots;
     }
 
-    signed int a = limiting_number * 300;
-    if( a > player_character.cash ) {
-        popup( _( "I'm sorry, you don't have enough money to plant those seeds…" ) );
+    int player_merch = player_character.amount_of( itype_FMCNote );
+    if( player_merch == 0 ) {
+        popup( _( "I'm sorry, you don't have any money to plant those seeds…" ) );
         return;
     }
-    if( !query_yn( _( "Do you wish to have %d %s planted here for $%d?" ), limiting_number,
-                   seed_names[seed_index], limiting_number * 3 ) ) {
-        return;
+
+    if( player_merch < limiting_number ) {
+        limiting_number = player_merch;
+        if( !query_yn(
+                _( "You only have enough money to plant %d plants.  Do you wish to have %d %s planted here for %d merch?" ),
+                limiting_number, limiting_number,
+                seed_names[seed_index], limiting_number ) ) {
+            return;
+        }
+    } else {
+        if( !query_yn( _( "Do you wish to have %d %s planted here for %d merch?" ), limiting_number,
+                       seed_names[seed_index], limiting_number ) ) {
+            return;
+        }
     }
+
+    player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
     for( const tripoint &plot : bay.points_on_zlevel() ) {
@@ -1599,7 +1459,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
             limiting_number--;
         }
     }
-    bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
+
     bay.save();
     popup( _( "After counting your money and collecting your seeds, %s calls forth a labor party "
               "to plant your field." ), p.get_name() );
@@ -1659,7 +1519,8 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
+    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
+        p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
         skillLevel += 2;
     }
 
@@ -1673,51 +1534,51 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
+                const item item_seed = item( seed->type, calendar::turn );
                 tmp = item( seed_data.fruit_id, calendar::turn );
                 if( tmp.typeId() == plant_types[plant_index] ) {
                     number_plots++;
+
+                    int plant_count = rng( skillLevel / 2, skillLevel );
+                    plant_count *= bay.furn( plot )->plant->harvest_multiplier;
+                    plant_count = std::min( std::max( plant_count, 1 ), 12 );
+
+                    // Multiply by the plant's and seed's base charges to mimic creating
+                    // items similar to iexamine::harvest_plant
+                    number_plants += plant_count * tmp.charges;
+                    number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
+
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
                     bay.ter_set( plot, t_dirtmound );
-                    int plantCount = rng( skillLevel / 2, skillLevel );
-                    if( plantCount >= 9 ) {
-                        plantCount = 9;
-                    } else if( plantCount <= 0 ) {
-                        plantCount = 1;
-                    }
-                    number_plants += plantCount;
-                    number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                 }
             }
         }
     }
     bay.save();
     tmp = item( plant_types[plant_index], calendar::turn );
-    int money = ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
+    int merch_amount = std::max( 0, ( number_plants * tmp.price( true ) / 250 ) - number_plots );
     bool liquidate = false;
 
-    signed int a = number_plots * 2;
-    if( a > player_character.cash ) {
+    if( !player_character.has_amount( itype_FMCNote, number_plots ) ) {
         liquidate = true;
-        popup( _( "You don't have enough to pay the workers to harvest the crop so you are forced "
+        popup( _( "You don't have enough to pay the workers to harvest the crop, so you are forced "
                   "to sell…" ) );
     } else {
-        liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of $%3$d?" ),
-                              number_plants, plant_names[plant_index], money );
+        liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of %3$d merch?" ),
+                              number_plants, plant_names[plant_index], merch_amount );
     }
 
     //Add fruit
     if( liquidate ) {
-        add_msg( _( "The %s are sold for $%d…" ), plant_names[plant_index], money );
-        player_character.cash += ( number_plants * tmp.price( true ) - number_plots * 2 ) / 100;
+        add_msg( _( "The %s are sold for %d merch…" ), plant_names[plant_index], merch_amount );
+        item merch = item( itype_FMCNote );
+        player_character.i_add_or_drop( merch, merch_amount );
     } else {
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
-        for( int i = 0; i < number_plants; ++i ) {
-            //Should be dropped at your feet once greedy companions can be controlled
-            player_character.i_add( tmp );
-        }
+        player_character.i_add_or_drop( tmp, number_plants );
         add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
     }
     tmp = item( seed_types[plant_index], calendar::turn );
@@ -1726,12 +1587,9 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
         }
-        for( int i = 0; i < number_seeds; ++i ) {
-            player_character.i_add( tmp );
-        }
+        player_character.i_add_or_drop( tmp, number_seeds );
         add_msg( _( "You receive %d %s…" ), number_seeds, tmp.type_name( 3 ) );
     }
-
 }
 
 static int scavenging_combat_skill( npc &p, int bonus, bool guns )
