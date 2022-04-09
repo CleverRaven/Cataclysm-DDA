@@ -5801,6 +5801,26 @@
     "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
   },
   {
+    "result": "soft_3a_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "level_3_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
     "result": "ballistic_vest_light",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
