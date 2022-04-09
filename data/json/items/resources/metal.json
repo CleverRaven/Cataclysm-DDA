@@ -1081,7 +1081,7 @@
   {
     "id": "slag",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "spare_parts2",
     "price": 0,
     "price_postapoc": 0,
     "name": { "str_sp": "slag" },
