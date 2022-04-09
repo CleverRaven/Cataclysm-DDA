@@ -1,6 +1,21 @@
 [
   {
     "type": "GENERIC",
+    "id": "golemcore",
+    "symbol": ".",
+    "color": "red",
+    "name": "golem core",
+    "description": "The \"heart\" of a golem.  Makes a soft humming noise when you hold it close to your ear.",
+    "price": 10000,
+    "price_postapoc": 5000,
+    "material": [ "orichalcum_metal" ],
+    "weight": "5 kg",
+    "volume": "1 L",
+    "bashing": 6,
+    "flags": [ "NO_REPAIR", "FRAGILE_MELEE" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_claygolem",
     "symbol": "x",
     "color": "brown",

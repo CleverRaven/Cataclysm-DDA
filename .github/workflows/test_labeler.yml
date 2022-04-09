@@ -1,0 +1,65 @@
+name: Apply Test Labels
+
+on:
+  workflow_run:
+    workflows: ["astyle", "JSON Validation", "General build matrix"]
+    types: [completed]
+
+jobs:
+  labeling:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-latest
+    steps:
+    - name: setLabel
+      id: setLabel
+      run: |
+        if [[ "${{ github.event.workflow_run.name }}" == "astyle" ]]; then
+          echo "::set-output name=label::astyled"
+        fi
+        if [[ "${{ github.event.workflow_run.name }}" == "JSON Validation" ]]; then
+          echo "::set-output name=label::json-styled"
+        fi
+        if [[ "${{ github.event.workflow_run.name }}" == "General build matrix" ]]; then
+          echo "::set-output name=label::BasicBuildPassed"
+        fi
+    - name: Download success artifact from basic build
+      if: ${{ github.event.workflow_run.name == 'General build matrix' }}
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: ${{ github.event.workflow_run.name }}
+        run_id: ${{ github.event.workflow_run.id }}
+        name: basic-build
+    - name: set-basic-build-success
+      id: set-basic-build-success
+      run: echo "::set-output name=basic-build-success::$( cat basic-build )"
+    - name: Download pr id artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: ${{ github.event.workflow_run.name }}
+        run_id: ${{ github.event.workflow_run.id }}
+        name: pull_request_id
+    - name: set-pr-id
+      id: set-pr-id
+      run: echo "::set-output name=pr-id::$( cat pull_request_id )"
+    - name: set-label
+      if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+            github.rest.issues.addLabels({
+              issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['${{ steps.setLabel.outputs.label }}']
+            })
+    - name: remove-label
+      if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+            github.rest.issues.removeLabel({
+              issue_number: ${{ steps.set-pr-id.outputs.pr-id }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: '${{ steps.setLabel.outputs.label }}'
+            })

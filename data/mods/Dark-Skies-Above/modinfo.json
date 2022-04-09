@@ -5,7 +5,7 @@
     "name": "Dark Skies Above",
     "authors": [ "ephemeral_storyteller", "mlangsdorf" ],
     "description": "A total conversion that shifts the Cataclysm towards an alien occupation survival scenario.  THIS MOD WILL BREAK INTENDED FUNCTIONALITY OF OTHER MODS!  USE OTHER MODS AT YOUR OWN RISK.",
-    "category": "content",
+    "category": "total_conversion",
     "dependencies": [ "dda" ]
   }
 ]

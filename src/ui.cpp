@@ -23,6 +23,7 @@
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)
+#include <jni.h>
 #include <SDL_keyboard.h>
 
 #include "options.h"
@@ -62,74 +63,74 @@ static cata::optional<input_event> hotkey_from_char( const int ch )
     return input_event();
 }
 
-uilist_entry::uilist_entry( const std::string &T )
-    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( T ),
+uilist_entry::uilist_entry( const std::string &txt )
+    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const std::string &T, const std::string &D )
-    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( T ),
-      desc( D ), text_color( c_red_red )
+uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
+    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( txt ),
+      desc( desc ), text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const std::string &T, const int K )
-    : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( K ) ), txt( T ),
+uilist_entry::uilist_entry( const std::string &txt, const int key )
+    : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const std::string &T, const cata::optional<input_event> &K )
-    : retval( -1 ), enabled( true ), hotkey( K ), txt( T ),
+uilist_entry::uilist_entry( const std::string &txt, const cata::optional<input_event> &key )
+    : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E, const int K,
-                            const std::string &T )
-    : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
+uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
+                            const std::string &txt )
+    : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E,
-                            const cata::optional<input_event> &K,
-                            const std::string &T )
-    : retval( R ), enabled( E ), hotkey( K ), txt( T ),
+uilist_entry::uilist_entry( const int retval, const bool enabled,
+                            const cata::optional<input_event> &key,
+                            const std::string &txt )
+    : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E, const int K,
-                            const std::string &T, const std::string &D )
-    : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
-      desc( D ), text_color( c_red_red )
+uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
+                            const std::string &txt, const std::string &desc )
+    : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
+      desc( desc ), text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E, const int K,
-                            const std::string &T, const std::string &D,
-                            const std::string &C )
-    : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
-      desc( D ), ctxt( C ), text_color( c_red_red )
+uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
+                            const std::string &txt, const std::string &desc,
+                            const std::string &column )
+    : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
+      desc( desc ), ctxt( column ), text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E,
-                            const cata::optional<input_event> &K,
-                            const std::string &T, const std::string &D,
-                            const std::string &C )
-    : retval( R ), enabled( E ), hotkey( K ), txt( T ),
-      desc( D ), ctxt( C ), text_color( c_red_red )
+uilist_entry::uilist_entry( const int retval, const bool enabled,
+                            const cata::optional<input_event> &key,
+                            const std::string &txt, const std::string &desc,
+                            const std::string &column )
+    : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
+      desc( desc ), ctxt( column ), text_color( c_red_red )
 {
 }
 
-uilist_entry::uilist_entry( const int R, const bool E, const int K,
-                            const std::string &T,
-                            const nc_color &H, const nc_color &C )
-    : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
-      hotkey_color( H ), text_color( C )
+uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
+                            const std::string &txt,
+                            const nc_color &keycolor, const nc_color &txtcolor )
+    : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
+      hotkey_color( keycolor ), text_color( txtcolor )
 {
 }
 
@@ -291,35 +292,70 @@ void uilist::init()
     additional_actions.clear();
 }
 
+input_context uilist::create_main_input_context() const
+{
+    input_context ctxt( input_category, keyboard_mode::keycode );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    if( allow_cancel ) {
+        ctxt.register_action( "QUIT" );
+    }
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    for( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action.first, additional_action.second );
+    }
+    return ctxt;
+}
+
+input_context uilist::create_filter_input_context() const
+{
+    input_context ctxt( input_category, keyboard_mode::keychar );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "ANY_INPUT" );
+    return ctxt;
+}
+
 /**
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( !filtering || filter.empty() );
-    int num_entries = entries.size();
     // TODO: && is_all_lc( filter )
-    bool nocase = filtering_nocase;
-    std::string fstr;
-    fstr.reserve( filter.size() );
-    if( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
-    } else {
-        fstr = filter;
-    }
     fentries.clear();
     fselected = -1;
     int f = 0;
-    for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch( entries[i].txt, fstr ) ) {
-            fentries.push_back( i );
-            if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
-                fselected = f;
-            } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
-                // Past the previously selected entry, which has been filtered out,
-                // choose another nearby entry instead.
-                fselected = f;
+    for( size_t i = 0; i < entries.size(); i++ ) {
+        bool visible = true;
+        if( filtering && !filter.empty() ) {
+            if( filtering_nocase ) {
+                // case-insensitive match
+                visible = lcmatch( entries[i].txt, filter );
+            } else {
+                // case-sensitive match
+                visible = entries[i].txt.find( filter ) != std::string::npos;
+            }
+        }
+        if( visible ) {
+            fentries.push_back( static_cast<int>( i ) );
+            if( hilight_disabled || entries[i].enabled ) {
+                if( static_cast<int>( i ) == selected || ( static_cast<int>( i ) > selected && fselected == -1 ) ) {
+                    // Either this is selected, or we are past the previously selected entry,
+                    // which has been filtered out, so choose another nearby entry instead.
+                    fselected = f;
+                }
             }
             f++;
         }
@@ -348,13 +384,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "ANY_INPUT" );
+    input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
     .ignore_custom_actions( false )
@@ -417,10 +447,7 @@ static int find_minimum_fold_width( const std::string &str, int max_lines,
     return min_width;
 }
 
-/**
- * Calculate sizes, populate arrays, initialize window
- */
-void uilist::setup()
+void uilist::calc_data()
 {
     bool w_auto = !w_width_setup.fun;
 
@@ -463,7 +490,7 @@ void uilist::setup()
         int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
-                autoassign.emplace_back( i );
+                autoassign.emplace_back( static_cast<int>( i ) );
             } else if( entries[i].hotkey.value() != input_event() ) {
                 keymap[entries[i].hotkey.value()] = i;
             }
@@ -492,7 +519,7 @@ void uilist::setup()
             entries[ i ].text_color = text_color;
         }
     }
-    input_context ctxt( input_category );
+    input_context ctxt = create_main_input_context();
     const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
     input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
     for( auto it = autoassign.begin(); it != autoassign.end() &&
@@ -601,10 +628,15 @@ void uilist::setup()
     } else {
         w_y  = w_y_setup.fun( w_height );
     }
+}
+
+void uilist::setup()
+{
+    calc_data();
 
     window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
-        abort();
+        cata_fatal( "Failed to create uilist window" );
     }
 
     if( !started ) {
@@ -625,7 +657,7 @@ void uilist::reposition( ui_adaptor &ui )
 
 void uilist::apply_scrollbar()
 {
-    int sbside = ( pad_left <= 0 ? 0 : w_width - 1 );
+    int sbside = pad_left <= 0 ? 0 : w_width - 1;
     int estart = textformatted.size();
     if( estart > 0 ) {
         estart += 2;
@@ -709,11 +741,10 @@ void uilist::show()
                 // to be used.
                 const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt );
-                int x = pad_left + 4;
-                int y = estart + si;
-                entries[ei].drawn_rect.p_min = point( x, y );
-                entries[ei].drawn_rect.p_max = point( x + max_entry_len - 1, y );
-                trim_and_print( window, point( x, y ), max_entry_len,
+                point p( pad_left + 4, estart + si );
+                entries[ei].drawn_rect.p_min = p;
+                entries[ei].drawn_rect.p_max = p + point( -1 + max_entry_len, 0 );
+                trim_and_print( window, p, max_entry_len,
                                 co, _color_error, "%s", entry.str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
@@ -785,6 +816,10 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -scroll_rate;
     } else if( action == "SCROLL_UP" ) {
         return -3;
+    } else if( action == "HOME" ) {
+        return -fselected;
+    } else if( action == "END" ) {
+        return entries.size() - fselected;
     } else if( action == "DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
@@ -805,8 +840,8 @@ bool uilist::scrollby( const int scrollby )
         return false;
     }
 
-    bool looparound = ( scrollby == -1 || scrollby == 1 );
-    bool backwards = ( scrollby < 0 );
+    bool looparound = scrollby == -1 || scrollby == 1;
+    bool backwards = scrollby < 0;
     int recmax = static_cast<int>( fentries.size() );
 
     fselected += scrollby;
@@ -876,6 +911,73 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
  */
 void uilist::query( bool loop, int timeout )
 {
+#if defined(__ANDROID__)
+    bool auto_pos = w_x_setup.fun == nullptr && w_y_setup.fun == nullptr &&
+                    w_width_setup.fun == nullptr && w_height_setup.fun == nullptr;
+
+    if( get_option<bool>( "ANDROID_NATIVE_UI" ) && !entries.empty() && auto_pos ) {
+        if( !started ) {
+            calc_data();
+            started = true;
+        }
+        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        jclass clazz( env->GetObjectClass( activity ) );
+        jmethodID get_nativeui_method_id = env->GetMethodID( clazz, "getNativeUI",
+                                           "()Lcom/cleverraven/cataclysmdda/NativeUI;" );
+        jobject native_ui_obj = env->CallObjectMethod( activity, get_nativeui_method_id );
+        jclass native_ui_cls( env->GetObjectClass( native_ui_obj ) );
+        jmethodID list_menu_method_id = env->GetMethodID( native_ui_cls, "singleChoiceList",
+                                        "(Ljava/lang/String;[Ljava/lang/String;[Z)I" );
+        jstring jstr_message = env->NewStringUTF( text.c_str() );
+        jobjectArray j_options = env->NewObjectArray( entries.size(), env->FindClass( "java/lang/String" ),
+                                 env->NewStringUTF( "" ) );
+        jbooleanArray j_enabled = env->NewBooleanArray( entries.size() );
+        jboolean *n_enabled = new jboolean[entries.size()];
+        for( std::size_t i = 0; i < entries.size(); i++ ) {
+            std::string entry = remove_color_tags( entries[i].txt );
+            if( !entries[i].ctxt.empty() ) {
+                std::string ctxt = remove_color_tags( entries[i].ctxt );
+                while( !ctxt.empty() && ctxt.back() == '\n' ) {
+                    ctxt.pop_back();
+                }
+                if( !ctxt.empty() ) {
+                    str_append( entry, "\n", ctxt );
+                }
+            }
+            if( desc_enabled ) {
+                std::string desc = remove_color_tags( entries[i].desc );
+                while( !desc.empty() && desc.back() == '\n' ) {
+                    desc.pop_back();
+                }
+                if( !desc.empty() ) {
+                    str_append( entry, "\n", desc );
+                }
+            }
+            env->SetObjectArrayElement( j_options, i, env->NewStringUTF( entry.c_str() ) );
+            n_enabled[i] = entries[i].enabled;
+        }
+        env->SetBooleanArrayRegion( j_enabled, 0, entries.size(), n_enabled );
+        int j_ret = env->CallIntMethod( native_ui_obj, list_menu_method_id, jstr_message, j_options,
+                                        j_enabled );
+        env->DeleteLocalRef( j_enabled );
+        env->DeleteLocalRef( j_options );
+        env->DeleteLocalRef( jstr_message );
+        env->DeleteLocalRef( native_ui_cls );
+        env->DeleteLocalRef( native_ui_obj );
+        env->DeleteLocalRef( clazz );
+        env->DeleteLocalRef( activity );
+        delete[] n_enabled;
+        if( j_ret == -1 ) {
+            ret = UILIST_CANCEL;
+        } else if( 0 <= j_ret && j_ret < entries.size() ) {
+            ret = entries[j_ret].retval;
+        } else {
+            ret = UILIST_ERROR;
+        }
+        return;
+    }
+#endif
     ret_evt = input_event();
     if( entries.empty() ) {
         ret = UILIST_ERROR;
@@ -883,23 +985,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keycode );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
-    }
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    for( const auto &additional_action : additional_actions ) {
-        ctxt.register_action( additional_action.first, additional_action.second );
-    }
+    input_context ctxt = create_main_input_context();
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -926,10 +1012,8 @@ void uilist::query( bool loop, int timeout )
             inputfilter();
         } else if( iter != keymap.end() ) {
             selected = iter->second;
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
+            if( entries[ selected ].enabled || allow_disabled ) {
+                ret = entries[selected].retval;
             }
             if( callback != nullptr ) {
                 callback->select( this );
@@ -947,10 +1031,7 @@ void uilist::query( bool loop, int timeout )
                 }
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if( allow_disabled ) {
-                // disabled
+            if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "QUIT" ) {
@@ -997,45 +1078,47 @@ void uilist::reset()
     init();
 }
 
-void uilist::addentry( const std::string &str )
+void uilist::addentry( const std::string &txt )
 {
-    entries.emplace_back( str );
+    entries.emplace_back( txt );
 }
 
-void uilist::addentry( int r, bool e, int k, const std::string &str )
+void uilist::addentry( int retval, bool enabled, int key, const std::string &txt )
 {
-    entries.emplace_back( r, e, k, str );
+    entries.emplace_back( retval, enabled, key, txt );
 }
 
-void uilist::addentry( const int r, const bool e,
-                       const cata::optional<input_event> &k,
-                       const std::string &str )
+void uilist::addentry( const int retval, const bool enabled,
+                       const cata::optional<input_event> &key,
+                       const std::string &txt )
 {
-    entries.emplace_back( r, e, k, str );
+    entries.emplace_back( retval, enabled, key, txt );
 }
 
-void uilist::addentry_desc( const std::string &str, const std::string &desc )
+void uilist::addentry_desc( const std::string &txt, const std::string &desc )
 {
-    entries.emplace_back( str, desc );
+    entries.emplace_back( txt, desc );
 }
 
-void uilist::addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc )
+void uilist::addentry_desc( int retval, bool enabled, int key, const std::string &txt,
+                            const std::string &desc )
 {
-    entries.emplace_back( r, e, k, str, desc );
+    entries.emplace_back( retval, enabled, key, txt, desc );
 }
 
-void uilist::addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+void uilist::addentry_col( int retval, bool enabled, int key, const std::string &txt,
+                           const std::string &column,
                            const std::string &desc )
 {
-    entries.emplace_back( r, e, k, str, desc, column );
+    entries.emplace_back( retval, enabled, key, txt, desc, column );
 }
 
-void uilist::addentry_col( const int r, const bool e,
-                           const cata::optional<input_event> &k,
-                           const std::string &str, const std::string &column,
+void uilist::addentry_col( const int retval, const bool enabled,
+                           const cata::optional<input_event> &key,
+                           const std::string &txt, const std::string &column,
                            const std::string &desc )
 {
-    entries.emplace_back( r, e, k, str, desc, column );
+    entries.emplace_back( retval, enabled, key, txt, desc, column );
 }
 
 void uilist::settext( const std::string &str )

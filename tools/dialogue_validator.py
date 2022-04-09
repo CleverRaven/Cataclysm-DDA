@@ -38,7 +38,7 @@ def get_dialogue_from_json():
                 if path == "data/json/npcs/TALK_TEST.json":
                     continue
                 if path.endswith(".json"):
-                    with open(path) as dialogue_file:
+                    with open(path, encoding="utf-8") as dialogue_file:
                         dialogue += json.load(dialogue_file)
 
     return dialogue

@@ -16,7 +16,7 @@ namespace cata
 {
 class event;
 }  // namespace cata
-class JsonIn;
+class JsonObject;
 class JsonOut;
 
 class memorial_log_entry
@@ -29,7 +29,7 @@ class memorial_log_entry
 
         std::string to_string() const;
 
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut & ) const;
     private:
         time_point time_;
@@ -63,7 +63,7 @@ class memorial_logger : public event_subscriber
         }
 
         // Loads the memorial log from a file
-        void load( std::istream & );
+        void load( std::istream &, const std::string &path );
         void save( std::ostream & ) const;
         // Dumps all memorial events into a single newline-delimited string
         // (this is the content of the temporary file used to preserve the log

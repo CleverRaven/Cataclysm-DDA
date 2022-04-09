@@ -60,7 +60,7 @@ static void reveal_route( mission *miss, const tripoint_abs_omt &destination )
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
+        add_msg( _( "%s also marks the road that leads to it…" ), p->get_name() );
     }
 }
 
@@ -75,7 +75,7 @@ static void reveal_target( mission *miss, const std::string &omter_id )
     const tripoint_abs_omt destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s has marked the only %s known to them on your map." ), p->name,
+        add_msg( _( "%s has marked the only %s known to them on your map." ), p->get_name(),
                  oter->get_name() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {
@@ -134,8 +134,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
     Character &player_character = get_player_character();
-    // TODO: fix point types
-    const tripoint_abs_sm center( player_character.global_sm_location() );
+    const tripoint_abs_sm center = player_character.global_sm_location();
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
@@ -529,16 +528,11 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
-    talk_effects.load_effect( jo );
+    talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
-        ::dialogue d;
-        npc *beta = g->find_npc( miss->get_npc_id() );
-        standard_npc default_npc( "Default" );
-        if( beta == nullptr ) {
-            beta = &default_npc;
-        }
-        d.alpha = get_talker_for( get_avatar() );
-        d.beta = get_talker_for( beta );
+        npc *beta_npc = g->find_npc( miss->get_npc_id() );
+        ::dialogue d( get_talker_for( get_avatar() ),
+                      beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }

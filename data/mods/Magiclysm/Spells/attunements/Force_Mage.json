@@ -34,9 +34,7 @@
     "to_hit": -10,
     "symbol": "[",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "coverage": 100,
-    "encumbrance": 0,
+    "material": [ "magical_material" ],
     "environmental_protection": 2,
     "relic_data": {
       "passive_effects": [
@@ -52,7 +50,14 @@
         }
       ]
     },
-    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA" ]
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA" ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "force_magical_armor",

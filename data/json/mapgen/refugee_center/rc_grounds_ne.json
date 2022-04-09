@@ -216,7 +216,7 @@
       [ "refctr_NE1e_z-1", "refctr_NE2e_z-1", "refctr_NE3e_z-1", "refctr_NE4e_z-1", "refctr_NE5e_z-1" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   },
   {
     "type": "mapgen",

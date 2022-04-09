@@ -13,7 +13,7 @@ import os
 
 def gen_new(path):
     change = False
-    with open(path, "r") as json_file:
+    with open(path, "r", encoding="utf-8") as json_file:
         try:
             json_data = json.load(json_file)
         except UnicodeDecodeError:
@@ -66,7 +66,7 @@ def change_file(json_dir):
             if path.endswith(".json"):
                 new = gen_new(path)
                 if new is not None:
-                    with open(path, "w") as jf:
+                    with open(path, "w", encoding="utf-8") as jf:
                         json.dump(new, jf, ensure_ascii=False)
                     os.system(f".\\json_formatter.exe {path}")
 

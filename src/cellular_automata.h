@@ -82,16 +82,13 @@ inline std::vector<std::vector<int>> generate_cellular_automaton( const int widt
                 // Count our neighbors.
                 const int neighbors = neighbor_count( current, width, height, point( i, j ) );
 
-                // Dead and > birth_limit neighbors, so become alive.
-                if( ( current[i][j] == 0 ) && ( neighbors > birth_limit ) ) {
+                // Dead and > birth_limit neighbors, become alive.
+                // Alive and > stasis_limit neighbors, stay alive.
+                const int to_live = current[i][j] ? stasis_limit : birth_limit;
+                if( neighbors > to_live ) {
                     next[i][j] = 1;
-                }
-                // Alive and > statis_limit neighbors, so stay alive.
-                else if( ( current[i][j] == 1 ) && ( neighbors > stasis_limit ) ) {
-                    next[i][j] = 1;
-                }
-                // Else, die.
-                else {
+                    // Else, die.
+                } else {
                     next[i][j] = 0;
                 }
             }

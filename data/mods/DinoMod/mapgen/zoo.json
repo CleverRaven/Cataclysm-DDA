@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": "zoo_0_0",
+    "om_terrain": "dinozoo_0_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -44,7 +44,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
+    "om_terrain": "dinozoo_0_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -129,8 +129,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_1",
-    "//": "variant of zoo_0_1 with broken open bear cage",
+    "om_terrain": "dinozoo_0_1",
+    "//": "variant of dinozoo_0_1 with broken open bear cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -216,7 +216,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_0_2",
+    "om_terrain": "dinozoo_0_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -302,7 +302,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_0",
+    "om_terrain": "dinozoo_1_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -345,7 +345,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
+    "om_terrain": "dinozoo_1_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -363,8 +363,8 @@
         "ffffff|fffC|...bcc__dd_|",
         "ffff|fffffS|...bddddd_d|",
         "|ww|||||||||...|||||||||",
-        ".._e|sd__c_b...wsssdff||",
-        ".._d|s7d_+_+...wWWs_c+||",
+        ".._e|sd__c_b...wWssdff||",
+        ".._d|s7d_+_+...wWss_c+||",
         ".._D|_d__ggb...wWssdcf||",
         ".._d|______b...wsssdc+||",
         "..__|bbbbbb|...|www||.||",
@@ -385,7 +385,7 @@
         "7": "t_tree_dead",
         "B": "t_dirt",
         "D": "t_dirt",
-        "W": "t_water_sh",
+        "W": "t_water_pool_outdoors",
         "_": "t_grass",
         "a": "t_door_c",
         "b": "t_bars",
@@ -395,7 +395,7 @@
         "f": "t_floor",
         "g": "t_chainfence_h",
         "h": "t_dirt",
-        "s": "t_swater_sh",
+        "s": "t_water_pool_shallow_outdoors",
         "t": "t_sidewalk",
         "u": "t_underbrush",
         "w": "t_reinforced_glass",
@@ -448,8 +448,8 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_1",
-    "//": "variant of zoo_1_1 with broken open moose cage",
+    "om_terrain": "dinozoo_1_1",
+    "//": "variant of dinozoo_1_1 with broken open moose cage",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -467,8 +467,8 @@
         "ffffff|fffC|...bcc__dd_|",
         "ffff|fffffS|...bddddd_d|",
         "|ww|||||||||...|||||||||",
-        ".._e|sd__c_b...wsssdff||",
-        ".._d|s7d_+_+...wWWs_c+||",
+        ".._e|sd__c_b...wWssdff||",
+        ".._d|s7d_+_+...wWss_c+||",
         ".._D|_d__ggb...wWssdcf||",
         ".._d|______b...wsssdc+||",
         "..__|bb_bbb|...|www||.||",
@@ -488,7 +488,7 @@
         "7": "t_tree_dead",
         "B": "t_dirt",
         "D": "t_dirt",
-        "W": "t_water_sh",
+        "W": "t_water_pool_outdoors",
         "_": "t_grass",
         "a": "t_door_c",
         "b": "t_bars",
@@ -498,7 +498,7 @@
         "f": "t_floor",
         "g": "t_chainfence_h",
         "h": "t_dirt",
-        "s": "t_swater_sh",
+        "s": "t_water_pool_shallow_outdoors",
         "t": "t_sidewalk",
         "u": "t_underbrush",
         "w": "t_reinforced_glass",
@@ -556,7 +556,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_1_2",
+    "om_terrain": "dinozoo_1_2",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -639,7 +639,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_0",
+    "om_terrain": "dinozoo_2_0",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -682,7 +682,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_1",
+    "om_terrain": "dinozoo_2_1",
     "type": "mapgen",
     "weight": 100,
     "object": {
@@ -779,7 +779,7 @@
   },
   {
     "method": "json",
-    "om_terrain": "zoo_2_2",
+    "om_terrain": "dinozoo_2_2",
     "type": "mapgen",
     "weight": 100,
     "object": {

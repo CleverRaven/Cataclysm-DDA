@@ -90,14 +90,12 @@ struct scent_block {
                 dat.intensity = intensity;
                 break;
             }
+            case data_mode::MAX:
+            // Already max for some reason, shouldn't occur.
+            // If it does we want to grow if possible
             case data_mode::SET: {
                 // new intensity is going to be dat.intensity, so we just need to make it larger
                 // but cannot change
-                dat.intensity = std::max( dat.intensity, intensity );
-                break;
-            }
-            case data_mode::MAX: {
-                // Already max for some reason, shouldn't occur. If it does we want to grow if possible
                 dat.intensity = std::max( dat.intensity, intensity );
                 break;
             }

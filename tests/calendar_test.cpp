@@ -2,7 +2,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 TEST_CASE( "time_duration_to_string", "[calendar]" )
 {

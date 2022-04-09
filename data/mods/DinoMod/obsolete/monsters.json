@@ -18,7 +18,7 @@
     "armor_bullet": 1,
     "hp": 50,
     "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
-    "upgrades": { "half_life": 14, "into": "mon_zimorphodon_brute" }
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",

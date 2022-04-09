@@ -4,16 +4,22 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <ctime>
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "enums.h"
+#include "json.h"
+
 class JsonIn;
 class JsonOut;
+class JsonValue;
 class translation;
 
 /**
@@ -200,6 +206,13 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
+
+/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.
@@ -295,7 +308,7 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
@@ -303,8 +316,6 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
                     const char *fail_message );
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
 ///@}
-
-class JsonDeserializer;
 
 /**
  * Try to open and read from given file using the given callback.
@@ -315,9 +326,8 @@ class JsonDeserializer;
  * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
  * error as well.
  *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
+ * The callback can either be a generic `std::istream` or a @ref JsonIn stream (which has been
+ * initialized from the `std::istream`) or a @ref JsonValue object.
  *
  * The functions with the "_optional" prefix do not show a debug message when the file does not
  * exist. They simply ignore the call and return `false` immediately (without calling the callback).
@@ -328,13 +338,15 @@ class JsonDeserializer;
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -382,11 +394,21 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
+           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
+    }, data );
+}
+
+template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
+           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+inline void deserialize_from_string( T &obj, const std::string &data )
+{
+    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -423,6 +445,8 @@ inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
 }
 
+bool string_empty_or_whitespace( const std::string &s );
+
 /** Used as a default filter in various functions */
 template<typename T>
 bool return_true( const T & )
@@ -430,10 +454,46 @@ bool return_true( const T & )
     return true;
 }
 
+template<typename T>
+bool return_false( const T & )
+{
+    return false;
+}
+
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Append all arguments after the first to the first.
+ *
+ * This provides a way to append several strings to a single root string
+ * in a single line without an expression like 'a += b + c' which can cause an
+ * unnecessary allocation in the 'b + c' expression.
+ */
+template<typename... T>
+std::string &str_append( std::string &root, T &&...a )
+{
+    // Using initializer list as a poor man's fold expression until C++17.
+    static_cast<void>(
+    std::array<bool, sizeof...( T )> { {
+            ( root.append( std::forward<T>( a ) ), false )...
+        }
+    } );
+    return root;
+}
+
+/**
+ * Concatenates a bunch of strings with append, to minimize unnecessary
+ * allocations
+ */
+template<typename T0, typename... T>
+std::string str_cat( T0 &&a0, T &&...a )
+{
+    std::string result( std::forward<T0>( a0 ) );
+    return str_append( result, std::forward<T>( a )... );
+}
 
 /**
  * Erases elements from a set that match given predicate function.
@@ -566,5 +626,44 @@ class restore_on_out_of_scope
         restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
         restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
+
+/**
+ * Returns a random (weighted) bucket index from a list of weights
+ * @param weights vector with a list of int weights
+ * @return random bucket index
+ */
+int bucket_index_from_weight_list( const std::vector<int> &weights );
+
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
 
 #endif // CATA_SRC_CATA_UTILITY_H

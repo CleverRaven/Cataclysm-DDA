@@ -154,9 +154,9 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
-        shortcuts.push_back( _( "<r>eset" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
+        shortcuts.emplace_back( _( "<r>eset" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {

@@ -15,18 +15,19 @@ option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "ON")
+option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
 option(LANGUAGES "Compile localization files for specified languages." "")
 option(DYNAMIC_LINKING
         "Use dynamic linking. Or use static to remove MinGW dependency instead." "ON")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
-option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin" "OFF")
+option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
-set(PREFIX "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -97,7 +98,8 @@ else ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
+    OR ${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
@@ -137,9 +139,7 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    set(LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -153,10 +153,6 @@ else ()
     endif ()
 endif ()
 
-if (PREFIX)
-    add_definitions(-DPREFIX=${PREFIX})
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
@@ -164,6 +160,7 @@ endif ()
 
 # Set build types and display info
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(RELEASE 0)
     message(STATUS "Build ${PROJECT} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -174,6 +171,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             "Single Directory for all Executables.")
     set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 else ()
+    set(RELEASE 1)
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -185,8 +183,9 @@ else ()
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
     add_definitions(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (PREFIX AND NOT WIN32)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
+        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
@@ -208,7 +207,7 @@ if (MSVC)
     else ()
         add_definitions(-D_X86_)
     endif ()
-else (MSVC)
+else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -247,6 +246,8 @@ endif ()
 #set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
+
+find_package(ZLIB REQUIRED)
 
 # Check for build types and libraries
 if (TILES)
@@ -332,27 +333,11 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
-    endif (LIBBACKTRACE)
-endif (BACKTRACE)
+    endif ()
+endif ()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (NOT _OS_LINUX_) # on Linux with glibc, libintl is not required
-        find_package(Libintl)
-        if (NOT LIBINTL_FOUND)
-            message(FATAL_ERROR
-                    "You need the libintl development library \
-                         to be able to compile with LOCALIZE support. \
-                         See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-    endif()
-    find_package(Iconv)
-    if (NOT ICONV_FOUND)
-        message(FATAL_ERROR
-                "You need the iconv development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)
 endif ()
@@ -370,7 +355,7 @@ add_subdirectory(tests)
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif()
-if (CATA_CLANG_TIDY_PLUGIN)
+if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 

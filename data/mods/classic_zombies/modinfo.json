@@ -3,15 +3,21 @@
     "type": "MOD_INFO",
     "id": "classic_zombies",
     "name": "Dark Days of the Dead",
-    "authors": [ "Hirmuolio" ],
+    "authors": [ "Hirmuolio", "I-am-Erk" ],
     "maintainers": [ "I-am-Erk" ],
     "description": "(Formerly Classic Zombies): Only spawn classic zombies (normal zombies and zombie animals) and natural wildlife.  Zombies do not revive and do not need pulping.  This disables certain buildings and map extras.  The long term plan is to make this a classic zombie movie simulator set in the present day.  If you have this mod enabled in experimental, some items may disappear.",
-    "category": "monster_exclude",
+    "category": "total_conversion",
     "dependencies": [ "dda" ]
   },
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
+    "flag": { "name": "REVIVES", "value": false },
+    "stat": { "name": "speed", "modifier": 0.9 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "hp", "modifier": 5 }
   }
 ]

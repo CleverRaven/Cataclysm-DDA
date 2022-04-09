@@ -52,8 +52,7 @@ std::string base64_decode( const std::string &str );
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );
 
-std::string native_to_utf8( const std::string &str );
-std::string utf8_to_native( const std::string &str );
+std::string wstr_to_native( const std::wstring &wstr );
 
 std::string utf32_to_utf8( const std::u32string &str );
 std::u32string utf8_to_utf32( const std::string &str );

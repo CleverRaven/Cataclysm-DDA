@@ -6,7 +6,7 @@
     "reload_noise_volume": 10,
     "name": { "str": "2 Shot Special" },
     "//": "It's hard to say just how big this is, although it's (very large) pistol sized. But it is a handmade weapon.",
-    "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
+    "description": "A crudely made double barrel pistol firing .38 Special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "ascii_picture": "2_shot_special",
     "weight": "750 g",
     "volume": "700 ml",
@@ -97,7 +97,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
@@ -182,7 +181,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "38": 5 },
         "allowed_speedloaders": [ "38_speedloader5" ]
@@ -225,7 +223,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "holster": true,
         "rigid": true,
         "ammo_restriction": { "357mag": 7, "38": 7 },
         "allowed_speedloaders": [ "38_speedloader" ]

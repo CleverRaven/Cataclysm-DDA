@@ -776,9 +776,8 @@ class event
         cata_variant get_variant( const std::string &key ) const {
             auto it = data_.find( key );
             if( it == data_.end() ) {
-                debugmsg( "No such key %s in event of type %s", key,
-                          io::enum_to_string( type_ ) );
-                abort();
+                cata_fatal( "No such key %s in event of type %s", key,
+                            io::enum_to_string( type_ ) );
             }
             return it->second;
         }

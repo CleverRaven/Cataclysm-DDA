@@ -2,7 +2,7 @@
   {
     "type": "SPELL",
     "id": "STORM_ELEMENTAL_ZAPBACK",
-    "name": "Fire Elemental Zapback",
+    "name": "Storm Elemental Zapback",
     "description": "The zapback effect from the Storm Elemental Attunement.",
     "effect": "attack",
     "shape": "blast",

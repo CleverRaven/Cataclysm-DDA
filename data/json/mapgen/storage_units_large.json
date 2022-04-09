@@ -219,7 +219,7 @@
         "I": "f_sofa",
         "M": [ "f_crate_c", "f_cardboard_box" ]
       },
-      "vendingmachines": { "U": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "U": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [ { "item": "stepladder", "x": 14, "y": 12, "chance": 50 }, { "item": "stepladder", "x": 5, "y": 4, "chance": 50 } ],
       "place_items": [
         { "item": "homebooks", "x": [ 0, 5 ], "y": [ 9, 10 ], "chance": 50, "repeat": [ 1, 11 ] },

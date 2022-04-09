@@ -23,7 +23,9 @@ args = parser.parse_args()
 tileset_dirname = args.tileset_dir
 
 # loading data
-with open(os.path.join(tileset_dirname, TILE_CONFIG_NAME)) as fh:
+with open(
+        os.path.join(tileset_dirname, TILE_CONFIG_NAME),
+        encoding="utf-8") as fh:
     sprites = json.load(fh)[SPRITES_LIST_KEY]
 
 for sprite_data in sprites:

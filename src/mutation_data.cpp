@@ -10,22 +10,29 @@
 
 #include "assign.h"
 #include "color.h"
+#include "condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
 
+static const mutation_category_id mutation_category_ANY( "ANY" );
+
+static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
+
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
-using trait_reader = auto_flags_reader<trait_id>;
-using flag_reader = auto_flags_reader<json_character_flag>;
+using trait_reader = string_id_reader<::mutation_branch>;
+using flag_reader = string_id_reader<::json_flag>;
 
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
@@ -93,47 +100,12 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
-    new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
-    new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
-    new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
-    new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
-    new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
-    jsobj.get_member( "iv_message" ).read( new_category.raw_iv_message );
-    new_category.iv_min_mutations    = jsobj.get_int( "iv_min_mutations", 1 );
-    new_category.iv_additional_mutations = jsobj.get_int( "iv_additional_mutations", 2 );
-    new_category.iv_additional_mutations_chance = jsobj.get_int( "iv_additional_mutations_chance", 3 );
-    new_category.iv_hunger   = jsobj.get_int( "iv_hunger", 10 );
-    new_category.iv_thirst   = jsobj.get_int( "iv_thirst", 10 );
-    new_category.iv_pain     = jsobj.get_int( "iv_pain", 2 );
-    new_category.iv_fatigue  = jsobj.get_int( "iv_fatigue", 5 );
-    new_category.iv_morale   = jsobj.get_int( "iv_morale", 0 );
-    new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.wip = jsobj.get_bool( "wip", false );
-    new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
-    if( jsobj.has_member( "iv_sound_message" ) ) {
-        jsobj.read( "iv_sound_message", new_category.raw_iv_sound_message );
-    } else {
-        new_category.raw_iv_sound_message = to_translation( "You inject yoursel-arRGH!" );
-    }
-    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
-    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
-    new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
-    new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
-    if( jsobj.has_member( "iv_sleep_message" ) ) {
-        jsobj.read( "iv_sleep_message", new_category.raw_iv_sleep_message );
-    } else {
-        new_category.raw_iv_sleep_message = to_translation( "You fall asleep." );
-    }
-    new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    if( jsobj.has_member( "junkie_message" ) ) {
-        jsobj.read( "junkie_message", new_category.raw_junkie_message );
-    } else {
-        new_category.raw_junkie_message = to_translation( "Oh, yeah!  That's the stuff!" );
-    }
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -146,36 +118,6 @@ std::string mutation_category_trait::name() const
 std::string mutation_category_trait::mutagen_message() const
 {
     return raw_mutagen_message.translated();
-}
-
-std::string mutation_category_trait::iv_message() const
-{
-    return raw_iv_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_message() const
-{
-    return raw_iv_sound_message.translated();
-}
-
-std::string mutation_category_trait::iv_sound_id() const
-{
-    return raw_iv_sound_id;
-}
-
-std::string mutation_category_trait::iv_sound_variant() const
-{
-    return raw_iv_sound_variant;
-}
-
-std::string mutation_category_trait::iv_sleep_message() const
-{
-    return raw_iv_sleep_message.translated();
-}
-
-std::string mutation_category_trait::junkie_message() const
-{
-    return raw_junkie_message.translated();
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -289,37 +231,9 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
-namespace io
-{
-    // *INDENT-OFF*
-    template<>
-    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
-    {
-        switch (trigger_num) {
-        case trigger_type::PAIN: return "PAIN";
-        case trigger_type::HUNGER: return "HUNGER";
-        case trigger_type::THRIST: return "THIRST";
-        case trigger_type::MOOD: return "MOOD";
-        case trigger_type::STAMINA: return "STAMINA";
-        case trigger_type::MOON: return "MOON";
-        case trigger_type::TIME: return "TIME";
-        case trigger_type::num_trigger: return "undefined trigger";
-        }
-        debugmsg("Invalid trigger_type %d", trigger_num);
-        abort();
-    }
-    // *INDENT-ON*
-} // namespace io
-
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    std::string tmp;
-    mandatory( jsobj, was_loaded, "trigger_type", tmp );
-    trigger = io::string_to_enum<trigger_type>( tmp );
-
-    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
-    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
-
+    read_condition<dialogue>( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -336,9 +250,8 @@ void reflex_activation_data::load( const JsonObject &jsobj )
     }
 }
 
-void reflex_activation_data::deserialize( JsonIn &jsin )
+void reflex_activation_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
@@ -349,6 +262,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
 
+    optional( jo, was_loaded, "vitamin_cost", vitamin_cost, 100 );
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
@@ -392,9 +306,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "terminus", terminus, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
+    optional( jo, was_loaded, "vanity", vanity, false );
 
     for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
@@ -423,14 +339,13 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, cata::nullopt );
-    optional( jo, was_loaded, "speed_modifier", speed_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier,
               cata::nullopt );
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, cata::nullopt );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, cata::nullopt );
-    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, cata::nullopt );
+    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, cata::nullopt );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, cata::nullopt );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, cata::nullopt );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, cata::nullopt );
@@ -443,10 +358,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, cata::nullopt );
     optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, cata::nullopt );
     optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, cata::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier,
-              cata::nullopt );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, cata::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, cata::nullopt );
     optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, cata::nullopt );
@@ -504,7 +418,24 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
-    optional( jo, was_loaded, "enchantments", enchantments );
+
+    for( JsonArray pair : jo.get_array( "moncams" ) ) {
+        moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );
+    }
+
+    for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
@@ -572,9 +503,19 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         const resistances res = load_resistances_instance( ao );
-
+        // Set damage resistances for all body parts of the specified type(s)
+        for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
+            for( const body_part_type &bp : body_part_type::get_all() ) {
+                if( type_string == "ALL" ) {
+                    armor[bp.id] += res;
+                } else if( bp.limbtypes.count( io::string_to_enum<body_part_type::type>( type_string ) ) > 0 ) {
+                    armor[bp.id] += res * bp.limbtypes.at( io::string_to_enum<body_part_type::type>( type_string ) );
+                }
+            }
+        }
+        // Set damage resistances for specific body parts
         for( const std::string &part_string : ao.get_tags( "parts" ) ) {
-            armor[bodypart_str_id( part_string )] = res;
+            armor[bodypart_str_id( part_string )] += res;
         }
     }
 
@@ -662,6 +603,24 @@ void mutation_branch::check_consistency()
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
+        for( const trait_id &replacement : mdata.replacements ) {
+            const mutation_branch &rdata = replacement.obj();
+            for( const mutation_category_id &cat : rdata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
+                              cat.c_str(), replacement.c_str() );
+                }
+            }
+        }
+        for( const trait_id &addition : mdata.additions ) {
+            const mutation_branch &adata = addition.obj();
+            for( const mutation_category_id &cat : adata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
+                              addition.c_str() );
+                }
+            }
+        }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
@@ -677,6 +636,8 @@ nc_color mutation_branch::get_display_color() const
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
+    } else if( terminus ) {
+        return c_red;
     } else if( debug ) {
         return c_light_cyan;
     } else if( mixed_effect ) {
@@ -706,7 +667,7 @@ void mutation_branch::reset_all()
     trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
-    trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
+    trait_groups.emplace( Trait_group_EMPTY_GROUP,
                           make_shared_fast<Trait_group_collection>( 100 ) );
 }
 
@@ -762,6 +723,7 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
+        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
     }
     finalize_trait_blacklist();
 }

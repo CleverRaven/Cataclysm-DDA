@@ -23,6 +23,7 @@
 #include <stdexcept>
 
 #include "cached_options.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -227,6 +228,7 @@ void catacurses::resizeterm()
     if( ::is_term_resized( new_x, new_y ) ) {
         game_ui::init_ui();
         ui_manager::screen_resized();
+        catacurses::doupdate();
     }
 }
 
@@ -244,7 +246,7 @@ void catacurses::init_interface()
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
-    // behave exactly like the wrapper, therefor:
+    // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
@@ -252,6 +254,31 @@ void catacurses::init_interface()
     // TODO: error checking
     start_color();
     init_colors();
+}
+
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    int key = ERR;
+    bool resize = false;
+    const int prev_timeout = input_timeout;
+    set_timeout( 0 );
+    do {
+        key = getch();
+        if( key == KEY_RESIZE ) {
+            resize = true;
+        }
+    } while( key != ERR );
+    set_timeout( prev_timeout );
+    if( resize ) {
+        catacurses::resizeterm();
+    }
+
+    previously_pressed_key = 0;
 }
 
 // there isn't a portable way to get raw key code on curses,
@@ -396,8 +423,8 @@ bool nc_color::is_blink() const
     return attribute_value & A_BLINK;
 }
 
-void ensure_term_size();
-void check_encoding();
+void ensure_term_size(); // NOLINT(cata-static-declarations)
+void check_encoding(); // NOLINT(cata-static-declarations)
 
 void ensure_term_size()
 {
@@ -435,6 +462,7 @@ void ensure_term_size()
     }
 }
 
+// NOLINTNEXTLINE(cata-static-declarations)
 void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
@@ -454,6 +482,11 @@ void check_encoding()
             key = getch();
         } while( key == KEY_RESIZE || key == KEY_MOUSE );
     }
+}
+
+void set_title( const std::string & )
+{
+    // curses does not seem to have a portable way of setting the window title.
 }
 
 #endif

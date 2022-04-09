@@ -3,7 +3,17 @@
     "id": "surface_heat",
     "type": "requirement",
     "//": "Heat usable for heating a surface - for example a pot or frying pan.",
-    "tools": [ [ [ "hotplate", 1 ], [ "multi_cooker", 1 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ] ]
+    "tools": [
+      [
+        [ "hotplate", 1 ],
+        [ "multi_cooker", 1 ],
+        [ "char_smoker", 1 ],
+        [ "toolset", 1 ],
+        [ "fake_oven", 1 ],
+        [ "fire", -1 ],
+        [ "propane_cooker", 1 ]
+      ]
+    ]
   },
   {
     "id": "frying_oil",
@@ -20,8 +30,10 @@
         [ "hotplate", 1 ],
         [ "multi_cooker", 1 ],
         [ "char_smoker", 1 ],
+        [ "propane_cooker", 1 ],
         [ "toolset", 1 ],
         [ "coffeemaker", 1 ],
+        [ "fake_oven", 1 ],
         [ "atomic_coffeepot", -1 ],
         [ "fire", -1 ]
       ]

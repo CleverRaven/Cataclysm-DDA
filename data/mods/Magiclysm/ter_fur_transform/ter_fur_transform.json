@@ -2,7 +2,6 @@
   {
     "type": "ter_furn_transform",
     "id": "move_earth",
-    "fail_message": "The earth here does not listen to your command to move.",
     "terrain": [
       { "result": "t_hole", "valid_terrain": [ "t_pit", "t_slope_down" ], "message": "The pit has deepened further." },
       {
@@ -170,6 +169,17 @@
         "result": "t_door_metal_o",
         "valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked" ],
         "message": "The door opens forcefully!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "icelemental_crystal",
+    "furniture": [
+      {
+        "result": "f_everfrost_crystal",
+        "valid_furniture": [ "f_null" ],
+        "message": "There's a rippling in the air and a blast of cold air, then the crystal forms."
       }
     ]
   }

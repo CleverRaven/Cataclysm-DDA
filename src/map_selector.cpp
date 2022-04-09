@@ -5,12 +5,15 @@
 #include <new>
 #include <vector>
 
-#include "game.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "optional.h"
 #include "rng.h"
+
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
@@ -23,11 +26,9 @@ map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 
 tripoint_range<tripoint> points_in_range( const map &m )
 {
-    const int z = m.get_abs_sub().z;
-    const bool hasz = m.has_zlevels();
     return tripoint_range<tripoint>(
-               tripoint( 0, 0, hasz ? -OVERMAP_DEPTH : z ),
-               tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, hasz ? OVERMAP_HEIGHT : z ) );
+               tripoint( 0, 0, -OVERMAP_DEPTH ),
+               tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, OVERMAP_HEIGHT ) );
 }
 
 cata::optional<tripoint> random_point( const map &m,

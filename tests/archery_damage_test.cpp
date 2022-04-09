@@ -16,7 +16,7 @@
 #include <set>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"

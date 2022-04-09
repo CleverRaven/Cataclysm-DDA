@@ -24,15 +24,7 @@
     "barrel_volume": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m107a1mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ]
   },
   {
     "id": "m2browning",
@@ -70,15 +62,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "belt50" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
   },
   {
     "id": "m2browning_sawn",
@@ -99,6 +83,7 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "grip", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -114,7 +99,7 @@
     "blackpowder_tolerance": 24,
     "longest_side": "130 cm",
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "50": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]
   },
   {
     "id": "as50",
@@ -141,15 +126,7 @@
     "barrel_volume": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "as50mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ]
   },
   {
     "id": "tac50",
@@ -176,15 +153,7 @@
     "barrel_volume": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "tac50mag" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ]
   },
   {
     "id": "bfg50",
@@ -219,6 +188,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],

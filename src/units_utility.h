@@ -31,6 +31,13 @@ units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::qu
     return multiple * of;
 }
 
+struct lat_long {
+    units::angle latitude;
+    units::angle longitude;
+};
+
+constexpr lat_long location_boston{ 42.36_degrees, -71.06_degrees };
+
 /**
  * Create a units label for a weight value.
  *
@@ -78,12 +85,14 @@ double convert_weight( const units::mass &weight );
  */
 int convert_length( const units::length &length );
 std::string length_units( const units::length &length );
+std::string length_to_string( const units::length &length, bool compact = false );
 
 /** Convert length to inches or cm. Used in pickup UI */
 double convert_length_cm_in( const units::length &length );
 
 /** convert a mass unit to a string readable by a human */
-std::string weight_to_string( const units::mass &weight );
+std::string weight_to_string( const units::mass &weight, bool compact = false,
+                              bool remove_trailing_zeroes = false );
 
 /**
  * Convert volume from ml to units defined by user.
@@ -97,6 +106,16 @@ double convert_volume( int volume );
 double convert_volume( int volume, int *out_scale );
 
 /** convert a volume unit to a string readable by a human */
-std::string vol_to_string( const units::volume &vol );
+std::string vol_to_string( const units::volume &vol, bool compact = false,
+                           bool remove_trailing_zeroes = false );
 
+/** convert any type of unit to a string readable by a human */
+std::string unit_to_string( const units::volume &unit, bool compact = false,
+                            bool remove_trailing_zeroes = false );
+std::string unit_to_string( const units::mass &unit, bool compact = false,
+                            bool remove_trailing_zeroes = false );
+std::string unit_to_string( const units::length &unit, bool compact = false );
+
+/** utility function to round with specified decimal places */
+double round_with_places( double value, int decimal_places );
 #endif // CATA_SRC_UNITS_UTILITY_H

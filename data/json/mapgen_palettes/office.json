@@ -5,7 +5,7 @@
     "terrain": {
       "*": "t_null",
       "/": "t_open_air",
-      "~": "t_rock",
+      "~": "t_soil",
       "#": "t_concrete_wall",
       ">": "t_stairs_down",
       "<": "t_stairs_up",

@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "cached_options.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -17,12 +17,15 @@
 using namespace map_test_case_common;
 using namespace map_test_case_common::tiles;
 
-auto static const ter_set_flat_roof_above = ter_set( ter_str_id( "t_flat_roof" ), tripoint_above );
+static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
+static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
+
+static const auto ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
 static const tile_predicate set_up_tiles_common =
     ifchar( '.', noop ) ||
     ifchar( 'X', noop ) ||
-    ifchar( '#', ter_set( ter_str_id( "t_brick_wall" ) ) + ter_set_flat_roof_above ) ||
+    ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
     ifchar( '^', ter_set_flat_roof_above ) ||
     fail;
 
@@ -42,7 +45,8 @@ static void test_reachability( std::vector<std::string> setup, bool up )
 
     here.invalidate_map_cache( 0 );
     here.set_transparency_cache_dirty( 0 );
-    here.build_map_cache( 0, true );
+    here.build_map_cache( 0 );
+    here.build_lightmap( 0, t.anchor_map_pos );
 
     tripoint dst_shift = up ? tripoint_above : tripoint_zero;
     int rejected_cnt = 0;

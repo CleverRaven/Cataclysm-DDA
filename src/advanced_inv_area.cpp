@@ -19,7 +19,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -180,7 +179,8 @@ void advanced_inv_area::init()
     }
 
     // water?
-    if( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos ) || here.has_flag_ter( TFLAG_DEEP_WATER, pos ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ) {
         flags.append( _( " WATER" ) );
     }
 
@@ -229,7 +229,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = get_container( from_vehicle );
             }
             if( it ) {
-                canputitems = it->is_watertight_container();
+                canputitems = true;
             }
             break;
         }
@@ -238,6 +238,32 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
             break;
     }
     return canputitems;
+}
+
+item_location outfit::adv_inv_get_container( item_location container, const advanced_inv_area &area,
+        Character &guy )
+{
+    size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+    if( worn.size() > idx ) {
+        auto iter = worn.begin();
+        std::advance( iter, idx );
+        if( area.is_container_valid( &*iter ) ) {
+            container = item_location( guy, &*iter );
+        }
+    }
+
+    // no need to reinvent the wheel
+    if( !container ) {
+        auto iter = worn.begin();
+        for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+            if( area.is_container_valid( &*iter ) ) {
+                container = item_location( guy, &*iter );
+                uistate.adv_inv_container_index = i;
+                break;
+            }
+        }
+    }
+    return container;
 }
 
 item_location advanced_inv_area::get_container( bool in_vehicle )
@@ -270,27 +296,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            std::list<item> &worn = player_character.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
-            if( worn.size() > idx ) {
-                auto iter = worn.begin();
-                std::advance( iter, idx );
-                if( is_container_valid( &*iter ) ) {
-                    container = item_location( player_character, &*iter );
-                }
-            }
-
-            // no need to reinvent the wheel
-            if( !container ) {
-                auto iter = worn.begin();
-                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = item_location( player_character, &*iter );
-                        uistate.adv_inv_container_index = i;
-                        break;
-                    }
-                }
-            }
+            container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
@@ -347,8 +353,8 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_in_vehicle = advitem->from_vehicle;
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
-        uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.legacy_front().typeId() : itype_id::NULL_ID();
+        uistate.adv_inv_container_content_type = !it->is_container_empty() ? it->legacy_front().typeId() :
+                itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -368,7 +374,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }

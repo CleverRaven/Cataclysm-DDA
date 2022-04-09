@@ -1,30 +1,14 @@
 [
   {
-    "id": "dks_alien_cyborg",
-    "//": "'alien' but has some metal thrown in to simulate the extensive augments",
+    "id": "dks_alien_hcyborg",
+    "//": "a humanoid alien cyborg.  metal and scrap simulate augmentation.  candidate to receive future bionics",
     "type": "harvest",
     "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
-      { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10, "type": "bone" },
-      { "drop": "scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12, "type": "bone" }
-    ]
-  },
-  {
-    "//": "e_scrap will be replaced with an alien mind control chip and some aftershock style crafting stuff since I like the tiered crafting idea",
-    "id": "dks_mhuman_chipped",
-    "message": "They may have been human, once… whatever the Order has done to them, now they are something else.",
-    "type": "harvest",
-    "entries": [
-      { "drop": "mutant_human_flesh", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "mutant_human_fat", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 },
-      { "drop": "e_scrap", "type": "bionic", "max": 2 }
+      { "drop": "dks_elecscrap", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
+      { "drop": "dks_blend_scrap", "base_num": [ 1, 5 ], "scale_num": [ 0.3, 0.7 ], "max": 12, "type": "bone" }
     ]
   }
 ]

@@ -61,18 +61,18 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     mvwputch( w_snake, point( 71, body_length + 2 ), c_green, 'v' );
 
     std::vector<std::string> game_over_text;
-    game_over_text.push_back( R"(  ________    _____      _____   ___________)" );
-    game_over_text.push_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
-    game_over_text.push_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
-    game_over_text.push_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
-    game_over_text.push_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
-    game_over_text.push_back( R"(        \/         \/         \/         \/ )" );
-    game_over_text.push_back( R"( ________ ____   _________________________  )" );
-    game_over_text.push_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
-    game_over_text.push_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
-    game_over_text.push_back( R"( /    |    \\     /   |        \ |    |   \ )" );
-    game_over_text.push_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
-    game_over_text.push_back( R"(         \/                  \/         \/  )" );
+    game_over_text.emplace_back( R"(  ________    _____      _____   ___________)" );
+    game_over_text.emplace_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
+    game_over_text.emplace_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
+    game_over_text.emplace_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
+    game_over_text.emplace_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
+    game_over_text.emplace_back( R"(        \/         \/         \/         \/ )" );
+    game_over_text.emplace_back( R"( ________ ____   _________________________  )" );
+    game_over_text.emplace_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
+    game_over_text.emplace_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
+    game_over_text.emplace_back( R"( /    |    \\     /   |        \ |    |   \ )" );
+    game_over_text.emplace_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
+    game_over_text.emplace_back( R"(         \/                  \/         \/  )" );
 
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
         mvwprintz( w_snake, point( 17, i + 3 ), c_light_red, game_over_text[i] );
@@ -103,7 +103,7 @@ int snake_game::start_game()
     ui.mark_resize();
 
     //Snake start position
-    vSnakeBody.push_back( std::make_pair( FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2 ) );
+    vSnakeBody.emplace_back( FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2 );
     mSnakeBody[FULL_SCREEN_HEIGHT / 2][FULL_SCREEN_WIDTH / 2] = true;
 
     //Snake start direction
@@ -144,28 +144,28 @@ int snake_game::start_game()
     do {
         //Check if we hit a border
         if( vSnakeBody[vSnakeBody.size() - 1].first + iDirY == 0 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first +
-                                                  iDirY + FULL_SCREEN_HEIGHT - 2,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first +
+                                     iDirY + FULL_SCREEN_HEIGHT - 2,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].first + iDirY == FULL_SCREEN_HEIGHT - 1 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first +
-                                                  iDirY - FULL_SCREEN_HEIGHT + 2,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first +
+                                     iDirY - FULL_SCREEN_HEIGHT + 2,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].second + iDirX == 0 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second +
-                                                  iDirX + FULL_SCREEN_WIDTH - 2 ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second +
+                                     iDirX + FULL_SCREEN_WIDTH - 2 );
 
         } else if( vSnakeBody[vSnakeBody.size() - 1].second + iDirX == FULL_SCREEN_WIDTH - 1 ) {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second +
-                                                  iDirX - FULL_SCREEN_WIDTH + 2 ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second +
+                                     iDirX - FULL_SCREEN_WIDTH + 2 );
 
         } else {
-            vSnakeBody.push_back( std::make_pair( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
-                                                  vSnakeBody[vSnakeBody.size() - 1].second + iDirX ) );
+            vSnakeBody.emplace_back( vSnakeBody[vSnakeBody.size() - 1].first + iDirY,
+                                     vSnakeBody[vSnakeBody.size() - 1].second + iDirX );
         }
 
         //Check if we hit ourselves

@@ -65,7 +65,8 @@
       ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
-      "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ]
+      "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -81,7 +82,8 @@
         "hhh_",
         "____"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -98,7 +100,8 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "items": { "^": { "item": "hardware", "chance": 10 } }
+      "items": { "^": { "item": "hardware", "chance": 10 } },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
   {
@@ -123,7 +126,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -148,7 +152,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -173,7 +178,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -198,7 +204,8 @@
         { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -226,7 +233,8 @@
         { "chance": 50, "item": "ammo_rifle_common", "x": 3, "y": 3, "repeat": [ 2, 4 ] },
         { "chance": 40, "item": "mags_rifle_common", "x": 3, "y": 3, "repeat": [ 1, 2 ] }
       ],
-      "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -250,7 +258,8 @@
         { "chance": 20, "item": "snacks", "x": 0, "y": 3, "repeat": [ 1, 3 ] },
         { "chance": 30, "item": "stash_wood", "x": 3, "y": [ 0, 3 ], "repeat": [ 2, 5 ] }
       ],
-      "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ]
+      "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -454,15 +463,16 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "....d...",
-        ".rP.....",
-        "..r...d.",
-        "...d....",
-        "....#...",
-        "...#....",
-        "..#t##d.",
-        "....#..."
+        "    d   ",
+        " r      ",
+        "  r   d ",
+        "   d    ",
+        "    ~   ",
+        "        ",
+        "      d ",
+        "        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "r": { "item": "hardware", "chance": 10 } }
     }
@@ -476,17 +486,18 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "d.ddd.#.",
-        "ddd.d.t.",
-        ".d.d.d#.",
-        "d.ddd.#.",
-        ".ddd.dt.",
-        "d.d.d.t.",
-        ".dd.dd#.",
-        "...d...."
+        " dddddd ",
+        " dddddd ",
+        " dddddd ",
+        " dddddd ",
+        " dddddd ",
+        " dddddd ",
+        " dddddd ",
+        " dddddd "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ]
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 3, "y": 3 } ]
     }
   },
   {
@@ -498,15 +509,16 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "..d...#.",
-        "d...d...",
-        "..QQ....",
-        "..QQ....",
-        "..d....#",
-        "#.......",
-        "........",
-        "...d...."
+        "  d     ",
+        "d   d   ",
+        "  QQ    ",
+        "  QQ    ",
+        "  d     ",
+        "        ",
+        "        ",
+        "   d    "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { ".": { "item": "hardware", "chance": 10 } }
     }
@@ -520,15 +532,16 @@
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "..d...#.",
-        "d...d...",
-        ".r||w|&.",
-        "..|rrr&.",
-        "..|rdd.#",
-        "#.|&&ddd",
-        "......dd",
-        "...d...."
+        "  d     ",
+        "d   d   ",
+        " r||w|& ",
+        "  |rrr& ",
+        "  |rdd  ",
+        "  |&&ddd",
+        "      dd",
+        "   d    "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "r": { "item": "hardware", "chance": 10 } }
     }
@@ -551,7 +564,8 @@
         "     k  ",
         "        "
       ],
-      "terrain": { " ": "t_null", "k": "t_trunk" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "k": "t_trunk" },
       "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door", "b": "f_firering" },
       "place_items": [
         { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
@@ -574,13 +588,324 @@
         "   ",
         "hrh"
       ],
-      "terrain": { " ": "t_null" },
       "furniture": { "h": "f_camp_chair", "b": "f_firering", "r": "f_tourist_table" },
       "place_items": [
         { "item": "cannedfood", "x": 1, "y": 2, "chance": 75 },
         { "item": "fishing_items", "x": 1, "y": 2, "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "stash_wood", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 6 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_3x3_S",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "#x#",
+        "#+#"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_3x3_E",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "#x+",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_3x3_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+#",
+        "#x#",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_3x3_W",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "+x#",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "##+##"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx+",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "+xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_3x3_S",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "#x#",
+        "#+#"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_3x3_E",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "#x+",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_3x3_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+#",
+        "#x#",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_3x3_W",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "###",
+        "+x#",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_5x5_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "##+##"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_5x5_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx+",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_5x5_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_b_5x5_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "+xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": {
+        "#": [ [ "f_large_canvas_wall", 5 ], "f_null" ],
+        "X": [ [ "f_center_groundsheet", 5 ], "f_null" ],
+        "x": [ [ "f_large_groundsheet", 5 ], "f_null" ],
+        "+": [ [ "f_large_canvas_door", 5 ], "f_null" ]
+      }
     }
   }
 ]

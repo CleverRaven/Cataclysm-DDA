@@ -1,0 +1,13 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "blood_spiders_itch",
+    "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "blood_spiders" }, { "not": { "u_has_effect": "formication" } } ] },
+    "deactivate_condition": { "not": { "or": [ { "u_has_effect": "blood_spiders" }, { "u_has_effect": "stim_overdose" } ] } },
+    "effect": [
+      { "u_message": "The spiders in your veins itch!", "type": "bad" },
+      { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "RANDOM" }
+    ]
+  }
+]

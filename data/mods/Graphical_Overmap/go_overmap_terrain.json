@@ -472,12 +472,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "copy-from": "looted_building",
-    "sym": "\u00E5"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "campsite",
     "name": "campsite",
     "copy-from": "campsite",
@@ -513,19 +507,6 @@
     "id": "pond_field",
     "copy-from": "pond_field",
     "sym": "\u00DC"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_forest",
-    "copy-from": "pond_forest",
-    "sym": "\u00DC"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "copy-from": "pond_swamp",
-    "sym": "\u00DC",
-    "color": "green"
   },
   {
     "type": "overmap_terrain",

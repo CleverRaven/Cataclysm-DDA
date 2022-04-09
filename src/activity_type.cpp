@@ -47,6 +47,7 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "rooted", result.rooted_, true );
     assign( jo, "verb", result.verb_, true );
     assign( jo, "interruptable", result.interruptable_, true );
+    assign( jo, "interruptable_with_kb", result.interruptable_with_kb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );
@@ -102,19 +103,19 @@ void activity_type::check_consistency()
     }
 }
 
-void activity_type::call_do_turn( player_activity *act, player *p ) const
+void activity_type::call_do_turn( player_activity *act, Character *you ) const
 {
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
-        pair->second( act, p );
+        pair->second( act, you );
     }
 }
 
-bool activity_type::call_finish( player_activity *act, player *p ) const
+bool activity_type::call_finish( player_activity *act, Character *you ) const
 {
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
-        pair->second( act, p );
+        pair->second( act, you );
         // kill activity sounds at finish
         sfx::end_activity_sounds();
         return true;

@@ -127,6 +127,7 @@
       { "item": "pot", "prob": 50 },
       { "item": "pan", "prob": 50 },
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "electrolysis_kit", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 }
     ]
   },
@@ -173,6 +174,7 @@
       { "item": "pot", "prob": 50 },
       { "item": "pan", "prob": 50 },
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "electrolysis_kit", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 },
       { "item": "water_purifier", "charges": 0, "prob": 50 },
       { "item": "vac_sealer", "charges": 0, "prob": 50 },
@@ -309,7 +311,7 @@
     "color": "white",
     "broken_color": "white",
     "durability": 10,
-    "description": "A length of heavy duty copper wire, useful for routing power from one part of a vehicle to another part.",
+    "description": "A length of heavy-duty copper wire, useful for routing power from one part of a vehicle to another part.",
     "folded_volume": "250 ml",
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
     "requirements": {

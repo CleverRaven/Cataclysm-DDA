@@ -5,7 +5,7 @@
     "om_terrain": [ "basement_bionic" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "           |----------| ",
@@ -81,7 +81,7 @@
     "om_terrain": [ "basement_bionic_decoy" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "           |----------| ",

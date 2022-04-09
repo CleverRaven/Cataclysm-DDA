@@ -1,0 +1,84 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 11, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_root_cellar",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 7, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_water_well",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 7, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_radio",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_radio_tower", "x": 16, "y": 11 },
+        { "point": "terrain", "id": "t_radio_controls", "x": 16, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_prepalisade",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_pit", "x": 13, "y": 1 },
+        { "point": "terrain", "id": "t_pit", "x": 14, "y": 1 },
+        { "point": "terrain", "id": "t_pit", "x": 1, "y": 9 },
+        { "point": "terrain", "id": "t_pit", "x": 1, "y": 10 },
+        { "point": "terrain", "id": "t_pit", "x": 22, "y": 13 },
+        { "point": "terrain", "id": "t_pit", "x": 22, "y": 14 }
+      ],
+      "place_items": [ { "x": 11, "y": 9, "item": "digging_soil_loam_50L", "chance": 99, "repeat": 180 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_palisade",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 13, "y": 1 },
+        { "point": "terrain", "id": "t_palisade", "x": 14, "y": 1 },
+        { "point": "terrain", "id": "t_palisade", "x": 1, "y": 9 },
+        { "point": "terrain", "id": "t_palisade", "x": 1, "y": 10 },
+        { "point": "terrain", "id": "t_palisade", "x": 22, "y": 13 },
+        { "point": "terrain", "id": "t_palisade", "x": 22, "y": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_reinforced_doors",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_rdoor_c", "x": 9, "y": 22 },
+        { "point": "terrain", "id": "t_rdoor_c", "x": 10, "y": 22 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_metal_doors",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_door_metal_c", "x": 9, "y": 22 },
+        { "point": "terrain", "id": "t_door_metal_c", "x": 10, "y": 22 }
+      ]
+    }
+  }
+]

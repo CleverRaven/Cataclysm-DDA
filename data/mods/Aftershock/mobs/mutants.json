@@ -28,7 +28,6 @@
     "vision_night": 3,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "cryo_lab_drops",
-    "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "COLDPROOF" ]
   },

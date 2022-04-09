@@ -217,8 +217,8 @@ in "removes_effects" are automatically added to "blocks_effects", no need for ma
 
 ### Effect limiters
 ```C++
-    "max_duration": 100,
-    "dur_add_perc": 150     - Defaults to 100%
+    "max_duration": 100,    - Time duration string, defaults to 365 days
+    "dur_add_perc": 150     - Defaults to 100(%)
 ```
 These are utilized when adding to currently existing effects. "max_duration" limits the overall duration of the effect.
 "dur_add_perc" is the percentage value of the normal duration for adding to an existing. An example:
@@ -230,11 +230,12 @@ future applications decreasing the overall time left.
 
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
-```C++
-    "int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
-    and/or
-    "int_decay_step": -2,    - Defaults to -1
-    "int_decay_tick": 10
+```JSON
+    "int_add_val": 2         - Int, defaults to 0 meaning future applications will not increase intensity
+
+    "int_decay_step": -2,    - Int, default -1, intensity levels removed every decay tick
+    "int_decay_tick": 10     - Int, seconds between intensity decay (no decay at the default of 0)
+    "int_decay_remove": true - Bool, default false, removes the intensity if decay would decrease it to zero
     or
     "int_dur_factor": 700
 ```
@@ -245,7 +246,8 @@ Because "int_add_val" = 2, the second addition will change the effect intensity 
 NOTE: You must have at least one of the 3 intensity data sets for intensity to do anything!
 
 "int_decay_step" and "int_decay_tick" require one another to do anything. If both exist then the game will automatically
-increment the current effect intensities by "int_decay_step" every "int_decay_tick" ticks, capping the result at [1, "max_intensity"].
+increment the current effect intensities by "int_decay_step" every "int_decay_tick" ticks, capping the result at [0, "max_intensity"]
+and removing effects if the intensity reaches zero and `int_decay_remove` is true.
 This can be used to make effects automatically increase or decrease in intensity over time.
 
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
@@ -302,7 +304,48 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 ### Flags
 
 "EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
+"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+
+### Vitamin Mods
+
+```json
+    "vitamins": [
+      {
+        "vitamin": "foo",
+        "rate": [ [ 1, 2 ] ],
+        "resist_rate": [ [ 0, 1 ] ],
+        "absorb_mult": [ 0.5 ],
+        "resist_absorb_mult": [ 0.0 ],
+        "tick": [ "2 m" ],
+        "resist_tick": [ "1 s" ],
+      }
+    ],
+```
+- `vitamin` corresponds to the vitamin id that the following effects will be applied to
+- `rate` A randomly generated number between the bounds specified (here, 1 and 2) will added to the vitamin counter of a character with this effect every `tick`.
+- `absorb_mult` metabolically absorbed vitamins will be multiplied by this quantity before being added to the character.
+
+The `resist_` variants of the above keys are the values chosen when the character is resistant to this effect.
+
+All of these members are arrays, with each successive entry corresponding to the intensity level of an effect. If there are more intensity levels to the effect than entries in the array, the last entry in the array will be used.
+
+As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorption rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
+
+### Death
+
+```json
+    "chance_kill": [ [ 1, 25 ] ],
+    "chance_kill_resist": [ [ 1, 250 ] ],
+    "death_msg": "You died.",
+    "death_event": "throws_up"
+```
+
+- `chance_kill` A first value in second value chance to kill the creature with this effect each turn.
+- `chance_kill_resist` A first value in second value chance to kill the creature with this effect each turn, if the creature resists this effect.
+- `death_msg` A message added to the log when the player dies from this effect.
+- `death_event` An event that is sent when the player dies from this effect.
+
+For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the format described. Each entry in the array will be applied for a successive intensity level of the field. If the intensity level of the field is greater than the number of entries in the array, the last entry will be used.
 
 ### Effect effects
 ```C++
@@ -368,7 +411,7 @@ Valid arguments:
 "pkill_tick"        - Defaults to every tick
 
 "stim_amount"       - Negatives cause depressants effect and positives cause stimulants effect.
-"stim_min"          - Minimal amount of stimulant, certain effect will give. 
+"stim_min"          - Minimal amount of stimulant, certain effect will give.
 "stim_max"          - if 0 or missing value will be exactly "stim_min"
 "stim_min_val"      - Defaults to 0, which means uncapped
 "stim_max_val"      - Defaults to 0, which means uncapped
@@ -377,7 +420,7 @@ Valid arguments:
 "stim_tick"         - Defaults to every tick
 
 "health_amount"     - Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
-"health_min"        - Minimal amount of health, certain effect will give/take. 
+"health_min"        - Minimal amount of health, certain effect will give/take.
 "health_max"        - if 0 or missing value will be exactly "health_min"
 "health_min_val"    - Defaults to 0, which means uncapped
 "health_max_val"    - Defaults to 0, which means uncapped
@@ -420,6 +463,15 @@ Valid arguments:
 "thirst_chance_bot"
 "thirst_tick"       - Defaults to every tick
 
+"perspiration_amount"     - Amount of perspiration it can give/take.
+"perspiration_min"        - Minimal amount of perspiration, certain effect will give/take
+"perspiration_max"        - if 0 or missing value will be exactly "perspiration_min"
+"perspiration_min_val"    - Defaults to 0, which means uncapped
+"perspiration_max_val"    - Defaults to 0, which means uncapped
+"perspiration_chance"     - Chance to perspire
+"perspiration_chance_bot"
+"perspiration_tick"       - Defaults to every tick
+
 "fatigue_amount"    - Amount of fatigue it can give/take. After certain amount character will need to sleep.
 "fatigue_min"       - Minimal amount of fatigue, certain effect will give/take
 "fatigue_max"       - if 0 or missing value will be exactly "fatigue_min"
@@ -442,6 +494,7 @@ Valid arguments:
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
 
+// It is important to not vomit_chance interacts with vomit_multiplier in mutations, and as such is hardcoded. Base vomit chance is intensity/(base vomit chance + scaling vomit chance).
 "vomit_chance"      - Chance to cause vomiting
 "vomit_chance_bot"
 "vomit_tick"        - Defaults to every tick

@@ -12,6 +12,7 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
+[![TODOs](https://badgen.net/https/api.tickgit.com/badgen/github.com/CleverRaven/Cataclysm-DDA)](https://www.tickgit.com/browse?repo=github.com/CleverRaven/Cataclysm-DDA)
 
 ## Downloads
 
@@ -69,8 +70,7 @@ GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 
 IRC:
-`irc.libera.chat` ; `#CataclysmDDA`
-https://kiwiirc.com/nextclient/irc.libera.chat#CataclysmDDA
+`#CataclysmDDA` on [Libera Chat](https://libera.chat), https://web.libera.chat/#CataclysmDDA
 
 Official Discord:
 https://discord.gg/jFEc7Yp

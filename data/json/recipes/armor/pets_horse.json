@@ -38,16 +38,16 @@
     "result": "chainmail_armor_horse",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "chainmail_vest",
+    "copy-from": "lc_chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "6 h 30 m",
     "reversible": true,
     "using": [ [ "chainmail_standard", 7 ], [ "clasps", 4 ] ],
     "components": [
-      [ [ "link_sheet", 35 ] ],
-      [ [ "chain_link", 917 ] ],
-      [ [ "wire", 7 ] ],
+      [ [ "lc_link_sheet", 35 ] ],
+      [ [ "lc_chain_link", 917 ] ],
+      [ [ "lc_wire", 7 ] ],
       [ [ "fur", 42 ], [ "tanned_pelt", 7 ], [ "leather", 42 ], [ "tanned_hide", 7 ] ]
     ],
     "proficiencies": [
@@ -68,7 +68,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
@@ -203,7 +203,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "clasps", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "duct_tape", 175 ] ], [ [ "coat_rain", 7 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
@@ -220,9 +220,52 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "clasps", 4 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "rag", 70 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "iron_armor_horse",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "armor_plarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "skills_required": [ "tailor", 3 ],
+    "time": "24 h",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "using": [ [ "sewing_standard", 260 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_horse", 1 ] ] ]
+  },
+  {
+    "result": "steel_armor_horse",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "armor_lightplate",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
+    "skills_required": [ "fabrication", 8 ],
+    "time": "96 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "saddlebag",

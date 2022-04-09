@@ -143,8 +143,6 @@ void g10()
 
 void g11()
 {
-    // When multiple changes to be done in one function, only perform one (to
-    // avoid overlapping replacements)
     static constexpr int x = 0;
     // CHECK-MESSAGES: warning: Variables 'x' and 'y' could be combined into a single 'point' variable. [cata-combine-locals-into-point]
     // CHECK-FIXES: static constexpr point p( 0, 1 );
@@ -158,4 +156,13 @@ void g12()
     unsigned y = true;
     const unsigned x1 = false;
     const unsigned y1 = true;
+}
+
+void g13()
+{
+    // Check that suppressing the first warning suppresses the rest.
+    // NOLINTNEXTLINE(cata-combine-locals-into-point)
+    int rx = 7;
+    int ry = 14;
+    f0( point( rx, ry ) );
 }

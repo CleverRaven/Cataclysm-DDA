@@ -26,12 +26,13 @@ AMMO_TYPE_WHITELIST = {
     'm235',  # Rocket
     'metal_rail',
     'nail',
+    'nuts_bolts',
     'paintball',
     'pebble',
     'plasma',
     'rock',
     'signal_flare',
-    'weldgas',
+    'weldgas'
 }
 SKILL_WHITELIST = {
     'archery',
@@ -42,6 +43,8 @@ SKILL_WHITELIST = {
 ID_WHITELIST = {
     # Guns
     'coilgun',
+    'slamfire_shotgun',
+    'slamfire_shotgun_d',
     'ftk93',
     'l_bak_223',
     'pneumatic_shotgun',
@@ -49,8 +52,11 @@ ID_WHITELIST = {
     'rifle_3006',
     'rifle_308',
     'surv_carbine_223',
+    'feral_militia_gun',
     # Magazines
     '223_speedloader5',
+    'coin_wrapper',
+    'bio_shotgun_gun',
 }
 
 

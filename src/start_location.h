@@ -15,13 +15,14 @@
 #include "type_id.h"
 
 class JsonObject;
-class player;
+class avatar;
 class tinymap;
 
 class start_location
 {
     public:
         start_location_id id;
+        std::vector<std::pair<start_location_id, mod_id>> src;
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -47,7 +48,7 @@ class start_location
         /**
          * Place the player somewhere in the reality bubble (g->m).
          */
-        void place_player( player &u ) const;
+        void place_player( avatar &you, const tripoint_abs_omt &omtstart ) const;
         /**
          * Burn random terrain / furniture with FLAMMABLE or FLAMMABLE_ASH tag.
          * Doors and windows are excluded.
@@ -59,9 +60,9 @@ class start_location
         /**
          * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */
-        void add_map_extra( const tripoint_abs_omt &omtstart, const std::string &map_extra ) const;
+        void add_map_extra( const tripoint_abs_omt &omtstart, const map_extra_id &map_extra ) const;
 
-        void handle_heli_crash( player &u ) const;
+        void handle_heli_crash( avatar &you ) const;
 
         /**
          * Adds surround start monsters.

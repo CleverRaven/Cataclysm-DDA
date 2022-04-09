@@ -2,7 +2,7 @@
   {
     "id": "BGSS_EVACUEE_3_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead…  I was the only one to make it out.  I never looked back.",
+    "dynamic_line": "There's nothing too special about me, I'm not sure why I survived.  I got evacuated with a handful of others, but we were too late to make the second trip to a FEMA center.  We got attacked by the dead… I was the only one to make it out.  I never looked back.",
     "responses": [
       {
         "text": "How did you survive after that?",
@@ -79,7 +79,7 @@
   {
     "id": "CWH_EVACUEE_3_IDEAS2",
     "type": "talk_topic",
-    "dynamic_line": "Not really.  Government fed us all kinds of conflicting stories, and there was some absolutely heinous stuff going on.  I mean, you can't have missed that video of the woman killing her own baby, right?  God, that still gives me nightmares.  I don't know what it was about it, something about the look on her face.  Worse stuff came out of course, and now we've both seen worse things with our own eyes, but that one still comes back to haunt me.  Anyway, they never could control the riots, and by the time the rioters started turning into undead it was way too late.  I don't know if morale just broke or what but I heard rumours the military and police started turning on each other as much as the crowds.  What actually made the dead come back to life though?  I haven't got a clue.",
+    "dynamic_line": "Not really.  Government fed us all kinds of conflicting stories, and there was some absolutely heinous stuff going on.  I mean, you can't have missed that video of the woman killing her own baby, right?  God, that still gives me nightmares.  I don't know what it was about it, something about the look on her face.  Worse stuff came out of course, and now we've both seen worse things with our own eyes, but that one still comes back to haunt me.  Anyway, they never could control the riots, and by the time the rioters started turning into undead it was way too late.  I don't know if morale just broke or what but I heard rumors the military and police started turning on each other as much as the crowds.  What actually made the dead come back to life though?  I haven't got a clue.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

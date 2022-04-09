@@ -182,9 +182,7 @@ struct value_constraint {
         return true;
     }
 
-    void deserialize( JsonIn &jsin ) {
-        JsonObject jo = jsin.get_object();
-
+    void deserialize( const JsonObject &jo ) {
         cata_variant equals_variant;
         if( jo.read( "equals", equals_variant, false ) ) {
             equals_ = equals_variant;
@@ -243,8 +241,7 @@ struct new_field {
     event_field_transformation transformation;
     std::string input_field;
 
-    void deserialize( JsonIn &jsin ) {
-        JsonObject jo = jsin.get_object();
+    void deserialize( const JsonObject &jo ) {
         if( jo.size() != 1 ) {
             jo.throw_error( "new field specifications must have exactly one entry" );
         }

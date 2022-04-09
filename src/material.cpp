@@ -33,6 +33,31 @@ const material_type &string_id<material_type>::obj() const
     return material_data.obj( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<breathability_rating>( breathability_rating data )
+{
+    switch( data ) {
+        case breathability_rating::IMPERMEABLE:
+            return "IMPERMEABLE";
+        case breathability_rating::POOR:
+            return "POOR";
+        case breathability_rating::AVERAGE:
+            return "AVERAGE";
+        case breathability_rating::GOOD:
+            return "GOOD";
+        case breathability_rating::MOISTURE_WICKING:
+            return "MOISTURE_WICKING";
+        case breathability_rating::SECOND_SKIN:
+            return "SECOND_SKIN";
+        case breathability_rating::last:
+            break;
+    }
+    cata_fatal( "Invalid breathability" );
+}
+} // namespace io
+
 material_type::material_type() :
     id( material_id::NULL_ID() ),
     _bash_dmg_verb( to_translation( "damages" ) ),
@@ -65,10 +90,15 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
+
+    optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
-    optional( jsobj, was_loaded, "freeze_point", _freeze_point );
+    optional( jsobj, was_loaded, "freezing_point", _freeze_point );
+
+    optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
@@ -103,10 +133,6 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "fuel_data", fuel );
 
     jsobj.read( "burn_products", _burn_products, true );
-
-    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
-              auto_flags_reader<material_id>() );
-    optional( jsobj, was_loaded, "compacts_into", _compacts_into, auto_flags_reader<itype_id>() );
 }
 
 void material_type::check() const
@@ -123,16 +149,10 @@ void material_type::check() const
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
     }
-    for( const material_id &ca : _compact_accepts ) {
-        if( !ca.is_valid() ) {
-            debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
-        }
-    }
-    for( const itype_id &ci : _compacts_into ) {
-        if( !item::type_is_defined( ci ) ||
-            !item( ci, calendar::turn_zero ).only_made_of( std::set<material_id> { id } ) ) {
-            debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
-        }
+
+    if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
+        debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
+                  id.str() );
     }
 }
 
@@ -156,17 +176,17 @@ itype_id material_type::repaired_with() const
     return _repaired_with;
 }
 
-int material_type::bash_resist() const
+float material_type::bash_resist() const
 {
     return _bash_resist;
 }
 
-int material_type::cut_resist() const
+float material_type::cut_resist() const
 {
     return _cut_resist;
 }
 
-int material_type::bullet_resist() const
+float material_type::bullet_resist() const
 {
     return _bullet_resist;
 }
@@ -192,17 +212,17 @@ std::string material_type::dmg_adj( int damage ) const
     return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
 }
 
-int material_type::acid_resist() const
+float material_type::acid_resist() const
 {
     return _acid_resist;
 }
 
-int material_type::elec_resist() const
+float material_type::elec_resist() const
 {
     return _elec_resist;
 }
 
-int material_type::fire_resist() const
+float material_type::fire_resist() const
 {
     return _fire_resist;
 }
@@ -227,14 +247,57 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
-int material_type::freeze_point() const
+float material_type::freeze_point() const
 {
     return _freeze_point;
 }
 
-int material_type::density() const
+float material_type::density() const
 {
     return _density;
+}
+
+bool material_type::is_valid_thickness( float thickness ) const
+{
+    // if this doesn't have an expected thickness return true
+    if( _sheet_thickness == 0 ) {
+        return true;
+    }
+
+    // float calcs so rounding need to be mindful of
+    return fmodf( thickness, _sheet_thickness ) < .01;
+}
+
+float material_type::thickness_multiple() const
+{
+    return _sheet_thickness;
+}
+
+int material_type::breathability() const
+{
+    // this is where the values for each of these exist
+    switch( _breathability ) {
+        case breathability_rating::IMPERMEABLE:
+            return 0;
+        case breathability_rating::POOR:
+            return 30;
+        case breathability_rating::AVERAGE:
+            return 50;
+        case breathability_rating::GOOD:
+            return 80;
+        case breathability_rating::MOISTURE_WICKING:
+            return 110;
+        case breathability_rating::SECOND_SKIN:
+            return 140;
+        case breathability_rating::last:
+            break;
+    }
+    return 0;
+}
+
+cata::optional<int> material_type::wind_resist() const
+{
+    return _wind_resist;
 }
 
 bool material_type::edible() const
@@ -272,16 +335,6 @@ const mat_burn_products &material_type::burn_products() const
     return _burn_products;
 }
 
-const material_id_list &material_type::compact_accepts() const
-{
-    return _compact_accepts;
-}
-
-const mat_compacts_into &material_type::compacts_into() const
-{
-    return _compacts_into;
-}
-
 void materials::load( const JsonObject &jo, const std::string &src )
 {
     material_data.load( jo, src );
@@ -300,17 +353,6 @@ void materials::reset()
 material_list materials::get_all()
 {
     return material_data.get_all();
-}
-
-material_list materials::get_compactable()
-{
-    material_list all = get_all();
-    material_list compactable;
-    std::copy_if( all.begin(), all.end(),
-    std::back_inserter( compactable ), []( const material_type & mt ) {
-        return !mt.compacts_into().empty();
-    } );
-    return compactable;
 }
 
 std::set<material_id> materials::get_rotting()
@@ -341,9 +383,8 @@ void fuel_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
 }
 
-void fuel_data::deserialize( JsonIn &jsin )
+void fuel_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
@@ -362,8 +403,7 @@ void fuel_explosion_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "fiery", fiery_explosion );
 }
 
-void fuel_explosion_data::deserialize( JsonIn &jsin )
+void fuel_explosion_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }

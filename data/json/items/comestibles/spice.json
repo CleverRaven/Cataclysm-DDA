@@ -9,17 +9,21 @@
   },
   {
     "id": "hot_sauce",
-    "copy-from": "spice",
     "container": "bottle_plastic_small",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
     "description": "Flamin' hot sauce.  Bad idea to eat on its own.  You should probably wash your hands after handling.",
     "weight": "6 g",
     "charges": 50,
     "volume": "250 ml",
+    "//": "hot sauces are very salty, hence the negative quench",
+    "quench": -2,
+    "calories": 5,
+    "symbol": "~",
     "color": "red",
     "primary_material": "water",
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid"
   },
   {
@@ -142,7 +146,7 @@
     "charges": 10,
     "healthy": -1,
     "fun": -15,
-    "freezing_point": -22,
+    "freezing_point": -30,
     "phase": "liquid"
   },
   {

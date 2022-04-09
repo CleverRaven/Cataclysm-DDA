@@ -69,9 +69,8 @@ void event_summary::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void event_summary::deserialize( JsonIn &jsin )
+void event_summary::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.read( "count", count, true );
     jo.read( "first", first, true );
     jo.read( "last", last, true );
@@ -222,8 +221,7 @@ stats_tracker_state::~stats_tracker_state() = default;
 
 const cata_variant &stats_tracker_multiset_state::get_value() const
 {
-    debugmsg( "Trying to get a variant value from a multiset state" );
-    abort();
+    cata_fatal( "Trying to get a variant value from a multiset state" );
 }
 
 stats_tracker::~stats_tracker()

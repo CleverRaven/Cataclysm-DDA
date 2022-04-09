@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "bunker",
     "terrain": {
-      "#": "t_rock",
+      "#": "t_soil",
       "*": "t_chaingate_c",
       "+": "t_door_metal_c",
       "-": "t_scrap_wall",
@@ -91,7 +91,7 @@
     "terrain": {
       " ": [ [ "t_region_groundcover", 60 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
-      "#": "t_rock",
+      "#": "t_soil",
       "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
       "S": [
         [ "t_region_groundcover", 5 ],
@@ -103,7 +103,7 @@
       ],
       "v": "t_open_air",
       "+": "t_door_metal_c",
-      ".": "t_rock_floor",
+      ".": "t_dirt",
       ">": "t_stairs_down",
       ")": "t_slope_up",
       "(": "t_slope_down",

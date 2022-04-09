@@ -56,6 +56,7 @@ struct enum_traits<description_affix> {
 
 struct field_effect {
     efftype_id id;
+    std::vector<std::pair<efftype_id, mod_id>> src;
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
@@ -111,6 +112,7 @@ struct field_intensity_level {
     std::vector<field_effect> field_effects;
 };
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
 extern const field_type_str_id fd_null;
 extern const field_type_str_id fd_fire;
@@ -132,6 +134,7 @@ extern const field_type_str_id fd_gas_vent;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;
 extern const field_type_str_id fd_electricity;
+extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_fatigue;
 extern const field_type_str_id fd_push_items;
 extern const field_type_str_id fd_shock_vent;
@@ -170,6 +173,7 @@ struct field_type {
 
         // Used by generic_factory
         field_type_str_id id;
+        std::vector<std::pair<field_type_str_id, mod_id>> src;
         bool was_loaded = false;
 
         int legacy_enum_id = -1;
@@ -207,6 +211,8 @@ struct field_type {
         bool legacy_make_rubble = false;
         field_type_str_id wandering_field;
         std::string looks_like;
+
+        bool mopsafe = false;
 
         bool decrease_intensity_on_contact = false;
 

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "vehicle_azimuth_desc",
+    "type": "widget",
+    "label": "Azimuth",
+    "style": "text",
+    "var": "veh_azimuth_text",
+    "//": "Uses display::vehicle_azimuth_text"
+  },
+  {
+    "id": "vehicle_cruise_desc",
+    "type": "widget",
+    "label": "Speed",
+    "style": "text",
+    "var": "veh_cruise_text",
+    "//": "Current/target vehicle cruising speed from display::vehicle_cruise_text_color"
+  },
+  {
+    "id": "vehicle_fuel_desc",
+    "type": "widget",
+    "label": "Fuel",
+    "style": "text",
+    "var": "veh_fuel_text",
+    "//": "Current/max fuel for active vehicle engine from display::vehicle_fuel_text_color"
+  },
+  {
+    "id": "vehicle_azimuth_cruise_fuel_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "vehicle_azimuth_desc", "vehicle_cruise_desc", "vehicle_fuel_desc" ]
+  }
+]

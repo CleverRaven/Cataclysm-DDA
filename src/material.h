@@ -16,16 +16,30 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
 class material_type;
 
 enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
-using mat_compacts_into = std::vector<itype_id>;
 using material_list = std::vector<material_type>;
 using material_id_list = std::vector<material_id>;
+
+// values for how breathable a material is
+enum class breathability_rating : int {
+    IMPERMEABLE = 0,
+    POOR,
+    AVERAGE,
+    GOOD,
+    MOISTURE_WICKING,
+    SECOND_SKIN,
+    last
+};
+
+template<>
+struct enum_traits<breathability_rating> {
+    static constexpr breathability_rating last = breathability_rating::last;
+};
 
 struct fuel_explosion_data {
     int explosion_chance_hot = 0;
@@ -38,7 +52,7 @@ struct fuel_explosion_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &jo );
 };
 
 struct fuel_data {
@@ -51,35 +65,43 @@ struct fuel_data {
 
         bool was_loaded = false;
         void load( const JsonObject &jsobj );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 class material_type
 {
     public:
         material_id id;
+        std::vector<std::pair<material_id, mod_id>> src;
         bool was_loaded = false;
 
     private:
         translation _name;
         cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
-        int _bash_resist = 0;                         // negative integers means susceptibility
-        int _cut_resist = 0;
-        int _acid_resist = 0;
-        int _elec_resist = 0;
-        int _fire_resist = 0;
-        int _bullet_resist = 0;
+        float _bash_resist = 0.0f;                         // negative integers means susceptibility
+        float _cut_resist = 0.0f;
+        float _acid_resist = 0.0f;
+        float _elec_resist = 0.0f;
+        float _fire_resist = 0.0f;
+        float _bullet_resist = 0.0f;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
-        int _density = 1;                             // relative to "powder", which is 1
+        float _density = 1;                             // relative to "powder", which is 1
+        // ability of a fabric to allow moisture vapor to be transmitted through the material
+        breathability_rating _breathability = breathability_rating::IMPERMEABLE;
+        // How resistant this material is to wind as a percentage - 0 to 100
+        cata::optional<int> _wind_resist;
         float _specific_heat_liquid = 4.186f;
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
-        int _freeze_point = 32; // Fahrenheit
+        float _freeze_point = 0; // Celsius
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
         bool _reinforces = false;
+
+        // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
+        float _sheet_thickness = 0.0f;
 
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
@@ -93,9 +115,6 @@ class material_type
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
-
-        material_id_list _compact_accepts;
-        mat_compacts_into _compacts_into;
 
     public:
         material_type();
@@ -114,21 +133,28 @@ class material_type
          */
         cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
-        int bash_resist() const;
-        int cut_resist() const;
-        int bullet_resist() const;
+        float bash_resist() const;
+        float cut_resist() const;
+        float bullet_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
-        int acid_resist() const;
-        int elec_resist() const;
-        int fire_resist() const;
+        float acid_resist() const;
+        float elec_resist() const;
+        float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;
-        int freeze_point() const;
-        int density() const;
+        float freeze_point() const;
+        float density() const;
+
+        bool is_valid_thickness( float thickness ) const;
+        float thickness_multiple() const;
+
+        // converts from the breathability enum to a fixed integer value from 0-100
+        int breathability() const;
+        cata::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;
@@ -143,8 +169,6 @@ class material_type
 
         const mat_burn_data &burn_data( size_t intensity ) const;
         const mat_burn_products &burn_products() const;
-        const material_id_list &compact_accepts() const;
-        const mat_compacts_into &compacts_into() const;
 };
 
 namespace materials
@@ -155,7 +179,6 @@ void check();
 void reset();
 
 material_list get_all();
-material_list get_compactable();
 std::set<material_id> get_rotting();
 
 } // namespace materials

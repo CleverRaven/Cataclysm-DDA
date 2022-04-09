@@ -69,6 +69,7 @@ enum mission_goal {
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
+    MGOAL_KILL_NEMESIS,      // Kill the nemesis monster from the "hunted" trait
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
@@ -102,22 +103,11 @@ struct mission_start {
     static void place_dog( mission * );          // Put a dog in a house!
     static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
     static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
+    static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
     static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
-    static void ranch_nurse_1( mission * );      // Need aspirin
-    static void ranch_nurse_2( mission * );      // Need hotplates
-    static void ranch_nurse_3( mission * );      // Need vitamins
-    static void ranch_nurse_4( mission * );      // Need charcoal water filters
-    static void ranch_nurse_5( mission * );      // Need chemistry set
-    static void ranch_nurse_6( mission * );      // Need filter masks
-    static void ranch_nurse_7( mission * );      // Need rubber gloves
-    static void ranch_nurse_8( mission * );      // Need X-acto
-    static void ranch_nurse_9( mission * );      // Need Guide to Advanced Emergency Care
-    static void ranch_scavenger_1( mission * );  // Expand Junk Shop
-    static void ranch_scavenger_2( mission * );  // Expand Junk Shop
-    static void ranch_scavenger_3( mission * );  // Expand Junk Shop
     static void place_book( mission * );         // Place a book to retrieve
     static void reveal_refugee_center( mission * ); // Find refugee center
     static void create_lab_console( mission * );  // Reveal lab with an unlocked workstation
@@ -204,6 +194,7 @@ struct mission_type {
     public:
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
+        std::vector<std::pair<mission_type_id, mod_id>> src;
         bool was_loaded = false;
     private:
         // The untranslated name of the mission
@@ -352,10 +343,10 @@ class mission
         character_id player_id;
     public:
 
-        std::string name();
-        mission_type_id mission_id();
+        std::string name() const;
+        mission_type_id mission_id() const;
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 
         mission();
         /** Getters, they mostly return the member directly, mostly. */
@@ -442,7 +433,7 @@ class mission
          */
         /*@{*/
         static void on_creature_death( Creature &poor_dead_dude );
-        // returns: whether any mission is tranferred to fuser
+        // returns: whether any mission is transferred to fuser
         static bool on_creature_fusion( Creature &fuser, Creature &fused );
         /*@}*/
 

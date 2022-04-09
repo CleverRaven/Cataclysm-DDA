@@ -736,24 +736,6 @@
     "description": { "str": "skill level gained", "str_pl": "skill levels gained" }
   },
   {
-    "id": "avatar_gains_barter_level_7",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "7" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_7",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_7",
-    "description": { "str_sp": "bartering skill level 7 gained" }
-  },
-  {
     "id": "avatar_gains_speech_level_7",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
@@ -859,7 +841,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_7",
-    "description": { "str_sp": "driving skill level 7 gained" }
+    "description": { "str_sp": "vehicles skill level 7 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_7",
@@ -1238,24 +1220,6 @@
     "stat_type": "count",
     "event_transformation": "avatar_gains_chemistry_level_7",
     "description": { "str_sp": "applied science skill level 7 gained" }
-  },
-  {
-    "id": "avatar_gains_barter_level_10",
-    "type": "event_transformation",
-    "event_type": "gains_skill_level",
-    "value_constraints": {
-      "character": { "equals_statistic": "avatar_id" },
-      "skill": { "equals": [ "skill_id", "barter" ] },
-      "new_level": { "equals": [ "int", "10" ] }
-    },
-    "drop_fields": [ "character", "skill", "new_level" ]
-  },
-  {
-    "id": "num_gains_barter_level_10",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_gains_barter_level_10",
-    "description": { "str_sp": "bartering skill level 10 gained" }
   },
   {
     "id": "avatar_gains_speech_level_10",

@@ -17,7 +17,8 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 200,
-    "aim_speed": 1,
+    "field_of_view": 480,
+    "aim_speed_modifier": -2,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -39,7 +40,8 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 3,
-    "aim_speed": 8,
+    "field_of_view": 900,
+    "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   }

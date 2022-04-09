@@ -16,5 +16,45 @@
     "see_cost": 5,
     "sym": "^",
     "type": "overmap_terrain"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_DINOLAB", "population": [ 40, 45 ], "chance": 80 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_edge",
+    "copy-from": "microlab_DinoLab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface_connector",
+    "copy-from": "microlab_DinoLab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_sub_entry",
+    "name": "science lab",
+    "sym": "L",
+    "copy-from": "microlab_sub_connector"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface_roof",
+    "copy-from": "microlab_DinoLab_surface"
   }
 ]

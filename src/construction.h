@@ -17,7 +17,7 @@
 #include "translations.h"
 #include "type_id.h"
 
-class player;
+class Character;
 class read_only_visitable;
 struct construction;
 struct point;
@@ -56,8 +56,9 @@ struct construction {
         // Item group of byproducts created by the construction on success.
         cata::optional<item_group_id> byproduct_item_group;
 
-        // Flags beginning terrain must have
-        std::set<std::string> pre_flags;
+        // Flags beginning furniture/terrain must have
+        // Second element forces flags to be evaluated on terrain
+        std::map<std::string, bool> pre_flags;
 
         // Post construction flags
         std::set<std::string> post_flags;
@@ -113,9 +114,9 @@ void standardize_construction_times( int time );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( player *p );
+void complete_construction( Character *you );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const read_only_visitable &inv, const construction &con );
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 

@@ -5,7 +5,7 @@
     "terrain": {
       " ": "t_region_groundcover_urban",
       "A": "t_open_air",
-      ",": "t_rock",
+      ",": "t_soil",
       "d": "t_dirtmound",
       "M": "t_wall_metal",
       "m": "t_scrap_wall_halfway",

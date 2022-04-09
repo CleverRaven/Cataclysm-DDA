@@ -1,0 +1,340 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_1",
+    "//": "Places a single crate with low value junk contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ [ "f_metal_crate_c", 10 ], "f_metal_crate_r" ],
+          "items": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 95 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_1",
+    "//": "Places a single crate with low value food contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ [ "f_metal_crate_c", 10 ], "f_metal_crate_r" ],
+          "items": [ { "item": "SUS_exodii_storage_dryfood", "chance": 95 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_2",
+    "//": "Places a single crate with medium value junk contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ [ "f_metal_crate_c", 5 ], [ "f_metal_crate_r", 2 ] ],
+          "items": [ { "item": "SUS_exodii_storage_medvalue", "chance": 95 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_2",
+    "//": "Places a single crate with medium value food contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ [ "f_metal_crate_c", 5 ], [ "f_metal_crate_r", 2 ] ],
+          "items": [ { "item": "SUS_exodii_storage_dryfood", "chance": 95, "repeat": [ 1, 2 ] } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_3",
+    "//": "Places a single crate with high value junk contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ "f_metal_crate_c", [ "f_metal_crate_r", 2 ] ],
+          "items": [ { "item": "SUS_exodii_storage_highvalue", "chance": 95 } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_crate_3",
+    "//": "Places a single crate with high value ammo contents",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [ "f_metal_crate_c", [ "f_metal_crate_r", 2 ] ],
+          "items": [ { "item": "exodii_ammo_crate", "chance": 90, "repeat": [ 1, 2 ] } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_wreckage",
+    "//": "Oh no, this crate didn't survive transport.  That means it probably contained something organic :(",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": "f_wreckage",
+          "items": [
+            { "item": "dry_goods", "chance": 30, "repeat": [ 1, 4 ] },
+            { "item": "metal_wreckage", "chance": 90, "repeat": [ 1, 6 ] }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_machinery",
+    "//": "Chooses some machinery that looks good in an Exodii base",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": {
+          "furniture": [
+            [ "f_machinery_heavy", 2 ],
+            [ "f_machinery_light", 2 ],
+            "f_standing_tank",
+            "f_exodii_scanner",
+            "f_exodii_pump",
+            "f_machinery_electronic",
+            "f_generator_broken"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_botrack_1",
+    "//": "An Exodii bot rack containing frames for not-yet-active bots.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": {
+        "X": { "furniture": "f_exodii_botrack", "items": [ { "item": "SUS_exodii_botrack", "chance": 95, "repeat": [ 2, 5 ] } ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_worktable",
+    "//": "A worktable with a chance to have some bot parts.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "SUS_exodii_botrack", "chance": 1 } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_worktable",
+    "//": "A worktable with a chance to have some metal stuff.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "metal_wreckage", "chance": 10 } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_worktable",
+    "//": "A worktable with a chance to have some metal stuff.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "supplies_metal", "chance": 5 } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_worktable",
+    "//": "A worktable with a chance to have some welding tools and things.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": "f_metal_table", "items": [ { "item": "exodii_tools", "chance": 25 } ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with some water in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "water_clean", "amount": [ 100, 200 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with a surprising amount of cooking oil in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "cooking_oil", "amount": [ 200, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with a surprising amount of motor oil in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "motor_oil", "amount": [ 100, 200 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with a surprising amount of alcohol in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "denat_alcohol", "amount": [ 200, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with a surprising amount of alcohol in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_methanol", "amount": [ 200, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_generic_tank",
+    "//": "A tank with some spare biodiesel in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "biodiesel", "amount": [ 200, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of ether in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "ether", "amount": [ 100, 200 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of chloroform in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_chloroform", "amount": [ 100, 200 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of phenol in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_phenol", "amount": [ 100, 200 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of formaldehyde in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_formaldehyde", "amount": [ 300, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of acid in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_nitric_acid", "amount": [ 100, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of acid in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_sulphuric_acid", "amount": [ 100, 500 ] } } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "exodii_special_tank",
+    "//": "A tank with a ton of acid in it.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_muriatic_acid", "amount": [ 100, 500 ] } } }
+    }
+  }
+]

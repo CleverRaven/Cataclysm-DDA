@@ -1,0 +1,37 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_scrap_titanium",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "scrap titanium" },
+    "category": "spare_parts",
+    "description": "A piece of light titanium, usable for crafting or repairs.",
+    "price": 1000,
+    "material": [ "titanium" ],
+    "looks_like": "scrap",
+    "weight": "450 g",
+    "volume": "100 ml",
+    "bashing": 1,
+    "to_hit": -2
+  },
+  {
+    "id": "afs_titanium_small",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str_sp": "titanium" },
+    "description": "A strong, durable metal.  Highly valued for its weight to strength ratio and an excellent upgrade to aluminum for those properties - albeit a lot more expensive due to rarity.  More commonly used in jewelry and medical implants.",
+    "weight": "1 g",
+    "//": "Density 4.506g/cm³ ~ 1.127kg/250ml @ stack 1000 = 1g/unit",
+    "volume": "50 ml",
+    "price": 10000,
+    "price_postapoc": 750,
+    "count": 100,
+    "stack_size": 200,
+    "material": [ "titanium" ],
+    "looks_like": "silver_small",
+    "symbol": "/",
+    "color": "light_gray",
+    "ammo_type": "components"
+  }
+]

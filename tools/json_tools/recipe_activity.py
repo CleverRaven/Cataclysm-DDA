@@ -14,7 +14,7 @@ args_dict = vars(args.parse_args())
 
 def gen_new(path):
     change = False
-    with open(path, "r") as json_file:
+    with open(path, "r", encoding="utf-8") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
             # We only want JsonObjects
@@ -57,6 +57,6 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         if path.endswith(".json"):
             new = gen_new(path)
             if new is not None:
-                with open(path, "w") as jf:
+                with open(path, "w", encoding="utf-8") as jf:
                     json.dump(new, jf, ensure_ascii=False)
                 os.system(f"./tools/format/json_formatter.cgi {path}")

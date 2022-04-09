@@ -288,11 +288,14 @@ void robot_finds_kitten::process_input()
                 }
             } else {
                 refresh_display();
-                end_animation_frame++;
                 timespec ts;
-                ts.tv_sec = 1;
-                ts.tv_nsec = 0;
-                nanosleep( &ts, nullptr );
+                ts.tv_sec = 0;
+                ts.tv_nsec = 100'000'000; // 100 ms
+                for( int i = 0; i < 10; ++i ) {
+                    nanosleep( &ts, nullptr );
+                    inp_mngr.pump_events();
+                }
+                end_animation_frame++;
             }
             break;
         case ui_state::exit:

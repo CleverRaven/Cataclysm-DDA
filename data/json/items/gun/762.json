@@ -32,17 +32,10 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
     "id": "arx160",
@@ -80,17 +73,10 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ] } ]
   },
   {
     "id": "sks",
@@ -98,7 +84,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SKS" },
-    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
+    "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK-47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
     "ascii_picture": "sks",
     "weight": "3850 g",
     "volume": "2838 ml",
@@ -129,10 +115,19 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 }, "allowed_speedloaders": [ "762x39_clip" ] } ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "762": 10 },
+        "allowed_speedloaders": [ "762x39_clip" ]
+      }
+    ]
   },
   {
     "id": "aksemi",
@@ -166,17 +161,10 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   },
   {
     "id": "draco",
@@ -213,14 +201,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
   }
 ]

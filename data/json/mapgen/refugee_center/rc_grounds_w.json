@@ -216,7 +216,7 @@
       [ "refctr_W1e_z-1", "refctr_W2e_z-1", "refctr_W3e_z-1", "refctr_W4e_z-1", "refctr_W5e_z-1" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   },
   {
     "type": "mapgen",

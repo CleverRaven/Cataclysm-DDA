@@ -449,7 +449,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
-      { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_diesel" ] },
+      { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_jp8" ] },
       { "x": -2, "y": 1, "chance": 7, "item_groups": [ "military_standard_sniper_rifles" ] }
     ]
   },
@@ -534,7 +534,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
-      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_diesel" ] }
+      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_jp8" ] }
     ]
   },
   {
@@ -611,7 +611,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
-      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_diesel" ] },
+      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_jp8" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] },
       { "x": -2, "y": 2, "chance": 50, "items": [ "atgm_heat" ] }
@@ -659,11 +659,11 @@
       { "x": 2, "y": 3, "parts": [ "hdframe_vertical_T_right", "hdhalfboard_ne" ] },
       { "x": 2, "y": 3, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
       { "x": 2, "y": 3, "part": "wheel_armor" },
-      { "x": 3, "y": -1, "parts": [ "hdframe_nw", "plating_spiked" ] },
-      { "x": 3, "y": 0, "parts": [ "hdframe_horizontal_front", "plating_spiked" ] },
-      { "x": 3, "y": 1, "parts": [ "hdframe_horizontal_front", "plating_spiked" ] },
-      { "x": 3, "y": 2, "parts": [ "hdframe_horizontal_front", "plating_spiked" ] },
-      { "x": 3, "y": 3, "parts": [ "hdframe_ne", "plating_spiked" ] },
+      { "x": 3, "y": -1, "parts": [ "hdframe_nw", "plating_military" ] },
+      { "x": 3, "y": 0, "parts": [ "hdframe_horizontal_front", "plating_military" ] },
+      { "x": 3, "y": 1, "parts": [ "hdframe_horizontal_front", "plating_military" ] },
+      { "x": 3, "y": 2, "parts": [ "hdframe_horizontal_front", "plating_military" ] },
+      { "x": 3, "y": 3, "parts": [ "hdframe_ne", "plating_military" ] },
       { "x": -1, "y": -1, "parts": [ "hdframe_vertical_T_left", "hdhalfboard_sw", "muffler" ] },
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": -1, "y": 0, "part": "hdframe_horizontal" },
