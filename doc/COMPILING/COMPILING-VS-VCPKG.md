@@ -90,7 +90,17 @@ When debugging, it is not strictly necessary to use a `Debug` build; `Release` b
 
 ### Running unit tests
 
-Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project, configure the working directory in the project settings to `$(ProjectDir)..`, and then press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests.
+1. Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project.
+
+2. Configure the working directory in the project settings to `$(ProjectDir)..`
+
+3. Configure the command line arguments for the tests
+
+    - Under `Configuration Properties > Debugging`, change `Command Arguments` to `--wait-for-keypress exit`
+
+4. Press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests.
+
+    - The windows console will stay open until you press enter. This because of `--wait-for-keypress exit`.
 
 Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
 You can also start the test runner library manually from windows console. Run it with `--help` for an overview of the arguments.
