@@ -869,19 +869,23 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
 
 void suffer::from_sunburn( Character &you )
 {
-    if( !you.has_trait( trait_ALBINO ) && !you.has_effect( effect_datura ) &&
-        !you.has_trait( trait_SUNBURN ) ) {
+    bool severe;
+    if( you.has_trait( trait_SUNBURN ) ) {
+        severe = true;
+    } else if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
+        severe = false;
+    } else {
         return;
     }
 
-    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
-        // Albinism and datura have the same effects, once per minute on average
-        if( !one_turn_in( 1_minutes ) ) {
-            return;
-        }
-    } else if( you.has_trait( trait_SUNBURN ) ) {
+    if( severe ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
+            return;
+        }
+    } else {
+        // Albinism and datura have the same effects, once per minute on average
+        if( !one_turn_in( 1_minutes ) ) {
             return;
         }
     }
@@ -908,6 +912,8 @@ void suffer::from_sunburn( Character &you )
 
     // Minimum exposure threshold for pain
     const float MIN_EXPOSURE = 0.01f;
+    float sum_exposure = 0.0f;
+
     // Track body parts above the threshold
     std::vector<std::pair<float, bodypart_id>> affected_bodyparts;
     // Check each bodypart with exposure above the minimum
@@ -917,12 +923,58 @@ void suffer::from_sunburn( Character &you )
         if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
             continue;
         }
+        sum_exposure += exposure;
+
         affected_bodyparts.emplace_back( exposure, bp_exp.first );
     }
-
     // If all body parts are protected, there is no suffering
     if( affected_bodyparts.empty() ) {
         return;
+    }
+
+    const float avg_exposure = sum_exposure / affected_bodyparts.size();
+
+    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
+    if( severe ) {
+        you.mod_pain( 1 );
+        // Check exposure of all body parts
+        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+            const bodypart_id &this_part = bp_exp.first;
+            const float exposure = bp_exp.second;
+            // Skip parts with adequate protection
+            if( exposure <= MIN_EXPOSURE ) {
+                continue;
+            }
+            // Don't damage eyes directly, since it takes from head HP (in other words, your head
+            // won't be destroyed if only your eyes are exposed).
+            if( this_part == bodypart_id( "eyes" ) ) {
+                continue;
+            }
+            // Exposure percentage determines likelihood of injury
+            // 10% exposure is 10% chance of injury, naked = 100% chance
+            if( x_in_y( exposure, 1.0 ) ) {
+                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
+                // an HP pool with the head, those parts take an unfair share of damage in relation
+                // to the torso, which only has one part.  Increase torso damage to balance this.
+                if( this_part == bodypart_id( "torso" ) ) {
+                    you.apply_damage( nullptr, this_part, 2 );
+                } else {
+                    you.apply_damage( nullptr, this_part, 1 );
+                }
+            }
+        }
+    } else {
+        // Base chance for negative effect to happen when completely exposed
+        const float BASE_PAIN_CHANCE = 0.04f;
+        const float BASE_IRRITATION_CHANCE = 2.0f;
+        if( x_in_y( BASE_PAIN_CHANCE * avg_exposure, 1.0 ) ) {
+            you.mod_pain( 1 );
+        } else if( x_in_y( BASE_IRRITATION_CHANCE * avg_exposure, 1.0 ) ) {
+            you.mod_focus( -1 );
+        } else {
+            // Do not print any message or wake char up as no effect was applied
+            return;
+        }
     }
 
     // Sort most affected bodyparts to the front
@@ -957,13 +1009,13 @@ void suffer::from_sunburn( Character &you )
     std::string all_parts_list = enumerate_as_string( affected_part_names );
 
     std::string message;
-    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
+    if( !severe ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
         message = n_gettext( "The sunlight is really irritating your %s.",
                              "The sunlight is really irritating your %s.",
                              affected_bodyparts.size() );
-    } else if( you.has_trait( trait_SUNBURN ) ) {
+    } else {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
         message = n_gettext( "The sunlight burns your %s.",
@@ -975,44 +1027,6 @@ void suffer::from_sunburn( Character &you )
     // Wake up from skin irritation/burning
     if( you.has_effect( effect_sleep ) ) {
         you.wake_up();
-    }
-
-    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
-    if( you.has_trait( trait_SUNBURN ) ) {
-        you.mod_pain( 1 );
-        // Check exposure of all body parts
-        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
-            const bodypart_id &this_part = bp_exp.first;
-            const float exposure = bp_exp.second;
-            // Skip parts with adequate protection
-            if( exposure <= MIN_EXPOSURE ) {
-                continue;
-            }
-            // Don't damage eyes directly, since it takes from head HP (in other words, your head
-            // won't be destroyed if only your eyes are exposed).
-            if( this_part == bodypart_id( "eyes" ) ) {
-                continue;
-            }
-            // Exposure percentage determines likelihood of injury
-            // 10% exposure is 10% chance of injury, naked = 100% chance
-            if( x_in_y( exposure, 1.0 ) ) {
-                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
-                // an HP pool with the head, those parts take an unfair share of damage in relation
-                // to the torso, which only has one part.  Increase torso damage to balance this.
-                if( this_part == bodypart_id( "torso" ) ) {
-                    you.apply_damage( nullptr, this_part, 2 );
-                } else {
-                    you.apply_damage( nullptr, this_part, 1 );
-                }
-            }
-        }
-    } else {
-        // Albinism/datura causes pain (1/60) or focus loss (59/60)
-        if( one_turn_in( 1_minutes ) ) {
-            you.mod_pain( 1 );
-        } else {
-            you.mod_focus( -1 );
-        }
     }
 }
 
