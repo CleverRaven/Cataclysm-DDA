@@ -178,7 +178,6 @@
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
       { "group": "military_ballistic_vest", "prob": 90 },
-      { "group": "loaded_lbv", "prob": 40 },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -203,8 +202,7 @@
       { "item": "knee_pads", "prob": 85 },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "group": "military_ballistic_vest_broken", "prob": 100 },
-      { "group": "loaded_lbv", "prob": 40 },
+      { "group": "military_ballistic_vest", "prob": 100 },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -257,7 +255,6 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
       { "group": "military_ballistic_vest", "prob": 90 },
-      { "group": "loaded_lbv", "prob": 40 },
       { "group": "molle_backpacks_and_accessories", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -429,7 +426,7 @@
       { "item": "chestpouch", "prob": 40 },
       { "item": "backpack_tactical_large", "prob": 20 },
       { "item": "tacvest", "prob": 160 },
-      { "group": "molle_packs", "prob": 100 },
+      { "group": "molle_backpacks_and_accessories", "prob": 100 },
       { "item": "rucksack", "prob": 80 }
     ]
   },
@@ -2212,6 +2209,7 @@
       [ "sleeveless_duster", 2 ],
       [ "sleeveless_duster_leather", 5 ],
       [ "kevlar", 30 ],
+      [ "stab_vest", 30 ],
       { "group": "military_ballistic_vest", "prob": 8 },
       [ "dump_pouch", 20 ],
       [ "mask_bal", 5 ],
@@ -2404,7 +2402,6 @@
       [ "armor_farmor", 8 ],
       [ "armor_plarmor", 2 ],
       [ "armor_riot", 10 ],
-      [ "swat_armor", 6 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
@@ -3423,6 +3420,7 @@
         ],
         "prob": 40
       },
+      { "distribution": [ { "item": "soft_3a_vest", "prob": 50 }, { "item": "stab_vest", "prob": 50 } ], "prob": 5 },
       { "group": "christmas_coats_unisex", "prob": 80, "event": "christmas" }
     ]
   },
