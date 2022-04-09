@@ -119,6 +119,7 @@
       { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 15,
     "vision_night": 3,
@@ -274,6 +275,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
@@ -330,6 +332,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -389,6 +392,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 40,
@@ -690,6 +694,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
@@ -784,6 +789,7 @@
       { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -822,6 +828,7 @@
       { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
@@ -890,6 +897,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -1093,6 +1101,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 45,
     "vision_night": 15,
@@ -1396,6 +1405,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "dodge": 7,
     "armor_fire": 5,
@@ -1552,6 +1562,7 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1605,6 +1616,7 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
@@ -1641,6 +1653,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie_thorny",
