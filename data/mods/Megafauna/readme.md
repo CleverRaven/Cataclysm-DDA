@@ -13,22 +13,21 @@ sabre-toothed cat (Smilodon fatalis) [done]
 giant short-faced bear (Arctodus) [done]
 long-nosed peccary [done]
 flat-headed peccary [done]
-woolly mammoth [done]
+woolly mammoth [done] (wool)
 mastodon [done]
 north american lion (Panthera atrox) [done]
 dire wolf (Aenocyon dirus) [done]
-stag-moose (Cervalces scotti) [done]
+stag-moose (Cervalces scotti) [done] (milk_low)
 giant beaver (Castoroides) [done]
 giant sloth (Megalonyx), or other/more species? [done]
-shrub-ox, or woodox (Euceratherium/Bootherium; https://en.wikipedia.org/wiki/Bootherium)
-muskox (Ovibos moschatus)
-ancient bison, or equiv. (Bison antiquus)
-
+shrub-ox (Euceratherium) [done]
+woodox (Bootherium; https://en.wikipedia.org/wiki/Bootherium) [done]
+ancient bison, or equiv. (Bison antiquus) (wool, milk)
+Scott's horse (Equus scotti) (milk)
+Camelops (wool, milk)
 
 *potential candidates for addition with dubious range, or more research needed*
-- Soergelia meyfeldis, ziegenartige (need more research); https://en.wikipedia.org/wiki/Soergelia;
-- Scott's horse (Equus scotti), https://en.wikipedia.org/wiki/Equus_scotti, or different species; probably also in NE, because of long history until extinction;
-- Camelops, american camel species, evidence as far as tennessee, but such a long history that NE is a good bet https://en.wikipedia.org/wiki/Camelops
+- Soergelia meyfeldis, goatlike (need more research); https://en.wikipedia.org/wiki/Soergelia;
 - Great Auk (Pinguinus impennis), much later extinction but everything else fits, so indeed: why not?
 - Glyptodonts, possibly (https://en.wikipedia.org/wiki/Glyptodont)
 
