@@ -1,0 +1,161 @@
+[
+  {
+    "type": "palette",
+    "id": "stadium_palette",
+    "parameters": {
+      "i_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 1 ],
+            [ "t_wall_y", 100 ]
+          ]
+        }
+      },
+      "e_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_brick_wall", 600 ], [ "t_adobe_brick_wall", 2 ], [ "t_concrete_wall", 3 ], [ "t_strconc_wall", 5 ] ]
+        }
+      }
+    },
+    "terrain": {
+      "*": "t_open_air",
+      "g": "t_grass_white",
+      "G": "t_region_groundcover_urban",
+      " ": "t_grass",
+      ",": "t_dirt",
+      ";": "t_sand",
+      ".": "t_thconc_floor",
+      "'": "t_linoleum_white",
+      "T": "t_linoleum_white",
+      "S": "t_linoleum_white",
+      "?": "t_linoleum_white",
+      "l": "t_linoleum_white",
+      "B": "t_linoleum_white",
+      "a": "t_linoleum_white",
+      "e": "t_linoleum_white",
+      "E": "t_linoleum_white",
+      "é": "t_linoleum_white",
+      "É": "t_linoleum_white",
+      "O": "t_linoleum_white",
+      "ß": "t_linoleum_white",
+      "u": "t_linoleum_white",
+      "K": "t_linoleum_white",
+      "c": "t_linoleum_white",
+      "C": "t_linoleum_white",
+      "o": "t_dirtmound",
+      "+": "t_door_c",
+      "~": "t_door_locked_interior",
+      "V": "t_wall_glass",
+      "│": { "param": "e_wall_type", "fallback": "t_brick_wall" },
+      "_": "t_concrete",
+      "b": "t_concrete",
+      "á": "t_concrete",
+      "s": "t_sidewalk",
+      "|": { "param": "i_wall_type", "fallback": "t_wall_w" },
+      "R": "t_concrete_railing",
+      "!": "t_ticket_vendor",
+      "i": "t_ticket_machine",
+      "$": "t_atm",
+      "-": "t_gate_metal_c",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
+    },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "furniture": {
+      "z": "f_water_heater",
+      "b": "f_metal_bench",
+      "B": "f_bench",
+      "8": "f_bench",
+      "T": "f_toilet",
+      "&": "f_trashcan",
+      "a": "f_trashcan",
+      "á": "f_trashcan",
+      "A": "f_dumpster",
+      "S": "f_sink",
+      "?": "f_shower",
+      "h": "f_chair",
+      "l": "f_locker",
+      "m": "f_locker",
+      "n": "f_table",
+      "N": "f_table",
+      "c": "f_counter",
+      "C": "f_counter_gate_c",
+      "d": "f_desk",
+      "P": "f_arcade_machine",
+      "p": "f_pinball_machine",
+      "r": "f_rack",
+      "q": "f_displaycase",
+      "e": "f_fridge",
+      "é": "f_fridge",
+      "E": "f_glass_fridge",
+      "É": "f_glass_fridge",
+      "O": "f_oven",
+      "@": "f_speaker_cabinet",
+      "ß": "f_sink",
+      "K": "f_rack_wood",
+      "u": "f_cupboard",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "Y": "f_rack_coat"
+    },
+    "items": {
+      "b": [
+        { "item": "beer", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "unisex_coat_rack", "chance": 1 }
+      ],
+      "&": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
+      "a": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
+      "á": { "item": "trash", "chance": 66, "repeat": [ 1, 5 ] },
+      "A": { "item": "trash", "chance": 70, "repeat": [ 1, 8 ] },
+      "d": { "item": "SUS_office_desk", "chance": 33 },
+      "l": { "item": "baseball_equip", "chance": 30, "repeat": [ 1, 3 ] },
+      "q": { "item": "baseball_equip", "chance": 80, "repeat": [ 1, 4 ] },
+      "m": { "item": "SUS_janitors_closet", "chance": 80 },
+      "ß": { "item": "SUS_kitchen_sink", "chance": 80 },
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "n": { "item": "fast_table", "chance": 12 },
+      "Y": { "item": "unisex_coat_rack", "chance": 20, "repeat": [ 1, 4 ] }
+    },
+    "item": { "T": { "item": "toilet_paper", "chance": 33 } },
+    "toilets": { "T": {  } },
+    "vehicles": {
+      "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
+      "2": { "vehicle": "ice_cream_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
+      "3": { "vehicle": "swivel_chair", "chance": 100 }
+    }
+  },
+  {
+    "id": "hotdog_fridge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bread", "prob": 80, "count": [ 1, 3 ] },
+      { "item": "hotdogs_frozen", "prob": 60, "count": [ 1, 10 ] },
+      { "item": "bratwurst_sausage", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "corndogs_frozen", "prob": 70, "count": [ 1, 10 ] },
+      { "item": "onion", "prob": 45, "count": [ 1, 8 ] },
+      { "item": "ketchup", "prob": 55, "count": [ 1, 3 ] },
+      { "item": "mustard", "prob": 55, "count": [ 1, 3 ] },
+      { "item": "horseradish", "prob": 33, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "baseball_souvenir",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "baseball_equip", "count": [ 1, 6 ] },
+      { "item": "book_nonf_soft_sports_lads", "count": [ 1, 2 ], "prob": 10 },
+      { "item": "mag_bashing", "count": [ 1, 2 ], "prob": 5 },
+      { "item": "book_fict_soft_sports_bunt", "count": [ 1, 2 ], "prob": 5 },
+      { "item": "novel_sports", "count": [ 1, 2 ], "prob": 5 }
+    ]
+  }
+]
