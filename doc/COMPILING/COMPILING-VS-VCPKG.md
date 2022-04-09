@@ -81,8 +81,8 @@ Even if you do not need languages other than English, you may still want to exec
 2. Configure the working directory in the project settings to `$(ProjectDir)..`
 
     - Right click the project in the Solution Explorer pane, select `Properties`
+    - Select Configuration to `All Configurations` and Platform to `All Platforms`
     - Under `Configuration Properties > Debugging`, change `Working Directory` to `$(ProjectDir)..`
-    - **Note:** If you change configurations (eg from `Release` to `Debug`), you will have to repeat this step. You only have to do it once per configuration, the setting will persist.
 
 If you discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1, that is because of the wrong working directory.
 
