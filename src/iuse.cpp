@@ -238,7 +238,6 @@ static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_mu
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
-static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
@@ -3974,28 +3973,6 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
 
     }
     return 0;
-}
-
-cata::optional<int> iuse::arrow_flammable( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-    if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return cata::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the arrow!" ) );
-    p->moves -= to_moves<int>( 1_seconds );
-    if( it->charges == 1 ) {
-        it->convert( itype_arrow_flamming );
-        return 0;
-    }
-    item lit_arrow( *it );
-    lit_arrow.convert( itype_arrow_flamming ).charges = 1;
-    p->i_add( lit_arrow );
-    return 1;
 }
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
