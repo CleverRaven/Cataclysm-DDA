@@ -48,7 +48,8 @@
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
       [ "hd_tow_cable", 5 ],
-      { "group": "tools_toolbox", "prob": 1 }
+      { "group": "tools_toolbox", "prob": 1 },
+      { "group": "bugout_bag", "prob": 3 }
     ]
   },
   {

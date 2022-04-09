@@ -465,7 +465,7 @@ void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
                                     << id.c_str() << " (" << name << ")";
     }
 
-    assign( jo, "color", color, strict );
+    assign( jo, "color", color );
 
 }
 
@@ -554,10 +554,11 @@ void overmap_specials::check_consistency()
     for( const overmap_special &os : specials.get_all() ) {
         overmap_special_id new_id = overmap_special_migration::migrate( os.id );
         if( new_id.is_null() ) {
-            debugmsg( "Overmap special id %s has been removed or migrated to a different type." );
+            debugmsg( "Overmap special id %s has been removed or migrated to a different type.",
+                      os.id.str() );
         } else if( new_id != os.id ) {
-            debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.c_str(),
-                      new_id.c_str() );
+            debugmsg( "Overmap special id %s has been migrated.  Use %s instead.", os.id.str(),
+                      new_id.str() );
         }
     }
 }
@@ -739,7 +740,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
     assign( jo, "spawns", static_spawns, strict );
-    assign( jo, "color", color, strict );
+    assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
 
     if( jo.has_member( "looks_like" ) ) {

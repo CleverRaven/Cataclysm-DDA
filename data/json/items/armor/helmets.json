@@ -179,7 +179,7 @@
     "color": "light_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0 }
+      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0, "rigid_layer_only": true }
     ],
     "warmth": 10,
     "material_thickness": 4,
@@ -245,7 +245,7 @@
     "color": "green",
     "armor": [
       { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 },
-      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 5 }
+      { "covers": [ "mouth", "eyes" ], "rigid_layer_only": true, "coverage": 90, "encumbrance": 5 }
     ],
     "warmth": 20,
     "material_thickness": 4,
@@ -393,7 +393,7 @@
     "id": "xl_helmet_galea",
     "type": "ARMOR",
     "copy-from": "helmet_galea",
-    "name": { "str": "galea XL", "str_pl": "galeae XL" },
+    "name": { "str": "XL galea", "str_pl": "XL galeae" },
     "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head built for a Titan.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -403,7 +403,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_galea",
     "looks_like": "helmet_galea",
-    "name": { "str": "galea XS", "str_pl": "galeae XS" },
+    "name": { "str": "XS galea", "str_pl": "XS galeae" },
     "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
@@ -426,8 +426,8 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 35, "encumbrance": 0 },
-      { "covers": [ "mouth" ], "coverage": 95, "encumbrance": 10 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 35, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 95, "encumbrance": 10 }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -439,7 +439,7 @@
     "id": "xl_helmet_kabuto",
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
-    "name": { "str": "kabuto XL" },
+    "name": { "str": "XL kabuto" },
     "description": "A medieval Japanese helmet with a scowling facemask, fit for an Oni.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -449,7 +449,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
-    "name": { "str": "kabuto XS" },
+    "name": { "str": "XS kabuto" },
     "description": "A medieval Japanese helmet with a scowling facemask that provides excellent protection to the entire head and face.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "UNDERSIZE" ]
@@ -637,7 +637,7 @@
     "color": "light_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 85, "encumbrance": 10 },
-      { "covers": [ "eyes" ], "coverage": 25, "encumbrance": 0 }
+      { "covers": [ "eyes" ], "coverage": 25, "encumbrance": 0, "rigid_layer_only": true }
     ],
     "warmth": 10,
     "material_thickness": 3,
@@ -680,8 +680,8 @@
     "color": "light_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 }
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 10,
     "material_thickness": 5,
@@ -850,8 +850,8 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 0 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 0 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 0 }
     ],
     "warmth": 10,
     "material_thickness": 3,
@@ -893,8 +893,8 @@
     "color": "yellow",
     "armor": [
       { "covers": [ "head" ], "coverage": 85, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 85, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 10 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 10 }
     ],
     "warmth": 10,
     "material_thickness": 2,
@@ -978,7 +978,8 @@
         "covers": [ "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "warmth": 5,
@@ -1061,7 +1062,8 @@
         "covers": [ "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "warmth": 5,
@@ -1144,7 +1146,8 @@
         "covers": [ "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "warmth": 5,
@@ -1227,7 +1230,8 @@
         "covers": [ "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "warmth": 5,
@@ -1310,7 +1314,8 @@
         "covers": [ "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
       }
     ],
     "warmth": 5,

@@ -91,10 +91,8 @@
       [
         [ "leather_belt", 1 ],
         [ "hose", 1 ],
-        [ "rope_6", 1 ],
-        [ "cordage_6", 1 ],
-        [ "vine_6", 1 ],
-        [ "rope_makeshift_6", 1 ],
+        [ "rope_any_short", 1, "LIST" ],
+        [ "cordage_short", 1, "LIST" ],
         [ "towel", 1 ],
         [ "blanket", 1 ],
         [ "down_blanket", 1 ],
@@ -105,7 +103,6 @@
         [ "sheet", 1 ],
         [ "bandana", 1 ],
         [ "cable", 1 ],
-        [ "wire", 1 ],
         [ "tie_skinny", 1 ]
       ],
       [ [ "stick", 1 ], [ "cu_pipe", 1 ] ]

@@ -781,6 +781,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     int batch_line = 0;
     const recipe *chosen = nullptr;
     int last_line = -1;
+    bool just_toggled_unread = false;
 
     Character &player_character = get_player_character();
     const inventory &crafting_inv = player_character.crafting_inventory();
@@ -1230,6 +1231,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = true;
         }
 
+        const bool previously_toggled_unread = just_toggled_unread;
+        just_toggled_unread = false;
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
@@ -1274,11 +1277,15 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "DOWN" ) {
-            last_line = line;
+            if( !previously_toggled_unread ) {
+                last_line = line;
+            }
             line++;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "UP" ) {
-            last_line = line;
+            if( !previously_toggled_unread ) {
+                last_line = line;
+            }
             line--;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "PAGE_DOWN" ) {
@@ -1486,6 +1493,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
+            just_toggled_unread = true;
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {

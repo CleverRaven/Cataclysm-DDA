@@ -1763,44 +1763,44 @@
     "variants": [
       {
         "id": "tardis_case",
-        "name": { "str_sp": "Police Call Box Case" },
-        "description": "This waterproof phone case has a drawing on it that makes it look like an old English police call box.",
+        "name": { "str": "police call box waterproof smartphone case" },
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
         "weight": 1
       },
       {
         "id": "black_smart_phone_case",
-        "name": { "str_sp": "black waterproof smartphone case" },
+        "name": { "str": "black waterproof smartphone case" },
         "description": "A black waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "pink_smart_phone_case",
-        "name": { "str_sp": "pink waterproof smartphone case" },
+        "name": { "str": "pink waterproof smartphone case" },
         "description": "A pink waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "red_smart_phone_case",
-        "name": { "str_sp": "red waterproof smartphone case" },
+        "name": { "str": "red waterproof smartphone case" },
         "description": "A red waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "bejewelled_smart_phone_case",
-        "name": { "str_sp": "bejewelled waterproof smartphone case" },
+        "name": { "str": "bejewelled waterproof smartphone case" },
         "description": "A gold waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 5
       },
       {
         "id": "hello_kitty_case",
-        "name": { "str_sp": "Hello Kitty Case" },
-        "description": "This waterproof phone case has numerous versions of Hello Kitty posing on it.",
+        "name": { "str": "Hello Kitty waterproof smartphone case" },
+        "description": "This waterproof smartphone case has numerous versions of Hello Kitty posing on it.",
         "weight": 5
       },
       {
         "id": "zombie_case",
-        "name": { "str_sp": "Zombie Case" },
-        "description": "This waterproof phone case has a green zombie on its rear side.  Would using this be in poor taste now?",
+        "name": { "str": "zombie waterproof smartphone case" },
+        "description": "This waterproof smartphone case has a green zombie on its rear side.  Would using this be in poor taste now?",
         "weight": 1
       }
     ],
