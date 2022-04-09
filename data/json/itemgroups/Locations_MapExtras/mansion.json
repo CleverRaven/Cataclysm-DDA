@@ -1017,6 +1017,7 @@
       [ "hairpin", 20 ],
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 20, "charges": [ 1, 32 ] },
       [ "jersey", 20 ],
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
@@ -1643,6 +1644,7 @@
       { "group": "softdrugs", "prob": 30 },
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 20, "charges": [ 1, 32 ] },
       [ "pocket_survival", 5 ]
     ]
   },

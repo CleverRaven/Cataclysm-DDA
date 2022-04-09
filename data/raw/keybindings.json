@@ -1414,6 +1414,20 @@
   },
   {
     "type": "keybinding",
+    "id": "PREV_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Previous proficiency category",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Next proficiency category",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "REFILL",
     "category": "APP_INTERACT",
     "name": "Refill tank/battery",
@@ -2464,6 +2478,12 @@
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Hour Timer",
+    "category": "DEFAULTMODE",
+    "id": "debug_hour_timer"
   },
   {
     "type": "keybinding",
@@ -3756,6 +3776,13 @@
   },
   {
     "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "VIEW_PROFICIENCIES",
+    "name": "View character proficiencies",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
@@ -3829,20 +3856,20 @@
     "id": "DELETE PAGE",
     "name": "Delete page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "d" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "d" ] } ]
   },
   {
     "type": "keybinding",
     "id": "EXPORT_DIARY",
     "name": "Export diary to .txt",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",
     "id": "NEW_PAGE",
     "name": "Add new page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "n" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
   }
 ]

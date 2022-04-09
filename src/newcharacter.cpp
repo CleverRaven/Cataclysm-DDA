@@ -78,8 +78,6 @@ static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
-static const string_id<scenario> scenario_wilderness( "wilderness" );
-
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -242,7 +240,7 @@ static int skill_points_left( const avatar &u, pool_type pool )
     return 0;
 }
 
-// Toggle this trait and all dependencies (sets mutation category levels)
+// Toggle this trait and all prereqs, removing upgrades on removal
 void Character::toggle_trait_deps( const trait_id &tr )
 {
     static const int depth_max = 10;
@@ -256,24 +254,15 @@ void Character::toggle_trait_deps( const trait_id &tr )
             rc++;
         }
     } else if( has_trait( tr ) ) {
-        int rc = 0;
-        std::unordered_map<trait_id, int> deps;
-        build_mut_dependency_map( tr, deps, 0 );
-        while( rc < depth_max && ( has_trait( tr ) ||
-        std::any_of( deps.begin(), deps.end(), [this]( const std::pair<trait_id, int> &dep ) {
-        return has_trait( dep.first );
-        } ) ) ) {
-            for( const auto &dep : deps ) {
-                if( has_trait( dep.first ) ) {
-                    remove_mutation( dep.first );
-                }
-            }
-            if( has_trait( tr ) ) {
-                remove_mutation( tr );
-            }
-            rc++;
+        for( const auto &addition : get_addition_traits( tr ) ) {
+            unset_mutation( addition );
         }
+        for( const auto &lower : get_lower_traits( tr ) ) {
+            unset_mutation( lower );
+        }
+        unset_mutation( tr );
     }
+    calc_mutation_levels();
 }
 
 static std::string pools_to_string( const avatar &u, pool_type pool )
@@ -391,8 +380,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
             }
         }
         set_scenario( random_entry( scenarios ) );
-    } else if( !cities_enabled ) {
-        set_scenario( &scenario_wilderness.obj() );
     }
 
     prof = get_scenario()->weighted_random_profession();

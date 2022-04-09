@@ -62,6 +62,14 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
+    "id": "mon_appalachiosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dilophosaurus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "appalachiosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_appalachiosaurus_juvenile" }
+  },
+  {
     "id": "mon_gorgosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dilophosaurus_hatchling",
@@ -145,6 +153,18 @@
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+  },
+  {
+    "id": "mon_struthiomimus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_struthiomimus_juvenile" }
+  },
+  {
+    "id": "mon_ornithomimus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_ornithomimus_juvenile" }
   },
   {
     "id": "mon_albertonykus_hatchling",
@@ -432,20 +452,6 @@
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CANPLAY",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY",
-      "SWIMS",
-      "AQUATIC",
-      "WATER_CAMOUFLAGE"
-    ]
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
   }
 ]

@@ -305,6 +305,9 @@ struct armor_portion_data {
     // if this item is rigid, can't be worn with other rigid items
     bool rigid = false; // NOLINT(cata-serialize)
 
+    // if this item only conflicts with rigid items that share a direct layer with it
+    bool rigid_layer_only = false;
+
     // if this item is comfortable to wear without other items bellow it
     bool comfortable = false; // NOLINT(cata-serialize)
 
@@ -615,6 +618,8 @@ struct itype_variant_data {
     translation alt_name;
     translation alt_description;
     ascii_art_id art;
+
+    bool append = false; // if the description should be appended to the base description.
 
     int weight = 0;
 

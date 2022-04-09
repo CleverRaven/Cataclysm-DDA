@@ -604,5 +604,10 @@
     "type": "recipe",
     "result": "xl_chainmail_suit",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_scavenger",
+    "obsolete": true
   }
 ]

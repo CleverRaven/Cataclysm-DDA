@@ -25,6 +25,8 @@
     "is_safe": true,
     "monsters": [
       { "monster": "mon_gallimimus", "weight": 50, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_struthiomimus", "weight": 50, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_ornithomimus", "weight": 50, "pack_size": [ 4, 8 ] },
       { "monster": "mon_albertonykus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },

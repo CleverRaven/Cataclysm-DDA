@@ -670,8 +670,8 @@
     ],
     "warmth": 20,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 9, 18 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
+    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_cargo",
@@ -733,7 +733,7 @@
     "warmth": 15,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_checkered",

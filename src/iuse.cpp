@@ -120,7 +120,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -3182,8 +3181,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
-    p->assign_activity( act );
+    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
     p->activity.placement = pnt;
     return it->type->charges_to_use();
 }
@@ -5968,11 +5966,9 @@ cata::optional<int> iuse::bell( Character *p, item *it, bool, const tripoint & )
             auto cattle_level =
                 p->mutation_category_level.find( mutation_category_CATTLE );
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
-                                         0 :
-                                         ( cattle_level->second ) / 8
-                                       );
+                                         0 : cattle_level->second );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
-                p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );
+                p->add_morale( MORALE_MUSIC, 1, std::min( cow_factor, 100 ) );
             }
         }
     } else {

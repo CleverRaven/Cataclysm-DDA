@@ -1,0 +1,44 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction1",
+    "friendly": [ "test_monfaction2" ],
+    "neutral": [ "test_monfaction3", "test_monfaction4" ],
+    "by_mood": [ "test_monfaction5", "test_monfaction6" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction2",
+    "neutral": [ "test_monfaction1", "test_monfaction_extend" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction3",
+    "neutral": [ "test_monfaction1" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction4",
+    "neutral": [ "test_monfaction1", "test_monfaction_extend" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction5"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction6"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction7",
+    "neutral": [ "test_monfaction_extend" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "test_monfaction_extend",
+    "copy-from": "test_monfaction1",
+    "extend": { "friendly": [ "test_monfaction7" ] },
+    "delete": { "neutral": [ "test_monfaction3" ] }
+  }
+]
