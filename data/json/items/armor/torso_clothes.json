@@ -1012,6 +1012,24 @@
         "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
         "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
         "weight": 1
+      },
+      {
+        "id": "black_phillip_tshirt",
+        "name": { "str": "Black Phillip t-shirt" },
+        "description": "A black t-shirt with an old style cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
+        "weight": 1
+      },
+      {
+        "id": "disney_parody_tshirt",
+        "name": { "str": "theme park parody t-shirt" },
+        "description": "A black t-shirt with a stylized princesses castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
+        "weight": 1
+      },
+      {
+        "id": "start_a_cult_tshirt",
+        "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
+        "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+        "weight": 1
       }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
@@ -1115,6 +1133,18 @@
       {
         "id": "mil_punk",
         "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+      },
+      {
+        "id": "mc_chris",
+        "text": "A short-sleeved cotton shirt with an interstellar bounty hunter on the front.  'My backpack's got jets'."
+      },
+      {
+        "id": "cthulhupunk1",
+        "text": "A short-sleeved white cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'."
+      },
+      {
+        "id": "cthulhupunk2",
+        "text": "A short-sleeved black cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
       }
     ]
   },
