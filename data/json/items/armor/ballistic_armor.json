@@ -858,7 +858,7 @@
       },
       {
         "id": "national_guard_armor_vest",
-        "name": { "str": "national guard ballistic vest" },
+        "name": { "str": "National Guard ballistic vest" },
         "description": "Covered with urban camo this vest was issued to soldiers and volunteers as things got worse.  Has \"ARMY\" written on the front lapel and across the back.",
         "weight": 1,
         "append": true
