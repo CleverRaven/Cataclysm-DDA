@@ -105,7 +105,6 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -1357,7 +1356,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
-    you.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
+    you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
     you.activity.placement = examp;
 }
 
