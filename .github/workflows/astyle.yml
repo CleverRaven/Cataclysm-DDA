@@ -15,11 +15,7 @@ jobs:
       with:
         cancel_others: 'true'
         paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
-    - run: echo ${{ github.event.number }} > pull_request_id
-    - uses: actions/upload-artifact@v2
-      with:
-        name: pull_request_id
-        path: pull_request_id
+
   astyle-code:
     name: astyle check
     needs: skip-duplicates
