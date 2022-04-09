@@ -41,7 +41,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -51,7 +51,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -61,7 +61,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for right side plate",
+        "description": "Pocket for right side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -71,7 +71,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for left side plate",
+        "description": "Pocket for left side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
@@ -256,7 +256,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -266,7 +266,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -276,7 +276,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for right side plate",
+        "description": "Pocket for right side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -286,7 +286,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for left side plate",
+        "description": "Pocket for left side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
@@ -468,7 +468,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -478,7 +478,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -487,7 +487,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
         "moves": 50,
-        "description": "Low profile magazine storage",
+        "description": "Low profile magazine storage.",
         "flag_restriction": [ "MAG_COMPACT" ]
       }
     ],
@@ -568,7 +568,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -578,7 +578,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -587,7 +587,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
         "moves": 50,
-        "description": "Low profile zipper storage pouch"
+        "description": "Low profile zipper storage pouch."
       }
     ]
   },
@@ -654,7 +654,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -664,7 +664,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -673,7 +673,7 @@
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
         "moves": 40,
-        "description": "shoulder radio pouch"
+        "description": "Shoulder radio pouch."
       },
       {
         "pocket_type": "CONTAINER",
@@ -682,7 +682,7 @@
         "max_item_length": "15 cm",
         "holster": true,
         "moves": 20,
-        "description": "glowstick hook"
+        "description": "Glowstick hook."
       }
     ]
   },
@@ -883,7 +883,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -893,7 +893,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       }
     ],
