@@ -320,7 +320,7 @@
     "abstract": "robofac_vambraces",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "abstract armored vambraces" },
+    "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces" },
     "looks_like": "armguard_hard",
     "repairs_like": "armguard_hard",
     "weight": "1750 g",
@@ -348,7 +348,7 @@
     "abstract": "robofac_greaves",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "abstract armored greaves" },
+    "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves" },
     "looks_like": "legguard_hard",
     "repairs_like": "legguard_hard",
     "weight": "1750 g",
@@ -485,7 +485,7 @@
     "id": "robofac_basic_vambraces",
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
-    "name": { "str_sp": "Hub 01 prototype vambraces" },
+    "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
     "description": "3D printed arm guards, despite its rough finish it's still lightweight and secure.  This is made of 3D printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
@@ -494,7 +494,7 @@
     "id": "robofac_rubber_vambraces",
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
-    "name": { "str_sp": "Hub 01 kinetic vambraces" },
+    "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
     "description": "3D printed arm guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -504,7 +504,7 @@
     "id": "robofac_nomex_vambraces",
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
-    "name": { "str_sp": "Hub 01 turnout vambraces" },
+    "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
     "description": "3D printed arm guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with printed Nomex and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -514,7 +514,7 @@
     "id": "robofac_kevlar_vambraces",
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
-    "name": { "str_sp": "Hub 01 ballistic vambraces" },
+    "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
     "description": "3D printed arm guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -524,7 +524,7 @@
     "id": "robofac_military_vambraces",
     "type": "ARMOR",
     "copy-from": "robofac_vambraces",
-    "name": { "str_sp": "Hub 01 soldier vambraces" },
+    "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
     "description": "3D printed arm guards, it has a professional finish, is lightweight and is perfectly balanced.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
@@ -539,7 +539,7 @@
     "id": "robofac_basic_greaves",
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
-    "name": { "str_sp": "Hub 01 prototype greaves" },
+    "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
     "description": "3D printed leg guards, despite its rough finish it's still lightweight and secure.  This is made of 3D printed plastic with an unhardened metal core to give some reinforcement.",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
@@ -548,7 +548,7 @@
     "id": "robofac_rubber_greaves",
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
-    "name": { "str_sp": "Hub 01 kinetic greaves" },
+    "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
     "description": "3D printed leg guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with printed rubber and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -558,7 +558,7 @@
     "id": "robofac_nomex_greaves",
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
-    "name": { "str_sp": "Hub 01 turnout greaves" },
+    "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
     "description": "3D printed leg guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with printed Nomex and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -568,7 +568,7 @@
     "id": "robofac_kevlar_greaves",
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
-    "name": { "str_sp": "Hub 01 ballistic greaves" },
+    "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
     "description": "3D printed leg guards, it is well finished, lightweight and secure.  This is made of 3D printed plastic combined with aramid fabric and a hardened metal core to give significant reinforcement.",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
@@ -578,7 +578,7 @@
     "id": "robofac_military_greaves",
     "type": "ARMOR",
     "copy-from": "robofac_greaves",
-    "name": { "str_sp": "Hub 01 soldier greaves" },
+    "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
     "description": "3D printed leg guards, it has a professional finish, is lightweight and is perfectly balanced.  This is made of UHMWPE combined with hardened and treated aramid and a hardened metal core to give significant reinforcement.",
     "material": [
       { "type": "thermo_resin", "portion": 1 },
