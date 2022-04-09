@@ -195,6 +195,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_struthiomimus",
+    "name": "struthiomimus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_struthiomimus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ornithomimus",
+    "name": "ornithomimus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_ornithomimus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_albertonykus",
     "name": "albertonykus egg",
     "copy-from": "egg_dino_theropod_small",

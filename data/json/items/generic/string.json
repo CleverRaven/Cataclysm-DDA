@@ -41,6 +41,24 @@
     "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
+    "id": "cordage_6_leather",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": { "str": "short leather lace" },
+    "description": "A 6-inch (or about 15 cm) long piece of leather lace.  Useful for some purposes, but not as flexible as proper string.",
+    "color": "brown",
+    "proportional": { "price": 0.7 },
+    "material": [ "leather" ]
+  },
+  {
+    "id": "cordage_36_leather",
+    "copy-from": "cordage_6_leather",
+    "type": "GENERIC",
+    "name": { "str": "long leather lace" },
+    "description": "A 3-foot (or about 90 cm) long piece of leather lace, made from smaller pieces that are tied together.  Useful for some purposes, but not as flexible as proper string.",
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
+  },
+  {
     "id": "rope_6",
     "copy-from": "string_36",
     "type": "GENERIC",

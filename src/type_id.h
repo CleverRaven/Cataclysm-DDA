@@ -211,6 +211,9 @@ using move_mode_id = string_id<move_mode>;
 struct mutation_category_trait;
 using mutation_category_id = string_id<mutation_category_trait>;
 
+struct proficiency_category;
+using proficiency_category_id = string_id<proficiency_category>;
+
 class proficiency;
 using proficiency_id = string_id<proficiency>;
 

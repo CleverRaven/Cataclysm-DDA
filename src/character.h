@@ -2378,6 +2378,7 @@ class Character : public Creature, public visitable
         }
     protected:
         int focus_pool = 0;
+        std::set<mtype_id> known_monsters;
     public:
         int cash = 0;
         weak_ptr_fast<Creature> last_target;
@@ -2398,6 +2399,19 @@ class Character : public Creature, public visitable
         bool has_addiction( add_type type ) const;
         /** Returns the intensity of the specified addiction */
         int addiction_level( add_type type ) const;
+
+        /** Returns true if the character is familiar with the given creature type **/
+        bool knows_creature_type( const Creature *c ) const;
+        /** Returns true if the character is familiar with the given creature type **/
+        bool knows_creature_type( const mtype_id &c ) const;
+        /** This character becomes familiar with creatures of the given type **/
+        void set_knows_creature_type( const Creature *c );
+        /** This character becomes familiar with creatures of the given type **/
+        void set_knows_creature_type( const mtype_id &c );
+        /** Returns a list of all monster types known by this character **/
+        const std::set<mtype_id> &get_known_monsters() const {
+            return known_monsters;
+        }
 
         shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts

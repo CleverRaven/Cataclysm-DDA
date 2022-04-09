@@ -241,7 +241,7 @@
     "id": "oil_press_electric",
     "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
     "//": "based on YZS-68C oil press",
-    "description": "A heavy duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
     "weight": "140 kg",
     "volume": "370 L",
     "longest_side": "88 cm",

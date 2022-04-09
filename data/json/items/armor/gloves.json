@@ -1161,7 +1161,7 @@
     "id": "lc_demi_gaunt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "mild steel demi-gauntlet" },
+    "name": { "str": "pair of mild steel demi-gauntlets", "str_pl": "pairs of mild steel demi-gauntlets" },
     "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
     "weight": "750 g",
     "volume": "750 ml",
@@ -1193,7 +1193,7 @@
     "id": "xl_lc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "name": { "str_sp": "XL mild steel demi-gauntlet" },
+    "name": { "str": "pair of XL mild steel demi-gauntlets", "str_pl": "pairs of XL mild steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1202,7 +1202,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
-    "name": { "str_sp": "medium steel demi-gauntlet" },
+    "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1220,7 +1220,7 @@
     "id": "xl_mc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "mc_demi_gaunt",
-    "name": { "str_sp": "XL medium steel demi-gauntlet" },
+    "name": { "str": "pair of XL medium steel demi-gauntlets", "str_pl": "pairs of XL medium steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1229,7 +1229,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "name": { "str_sp": "high steel demi-gauntlet" },
+    "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1246,7 +1246,7 @@
   {
     "id": "xl_hc_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL high steel demi-gauntlet" },
+    "name": { "str": "pair of XL high steel demi-gauntlets", "str_pl": "pairs of XL high steel demi-gauntlets" },
     "copy-from": "hc_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1256,7 +1256,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str_sp": "hardened steel demi-gauntlet" },
+    "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1273,7 +1273,7 @@
   {
     "id": "xl_ch_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL hardened steel demi-gauntlet" },
+    "name": { "str": "pair of XL hardened steel demi-gauntlets", "str_pl": "pairs of XL hardened steel demi-gauntlets" },
     "copy-from": "ch_demi_gaunt",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1283,7 +1283,7 @@
     "id": "qt_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "name": { "str_sp": "tempered steel demi-gauntlet" },
+    "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1300,7 +1300,7 @@
   {
     "id": "xl_qt_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL tempered steel demi-gauntlet" },
+    "name": { "str": "pair of XL tempered steel demi-gauntlets", "str_pl": "pairs of XL tempered steel demi-gauntlets" },
     "copy-from": "qt_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1309,7 +1309,7 @@
     "id": "lc_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "mild steel mitten gauntlet" },
+    "name": { "str": "pair of mild steel mitten gauntlets", "str_pl": "pairs of mild steel mitten gauntlets" },
     "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
     "weight": "1250 g",
     "volume": "1250 ml",
@@ -1341,7 +1341,7 @@
     "id": "xl_lc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "name": { "str_sp": "XL mild steel mitten gauntlet" },
+    "name": { "str": "pair of XL mild steel mitten gauntlets", "str_pl": "pairs of XL mild steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1350,7 +1350,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
-    "name": { "str_sp": "medium steel mitten gauntlet" },
+    "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1368,7 +1368,7 @@
     "id": "xl_mc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "mc_mitten_gaunt",
-    "name": { "str_sp": "XL medium steel mitten gauntlet" },
+    "name": { "str": "pair of XL medium steel mitten gauntlets", "str_pl": "pairs of XL medium steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1377,7 +1377,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "name": { "str_sp": "high steel mitten gauntlet" },
+    "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1395,7 +1395,7 @@
     "id": "xl_hc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "hc_mitten_gaunt",
-    "name": { "str_sp": "XL high steel mitten gauntlet" },
+    "name": { "str": "pair of XL high steel mitten gauntlets", "str_pl": "pairs of XL high steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1404,7 +1404,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str_sp": "hardened mitten gauntlet" },
+    "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1422,7 +1422,7 @@
     "id": "xl_ch_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "ch_mitten_gaunt",
-    "name": { "str_sp": "XL hardened steel mitten gauntlet" },
+    "name": { "str": "pair of XL hardened steel mitten gauntlets", "str_pl": "pairs of XL hardened steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1431,7 +1431,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str_sp": "tempered steel mitten gauntlet" },
+    "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1449,7 +1449,7 @@
     "id": "xl_qt_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "qt_mitten_gaunt",
-    "name": { "str_sp": "XL tempered steel mitten gauntlet" },
+    "name": { "str": "pair of XL tempered steel mitten gauntlets", "str_pl": "pairs of XL tempered steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
