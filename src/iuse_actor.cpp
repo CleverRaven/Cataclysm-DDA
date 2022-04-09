@@ -4108,7 +4108,7 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     }
 
     item &obj = *loc.get_item();
-    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    p.add_msg_if_player( _( "You attach %s to your MOLLE webbing." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
 
