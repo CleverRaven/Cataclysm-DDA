@@ -2578,12 +2578,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
-        const int max_harvest_count = 12;
-        if( plant_count >= max_harvest_count ) {
-            plant_count = max_harvest_count;
-        } else if( plant_count <= 0 ) {
-            plant_count = 1;
-        }
+        plant_count = std::min( std::max( plant_count, 1 ), 12 );
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             if( from_activity ) {

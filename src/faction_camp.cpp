@@ -426,10 +426,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Carpentry_Job:
         case Forage_Job:
         case Caravan_Commune_Center_Job:
-        case Purchase_East_Field:
-        case Upgrade_East_Field:
-        case Plant_East_Field:
-        case Harvest_East_Field:
         case Camp_Emergency_Recall:
         default:
             return "";
@@ -2980,10 +2976,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                            int plant_cnt = rng( skillLevel / 2, skillLevel );
-                            plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
-                            int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
+                            int plant_count = rng( skillLevel / 2, skillLevel );
+                            plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
+                            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                            int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
                             }
