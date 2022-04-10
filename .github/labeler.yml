@@ -118,5 +118,8 @@
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
+"Mods: Tropicataclysm":
+  - data/mods/TropiCataclysm/**/*
+
 "Mods":
   - data/mods/**/*
