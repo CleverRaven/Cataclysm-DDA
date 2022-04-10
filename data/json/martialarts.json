@@ -600,7 +600,7 @@
       {
         "id": "buff_medievalpole_onmove",
         "name": "Tactical Retreat",
-        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 blocking effectiveness, -1 block attempt, +1.0 Dodging skill, blocked damage increased by 50% of Strength.\nPrevents \"High Round Strike\" and \"Hook and Drag\" techniques.\nLasts 2 turns.",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 blocking effectiveness, -1 block attempt, +1.0 Dodging skill, blocked damage increased by 50% of Strength.\nPrevents \"High Round Strike\" technique.\nLasts 2 turns.",
         "melee_allowed": true,
         "buff_duration": 2,
         "bonus_blocks": -1,
