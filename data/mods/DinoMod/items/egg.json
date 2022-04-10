@@ -146,6 +146,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dryptosaurus",
+    "name": "dryptosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_dryptosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_appalachiosaurus",
     "name": "appalachiosaurus egg",
     "copy-from": "egg_dino_theropod",
@@ -248,6 +255,13 @@
     "name": "utahraptor egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_utahraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dromaeosaurus",
+    "name": "dromaeosaurus egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_dromaeosaurus"
   },
   {
     "type": "COMESTIBLE",
