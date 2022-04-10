@@ -497,7 +497,7 @@
       {
         "id": "mma_buff_stone_dragon_onhit",
         "name": "Stone Bones",
-        "description": "Each attack against your opponents slowly steels your defenses.\n\nGain 1 Bash, Cut, and Stab armor.\nLasts 3 turns.  Stacks 5 times.",
+        "description": "Each attack against your opponents slowly steels your defenses.\n\n+1 Bash, Cut, and Stab armor.\nLasts 3 turns.  Stacks 5 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
