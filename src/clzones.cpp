@@ -1396,14 +1396,15 @@ void zone_manager::load_world_zones()
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         jsin.read( tmp );
-        for( auto it = tmp.begin(); it != tmp.end(); ++it ) {
+        for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();
             if( !has_type( zone_type ) ) {
-                tmp.erase( it );
+                it = tmp.erase( it );
                 debugmsg( "Invalid zone type: %s", zone_type.c_str() );
-            }
-            if( it->get_faction() == faction_your_followers ) {
-                tmp.erase( it );
+            } else if( it->get_faction() == faction_your_followers ) {
+                it = tmp.erase( it );
+            } else {
+                ++it;
             }
         }
         std::copy( tmp.begin(), tmp.end(), std::back_inserter( zones ) );
