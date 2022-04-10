@@ -104,7 +104,7 @@ When debugging, it is not strictly necessary to use a `Debug` build; `Release` b
 
 4. Press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests.
 
-    - The windows console will stay open until you press enter. This because of `--wait-for-keypress exit`.
+    - The windows console will stay open until you press Enter. This is because of `--wait-for-keypress exit`.
 
 Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
 You can also start the test runner library manually from windows console. Run it with `--help` for an overview of the arguments.
