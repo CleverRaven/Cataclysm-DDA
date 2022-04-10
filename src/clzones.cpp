@@ -1194,9 +1194,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
             point new_z_start = target_map.getabs( z_l_start );
             point new_z_end = target_map.getabs( z_l_end );
             tripoint first = tripoint( std::min( new_z_start.x, new_z_end.x ),
-                                       std::min( new_z_start.y, new_z_end.y ), a_start.z() );
+                                       std::min( new_z_start.y, new_z_end.y ), z_start.z() );
             tripoint second = tripoint( std::max( new_z_start.x, new_z_end.x ),
-                                        std::max( new_z_start.y, new_z_end.y ), a_end.z() );
+                                        std::max( new_z_start.y, new_z_end.y ), z_end.z() );
             zone.set_position( std::make_pair( first, second ), false );
         }
     }
