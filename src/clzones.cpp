@@ -1173,31 +1173,30 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     if( turns == 0 ) {
         return;
     }
-    const tripoint_abs_ms a_start = target_map.getglobal( tripoint_zero );
-    const tripoint_abs_ms a_end = target_map.getglobal( tripoint( 23, 23, 0 ) );
-    const point dim( 24, 24 );
+    const point dim( SEEX * 2, SEEY * 2 );
     for( zone_data &zone : zones ) {
-        const tripoint_abs_ms z_start = zone.get_start_point();
-        const tripoint_abs_ms z_end = zone.get_end_point();
-        if( ( a_start.x() <= z_start.x() && a_start.y() <= z_start.y() ) &&
-            ( a_end.x() > z_start.x() && a_end.y() >= z_start.y() ) &&
-            ( a_start.x() <= z_end.x() && a_start.y() <= z_end.y() ) &&
-            ( a_end.x() >= z_end.x() && a_end.y() >= z_end.y() ) ) {
-            tripoint z_l_start3 = target_map.getlocal( z_start );
-            tripoint z_l_end3 = target_map.getlocal( z_end );
+        const tripoint a_start( 0, 0, target_map.get_abs_sub().z() );
+        const tripoint a_end( SEEX * 2 - 1, SEEY * 2 - 1, a_start.z );
+        const tripoint z_start = target_map.getlocal( zone.get_start_point() );
+        const tripoint z_end = target_map.getlocal( zone.get_end_point() );
+        const inclusive_cuboid<tripoint> boundary( a_start, a_end );
+        if( boundary.contains( z_start ) and boundary.contains( z_end ) ) {
             // don't rotate centered squares
-            if( z_l_start3.x == z_l_start3.y && z_l_end3.x == z_l_end3.y && z_l_start3.x + z_l_end3.x == 23 ) {
+            if( z_start.x == z_start.y && z_end.x == z_end.y &&
+                z_start.x + z_end.x == a_end.x ) {
                 continue;
             }
-            point z_l_start = z_l_start3.xy().rotate( turns, dim );
-            point z_l_end = z_l_end3.xy().rotate( turns, dim );
-            point new_z_start = target_map.getabs( z_l_start );
-            point new_z_end = target_map.getabs( z_l_end );
-            tripoint first = tripoint( std::min( new_z_start.x, new_z_end.x ),
-                                       std::min( new_z_start.y, new_z_end.y ), z_start.z() );
-            tripoint second = tripoint( std::max( new_z_start.x, new_z_end.x ),
-                                        std::max( new_z_start.y, new_z_end.y ), z_end.z() );
-            zone.set_position( std::make_pair( first, second ), false );
+            point z_l_start = z_start.xy().rotate( turns, dim );
+            point z_l_end = z_end.xy().rotate( turns, dim );
+            tripoint_abs_ms first =
+                target_map.getglobal( tripoint( std::min( z_l_start.x, z_l_end.x ),
+                                                std::min( z_l_start.y, z_l_end.y ),
+                                                z_start.z ) );
+            tripoint_abs_ms second =
+                target_map.getglobal( tripoint( std::max( z_l_start.x, z_l_end.x ),
+                                                std::max( z_l_start.y, z_l_end.y ),
+                                                z_end.z ) );
+            zone.set_position( std::make_pair( first.raw(), second.raw() ), false );
         }
     }
 }
