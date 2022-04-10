@@ -160,6 +160,32 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_dromaeosaurus_bio_op",
+    "name": { "str_sp": "dromaeosaurus bio-operator" },
+    "copy-from": "mon_dromaeosaurus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws and many sharp teeth glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "harvest": "CBM_DINO_FEATHER"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_stenonychosaurus_bio_op",
     "name": { "str_sp": "stenonychosaurus bio-operator" },
     "copy-from": "mon_stenonychosaurus",
