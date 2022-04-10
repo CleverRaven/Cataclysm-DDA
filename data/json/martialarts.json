@@ -380,7 +380,7 @@
       {
         "id": "buff_crane_static2",
         "name": "Crane's Stance",
-        "description": "Like the beautiful Crane, you are very skilled at evading danger.\n\n+2.0 Dodging skill.",
+        "description": "Like the beautiful crane, you are very skilled at evading danger.\n\n+2.0 Dodging skill.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "dodge", "scale": 2.0 } ]
       },
