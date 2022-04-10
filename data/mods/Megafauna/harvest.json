@@ -1,9 +1,9 @@
 [
     {
-        "id": "woolly_mammoth",
-        "//": "drops large stomach, tusks and mammoth wool",
-        "type": "harvest",
-        "entries": [
+      "id": "woolly_mammoth",
+      "//": "drops large stomach, tusks and mammoth wool",
+      "type": "harvest",
+      "entries": [
         { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
         { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
         { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -17,15 +17,15 @@
         { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
         { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.21 },
         { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-        { "drop": "mammoth_tusk", "scale_num": [ 1, 2 ], "max": 2},
+        { "drop": "mammoth_tusk", "scale_num": [ 1, 2 ], "max": 2 },
         { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
-        ]
+      ]
     },
     {
-        "id": "woolly_mammoth_baby",
-        "//": "drops large stomach, mammoth wool, but no tusks",
-        "type": "harvest",
-        "entries": [
+      "id": "woolly_mammoth_baby",
+      "//": "drops large stomach, mammoth wool, but no tusks",
+      "type": "harvest",
+      "entries": [
         { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
         { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
         { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -40,13 +40,13 @@
         { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.21 },
         { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
         { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
-        ]
+      ]
     },
     {
-        "id": "mammoth",
-        "//": "drops large stomach, tusks",
-        "type": "harvest",
-        "entries": [
+      "id": "mammoth",
+      "//": "drops large stomach, tusks",
+      "type": "harvest",
+      "entries": [
         { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
         { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
         { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
@@ -60,8 +60,9 @@
         { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
         { "drop": "wool_staple", "type": "skin", "mass_ratio": 0.21 },
         { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-        { "drop": "mammoth_tusk", "scale_num": [ 1, 2 ], "max": 2},
+        { "drop": "mammoth_tusk", "scale_num": [ 1, 2 ], "max": 2 },
         { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
-        ]
+      ]
     }
-]
+  ]
+  

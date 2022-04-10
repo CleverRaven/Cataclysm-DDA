@@ -1,19 +1,19 @@
 [
-    {
-        "type": "COMESTIBLE",
-        "id": "mammoth_tusk",
-        "category": "spare_parts",
-        "name": { "str": "mammoth tusk" },
-        "weight": "45 kg",
-        "color": "white",
-        "symbol": ")",
-        "description": "A huge curved tusk of a mammoth.",
-        "price": 0,
-        "price_postapoc": 10,
-        "material": [ "bone" ],
-        "milling": { "into": "meal_bone", "conversion_rate": 4 },
-        "volume": "80 L",
-        "longest_side": "2.5 m",
-        "vitamins": [ [ "calcium", 96 ] ]
-      }
+  {
+    "type": "COMESTIBLE",
+    "id": "mammoth_tusk",
+    "category": "spare_parts",
+    "name": { "str": "mammoth tusk" },
+    "weight": "45 kg",
+    "color": "white",
+    "symbol": ")",
+    "description": "A huge curved tusk of a mammoth.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "bone" ],
+    "milling": { "into": "meal_bone", "conversion_rate": 4 },
+    "volume": "80 L",
+    "longest_side": "2.5 m",
+    "vitamins": [ [ "calcium", 96 ] ]
+  }
 ]
