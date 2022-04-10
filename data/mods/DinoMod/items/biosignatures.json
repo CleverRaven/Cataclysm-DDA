@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_dino",
-    "name": { "str": "dinosaur droppings" },
+    "name": { "str_sp": "dinosaur droppings" },
     "copy-from": "feces_bird",
     "weight": "750 g",
     "volume": "1 L",
