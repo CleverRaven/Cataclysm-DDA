@@ -53,18 +53,7 @@
     "zombify_into": "mon_draugr",
     "fungalize_into": "mon_cracked_mirror",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "HUMAN",
-      "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO"
-    ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ]
   },
   {
     "id": "mon_draugr",
@@ -176,14 +165,14 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "demihuman",
-    "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 } ],
+    "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 }, [ "PARROT_AT_DANGER", 800 ] ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "default zombie children clothing (always), additional items from child_items (sometimes)"
     },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 9 } },
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GUILT" ]
   },
   {
     "id": "mon_fae_wolf",

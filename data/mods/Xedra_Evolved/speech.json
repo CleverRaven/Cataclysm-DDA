@@ -1,0 +1,26 @@
+[
+  {
+    "type": "speech",
+    "speaker": "mon_fetch_child",
+    "sound": "\"*giggles* Would you like to play tag?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fetch_child",
+    "sound": "\"*whispers* I want to tell you a secret.\"",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fetch_child",
+    "sound": "\"My last friend went all red and stopped moving.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fetch_child",
+    "sound": "\"You're it, I'm gonna catch you!\"",
+    "volume": 15
+  }
+]

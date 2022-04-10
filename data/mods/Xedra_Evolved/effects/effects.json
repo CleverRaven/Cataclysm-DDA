@@ -64,7 +64,8 @@
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
-      "pain_max_val": [ 5 ], "pain_chance": [ 150 ],
+      "pain_max_val": [ 5 ],
+      "pain_chance": [ 150 ],
       "fatigue_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
@@ -76,20 +77,17 @@
     "type": "effect_type",
     "id": "foxfire_imbibed",
     "name": [ "Foxfire", "Balefire", "St Elmo's Fire" ],
-    "desc": [ "Your body is dimly covered in ephemeral flames.", "The flames sometimes obstruct your vision, yet you feel no pain from them.", "You body shines like a lit beacon." ],
+    "desc": [
+      "Your body is dimly covered in ephemeral flames.",
+      "The flames sometimes obstruct your vision, yet you feel no pain from them.",
+      "You body shines like a lit beacon."
+    ],
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "base_mods": {
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "light_emitted": 3
-    },
-    "scaling_mods": {
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "light_emitted": 8
-    }
+    "//": "Needs to emit light once Mylie unites traits, effects etc 'light_emitted: 3'.",
+    "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
