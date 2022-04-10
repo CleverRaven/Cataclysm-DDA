@@ -15,6 +15,7 @@
       [ "jug_plastic", 10 ],
       [ "jar_glass_sealed", 5 ],
       [ "wrapper", 10 ],
+      [ "wrapper_foil", 1 ],
       [ "string_6", 5 ],
       [ "cig_butt", 10 ],
       [ "string_36", 5 ],

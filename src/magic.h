@@ -334,7 +334,7 @@ class spell_type
 
         std::set<mtype_id> targeted_monster_ids;
 
-        // lits of bodyparts this spell applies its effect to
+        // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
@@ -640,7 +640,7 @@ class known_magic
         }
         // how much mana is available to use to cast spells
         int available_mana() const;
-        // max mana vailable
+        // max mana available
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );

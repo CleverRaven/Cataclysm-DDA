@@ -105,7 +105,6 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -1357,7 +1356,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
-    you.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
+    you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
     you.activity.placement = examp;
 }
 
@@ -2579,12 +2578,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
-        const int max_harvest_count = 12;
-        if( plant_count >= max_harvest_count ) {
-            plant_count = max_harvest_count;
-        } else if( plant_count <= 0 ) {
-            plant_count = 1;
-        }
+        plant_count = std::min( std::max( plant_count, 1 ), 12 );
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             if( from_activity ) {

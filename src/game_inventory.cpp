@@ -592,7 +592,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
 
                 int max_joy = you.fun_for( *loc, true ).first;
-                // max_joy should be 3 wide for aligment of '/'
+                // max_joy should be 3 wide for alignment of '/'
                 if( max_joy == 0 ) {
                     // this will not be an empty string when food's joy can go below 0 by consumption (very rare)
                     return joy_str;
@@ -1838,8 +1838,7 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
-                   loc->has_flag( flag_PALS_LARGE );
+            return loc->can_attach_as_pocket();
         }
 
         std::string get_denial( const item_location &loc ) const override {

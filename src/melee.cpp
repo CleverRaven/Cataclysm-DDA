@@ -1879,7 +1879,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
 
-    // Keep the technique definitons shorter
+    // Keep the technique definitions shorter
     if( technique.attack_override ) {
         move_cost = 0;
         di.clear();

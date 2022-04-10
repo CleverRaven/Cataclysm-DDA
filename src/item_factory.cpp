@@ -226,7 +226,7 @@ void Item_factory::finalize_pre( itype &obj )
                 emplace_usage( obj.use_methods, u.second );
                 // As far as I know all the actions provided by quality level do not consume ammo
                 // So it is safe to set all to 0
-                // To do: read the json file of this item agian and get for each quality a scale number
+                // To do: read the json file of this item again and get for each quality a scale number
                 obj.ammo_scale.emplace( u.second, 0.0f );
             }
         }
@@ -1468,7 +1468,6 @@ void Item_factory::init()
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
-    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -1820,6 +1819,11 @@ void Item_factory::check_definitions() const
                         }
                     }
                 }
+            }
+
+            // waist is deprecated
+            if( type->has_flag( flag_WAIST ) ) {
+                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the belted layer.  If you are making new content make it belted specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
             }
 
             // check that no item has more coverage on any location than the max coverage (100)
@@ -2486,6 +2490,7 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "description", alt_description );
     optional( jo, false, "ascii_picture", art );
     optional( jo, false, "weight", weight );
+    optional( jo, false, "append", append );
 }
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
@@ -2638,6 +2643,8 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
     optional( jo, false, "cover_vitals", cover_vitals, 0 );
 
+    optional( jo, false, "rigid_layer_only", rigid_layer_only, false );
+
     if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
         max_encumber = jo.get_array( "encumbrance" ).get_int( 1 );
@@ -2655,7 +2662,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
             mandatory( jo, false, "material", materials );
         } else {
             // Old style material definition ( ex: "material": [ "cotton", "plastic" ] )
-            // TODO: Depricate and remove
+            // TODO: Deprecate and remove
             for( const std::string &mat : jo.get_tags( "material" ) ) {
                 materials.emplace_back( mat, 100, 0.0f );
             }
@@ -4461,6 +4468,18 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
         context = group_id.str();
     }
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
+    // If we copy-from, do copy-from
+    // Otherwise, unconditionally overwrite
+    if( jsobj.has_member( "copy-from" ) ) {
+        // We can only copy-from a group with the same id (for now)
+        if( jsobj.get_string( "copy-from" ) != group_id.str() ) {
+            debugmsg( "Item group '%s' tries to copy from different group '%s'", group_id.str(),
+                      jsobj.get_string( "copy-from" ) );
+            return;
+        }
+    } else {
+        isd.reset();
+    }
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -4471,6 +4490,28 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ), context );
 
+    // If it extends, read from the extends block (and extend our itemgroup)
+    // Otherwise, read from the object into the fresh itemgroup
+    // And don't read if it has copy-from because it will not handle that correctly.
+    if( jsobj.has_member( "extend" ) ) {
+        load_item_group_data( jsobj.get_object( "extend" ), ig, subtype );
+    } else if( !jsobj.has_member( "copy-from" ) ) {
+        load_item_group_data( jsobj, ig, subtype );
+    }
+
+    if( jsobj.has_string( "container-item" ) ) {
+        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
+
+    jsobj.read( "on_overflow", ig->on_overflow, false );
+    if( jsobj.has_member( "sealed" ) ) {
+        ig->sealed = jsobj.get_bool( "sealed" );
+    }
+}
+
+void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig,
+        const std::string &subtype )
+{
     if( subtype == "old" ) {
         for( const JsonValue entry : jsobj.get_array( "items" ) ) {
             if( entry.test_object() ) {
@@ -4528,13 +4569,6 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
                 add_entry( *ig, subobj, "group within " + ig->context() );
             }
         }
-    }
-    if( jsobj.has_string( "container-item" ) ) {
-        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
-    }
-    jsobj.read( "on_overflow", ig->on_overflow, false );
-    if( jsobj.has_member( "sealed" ) ) {
-        ig->sealed = jsobj.get_bool( "sealed" );
     }
 }
 

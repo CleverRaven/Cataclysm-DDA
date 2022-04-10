@@ -1206,6 +1206,12 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
+            // skip if either item cares only about it's layer and they don't match up
+            if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
+                !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
             if( i.is_bp_rigid( sbp ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
             }
@@ -1842,7 +1848,8 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
                 covered_sbps.insert( sbp );
             }
             // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
-            if( i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+            // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
+            if( !i.is_bp_rigid_selective( sbp ) && i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }

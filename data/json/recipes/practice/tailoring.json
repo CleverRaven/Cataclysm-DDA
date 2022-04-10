@@ -60,7 +60,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_TAILORING",
     "name": "advanced polymer sewing",
-    "description": "Practice cutting and sewing together advanced polymers like kevlar or nomex.",
+    "description": "Practice cutting and sewing together advanced polymers like Kevlar or Nomex.",
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_polymerworking", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",

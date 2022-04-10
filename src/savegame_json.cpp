@@ -590,7 +590,7 @@ void activity_tracker::deserialize( const JsonObject &jo )
 }
 
 // migration handling of items that used to have charges instead of real items.
-// remove this migration funciton after 0.F
+// remove this migration function after 0.F
 static void migrate_item_charges( item &it )
 {
     if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
@@ -774,6 +774,8 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+
+    data.read( "known_monsters", known_monsters );
 
     invalidate_pseudo_items();
     update_bionic_power_capacity();
@@ -1250,6 +1252,9 @@ void Character::store( JsonOut &json ) const
 
     json.member_as_string( "move_mode",  move_mode );
 
+    // monsters recorded by the character
+    json.member( "known_monsters", known_monsters );
+
     // storing the mount
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
@@ -1529,7 +1534,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "magic", magic );
 
-    set_highest_cat_level();
+    calc_mutation_levels();
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
@@ -4241,7 +4246,7 @@ void basecamp::deserialize( const JsonObject &data )
                 e.provides[ id ] = amount;
             }
         }
-        // incase of save corruption, sanity check provides from expansions
+        // in case of save corruption, sanity check provides from expansions
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;

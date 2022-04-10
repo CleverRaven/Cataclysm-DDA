@@ -141,7 +141,7 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     // J2000, so use that as our offset too.  The relative drift is slow, so we
     // neglect it.
     const units::angle mean_anomaly = 77_degrees + mean_long;
-    // The two arbitrary constants in the caclulation of ecliptic longitude
+    // The two arbitrary constants in the calculation of ecliptic longitude
     // relate to the non-circularity of the Earth's orbit.
     const units::angle ecliptic_longitude =
         mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
