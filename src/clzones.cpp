@@ -910,37 +910,38 @@ cata::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &t
 }
 
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
-        const tripoint_abs_ms &where, int range ) const
+        const tripoint_abs_ms &where, int range, const faction_id &fac ) const
 {
     const item_category &cat = it.get_category_of_contents();
 
-    if( has_near( zone_type_LOOT_CUSTOM, where, range ) ) {
-        if( !get_near( zone_type_LOOT_CUSTOM, where, range, &it ).empty() ) {
+    if( has_near( zone_type_LOOT_CUSTOM, where, range, fac ) ) {
+        if( !get_near( zone_type_LOOT_CUSTOM, where, range, &it, fac ).empty() ) {
             return zone_type_LOOT_CUSTOM;
         }
     }
     if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
-        if( has_near( zone_type_LOOT_WOOD, where, range ) ) {
+        if( has_near( zone_type_LOOT_WOOD, where, range, fac ) ) {
             return zone_type_LOOT_WOOD;
         }
     }
     if( it.is_corpse() ) {
-        if( has_near( zone_type_LOOT_CORPSE, where, range ) ) {
+        if( has_near( zone_type_LOOT_CORPSE, where, range, fac ) ) {
             return zone_type_LOOT_CORPSE;
         }
     }
     if( it.typeId() == itype_disassembly ) {
-        if( has_near( zone_type_zone_disassemble, where, range ) ) {
+        if( has_near( zone_type_zone_disassemble, where, range, fac ) ) {
             return zone_type_zone_disassemble;
         }
     }
 
     cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
-    if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
+    if( zone_check_first && has_near( *zone_check_first, where, range, fac ) ) {
         return *zone_check_first;
     }
 
-    if( cat.zone() ) {
+    cata::optional<zone_type_id> zone_cat = cat.zone();
+    if( zone_cat && has_near( *zone_cat, where, range, fac ) ) {
         return *cat.zone();
     }
 
@@ -971,14 +972,14 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
         if( it_food != nullptr ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
-                if( perishable && has_near( zone_type_LOOT_PDRINK, where, range ) ) {
+                if( perishable && has_near( zone_type_LOOT_PDRINK, where, range, fac ) ) {
                     return zone_type_LOOT_PDRINK;
-                } else if( has_near( zone_type_LOOT_DRINK, where, range ) ) {
+                } else if( has_near( zone_type_LOOT_DRINK, where, range, fac ) ) {
                     return zone_type_LOOT_DRINK;
                 }
             }
 
-            if( perishable && has_near( zone_type_LOOT_PFOOD, where, range ) ) {
+            if( perishable && has_near( zone_type_LOOT_PFOOD, where, range, fac ) ) {
                 return zone_type_LOOT_PFOOD;
             }
         }

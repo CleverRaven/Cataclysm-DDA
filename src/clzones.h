@@ -461,7 +461,7 @@ class zone_manager
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
-                int range = MAX_DISTANCE ) const;
+                int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
         const zone_data *get_zone_at( const tripoint_abs_ms &where, bool loot_only = false,
