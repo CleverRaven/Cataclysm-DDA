@@ -41,11 +41,14 @@ Blacklist monsters that don't fit time frame:
 - all domesticated animals (cows, pigs, goats, chicken, horses, cats, dogs) [done]
 - introduced species (wild boars) [done]
 - overlapping mutant variants (e.g, dire wolf) [done]
+Add to monstergroups to initiate spawns [done]
 
+---> this should now offer basic functionality
 
 Add new monsters to monster groups/implement spawn:
 - tweak spawn rates
 - consider if spawns should occour in specific types of region (meaning, costum moster groups apart from "forest")
+- extra: make "family" monstergroups that spawn adults and juveniles together in the appropriate season
 
 
 *tests and tweaks*
