@@ -288,7 +288,7 @@
       {
         "id": "mma_buff_pokken_ongethit",
         "name": "Stamina",
-        "description": "Boosts your defense after you get hit.\n\nGain Bash, Cut, and Stab armor equal to 50% of Strength.\nLasts 3 turns.",
+        "description": "Boosts your defense after you get hit.\n\nBash, Cut, and Stab armor increased by 50% of Strength.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
