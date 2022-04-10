@@ -72,6 +72,7 @@
     "type": "item_group",
     "id": "hive",
     "subtype": "distribution",
-    "entries": [ { "item": "honeycomb", "prob": 100000 } ]
+    "copy-from": "hive",
+    "extend": { "entries": [ { "item": "honeycomb", "prob": 100000 } ] }
   }
 ]

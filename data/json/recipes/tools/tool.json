@@ -186,7 +186,7 @@
       [ [ "knife_carving", 1 ] ],
       [ [ "knife_meat_cleaver", 1 ] ],
       [ [ "leather", 2 ], [ "rag", 2 ] ],
-      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
+      [ [ "cordage_short", 2, "LIST" ] ]
     ]
   },
   {

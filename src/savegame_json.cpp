@@ -775,6 +775,8 @@ void Character::load( const JsonObject &data )
 
     data.read( "my_bionics", *my_bionics );
 
+    data.read( "known_monsters", known_monsters );
+
     invalidate_pseudo_items();
     update_bionic_power_capacity();
     data.read( "death_eocs", death_eocs );
@@ -1249,6 +1251,9 @@ void Character::store( JsonOut &json ) const
     json.member( "my_bionics", *my_bionics );
 
     json.member_as_string( "move_mode",  move_mode );
+
+    // monsters recorded by the character
+    json.member( "known_monsters", known_monsters );
 
     // storing the mount
     if( is_mounted() ) {

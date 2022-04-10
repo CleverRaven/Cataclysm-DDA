@@ -22,7 +22,8 @@ option(DYNAMIC_LINKING
         "Use dynamic linking. Or use static to remove MinGW dependency instead." "ON")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
-option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin" "OFF")
+option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -354,7 +355,7 @@ add_subdirectory(tests)
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif()
-if (CATA_CLANG_TIDY_PLUGIN)
+if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 
