@@ -218,6 +218,10 @@ class loot_options : public zone_options, public mark_option
             return mark;
         }
 
+        void set_mark( std::string const &nmark ) {
+            mark = nmark;
+        }
+
         bool has_options() const override {
             return true;
         }
