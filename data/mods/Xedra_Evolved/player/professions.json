@@ -4,15 +4,15 @@
     "subtype": "collection",
     "id": "suppressed_fn57",
     "entries": [
-      { "item": "fn57mag", "ammo-item": "ss_57mm", "charges": 20 },
-      { "item": "fn57mag", "ammo-item": "ss_57mm", "charges": 20 }
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "diazepam_scrip",
-    "entries": [ { "item": "diazepam", "container_item": "bottle_plastic_pill_prescription", "charges": 20 } ]
+    "entries": [ { "item": "diazepam", "charges": 20, "container-item": "bottle_plastic_pill_prescription" } ]
   },
   {
     "type": "profession",
@@ -46,7 +46,7 @@
           { "group": "charged_ref_lighter" },
           { "group": "suppressed_fn57" },
           { "group": "diazepam_scrip" },
-          { "item": "fn57_sup", "ammo-item": "fn57mag", "charges": 7, "container-item": "holster" }
+          { "item": "fn57_sup", "ammo-item": "fn57mag", "charges": 20, "container-item": "sholster" }
         ]
       },
       "male": [ "briefs" ],

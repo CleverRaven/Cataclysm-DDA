@@ -37,6 +37,7 @@
   {
     "type": "material",
     "id": "fae_flesh",
+    "copy-from": "flesh",
     "name": "Fae beast Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,

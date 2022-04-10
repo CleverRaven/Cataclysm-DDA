@@ -479,6 +479,8 @@ dragonfire
 dragonhide
 dragonlike
 dragonscale
+draugr
+draugrs
 drawknife
 driers
 drivetrain
@@ -557,6 +559,7 @@ eyespots
 eyestalks
 f
 faceplates
+faewild
 fakkin
 falcata
 fallfish
@@ -950,6 +953,7 @@ lightstrip
 lilypad
 lilypads
 listlessly
+lithely
 litheness
 livingrooms
 lizardfolk
