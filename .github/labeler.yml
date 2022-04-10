@@ -141,6 +141,5 @@
 "Mods":
   - data/mods/**/*
 
-"Weather":
-  - "src/weather*.*"
-  - data/json/weather_type.json
+"Mechanics: Weather":
+  - "**/weather**"
