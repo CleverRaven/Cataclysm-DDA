@@ -462,7 +462,7 @@
       {
         "id": "mma_buff_stone_dragon_static",
         "name": "Stonefoot Stance",
-        "description": "You maintain a steady stance that improves your combat prowess.  However, moving too much will break your stance.\n\n+10% damage, gain 2 Bash, Cut, and Stab armor.",
+        "description": "You maintain a steady stance that improves your combat prowess.  However, moving too much will break your stance.\n\n+10% damage, +2 Bash, Cut, and Stab armor.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "flat_bonuses": [
@@ -481,7 +481,7 @@
       {
         "id": "mma_buff_stone_dragon_oncrit",
         "name": "Iron Bones",
-        "description": "With a powerful strike, you further fortify yourself again counterattacks!\n\nGain 5 Bash, Cut, and Stab armor.\nLasts 1 turn.",
+        "description": "With a powerful strike, you further fortify yourself again counterattacks!\n\n+5 Bash, Cut, and Stab armor.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -521,8 +521,8 @@
       },
       {
         "id": "mma_buff_stone_dragon_onmove2",
-        "name": "Stattered Stone",
-        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, lose 2 Bash, Cut, and Stab armor.\nLasts 1 turn.",
+        "name": "Shattered Stone",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 Bash, Cut, and Stab armor.\nLasts 1 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
