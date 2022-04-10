@@ -14,6 +14,13 @@
         "     "
       ],
       "place_npcs": [ { "class": "exodii_merchant", "x": 2, "y": 1 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "exodii", "x": [ 0, 0 ], "y": [ 1, 1 ] },
+        { "type": "LOOT_BIONICS", "faction": "exodii", "x": [ 0, 0 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_ARMOR", "faction": "exodii", "x": [ 1, 1 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_AMMO", "faction": "exodii", "x": [ 2, 2 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_GUNS", "faction": "exodii", "x": [ 3, 3 ], "y": [ 3, 3 ] }
+      ],
       "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
       "monster": { "T": { "monster": "mon_exodii_turret" } },
       "mapping": {
