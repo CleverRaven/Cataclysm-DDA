@@ -724,14 +724,13 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_ab
 }
 
 std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint_abs_ms &where,
-        int radius, bool npc_search, const faction_id &/*fac*/ ) const
+        int radius, bool npc_search, const faction_id &fac ) const
 {
     std::unordered_set<tripoint> res;
     map &here = get_map();
     for( const tripoint &elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
-        const zone_data *zone = get_zone_at( here.getglobal( elem ) );
-        // if not a LOOT zone
-        if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
+        const zone_data *zone = get_zone_at( here.getglobal( elem ), true, fac );
+        if( zone == nullptr ) {
             continue;
         }
         if( npc_search && has( zone_type_NO_NPC_PICKUP, where ) ) {
@@ -1006,13 +1005,23 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
     return zones;
 }
 
-const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where ) const
+const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool loot_only,
+        const faction_id &fac ) const
 {
+    auto const check = [&fac, loot_only, &where]( zone_data const & z ) {
+        return z.get_faction() == fac and
+               ( !loot_only || z.get_type().str().substr( 0, 4 ) == "LOOT" ) and
+               z.has_inside( where );
+    };
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
-
-        if( zone.has_inside( where ) ) {
-            return &zone;
+        if( check( *it ) ) {
+            return &*it;
+        }
+    }
+    auto const vzones = get_map().get_vehicle_zones( get_map().get_abs_sub().z() );
+    for( zone_data *it : vzones ) {
+        if( check( *it ) ) {
+            return &*it;
         }
     }
     return nullptr;
