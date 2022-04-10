@@ -22,8 +22,8 @@ giant beaver (Castoroides) [done]
 giant sloth (Megalonyx), or other/more species? [done]
 shrub-ox (Euceratherium) [done]
 woodox (Bootherium; https://en.wikipedia.org/wiki/Bootherium) [done]
-ancient bison, or equiv. (Bison antiquus) (wool, milk)
-Scott's horse (Equus scotti) (milk)
+ancient bison, or equiv. (Bison antiquus) (wool, milk) [done]
+Scott's horse (Equus scotti) (milk) [done]
 Camelops (wool, milk)
 
 *potential candidates for addition with dubious range, or more research needed*
