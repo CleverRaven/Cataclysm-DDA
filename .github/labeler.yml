@@ -6,11 +6,10 @@
   - "**/*.json"
 
 "Game: Achievements / Conducts / Scores":
-  - data/json/scores.json
-  - data/json/statistics.json
-  - data/json/achievements.json
-  - data/json/conducts.json
-  - "**/achievement.*"
+  - "**/scores**"
+  - "**/statistics**"
+  - "**/achievements**"
+  - "**/conducts**"
   - "**/event_statistics.*"
 
 "[Python]":
