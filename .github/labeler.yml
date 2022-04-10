@@ -100,8 +100,7 @@
   - sound/**/*
 
 "Scenarios":
-  - "**/scenario.*"
-  - data/json/scenarios.json
+  - "**/scenario**"
 
 "Translation":
   - lang/**/*
