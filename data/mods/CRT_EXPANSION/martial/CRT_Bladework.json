@@ -49,7 +49,7 @@
       {
         "id": "crt_blade_hit_buff",
         "name": "Unwavering Edge",
-        "description": "You attack with your blade at your oponent.\n\n+1 Cut and Stab armor penetration, -2.0 Dodging skill.\nLasts 2 turns.  Stacks 2 times.",
+        "description": "You attack with your blade at your opponent.\n\n+1 Cut and Stab armor penetration, -2.0 Dodging skill.\nLasts 2 turns.  Stacks 2 times.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 0 } ],
