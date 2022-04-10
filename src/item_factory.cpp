@@ -1083,18 +1083,22 @@ void Item_factory::finalize_post( itype &obj )
         // calculate each body part breathability of the armor
         // breathability is the worst breathability of any material on that portion
         for( armor_portion_data &armor_data : obj.armor->data ) {
-            std::vector<part_material> sorted_mats = armor_data.materials;
-            std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
-            const part_material & rhs ) {
-                return lhs.id->breathability() < rhs.id->breathability();
-            } );
 
-            // now that mats are sorted least breathable to most
-            int coverage_counted = 0;
-            int combined_breathability = 0;
+            // only recalculate the breathability when the value is not set in JSON
+            // or when the value in JSON is invalid
+            if( armor_data.breathability < 0 ) {
 
-            // only calcuate the breathability if the armor has no valid loaded value
-            if( armor_data.breathability < 0 || armor_data.breathability > 100 ) {
+                std::vector<part_material> sorted_mats = armor_data.materials;
+                std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
+                const part_material & rhs ) {
+                    return lhs.id->breathability() < rhs.id->breathability();
+                } );
+
+                // now that mats are sorted least breathable to most
+                int coverage_counted = 0;
+                int combined_breathability = 0;
+
+                // only calcuate the breathability if the armor has no valid loaded value
                 for( const part_material &mat : sorted_mats ) {
                     // this isn't perfect since its impossible to know the positions of each material relatively
                     // so some guessing is done
@@ -1109,7 +1113,7 @@ void Item_factory::finalize_post( itype &obj )
                     }
                 }
                 // whatever isn't covered is as good as skin so 100%
-                armor_data.breathability = (combined_breathability / 100) + (100 - coverage_counted);
+                armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
             }
         }
 
@@ -2628,7 +2632,13 @@ void armor_portion_data::deserialize( const JsonObject &jo )
         jo.throw_error( string_format( "need to specify covered limbs for each body part" ) );
     }
     optional( jo, false, "coverage", coverage, 0 );
-    optional( jo, false, "breathability", breathability, -1 );
+
+    // load a breathability override
+    breathability_rating temp_enum;
+    optional( jo, false, "breathability", temp_enum, breathability_rating::last );
+    if( temp_enum != breathability_rating::last ) {
+        breathability = material_type::breathability_to_rating( temp_enum );
+    }
     optional( jo, false, "specifically_covers", sub_coverage );
 
 
