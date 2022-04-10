@@ -5,6 +5,10 @@ The mod aims to provide a more realistic fauna for wilderness/stone age playthro
 
 Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they probably wont feature here.
 
+**NOTE**
+
+This mod is still in progress, but a basic set of 16 new pleistocene-era animals is available and should spawn in new games.
+
 **ToDo**
 
 *List of creatures that should be added* [done]
