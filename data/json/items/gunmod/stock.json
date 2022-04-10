@@ -60,7 +60,7 @@
       "target": "folding_stock",
       "moves": 120
     },
-     "//": "10 is the modifier that stocked weapons normally get",
+    "//": "10 is the modifier that stocked weapons normally get",
     "handling_modifier": -10,
     "flags": [ "FOLDED_STOCK" ]
   },
@@ -270,9 +270,9 @@
     "id": "under_folding_stock",
     "type": "GUNMOD",
     "name": { "str": "under folding stock" },
-    "description": "A light wire framed stock with a push button release catch on the side which lets it fold and be stored away under the weapon’s receiver.  It’s wire construction means that it’s naturally more uncomfortable to shoulder than a regular fixed stock, and it’s currently locked in the open position.",
-    "weight": "200 g",
-    "volume": "500 ml",
+    "description": "A light wire framed stock with a push button release catch on the side which lets it fold and be stored away under the weapon’s receiver.  Its wire construction means that it’s naturally more uncomfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
+    "weight": "100 g",
+    "volume": "300 ml",
     "integral_volume": "100 ml",
     "integral_weight": "100 g",
     "price": 42000,
@@ -290,7 +290,7 @@
       "target": "under_folding_stock_folded",
       "moves": 120
     },
-    "handling_modifier": 10,
+    "handling_modifier": 8,
     "min_skills": [ [ "weapon", 3 ] ]
   },
   {
@@ -355,7 +355,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "ksub2000" ],
-"mode_modifier": [ [ "DEFAULT", "disabled", 0, [ "MELEE" ] ] ],
+    "mode_modifier": [ [ "DEFAULT", "disabled", 0, [ "MELEE" ] ] ],
     "use_action": {
       "type": "transform",
       "msg": "You release the barrel and pivot it forwards, locking it in the open firing position.",
