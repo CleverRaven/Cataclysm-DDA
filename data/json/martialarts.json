@@ -600,7 +600,7 @@
       {
         "id": "buff_medievalpole_onmove",
         "name": "Tactical Retreat",
-        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 blocking effectiveness, -1 block attempt, +1.0 Dodging skill, blocked damaged increased by 50% of Strength.\nPrevents \"High Round Strike and Hook\" technique.\nLasts 2 turns.",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 blocking effectiveness, -1 block attempt, +1.0 Dodging skill, blocked damage increased by 50% of Strength.\nPrevents \"High Round Strike\" and \"Hook and Drag\" techniques.\nLasts 2 turns.",
         "melee_allowed": true,
         "buff_duration": 2,
         "bonus_blocks": -1,
@@ -665,7 +665,7 @@
       {
         "id": "buff_judo_ondodge",
         "name": "Perfect Position",
-        "description": "You've moved into a perfect position to counter attack!.\n\n+30% damage.\nLasts 1 turn.",
+        "description": "You've moved into a perfect position to counter attack!\n\n+30% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -839,7 +839,7 @@
       {
         "id": "buff_swordsmanship_onpause",
         "name": "Half Swording",
-        "description": "You grip the blade part way down for greater control.\n\nBlocked damage reduced by 50% of Strength, -1 accuracy.\nEnables Grab and Lethal Strike.\nLasts 2 turns.",
+        "description": "You grip the blade part way down for greater control.\n\nBlocked damage reduced by 50% of Strength, -1 accuracy.\nEnables \"Grab\" and \"Lethal Strike\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -1006,7 +1006,7 @@
       {
         "id": "buff_niten_ondodge",
         "name": "Moonlight",
-        "description": "Luck be the light,\non a dark and cloudy night,\nas the moon shines down.\n\nEnables \"In-One Timing\".\nLasts 1 turn.",
+        "description": "Luck be the light,\non a dark and cloudy night,\nas the moon shines down.\n\nEnables \"In-One Timing\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1
