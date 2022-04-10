@@ -2190,7 +2190,7 @@ The `id` must be exact as it is hardcoded to look for that.
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
 "time" : 100, //Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again. Needs to be higher than one to have any effect. (default: 0)
-"hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
+"hunger" : true, //If true, activated mutation consumes `cost` kcal. (default: false)
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 "scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
