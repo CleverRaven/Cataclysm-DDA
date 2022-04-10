@@ -199,6 +199,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "dryptosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "dryptosaurus_juvenile", "dryptosaurus_hatchling" ],
+    "by_mood": [ "dryptosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dryptosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "dryptosaurus", "dryptosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dryptosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dryptosaurus", "dryptosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "appalachiosaurus",
     "base_faction": "predator_dino",
     "friendly": [ "appalachiosaurus_juvenile", "appalachiosaurus_hatchling" ],
@@ -322,6 +341,18 @@
     "name": "utahraptor_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "utahraptor", "utahraptor_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus",
+    "base_faction": "small_predator",
+    "friendly": [ "dromaeosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dromaeosaurus" ]
   },
   {
     "type": "MONSTER_FACTION",
