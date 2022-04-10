@@ -122,17 +122,17 @@
 
 ```C++
 "id" : "debug_elem_resist",         // Unique ID. Must be one continuous word
-"name" : "Elemental resistance",    // In-game name displayed
-"description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
+"name" : "Elemental Resistance",    // In-game name displayed
+"description" : "You are a walking tank!\n\nGain Bash armor equal to 100% of Strength, Cut armor equal to 100% of Dexterity, Electricic armor equal to 100% of Intelligence, and Fire armor equal to 100% of Perception.", // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
-"persists": false,                 // Allow buff to remain when changing to a new style
+"persists": false,                  // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
-"unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
+"unarmed_weapons_allowed" : true,   // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
-"bonus_blocks": 1       // Extra blocks per turn
-"bonus_dodges": 1       // Extra dodges per turn
+"bonus_blocks": 1                   // Extra blocks per turn
+"bonus_dodges": 1                   // Extra dodges per turn
 "flat_bonuses" : [                  // Flat bonuses, see below
 ],
 "mult_bonuses" : [                  // Multiplicative bonuses, see below
