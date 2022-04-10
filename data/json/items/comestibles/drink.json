@@ -1199,7 +1199,7 @@
     "id": "tea_bark",
     "looks_like": "tea",
     "name": { "str": "bark tea" },
-    "weight": "251 g",
+    "weight": "500 g",
     "color": "brown",
     "use_action": [ "ANTIPARASITIC" ],
     "container": "bottle_plastic",
