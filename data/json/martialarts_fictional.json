@@ -25,7 +25,7 @@
       {
         "id": "buff_biojutsu_onblock",
         "name": "Binary Hardening",
-        "description": "player@CDDA:/root$ sudo apt install improved-armor\nplayer@CDDA:/root$ sudo apt update\n\nGain 3 Bash, Cut, and Stab armor.\nLasts 4 turns.  Stacks 3 times.",
+        "description": "player@CDDA:/root$ sudo apt install improved-armor\nplayer@CDDA:/root$ sudo apt update\n\n+3 Bash, Cut, and Stab armor.\nLasts 4 turns.  Stacks 3 times.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
@@ -233,7 +233,7 @@
       {
         "id": "buff_toad_static",
         "name": "Toad's Iron Skin",
-        "description": "Your body is as strong as iron, but only if you don't move.\n\nGain Bash, Cut, and Stab armor equal to 100% of Strength.",
+        "description": "Your body is as strong as iron, but only if you don't move.\n\nBash, Cut, and Stab armor increased by 100% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
@@ -246,7 +246,7 @@
       {
         "id": "buff_toad_onmove",
         "name": "Iron Skin Dissipation",
-        "description": "Moving causes you to lose your iron skin.\n\nLose Bash, Cut, and Stab armor equal to 20% of Strength.\nLasts 5 turns.  Stacks 5 times.",
+        "description": "Moving causes you to lose your iron skin.\n\nBash, Cut, and Stab armor reduced by 20% of Strength.\nLasts 5 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 5,
         "max_stacks": 5,
@@ -262,7 +262,7 @@
       {
         "id": "buff_toad_onpause",
         "name": "Toad's Meditation",
-        "description": "By concentrating for a moment, you can bolster the strength of your iron skin.\n\nGain Bash, Cut, and Stab armor equal to 50% of Strength.\nLasts 2 turns.",
+        "description": "By concentrating for a moment, you can bolster the strength of your iron skin.\n\nBash, Cut, and Stab armor increased by 50% of Strength.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,

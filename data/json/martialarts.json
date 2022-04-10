@@ -1460,7 +1460,7 @@
       {
         "id": "debug_elem_resist",
         "name": "Elemental Resistance",
-        "description": "You are a walking tank!\n\nGain Bash armor equal to 100% of Strength, Cut armor equal to 100% of Dexterity, Electricic armor equal to 100% of Intelligence, and Fire armor equal to 100% of Perception.",
+        "description": "You are a walking tank!\n\nBash armor increased by 100% of Strength, Cut armor increased by 100% of Dexterity, Electricic armor increased by 100% of Intelligence, and Fire armor increased by 100% of Perception.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
