@@ -83,7 +83,7 @@
   - "**/mapgen/**/*"
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
-  - "src/overmap*.*"
+  - "**/overmap**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
