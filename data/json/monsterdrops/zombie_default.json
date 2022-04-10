@@ -255,7 +255,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance)",
+    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance), normal zombies have a small chance of carrying a bugout bag",
     "id": "default_zombie_death_drops",
     "entries": [
       {
@@ -265,7 +265,8 @@
         ]
       },
       { "group": "default_zombie_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "bugout_bag", "prob": 1 }
     ]
   }
 ]

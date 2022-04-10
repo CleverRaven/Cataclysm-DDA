@@ -826,7 +826,7 @@ void game::chat()
     }
 
     if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
+        message = string_format( _( "\"%s\"" ), yell_msg );
     }
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
@@ -1761,7 +1761,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = "\"" + challenge + "\"";
+        challenge = string_format( _( "\"%s\"" ), challenge );
     }
 
     // Parse any tags in challenge

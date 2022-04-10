@@ -1119,7 +1119,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     for( int row = top; row <= bottom; row++ ) {
         // Scan across the width of the row
         for( int col = left; col <= right; col++ ) {
-            // Is this point along the border of the overmap text area we have to work wth?
+            // Is this point along the border of the overmap text area we have to work with?
             // If so, overmap_tile_symbol_color may draw a mission indicator at this point.
             const bool edge = !found_mi && !( mission_xyz.x() >= center_xyz.x() + left &&
                                               mission_xyz.x() <= center_xyz.x() + right &&

@@ -218,6 +218,7 @@
         "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
         "type": "good"
       },
+      { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": "EOC_WORSEN_PORTAL_STORM" }
     ]
   },

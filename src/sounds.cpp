@@ -238,7 +238,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
 // This is an attempt to handle attenuation of sound for underground areas.
-// The main issue it adresses is that you can hear activity
+// The main issue it addresses is that you can hear activity
 // relatively deep underground while on the surface.
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are
@@ -287,8 +287,8 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::destructive_activity:
         case sounds::sound_t::alarm:
         case sounds::sound_t::combat:
-            return false;
         case sounds::sound_t::movement:
+            return false;
         case sounds::sound_t::speech:
         case sounds::sound_t::electronic_speech:
         case sounds::sound_t::alert:

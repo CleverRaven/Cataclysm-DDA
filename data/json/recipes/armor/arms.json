@@ -617,6 +617,42 @@
     "using": [ [ "armor_qt_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   },
   {
+    "result": "armguard_bronze",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "7 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "components": [ [ [ "scrap_bronze", 10 ] ] ]
+  },
+  {
+    "result": "xs_armguard_bronze",
+    "type": "recipe",
+    "copy-from": "armguard_bronze",
+    "time": "7 h 30 m",
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 3 ], [ "clasps", 3 ] ],
+    "components": [ [ [ "scrap_bronze", 7 ] ] ]
+  },
+  {
+    "result": "xl_armguard_bronze",
+    "type": "recipe",
+    "copy-from": "armguard_bronze",
+    "time": "8 h 30 m",
+    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "scrap_bronze", 14 ] ] ]
+  },
+  {
     "result": "gambeson_sleeve",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

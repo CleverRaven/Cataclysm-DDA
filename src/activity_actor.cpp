@@ -5665,6 +5665,44 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+void clear_rubble_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
+{
+    const tripoint &pos = act.placement;
+    map &here = get_map();
+    who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
+    here.furn_set( pos, f_null );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( pos, who, true );
+}
+
+void clear_rubble_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> clear_rubble_activity_actor::deserialize( JsonValue &jsin )
+{
+    clear_rubble_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
 void firstaid_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
