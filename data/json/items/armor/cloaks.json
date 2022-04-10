@@ -254,7 +254,7 @@
     "weight": "30 g",
     "volume": "50 ml",
     "to_hit": -1,
-    "flags": [ "WATERPROOF", "RAINPROOF", "OVERSIZE", "HOOD", "OUTER" ],
+    "flags": [ "WATERPROOF", "RAINPROOF", "OVERSIZE", "HOOD", "OUTER", "SOFT" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
