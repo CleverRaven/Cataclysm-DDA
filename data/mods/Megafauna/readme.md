@@ -7,7 +7,7 @@ Geographically, species from modern day New England are the focus, again for a m
 
 **ToDo**
 
-*List of creatures that should be added*
+*List of creatures that should be added* [done]
 [done] -> First implementation done 
 sabre-toothed cat (Smilodon fatalis) [done]
 giant short-faced bear (Arctodus) [done]
@@ -36,11 +36,11 @@ Possibly some kind of goat, maybe extinct pronghorn species?
 
 
 
-*Add/adjust monster groups*
+*Add/adjust monster groups* [done]
 Blacklist monsters that don't fit time frame:
-- all domesticated animals (cows, pigs, chicken, horses, cats, dogs)
-- introduced species (wild boars)
-- overlapping mutant variants (e.g, dire wolf)
+- all domesticated animals (cows, pigs, goats, chicken, horses, cats, dogs) [done]
+- introduced species (wild boars) [done]
+- overlapping mutant variants (e.g, dire wolf) [done]
 
 
 Add new monsters to monster groups/implement spawn:

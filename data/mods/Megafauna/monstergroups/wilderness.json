@@ -1,0 +1,29 @@
+[
+    {
+      "type": "monstergroup",
+      "name": "GROUP_FOREST",
+      "//": "Current SPRING first DAY count is X.",
+      "is_animal": true,
+      "monsters": [
+          { "monster": "", 
+            "weight": 1, 
+            "cost_multiplier": 0, 
+            "pack_size": [ 0, 0 ], 
+            "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ] }
+        ]
+    },
+    {
+        "type": "monstergroup",
+        "name": "GROUP_RIVER",
+        "//": "Current SPRING first DAY count is X.",
+        "is_animal": true,
+        "monsters": [ ]
+    },
+    {
+        "type": "monstergroup",
+        "name": "GROUP_SWAMP",
+        "//": "Current SPRING first DAY count is X.",
+        "is_animal": true,
+        "monsters": [ ]
+    }
+]
