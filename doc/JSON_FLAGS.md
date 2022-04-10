@@ -364,7 +364,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
-- ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long branch into two.

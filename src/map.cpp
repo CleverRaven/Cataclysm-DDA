@@ -5287,16 +5287,16 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     for( const tripoint &p : reachable_pts ) {
-        if( has_furn( p ) ) {
-            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
+        if( accessible_items( p ) ) {
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter );
+            ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
             }
         }
 
-        if( accessible_items( p ) ) {
-            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter );
-            ret.splice( ret.end(), tmp );
+        if( has_furn( p ) ) {
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret, filter );
             if( quantity <= 0 ) {
                 return ret;
             }
