@@ -32,7 +32,7 @@
       {
         "id": "buff_aikido_static1",
         "name": "Aikido Stance",
-        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness.\n+1.0 Dodging skill.",
+        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness, +1.0 Dodging skill.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
@@ -45,7 +45,7 @@
       {
         "id": "buff_aikido_static2",
         "name": "Intermediate Aikido",
-        "description": "An intermediate Aikido practitioner can protect themselves against multiple opponents.\n\nBlocked damage reduced by 100% of Dexterity, +1 blocking effectiveness.\n+1 block attempt, +1 dodge attempt.",
+        "description": "An intermediate Aikido practitioner can protect themselves against multiple opponents.\n\nBlocked damage reduced by 100% of Dexterity, +1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
@@ -57,7 +57,7 @@
       {
         "id": "buff_aikido_static3",
         "name": "Advanced Aikido",
-        "description": "An advanced Aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 blocking effectiveness.\n+1 block attempt, +1 dodge attempt.",
+        "description": "An advanced Aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
@@ -370,7 +370,7 @@
       {
         "id": "buff_crane_static1",
         "name": "Crane's Precision",
-        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\n\nDexterity increases melee damage instead of Strength.  Bash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
+        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
@@ -418,7 +418,7 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\n\nIntelligence increases accuracy instead of Dexterity and melee damage instead of Strength. Accuracy increased by 25% of Intelligence but decreased by 25% of Dexterity.  Bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
+        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, Bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "int", "scale": 0.25 },
@@ -654,7 +654,7 @@
       {
         "id": "buff_judo_static",
         "name": "Judo Stance",
-        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.\nIn addition, you can counter grabs and takedown attacks with a judo throw.",
+        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly. In addition, you can counter grabs and takedown attacks with a judo throw.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "unarmed_weapons_allowed": false,
@@ -761,7 +761,7 @@
       {
         "id": "buff_leopard_static1",
         "name": "Leopard's Strategy",
-        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\n\nDexterity increases melee damage instead of Strength.  Bash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
+        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
@@ -895,7 +895,7 @@
       {
         "id": "buff_ninjutsu_static1",
         "name": "Ninjutsu Stance",
-        "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise.  Moving generates 1/2 as much noise.",
+        "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise, moving generates 1/2 as much noise.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "quiet": true,
@@ -1038,7 +1038,7 @@
       {
         "id": "buff_pankration_ondodge",
         "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.\n+10% damage.\nEnables \"Close Combat\" buff.\nLasts 1 turn.",
+        "description": "The enemy has presented an opening in their defense.\n\n+10% damage.\nEnables \"Close Combat\" buff.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -1130,7 +1130,7 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases accuracy instead of Dexterity.  Accuracy increased by 25% of Perception but decreased by 25% of Dexterity.  Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
@@ -1324,7 +1324,7 @@
       {
         "id": "buff_tiger_static",
         "name": "Tiger's Strength",
-        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\n\nStrength increases accuracy instead of Dexterity.  Accuracy increased by 25% of Strength but decreased by 25% of Dexterity.",
+        "description": "You do not need defense.  You do not need a plan.  You need strength.  Strength will break your opponents' defenses and overwhelm them completely.\n\nAccuracy increased by 25% of Strength but decreased by 25% of Dexterity.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scaling-stat": "str", "scale": 0.25 }, { "stat": "hit", "scaling-stat": "dex", "scale": -0.25 } ]
       }

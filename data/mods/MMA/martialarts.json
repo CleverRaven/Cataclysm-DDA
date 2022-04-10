@@ -178,7 +178,7 @@
       {
         "id": "mma_buff_hylian_onpause",
         "name": "Charge Up",
-        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage\nEnables \"Spin Attack\" technique.\nLasts 1 turn.",
+        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage.\nEnables \"Spin Attack\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -358,7 +358,7 @@
       {
         "id": "mma_buff_setting_sun_onpause",
         "name": "Baffling Defense",
-        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging skill increased by 20% of Intelligence\nEnables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
+        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging skill increased by 20% of Intelligence.\nEnables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -522,7 +522,7 @@
       {
         "id": "mma_buff_stone_dragon_onmove2",
         "name": "Stattered Stone",
-        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, Lose 2 Bash, Cut, and Stab armor.\nLasts 1 turn.",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, lose 2 Bash, Cut, and Stab armor.\nLasts 1 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
