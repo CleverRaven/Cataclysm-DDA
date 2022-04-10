@@ -5,6 +5,14 @@
 "[JSON]":
   - "**/*.json"
 
+"Game: Achievements / Conducts / Scores":
+  - data/json/scores.json
+  - data/json/statistics.json
+  - data/json/achievements.json
+  - data/json/conducts.json
+  - "**/achievement.*"
+  - "**/event_statistics.*"
+
 "[Python]":
   - "**/*.py"
 
@@ -20,6 +28,10 @@
 
 "Code: Tests":
   - tests/**/*
+
+"Character / World Generation":
+  - src/newcharacter.cpp
+  - "**/worldfactory.*"
 
 "Code: Build":
   - build-data/**/*
@@ -72,6 +84,7 @@
   - "**/mapgen/**/*"
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
+  - "src/overmap*.*"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -85,6 +98,10 @@
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
+
+"Scenarios":
+  - "**/scenario.*"
+  - data/json/scenarios.json
 
 "Translation":
   - lang/**/*
@@ -123,3 +140,7 @@
 
 "Mods":
   - data/mods/**/*
+
+"Weather":
+  - "src/weather*.*"
+  - data/json/weather_type.json
