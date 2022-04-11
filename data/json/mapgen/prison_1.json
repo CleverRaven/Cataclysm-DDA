@@ -474,11 +474,7 @@
           { "item": "cop_pants", "chance": 20 },
           { "item": "cop_shoes", "chance": 20 }
         ],
-        "R": [
-          { "item": "dissection", "chance": 60 },
-          { "item": "bionics_common", "chance": 10 },
-          { "item": "mut_lab", "chance": 5 }
-        ],
+        "R": [ { "item": "dissection", "chance": 60 }, { "item": "mut_lab", "chance": 5 } ],
         "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": {
