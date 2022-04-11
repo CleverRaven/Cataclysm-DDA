@@ -737,7 +737,7 @@
     "dodge": 5,
     "hp": 35,
     "vision_night": 1,
-    "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands. The teeth are large and sharp and the jaws look strong.",
+    "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.  The teeth are large and sharp and the jaws look strong.",
     "reproduction": { "baby_egg": "egg_dromaeosaurus", "baby_count": 3, "baby_timer": 18 }
   },
   {
