@@ -137,7 +137,7 @@
     "type": "proficiency",
     "id": "prof_pharmaceutical",
     "category": "prof_chem",
-    "name": { "str": "Pharmaceutical Production." },
+    "name": { "str": "Pharmaceutical Production" },
     "description": "An understanding of how to produce various natural and chemical substances pure enough for human consumption.",
     "can_learn": true,
     "default_time_multiplier": 2,
