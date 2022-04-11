@@ -254,7 +254,7 @@
     "type": "effect_type",
     "id": "debug_feather_fall",
     "name": [ "Debug Feather Fall" ],
-    "desc": [ "You  are light as a feather and fall like one." ],
+    "desc": [ "You are light as a feather and fall like one." ],
     "apply_message": "Your body feels light as a feather.",
     "remove_message": "The earth pulls you down hard.",
     "rating": "good",
