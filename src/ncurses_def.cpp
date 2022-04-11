@@ -27,6 +27,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -429,8 +430,8 @@ void check_encoding(); // NOLINT(cata-static-declarations)
 void ensure_term_size()
 {
     // do not use ui_adaptor here to avoid re-entry
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
+    const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
+    const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
     int maxy = getmaxy( catacurses::stdscr );
     int maxx = getmaxx( catacurses::stdscr );
 

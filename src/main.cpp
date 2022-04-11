@@ -32,6 +32,7 @@
 #include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
@@ -677,8 +678,8 @@ int main( int argc, const char *argv[] )
     if( !test_mode ) {
         try {
             // set minimum FULL_SCREEN sizes
-            FULL_SCREEN_WIDTH = 80;
-            FULL_SCREEN_HEIGHT = 24;
+            FULL_SCREEN_WIDTH = EVEN_MINIMUM_TERM_WIDTH;
+            FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized

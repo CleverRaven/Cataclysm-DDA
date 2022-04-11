@@ -590,9 +590,9 @@ void game_ui::init_ui()
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
-        FULL_SCREEN_HEIGHT = 25;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT + 1;
     } else {
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
     }
 #endif
 }

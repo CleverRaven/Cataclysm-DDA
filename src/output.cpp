@@ -23,6 +23,7 @@
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -2591,7 +2592,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
-    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+    return width < EVEN_MINIMUM_TERM_WIDTH ? EVEN_MINIMUM_TERM_WIDTH : width;
 }
 
 int get_terminal_height()
