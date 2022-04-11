@@ -1719,7 +1719,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1729,7 +1729,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2135,7 +2135,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
+                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets().value() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
@@ -3674,7 +3674,22 @@ void game::draw_minimap()
                 ter_color = c_black;
             } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
+                std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omp );
+                int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+                for( om_vehicle vehicle : vehicles ) {
+                    int temp_distance = std::abs( vehicle.p.z() - omp.z() );
+                    if( temp_distance < distance ) {
+                        distance = temp_distance;
+                        if( vehicle.p.z() == omp.z() ) {
+                            ter_sym = "c";
+                            break; // Break to always show vehicles on current level first
+                        } else if( vehicle.p.z() > omp.z() ) {
+                            ter_sym = "^";
+                        } else {
+                            ter_sym = "v";
+                        }
+                    }
+                }
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
