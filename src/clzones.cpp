@@ -63,6 +63,7 @@ static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
 static const zone_type_id zone_type_LOOT_SEEDS( "LOOT_SEEDS" );
@@ -197,7 +198,7 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<plot_options>();
     } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
         return make_shared_fast<blueprint_options>();
-    } else if( type == zone_type_LOOT_CUSTOM ) {
+    } else if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
         return make_shared_fast<loot_options>();
     }
 
@@ -210,7 +211,7 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const plot_options *>( &options ) != nullptr;
     } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
-    } else if( type == zone_type_LOOT_CUSTOM ) {
+    } else if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
@@ -820,17 +821,31 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
     return nullptr;
 }
 
-bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it ) const
+bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
+                                    const zone_type_id &ztype ) const
 {
-    const zone_data *zone = get_zone_at( where, zone_type_LOOT_CUSTOM );
+    const zone_data *zone = get_zone_at( where, ztype );
     if( !zone || !it ) {
         return false;
     }
     const loot_options &options = dynamic_cast<const loot_options &>( zone->get_options() );
     std::string filter_string = options.get_mark();
-    auto z = item_filter_from_string( filter_string );
+    if( ztype == zone_type_LOOT_CUSTOM ) {
+        auto const z = item_filter_from_string( filter_string );
 
-    return z( *it );
+        return z( *it );
+    }
+    if( ztype == zone_type_LOOT_ITEM_GROUP ) {
+        std::set<itype const *> const &gr =
+            item_group::every_possible_item_from( item_group_id( filter_string ) );
+
+        return std::any_of( gr.begin(), gr.end(),
+        [it]( itype const * type ) {
+            return type->get_id() == it->typeId();
+        } );
+    }
+
+    return false;
 }
 
 std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &type,
@@ -842,8 +857,8 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     for( const tripoint_abs_ms &point : point_set ) {
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
-                if( type != zone_type_LOOT_CUSTOM or
-                    ( it != nullptr and custom_loot_has( point, it ) ) ) {
+                if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
+                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -854,8 +869,8 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     for( const tripoint_abs_ms &point : vzone_set ) {
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
-                if( type != zone_type_LOOT_CUSTOM or
-                    ( it != nullptr and custom_loot_has( point, it ) ) ) {
+                if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
+                    ( it != nullptr and custom_loot_has( point, it, type ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -911,6 +926,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     if( has_near( zone_type_LOOT_CUSTOM, where, range, fac ) ) {
         if( !get_near( zone_type_LOOT_CUSTOM, where, range, &it, fac ).empty() ) {
             return zone_type_LOOT_CUSTOM;
+        }
+    }
+    if( has_near( zone_type_LOOT_ITEM_GROUP, where, range, fac ) ) {
+        if( !get_near( zone_type_LOOT_ITEM_GROUP, where, range, &it, fac ).empty() ) {
+            return zone_type_LOOT_ITEM_GROUP;
         }
     }
     if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {

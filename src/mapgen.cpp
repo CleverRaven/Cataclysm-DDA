@@ -181,6 +181,7 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2971,8 +2972,9 @@ class jmapgen_zone : public jmapgen_piece
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
             auto options = zone_options::create( chosen_zone_type );
-            if( chosen_zone_type == zone_type_LOOT_CUSTOM ) {
-                reinterpret_cast<loot_options *>( &*options )->set_mark( filter );
+            if( chosen_zone_type == zone_type_LOOT_CUSTOM or
+                chosen_zone_type == zone_type_LOOT_ITEM_GROUP ) {
+                dynamic_cast<loot_options *>( &*options )->set_mark( filter );
             }
             mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end, options );
         }
