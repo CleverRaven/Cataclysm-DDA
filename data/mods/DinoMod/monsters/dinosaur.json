@@ -724,18 +724,18 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR" ]
   },
-   {
+  {
     "type": "MONSTER",
     "id": "mon_dromaeosaurus",
     "name": { "str_sp": "dromaeosaurus" },
-        "copy-from": "mon_velociraptor",
+    "copy-from": "mon_velociraptor",
     "default_faction": "dromaeosaurus",
     "morale": 40,
     "speed": 120,
     "attack_cost": 120,
     "melee_cut": 6,
-        "dodge": 5,
-            "hp": 35,
+    "dodge": 5,
+    "hp": 35,
     "vision_night": 1,
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands. The teeth are large and sharp and the jaws look strong.",
     "reproduction": { "baby_egg": "egg_dromaeosaurus", "baby_count": 3, "baby_timer": 18 }
