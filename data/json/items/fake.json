@@ -328,7 +328,7 @@
   {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
-    "name": { "str": "training dummy" },
+    "name": { "str": "training dummy", "str_pl": "training dummies" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "@",
     "color": "brown",
@@ -337,7 +337,7 @@
   {
     "id": "pseudo_training_dummy_heavy",
     "type": "TOOL",
-    "name": { "str": "armored training dummy" },
+    "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "@",
     "color": "brown",
