@@ -766,9 +766,23 @@ static void draw_ascii(
                 ter_color = c_green;
                 ter_sym = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
             } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
-                ter_sym = "c";
+                std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omp );
+                int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+                for( om_vehicle vehicle : vehicles ) {
+                    int temp_distance = std::abs( vehicle.p.z() - omp.z() );
+                    if( temp_distance < distance ) {
+                        distance = temp_distance;
+                        if( vehicle.p.z() == omp.z() ) {
+                            ter_sym = "c";
+                            break; // Break to always show vehicles on current level first
+                        } else if( vehicle.p.z() > omp.z() ) {
+                            ter_sym = "^";
+                        } else {
+                            ter_sym = "v";
+                        }
+                    }
+                }
             } else if( !sZoneName.empty() && tripointZone.xy() == omp.xy() ) {
                 ter_color = c_yellow;
                 ter_sym = "Z";

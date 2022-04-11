@@ -3573,7 +3573,6 @@ void game::draw_minimap()
             tripoint_abs_omt omp( om, levz );
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
 
                 const std::string &note_text = overmap_buffer.note( omp );
@@ -3665,9 +3664,24 @@ void game::draw_minimap()
             } else if( !seen ) {
                 ter_sym = " ";
                 ter_color = c_black;
-            } else if( vehicle_here ) {
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omp );
+                int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+                for( om_vehicle vehicle : vehicles ) {
+                    int temp_distance = std::abs( vehicle.p.z() - omp.z() );
+                    if( temp_distance < distance ) {
+                        distance = temp_distance;
+                        if( vehicle.p.z() == omp.z() ) {
+                            ter_sym = "c";
+                            break; // Break to always show vehicles on current level first
+                        } else if( vehicle.p.z() > omp.z() ) {
+                            ter_sym = "^";
+                        } else {
+                            ter_sym = "v";
+                        }
+                    }
+                }
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();

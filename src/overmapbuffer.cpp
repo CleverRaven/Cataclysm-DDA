@@ -490,17 +490,13 @@ bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
 
 bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 {
-    if( p.z() ) {
-        return false;
-    }
-
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return false;
     }
 
     for( const auto &v : om_loc.om->vehicles ) {
-        if( v.second.p == om_loc.local.xy() ) {
+        if( v.second.p.xy() == om_loc.local.xy() ) {
             return true;
         }
     }
@@ -511,15 +507,12 @@ bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 std::vector<om_vehicle> overmapbuffer::get_vehicle( const tripoint_abs_omt &p )
 {
     std::vector<om_vehicle> result;
-    if( p.z() != 0 ) {
-        return result;
-    }
     const overmap_with_local_coords om_loc = get_existing_om_global( p );
     if( !om_loc ) {
         return result;
     }
     for( const auto &ov : om_loc.om->vehicles ) {
-        if( ov.second.p == om_loc.local.xy() ) {
+        if( ov.second.p.xy() == om_loc.local.xy() ) {
             result.push_back( ov.second );
         }
     }
@@ -670,7 +663,7 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
     const overmap_with_local_coords new_om_loc = get_om_global( new_omt );
     if( old_om_loc.om == new_om_loc.om ) {
-        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local.xy();
+        new_om_loc.om->vehicles[veh->om_id].p = new_om_loc.local;
     } else {
         old_om_loc.om->vehicles.erase( veh->om_id );
         add_vehicle( veh );
@@ -715,7 +708,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
         id++;
     }
     om_vehicle &tracked_veh = om_loc.om->vehicles[id];
-    tracked_veh.p = om_loc.local.xy();
+    tracked_veh.p = om_loc.local;
     tracked_veh.name = veh->name;
     veh->om_id = id;
 }
