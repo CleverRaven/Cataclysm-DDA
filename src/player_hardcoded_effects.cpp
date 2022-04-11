@@ -972,7 +972,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_nutr( -5 );
+                    u.mod_stored_kcal( -43 );
                 }
             }
             if( u.get_thirst() >= -40 ) {
@@ -1031,7 +1031,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
                     u.mutate_category( mutation_category_MYCUS );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( 87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
                 }
