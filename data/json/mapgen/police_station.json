@@ -330,8 +330,7 @@
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "harddrugs", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "jewelry_safe", "chance": 20 },
-          { "item": "bionics_common", "chance": 10 }
+          { "item": "jewelry_safe", "chance": 20 }
         ],
         "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
         "t": { "item": "trash_cart", "chance": 30, "repeat": [ 1, 2 ] },
