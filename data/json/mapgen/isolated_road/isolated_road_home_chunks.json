@@ -36,17 +36,6 @@
         { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 }
       ],
-      "place_loot": [
-        { "group": "ammo_rifle_common", "x": 2, "y": 7, "chance": 100 },
-        { "group": "guns_rifle_milspec", "x": 2, "y": 7, "chance": 100 },
-        { "group": "gunsmith_basic_ammo", "x": 3, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 5, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 6, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 7, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_repack_ammo", "x": 3, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 11, "chance": 100, "repeat": [ 3, 6 ] }
-      ],
       "place_zones": [
         {
           "type": "LOOT_ITEM_GROUP",
@@ -131,12 +120,6 @@
       ],
       "palettes": [ "artisans" ],
       "place_monster": [ { "monster": "mon_turret_artisans", "x": 17, "y": 10, "chance": 100 } ],
-      "place_loot": [
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 8 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 9 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 10 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 11 }
-      ],
       "place_zones": [
         { "type": "LOOT_ARMOR", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 8 ] },
         { "type": "LOOT_CLOTHING", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 9, 9 ] },
