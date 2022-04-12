@@ -3699,16 +3699,20 @@ const city &overmap::get_nearest_city( const tripoint_om_omt &p ) const
     return invalid_city;
 }
 
-tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_type> &target )
-const
+tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_type> &target,
+        cata::optional<city> target_city ) const
 {
+    const bool check_nearest_city = target_city.has_value();
     std::vector<tripoint_om_omt> valid;
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
                 tripoint_om_omt p( i, j, k );
                 if( is_ot_match( target.first, ter( p ), target.second ) ) {
-                    valid.push_back( p );
+                    if( !check_nearest_city ||
+                        ( check_nearest_city && get_nearest_city( p ) == target_city.value() ) ) {
+                        valid.push_back( p );
+                    }
                 }
             }
         }
