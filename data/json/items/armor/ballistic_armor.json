@@ -41,7 +41,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -51,7 +51,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -61,7 +61,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for a side plate",
+        "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -71,7 +71,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for a side plate",
+        "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
@@ -256,7 +256,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -266,7 +266,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -276,7 +276,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for a side plate",
+        "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -286,7 +286,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for a side plate",
+        "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
@@ -414,14 +414,14 @@
       {
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (mag pouches)", "str_pl": "olive light ballistic vests (mag pouches)" },
-        "description": "It's styled in olive camouflage.",
+        "description": "It's styled in a dark olive color.",
         "weight": 4,
         "append": true
       },
       {
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (mag pouches)", "str_pl": "tan light ballistic vests (mag pouches)" },
-        "description": "It's styled in tan camouflage.",
+        "description": "It's styled in a tan color.",
         "weight": 4,
         "append": true
       },
@@ -468,7 +468,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -478,7 +478,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -517,14 +517,14 @@
       {
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (storage pouch)", "str_pl": "olive light ballistic vests (storage pouch)" },
-        "description": "It's styled in olive camouflage.",
+        "description": "It's styled in a dark olive color.",
         "weight": 4,
         "append": true
       },
       {
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (storage pouch)", "str_pl": "tan light ballistic vests (storage pouch)" },
-        "description": "It's styled in tan camouflage.",
+        "description": "It's styled in a tan color.",
         "weight": 4,
         "append": true
       },
@@ -565,7 +565,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -575,7 +575,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -600,14 +600,14 @@
       {
         "id": "ballistic_vest_light_olive",
         "name": { "str": "olive light ballistic vest (shoulder pouch)", "str_pl": "olive light ballistic vests (shoulder pouch)" },
-        "description": "It's styled in olive camouflage.",
+        "description": "It's styled in a dark olive color.",
         "weight": 4,
         "append": true
       },
       {
         "id": "ballistic_vest_light_tan",
         "name": { "str": "tan light ballistic vest (shoulder pouch)", "str_pl": "tan light ballistic vests (shoulder pouch)" },
-        "description": "It's styled in tan camouflage.",
+        "description": "It's styled in a tan color.",
         "weight": 4,
         "append": true
       },
@@ -651,7 +651,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -661,7 +661,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -762,7 +762,7 @@
       {
         "id": "security_armor_vest",
         "name": { "str": "security ballistic vest" },
-        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Ballistic plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen.",
+        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Soft armor plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen.",
         "weight": 1
       },
       {
@@ -848,7 +848,7 @@
       {
         "id": "police_armor_vest",
         "name": { "str": "police ballistic vest" },
-        "description": "This charcoal-colored plate carrier was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back.",
+        "description": "This charcoal-colored body armor was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back.",
         "weight": 1
       },
       {
@@ -877,7 +877,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -887,7 +887,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for a body plate",
+        "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       }
     ],
