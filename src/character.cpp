@@ -4010,12 +4010,6 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     set_stored_calories( stored_calories + ncal );
 }
 
-void Character::mod_stored_nutr( int nnutr )
-{
-    // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_stored_kcal( -1 * std::round( nnutr * 2500.0f / ( 12 * 24 ) ) );
-}
-
 void Character::set_stored_kcal( int kcal )
 {
     set_stored_calories( kcal * 1000 );
@@ -6767,46 +6761,52 @@ std::string get_stat_name( character_stat Stat )
     return pgettext( "fake stat there's an error", "ERR" );
 }
 
-void Character::build_mut_dependency_map( const trait_id &mut,
-        std::unordered_map<trait_id, int> &dependency_map, int distance )
+int Character::mutation_height( const trait_id &mut )
 {
-    // Skip base traits and traits we've seen with a lower distance
-    const auto lowest_distance = dependency_map.find( mut );
-    if( !has_base_trait( mut ) && ( lowest_distance == dependency_map.end() ||
-                                    distance < lowest_distance->second ) ) {
-        dependency_map[mut] = distance;
-        // Recurse over all prerequisite and replacement mutations
-        const mutation_branch &mdata = mut.obj();
-        for( const trait_id &i : mdata.prereqs ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( const trait_id &i : mdata.prereqs2 ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( const trait_id &i : mdata.replacements ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
+    const mutation_branch &mdata = mut.obj();
+    int height_prereqs = 0;
+    int height_prereqs2 = 0;
+    for( const trait_id &prereq : mdata.prereqs ) {
+        height_prereqs = std::max( mutation_height( prereq ), height_prereqs );
     }
+    for( const trait_id &prereq : mdata.prereqs2 ) {
+        height_prereqs2 = std::max( mutation_height( prereq ), height_prereqs2 );
+    }
+    return std::max( height_prereqs, height_prereqs2 ) + 1;
 }
 
-void Character::set_highest_cat_level()
+void Character::calc_mutation_levels()
 {
     mutation_category_level.clear();
+    // This intentionally counts multiple leads_to mutations
+    // from the same root mutation as having full height
 
     // For each of our mutations...
     for( const trait_id &mut : get_mutations() ) {
-        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
-        std::unordered_map<trait_id, int> dependency_map;
-        build_mut_dependency_map( mut, dependency_map, 0 );
-
-        // Then use the map to set the category levels
-        for( const std::pair<const trait_id, int> &i : dependency_map ) {
-            const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( json_flag_NON_THRESH ) ) {
-                for( const mutation_category_id &cat : mdata.category ) {
-                    // Decay category strength based on how far it is from the current mutation
-                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
-                }
+        const mutation_branch &mdata = mut.obj();
+        if( mdata.threshold ) {
+            // Thresholds are worth 10, and technically support multiple categories
+            for( const mutation_category_id &cat : mdata.category ) {
+                mutation_category_level[cat] += 10;
+            }
+            continue;
+        }
+        // ... if we don't have a valid addititive version...
+        bool have_upgrade = false;
+        for( const trait_id &upgrade : mdata.additions ) {
+            const mutation_branch &upgradedata = upgrade.obj();
+            if( has_trait( upgrade ) && !upgradedata.flags.count( json_flag_NON_THRESH ) ) {
+                have_upgrade = true;
+                break;
+            }
+        }
+        if( !have_upgrade && !mdata.flags.count( json_flag_NON_THRESH ) ) {
+            // ... find the mutations distance from normalcy...
+            int mut_height = mutation_height( mut );
+            // ... and for each category it falls in...
+            for( const mutation_category_id &cat : mdata.category ) {
+                // ... add the height and a constant value
+                mutation_category_level[cat] += mut_height + 2;
             }
         }
     }
@@ -6844,23 +6844,6 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
     }
     return weighted_output;
-}
-
-/// Returns the mutation category with the highest strength
-mutation_category_id Character::get_highest_category() const
-{
-    int iLevel = 0;
-    mutation_category_id sMaxCat;
-
-    for( const std::pair<const mutation_category_id, int> &elem : mutation_category_level ) {
-        if( elem.second > iLevel ) {
-            sMaxCat = elem.first;
-            iLevel = elem.second;
-        } else if( elem.second == iLevel ) {
-            sMaxCat = mutation_category_id();  // no category on ties
-        }
-    }
-    return sMaxCat;
 }
 
 void Character::recalculate_bodyparts()
@@ -7861,6 +7844,31 @@ void Character::stop_hauling()
 bool Character::is_hauling() const
 {
     return hauling;
+}
+
+bool Character::knows_creature_type( const Creature *c ) const
+{
+    if( const monster *mon = dynamic_cast<const monster *>( c ) ) {
+        return knows_creature_type( mon->type->id );
+    }
+    return false;
+}
+
+bool Character::knows_creature_type( const mtype_id &c ) const
+{
+    return known_monsters.count( c ) > 0;
+}
+
+void Character::set_knows_creature_type( const Creature *c )
+{
+    if( const monster *mon = dynamic_cast<const monster *>( c ) ) {
+        set_knows_creature_type( mon->type->id );
+    }
+}
+
+void Character::set_knows_creature_type( const mtype_id &c )
+{
+    known_monsters.emplace( c );
 }
 
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
@@ -10656,7 +10664,7 @@ int Character::impact( const int force, const tripoint &p )
         armor_eff = 0.25f; // Not much
         if( !slam && vp->part_with_feature( "ROOF", true ) ) {
             // Roof offers better landing than frame or pavement
-            // TODO: Make this not happen with heavy duty/plated roof
+            // TODO: Make this not happen with heavy-duty/plated roof
             effective_force /= 2;
         }
     } else {
@@ -11013,10 +11021,32 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 }
 
 void Character::store( item &container, item &put, bool penalties, int base_cost,
-                       item_pocket::pocket_type pk_type )
+                       item_pocket::pocket_type pk_type, bool check_best_pkt )
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
-    container.put_in( i_rem( &put ), pk_type );
+    if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
+        container.get_all_contained_pockets().value().size() > 1 ) {
+        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
+    } else {
+        container.put_in( i_rem( &put ), pk_type );
+    }
+    calc_encumbrance();
+}
+
+void Character::store( item_pocket *pocket, item &put, bool penalties, int base_cost )
+{
+    if( !pocket ) {
+        return;
+    }
+
+    item_location char_item( *this, &null_item_reference() );
+    item_pocket *pkt_best = pocket->best_pocket_in_contents( char_item, put, nullptr, false, false );
+    if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
+        pocket = pkt_best;
+    }
+    moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
+                       pocket->obtain_cost( put ) );
+    pocket->insert_item( i_rem( &put ) );
     calc_encumbrance();
 }
 

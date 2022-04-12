@@ -172,7 +172,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Kinetic annulment system CBM" },
-    "description": "A kinetic attenuation system salvaged from a pre-discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
     "price": 100000,
     "price_postapoc": 12500,
     "difficulty": 16

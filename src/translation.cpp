@@ -339,6 +339,21 @@ bool translation::translated_lt( const translation &that ) const
     return localized_compare( translated(), that.translated() );
 }
 
+bool translation::translated_gt( const translation &that ) const
+{
+    return that.translated_lt( *this );
+}
+
+bool translation::translated_le( const translation &that ) const
+{
+    return !that.translated_lt( *this );
+}
+
+bool translation::translated_ge( const translation &that ) const
+{
+    return !translated_lt( that );
+}
+
 bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
@@ -347,6 +362,42 @@ bool translation::translated_eq( const translation &that ) const
 bool translation::translated_ne( const translation &that ) const
 {
     return !translated_eq( that );
+}
+
+bool translated_less::operator()( const translation &lhs,
+                                  const translation &rhs ) const
+{
+    return lhs.translated_lt( rhs );
+}
+
+bool translated_greater::operator()( const translation &lhs,
+                                     const translation &rhs ) const
+{
+    return lhs.translated_gt( rhs );
+}
+
+bool translated_less_equal::operator()( const translation &lhs,
+                                        const translation &rhs ) const
+{
+    return lhs.translated_le( rhs );
+}
+
+bool translated_greater_equal::operator()( const translation &lhs,
+        const translation &rhs ) const
+{
+    return lhs.translated_ge( rhs );
+}
+
+bool translated_equal_to::operator()( const translation &lhs,
+                                      const translation &rhs ) const
+{
+    return lhs.translated_eq( rhs );
+}
+
+bool translated_not_equal_to::operator()( const translation &lhs,
+        const translation &rhs ) const
+{
+    return lhs.translated_ne( rhs );
 }
 
 bool translation::operator==( const translation &that ) const

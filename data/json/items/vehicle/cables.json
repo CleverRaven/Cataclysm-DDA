@@ -42,8 +42,8 @@
   {
     "type": "TOOL",
     "id": "hd_tow_cable",
-    "name": { "str": "heavy duty tow cable" },
-    "description": "An extremely heavy duty 75-ft (or about 24 m) tow cable made from thick steel wire.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
+    "name": { "str": "heavy-duty tow cable" },
+    "description": "An extremely heavy-duty 75-ft (or about 24 m) tow cable made from thick steel wire.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
     "to_hit": -1,
     "color": "light_blue",
     "symbol": "&",

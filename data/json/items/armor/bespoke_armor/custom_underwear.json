@@ -21,7 +21,7 @@
     "warmth": 1,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY", "SOFT" ]
   },
   {
     "id": "nomad_bodyglove_2",

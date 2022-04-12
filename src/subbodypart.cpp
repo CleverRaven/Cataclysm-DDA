@@ -13,6 +13,8 @@
 #include "json.h"
 #include "type_id.h"
 
+const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
+
 namespace
 {
 
@@ -82,8 +84,6 @@ void sub_body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "name_multiple", name_multiple );
     optional( jo, was_loaded, "opposite", opposite );
 }
-
-
 
 void sub_body_part_type::reset()
 {

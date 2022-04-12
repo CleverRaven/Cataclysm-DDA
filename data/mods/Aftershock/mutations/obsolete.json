@@ -78,7 +78,6 @@
     "points": -1,
     "description": "Your scent is particularly strong.  It's vaguely offensive to humans, and animals that track your scent will do so more easily.",
     "valid": false,
-    "changes_to": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "scent_intensity": 800,
     "social_modifiers": { "persuade": -5, "intimidate": -5 }
@@ -286,8 +285,7 @@
     "description": "You smell exactly like a shaggy elephant would, assuming it sweated, which you do.  Monsters that track scent will find you very easily, and humans will react poorly.",
     "valid": false,
     "scent_intensity": 1200,
-    "prereqs": [ "ELEPHANTINE_SMELL" ],
-    "leads_to": [ "PHEROMONE_MAMMAL" ]
+    "prereqs": [ "ELEPHANTINE_SMELL" ]
   },
   {
     "type": "mutation",
@@ -335,7 +333,6 @@
     "description": "Ugh, out of water already?  You need about twice the fluids of an average human.",
     "valid": false,
     "prereqs": [ "THIRST" ],
-    "changes_to": [ "THIRST3" ],
     "cancels": [ "NO_THIRST" ],
     "thirst_modifier": 1.0
   },
@@ -360,7 +357,6 @@
     "valid": false,
     "types": [ "RUNNING" ],
     "prereqs": [ "DELIBERATE1" ],
-    "changes_to": [ "PONDEROUS3" ],
     "cancels": [ "QUICK" ],
     "movecost_modifier": 1.25
   }

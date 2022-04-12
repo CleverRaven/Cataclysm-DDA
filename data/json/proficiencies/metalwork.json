@@ -2,6 +2,7 @@
   {
     "type": "proficiency",
     "id": "prof_metalworking",
+    "category": "prof_smithing",
     "name": { "str": "Principles of Metalworking" },
     "description": "A basic understanding of the properties of metal as a material, and the concepts behind smithing, die casting, and other metalworking techniques.",
     "can_learn": true,
@@ -12,6 +13,7 @@
   {
     "type": "proficiency",
     "id": "prof_welding_basic",
+    "category": "prof_smithing",
     "name": { "str": "Principles of Welding" },
     "description": "A basic understanding of the different types of welding, welding tools and fuels, how to weld different materials, and more.",
     "can_learn": true,
@@ -23,6 +25,7 @@
   {
     "type": "proficiency",
     "id": "prof_welding",
+    "category": "prof_smithing",
     "name": { "str": "Skilled Welding" },
     "description": "You are an experienced welder.",
     "can_learn": true,
@@ -34,6 +37,7 @@
   {
     "type": "proficiency",
     "id": "prof_blacksmithing",
+    "category": "prof_smithing",
     "name": { "str": "Blacksmithing" },
     "description": "The craft of working metal into tools and other items of use.",
     "can_learn": true,
@@ -45,6 +49,7 @@
   {
     "type": "proficiency",
     "id": "prof_redsmithing",
+    "category": "prof_smithing",
     "name": { "str": "Redsmithing" },
     "description": "Working copper and bronze shares a lot of techniques with blacksmithing, but the more ductile copper-containing metals have a trick all their own.",
     "can_learn": true,
@@ -56,6 +61,7 @@
   {
     "type": "proficiency",
     "id": "prof_fine_metalsmithing",
+    "category": "prof_smithing",
     "name": { "str": "Fine Metalsmithing" },
     "description": "How to make jewelry from precious metals like gold and silver.",
     "can_learn": true,
@@ -66,6 +72,7 @@
   {
     "type": "proficiency",
     "id": "prof_armorsmithing",
+    "category": "prof_smithing",
     "name": { "str": "Armorsmithing" },
     "description": "How to make articulated armor from pieces of metal.",
     "can_learn": true,
@@ -77,6 +84,7 @@
   {
     "type": "proficiency",
     "id": "prof_bladesmith",
+    "category": "prof_smithing",
     "name": { "str": "Bladesmithing" },
     "description": "How to fabricate sharp and reliable blades from scratch.",
     "can_learn": true,
@@ -88,6 +96,7 @@
   {
     "type": "proficiency",
     "id": "prof_toolsmithing",
+    "category": "prof_smithing",
     "name": { "str": "Manual Tooling" },
     "description": "How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.  Also applies to making blunt instruments that can withstand a severe beating without distortion.",
     "can_learn": true,
@@ -99,6 +108,7 @@
   {
     "type": "proficiency",
     "id": "prof_wiremaking",
+    "category": "prof_smithing",
     "name": { "str": "Wire Making" },
     "description": "How to turn raw ingots and metals into usable wire.  Includes both drawing and extruding.",
     "can_learn": true,
@@ -110,6 +120,7 @@
   {
     "type": "proficiency",
     "id": "prof_case_hardening",
+    "category": "prof_smithing",
     "name": { "str": "Case Hardening" },
     "description": "Heating steel packed in charcoal at high temperatures to cause a hard case of higher carbon steel around the lower carbon core.",
     "can_learn": true,
@@ -120,6 +131,7 @@
   {
     "type": "proficiency",
     "id": "prof_quenching",
+    "category": "prof_smithing",
     "name": { "str": "Quenching" },
     "description": "Quenching involves repeatedly heating the steel, quenching it in water, then tempering it to create extremely tough metal.",
     "can_learn": true,

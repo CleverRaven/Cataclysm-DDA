@@ -469,12 +469,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
@@ -490,12 +490,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n" );
         }
     }
@@ -2700,6 +2700,8 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
     //
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
+           "--\n"
+           "<color_c_white>Specifically</color>: The <color_c_cyan>waist</color> (100).\n"
            "--\n"
            "<color_c_white>Total capacity</color>:\n"
            "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"

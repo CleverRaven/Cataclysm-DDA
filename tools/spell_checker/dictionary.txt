@@ -77,6 +77,7 @@ antlion
 anzu
 apatosaurus
 aposematic
+appalachiosaurus
 applet
 aprotic
 aquacultural
@@ -484,6 +485,7 @@ drivetrain
 dropoff
 droppers
 druidry
+dryptosaurus
 drywalled
 dunderfuck
 dyoplosaurus
@@ -787,7 +789,7 @@ hrm
 hrmmm
 hsh
 hsss
-http
+https
 hulled
 humaniform
 humaniforms
@@ -1186,6 +1188,7 @@ opengl
 openingly
 opy
 orichalcum
+ornithomimus
 orrery
 otes
 otha
@@ -1540,7 +1543,6 @@ slamfire
 slapjack
 sld
 sleepin
-slimespring
 sludged
 sluglike
 smallmouth
@@ -1630,6 +1632,7 @@ stratoscomm
 streetfighters
 stressfully
 strobus
+struthiomimus
 stungun
 stupidass
 stylette
@@ -1932,6 +1935,7 @@ yipe
 ynn
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z
