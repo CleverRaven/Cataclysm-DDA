@@ -1325,6 +1325,22 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_per_max();
             };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_str_bonus();
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_dex_bonus();
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_int_bonus();
+            };
+        } else if( checked_value == "perception_bonus" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_per_bonus();
+            };
         } else if( checked_value == "hp" ) {
             cata::optional<bodypart_id> bp;
             optional( jo, false, "bodypart", bp );
@@ -1487,6 +1503,17 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "exp" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_kill_xp();
+            };
+        } else if( checked_value == "addiction_intensity" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            const int mod = jo.get_int( "mod", 1 );
+            return [is_npc, add_id, mod]( const T & d ) {
+                return d.actor( is_npc )->get_addiction_intensity( add_id ) * mod;
+            };
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, add_id]( const T & d ) {
+                return d.actor( is_npc )->get_addiction_turns( add_id );
             };
         } else if( checked_value == "stim" ) {
             return [is_npc]( const T & d ) {
