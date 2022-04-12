@@ -1080,15 +1080,17 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
         }
     }
 
-    // Show hordes on minimap, leaving a one-tile space around the player
-    if( std::abs( u_loc.x() - omt.x() ) > 1 || std::abs( u_loc.y() - omt.y() ) > 1 ) {
-        const int horde_size = overmap_buffer.get_horde_size( omt );
-        const int sight_points = u.overmap_sight_range( g->light_level( u.posz() ) );
-        if( horde_size >= HORDE_VISIBILITY_SIZE && overmap_buffer.seen( omt ) &&
-            u.overmap_los( omt, sight_points ) ) {
-            // Draw green Z or z
-            ter_sym = horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
-            ter_color = c_green;
+    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
+        // Show hordes on minimap, leaving a one-tile space around the player
+        if( std::abs( u_loc.x() - omt.x() ) > 1 || std::abs( u_loc.y() - omt.y() ) > 1 ) {
+            const int horde_size = overmap_buffer.get_horde_size( omt );
+            const int sight_points = u.overmap_sight_range( g->light_level( u.posz() ) );
+            if( horde_size >= HORDE_VISIBILITY_SIZE && overmap_buffer.seen( omt ) &&
+                u.overmap_los( omt, sight_points ) ) {
+                // Draw green Z or z
+                ter_sym = horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z';
+                ter_color = c_green;
+            }
         }
     }
 
