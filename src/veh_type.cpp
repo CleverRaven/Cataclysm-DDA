@@ -1193,6 +1193,21 @@ void vehicle_prototype::load( const JsonObject &jo )
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
+
+    for( JsonObject jzi : jo.get_array( "zones" ) ) {
+        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
+        std::string name;
+        std::string filter;
+        point pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
+
+        if( jzi.has_string( "name" ) ) {
+            name = jzi.get_string( "name" );
+        }
+        if( jzi.has_string( "filter" ) ) {
+            filter = jzi.get_string( "filter" );
+        }
+        vproto.zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
+    }
 }
 
 void vehicle_prototype::reset()
