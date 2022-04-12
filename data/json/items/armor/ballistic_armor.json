@@ -449,7 +449,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (mag pouches)", "str_pl": "gaudy light ballistic vests (mag pouches)" },
-        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punchlines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "weight": 1,
         "append": true
       }
@@ -552,7 +552,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (storage pouch)", "str_pl": "gaudy light ballistic vests (storage pouch)" },
-        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punchlines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "weight": 1,
         "append": true
       }
@@ -638,7 +638,7 @@
       {
         "id": "ballistic_vest_light_meme",
         "name": { "str": "gaudy light ballistic vest (shoulder pouch)", "str_pl": "gaudy light ballistic vests (shoulder pouch)" },
-        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punchlines, and cartoon characters making bedroom eyes are plastered all over the front.",
+        "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "weight": 1,
         "append": true
       }
