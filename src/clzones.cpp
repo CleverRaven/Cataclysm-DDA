@@ -684,10 +684,10 @@ void zone_manager::cache_avatar_location()
     }
 }
 
-void zone_manager::cache_vzones()
+void zone_manager::cache_vzones( map *pmap )
 {
     vzone_cache.clear();
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
@@ -1076,38 +1076,40 @@ const zone_data *zone_manager::get_bottom_zone(
 // If you are passing new_zone from a non-const iterator, be prepared for a move! This
 // may break some iterators like map iterators if you are less specific!
 void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &mount_point,
-        zone_data &new_zone )
+        zone_data &new_zone, map *pmap )
 {
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     here.register_vehicle_zone( &vehicle, here.get_abs_sub().z() );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
-    cache_vzones();
+    cache_vzones( pmap );
 }
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options, const bool personal,
+                        bool silent, map *pmap )
 {
-    map &here = get_map();
+    map &here = pmap == nullptr ? get_map() : *pmap;
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
     // only non personal zones can be vehicle zones
     if( !personal ) {
-        //the start is a vehicle tile with cargo space
-        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
-                    start ) ).part_with_feature( "CARGO", false ) ) {
+        optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
+        if( vp and vp->vehicle().get_owner() == fac and vp.part_with_feature( "CARGO", false ) ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
-            if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
+            if( start == end &&
+                ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
                 // TODO: refactor zone options for proper validation code
-                if( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) {
+                if( !silent &&
+                    ( type == zone_type_FARM_PLOT || type == zone_type_CONSTRUCTION_BLUEPRINT ) ) {
                     popup( _( "You cannot add that type of zone to a vehicle." ), PF_NONE );
                     return;
                 }
 
-                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone );
+                create_vehicle_loot_zone( vp->vehicle(), vp->mount(), new_zone, pmap );
                 return;
             }
         }
@@ -1458,4 +1460,16 @@ void zone_manager::revert_vzones()
     for( zone_data *zone : added_vzones ) {
         remove( *zone );
     }
+}
+
+void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+                        faction_id const &fac, std::string const &name, std::string const &filter,
+                        map *pmap )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    auto options = zone_options::create( type );
+    if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
+        dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+    }
+    mgr.add( name, type, fac, false, true, start, end, options, false, true, pmap );
 }
