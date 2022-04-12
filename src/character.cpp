@@ -4010,12 +4010,6 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     set_stored_calories( stored_calories + ncal );
 }
 
-void Character::mod_stored_nutr( int nnutr )
-{
-    // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_stored_kcal( -1 * std::round( nnutr * 2500.0f / ( 12 * 24 ) ) );
-}
-
 void Character::set_stored_kcal( int kcal )
 {
     set_stored_calories( kcal * 1000 );

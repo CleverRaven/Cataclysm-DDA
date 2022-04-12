@@ -642,7 +642,7 @@ void Character::activate_mutation( const trait_id &mut )
         }
         if( mdata.hunger ) {
             // burn some energy
-            mod_stored_nutr( cost );
+            mod_stored_kcal( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
