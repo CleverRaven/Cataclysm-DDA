@@ -7,6 +7,7 @@
     "min_pet_vol": "50 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "ostrich",
+    "longest_side": "60 cm",
     "flags": [ "IS_PET_ARMOR" ]
   },
   {
