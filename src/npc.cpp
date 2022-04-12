@@ -2025,9 +2025,6 @@ void npc::shop_restock()
         return;
     }
 
-    add_fallback_zone( *this );
-    consume_items_in_zones( *this, elapsed );
-
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -2043,6 +2040,9 @@ void npc::shop_restock()
     if( value_groups.empty() && rigid_groups.empty() ) {
         return;
     }
+
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
 
     std::list<item> ret;
     int shop_value = 75000;
