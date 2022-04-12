@@ -192,7 +192,6 @@
       "baby_flags": [ "SPRING" ],
       "special_attacks": [
         [ "EAT_FOOD", 60 ],
-        [ "EAT_CROPS", 60 ],
         {
           "id": "smash",
           "cooldown": 20,
@@ -228,7 +227,7 @@
       "type": "MONSTER",
       "name": { "str": "flat-headed peccary" },
       "description": "A stocky, short-legged, pig-like animal with coarse brown fur.  It is smaller than a wild boar, its distant European cousin, and also a bit smaller than its close relative, the long-nosed peccary.  Different to these, it is a quite social and friendly creature - unless its young are threatened.",
-      "looks_like": "mon_pig",
+      "looks_like": "mon_boar_wild",
       "default_faction": "pig",
       "bodytype": "pig",
       "categories": [ "WILDLIFE" ],
@@ -256,7 +255,7 @@
       "path_settings": { "max_dist": 10 },
       "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "FRIEND_ATTACKED" ],
       "fear_triggers": [ "SOUND" ],
-      "special_attacks": [ [ "EAT_FOOD", 20 ], [ "EAT_CROPS", 20 ] ],
+      "special_attacks": [ [ "EAT_FOOD", 20 ] ],
       "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
       "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
     },
@@ -300,7 +299,7 @@
       "dodge": 2,
       "armor_bash": 2,
       "armor_cut": 1,
-      "special_attacks": [ [ "EAT_FOOD", 20 ], [ "EAT_CROPS", 20 ], { "id": "slam", "cooldown": 10 } ],
+      "special_attacks": [ [ "EAT_FOOD", 20 ], { "id": "slam", "cooldown": 10 } ],
       "reproduction": { "baby_monster": "mon_longnose_piglet", "baby_count": 1, "baby_timer": 200 },
       "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "KEENNOSE" ]
     },
@@ -347,14 +346,13 @@
       "baby_flags": [ "AUTUMN" ],
       "special_attacks": [
         [ "EAT_FOOD", 100 ],
-        [ "EAT_CROPS", 100 ],
         {
           "id": "smash",
           "cooldown": 20,
           "throw_strength": 60,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ]
         },
-        { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "pierce", "amount": 50 } ] }
+        { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "stab", "amount": 50 } ] }
       ],
       "flags": [
         "SEES",
@@ -390,7 +388,7 @@
       "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
       "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
       "harvest": "woolly_mammoth_baby",
-      "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROPS", 60 ] ],
+      "special_attacks": [ [ "EAT_FOOD", 60 ] ],
       "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
       "flags": [
         "NO_BREED",
@@ -421,7 +419,7 @@
       "speed": 90,
       "material": [ "flesh" ],
       "symbol": "M",
-      "color": "light_grey",
+      "color": "light_gray",
       "aggression": -20,
       "morale": 80,
       "melee_skill": 8,
@@ -440,14 +438,13 @@
       "baby_flags": [ "AUTUMN" ],
       "special_attacks": [
         [ "EAT_FOOD", 100 ],
-        [ "EAT_CROPS", 100 ],
         {
           "id": "smash",
           "cooldown": 20,
           "throw_strength": 60,
           "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ]
         },
-        { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "pierce", "amount": 60 } ] }
+        { "id": "impale", "cooldown": 10, "damage_max_instance": [ { "damage_type": "stab", "amount": 60 } ] }
       ],
       "flags": [
         "SEES",
@@ -483,7 +480,7 @@
       "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
       "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
       "harvest": "mammal_large_leather",
-      "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROPS", 60 ] ],
+      "special_attacks": [ [ "EAT_FOOD", 60 ] ],
       "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
       "flags": [
         "NO_BREED",
@@ -619,6 +616,7 @@
       "type": "MONSTER",
       "name": { "str": "giant beaver" },
       "description": "A big rodent feeding off of wood, known for building dams that set entire regions under water.",
+      "default_faction": "herbivore",
       "bodytype": "bear",
       "categories": [ "WILDLIFE" ],
       "species": [ "MAMMAL" ],
@@ -670,6 +668,7 @@
       "type": "MONSTER",
       "name": { "str": "large claw sloth" },
       "description": "A huge lumbering sloth standing at over 3 meters, gracefully wandering through the woods at a glacial tempo.  It is constantly in search for food to support its massive body weight.",
+      "default_faction": "herbivore",
       "bodytype": "bear",
       "categories": [ "WILDLIFE" ],
       "species": [ "MAMMAL" ],
@@ -768,7 +767,7 @@
       "speed": 80,
       "material": [ "flesh" ],
       "symbol": "o",
-      "color": "light_grey",
+      "color": "light_gray",
       "melee_skill": 1,
       "melee_dice": 1,
       "melee_dice_sides": 4,
@@ -797,7 +796,7 @@
       "speed": 110,
       "material": [ "flesh" ],
       "symbol": "X",
-      "color": "grey",
+      "color": "dark_gray",
       "aggression": -10,
       "melee_skill": 4,
       "melee_dice": 2,
@@ -898,7 +897,7 @@
       "speed": 100,
       "material": [ "flesh" ],
       "symbol": "b",
-      "color": "dark_grey",
+      "color": "dark_gray",
       "melee_skill": 3,
       "melee_dice": 1,
       "melee_dice_sides": 4,
