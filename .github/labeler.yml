@@ -5,6 +5,9 @@
 "[JSON]":
   - "**/*.json"
 
+"[Markdown]":
+  - "**/*.md"
+
 "Game: Achievements / Conducts / Scores":
   - "**/scores**"
   - "**/statistics**"
