@@ -120,7 +120,6 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -239,7 +238,6 @@ static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_mu
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
-static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
@@ -1322,7 +1320,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_stored_nutr( 10 );
+        p.mod_stored_kcal( 87 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
@@ -1540,7 +1538,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( mutation_category_MYCUS );
-            p->mod_stored_nutr( 10 );
+            p->mod_stored_kcal( 87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1554,7 +1552,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
             _( "This tastes really weird!  You're not sure it's good for you…" ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_stored_nutr( 10 );
+        p->mod_stored_kcal( 87 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
@@ -3182,8 +3180,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
-    p->assign_activity( act );
+    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
     p->activity.placement = pnt;
     return it->type->charges_to_use();
 }
@@ -3976,28 +3973,6 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
 
     }
     return 0;
-}
-
-cata::optional<int> iuse::arrow_flammable( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-    if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return cata::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the arrow!" ) );
-    p->moves -= to_moves<int>( 1_seconds );
-    if( it->charges == 1 ) {
-        it->convert( itype_arrow_flamming );
-        return 0;
-    }
-    item lit_arrow( *it );
-    lit_arrow.convert( itype_arrow_flamming ).charges = 1;
-    p->i_add( lit_arrow );
-    return 1;
 }
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
@@ -5968,11 +5943,9 @@ cata::optional<int> iuse::bell( Character *p, item *it, bool, const tripoint & )
             auto cattle_level =
                 p->mutation_category_level.find( mutation_category_CATTLE );
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
-                                         0 :
-                                         ( cattle_level->second ) / 8
-                                       );
+                                         0 : cattle_level->second );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
-                p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );
+                p->add_morale( MORALE_MUSIC, 1, std::min( cow_factor, 100 ) );
             }
         }
     } else {
@@ -7377,6 +7350,9 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
 
         // position of <monster type string>
         const size_t mon_str_pos = monster_photos.find( "," + mtype + "," );
+
+        // monster gets recorded by the character, add to known types
+        p.set_knows_creature_type( monster_p->type->id );
 
         if( mon_str_pos == std::string::npos ) { // new monster
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
