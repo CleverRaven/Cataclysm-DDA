@@ -701,7 +701,7 @@
       {
         "id": "airsoft_stab_vest",
         "name": { "str": "airsoft vest" },
-        "description": "A low-cost tactical vest styled in black camouflage, used in cosplay and airsoft.  It'll let you shrug off airsoft pellets like a badass, but its protection is medicore against anything that's actually dangerous.  It sports several small pouches, and includes touch fasteners to attach identifying patches.",
+        "description": "A low-cost tactical vest styled in black camouflage, used in cosplay and airsoft.  It'll let you shrug off airsoft pellets like a badass, but its protection is mediocre against anything that's actually dangerous.  It sports several small pouches, and includes touch fasteners to attach identifying patches.",
         "weight": 1
       }
     ],
