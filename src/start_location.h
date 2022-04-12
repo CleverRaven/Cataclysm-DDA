@@ -16,6 +16,7 @@
 
 class JsonObject;
 class avatar;
+struct city;
 class tinymap;
 
 class start_location
