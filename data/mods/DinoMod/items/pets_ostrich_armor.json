@@ -166,7 +166,7 @@
   },
   {
     "type": "PET_ARMOR",
-    "id": "steel_armor_elephant",
+    "id": "steel_armor_ostrich",
     "copy-from": "ostrich_armor",
     "color": "light_gray",
     "name": { "str": "steel ostrich armor" },
@@ -180,7 +180,7 @@
   },
   {
     "type": "PET_ARMOR",
-    "id": "bronze_armor_elephant",
+    "id": "bronze_armor_ostrich",
     "copy-from": "ostrich_armor",
     "color": "yellow",
     "name": { "str": "bronze ostrich armor" },
