@@ -345,7 +345,7 @@ static int game_uilist()
 static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
-        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change battery charge" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -1639,45 +1639,43 @@ static void character_edit_menu()
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
-                    _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
-    nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
-    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit [T]heoretical skill knowledge" ) );
-    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
-    nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
-    nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
-    nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
-    nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
-    nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
-                    _( "[w]ear/[w]ield an item from player's inventory" ) );
-    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
-    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
-    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
-    nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
-    nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
-    nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
+                    _( "Edit description - name, age, height or blood type" ) );
+    nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit skills" ) );
+    nmenu.addentry( D_THEORY, true, 'T', "%s", _( "Edit theoretical skill knowledge" ) );
+    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit proficiencies" ) );
+    nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit stats" ) );
+    nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spells" ) );
+    nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant items" ) );
+    nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "Delete (all) items" ) );
+    nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _( "Wear/wield an item from player's inventory" ) );
+    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set stamina" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
+    nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause pain" ) );
+    nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
+    nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
     if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill [X]P" ) );
+        nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP" ) );
     }
-    nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
+    nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
     nmenu.addentry( D_STATUS, true,
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
-                    "%s", _( "Status Window [@]" ) );
-    nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
-    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temprat[U]re" ) );
-    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
-    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
-    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print [V]ars to file" ) );
+                    "%s", _( "Status window" ) );
+    nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
+    nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attack" ) );
+    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
+    nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
     nmenu.addentry( D_WRITE_EOCS, true, 'w', "%s",
-                    _( "[w]rite effect_on_condition(s) to eocs.output." ) );
-    nmenu.addentry( D_EDIT_VARS, true, 'v', "%s",
-                    _( "Edit [v]ars" ) );
+                    _( "Write effect_on_condition(s) to eocs.output" ) );
+    nmenu.addentry( D_EDIT_VARS, true, 'v', "%s", _( "Edit vars" ) );
 
     if( you.is_npc() ) {
-        nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
-        nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
-        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
-        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
+        nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add mission" ) );
+        nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with class" ) );
+        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set attitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinion" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -1771,9 +1769,47 @@ static void character_edit_menu()
         case D_NEEDS:
             character_edit_needs_menu( you );
             break;
-        case D_MUTATE:
-            wishmutate( &you );
+        case D_MUTATE: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'm', _( "Mutate" ) );
+            smenu.addentry( 1, true, 'c', _( "Mutate category" ) );
+            smenu.addentry( 2, true, 'r', _( "Reset mutations" ) );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0:
+                    wishmutate( &you );
+                    break;
+                case 1: {
+                    uilist ssmenu;
+                    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+                    mutation_categories_list.reserve( mutations_category.size() );
+                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+                    }
+                    ssmenu.text = _( "Choose mutation category:" );
+                    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+                    int menu_ind = 0;
+                    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+                        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+                        ++menu_ind;
+                    }
+                    ssmenu.query();
+                    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast<int>( mutation_categories_list.size() ) ) {
+                        you.give_all_mutations( mutation_category_trait::get_category(
+                                                    mutation_categories_list[ssmenu.ret].second ), query_yn( _( "Include post-threshold traits?" ) ) );
+                    }
+                    break;
+                }
+                case 2:
+                    if( query_yn( _( "Remove all mutations?" ) ) ) {
+                        you.unset_all_mutations();
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
+        }
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );

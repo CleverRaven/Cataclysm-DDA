@@ -151,8 +151,9 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
     std::list<item *> contents = container_item->all_items_top();
     result.reserve( contents.size() );
 
+    bool any_whitelisted = false;
     std::list<item *>::iterator it;
-    for( it = contents.begin(); it != contents.end() && !force_pick_container; ++it ) {
+    for( it = contents.begin(); it != contents.end(); ++it ) {
         item *item_entry = *it;
         if( !within_autopickup_limits( item_entry ) ) {
             pick_all_items = false;
@@ -160,17 +161,21 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
         }
         const rule_state pickup_state = get_autopickup_rule( item_entry );
         if( pickup_state == rule_state::WHITELISTED ) {
-            if( item_entry->is_container() ) {
-                // whitelisted containers should exclude contained blacklisted items
-                empty_autopickup_target( item_entry, from.position() );
-            } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
-                // liquid items should never be picked up without container
-                force_pick_container = true;
-                break;
+            any_whitelisted = true;
+            if( !force_pick_container ) {
+                if( item_entry->is_container() ) {
+                    // whitelisted containers should exclude contained blacklisted items
+                    empty_autopickup_target( item_entry, from.position() );
+                } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
+                    // liquid items should never be picked up without container
+                    force_pick_container = true;
+                    break;
+                }
+                // pick up the whitelisted item
+                result.emplace_back( from, item_entry );
             }
-            // pick up the whitelisted item
-            result.emplace_back( from, item_entry );
-        } else if( item_entry->is_container() && !item_entry->is_container_empty() ) {
+        } else if( !force_pick_container && item_entry->is_container() &&
+                   !item_entry->is_container_empty() ) {
             // get pickup list from nested item container
             item_location location = item_location( from, item_entry );
             std::vector<item_location> result_nested = get_autopickup_items( location );
@@ -192,7 +197,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
         // blacklisted containers should still have their contents picked up but themselves should be excluded.
         // If all items inside blacklisted container match then just pickup the items without the container
         rule_state pickup_state = get_autopickup_rule( container_item );
-        if( pickup_state == rule_state::BLACKLISTED ||
+        if( pickup_state == rule_state::BLACKLISTED || !any_whitelisted ||
             ( container_item->is_corpse() && pickup_state != rule_state::WHITELISTED ) ) {
             return result;
         }

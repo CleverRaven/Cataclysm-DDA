@@ -145,7 +145,7 @@ static void eff_fun_spores( Character &u, effect &it )
 }
 static void eff_fun_antifungal( Character &u, effect & )
 {
-    // antifungal drugs are deadly poison for marloss people
+    // antifungal drugs are deadly poison for Marloss people
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
         if( one_in( 10 ) ) {
             u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
@@ -999,18 +999,22 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id highcat = u.get_highest_category();
-    int highest = u.mutation_category_level[highcat];
+    mutation_category_id cat;
+    weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
+    if( cat_list.get_weight() > 0 ) {
+        cat = *cat_list.pick();
+    }
+    int cat_strength = u.mutation_category_level[cat];
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
     if( u.crossed_threshold() ) {
         strength = 4; // Post-human.
-    } else if( highest >= 20 && highest < 35 ) {
+    } else if( cat_strength >= 15 && cat_strength < 22 ) {
         strength = 1; // Low strength
-    } else if( highest >= 35 && highest < 50 ) {
+    } else if( cat_strength >= 22 && cat_strength < 30 ) {
         strength = 2; // Medium strength
-    } else if( highest >= 50 ) {
+    } else if( cat_strength >= 30 ) {
         strength = 3; // High strength
     }
 
@@ -1019,7 +1023,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         //Once every 6 / 3 / 2 hours, with a bit of randomness
         if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
             // Select a dream
-            std::string dream = u.get_category_dream( highcat, strength );
+            std::string dream = u.get_category_dream( cat, strength );
             if( !dream.empty() ) {
                 u.add_msg_if_player( dream );
             }

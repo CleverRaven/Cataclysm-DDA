@@ -262,6 +262,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "proficiency_category", &proficiency_category::load_proficiency_categories );
     add( "speed_description", &speed_description::load_speed_descriptions );
     add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
@@ -310,7 +311,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
     add( "requirement", []( const JsonObject & jo ) {
-        requirement_data::load_requirement( jo );
+        requirement_data::load_requirement( jo, string_id<requirement_data>::NULL_ID(), true );
     } );
     add( "trap", &trap::load_trap );
 
@@ -590,6 +591,7 @@ void DynamicDataLoader::unload_data()
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
+    proficiency_category::reset();
     mood_face::reset();
     speed_description::reset();
     quality::reset();

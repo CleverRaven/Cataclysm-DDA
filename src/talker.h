@@ -488,6 +488,22 @@ class talker
         virtual int get_height() const {
             return 0;
         }
+        virtual void set_npc_trust( int ) {}
+        virtual int get_npc_trust() const {
+            return 0;
+        }
+        virtual void set_npc_fear( int ) {}
+        virtual int get_npc_fear() const {
+            return 0;
+        }
+        virtual void set_npc_value( int ) {}
+        virtual int get_npc_value() const {
+            return 0;
+        }
+        virtual void set_npc_anger( int ) {}
+        virtual int get_npc_anger() const {
+            return 0;
+        }
         virtual int get_bmi_permil() const {
             return 0;
         }

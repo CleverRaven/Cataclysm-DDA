@@ -102,7 +102,7 @@
     "id": "combat_shirt",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str_sp": "combat shirt" },
+    "name": { "str": "combat shirt" },
     "description": "An oddly balanced long-sleeved shirt with a thin, moisture wicking torso and thicker arms more appropriate for a jacket.  The arms are covered in a camouflage pattern and have two shoulder pockets.  It has a pocket for your pen!",
     "weight": "450 g",
     "volume": "3 L",
@@ -218,7 +218,7 @@
     "id": "flag_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "flag shirt" },
+    "name": { "str": "flag t-shirt" },
     "description": "A t-shirt embroidered with the pattern of an American flag.",
     "weight": "158 g",
     "volume": "500 ml",
@@ -412,7 +412,7 @@
   {
     "id": "leotard",
     "type": "ARMOR",
-    "name": { "str_sp": "leotard" },
+    "name": { "str": "leotard" },
     "description": "A skin-tight spandex garment, covering the body from the groin to the shoulders.  With its deep scoop-cut back and high waist cuts, this garment is perfect for showcasing your physique on the stage.",
     "weight": "150 g",
     "volume": "500 ml",
@@ -939,6 +939,99 @@
     "color": "white",
     "warmth": 5,
     "material_thickness": 0.1,
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "skeletor_tshirt",
+        "name": { "str": "political meme t-shirt" },
+        "description": "A dark blue t-shirt with a circle of stars inside the start is a blue and yellow skeleton with his arms raised and mouth open.  Above the skeleton are the words 'Make Eternia' and below him are the words 'Great Again'.",
+        "weight": 1
+      },
+      {
+        "id": "my_little_nazgul_tshirt",
+        "name": { "str": "My Little Nazgûl t-shirt" },
+        "description": "A light grey t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "weight": 1
+      },
+      {
+        "id": "generic_tshirt",
+        "name": { "str": "t-shirt" },
+        "description": "A short-sleeved cotton shirt.",
+        "weight": 40
+      },
+      {
+        "id": "faather_tshirt",
+        "name": { "str": "Matt Berry t-shirt" },
+        "description": "Matt Berry in a rugby shirt, a fist raised to the sky, mouth agape 'Faaather'!",
+        "weight": 1
+      },
+      {
+        "id": "doom_song_tshirt",
+        "name": { "str": "doom song t-shirt" },
+        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song.  Doom, doom, doom, dooooom!!",
+        "weight": 1
+      },
+      {
+        "id": "boba_fetch_tshirt",
+        "name": { "str": "Boba Fetch t-shirt" },
+        "description": "A black shirt with a dog in the uniform of a well known galactic bounty hunter.  The wrist rocket has been fired, it was a tennis ball on a string.",
+        "weight": 1
+      },
+      {
+        "id": "mouse_portal_tshirt",
+        "name": { "str": "mouse portal t-shirt" },
+        "description": "There is a blue portal on this shirt, with a mouse head sticking out of the portal.  The mouse is holding some kind of gun-like device towards a cube.  Is the cube made of cheese?  The back of the shirt has a yellow portal with the back half of the mouse entering the portal.",
+        "weight": 1
+      },
+      {
+        "id": "ceiling_cthulhu_tshirt",
+        "name": { "str": "Ceiling Cthulhu t-shirt" },
+        "description": "There is a ceiling on this shirt, it has a hole in it, out gazes Cthulhu.  It looks quizzical.",
+        "weight": 1
+      },
+      {
+        "id": "pumpkin_time",
+        "name": { "str": "pumpkin time t-shirt" },
+        "description": "Popping out of the top of a jack o'lantern is a tiny smiling black bat.",
+        "weight": 1
+      },
+      {
+        "id": "portal_to_the_cat_dimension_tshirt",
+        "name": { "str": "portal to the cat dimension t-shirt" },
+        "description": "A black t-shirt with a picture of a woman standing in front of a yawning portal with numerous cats surrounding her and exiting the portal.",
+        "weight": 5
+      },
+      {
+        "id": "forbidden_futurama_tshirt",
+        "name": { "str": "forbidden robot t-shirt" },
+        "description": "A giant blocky robot with a cone shaped head holds both arms out carrying a cyclops woman with purple hair.",
+        "weight": 1
+      },
+      {
+        "id": "swordocracy_tshirt",
+        "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
+        "description": "A t-shirt with a picture of a peasant with an arm raised in a fist, eyes alight with the fire of freedom, proclaiming, 'Down with sword based goverments!'",
+        "weight": 1
+      },
+      {
+        "id": "black_phillip_tshirt",
+        "name": { "str": "Black Phillip t-shirt" },
+        "description": "A black t-shirt with an old style cartoon black goat on the front, above the goat it says 'Black Phillip' and below are the words 'Live Deliciously'.",
+        "weight": 1
+      },
+      {
+        "id": "disney_parody_tshirt",
+        "name": { "str": "theme park parody t-shirt" },
+        "description": "A black t-shirt with a stylized princesses castle with five spires.  Each spire has a purple-gray flame at the top.  At the bottom of the castle it says 'Menzoberranzan'",
+        "weight": 1
+      },
+      {
+        "id": "start_a_cult_tshirt",
+        "name": { "str": "activities for children t-shirt", "str_pl": "activities for children t-shirts" },
+        "description": "A hooded child stands behind a lectern, his mouth open and his arms held high.  A pentagram has been carved into the lectern and stuffed animals are arranged in a semi circle facing the child.  On the left of the child are the words 'Let's Start A Cult', while below it reads 'Activities for Children'.",
+        "weight": 1
+      }
+    ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
@@ -970,7 +1063,21 @@
       {
         "id": "allyourbase",
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
-      }
+      },
+      {
+        "id": "fda_approved",
+        "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
+      },
+      { "id": "anxiety_superpower", "text": "A t-shirt with text 'Anxiety is my super power'." },
+      { "id": "visitryleh", "text": "A t-shirt with text 'Greetings from R'YLEH home of Cthulhu'." },
+      { "id": "robot_finds_kitten", "text": "A t-shirt with text 'Play robotfindskitten today'." },
+      {
+        "id": "survived_apocalypse",
+        "text": "A t-shirt with text 'I survived the apocalypse and all I got was this lousy T-shirt?'"
+      },
+      { "id": "zombiebelief", "text": "A t-shirt with text 'Zombies don't care whether or not you believe.'" },
+      { "id": "cthulhuprez1", "text": "A t-shirt with text 'Cthulhu for President: Why vote for the lesser evil'." },
+      { "id": "cthulhuprez2", "text": "A t-shirt with text 'Cthulhu for President: This time the stars are right'." }
     ],
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
@@ -1026,6 +1133,18 @@
       {
         "id": "mil_punk",
         "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
+      },
+      {
+        "id": "mc_chris",
+        "text": "A short-sleeved cotton shirt with an interstellar bounty hunter on the front.  'My backpack's got jets'."
+      },
+      {
+        "id": "cthulhupunk1",
+        "text": "A short-sleeved white cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' with a picture of giant fantastical creatures dancing in a line.  Below the picture read the words 'Where the Great Old Ones Are'."
+      },
+      {
+        "id": "cthulhupunk2",
+        "text": "A short-sleeved black cotton shirt with the words 'THE DARKEST OF THE HILLSIDE THICKETS' below a picture of a roofless green Dodge Charger with five robed men in it.  The driver is throwing back a drink from a goblet, the first passenger is chanting from a book, the other three passengers are firing various guns at a blue flying eye with tentacles and snail shell.  Red letters read 'THE DUKES OF ALHAZRED'."
       }
     ]
   },

@@ -91,7 +91,7 @@ struct map_shoot_info {
     int reduce_dmg_max_laser = 0;
     // Damage required to have a chance to destroy
     int destroy_dmg_min = 0;
-    // Damage required to guarentee destruction
+    // Damage required to guarantee destruction
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;

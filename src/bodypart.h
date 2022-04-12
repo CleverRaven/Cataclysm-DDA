@@ -241,6 +241,7 @@ struct body_part_type {
         float cold_morale_mod = 0.0f;
         float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
+        bool feels_discomfort = true;
 
         int fire_warmth_bonus = 0;
 

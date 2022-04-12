@@ -1282,7 +1282,7 @@ void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
     if( regeneration_modifiers.count( effect ) > 0 ) {
         regeneration_modifiers.erase( effect );
         if( test_mode ) {
-            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+            debugmsg( "%s specifies more than one regeneration modifier for effect %s, ignoring all but the last",
                       id.c_str(), effect_name );
         }
     }

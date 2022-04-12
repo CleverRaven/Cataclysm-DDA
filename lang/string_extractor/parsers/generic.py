@@ -31,6 +31,16 @@ def parse_generic(json, origin):
                    .format(name, cname["type"], cname["condition"]),
                    plural=True)
 
+    if "variants" in json:
+        for variant in json["variants"]:
+            variant_name = get_singular_name(variant["name"])
+            write_text(variant["name"], origin,
+                       comment="Variant name of item \"{}\"".format(name),
+                       plural=True)
+            write_text(variant["description"], origin,
+                       comment="Description of variant \"{1}\" of item \"{0}\""
+                       .format(name, variant_name))
+
     if "snippet_category" in json and type(json["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)
         # which is not translated, or an array of snippet texts.
