@@ -21,7 +21,7 @@
     "fun": -1
   },[
   {
-    "id": "book_icef",
+    "id": "book_pneumatics",
     "type": "BOOK",
     "category": "manuals",
     "copy-from": "book_icef",
