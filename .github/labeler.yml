@@ -64,6 +64,11 @@
 "Monsters":
   - "**/monsters/**/*"
 
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/professions/**/*"
+  - "**/mutations/**/*"
+  - data/json/hobbies.json
+
 "Lore":
   - data/json/npcs/BG_trait_groups.json
   - data/json/npcs/Personality_trait_groups.json
