@@ -808,7 +808,7 @@ void suffer::in_sunlight( Character &you )
             if( !has_hat ) {
                 sunlight_nutrition += ( 100 + flux ) * weather_factor;
             }
-            if( leafier ) {
+            if( leafier || leafiest ) {
                 const int rate = ( 100 * sleeve_factor + flux ) * 2;
                 sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
             }
@@ -819,7 +819,7 @@ void suffer::in_sunlight( Character &you )
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
-    if( !g->is_in_sunlight( position ) ) {
+    if( !g->is_in_sunlight( position ) || g->is_sheltered( position ) ) {
         return;
     }
 
