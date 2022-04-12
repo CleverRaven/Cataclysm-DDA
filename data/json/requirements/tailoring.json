@@ -190,7 +190,8 @@
         [ "button", 9, "LIST" ],
         [ "touch_fastener", 6 ],
         [ "snapfastener_steel", 9 ],
-        [ "string_6", 6 ]
+        [ "string_6", 6 ],
+        [ "cordage_6_leather", 6 ]
       ]
     ]
   },
@@ -204,7 +205,8 @@
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
-        [ "string_6", 2 ]
+        [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ]
       ]
     ]
   },
@@ -215,6 +217,7 @@
     "components": [
       [
         [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ],
         [ "zipper_short_plastic", 1 ],
         [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
@@ -232,7 +235,8 @@
         [ "snapfastener_steel", 2 ],
         [ "buckle_steel", 1 ],
         [ "touch_fastener", 2 ],
-        [ "string_6", 2 ]
+        [ "string_6", 2 ],
+        [ "cordage_6_leather", 2 ]
       ]
     ]
   },

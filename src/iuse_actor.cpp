@@ -305,6 +305,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             }
             if( !ammo_type.is_empty() ) {
                 obj->ammo_set( ammo_type, qty );
+            } else if( obj->is_ammo() ) {
+                obj->charges = qty;
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
             } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
@@ -2586,7 +2588,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER );
+                               item_pocket::pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -4108,7 +4110,7 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     }
 
     item &obj = *loc.get_item();
-    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    p.add_msg_if_player( _( "You attach %s to your MOLLE webbing." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
 

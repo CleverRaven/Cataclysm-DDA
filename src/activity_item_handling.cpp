@@ -2172,8 +2172,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 0 ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 0 ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1 ) ||
+                ( mgr.has_near( zone_type_zone_strip, abspos, 1 ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff

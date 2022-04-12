@@ -203,8 +203,8 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "SWIM_GOGGLES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SWIM_GOGGLES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "wetsuit_gloves",

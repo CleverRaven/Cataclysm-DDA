@@ -697,7 +697,7 @@
     "followup": "MISSION_RANCH_FOREMAN_13",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We have the basic equipment that we need, but without a functioning power grid we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
+      "offer": "We have the basic equipment that we need, but without a functioning power grid, we are forced to rely on the readily available vehicle batteries.  This is going to be a chore, but I'll need twelve car batteries to swap between charging and powering our equipment.  The good news is that they don't need to be charged; we can take care of that.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Cars can be found in traffic jams along roads or in parking lots… I'm sure you can find a few.",
