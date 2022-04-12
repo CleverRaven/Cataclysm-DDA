@@ -278,15 +278,13 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                           ter_sym );
             }
 
-            if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-                if( i < -1 || i > 1 || j < -1 || j > 1 ) {
-                    // Show hordes on minimap, leaving a one-tile space around the player
-                    int horde_size = overmap_buffer.get_horde_size( omp );
-                    if( horde_size >= HORDE_VISIBILITY_SIZE &&
-                        overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
-                        mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), c_green,
-                                  horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                    }
+            if( i < -1 || i > 1 || j < -1 || j > 1 ) {
+                // Show hordes on minimap, leaving a one-tile space around the player
+                int horde_size = overmap_buffer.get_horde_size( omp );
+                if( horde_size >= HORDE_VISIBILITY_SIZE &&
+                    overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
+                    mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), c_green,
+                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
         }

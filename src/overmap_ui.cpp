@@ -534,7 +534,7 @@ static void draw_ascii(
                              player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
     // Whether showing hordes is currently enabled
-    const bool showhordes = get_option<bool>( "WANDER_SPAWNS" ) && uistate.overmap_show_hordes;
+    const bool showhordes = uistate.overmap_show_hordes;
 
     const oter_id forest = oter_forest.id();
 
@@ -710,18 +710,14 @@ static void draw_ascii(
                 cur_ter = overmap_buffer.ter( omp );
             }
 
-            // Check if location is within player line-of-sight
-            const bool los = see && blink && ( showhordes || uistate.overmap_debug_mongroup ) &&
-                             player_character.overmap_los( omp, sight_points );
-            const bool los_sky = viewing_weather && !uistate.overmap_debug_weather &&
-                                 player_character.overmap_los( omp, sight_points * 2 );
             const bool is_npc_path = blink && npc_path_route.find( omp ) != npc_path_route.end();
             const bool is_player_path = blink && player_path_route.find( omp.xy() ) != player_path_route.end();
             if( blink && omp == orig ) {
                 // Display player pos, should always be visible
                 ter_color = player_character.symbol_color();
                 ter_sym = "@";
-            } else if( viewing_weather && ( uistate.overmap_debug_weather || los_sky ) ) {
+            } else if( viewing_weather && ( uistate.overmap_debug_weather ||
+                                            player_character.overmap_los( omp, sight_points * 2 ) ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
                 ter_sym = type->get_symbol();
@@ -762,8 +758,9 @@ static void draw_ascii(
             } else if( is_npc_path ) {
                 ter_color = c_red;
                 ter_sym = "!";
-            } else if( blink && showhordes && los &&
-                       overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
+            } else if( blink && showhordes &&
+                       overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
+                       player_character.overmap_los( omp, sight_points ) ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
@@ -822,7 +819,7 @@ static void draw_ascii(
                     }
                     // Set the color only if we encountered an eligible group.
                     if( ter_sym == "+" || ter_sym == "-" ) {
-                        if( los ) {
+                        if( player_character.overmap_los( omp, sight_points ) ) {
                             ter_color = c_light_blue;
                         } else {
                             ter_color = c_blue;
@@ -1171,9 +1168,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
         print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
-        }
+        print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );

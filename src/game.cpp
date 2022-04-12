@@ -3738,22 +3738,20 @@ void game::draw_minimap()
         }
     }
 
-    if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-        Character &player_character = get_player_character();
-        const int sight_points = player_character.overmap_sight_range( g->light_level(
-                                     player_character.posz() ) );
-        for( int i = -3; i <= 3; i++ ) {
-            for( int j = -3; j <= 3; j++ ) {
-                if( i > -3 && i < 3 && j > -3 && j < 3 ) {
-                    continue; // only do hordes on the border, skip inner map
-                }
-                const tripoint_abs_omt omp( curs2 + point( i, j ), levz );
-                if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
-                    if( overmap_buffer.seen( omp )
-                        && player_character.overmap_los( omp, sight_points ) ) {
-                        mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
-                                  overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                    }
+    Character &player_character = get_player_character();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
+    for( int i = -3; i <= 3; i++ ) {
+        for( int j = -3; j <= 3; j++ ) {
+            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
+                continue; // only do hordes on the border, skip inner map
+            }
+            const tripoint_abs_omt omp( curs2 + point( i, j ), levz );
+            if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
+                if( overmap_buffer.seen( omp )
+                    && player_character.overmap_los( omp, sight_points ) ) {
+                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
+                              overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
         }
