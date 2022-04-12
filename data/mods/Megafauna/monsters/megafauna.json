@@ -170,7 +170,7 @@
       "speed": 130,
       "material": [ "flesh" ],
       "symbol": "B",
-      "color": "grey",
+      "color": "brown",
       "aggression": -1,
       "morale": 80,
       "melee_skill": 8,
