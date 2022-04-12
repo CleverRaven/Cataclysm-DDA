@@ -191,8 +191,8 @@ struct mass_volume {
 
 namespace base_camps
 {
-static const std::string recover_ally_string = "Recover Ally, ";
-static const std::string expansion_string = " Expansion";
+static const translation recover_ally_string = to_translation( "Recover Ally, " );
+static const translation expansion_string = to_translation( " Expansion" );
 
 
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
@@ -426,10 +426,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Carpentry_Job:
         case Forage_Job:
         case Caravan_Commune_Center_Job:
-        case Purchase_East_Field:
-        case Upgrade_East_Field:
-        case Plant_East_Field:
-        case Harvest_East_Field:
         case Camp_Emergency_Recall:
         default:
             return "";
@@ -783,8 +779,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id, _( base_camps::recover_ally_string )
-                                    + dir_abbr + _( base_camps::expansion_string ),
+            mission_key.add_return( miss_id, base_camps::recover_ally_string.translated()
+                                    + dir_abbr + base_camps::expansion_string.translated(),
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
@@ -807,7 +803,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id,
-                                        _( base_camps::recover_ally_string ) + dir_abbr +
+                                        base_camps::recover_ally_string.translated() + dir_abbr +
                                         " " + upgrade.name, entry, avail );
             }
         }
@@ -2980,10 +2976,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                            int plant_cnt = rng( skillLevel / 2, skillLevel );
-                            plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
-                            int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
+                            int plant_count = rng( skillLevel / 2, skillLevel );
+                            plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
+                            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                            int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
                             }

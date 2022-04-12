@@ -210,7 +210,7 @@
     "id": "saltwater_sandy_beach",
     "land_use_code": 25,
     "name": "Saltwater Sandy Beach",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 1, 2, 3, 6, 10, 13, 17 and 19",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 1, 2, 3, 6, 10, 13, 17, and 19",
     "sym": "~",
     "color": "cyan_yellow"
   },
@@ -273,7 +273,7 @@
     "id": "wetland_forest",
     "land_use_code": 37,
     "name": "Forested Wetland",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 14, 15, 16, 24, 25 and 26.",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 14, 15, 16, 24, 25, and 26.",
     "sym": "F",
     "color": "green_cyan"
   },

@@ -360,6 +360,30 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cordage_6_leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cordage_36_leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "cordage_6_leather", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "fake",
     "result": "rope_makeshift_6",
     "category": "CC_OTHER",

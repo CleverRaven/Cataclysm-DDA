@@ -225,9 +225,9 @@
         "effect": { "u_add_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
-        "text": "I've brought those anaesthetic kits for you.  Can you help me out?",
-        "condition": { "and": [ { "u_has_items": { "item": "anesthetic_kit", "count": 2 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
-        "effect": [ { "u_sell_item": "anesthetic_kit", "count": 2 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
+        "text": "I've brought the anesthetic for you.  Can you help me out?",
+        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
