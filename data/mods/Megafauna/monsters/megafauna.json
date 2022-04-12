@@ -25,7 +25,7 @@
       "armor_bash": 2,
       "vision_night": 15,
       "path_settings": { "max_dist": 10 },
-      "special_attacks": [ { "id": "cut_throat" }, { "id": "impale", "cooldown": 10 }, { "id": "leap", "cooldown": 15, "max_range": 5 } ],
+      "special_attacks": [ { "id": "cut_throat" }, { "id": "impale", "cooldown": 10 }, { "type": "leap", "cooldown": 10, "max_range": 3 } ],
       "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
       "placate_triggers": [ "MEAT" ],
       "harvest": "mammal_fur_feline",

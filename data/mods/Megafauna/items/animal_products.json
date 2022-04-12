@@ -13,7 +13,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "80 L",
-    "longest_side": "2.5 m",
+    "longest_side": "2500 cm",
     "vitamins": [ [ "calcium", 96 ] ]
   }
 ]
