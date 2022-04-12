@@ -13,8 +13,6 @@
 #include "json.h"
 #include "type_id.h"
 
-const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
-
 namespace
 {
 

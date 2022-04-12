@@ -19,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "subbodypart.h"
+#include "localized_comparator.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -350,7 +351,8 @@ struct body_part_type {
 
 
         // combine matching body part and subbodypart strings together for printing
-        static std::set<translation> consolidate( std::vector<sub_bodypart_id> &covered );
+        static std::set<translation, localized_comparator> consolidate( std::vector<sub_bodypart_id>
+                &covered );
 };
 
 

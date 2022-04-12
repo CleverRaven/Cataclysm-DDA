@@ -542,10 +542,10 @@ float body_part_type::damage_resistance( const damage_unit &du ) const
     return armor.get_effective_resist( du );
 }
 
-std::set<translation> body_part_type::consolidate( std::vector<sub_bodypart_id>
-        &covered )
+std::set<translation, localized_comparator> body_part_type::consolidate(
+    std::vector<sub_bodypart_id> &covered )
 {
-    std::set<translation> to_return;
+    std::set<translation, localized_comparator> to_return;
     std::vector<bodypart_id> full_bps;
 
     //first try to compress sets of sub body parts together into a full limb

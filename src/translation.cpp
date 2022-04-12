@@ -467,8 +467,3 @@ std::string operator+( const translation &lhs, const translation &rhs )
 {
     return lhs.translated() + rhs.translated();
 }
-
-bool operator<( const translation &lhs, const translation &rhs )
-{
-    return localized_compare( lhs, rhs );
-}
