@@ -41,7 +41,6 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -1107,10 +1106,13 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
-          ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
+        ( comest.add == STATIC( addiction_id( "caffeine" ) ) ||
+          comest.add == STATIC( addiction_id( "amphetamine" ) ) ||
+          comest.add == STATIC( addiction_id( "cocaine" ) ) ||
+          comest.add == STATIC( addiction_id( "crack" ) ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
+        // TODO: Snippet-ize this
         std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
                                                 _( "You have a bad feeling about this." ),
                                                 _( "A powerful sense of dread comes over you." ),
@@ -1142,8 +1144,8 @@ void Character::modify_radiation( const islot_comestible &comest )
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
-    if( addiction_craving( comest.add ) != MORALE_NULL ) {
-        rem_morale( addiction_craving( comest.add ) );
+    if( !comest.add.is_null() && comest.add->get_craving_morale() != MORALE_NULL ) {
+        rem_morale( comest.add->get_craving_morale() );
     }
 }
 

@@ -47,7 +47,6 @@
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -1854,7 +1853,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -2292,7 +2291,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -3852,7 +3851,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
-                    wprintz( w_addictions, c_white, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_white, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         } else {
@@ -3864,7 +3864,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_light_gray, "\n" );
-                    wprintz( w_addictions, c_light_gray, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_light_gray, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         }

@@ -255,6 +255,7 @@ void DynamicDataLoader::initialize()
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
+    add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
@@ -540,6 +541,7 @@ void DynamicDataLoader::unload_data()
 
     achievement::reset();
     activity_type::reset();
+    add_type::reset();
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();

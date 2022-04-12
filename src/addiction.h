@@ -4,10 +4,64 @@
 
 #include <iosfwd>
 
-#include "pldata.h"
+#include "calendar.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
+class JsonObject;
+class JsonOut;
+class time_duration;
+
+struct add_type {
+    private:
+        translation _type_name;
+        translation _name;
+        translation _desc;
+        morale_type _craving_morale;
+        effect_on_condition_id _effect;
+    public:
+        addiction_id id;
+        bool was_loaded = false;
+        static void load_add_types( const JsonObject &jo, const std::string &src );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<add_type> &get_all();
+
+        const translation &get_name() const {
+            return _name;
+        }
+        /**
+         * Returns the name of an addiction. It should be able to finish the sentence
+         * "Became addicted to ______".
+         */
+        const translation &get_type_name() const {
+            return _type_name;
+        }
+        const translation &get_description() const {
+            return _desc;
+        }
+        const morale_type &get_craving_morale() const {
+            return _craving_morale;
+        }
+        const effect_on_condition_id &get_effect() const {
+            return _effect;
+        }
+};
+
+class addiction
+{
+    public:
+        addiction_id type;
+        int intensity = 0;
+        time_duration sated = 1_hours;
+
+        addiction() = default;
+        explicit addiction( addiction_id const t, const int i = 1 ) : type {t}, intensity {i} { }
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( const JsonObject &jo );
+};
 
 // Minimum intensity before effects are seen
 constexpr int MIN_ADDICTION_LEVEL = 3;
@@ -16,15 +70,5 @@ constexpr int MAX_ADDICTION_LEVEL = 20;
 // cancel_activity is called when the addiction effect wants to interrupt the player
 // with an optional pre-translated message.
 void addict_effect( Character &u, addiction &add );
-
-std::string addiction_type_name( add_type cur );
-
-std::string addiction_name( const addiction &cur );
-
-morale_type addiction_craving( add_type cur );
-
-add_type addiction_type( const std::string &name );
-
-std::string addiction_text( const addiction &cur );
 
 #endif // CATA_SRC_ADDICTION_H
