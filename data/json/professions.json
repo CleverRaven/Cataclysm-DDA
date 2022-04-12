@@ -1630,7 +1630,18 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "police_belt", "tac_helmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch", "pants_cargo" ],
+        "items": [
+          "socks",
+          "police_belt",
+          "tac_helmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
@@ -1669,7 +1680,17 @@
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "socks", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch", "pants_cargo" ],
+        "items": [
+          "socks",
+          "tac_fullhelmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "pants_cargo",
+          "elbow_pads",
+          "knee_pads"
+        ],
         "entries": [
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
