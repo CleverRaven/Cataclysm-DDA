@@ -537,10 +537,7 @@
       },
       {
         "id": "ballistic_vest_light_future",
-        "name": {
-          "str": "hexagonal light ballistic vest (storage pouch)",
-          "str_pl": "hexagonal light ballistic vests (storage pouch)"
-        },
+        "name": { "str": "hexagonal light ballistic vest (storage pouch)", "str_pl": "hexagonal light ballistic vests (storage pouch)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "weight": 1,
         "append": true
