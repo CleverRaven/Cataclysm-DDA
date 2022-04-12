@@ -514,7 +514,6 @@ class Character : public Creature, public visitable
 
         /** Modifiers for need values exclusive to characters */
         void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
-        void mod_stored_nutr( int nnutr );
         void mod_hunger( int nhunger );
         void mod_thirst( int nthirst );
         void mod_fatigue( int nfatigue );
