@@ -3048,12 +3048,6 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
-        } else if( checked_value == "var" ) {
-            const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name, type, min, max]( const dialogue & d, int input ) {
-                write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max( d, input, min,
-                                 max ) ) );
-            };
         } else if( checked_value == "strength_bonus" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );

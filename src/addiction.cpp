@@ -20,8 +20,6 @@
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );
 
-static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
-
 namespace
 {
 
@@ -56,26 +54,6 @@ void add_type::reset()
 const std::vector<add_type> &add_type::get_all()
 {
     return add_type_factory.get_all();
-}
-
-void add_type::load( const JsonObject &jo, const std::string & )
-{
-    mandatory( jo, was_loaded, "name", _name );
-    mandatory( jo, was_loaded, "type_name", _type_name );
-    mandatory( jo, was_loaded, "description", _desc );
-    optional( jo, was_loaded, "craving_morale", _craving_morale, MORALE_NULL );
-    optional( jo, was_loaded, "effect_on_condition", _effect );
-}
-
-static void marloss_add( Character &u, int in, const char *msg )
-{
-    if( one_in( 800 - 20 * in ) ) {
-        u.add_morale( MORALE_CRAVING_MARLOSS, -5, -25 );
-        u.add_msg_if_player( m_info, msg );
-        if( u.get_focus() > 40 ) {
-            u.mod_focus( -in );
-        }
-    }
 }
 
 static void alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
@@ -127,131 +105,159 @@ static void crack_coke_add( Character &u, int in, int stim, bool is_crack )
     }
 }
 
-void addict_effect( Character &u, addiction &add )
-{
-    if( add.type->get_effect().is_valid() ) {
-        dialogue d( get_talker_for( u ), nullptr );
-        add.type->get_effect()->activate( d );
-        return;
-    }
+/************** Builtin effects **************/
 
+static void nicotine_effect( Character &u, addiction &add )
+{
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
-
-    if( add.type == STATIC( addiction_id( "nicotine" ) ) ) {
-        if( one_in( 2000 - 20 * in ) ) {
-            u.add_msg_if_player( rng( 0, 6 ) < in ?
-                                 _( "You need some nicotine." ) :
-                                 _( "You could use some nicotine." ) );
-            u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
-            if( one_in( 800 - 50 * in ) ) {
-                u.mod_fatigue( 1 );
-            }
-            if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
-                u.mod_stim( -1 );
-            }
+    if( one_in( 2000 - 20 * in ) ) {
+        u.add_msg_if_player( rng( 0, 6 ) < in ?
+                             _( "You need some nicotine." ) :
+                             _( "You could use some nicotine." ) );
+        u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
+        if( one_in( 800 - 50 * in ) ) {
+            u.mod_fatigue( 1 );
         }
-    } else if( add.type == STATIC( addiction_id( "caffeine" ) ) ) {
-        if( one_in( 2000 - 20 * in ) ) {
-            u.add_msg_if_player( m_warning, _( "You want some caffeine." ) );
-            u.add_morale( MORALE_CRAVING_CAFFEINE, -5, -30 );
-            if( current_stim > -10 * in && rng( 0, 10 ) < in ) {
-                u.mod_stim( -1 );
-            }
-            if( rng( 8, 400 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need it bad!" ) );
-                u.add_effect( effect_shakes, 2_minutes );
-            }
-        }
-    } else if( add.type == STATIC( addiction_id( "alcohol" ) ) ) {
-        alcohol_diazepam_add( u, in, true );
-    } else if( add.type == STATIC( addiction_id( "diazepam" ) ) ) {
-        alcohol_diazepam_add( u, in, false );
-    } else if( add.type == STATIC( addiction_id( "sleeping pill" ) ) ) {
-        // No effects here--just in player::can_sleep()
-        // EXCEPT!  Prolong this addiction longer than usual.
-        if( one_in( 2 ) && add.sated < 0_turns ) {
-            add.sated += 1_turns;
-        }
-    } else if( add.type == STATIC( addiction_id( "opiate" ) ) ) {
-        if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
-            u.get_painkiller() > 20 - in ) {
-            // Tolerance increases!
-            u.mod_painkiller( -1 );
-        }
-        // No further effects if we're doped up.
-        if( u.get_painkiller() >= 35 ) {
-            add.sated = 0_turns;
-        } else {
-            u.mod_str_bonus( -1 );
-            u.mod_per_bonus( -1 );
-            u.mod_dex_bonus( -1 );
-            if( u.get_pain() < in * 2 ) {
-                u.mod_pain( 1 );
-            }
-            if( one_in( 1200 - 30 * in ) ) {
-                u.mod_healthy_mod( -1, -in * 30 );
-            }
-            if( one_in( 20 ) && dice( 2, 20 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need some painkillers." ) );
-                u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
-                u.add_effect( effect_shakes, 2_minutes + in * 30_seconds );
-            } else if( one_in( 20 ) && dice( 2, 30 ) < in ) {
-                u.add_msg_if_player( m_bad, _( "You feel anxious.  You need your painkillers!" ) );
-                u.add_morale( MORALE_CRAVING_OPIATE, -30, -10 * in );
-            } else if( one_in( 50 ) && dice( 3, 50 ) < in ) {
-                u.vomit();
-            }
-        }
-    } else if( add.type == STATIC( addiction_id( "amphetamine" ) ) ) {
-        u.mod_int_bonus( -1 );
-        u.mod_str_bonus( -1 );
-        if( current_stim > -100 && x_in_y( in, 20 ) ) {
+        if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
             u.mod_stim( -1 );
         }
-        if( rng( 0, 150 ) <= in ) {
-            u.mod_healthy_mod( -1, -in );
+    }
+}
+
+static void alcohol_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    alcohol_diazepam_add( u, in, true );
+}
+
+static void diazepam_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    alcohol_diazepam_add( u, in, false );
+}
+
+static void opiate_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
+        u.get_painkiller() > 20 - in ) {
+        // Tolerance increases!
+        u.mod_painkiller( -1 );
+    }
+    // No further effects if we're doped up.
+    if( u.get_painkiller() >= 35 ) {
+        add.sated = 0_turns;
+        return;
+    }
+    u.mod_str_bonus( -1 );
+    u.mod_per_bonus( -1 );
+    u.mod_dex_bonus( -1 );
+    if( u.get_pain() < in * 2 ) {
+        u.mod_pain( 1 );
+    }
+    if( one_in( 1200 - 30 * in ) ) {
+        u.mod_healthy_mod( -1, -in * 30 );
+    }
+    if( one_in( 20 ) && dice( 2, 20 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need some painkillers." ) );
+        u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
+        u.add_effect( effect_shakes, 2_minutes + in * 30_seconds );
+    } else if( one_in( 20 ) && dice( 2, 30 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "You feel anxious.  You need your painkillers!" ) );
+        u.add_morale( MORALE_CRAVING_OPIATE, -30, -10 * in );
+    } else if( one_in( 50 ) && dice( 3, 50 ) < in ) {
+        u.vomit();
+    }
+}
+
+static void amphetamine_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    const int current_stim = u.get_stim();
+    u.mod_int_bonus( -1 );
+    u.mod_str_bonus( -1 );
+    if( current_stim > -100 && x_in_y( in, 20 ) ) {
+        u.mod_stim( -1 );
+    }
+    if( rng( 0, 150 ) <= in ) {
+        u.mod_healthy_mod( -1, -in );
+    }
+    if( dice( 2, 100 ) < in ) {
+        u.add_msg_if_player( m_warning, _( "You feel depressed.  Speed would help." ) );
+        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+    } else if( one_in( 10 ) && dice( 2, 80 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need a pick-me-up." ) );
+        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+        u.add_effect( effect_shakes, in * 2_minutes );
+    } else if( one_in( 50 ) && dice( 2, 100 ) < in ) {
+        u.add_msg_if_player( m_bad, _( "You stop suddenly, feeling bewildered." ) );
+        u.moves -= 300;
+    } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {
+        u.add_effect( effect_hallu, 6_hours );
+    }
+}
+
+static void cocaine_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    const int current_stim = u.get_stim();
+    crack_coke_add( u, in, current_stim, false );
+}
+
+static void crack_effect( Character &u, addiction &add )
+{
+    const int in = std::min( 20, add.intensity );
+    const int current_stim = u.get_stim();
+    crack_coke_add( u, in, current_stim, true );
+}
+
+/*********************************************/
+
+static const std::map<std::string, std::function<void( Character &, addiction & )>> builtin_map {
+    {"nicotine_effect",    ::nicotine_effect},
+    {"alcohol_effect",     ::alcohol_effect},
+    {"diazepam_effect",    ::diazepam_effect},
+    {"opiate_effect",      ::opiate_effect},
+    {"amphetamine_effect", ::amphetamine_effect},
+    {"cocaine_effect",     ::cocaine_effect},
+    {"crack_effect",       ::crack_effect}
+};
+
+void addiction::run_effect( Character &u )
+{
+    if( !type->get_effect().is_null() ) {
+        dialogue d( get_talker_for( u ), nullptr );
+        type->get_effect()->activate( d );
+    } else {
+        auto iter = builtin_map.find( type->get_builtin() );
+        if( iter != builtin_map.end() ) {
+            iter->second.operator()( u, *this );
+        } else {
+            debugmsg( "invalid builtin \"%s\" for addiction_type \"%s\"", type->get_builtin(), type.c_str() );
         }
-        if( dice( 2, 100 ) < in ) {
-            u.add_msg_if_player( m_warning, _( "You feel depressed.  Speed would help." ) );
-            u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
-        } else if( one_in( 10 ) && dice( 2, 80 ) < in ) {
-            u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need a pick-me-up." ) );
-            u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
-            u.add_effect( effect_shakes, in * 2_minutes );
-        } else if( one_in( 50 ) && dice( 2, 100 ) < in ) {
-            u.add_msg_if_player( m_bad, _( "You stop suddenly, feeling bewildered." ) );
-            u.moves -= 300;
-        } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {
-            u.add_effect( effect_hallu, 6_hours );
+    }
+}
+
+void add_type::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "type_name", _type_name );
+    mandatory( jo, was_loaded, "description", _desc );
+    optional( jo, was_loaded, "craving_morale", _craving_morale, MORALE_NULL );
+    optional( jo, was_loaded, "effect_on_condition", _effect );
+    optional( jo, was_loaded, "builtin", _builtin );
+}
+
+void add_type::check_add_types()
+{
+    for( const add_type &add : add_type::get_all() ) {
+        if( add._effect.is_null() == add._builtin.empty() ) {
+            debugmsg( "addiction_type \"%s\" defines %s craving_morale %s builtin.  Addictions must define either field, but not both.",
+                      add.id.c_str(), add._builtin.empty() ? "neither" : "both", add._builtin.empty() ? "or" : "and" );
         }
-    } else if( add.type == STATIC( addiction_id( "cocaine" ) ) ) {
-        crack_coke_add( u, in, current_stim, false );
-    } else if( add.type == STATIC( addiction_id( "crack" ) ) ) {
-        crack_coke_add( u, in, current_stim, true );
-    } else if( add.type == STATIC( addiction_id( "mutagen" ) ) ) {
-        if( u.has_trait( trait_MUT_JUNKIE ) ) {
-            if( one_in( 600 - 50 * in ) ) {
-                u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ?
-                                     _( "You so miss the exquisite rainbow of post-humanity." ) :
-                                     _( "Your body is SOO booorrrring.  Just a little sip to liven things up?" ) );
-                u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
-            }
-            if( u.get_focus() > 40 && one_in( 800 - 20 * in ) ) {
-                u.mod_focus( -in );
-                u.add_msg_if_player( m_warning,
-                                     _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
-            }
-        } else if( one_in( 500 - 15 * in ) ) {
-            u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
-                                 _( "You could use some new parts…" ) );
-            u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );
+        if( !add._builtin.empty() && builtin_map.find( add._builtin ) == builtin_map.end() ) {
+            debugmsg( "invalid builtin \"%s\" for addiction_type \"%s\"", add._builtin, add.id.c_str() );
         }
-    } else if( add.type == STATIC( addiction_id( "marloss_r" ) ) ) {
-        marloss_add( u, in, _( "You daydream about luscious pink berries as big as your fist." ) );
-    } else if( add.type == STATIC( addiction_id( "marloss_b" ) ) ) {
-        marloss_add( u, in, _( "You daydream about nutty cyan seeds as big as your hand." ) );
-    } else if( add.type == STATIC( addiction_id( "marloss_y" ) ) ) {
-        marloss_add( u, in, _( "You daydream about succulent, pale golden gel, sweet but light." ) );
     }
 }

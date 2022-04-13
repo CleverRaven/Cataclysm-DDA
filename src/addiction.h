@@ -20,11 +20,13 @@ struct add_type {
         translation _desc;
         morale_type _craving_morale;
         effect_on_condition_id _effect;
+        std::string _builtin;
     public:
         addiction_id id;
         bool was_loaded = false;
         static void load_add_types( const JsonObject &jo, const std::string &src );
         static void reset();
+        static void check_add_types();
         void load( const JsonObject &jo, const std::string &src );
         static const std::vector<add_type> &get_all();
 
@@ -47,6 +49,9 @@ struct add_type {
         const effect_on_condition_id &get_effect() const {
             return _effect;
         }
+        const std::string &get_builtin() const {
+            return _builtin;
+        }
 };
 
 class addiction
@@ -61,14 +66,13 @@ class addiction
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );
+
+        /** Runs one update of this addiction's effects **/
+        void run_effect( Character &u );
 };
 
 // Minimum intensity before effects are seen
 constexpr int MIN_ADDICTION_LEVEL = 3;
 constexpr int MAX_ADDICTION_LEVEL = 20;
-
-// cancel_activity is called when the addiction effect wants to interrupt the player
-// with an optional pre-translated message.
-void addict_effect( Character &u, addiction &add );
 
 #endif // CATA_SRC_ADDICTION_H
