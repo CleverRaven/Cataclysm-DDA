@@ -3399,8 +3399,9 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    // NPCs can use first aid now, but they can't perform long (cost > p.moves) actions
-    if( cost > p.moves && &patient == &p && !p.is_npc() ) {
+    // NPCs can use first aid now, but they can't perform firstaid_activity_actor
+    // TODO check if NPCs can use the activity actor
+    if( &patient == &p && !p.is_npc() ) {
         // Assign first aid long action.
         p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname() ) ) );
         p.activity.targets.emplace_back( p, &it );
