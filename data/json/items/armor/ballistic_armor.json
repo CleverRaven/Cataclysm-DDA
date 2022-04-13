@@ -938,7 +938,7 @@
     "material": [ "ceramic", "kevlar_layered" ],
     "symbol": "[",
     "looks_like": "kevlar",
-    "color": "light_red",
+    "color": "yellow",
     "warmth": 12,
     "flags": [ "STURDY", "OUTER", "NO_REPAIR" ],
     "//2": "Ceramic disks in real-life dragon skin are 6.4mm thick; the actual fabric itself wasn't intended to provide high-grade protection, and so it's quite thin here.",
