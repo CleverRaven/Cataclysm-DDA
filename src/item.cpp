@@ -3580,7 +3580,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", string_format( "  %d%%:%s", entry.first, coverage ) );
+            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+                               entry.first );
         }
     }
 
@@ -3599,7 +3600,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             for( const translation &entry : to_print ) {
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
-            info.emplace_back( "ARMOR", string_format( "  %d%%:%s", entry.first, coverage ) );
+            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+                               entry.first );
         }
     }
 
@@ -3624,19 +3626,29 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 coverage += string_format( _( " The <info>%s</info>." ), entry );
             }
 
-            encumbrance_info = string_format( "%d", entry.first.encumb );
+            //encumbrance_info = string_format( "%d", entry.first.encumb );
+
+            // NOLINTNEXTLINE(cata-translate-string-literal)
+            info.emplace_back( "ARMOR", space, "", iteminfo::no_newline | iteminfo::lower_is_better,
+                               entry.first.encumb );
+
+
+
 
             // if it has a max value
             if( entry.first.encumb != entry.first.encumb_max ) {
-                encumbrance_info += _( ",  When full" ) + space + string_format( "%d",
-                                    entry.first.encumb_max );
+                std::string when_full_message = _( ", When full" ) + space;
+                info.emplace_back( "ARMOR", when_full_message, "", iteminfo::no_newline | iteminfo::lower_is_better,
+                                   entry.first.encumb_max );
             }
 
+            // if it has a min value
             if( entry.first.encumb != entry.first.encumb_min ) {
-                encumbrance_info += _( ",  When empty" ) + space + string_format( "%d",
-                                    entry.first.encumb_min );
+                std::string when_empty_message = _( ", When empty" ) + space;
+                info.emplace_back( "ARMOR", when_empty_message, "",
+                                   iteminfo::no_newline | iteminfo::lower_is_better, entry.first.encumb_min );
             }
-            info.emplace_back( "ARMOR", string_format( "  %s:%s", encumbrance_info, coverage ) );
+            info.emplace_back( "ARMOR", string_format( ":%s", coverage ) );
         }
     }
 
