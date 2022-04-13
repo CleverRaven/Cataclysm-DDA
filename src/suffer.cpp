@@ -336,7 +336,7 @@ void suffer::from_addictions( Character &you )
     for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-            addict_effect( you, cur_addiction );
+            cur_addiction.run_effect( you );
         }
         cur_addiction.sated -= 1_turns;
         // Higher intensity addictions heal faster

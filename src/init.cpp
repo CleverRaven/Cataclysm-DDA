@@ -761,6 +761,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Effect Types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
+            { _( "Addiction Types" ), &add_type::check_add_types },
             {
                 _( "Items" ), []()
                 {
