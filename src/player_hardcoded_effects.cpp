@@ -111,6 +111,7 @@ static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -284,8 +285,36 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.mod_pain( 1 );
         }
         if( one_in( 120 / intense ) ) {
+            const std::string blood_str = !u.has_trait( trait_ACIDBLOOD ) ? "Blood" : "Acid";
+            // the numerical values here coincide with the intensity thresholds at which the name of the effect changes
+            // i.e. 0-5 intensity is displayed as "Minor Bleeding", 11-20 intensity is displayed as "Bad Bleeding", etc
+            const std::map<int, std::string> intensity_strings = {
+                { 0, "%1s drips from your %2s." },
+                { 6, "%1s leaks from your %2s. " },
+                { 11, "%1s flows from your %2s." },
+                { 21, "%1s pours from your %2s!" },
+                { 31, "%1s sprays from your %2s!" }
+            };
+            std::string suffer_string = intensity_strings.at( 0 );
+            // iterate in reverse to find the first string that we qualify for based on intensity
+            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
+            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
+                if( intense >= iter->first ) {
+                    suffer_string = iter->second;
+                    break;
+                }
+            }
             u.bleed();
-            u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
+            bodypart_id bp = it.get_bp();
+            // piece together the final displayed message here instead of inline, for readability's sake
+            // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
+            // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
+            const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format( _
+                                              ( suffer_string ),
+                                              _( blood_str ), body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+            // display the final message
+            u.add_msg_player_or_npc( m_bad,
+                                     final_message,
                                      _( "<npcname> loses some blood." ) );
         }
     }
