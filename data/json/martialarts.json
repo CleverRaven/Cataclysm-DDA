@@ -121,7 +121,7 @@
       {
         "id": "buff_bojutsu_static2",
         "name": "Skilled Striking",
-        "description": "As you get more skilled you're able to begin targeting striking points that allow more for damage.\n\nMelee skill increases Bash damage cap.",
+        "description": "As you get more skilled you're able to begin targeting striking points that allow more for damage.\n\nMelee skill increases bash damage cap.",
         "melee_allowed": true,
         "melee_bash_damage_cap_bonus": true,
         "skill_requirements": [ { "name": "melee", "level": 1 } ]
@@ -131,7 +131,7 @@
       {
         "id": "buff_bojutsu_onmove",
         "name": "Rolling Staff",
-        "description": "As you move you begin to rapidly and fluidly roll your staff between your hands.\n\n+10% Bash damage.\nEnables \"Rolling Strike\" technique.\nLasts 1 turn.",
+        "description": "As you move you begin to rapidly and fluidly roll your staff between your hands.\n\n+10% bash damage.\nEnables \"Rolling Strike\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -418,7 +418,7 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, Bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
+        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "int", "scale": 0.25 },
@@ -1130,7 +1130,7 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, Bash damage increased by 75% of Perception but decreased by 75% of Strength.",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
@@ -1460,7 +1460,7 @@
       {
         "id": "debug_elem_resist",
         "name": "Elemental Resistance",
-        "description": "You are a walking tank!\n\nBash armor increased by 100% of Strength, Cut armor increased by 100% of Dexterity, Electricic armor increased by 100% of Intelligence, and Fire armor increased by 100% of Perception.",
+        "description": "You are a walking tank!\n\nBash armor increased by 100% of Strength, cut armor increased by 100% of Dexterity, electricic armor increased by 100% of Intelligence, and fire armor increased by 100% of Perception.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
@@ -1485,7 +1485,7 @@
       {
         "id": "debug_miss_buff",
         "name": "Getting Angry",
-        "description": "When I get my hands on you…\n\n+2 Bash damage.\nLasts 2 turns.  Stacks 5 times.",
+        "description": "When I get my hands on you…\n\n+2 bash damage.\nLasts 2 turns.  Stacks 5 times.",
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 5,
@@ -1496,7 +1496,7 @@
       {
         "id": "debug_kill_buff",
         "name": "On Fire",
-        "description": "YOU ARE ON FIRE!\n\n+5 Fire damage.\nLasts 5 turns.",
+        "description": "YOU ARE ON FIRE!\n\n+5 fire damage.\nLasts 5 turns.",
         "unarmed_allowed": true,
         "buff_duration": 5,
         "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5.0 } ]
