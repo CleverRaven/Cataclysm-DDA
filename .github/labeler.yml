@@ -58,6 +58,12 @@
   - "src/list_view.*"
   - "src/surroundings_menu.*"
 
+"Items: Armor / Clothing":
+  - "**/armor/**/*"
+
+"Items: Containers":
+  - "**/containers/**/*"
+
 "Appliance/Power Grid":
   - "**/appliance**"
 
