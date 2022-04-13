@@ -353,6 +353,10 @@ struct body_part_type {
         // combine matching body part and subbodypart strings together for printing
         static std::set<translation, localized_comparator> consolidate( std::vector<sub_bodypart_id>
                 &covered );
+
+        // this version just pairs normal body parts
+        static std::set<translation, localized_comparator> consolidate( std::vector<bodypart_id>
+                &covered );
 };
 
 

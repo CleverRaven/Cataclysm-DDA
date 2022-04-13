@@ -584,6 +584,11 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
             continue;
         }
         // bodyparts with no opposite are their own opposite
+        if( bp->opposite_part.id() == bp ) {
+            // if no opposite don't look for one
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
         auto bp_itt = std::find( full_bps.begin(), full_bps.end(), bp->opposite_part );
         if( bp_itt == full_bps.end() ) {
             // if we didn't find the match just add the limb we were just looking at
@@ -629,6 +634,39 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         if( !found ) {
             to_return.insert( sbp->name );
         }
+    }
+
+    return to_return;
+}
+
+std::set<translation, localized_comparator> body_part_type::consolidate(
+    std::vector<bodypart_id> &covered )
+{
+    std::set<translation, localized_comparator> to_return;
+
+    // now try and compress together matching limbs
+    for( size_t i = 0; i < covered.size(); i++ ) {
+        const bodypart_id &bp = covered[i];
+
+        if( bp == bodypart_str_id::NULL_ID().id() ) {
+            //its already been covered
+            continue;
+        }
+        // bodyparts with no opposite are their own opposite
+        if( bp->opposite_part.id() == bp ) {
+            // if no opposite don't look for one
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+        auto bp_itt = std::find( covered.begin(), covered.end(), bp->opposite_part );
+        if( bp_itt == covered.end() ) {
+            // if we didn't find the match just add the limb we were just looking at
+            to_return.insert( bp->name_as_heading );
+            continue;
+        }
+
+        *bp_itt = bodypart_str_id::NULL_ID().id();
+        to_return.insert( bp->name_as_heading_multiple );
     }
 
     return to_return;

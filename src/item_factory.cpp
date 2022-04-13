@@ -942,6 +942,11 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
 
+            // if tempworst is 1 then the item is homogenous so it only has a single option for damage
+            if( tempworst == 1 ) {
+                tempworst = 0;
+            }
+
             // if not exactly 0 it should display as at least 1
             if( tempworst > 0 ) {
                 armor_data.worst_protection_chance = std::max( 1.0f, tempworst * 100.0f );
