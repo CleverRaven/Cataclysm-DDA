@@ -349,7 +349,7 @@
     "skill": "pistol",
     "ammo": [ "bolt" ],
     "weight": "570 g",
-    "volume": "500 ml",
+    "volume": "672 ml",
     "longest_side": "42 cm",
     "bashing": 4,
     "ranged_damage": { "damage_type": "stab", "amount": 3 },
