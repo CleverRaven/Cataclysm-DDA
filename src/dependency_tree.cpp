@@ -4,13 +4,13 @@
 #include <array>
 #include <ostream>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "output.h"
-#include "string_id.h"
 
-std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
+static std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
@@ -153,7 +153,7 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
     ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
-        ret.push_back( ( as_node )->key );
+        ret.push_back( as_node->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -214,7 +214,7 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
     ret.reserve( as_nodes.size() );
 
     for( auto &as_node : as_nodes ) {
-        ret.push_back( ( as_node )->key );
+        ret.push_back( as_node->key );
     }
 
     // returns dependencies in a guaranteed valid order
@@ -272,10 +272,10 @@ void dependency_tree::init( const std::map<mod_id, std::vector<mod_id> > &key_de
 void dependency_tree::build_node_map(
     const std::map<mod_id, std::vector<mod_id > > &key_dependency_map )
 {
-    for( auto &elem : key_dependency_map ) {
+    for( const auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
         if( master_node_map.find( elem.first ) == master_node_map.end() ) {
-            master_node_map.emplace( elem.first, elem.first );
+            master_node_map.emplace( elem.first, dependency_node( elem.first ) );
         }
     }
 }
@@ -283,7 +283,7 @@ void dependency_tree::build_node_map(
 void dependency_tree::build_connections(
     const std::map<mod_id, std::vector<mod_id > > &key_dependency_map )
 {
-    for( auto &elem : key_dependency_map ) {
+    for( const auto &elem : key_dependency_map ) {
         const auto iter = master_node_map.find( elem.first );
         if( iter != master_node_map.end() ) {
             dependency_node *knode = &iter->second;
@@ -399,7 +399,7 @@ void dependency_tree::check_for_strongly_connected_components()
     }
     // now go back through this and give them all the circular error code!
     for( const auto &elem : in_circular_connection ) {
-        ( elem )->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
+        elem->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
     }
 }
 

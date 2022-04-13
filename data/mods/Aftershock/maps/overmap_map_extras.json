@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mx_wraitheon_droneswarm",
+    "type": "map_extra",
+    "name": { "str": "Wraitheon Droneswarm" },
+    "description": "A group of combat drones.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_wraitheon_droneswarm" },
+    "sym": "w",
+    "color": "pink",
+    "autonote": true
+  }
+]

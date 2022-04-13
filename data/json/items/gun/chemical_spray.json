@@ -9,12 +9,14 @@
     "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
     "weight": "4588 g",
     "volume": "4250 ml",
+    "longest_side": "110 cm",
     "price": 10000,
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_50", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_to_fire": 50,
     "skill": "launcher",
     "ammo": [ "chemical_spray" ],
     "dispersion": 300,
@@ -28,14 +30,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "pressurized_tank_chem" ]
-      }
-    ]
+    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ]
   }
 ]

@@ -35,7 +35,7 @@
         " cccccccccccccccccccccc ",
         "                        "
       ],
-      "terrain": { "a": "t_pit_corpsed", "b": "t_fence_post", "c": "t_fence_barbed" },
+      "terrain": { "a": [ "t_pit_corpsed" ], "b": [ "t_fence_post" ], "c": [ "t_fence_barbed" ] },
       "furniture": {  },
       "place_loot": [
         { "group": "everyday_corpse", "x": [ 4, 4 ], "y": [ 8, 8 ] },
@@ -52,7 +52,8 @@
         { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 8, 12 ] },
         { "field": "fd_gibs_flesh", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 1, 5 ] },
         { "field": "fd_blood", "x": [ 3, 4 ], "y": [ 7, 15 ], "repeat": [ 4, 8 ] }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

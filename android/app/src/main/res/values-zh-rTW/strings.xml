@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">正在安裝遊戲資料...</string>
+    <string name="upgradeTitle">正在更新遊戲資料...</string>
+    <string name="softwareRendering">軟體算圖</string>
+    <string name="forceFullscreen">強制全螢幕</string>
+    <string name="trapBackButton">取消返回鍵</string>
+    <string name="settings">設定</string>
+    <string name="startGame">開始遊戲</string>
+    <string name="showHelp">顯示說明</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="cancel">取消</string>
+    </resources>

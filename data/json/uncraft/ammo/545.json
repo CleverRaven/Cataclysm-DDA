@@ -2,32 +2,34 @@
   {
     "result": "545",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 1 ] ],
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 5 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "gunpowder_rifle", 13 ] ],
+      [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
     "result": "545_ap",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 1 ] ],
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 5 ] ],
-      [ [ "copper", 3 ] ]
+      [ [ "gunpowder_rifle", 13 ] ],
+      [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

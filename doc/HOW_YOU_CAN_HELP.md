@@ -1,12 +1,82 @@
 # How You Can Help
 
-If you want to just jump right in, then search for the ["Good First Issue"](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) tag.
+CDDA is maintained by thousands of volunteers, organized by a core development team. There are many
+ways you can help, both through direct participation in the game's code and content development, and
+by finding or reproducing bugs, locating causes, and testing the proposed fixes.
 
-If you wish to find something pertaining to your specialty, then use the more detailed tags, in any combination.
+- See [ISSUES.md](../ISSUES.md) for how to report bugs or request new features
+- See [CONTRIBUTING.md](../.github/CONTRIBUTING.md) for how to make and and submit changes to the
+  game with pull requests
+- See the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)
+  for more help getting started with contributing
 
-&nbsp;
 
-## Languages
+## Other ways to help
+
+This section focuses on ways you can support CDDA development without necessarily knowing how to use
+Git, C++, or even JSON.
+
+As a player, you may follow CDDA development and know about the
+[issues page on GitHub](https://github.com/CleverRaven/Cataclysm-DDA/issues)
+where bugs and feature requests are reported.
+
+If you don't have a GitHub account, you may use the
+[Issue Triage Crowdsource](https://forms.gle/FBucNHVH5rJyJCfGA) form to tell us about issues of
+particular importance or annoyance to you, which you think should be fixed before the next stable
+release.
+
+If you have a GitHub account, you may know you can [open issues](../ISSUES.md) and create pull
+requests to [contribute code changes](../.github/CONTRIBUTING.md). But you can also use your GitHub
+account to help manage and triage the existing issues and pull requests, and participate in
+the discovery, discussion, and testing processes that surround game development.
+
+Ways to help with issues:
+
+- Reproduce issues that [need confirmation](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S1+-+Need+confirmation%29%22).
+  Finding a procedure that reliably reproduces a problem is an important step toward finding a
+  solution. Comment with your results (positive or negative), game version, the steps you followed,
+  and any screenshots or other relevant info.
+
+- Determine the first version, pull request, or commit affected by an issue. In the case of newly
+  appearing bugs or regressions in game behavior, it may be possible to pinpoint when it first
+  started occurring, by manually testing different game versions, or using a more sophisticated
+  approach like `git bisect`. If you play experimental and update regularly, you might know right
+  off the top of your head which version broke something! This is valuable information. If you can
+  determine this and comment on the issue, it will definitely help locate a fix.
+
+- Find closely related or possible duplicate issues. Even when people do search for existing issues
+  before opening new ones, with thousands of open issues, they may still be hard to find, and
+  duplicates often arise. If you notice two or more issues that are similar, related, or duplicated,
+  please comment with the issue number(s) to generate a cross-reference link.
+
+- Check old issues, to see if they are still relevant and reproducible in the current experimental
+  version. Comment on any that may be already fixed or obsoleted, and could be closed with no
+  further action - or, conversely, any that are still valid and worth fixing.
+
+Ways to help with pull requests:
+
+- Read pull request descriptions, and look at the affected code and/or JSON files. Provide
+  constructive feedback in the form of comments or code reviews on the PR.
+
+- Check out, compile, and test pull requests. The "Code" dropdown shown at the top-right
+  of each pull request shows how to checkout the PR using [GitHub CLI](https://cli.github.com/), ex.
+  `gh pr checkout 12345`. Build and playtest the PR to verify that it does what it should, and share
+  your findings with the author.
+
+
+## Issue labels
+
+Both issues and pull requests are categorized with labels, which can be helpful for organization.
+Typically someone with triage permissions will add appropriate labels. Use the links below to search
+for issues by label.
+
+If you want to just jump right in, search for the ["Good First Issue"](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) tag.
+
+If you wish to find something pertaining to your specialty, use the more detailed tags, in any combination.
+
+
+### Languages
 
 | Tag                                                                                                             | Description
 |---                                                                                                              |---
@@ -17,7 +87,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 
 &nbsp;
 
-## Issue Types
+### Issue Types
 
 | Tag                                                                                                                                                     | Description
 |---                                                                                                                                                      |---
@@ -32,7 +102,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 
 &nbsp;
 
-## Gameplay Categories
+### Gameplay Categories
 
 | Tag                                                                                                                                                                         | Description
 |---                                                                                                                                                                          |---
@@ -81,7 +151,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 
 &nbsp;
 
-## Flags
+### Flags
 
 | Tag                                                                                                                                                                                             | Description
 |---                                                                                                                                                                                              |---
@@ -91,12 +161,12 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [Code: Tests](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Code%3A+Tests%22)                                                                           | Measurement, self-control, statistics, balancing.
 | [Game: Balance](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Game%3A+Balance%22)                                                                       | Code that balances in-game features.
 | [Game: Mechanics Change](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Game%3A+Mechanics+Change%22)                                                     | Code that changes how major features work
-| [Organization: Bounty](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Bounty%22)                                                         | Bounties for claim
+| [Organization: Bounty](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Bounty%22)                                                         | Bounties for the claiming
 | [Organization: Sites](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Sites%22)                                                           | Issues concerning web-sites that relate to Cataclysm
-| [OS: Android](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Android%22)                                                                           | Issues related to Android operating system
-| [OS: Linux](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Linux%22)                                                                               | Issues related to Linux operating system
-| [OS: macOS](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+macOS%22)                                                                               | Issues related to macOS operating system
-| [OS: Windows](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Windows%22)                                                                           | Issues related to Windows operating system
+| [OS: Android](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Android%22)                                                                           | Issues related to the Android operating system
+| [OS: Linux](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Linux%22)                                                                               | Issues related to the Linux operating system
+| [OS: macOS](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+macOS%22)                                                                               | Issues related to the macOS operating system
+| [OS: Windows](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Windows%22)                                                                           | Issues related to the Windows operating system
 | [(P1 - Critical)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P1+-+Critical%29%22)                                                                 | Highest priority (for ex. crash fixes)
 | [(P2 - High)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P2+-+High%29%22)                                                                         | High priority (for ex. important bugfixes)
 | [(P3 - Medium)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P3+-+Medium%29%22)                                                                     | Medium (normal) priority
@@ -105,7 +175,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [PUBLIC TEST](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22PUBLIC+TEST%22)                                                                             | </div>
 | [(S1 - Need confirmation)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S1+-+Need+confirmation%29%22)                                               | Bug waiting on confirmation of reproducibility
 | [(S2 - Confirmed)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S2+-+Confirmed%29%22)                                                               | Bug that's been confirmed to exist
-| [(S3 - Duplicate)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S3+-+Duplicate%29%22)                                                               | Bug that is duplicate of another one
+| [(S3 - Duplicate)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S3+-+Duplicate%29%22)                                                               | Bug that is a duplicate of another one
 | [(S4 - Invalid)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S4+-+Invalid%29%22)                                                                   | wontfix / can't reproduce
 | [SDL: Tiles / Sound](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22SDL%3A+Tiles+%2F+Sound%22)                                                           | Tiles visual interface and sounds.
 | [stale](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3Astale)                                                                                               | Closed for lack of activity, but still valid.

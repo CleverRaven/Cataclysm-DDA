@@ -34,8 +34,7 @@
       ],
       "terrain": {
         " ": "t_pavement",
-        "%": "t_console_broken",
-        "*": "t_shrub",
+        "*": "t_region_shrub",
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_wall_w",
@@ -47,7 +46,7 @@
         "O": "t_window",
         "R": "t_linoleum_white",
         "^": "t_chaingate_c",
-        "i": [ "t_door_locked_interior", "t_door_locked_interior", "t_door_c" ],
+        "i": [ [ "t_door_locked_interior", 2 ], "t_door_c" ],
         "l": "t_linoleum_white",
         "s": "t_linoleum_white",
         "t": "t_linoleum_white",
@@ -56,6 +55,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "$": "f_safe_l",
         "?": "f_counter",

@@ -7,7 +7,7 @@
       "/": "t_region_groundcover_barren",
       "!": "t_region_groundcover_barren",
       "_": "t_region_groundcover_barren",
-      "'": "t_plut_generator",
+      "'": "t_floor",
       "?": "t_floor",
       "#": "t_pit_corpsed",
       "-": "t_wall",
@@ -27,10 +27,11 @@
       "P": "t_water_pump",
       "s": "t_floor",
       "w": [ "t_window_domestic", "t_curtains", "t_curtains" ],
-      "6": "t_console_broken",
-      "7": "t_centrifuge"
+      "6": "t_floor",
+      "7": "t_floor"
     },
     "furniture": {
+      "'": "f_generator_broken",
       "=": "f_canvas_wall",
       ",": "f_fema_groundsheet",
       "*": "f_canvas_door",
@@ -57,7 +58,9 @@
       "U": "f_cupboard",
       "W": "f_woodstove",
       "x": "f_crate_o",
-      "X": "f_crate_c"
+      "X": "f_crate_c",
+      "6": "f_console_broken",
+      "7": "f_centrifuge"
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {

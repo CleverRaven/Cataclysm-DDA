@@ -87,18 +87,18 @@
       "palettes": [ "school_palette" ],
       "place_items": [  ],
       "place_item": [ { "item": "american_flag", "x": 36, "y": 58, "amount": 1 } ],
-      "place_monsters": [
-        { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 1 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 }
+      "place_monster": [
+        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 27, 33 ], "y": [ 20, 23 ], "chance": 50 },
+        { "group": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] }
       ],
-      "place_monster": [ { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 27, 33 ], "y": [ 20, 23 ], "chance": 50 } ],
       "place_vehicles": [ { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "fuel": 0, "status": 0, "rotation": 0 } ]
     }
   },
@@ -189,13 +189,13 @@
       ],
       "palettes": [ "school_palette" ],
       "place_items": [  ],
-      "place_monsters": [
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 2, 6 ] }
       ]
     }
   },
@@ -286,13 +286,13 @@
       ],
       "palettes": [ "school_palette" ],
       "place_items": [  ],
-      "place_monsters": [
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 2 ], "density": 0.1 },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 1, 2 ], "density": 0.1 }
+      "place_monster": [
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
+        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 2, 6 ] }
       ]
     }
   },
@@ -405,17 +405,10 @@
       "*": "t_open_air",
       "~": "t_open_air_rooved",
       "H": "t_glass_railing",
-      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ] ],
-      "b": "t_dirt",
-      "$": [
-        [ "t_underbrush", 10 ],
-        [ "t_shrub", 32 ],
-        [ "t_grass_tall", 10 ],
-        [ "t_shrub_lilac", 2 ],
-        [ "t_shrub_hydrangea", 2 ],
-        [ "t_shrub_rose", 1 ]
-      ],
-      ";": [ [ "t_tree", 10 ], [ "t_tree_willow", 3 ], [ "t_tree_birch", 3 ], [ "t_tree_maple", 3 ], [ "t_tree_pine", 5 ] ],
+      " ": "t_region_groundcover_urban",
+      "b": "t_region_groundcover_barren",
+      "$": "t_region_shrub_decorative",
+      ";": "t_region_tree_shade",
       "+": "t_door_c",
       "i": "t_linoleum_gray",
       "e": "t_linoleum_gray",
@@ -434,7 +427,6 @@
       "f": "t_chainfence_h",
       "s": "t_sidewalk",
       "w": "t_window",
-      "x": "t_console_broken",
       "|": "t_wall_y",
       "I": "t_column",
       ",": "t_floor_waxed",
@@ -461,6 +453,7 @@
       "j": "t_sewage_pipe"
     },
     "furniture": {
+      "x": "f_console_broken",
       "%": "f_curtain",
       "@": "f_bed",
       "#": "f_bench",
@@ -524,7 +517,7 @@
         { "item": "dining", "chance": 5, "repeat": [ 1, 3 ] }
       ]
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "computers": {
       "6": {
         "name": "School Bell Software 1.1",

@@ -3,15 +3,20 @@
 #define CATA_SRC_INIT_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <string>
-#include <vector>
+#include <memory>
+#include <string> // IWYU pragma: keep
 #include <utility>
+#include <vector>
 
-class loading_ui;
-class JsonObject;
+#include "memory_fast.h"
+
 class JsonIn;
+class JsonObject;
+class loading_ui;
+struct json_source_location;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -59,12 +64,16 @@ class DynamicDataLoader
 
         /**
          * JSON data dependent upon as-yet unparsed definitions
-         * first: JSON data, second: source identifier
+         * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<std::string, std::string>>;
+        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
 
     private:
         bool finalized = false;
+
+        struct cached_streams;
+
+        std::unique_ptr<cached_streams> stream_cache;
 
     protected:
         /**
@@ -161,6 +170,14 @@ class DynamicDataLoader
         bool is_data_finalized() const {
             return finalized;
         }
+
+        /**
+         * Get a possibly cached stream for deferred data loading. If the cached
+         * stream is still in use by outside code, this returns a new stream to
+         * avoid conflict of stream cursor. The stream cursor is not reset if a
+         * cached stream is returned.
+         */
+        shared_ptr_fast<std::istream> get_cached_stream( const std::string &path );
 };
 
 #endif // CATA_SRC_INIT_H

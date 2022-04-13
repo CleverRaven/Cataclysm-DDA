@@ -40,20 +40,27 @@
     "name": { "str": "CLOTHING" },
     "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
-    "sort_rank": -18
+    "sort_rank": 19
   },
   {
     "id": "food",
     "type": "ITEM_CATEGORY",
     "name": { "str": "FOOD" },
     "//": "zone is hardcoded",
-    "sort_rank": -17
+    "sort_rank": -18
   },
   {
     "id": "drugs",
     "type": "ITEM_CATEGORY",
     "name": { "str": "DRUGS" },
     "zone": "LOOT_DRUGS",
+    "sort_rank": -17
+  },
+  {
+    "id": "manuals",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MANUALS" },
+    "zone": "LOOT_MANUALS",
     "sort_rank": -16
   },
   {
@@ -67,6 +74,7 @@
     "id": "maps",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MAPS" },
+    "zone": "LOOT_MAPS",
     "sort_rank": -14
   },
   {
@@ -89,6 +97,13 @@
     "name": { "str": "BIONICS" },
     "zone": "LOOT_BIONICS",
     "sort_rank": -12
+  },
+  {
+    "id": "currency",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "CURRENCY" },
+    "zone": "LOOT_CURRENCY",
+    "sort_rank": -11
   },
   {
     "id": "veh_parts",
@@ -147,11 +162,25 @@
     "sort_rank": 10
   },
   {
+    "id": "keys",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "KEYS" },
+    "zone": "LOOT_KEYS",
+    "sort_rank": 11
+  },
+  {
     "id": "armor",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ARMOR" },
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
     "zone": "LOOT_ARMOR",
+    "sort_rank": 20
+  },
+  {
+    "id": "exosuit",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "EXOSUIT" },
+    "zone": "LOOT_EXOSUIT",
     "sort_rank": 20
   },
   {

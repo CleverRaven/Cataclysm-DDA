@@ -1,0 +1,85 @@
+[
+  {
+    "id": "full_butchery_large",
+    "type": "requirement",
+    "//": "omit butcher quality because it is checked separately",
+    "qualities": [
+      { "id": "SURFACE", "level": 3 },
+      { "id": "ROPE", "level": 2 },
+      { "id": "SUSPENDING", "level": 2 },
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 1 }
+    ]
+  },
+  {
+    "id": "butchery_large",
+    "type": "requirement",
+    "qualities": [ { "id": "SURFACE", "level": 3 }, { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "dissect_large",
+    "type": "requirement",
+    "qualities": [ { "id": "SURFACE", "level": 3 }, { "id": "CUT_FINE", "level": 1 } ]
+  },
+  {
+    "id": "butchery_small",
+    "type": "requirement",
+    "qualities": [ { "id": "SURFACE", "level": 2 }, { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "dissect_small",
+    "type": "requirement",
+    "qualities": [ { "id": "SURFACE", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ]
+  },
+  {
+    "id": "field_dress",
+    "type": "requirement",
+    "qualities": [ { "id": "SURFACE", "level": 2 }, { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "full_butchery_large_no_surface",
+    "type": "requirement",
+    "//": "omit butcher quality because it is checked separately",
+    "qualities": [
+      { "id": "ROPE", "level": 2 },
+      { "id": "SUSPENDING", "level": 2 },
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 1 }
+    ]
+  },
+  {
+    "id": "butchery_large_no_surface",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "dissect_large_no_surface",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
+  },
+  {
+    "id": "butchery_small_no_surface",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "dissect_small_no_surface",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
+  },
+  {
+    "id": "field_dress_no_surface",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "bleed_large",
+    "type": "requirement",
+    "qualities": [ { "id": "ROPE", "level": 2 }, { "id": "SUSPENDING", "level": 2 }, { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "id": "bleed_small",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  }
+]

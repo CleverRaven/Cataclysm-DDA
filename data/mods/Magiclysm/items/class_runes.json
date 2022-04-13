@@ -8,7 +8,7 @@
     "description": "This magical pebble has an insignia of rended flesh and bones on it.  It is necessary for Biomancers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -20,7 +20,7 @@
     "description": "This magical pebble has an insignia of clockwork and gears on it.  It is necessary for Technomancers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -32,7 +32,7 @@
     "description": "This magical pebble has an insignia of crystal and mana orbs on it.  It is necessary for Magi to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -44,7 +44,7 @@
     "description": "This magical pebble has an insignia of steel and rocks on it.  It is necessary for Earthshapers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -56,7 +56,7 @@
     "description": "This magical pebble has an insignia of ice and flames on it.  It is necessary for Kelvinists to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -68,7 +68,7 @@
     "description": "This magical pebble has an insignia of lightning and storm clouds on it.  It is necessary for Stormshapers to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -80,7 +80,7 @@
     "description": "This magical pebble has an insignia of nature and trees on it.  It is necessary for Druids to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -92,7 +92,7 @@
     "description": "This magical pebble has an insignia of summoners on it.  It is necessary for Animists to channel magic into their crafts.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -104,7 +104,7 @@
     "description": "This magical pebble has an insignia of alchemy and potions on it.  While versatile in use, the lack of attunement to any school prevents creation of more advanced recipes.",
     "volume": "5ml",
     "weight": "1 g",
-    "material": "stone",
+    "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
   }
 ]

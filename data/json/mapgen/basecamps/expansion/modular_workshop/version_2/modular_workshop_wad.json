@@ -1,0 +1,143 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_1_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ".....w",
+        ".....v",
+        ".....w",
+        ".....w",
+        ".....w",
+        "vww+vw"
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_1_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_1_wad" ], "x": 14, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_2_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "  w,,w",
+        "  ,,,,",
+        "wwwvww",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_2_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_2_wad" ], "x": 14, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_pottery_wad",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "www+wwvw",
+        "w.......",
+        "w.......",
+        "w.......",
+        "w.......",
+        "w.......",
+        "wwwwvwww",
+        "        "
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_pottery_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_pottery_wad" ], "x": 0, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_smithy_3_wad",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwvw+ ",
+        "w..... ",
+        "w..... ",
+        "+..... ",
+        "w..... ",
+        "w..... ",
+        "wwwvww "
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_smithy_3_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_smithy_3_wad" ], "x": 8, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_glassblower_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwvwvw",
+        "w....w",
+        "w....+",
+        "w....w",
+        "wwvw+w",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_glassblower_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_glassblower_wad" ], "x": 0, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_tanner_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w....v",
+        "+....w",
+        "w....v",
+        "w+wvww",
+        "      "
+      ],
+      "palettes": [ "fbmw_2_2_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_tanner_wad",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_tanner_wad" ], "x": 14, "y": 0 } ] }
+  }
+]

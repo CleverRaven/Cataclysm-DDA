@@ -27,9 +27,9 @@ void mass::serialize( JsonOut &jsout ) const
 }
 
 template<>
-void length::deserialize( JsonIn &jsin )
+void length::deserialize( const JsonValue &jv )
 {
-    *this = read_from_json_string( jsin, units::length_units );
+    *this = read_from_json_string( jv, units::length_units );
 }
 
 template<>
@@ -45,8 +45,21 @@ void energy::serialize( JsonOut &jsout ) const
 }
 
 template<>
-void energy::deserialize( JsonIn &jsin )
+void energy::deserialize( const JsonValue &jv )
 {
-    *this = read_from_json_string( jsin, units::energy_units );
+    *this = read_from_json_string( jv, units::energy_units );
 }
+
+template<>
+void angle::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%f rad", value_ ) );
+}
+
+template<>
+void angle::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::angle_units );
+}
+
 } // namespace units

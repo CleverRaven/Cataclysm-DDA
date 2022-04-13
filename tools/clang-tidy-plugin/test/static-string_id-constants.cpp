@@ -47,16 +47,19 @@ static const mongroup_id MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 // CHECK-MESSAGES: warning: Declaration of string_id 'MI_GO_CAMP_OM' should be named 'GROUP_MI_GO_CAMP_OM'. [cata-static-string_id-constants]
 // CHECK-FIXES: static const mongroup_id GROUP_MI_GO_CAMP_OM( "GROUP_MI-GO_CAMP_OM" );
 
-activity_id f()
+void f()
 {
     efftype_id effect( "sleep" );
     // Uses of local variables should not be renamed
     ( void )effect;
-    const bionic_id bio_cloak( "bio_cloak" );
-    // CH/ECK-MESSAGES: warning: Construction of 'const bionic_id' (aka 'const string_id<bionic_data>') from string literal should be global static constant. [cata-static-string_id-constants]
     ( void )construction_cat_FILTER;
     // CHECK-MESSAGES: warning: Use of string_id 'construction_cat_FILTER' should be named 'construction_category_FILTER'. [cata-static-string_id-constants]
     // CHECK-FIXES: ( void )construction_category_FILTER;
-    return activity_id( "ACT_WASH" );
-    // CH/ECK-MESSAGES: warning: Construction of 'activity_id' (aka 'string_id<activity_type>') from string literal should be global static constant. [cata-static-string_id-constants]
 }
+
+class A
+{
+        static efftype_id effect;
+};
+
+efftype_id A::effect( "sleep" );

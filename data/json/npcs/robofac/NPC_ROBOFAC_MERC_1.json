@@ -4,6 +4,7 @@
     "id": "robofac_merc_1",
     "//": "Appears in the the surface of Hub 01, an external mercenary.",
     "name_suffix": "Hub Mercenary",
+    "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",
     "class": "NC_ROBOFAC_MERC_1",
     "attitude": 0,
     "mission": 7,
@@ -37,15 +38,14 @@
     "id": "NC_ROBOFAC_MERC_1_worn",
     "subtype": "collection",
     "items": [
-      { "item": "ballistic_vest_esapi" },
-      { "item": "chestrig", "contents-group": "army_mags_m4" },
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "robofac_enviro_suit" },
       { "item": "slingpack" },
-      { "item": "armguard_hard" },
-      { "item": "legguard_hard" },
-      { "item": "knife_combat", "container-item": "bootsheath" }
+      { "item": "robofac_kevlar_vambraces" },
+      { "item": "robofac_kevlar_greaves" },
+      { "item": "knife_combat", "container-item": "bootsheath" },
+      { "group": "robofac_mantle_merc" }
     ]
   },
   {
@@ -54,7 +54,7 @@
     "subtype": "collection",
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 },
       { "item": "grenade_emp" },
       { "item": "bot_grenade_hack", "count": 2 }
     ]
@@ -64,14 +64,27 @@
     "id": "NC_ROBOFAC_MERC_1_wield",
     "subtype": "collection",
     "items": [
-      { "item": "acr", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      { "item": "robofac_gun", "ammo-item": "556", "charges": 40, "contents-item": [ "shoulder_strap", "robofac_gun_ar" ] }
     ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1",
     "type": "talk_topic",
-    "dynamic_line": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ],
+    "dynamic_line": {
+      "npc_has_var": "temporal_follower",
+      "type": "general",
+      "context": "robofac_merc_1",
+      "value": "yes",
+      "yes": [ "Better keep our eyes on the road.", "…", "Better be careful around here.", "…", "Yes?", "What's up?" ],
+      "no": [ "Something to say?", "I charge hourly, so be quick…", "Hey.", "…", "Yes?", "What's up?", "Good to see you." ]
+    },
     "responses": [
+      { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About those jobs…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
       {
         "text": "Who are you?",
         "condition": { "not": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
@@ -79,15 +92,36 @@
       },
       {
         "text": "Good to see you around.",
-        "condition": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+            }
+          ]
+        },
         "topic": "TALK_ROBOFAC_MERC_1_MAIN"
       },
       {
         "text": "Want help with something else?",
-        "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "condition": {
+          "and": [
+            { "u_has_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+            },
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
+          ]
+        },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "Never mind, I was about to leave.", "topic": "TALK_DONE" }
+      {
+        "text": "Lets set a combat strategy",
+        "condition": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_COMBAT_COMMANDS"
+      },
+      { "text": "Never mind.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -132,7 +166,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" } },
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_GOLD" } }
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_COINS"
@@ -142,7 +177,61 @@
         "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
       },
+      {
+        "text": "Want help with something?",
+        "condition": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
+      {
+        "text": "[Notice high end gun]",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_perception": 10 },
+                { "u_has_skill": { "skill": "mechanics", "level": 4 } },
+                { "u_has_skill": { "skill": "gun", "level": 2 } }
+              ]
+            },
+            {
+              "not": { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP"
+      },
+      {
+        "text": "What's the deal with your gun again?",
+        "condition": { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION"
+      },
+      {
+        "text": "Could I get a gun like that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "u_has_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "value": "1" },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_YES"
+      },
+      {
+        "text": "Could I get a gun like that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "not": { "u_has_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "value": "1" } },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_NO"
+      },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -161,7 +250,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
-    "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars. ",
+    "dynamic_line": "Have you noticed they pay us in tiny little gold coins, it's bizarre I say.  One would think they have a gold mine in there, but no, they don't, so they make me cross the damned world grabbing gold bars.",
     "responses": [
       { "text": "I guess I could help with that…", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
@@ -171,14 +260,65 @@
     "id": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS",
     "type": "talk_topic",
     "dynamic_line": [
-      "Thinking I should go hunt something soon...",
-      "Wondering if things will get better someday...",
-      "Hmm? Nothing, I guess I just like resting in this place.",
+      "Thinking I should go hunt something soon…",
+      "Wondering if things will get better someday…",
+      "Hmm?  Nothing, I guess I just like resting in this place.",
       "Have you ever noticed how… wait no, never mind.",
       "I heard some strange dimensional resonance caused all this, do you think it has happened to other places?",
       "You noticed this place has working WI-FI?  Well not the rest of the net works anyways."
     ],
     "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP",
+    "type": "talk_topic",
+    "dynamic_line": "[You've never seen anything like it.  Steel body with composite blue furniture, it looks lightweight and cutting edge.  Modern hybrid scope, built-in attachments, and a strange quick-release button on the side.  The magazine is definitely for 5.56 NATO but the magazine well seems strangely designed] Admiring the hardware?",
+    "responses": [
+      { "text": "Is that a custom Hub rifle?", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" },
+      { "text": "Didn't mean to stare.", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" },
+      { "text": "Sweet piece of salvage.", "topic": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_EXPLANATION",
+    "type": "talk_topic",
+    "dynamic_line": "It's from our employers.  Weapon is a custom platform they produce for field agents.  It's got quick swap barrels for 9mm, the standard NATO cartridges and shot-shells great for if you're on a long field mission and run out of ammo.  Lots of morons bit it on their way home from the gun store with a box of 9mm.  Better them than us; they don't need it now.",
+    "speaker_effect": {
+      "effect": { "u_add_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+      "sentinel": "robofac_merc_1_HWP"
+    },
+    "responses": [ { "text": "…", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_YES",
+    "type": "talk_topic",
+    "dynamic_line": "I do owe you one.  I'll let the eggheads know you're worth manufacturing some proper gear for.",
+    "speaker_effect": { "effect": { "u_add_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_NO",
+    "type": "talk_topic",
+    "dynamic_line": "You'll have to work it out with the intercom.  I don't want to vouch for someone I'm not sure I can trust.",
+    "responses": [
+      {
+        "text": "Anything I can do to change your mind?",
+        "condition": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "Anything I can do to change your mind?",
+        "condition": { "not": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] } },
+        "topic": "TALK_ROBOFAC_MERC_1_HWP_IF_I_OWE_YOU"
+      },
+      { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_1_HWP_IF_I_OWE_YOU",
+    "type": "talk_topic",
+    "dynamic_line": "Once we finish up this job, I'll vouch for you with our benefactors.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
@@ -216,9 +356,78 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "RobofacCoin", "count": 8 },
-        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
+        { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
       ]
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_MERC_1_RADIO",
+    "type": "mission_definition",
+    "name": { "str": "Active Noise Control" },
+    "description": "Investigate Hub 01's radio tower, discover the source of the interference, and fix the problem.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "effect": [
+        "follow_only",
+        { "npc_add_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ],
+      "assign_mission_target": { "om_terrain": "radio_tower_1", "om_special": "hub_01", "reveal_radius": 1, "random": true, "search_range": 10 },
+      "update_mapgen": [
+        { "place_monster": [ { "monster": "mon_leech_radio", "x": 12, "y": 10, "target": true } ] },
+        { "place_nested": [ { "chunks": [ "robofac_radio_leech" ], "x": 0, "y": 0 } ] }
+      ]
+    },
+    "end": { "effect": [ { "add_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "A few days ago, I installed a radio transmitter in the nearby tower, but it stopped working recently.  If you are willing to be my back up while I check it out, I'll owe you a favor.",
+      "accepted": "Alright, lets be off.  You don't mind taking point, right?",
+      "rejected": "Well thanks for offering, I guess.",
+      "advice": "I'm sure we'll figure it out once there.  In any case, make sure to shoot first.",
+      "inquire": "You think we killed the culprit?",
+      "success": "Sure seems like it.  Lets go back to the hub.",
+      "success_lie": "Sure, thanks for nothing.",
+      "failure": "Simply useless…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+    "type": "mission_definition",
+    "name": { "str": "Return to Hub 01" },
+    "description": "Return to Hub 01.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "robofachq_surface_entrance",
+    "difficulty": 0,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 360, "z": 0 }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        { "u_adjust_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "adjustment": 1 },
+        { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1" },
+        { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "Lets go back to the Hub",
+      "accepted": "Alright, lets be off.  You don't mind taking point, right?",
+      "rejected": "Well…",
+      "advice": "You keep a map around don't you?  I do, and you probably should too.",
+      "inquire": "We there yet?",
+      "success": "Thanks for having my back.  As I said, I owe you one.",
+      "success_lie": "Are you lost or something?",
+      "failure": "Can't believe we got lost…"
     }
   }
 ]

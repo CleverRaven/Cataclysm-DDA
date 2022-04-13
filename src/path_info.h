@@ -6,6 +6,14 @@
 
 enum class holiday : int;
 
+static const std::string SAVE_MASTER( "master.gsav" );
+static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
+static const std::string SAVE_EXTENSION( ".sav" );
+static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
+static const std::string SAVE_EXTENSION_LOG( ".log" );
+static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
+static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
+
 namespace PATH_INFO
 {
 void init_base_path( std::string path );
@@ -13,6 +21,7 @@ void init_user_dir( std::string dir );
 void set_standard_filenames();
 
 std::string autopickup();
+std::string autonote();
 std::string base_colors();
 std::string base_path();
 std::string colors();
@@ -23,29 +32,24 @@ std::string datadir();
 std::string debug();
 std::string defaultsounddir();
 std::string defaulttilejson();
+std::string defaultlayeringjson();
 std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();
 std::string user_font();
-std::string fontlist();
 std::string graveyarddir();
 std::string help();
 std::string keybindings();
 std::string keybindings_vehicle();
 std::string keymap();
 std::string lastworld();
-std::string legacy_autopickup();
-std::string legacy_autopickup2();
 std::string legacy_fontdata();
-std::string legacy_keymap();
-std::string legacy_options();
-std::string legacy_options2();
-std::string legacy_worldoptions();
 std::string memorialdir();
 std::string jsondir();
 std::string moddir();
 std::string options();
 std::string panel_options();
+std::string player_base_save_path();
 std::string safemode();
 std::string savedir();
 std::string sokoban();
@@ -53,6 +57,7 @@ std::string templatedir();
 std::string user_dir();
 std::string user_keybindings();
 std::string user_moddir();
+std::string world_base_save_path();
 std::string worldoptions();
 std::string crash();
 std::string tileset_conf();

@@ -2,22 +2,22 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <map>
-#include <ostream>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
+#include "math_defines.h"
 #include "translations.h"
+#include "units_fwd.h" // IWYU pragma: export
 
 namespace units
 {
@@ -47,7 +47,9 @@ class quantity
          * `quantity<float, foo>`. The unit type stays the same!
          */
         template<typename other_value_type>
-        constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
+            value_( other.value() ) {
         }
 
         /**
@@ -98,8 +100,8 @@ class quantity
          *   quantity<int, foo> a( 10, foo{} );
          *   quantity<double, foo> b( 0.5, foo{} );
          *   a += b;
-         *   assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
-         *   assert( a == quantity<int, foo>( 10, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10, foo{} ) );
          * \endcode
          */
         /**@{*/
@@ -133,11 +135,23 @@ class quantity
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
 
     private:
         value_type value_;
 };
+
+template<typename V, typename U>
+inline quantity<V, U> fabs( quantity<V, U> q )
+{
+    return quantity<V, U>( std::fabs( q.value() ), U{} );
+}
+
+template<typename V, typename U>
+inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
+{
+    return quantity<V, U>( std::fmod( num.value(), den.value() ), U{} );
+}
 
 /**
  * Multiplication and division with scalars. Result is a quantity with the same unit
@@ -154,9 +168,9 @@ class quantity
  * \code
  *   quantity<int, foo> a{ 10, foo{} };
  *   a *= 4.52;
- *   assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
- *   assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
- *   assert( a == quantity<int, foo>( 45, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
+ *   cata_assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 45, foo{} ) );
  * \endcode
  *
  * Division of a quantity with a quantity of the same unit yields a dimensionless
@@ -166,7 +180,7 @@ class quantity
  *   quantity<double, foo> b{ 20, foo{} };
  *   auto proportion = a / b;
  *   static_assert(std::is_same<decltype(proportion), double>::value);
- *   assert( proportion == 10 / 20.0 );
+ *   cata_assert( proportion == 10 / 20.0 );
  * \endcode
  *
  */
@@ -277,12 +291,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-class volume_in_milliliter_tag
-{
-};
-
-using volume = quantity<int, volume_in_milliliter_tag>;
-
 const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
                           units::volume::unit_type{} );
 
@@ -316,12 +324,6 @@ inline constexpr double to_liter( const volume &v )
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
-class mass_in_milligram_tag
-{
-};
-
-using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -366,12 +368,6 @@ inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000000.0;
 }
-
-class energy_in_millijoule_tag
-{
-};
-
-using energy = quantity<int, energy_in_millijoule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
@@ -425,12 +421,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
     return to_joule( v ) / 1000.0;
 }
 
-class money_in_cent_tag
-{
-};
-
-using money = quantity<int, money_in_cent_tag>;
-
 const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
                                       units::money::unit_type{} );
 
@@ -473,12 +463,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-class length_in_millimeter_tag
-{
-};
-
-using length = quantity<int, length_in_millimeter_tag>;
 
 const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
                           units::length::unit_type{} );
@@ -538,6 +522,39 @@ inline constexpr value_type to_kilometer( const quantity<value_type, length_in_m
     return to_millimeter( v ) / 1'000'000.0;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, angle_in_radians_tag> from_radians( const value_type v )
+{
+    return quantity<value_type, angle_in_radians_tag>( v, angle_in_radians_tag{} );
+}
+
+inline constexpr double to_radians( const units::angle v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<double, angle_in_radians_tag> from_degrees( const value_type v )
+{
+    return from_radians( v * M_PI / 180 );
+}
+
+inline constexpr double to_degrees( const units::angle v )
+{
+    return to_radians( v ) * 180 / M_PI;
+}
+
+template<typename value_type>
+inline constexpr quantity<double, angle_in_radians_tag> from_arcmin( const value_type v )
+{
+    return from_degrees( v / 60.0 );
+}
+
+inline constexpr double to_arcmin( const units::angle v )
+{
+    return to_degrees( v ) * 60;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -576,10 +593,23 @@ inline std::ostream &operator<<( std::ostream &o, length_in_millimeter_tag )
     return o << "mm";
 }
 
+inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
+{
+    return o << "rad";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
+}
+
+template<typename value_type, typename tag_type>
+inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+{
+    std::ostringstream os;
+    os << v;
+    return os.str();
 }
 
 inline std::string display( const units::energy v )
@@ -588,14 +618,14 @@ inline std::string display( const units::energy v )
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
     if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
     if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
-    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
@@ -767,8 +797,84 @@ inline constexpr units::length operator"" _km( const unsigned long long v )
     return units::from_kilometer( v );
 }
 
+inline constexpr units::angle operator"" _radians( const long double v )
+{
+    return units::from_radians( v );
+}
+
+inline constexpr units::angle operator"" _radians( const unsigned long long v )
+{
+    return units::from_radians( v );
+}
+
+inline constexpr units::angle operator"" _pi_radians( const long double v )
+{
+    return units::from_radians( v * M_PI );
+}
+
+inline constexpr units::angle operator"" _pi_radians( const unsigned long long v )
+{
+    return units::from_radians( v * M_PI );
+}
+
+inline constexpr units::angle operator"" _degrees( const long double v )
+{
+    return units::from_degrees( v );
+}
+
+inline constexpr units::angle operator"" _degrees( const unsigned long long v )
+{
+    return units::from_degrees( v );
+}
+
+inline constexpr units::angle operator"" _arcmin( const long double v )
+{
+    return units::from_arcmin( v );
+}
+
+inline constexpr units::angle operator"" _arcmin( const unsigned long long v )
+{
+    return units::from_arcmin( v );
+}
+
 namespace units
 {
+
+inline double sin( angle a )
+{
+    return std::sin( to_radians( a ) );
+}
+
+inline double cos( angle a )
+{
+    return std::cos( to_radians( a ) );
+}
+
+inline double tan( angle a )
+{
+    return std::tan( to_radians( a ) );
+}
+
+inline double cot( angle a )
+{
+    return std::tan( M_PI_2 - to_radians( a ) );
+}
+
+inline units::angle atan2( double y, double x )
+{
+    return from_radians( std::atan2( y, x ) );
+}
+
+inline units::angle asin( double x )
+{
+    return from_radians( std::asin( x ) );
+}
+
+inline units::angle acos( double x )
+{
+    return from_radians( std::acos( x ) );
+}
+
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
@@ -799,29 +905,32 @@ static const std::vector<std::pair<std::string, length>> length_units = { {
         { "km", 1_km }
     }
 };
+static const std::vector<std::pair<std::string, angle>> angle_units = { {
+        { "arcmin", 1_arcmin },
+        { "°", 1_degrees },
+        { "rad", 1_radians },
+    }
+};
 } // namespace units
 
-template<typename T>
-T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, T>> &units )
+namespace detail
 {
-    const size_t pos = jsin.tell();
-    size_t i = 0;
-    const auto error = [&]( const char *const msg ) {
-        jsin.seek( pos + i );
-        jsin.error( msg );
-    };
 
-    const std::string s = jsin.get_string();
+template<typename T, typename Error>
+T read_from_json_string_common( const std::string &s,
+                                const std::vector<std::pair<std::string, T>> &units, Error &&error )
+{
+    size_t i = 0;
     // returns whether we are at the end of the string
     const auto skip_spaces = [&]() {
-        while( i < s.size() && s[i] == ' ' ) {
+        while( i < s.size() && s[ i ] == ' ' ) {
             ++i;
         }
         return i >= s.size();
     };
     const auto get_unit = [&]() {
         if( skip_spaces() ) {
-            error( "invalid quantity string: missing unit" );
+            error( "invalid quantity string: missing unit", i );
         }
         for( const auto &pair : units ) {
             const std::string &unit = pair.first;
@@ -830,33 +939,51 @@ T read_from_json_string( JsonIn &jsin, const std::vector<std::pair<std::string, 
                 return pair.second;
             }
         }
-        error( "invalid quantity string: unknown unit" );
+        error( "invalid quantity string: unknown unit", i );
         // above always throws but lambdas cannot be marked [[noreturn]]
         throw std::string( "Exceptionally impossible" );
     };
 
     if( skip_spaces() ) {
-        error( "invalid quantity string: empty string" );
+        error( "invalid quantity string: empty string", i );
+        // above always throws but lambdas cannot be marked [[noreturn]]
+        throw std::string( "Exceptionally impossible" );
     }
     T result{};
     do {
         int sign_value = +1;
-        if( s[i] == '-' ) {
+        if( s[ i ] == '-' ) {
             sign_value = -1;
             ++i;
-        } else if( s[i] == '+' ) {
+        } else if( s[ i ] == '+' ) {
             ++i;
         }
-        if( i >= s.size() || !isdigit( s[i] ) ) {
-            error( "invalid quantity string: number expected" );
+        if( i >= s.size() || !isdigit( s[ i ] ) ) {
+            error( "invalid quantity string: number expected", i );
+            // above always throws but lambdas cannot be marked [[noreturn]]
+            throw std::string( "Exceptionally impossible" );
         }
         int value = 0;
-        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
-            value = value * 10 + ( s[i] - '0' );
+        for( ; i < s.size() && isdigit( s[ i ] ); ++i ) {
+            value = value * 10 + ( s[ i ] - '0' );
         }
         result += sign_value * value * get_unit();
     } while( !skip_spaces() );
     return result;
+}
+
+} // namespace detail
+
+template<typename T>
+T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
+{
+    const auto error = [&]( const char *const msg, size_t offset ) {
+        jv.throw_error( msg, offset );
+    };
+
+    const std::string s = jv;
+
+    return detail::read_from_json_string_common<T>( s, units, error );
 }
 
 template<typename T>

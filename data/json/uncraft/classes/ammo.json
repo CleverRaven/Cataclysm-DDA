@@ -2,8 +2,9 @@
   {
     "abstract": "ammo_cartridge",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "//": "Disassemble a single ammo cartridge",
-    "time": "5 s",
+    "time": "6 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

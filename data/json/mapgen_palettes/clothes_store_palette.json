@@ -2,8 +2,9 @@
   {
     "type": "palette",
     "id": "clothes_store_palette",
-    "terrain": { "%": "t_console_broken", "p": "t_region_groundcover_urban" },
+    "terrain": { "p": "t_region_groundcover_urban" },
     "furniture": {
+      "%": "f_console_broken",
       "c": "f_counter",
       "C": "f_armchair",
       "s": "f_stool",
@@ -58,14 +59,9 @@
   {
     "type": "palette",
     "id": "tailor_palette",
-    "terrain": {
-      "%": "t_console_broken",
-      ";": "t_door_locked",
-      "0": "t_window_alarm",
-      "z": "t_region_shrub_decorative",
-      "p": "t_region_groundcover_urban"
-    },
+    "terrain": { ";": "t_door_locked", "0": "t_window_alarm", "z": "t_region_shrub_decorative", "p": "t_region_groundcover_urban" },
     "furniture": {
+      "%": "f_console_broken",
       "c": "f_counter",
       "R": "f_clothing_rail",
       "s": "f_stool",
@@ -99,7 +95,6 @@
     "type": "palette",
     "id": "furs_palette",
     "terrain": {
-      "%": "t_console_broken",
       ";": "t_door_locked",
       "i": "t_door_locked_interior",
       "0": "t_window_alarm",
@@ -107,6 +102,7 @@
       "p": "t_region_groundcover_urban"
     },
     "furniture": {
+      "%": "f_console_broken",
       "c": "f_displaycase",
       "s": "f_stool",
       "d": "f_desk",

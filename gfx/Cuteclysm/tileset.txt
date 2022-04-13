@@ -1,0 +1,4 @@
+NAME: Cuteclysm(Alpha)
+VIEW: Cuteclysm(Alpha)
+JSON: tile_config.json
+TILESET: tiles.png

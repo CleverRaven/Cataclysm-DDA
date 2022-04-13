@@ -9,10 +9,15 @@
       [ "muzzle_brake", 20 ],
       [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
-      [ "shoulder_strap", 100 ],
-      [ "suppressor", 60 ],
-      [ "suppressor_compact", 40 ],
-      [ "cheek_pad", 25 ]
+      [ "shoulder_strap", 50 ],
+      [ "single_sling", 50 ],
+      [ "butt_hook", 30 ],
+      [ "match_trigger", 20 ],
+      [ "offset_sights", 40 ],
+      [ "cheek_pad", 25 ],
+      [ "rail_laser_sight", 40 ],
+      [ "red_dot_sight", 70 ],
+      [ "choke", 50 ]
     ]
   },
   {
@@ -25,22 +30,22 @@
       [ "bipod", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
+      [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
       [ "light_grip", 50 ],
-      [ "match_trigger", 20 ],
-      [ "offset_sights", 40 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
+      [ "tail_hook_stock", 30 ],
+      [ "butt_hook", 20 ],
       [ "arredondo_chute", 20 ],
-      [ "rail_laser_sight", 40 ],
-      [ "red_dot_sight", 70 ],
       [ "recoil_stock", 60 ],
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-      [ "waterproof_gunmod", 40 ],
+      [ "suppressor", 60 ],
+      [ "suppressor_compact", 40 ],
       [ "retool_ar15_300blk", 40 ]
     ]
   },
@@ -51,6 +56,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
@@ -70,6 +76,7 @@
       [ "laser_sight", 15 ],
       [ "rail_laser_sight", 6 ],
       [ "acog_scope", 21 ],
+      [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ],
       [ "pistol_scope", 4 ]
     ]
@@ -105,6 +112,7 @@
       [ "rail_laser_sight", 6 ],
       [ "offset_sights", 6 ],
       [ "acog_scope", 21 ],
+      [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ]
     ]
   },
@@ -122,6 +130,13 @@
   },
   {
     "type": "item_group",
+    "id": "m38dmr_mods",
+    "//": "Default mods for the m38dmr variant of the NATO assault rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",
@@ -133,6 +148,13 @@
     "subtype": "distribution",
     "//": "For shotguns that haven't been 'made ready', e.g sitting in a store or garage.",
     "entries": [ { "group": "sights_shotgun", "prob": 20 }, { "group": "EMPTY_GROUP", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mk23_mods",
+    "//": "Default mods for the mk23 variant of the USP .45 pistol",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "laser_sight" } ]
   },
   {
     "type": "item_group",

@@ -8,7 +8,7 @@
     "description": "An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
     "weight": "22666 g",
     "bashing": 1,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "veh_parts",
     "price": 3500,
     "price_postapoc": 500,

@@ -20,7 +20,7 @@
     "id": "ammo_57",
     "type": "requirement",
     "//": "Components required for 57 ammo",
-    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
     "id": "ammo_shot",

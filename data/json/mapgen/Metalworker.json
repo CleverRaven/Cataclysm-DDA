@@ -46,13 +46,13 @@
         "U": "t_pavement",
         "2": "t_pavement",
         ".": "t_strconc_floor",
-        "3": "t_machinery_heavy",
-        "1": "t_machinery_old",
         "#": "t_strconc_floor",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "3": "f_machinery_heavy",
+        "1": "f_machinery_old",
         "H": "f_bench",
         "S": "f_sink",
         "#": "f_stool",
@@ -97,7 +97,7 @@
         { "item": "metal_workshop", "x": [ 13, 13 ], "y": [ 11, 13 ], "chance": 30, "repeat": [ 2, 10 ] }
       ],
       "place_vehicles": [ { "vehicle": "workshop_vehicles", "x": [ 6, 11 ], "y": [ 9, 15 ], "chance": 50, "fuel": 20, "status": 0 } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 4 } ]
+      "place_monsters": [ { "monster": "GROUP_FERROUS", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 4 } ]
     }
   },
   {

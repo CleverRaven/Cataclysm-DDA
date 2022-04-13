@@ -3,11 +3,11 @@
 #define CATA_SRC_CONSTRUCTION_CATEGORY_H
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "type_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 
@@ -15,6 +15,7 @@ struct construction_category {
         void load( const JsonObject &jo, const std::string &src );
 
         construction_category_id id;
+        std::vector<std::pair<construction_category_id, mod_id>> src;
         bool was_loaded = false;
 
         std::string name() const {

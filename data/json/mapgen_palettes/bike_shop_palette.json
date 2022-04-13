@@ -15,7 +15,6 @@
       ";": "t_door_locked",
       "&": "t_floor",
       "^": "t_floor",
-      "%": "t_console_broken",
       "@": "t_sidewalk",
       "C": "t_floor",
       "D": "t_floor",
@@ -50,6 +49,7 @@
       "t": "f_table",
       "q": "f_stool",
       "B": "f_bench",
+      "%": "f_console_broken",
       "&": "f_trashcan",
       "@": "f_dumpster",
       "^": "f_indoor_plant"

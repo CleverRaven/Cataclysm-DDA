@@ -52,7 +52,6 @@
         "+": "t_door_c",
         ")": "t_door_glass_c",
         "d": "t_conveyor",
-        "j": "t_console_broken",
         "c": "t_chainfence",
         "<": "t_stairs_up",
         "^": "t_gutter_downspout",
@@ -60,7 +59,7 @@
         "|": "t_wall_metal",
         "Q": "t_metal_floor",
         "q": "t_pavement",
-        "e": "t_machinery_light",
+        "e": "t_thconc_floor",
         "1": "t_gas_pump",
         "2": "t_water_pump",
         "3": "t_sewage_pipe",
@@ -69,15 +68,18 @@
         "f": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_metal",
-        "4": "t_generator_broken"
+        "4": "t_region_groundcover_urban"
       },
       "furniture": {
+        "4": "f_generator_broken",
         "q": "f_dumpster",
+        "e": "f_machinery_light",
         "f": "f_locker",
         "g": "f_crate_o",
         "h": "f_bench",
         "I": "f_desk",
         "i": "f_counter",
+        "j": "f_console_broken",
         "J": "f_counter",
         "k": "f_table",
         "l": "f_trashcan",
@@ -110,6 +112,8 @@
         { "group": "vending_drink", "chance": 80, "repeat": 1, "x": 40, "y": 6 },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
+        { "group": "avgas_barrel", "chance": 50, "repeat": 5, "x": [ 75, 80 ], "y": [ 7, 20 ] },
+        { "group": "avgas_barrel", "chance": 50, "repeat": 5, "x": [ 87, 92 ], "y": [ 7, 20 ] },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 81, "y": 7 },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 87, "y": 21 },
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 88, "y": 21 },
@@ -276,11 +280,10 @@
         " ": "t_open_air",
         "d": "t_stairs_down",
         ".": "t_linoleum_white",
-        "f": "t_console_broken",
         "g": "t_door_glass_c",
         "h": "t_metal_floor"
       },
-      "furniture": { "e": "f_table", "E": "f_chair" },
+      "furniture": { "f": "f_console_broken", "e": "f_table", "E": "f_chair" },
       "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
     }
   }

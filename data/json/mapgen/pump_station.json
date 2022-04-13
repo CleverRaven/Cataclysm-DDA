@@ -42,7 +42,6 @@
         "-": "t_wall_w",
         ".": "t_grass",
         "3": "t_recycler",
-        "6": "t_console_broken",
         ";": "t_door_locked",
         "_": "t_pavement",
         "s": "t_sidewalk",
@@ -53,6 +52,7 @@
         "9": "t_gutter_downspout"
       },
       "furniture": {
+        "6": "f_console_broken",
         "L": "f_locker",
         "P": "f_indoor_plant",
         "c": "f_counter",
@@ -181,8 +181,7 @@
       "terrain": {
         "*": "t_door_bar_locked",
         "-": "t_wall_w",
-        ".": "t_grass",
-        "1": "t_generator_broken",
+        ".": "t_region_groundcover",
         "2": "t_sewage_pipe",
         "4": "t_water_pump",
         "7": "t_chainfence_h",
@@ -194,7 +193,7 @@
         "}": "t_manhole_cover",
         "<": "t_ladder_up"
       },
-      "furniture": { "L": "f_locker", "r": "f_rack", "z": "f_crate_c" },
+      "furniture": { "1": "f_generator_broken", "L": "f_locker", "r": "f_rack", "z": "f_crate_c" },
       "place_loot": [
         { "group": "home_hw", "x": [ 10, 11 ], "y": [ 13, 13 ], "chance": 75, "repeat": [ 1, 3 ] },
         { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 0, 2 ], "chance": 70, "repeat": [ 1, 3 ] },

@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_MORALE_TYPES_H
 #define CATA_SRC_MORALE_TYPES_H
 
-#include <string>
+#include <iosfwd>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
@@ -18,6 +19,7 @@ class morale_type_data
         translation text;
     public:
         morale_type id;
+        std::vector<std::pair<morale_type, mod_id>> src;
         bool was_loaded = false;
 
         /** Describes this morale type, with item type to replace wildcard with. */
@@ -93,6 +95,7 @@ extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
+extern const morale_type MORALE_PERM_NUMB;
 extern const morale_type MORALE_PERM_CONSTRAINED;
 extern const morale_type MORALE_PERM_NOMAD;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;

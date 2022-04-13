@@ -1,0 +1,243 @@
+[
+  {
+    "id": "TALK_GUNSMITH_SERVICES",
+    "type": "talk_topic",
+    "dynamic_line": [ "Welcome to the first American bank of munitions.  We convert your goods and services to the new gold standard." ],
+    "responses": [
+      { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      { "text": "What's your deal?", "topic": "TALK_GUNSMITH_ABOUT" },
+      {
+        "text": "Munitions?",
+        "condition": { "not": { "u_has_var": "gunsmith_knows_about_conversion", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_GUNSMITH_SHOP_ABOUT"
+      },
+      {
+        "text": "Hey.  Cody wanted to say that she's sorry.  She thought that you would want to see this.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "kord", "count": 1 } },
+            {
+              "not": { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_KORD"
+      },
+      {
+        "text": "I'm interested in helping with that thing for Cody.",
+        "condition": {
+          "and": [
+            { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+            {
+              "not": { "u_has_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [
+          { "add_mission": "MISSION_GUNSMITH_1" },
+          { "u_add_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+        ],
+        "topic": "TALK_GUNSMITH_Q1_DETAILS"
+      },
+      {
+        "text": "How are my rounds coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "1 d" },
+            {
+              "u_compare_var": "gunsmith_ammo_ammount",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 200
+            },
+            { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
+      },
+      {
+        "text": "How are my rounds coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "5 d" },
+            {
+              "u_compare_var": "gunsmith_ammo_ammount",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 800
+            },
+            { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_BULLET_PICKUP_NOT_YET"
+      },
+      {
+        "text": "How are my rounds coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "1 d" },
+            {
+              "u_compare_var": "gunsmith_ammo_ammount",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 200
+            },
+            { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_BULLET_PICKUP"
+      },
+      {
+        "text": "How are my rounds coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "5 d" },
+            {
+              "u_compare_var": "gunsmith_ammo_ammount",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 800
+            },
+            { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_BULLET_PICKUP"
+      },
+      {
+        "text": "I'd like to exchange some rounds.",
+        "condition": {
+          "and": [
+            { "u_has_var": "gunsmith_knows_about_conversion", "type": "dialogue", "context": "artisans", "value": "yes" },
+            {
+              "not": { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_BULLET_EXCHANGE"
+      },
+      {
+        "text": "Are you and Cody close?",
+        "condition": {
+          "and": [
+            { "u_has_var": "gunsmith_mentioned_cody", "type": "dialogue", "context": "artisans", "value": "yes" },
+            {
+              "not": { "u_has_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_GUNSMITH_CODY"
+      },
+      { "text": "What is this place?", "topic": "TALK_GUNSMITH_LOCATION_ABOUT" },
+      {
+        "text": "About those contracts…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": {
+          "and": [
+            { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] }
+          ]
+        },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Let's trade.", "topic": "TALK_GUNSMITH_SERVICES", "effect": "start_trade" },
+      { "text": "I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_SHOP_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [ "Fuck yeah.  New currency is death and I'm dealing it." ],
+    "responses": [
+      { "text": "I understand, but how does this work exactly?", "topic": "TALK_GUNSMITH_SHOP_ABOUT_MORE" },
+      { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_SHOP_ABOUT_MORE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Pretty simple stuff, bud.  I barter in pre-shitshow ammo, and to stimulate the growing economy, I print and issue more.  I take your goods - Cody would call it labor - and exchange it for the new universal currency.  If you want to convert currency I'm happy to facilitate, but it'll take a few days and there is a service charge."
+    ],
+    "speaker_effect": {
+      "effect": { "u_add_var": "gunsmith_knows_about_conversion", "type": "dialogue", "context": "artisans", "value": "yes" }
+    },
+    "responses": [
+      { "text": "So you're really going all in on this bank thing?", "topic": "TALK_GUNSMITH_SERVICES" },
+      { "text": "So you'll exchange bullets for other bullets directly?", "topic": "TALK_BULLET_EXCHANGE_INFO" },
+      { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [ "I did a boring IT job and prepped for this shit.  Look at me now." ],
+    "responses": [
+      { "text": "Look at you now.", "topic": "TALK_GUNSMITH_SERVICES" },
+      { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_LOCATION_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "It's my house.  Cody's in the other building, if you've met her.  We dug a trench and set up some milspec turrets.  I programmed them, Cody armored them.  Now we're just trying to get by.  This ain't the wizard of Oz, you can look behind the curtain over there."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_cody", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      { "text": "Where'd you get half a dozen milspec turrets?", "topic": "TALK_GUNSMITH_TURRETS" },
+      { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_TURRETS",
+    "type": "talk_topic",
+    "dynamic_line": [ "*stares off into the distance.  \"The owners didn't need them anymore.  Not anymore…\"" ],
+    "responses": [ { "text": "…", "topic": "TALK_GUNSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_GUNSMITH_CODY",
+    "type": "talk_topic",
+    "dynamic_line": [ "Stuff is fucked all over, bud.  How about we stick to talking business?" ],
+    "responses": [ { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_GUNSMITH_KORD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Where did you… I- I don't know what to say.\"  Jay takes the rifle reverently.  He turns it over so carefully that you could mistake him for holding a child instead of a gun.  \"This thing is is beautiful.  Modern rails, ergonomic furniture, recoil balancing system.  I know Cody thinks that she did something wrong, but all I remember is being so angry… just blindingly furious.  Then I was running.  When I woke up everything, was fine.\"\n\nJay hands back the Kord.  \"Thank you for letting me see this, and for getting Cody and I talking.  If you could help me out with something for Cody, I'll hook you up with a casket mag for that thing and a box of the good ammo.  Stuff from my reserves."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "I'm listening.",
+        "effect": [
+          { "add_mission": "MISSION_GUNSMITH_1" },
+          { "u_add_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+        ],
+        "topic": "TALK_GUNSMITH_Q1_DETAILS"
+      },
+      { "text": "Not really interested.", "topic": "TALK_DONE" },
+      { "text": "I'll think about it.", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_GUNSMITH_Q1_DETAILS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Alright, so Cody has talked about some cutting-edge tech she's seen displayed.  This thing is called a nano-fabricator.  It's like a complicated, robotic 3D printer.  Cody used to run with some hackers that steal IP, schematics, that sort of thing.  I guess a problem they were running into was the newest tech stuff is all encrypted as templates for these printers.  Well, I know of a colleague who went home with debug software for the system.  You get that for her, and we're in business."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      { "text": "I'll see if I can find it.", "topic": "TALK_DONE" },
+      { "text": "Alright.", "topic": "TALK_GUNSMITH_SERVICES" }
+    ]
+  }
+]

@@ -2,6 +2,7 @@
   {
     "result": "incendiary",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",
@@ -15,27 +16,30 @@
   {
     "result": "gunpowder",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 s",
-    "charges": 1,
+    "charges": 10,
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
     "components": [
       [
-        [ "gunpowder_shotgun", 1 ],
-        [ "gunpowder_pistol", 1 ],
-        [ "gunpowder_magnum_pistol", 1 ],
-        [ "gunpowder_rifle", 1 ],
-        [ "gunpowder_large_rifle", 1 ],
-        [ "gunpowder_artillery", 1 ]
+        [ "gunpowder_shotgun", 10 ],
+        [ "gunpowder_pistol", 10 ],
+        [ "gunpowder_magnum_pistol", 10 ],
+        [ "gunpowder_rifle", 10 ],
+        [ "gunpowder_large_rifle", 10 ],
+        [ "gunpowder_artillery", 10 ]
       ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "smpistol_primer",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -47,12 +51,13 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lgpistol_primer",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -64,12 +69,13 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "smrifle_primer",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -81,12 +87,13 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lgrifle_primer",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -98,12 +105,13 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shotgun_primer",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -115,12 +123,13 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "can_drink", 2 ], [ "can_food", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
+      [ [ "chem_mercury_fulminate", 2 ], [ "chem_lead_azide", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "460_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -136,6 +145,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "380_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -151,6 +161,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "300blk_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",

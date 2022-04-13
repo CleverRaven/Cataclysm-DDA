@@ -1,0 +1,24 @@
+[
+  {
+    "type": "SPELL",
+    "id": "GAIAS_CHOSEN_THORNS",
+    "name": "Gaia's Chosen Thorns",
+    "description": "The thorns effect from the Gaia's Chosen Attunement.",
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT" ],
+    "min_damage": 22,
+    "max_damage": 22,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "cut",
+    "min_range": 1,
+    "max_range": 1,
+    "extra_effects": [ { "id": "AEA_PAIN", "hit_self": true } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "GAIAS_CHOSEN",
+    "condition": "ALWAYS",
+    "hit_me_effect": [ { "id": "GAIAS_CHOSEN_THORNS" } ]
+  }
+]

@@ -11,14 +11,13 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
-    "coverage": 5,
     "material_thickness": 2,
     "pocket_data": [
       { "max_contains_volume": "500 ml", "max_contains_weight": "400 g", "moves": 60, "flag_restriction": [ "BELT_CLIP" ] }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -34,6 +33,7 @@
     "copy-from": "mbelt_leather",
     "id": "mbelt_thor",
     "name": { "str_sp": "Megingjörð" },
+    "price_postapoc": "9500 USD",
     "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
     "material": [ "superalloy" ],
     "material_thickness": 10,
@@ -47,33 +47,95 @@
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_lesser",
-    "name": { "str": "Lesser Girdle of Pockets", "str_pl": "Lesser Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
-    "coverage": 10,
-    "encumbrance": 4,
-    "weight_capacity_bonus": "5 kg",
+    "name": { "str": "lesser dimensional toolbelt" },
+    "description": "A sturdy workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold more than they should with a fair weight reduction.",
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 }
-    ]
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "max_item_length": "70 cm",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      }
+    ],
+    "material": [ "leather" ],
+    "armor": [ { "encumbrance": [ 4, 10 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_greater",
-    "name": { "str": "Greater Girdle of Pockets", "str_pl": "Greater Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
-    "coverage": 10,
-    "encumbrance": 6,
-    "weight_capacity_bonus": "10 kg",
+    "name": { "str": "greater dimensional toolbelt" },
+    "description": "A heavy-duty workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold far more than they should with a substantial weight reduction.",
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 }
-    ]
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "125 cm",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      }
+    ],
+    "material": [ "leather" ],
+    "armor": [ { "encumbrance": [ 6, 8 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -81,15 +143,13 @@
     "id": "mbelt_weaponry",
     "name": { "str": "Belt of Weaponry", "str_pl": "Belts of Weaponry" },
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
-    "coverage": 10,
-    "encumbrance": 3,
     "pocket_data": [
-      { "holster": true, "moves": 5, "max_contains_volume": "4 L", "max_contains_weight": "2500 g", "weight_multiplier": 0.0 },
       {
         "holster": true,
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       },
       {
@@ -97,6 +157,7 @@
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       },
       {
@@ -104,10 +165,21 @@
         "moves": 5,
         "max_contains_volume": "4 L",
         "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
+        "weight_multiplier": 0.0
+      },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
         "weight_multiplier": 0.0
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" }
+    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "material": [ "leather" ],
+    "armor": [ { "encumbrance": [ 3, 3 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "ARMOR",
@@ -115,18 +187,22 @@
     "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
     "color": "brown",
-    "covers": [ "TORSO" ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 2, "holster": true }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "70 cm",
+        "moves": 2,
+        "holster": true
+      }
     ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
     "price": 500000,
     "material": [ "leather", "steel" ],
     "volume": "4 L",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 10,
-    "encumbrance": 4,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
     "material_thickness": 4,
     "use_action": [ { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" }, "CROWBAR" ],
     "qualities": [
@@ -141,7 +217,8 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ]
-    ]
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -152,9 +229,10 @@
     "material": [ "steel" ],
     "description": "A braided but flexible belt seemingly made of metal.  You can activate it to transform it into a whip and flay your enemies.",
     "material_thickness": 4,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "BELTED" ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Extend",
       "target": "mwhip_iron",
       "active": true,
       "moves": 20,
@@ -179,6 +257,7 @@
     "bashing": 8,
     "use_action": {
       "type": "transform",
+      "menu_text": "Collapse",
       "target": "mbelt_iron_whip",
       "active": false,
       "moves": 20,

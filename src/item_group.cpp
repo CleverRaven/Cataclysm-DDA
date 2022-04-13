@@ -1,33 +1,42 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cassert>
+#include <cstdlib>
+#include <new>
 #include <set>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
 
 #include "calendar.h"
-#include "compatibility.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
-#include "flat_set.h"
+#include "flag.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
+#include "make_static.h"
+#include "options.h"
+#include "relic.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
-#include "value_ptr.h"
+#include "units.h"
 
 static const std::string null_item_id( "null" );
 
-static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_VARSIZE( "VARSIZE" );
-
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+std::size_t Item_spawn_data::create( ItemList &list,
+                                     const time_point &birthday, spawn_flags flags ) const
 {
     RecursionList rec;
-    return create( birthday, rec );
+    return create( list, birthday, rec, flags );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -36,8 +45,115 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
     return create_single( birthday, rec );
 }
 
-Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
-    : Item_spawn_data( _probability )
+void Item_spawn_data::check_consistency() const
+{
+    if( on_overflow != overflow_behaviour::none && !container_item ) {
+        debugmsg( "item group %s specifies overflow behaviour but not container", context() );
+    }
+    // Spawn ourselves with all possible items being definitely spawned, so as
+    // to verify e.g. that if a container item was specified it can actually
+    // contain what was wanted.
+    ItemList dummy_list;
+    dummy_list.reserve( 20 );
+    create( dummy_list, calendar::turn_zero, spawn_flags::maximized );
+}
+
+void Item_spawn_data::relic_generator::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "rules", rules );
+    mandatory( jo, was_loaded, "procgen_id", id );
+}
+
+relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) const
+{
+    return id->generate( rules, it_id );
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<Item_spawn_data::overflow_behaviour>(
+    Item_spawn_data::overflow_behaviour data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case Item_spawn_data::overflow_behaviour::none: return "none";
+        case Item_spawn_data::overflow_behaviour::spill: return "spill";
+        case Item_spawn_data::overflow_behaviour::discard: return "discard";
+        // *INDENT-ON*
+        case Item_spawn_data::overflow_behaviour::last:
+            break;
+    }
+    cata_fatal( "Invalid overflow_behaviour" );
+}
+} // namespace io
+
+static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+{
+    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
+            payload.is_toolmod() ) ) {
+        return item_pocket::pocket_type::MOD;
+    }
+    if( container.is_software_storage() && payload.is_software() ) {
+        return item_pocket::pocket_type::SOFTWARE;
+    }
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+        return item_pocket::pocket_type::MAGAZINE_WELL;
+    } else if( container.is_magazine() && payload.is_ammo() ) {
+        return item_pocket::pocket_type::MAGAZINE;
+    }
+    return item_pocket::pocket_type::CONTAINER;
+}
+
+static void put_into_container(
+    Item_spawn_data::ItemList &items, std::size_t num_items,
+    const cata::optional<itype_id> &container_type,
+    time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
+    const std::string &context )
+{
+    if( !container_type ) {
+        return;
+    }
+
+    // Randomly permute the list of items so that when some don't fit it's
+    // not always the ones at the end which are rejected.
+    cata_assert( items.size() >= num_items );
+    std::shuffle( items.end() - num_items, items.end(), rng_get_engine() );
+
+    item ctr( *container_type, birthday );
+    Item_spawn_data::ItemList excess;
+    for( auto it = items.end() - num_items; it != items.end(); ++it ) {
+        if( ctr.can_contain( *it ).success() ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            ctr.put_in( *it, pk_type );
+        } else {
+            switch( on_overflow ) {
+                case Item_spawn_data::overflow_behaviour::none:
+                    debugmsg( "item %s does not fit in container %s when spawning item group %s.  "
+                              "This can be resolved either by changing the container or contents "
+                              "to ensure that they fit, or by specifying an overflow behaviour via "
+                              "\"on_overflow\" on the item group.",
+                              it->typeId().str(), container_type->str(), context );
+                    break;
+                case Item_spawn_data::overflow_behaviour::spill:
+                    excess.push_back( *it );
+                    break;
+                case Item_spawn_data::overflow_behaviour::discard:
+                    break;
+                case Item_spawn_data::overflow_behaviour::last:
+                    debugmsg( "Invalid overflow_behaviour" );
+                    break;
+            }
+        }
+    }
+    excess.push_back( ctr );
+    items.erase( items.end() - num_items, items.end() );
+    items.insert( items.end(), excess.begin(), excess.end() );
+}
+
+Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability,
+        const std::string &context, holiday event )
+    : Item_spawn_data( _probability, context, event )
     , id( _id )
     , type( _type )
 {
@@ -53,12 +169,13 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
             tmp = item( id, birthday );
         }
     } else if( type == S_ITEM_GROUP ) {
-        if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
+        item_group_id group_id( id );
+        if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
         }
-        rec.push_back( id );
-        Item_spawn_data *isd = item_controller->get_group( id );
+        rec.push_back( group_id );
+        Item_spawn_data *isd = item_controller->get_group( group_id );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
             return item( null_item_id, birthday );
@@ -69,70 +186,95 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         return item( null_item_id, birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
-        tmp.item_tags.insert( "FIT" );
+        tmp.set_flag( flag_FIT );
     }
     if( modifier ) {
-        modifier->modify( tmp );
+        modifier->modify( tmp, "modifier for " + context() );
     } else {
         int qty = tmp.charges;
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
+        } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
+            qty = item::INFINITE_CHARGES;
         }
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
     }
+    if( artifact ) {
+        tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
+    }
+    if( container_item ) {
+        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+    }
     return tmp;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+std::size_t Single_item_creator::create( ItemList &list,
+        const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
-    ItemList result;
+    std::size_t prev_list_size = list.size();
     int cnt = 1;
     if( modifier ) {
         auto modifier_count = modifier->count;
-        cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
-                  modifier_count.first, modifier_count.second );
-    }
-    for( ; cnt > 0; cnt-- ) {
-        if( type == S_ITEM ) {
-            const auto itm = create_single( birthday, rec );
-            if( !itm.is_null() ) {
-                result.push_back( itm );
-            }
+        if( flags & spawn_flags::maximized ) {
+            cnt = modifier_count.second;
         } else {
-            if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
-                debugmsg( "recursion in item spawn list %s", id.c_str() );
-                return result;
-            }
-            rec.push_back( id );
-            Item_spawn_data *isd = item_controller->get_group( id );
-            if( isd == nullptr ) {
-                debugmsg( "unknown item spawn list %s", id.c_str() );
-                return result;
-            }
-            ItemList tmplist = isd->create( birthday, rec );
-            rec.erase( rec.end() - 1 );
-            if( modifier ) {
-                for( auto &elem : tmplist ) {
-                    modifier->modify( elem );
-                }
-            }
-            result.insert( result.end(), tmplist.begin(), tmplist.end() );
+            cnt = ( modifier_count.first == modifier_count.second ) ? modifier_count.first : rng(
+                      modifier_count.first, modifier_count.second );
         }
     }
-    return result;
+    float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    for( ; cnt > 0; cnt-- ) {
+        if( type == S_ITEM ) {
+            item itm = create_single( birthday, rec );
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
+                rng_float( 0, 1 ) > spawn_rate ) {
+                continue;
+            }
+            if( !itm.is_null() ) {
+                list.emplace_back( std::move( itm ) );
+            }
+        } else {
+            item_group_id group_id( id );
+            if( std::find( rec.begin(), rec.end(), group_id ) != rec.end() ) {
+                debugmsg( "recursion in item spawn list %s", id.c_str() );
+                return list.size() - prev_list_size;
+            }
+            rec.push_back( group_id );
+            Item_spawn_data *isd = item_controller->get_group( group_id );
+            if( isd == nullptr ) {
+                debugmsg( "unknown item spawn list %s", id.c_str() );
+                return list.size() - prev_list_size;
+            }
+            std::size_t tmp_list_size = isd->create( list, birthday, rec, flags );
+            cata_assert( list.size() >= tmp_list_size );
+            rec.pop_back();
+            if( modifier ) {
+                for( auto it = list.end() - tmp_list_size; it != list.end(); ++it ) {
+                    modifier->modify( *it, "modifier for " + context() );
+                }
+            }
+        }
+    }
+    if( artifact ) {
+        for( auto it = list.begin() + prev_list_size; it != list.end(); ++it ) {
+            it->overwrite_relic( artifact->generate_relic( it->typeId() ) );
+        }
+    }
+    const std::size_t items_created = list.size() - prev_list_size;
+    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    return list.size() - prev_list_size;
 }
 
-void Single_item_creator::check_consistency( const std::string &context ) const
+void Single_item_creator::check_consistency() const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( itype_id( id ) ) ) {
-            debugmsg( "item id %s is unknown (in %s)", id, context );
+            debugmsg( "item id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_ITEM_GROUP ) {
-        if( !item_group::group_is_defined( id ) ) {
-            debugmsg( "item group id %s is unknown (in %s)", id, context );
+        if( !item_group::group_is_defined( item_group_id( id ) ) ) {
+            debugmsg( "item group id %s is unknown (in %s)", id, context() );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -140,8 +282,9 @@ void Single_item_creator::check_consistency( const std::string &context ) const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency( context );
+        modifier->check_consistency( context() );
     }
+    Item_spawn_data::check_consistency();
 }
 
 bool Single_item_creator::remove_item( const itype_id &itemid )
@@ -158,7 +301,7 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
             isd->remove_item( itemid );
         }
@@ -166,25 +309,23 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Single_item_creator::replace_items( const std::unordered_map<itype_id, itype_id>
+        &replacements )
 {
     if( modifier ) {
-        if( modifier->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+        modifier->replace_items( replacements );
     }
     if( type == S_ITEM ) {
-        if( itemid.str() == id ) {
-            id = replacementid.str();
-            return true;
+        auto it = replacements.find( itype_id( id ) );
+        if( it != replacements.end() ) {
+            id = it->second.str();
         }
     } else if( type == S_ITEM_GROUP ) {
-        Item_spawn_data *isd = item_controller->get_group( id );
+        Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
-            isd->replace_item( itemid, replacementid );
+            isd->replace_items( replacements );
         }
     }
-    return type == S_NONE;
 }
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
@@ -198,7 +339,7 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_ITEM:
             return { item::find_type( itype_id( id ) ) };
         case S_ITEM_GROUP: {
-            Item_spawn_data *isd = item_controller->get_group( id );
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
             if( isd != nullptr ) {
                 return isd->every_item();
             }
@@ -207,7 +348,8 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_NONE:
             return {};
     }
-    assert( !"Unexpected type" );
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+    cata_fatal( "Unexpected type" );
     return {};
 }
 
@@ -234,13 +376,14 @@ Item_modifier::Item_modifier()
 {
 }
 
-void Item_modifier::modify( item &new_item ) const
+void Item_modifier::modify( item &new_item, const std::string &context ) const
 {
     if( new_item.is_null() ) {
         return;
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    new_item.rand_degradation();
     // no need for dirt if it's a bow
     if( new_item.is_gun() && !new_item.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) &&
         !new_item.has_flag( flag_NON_FOULING ) ) {
@@ -254,6 +397,8 @@ void Item_modifier::modify( item &new_item ) const
             new_item.faults.emplace( "fault_gun_unlubricated" );
         }
     }
+
+    new_item.set_itype_variant( variant );
 
     // create container here from modifier or from default to get max charges later
     item cont;
@@ -278,7 +423,12 @@ void Item_modifier::modify( item &new_item ) const
 
     if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        if( new_item.type->weight == 0_gram ) {
+            max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        } else {
+            max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
+                                     new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
+        }
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -315,13 +465,15 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.is_tool() ) {
             if( !new_item.magazine_default().is_null() ) {
                 item mag( new_item.magazine_default() );
-                mag.ammo_set( mag.ammo_default(), ch );
+                if( !mag.ammo_default().is_null() ) {
+                    mag.ammo_set( mag.ammo_default(), ch );
+                }
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
             } else {
-                debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
-                          new_item.typeId().c_str() );
+                debugmsg( "in %s: tried to set ammo for %s which does not have ammo or a magazine",
+                          context, new_item.typeId().str() );
             }
         } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
@@ -329,20 +481,19 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo == nullptr ) {
-            // In case there is no explicit ammo item defined, use the default ammo
-            if( !new_item.ammo_types().empty() ) {
-                new_item.ammo_set( new_item.ammo_default(), ch );
-            }
+        itype_id ammo_id;
+        if( ammo ) {
+            ammo_id = ammo->create_single( new_item.birthday() ).typeId();
+        } else if( new_item.ammo_default() ) {
+            ammo_id = new_item.ammo_default();
+        } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
+            ammo_id = new_item.magazine_default()->magazine->default_ammo;
+        }
+        if( ammo_id && !ammo_id.is_empty() ) {
+            new_item.ammo_set( ammo_id, ch );
         } else {
-            const item am = ammo->create_single( new_item.birthday() );
-            if( !new_item.magazine_default().is_null() ) {
-                item mag( new_item.magazine_default() );
-                mag.ammo_set( am.typeId(), ch );
-                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-            } else {
-                new_item.ammo_set( am.typeId(), ch );
-            }
+            debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                      new_item.typeId().c_str() );
         }
         // Make sure the item is in valid state
         if( new_item.magazine_integral() ) {
@@ -354,7 +505,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( new_item.is_magazine() ||
-        new_item.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        new_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
         bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
                           ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
@@ -362,7 +513,7 @@ void Item_modifier::modify( item &new_item ) const
 
         if( spawn_mag ) {
             item mag( new_item.magazine_default(), new_item.birthday() );
-            if( spawn_ammo ) {
+            if( spawn_ammo && !mag.ammo_default().is_null() ) {
                 mag.ammo_set( mag.ammo_default() );
             }
             new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -377,35 +528,64 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+        const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
+        cont.put_in( new_item, pk_type );
         new_item = cont;
-    }
-
-    if( contents != nullptr ) {
-        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
-        for( const item &it : contentitems ) {
-            new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
+        if( sealed ) {
+            new_item.seal();
         }
     }
 
-    for( auto &flag : custom_flags ) {
+    if( contents != nullptr ) {
+        Item_spawn_data::ItemList contentitems;
+        contents->create( contentitems, new_item.birthday() );
+        for( const item &it : contentitems ) {
+            // custom code for directly attaching pockets to MOLLE vests
+            const use_function *action = new_item.get_use( "attach_molle" );
+            if( action && it.can_attach_as_pocket() ) {
+                const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                                  ( action->get_actor_ptr() );
+                const int vacancies = actor->size - new_item.get_contents().get_additional_space_used();
+                // intentionally might lose items here if they don't fit this is because it's
+                // impossible to know in a spawn group how much stuff could end up in it
+                // if you roll 3, 3 size items in a 3 slot vest you shouldn't get an error
+                // but you should get a vest with at least the first one
+                if( it.get_pocket_size() <= vacancies ) {
+                    new_item.get_contents().add_pocket( it );
+                }
+            } else {
+                const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+                new_item.put_in( it, pk_type );
+            }
+        }
+        if( sealed ) {
+            new_item.seal();
+        }
+    }
+
+    for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
+    }
+
+    if( !snippets.empty() ) {
+        new_item.snip_id = random_entry( snippets );
     }
 }
 
 void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency( "ammo of " + context );
+        ammo->check_consistency();
     }
     if( container != nullptr ) {
-        container->check_consistency( "container of " + context );
+        container->check_consistency();
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
-        debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
+        debugmsg( "in %s: Item modifier's ammo chance %d is out of range", context, with_ammo );
     }
     if( with_magazine < 0 || with_magazine > 100 ) {
-        debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
+        debugmsg( "in %s: Item modifier's magazine chance %d is out of range",
+                  context, with_magazine );
     }
 }
 
@@ -425,21 +605,22 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-bool Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
-    if( ammo != nullptr ) {
-        ammo->replace_item( itemid, replacementid );
+    if( ammo ) {
+        ammo->replace_items( replacements );
     }
-    if( container != nullptr ) {
-        if( container->replace_item( itemid, replacementid ) ) {
-            return true;
-        }
+    if( container ) {
+        container->replace_items( replacements );
     }
-    return false;
+    if( contents ) {
+        contents->replace_items( replacements );
+    }
 }
 
-Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
-    : Item_spawn_data( probability )
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance,
+                        const std::string &context, holiday event )
+    : Item_spawn_data( probability, context, event )
     , type( t )
     , with_ammo( ammo_chance )
     , with_magazine( magazine_chance )
@@ -456,28 +637,36 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
     }
 }
 
-void Item_group::add_item_entry( const itype_id &itemid, int probability )
+void Item_group::add_item_entry( const itype_id &itemid, int probability,
+                                 const std::string &variant )
 {
-    add_entry( std::make_unique<Single_item_creator>(
-                   itemid.str(), Single_item_creator::S_ITEM, probability ) );
+    std::string entry_context = "item " + itemid.str() + " within " + context();
+    std::unique_ptr<Single_item_creator> added = std::make_unique<Single_item_creator>(
+                itemid.str(), Single_item_creator::S_ITEM, probability, entry_context );
+    if( !variant.empty() ) {
+        added->modifier.emplace();
+        added->modifier->variant = variant;
+    }
+    add_entry( std::move( added ) );
 }
 
-void Item_group::add_group_entry( const Group_tag &groupid, int probability )
+void Item_group::add_group_entry( const item_group_id &groupid, int probability )
 {
     add_entry( std::make_unique<Single_item_creator>(
-                   groupid, Single_item_creator::S_ITEM_GROUP, probability ) );
+                   groupid.str(), Single_item_creator::S_ITEM_GROUP, probability,
+                   "item_group id " + groupid.str() ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != nullptr );
-    if( ptr->probability <= 0 ) {
+    cata_assert( ptr.get() != nullptr );
+    if( ptr->get_probability( true ) <= 0 ) {
         return;
     }
     if( type == G_COLLECTION ) {
-        ptr->probability = std::min( 100, ptr->probability );
+        ptr->set_probablility( std::min( 100, ptr->get_probability( true ) ) );
     }
-    sum_prob += ptr->probability;
+    sum_prob += ptr->get_probability( true );
 
     // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
     // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
@@ -488,67 +677,101 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+std::size_t Item_group::create( Item_spawn_data::ItemList &list,
+                                const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
 {
-    ItemList result;
+    std::size_t prev_list_size = list.size();
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
-            result.insert( result.end(), tmp.begin(), tmp.end() );
+            elem->create( list, birthday, rec, flags );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
-            result.insert( result.end(), tmp.begin(), tmp.end() );
+            elem->create( list, birthday, rec, flags );
             break;
         }
     }
-
-    return result;
+    const std::size_t items_created = list.size() - prev_list_size;
+    put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+    return list.size() - prev_list_size;
 }
 
 item Item_group::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     if( type == G_COLLECTION ) {
         for( const auto &elem : items ) {
-            if( rng( 0, 99 ) >= ( elem )->probability ) {
+            if( rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
         for( const auto &elem : items ) {
-            p -= ( elem )->probability;
-            if( p >= 0 ) {
+            bool ev_based = elem->is_event_based();
+            int prob = elem->get_probability( false );
+            int real_prob = elem->get_probability( true );
+            p -= real_prob;
+            if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
-            return ( elem )->create_single( birthday, rec );
+            return elem->create_single( birthday, rec );
         }
     }
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency( const std::string &context ) const
+void Item_group::check_consistency() const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency( "item in " + context );
+        elem->check_consistency();
     }
+    Item_spawn_data::check_consistency();
+}
+
+void Item_spawn_data::set_container_item( const itype_id &container )
+{
+    container_item = container;
+}
+
+int Item_spawn_data::get_probability( bool skip_event_check ) const
+{
+    // Use probability as normal
+    if( skip_event_check || event == holiday::none ) {
+        return probability;
+    }
+
+    // Item spawn is event-based, but option is disabled
+    std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
+    if( opt != "items" && opt != "both" ) {
+        return 0;
+    }
+
+    // Use probability if the current holiday matches the item's spawn event
+    if( event == get_holiday_from_time() ) {
+        return probability;
+    }
+
+    // Not currently the item's holiday
+    return 0;
 }
 
 bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
         if( ( *a )->remove_item( itemid ) ) {
-            sum_prob -= ( *a )->probability;
+            sum_prob -= ( *a )->get_probability( true );
             a = items.erase( a );
         } else {
             ++a;
@@ -557,18 +780,17 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-bool Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_group::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        ( elem )->replace_item( itemid, replacementid );
+        elem->replace_items( replacements );
     }
-    return items.empty();
 }
 
 bool Item_group::has_item( const itype_id &itemid ) const
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        if( ( elem )->has_item( itemid ) ) {
+        if( elem->has_item( itemid ) ) {
             return true;
         }
     }
@@ -585,49 +807,53 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
+item_group::ItemList item_group::items_from( const item_group_id &group_id,
+        const time_point &birthday, spawn_flags flags )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
-    return group->create( birthday );
+    ItemList result;
+    result.reserve( 20 );
+    group->create( result, birthday, flags );
+    return result;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id )
+item_group::ItemList item_group::items_from( const item_group_id &group_id )
 {
-    return items_from( group_id, 0 );
+    return items_from( group_id, calendar::turn_zero );
 }
 
-item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
+item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return item();
     }
     return group->create_single( birthday );
 }
 
-item item_group::item_from( const Group_tag &group_id )
+item item_group::item_from( const item_group_id &group_id )
 {
-    return item_from( group_id, 0 );
+    return item_from( group_id, calendar::turn_zero );
 }
 
-bool item_group::group_is_defined( const Group_tag &group_id )
+bool item_group::group_is_defined( const item_group_id &group_id )
 {
     return item_controller->get_group( group_id ) != nullptr;
 }
 
-bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
+bool item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return false;
     }
     return group->has_item( type_id );
 }
 
-std::set<const itype *> item_group::every_possible_item_from( const Group_tag &group_id )
+std::set<const itype *> item_group::every_possible_item_from( const item_group_id &group_id )
 {
     Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -636,13 +862,13 @@ std::set<const itype *> item_group::every_possible_item_from( const Group_tag &g
     return group->every_item();
 }
 
-void item_group::load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
+void item_group::load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
 
-static Group_tag get_unique_group_id()
+static item_group_id get_unique_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -652,27 +878,28 @@ static Group_tag get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Group_tag new_group = unique_prefix + to_string( next_id++ );
+        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
     }
 }
 
-Group_tag item_group::load_item_group( const JsonValue &value, const std::string &default_subtype )
+item_group_id item_group::load_item_group( const JsonValue &value,
+        const std::string &default_subtype, const std::string &context )
 {
     if( value.test_string() ) {
-        return value.get_string();
+        return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
-        item_controller->load_item_group( jo, group, subtype );
+        item_controller->load_item_group( jo, group, subtype, context );
 
         return group;
     } else if( value.test_array() ) {
-        const Group_tag group = get_unique_group_id();
+        const item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
@@ -680,7 +907,8 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0,
+                                          context );
 
         return group;
     }

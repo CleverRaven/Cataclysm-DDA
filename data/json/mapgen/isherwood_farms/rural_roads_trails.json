@@ -33,6 +33,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ],
       "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 4, 18 ], "y": [ 0, 22 ] } ]
     }
@@ -71,6 +72,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ],
       "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 4, 18 ], "y": [ 0, 22 ] } ]
     }
@@ -110,6 +112,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ],
       "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 10, 20 ], "y": [ 0, 22 ] } ]
     }
@@ -148,6 +151,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -185,6 +189,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -222,6 +227,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -259,6 +265,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -296,6 +303,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -333,6 +341,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
   },
@@ -371,7 +380,26 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "rural_road" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_field",
+    "object": { "predecessor_mapgen": "field" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_forest",
+    "object": { "predecessor_mapgen": "forest" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_forest_thick",
+    "object": { "predecessor_mapgen": "forest_thick" }
   }
 ]

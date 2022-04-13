@@ -390,8 +390,8 @@
         "//............9.......//"
       ],
       "place_vehicles": [
-        { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 30, "status": 0 },
-        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 40, "status": 0 }
+        { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 40, "status": 0 },
+        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 100, "status": 0 }
       ],
       "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
       "terrain": {

@@ -2,6 +2,7 @@
   {
     "id": "book_lockpick",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "MIT Guide to Lock Picking", "str_pl": "copies of MIT Guide to Lock Picking" },
     "description": "A home-made booklet with large black-and-white pictures of several types of modern locks and general information on how to crack them open.",
     "weight": "400 g",
@@ -10,8 +11,9 @@
     "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_firstaid",
     "color": "green",
-    "skill": "lockpick",
+    "skill": "traps",
     "max_level": 2,
     "intelligence": 8,
     "time": "20 m"

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_EMIT_H
 #define CATA_SRC_EMIT_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 
@@ -62,7 +63,7 @@ class emit
 
     private:
         emit_id id_;
-        field_type_id field_ = fd_null;
+        field_type_id field_ = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         int intensity_ = 1;
         int qty_ = 1;
         int chance_ = 100;

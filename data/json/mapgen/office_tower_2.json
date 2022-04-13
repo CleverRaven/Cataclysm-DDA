@@ -4,11 +4,12 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 600, "cost_multiplier": 1, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 6 }
+      { "monster": "mon_null", "weight": 100 },
+      { "monster": "mon_zombie", "weight": 600, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie", "weight": 200 },
+      { "monster": "mon_zombie_tough", "weight": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fat", "weight": 30, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 6 }
     ]
   },
   {
@@ -111,7 +112,7 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "place_vendingmachines": [ { "x": 17, "y": 21, "lootable": true }, { "x": 17, "y": 23, "lootable": true } ],
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },
@@ -219,7 +220,7 @@
         "X": "f_crate_c",
         "l": "f_locker"
       },
-      "place_vendingmachines": [ { "x": 17, "y": 21 }, { "x": 17, "y": 23 } ],
+      "place_vendingmachines": [ { "x": 17, "y": 21, "lootable": true }, { "x": 17, "y": 23, "lootable": true } ],
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 10 ], "chance": 100, "repeat": [ 20, 70 ] },

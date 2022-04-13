@@ -3,14 +3,12 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
-#include <list>
+#include <cstddef>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
-#include <utility>
-#include <iosfwd>
 
-class nc_color;
-class translation;
+#include "translations.h"
 
 #define all_colors get_all_colors()
 
@@ -328,8 +326,8 @@ enum color_id {
     num_colors
 };
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 void init_colors();
 
@@ -351,7 +349,7 @@ class nc_color
         // color is actually an ncurses attribute.
         int attribute_value;
 
-        nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ) { }
 
     public:
         nc_color() : attribute_value( 0 ) { }
@@ -362,7 +360,10 @@ class nc_color
         static nc_color from_color_pair_index( int index );
         int to_color_pair_index() const;
 
-        operator int() const {
+        explicit operator int() const {
+            return attribute_value;
+        }
+        int to_int() const {
             return attribute_value;
         }
 
@@ -374,7 +375,17 @@ class nc_color
         bool is_blink() const;
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int value );
+
+        friend bool operator==( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value == r.attribute_value;
+        }
+        friend bool operator!=( const nc_color &l, const nc_color &r ) {
+            return !( l == r );
+        }
+        friend bool operator<( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value < r.attribute_value;
+        }
 };
 
 // Support hashing of nc_color by forwarding the hash of the contained int.
@@ -387,6 +398,10 @@ struct hash<nc_color> {
     }
 };
 } // namespace std
+
+enum class report_color_error {
+    no, yes
+};
 
 class color_manager
 {
@@ -412,8 +427,8 @@ class color_manager
         };
 
         std::array<color_struct, num_colors> color_array;
-        std::unordered_map<nc_color, color_id> inverted_map;
-        std::unordered_map<std::string, color_id> name_map;
+        std::unordered_map<nc_color, color_id> inverted_map; // NOLINT(cata-serialize)
+        std::unordered_map<std::string, color_id> name_map; // NOLINT(cata-serialize)
 
         bool save_custom();
 
@@ -427,12 +442,14 @@ class color_manager
         nc_color get_random() const;
 
         color_id color_to_id( const nc_color &color ) const;
-        color_id name_to_id( const std::string &name ) const;
+        color_id name_to_id( const std::string &name,
+                             report_color_error color_error = report_color_error::yes ) const;
 
         std::string get_name( const nc_color &color ) const;
         std::string id_to_name( color_id id ) const;
 
-        nc_color name_to_color( const std::string &name ) const;
+        nc_color name_to_color( const std::string &name,
+                                report_color_error color_error = report_color_error::yes ) const;
 
         nc_color highlight_from_names( const std::string &name, const std::string &bg_name ) const;
 
@@ -460,7 +477,9 @@ class deferred_color
     private:
         color_id id;
     public:
+        // NOLINTNEXTLINE(google-explicit-constructor)
         deferred_color( const color_id id ) : id( id ) { }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator nc_color() const {
             return all_colors.get( id );
         }
@@ -468,7 +487,7 @@ class deferred_color
 
 struct note_color {
     nc_color color;
-    std::string name;
+    translation name;
 };
 
 struct color_tag_parse_result {
@@ -481,8 +500,6 @@ struct color_tag_parse_result {
     nc_color color;
 };
 
-extern std::unordered_map<std::string, note_color> color_by_string_map;
-
 nc_color hilite( const nc_color &c );
 nc_color invert_color( const nc_color &c );
 nc_color red_background( const nc_color &c );
@@ -492,16 +509,18 @@ nc_color yellow_background( const nc_color &c );
 nc_color magenta_background( const nc_color &c );
 nc_color cyan_background( const nc_color &c );
 
-nc_color color_from_string( const std::string &color );
+nc_color color_from_string( const std::string &color,
+                            report_color_error color_error = report_color_error::yes );
 std::string string_from_color( const nc_color &color );
 nc_color bgcolor_from_string( const std::string &color );
-color_tag_parse_result get_color_from_tag( const std::string &s );
+color_tag_parse_result get_color_from_tag( const std::string &s,
+        report_color_error color_error = report_color_error::yes );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );
-std::list<std::pair<std::string, std::string>> get_note_color_names();
+const std::unordered_map<std::string, note_color> &get_note_color_names();
 
 #endif // CATA_SRC_COLOR_H

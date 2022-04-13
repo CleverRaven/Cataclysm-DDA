@@ -29,7 +29,7 @@ If you have only `astyle` then use:
 astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
 ```
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension)
+On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
 
 #### Instruction:
 
@@ -53,23 +53,29 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 ![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
 
+#### Code::Blocks
+
+If you are using Code::Blocks the IDE includes an astyle plugin and a command to format the selected text in the context sensitive menu. This has a tendency to underperform when used on only a section of code so best practice is to select all your source code first. In `Settings` - `Editor` - `Keyboard shortcuts` - `Plugins` you can set up a convenient keybinding to run astyle, such as `ctrl`+`alt`+`a` to mesh with `ctrl`+`a` (select all).
+
+The CataclysmWin.cbp will not configure the astyle formatter for you. `Settings` - `Editor` - `Source formatter` holds the settings for astyle and you can find the the relevant commands by opening `.astylerc` in a text editor. One caveat is that in the first tab 1TBS is easily overlooked as the font disguises the number `1`, looking instead like `ITBS`.
+
 ## JSON style
 
 See the [JSON style guide](JSON_STYLE.md).
 
 ## ctags
 
-In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tag in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
+In addition to the usual means of creating a `tags` file via e.g. [`ctags`](http://ctags.sourceforge.net/), we provide `tools/json_tools/cddatags.py` to augment a `tags` file with locations of definitions taken from CDDA's JSON data.  `cddatags.py` is designed to safely update a tags file containing source code tags, so if you want both types of tags in your `tags` file then you can run `ctags -R . && tools/json_tools/cddatags.py`.  Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`.
 
 
 ## clang-tidy
 
 Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the
-codebase.  We test with `clang-tidy` from LLVM 8.0.1 on Travis, so for the most
+codebase.  We test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most
 consistent results, you might want to use that version.
 
-To run it you have a few options.
+To run it, you have a few options.
 
 * `clang-tidy` ships with a wrapper script `run-clang-tidy.py`.
 
@@ -92,12 +98,22 @@ We have written our own clang-tidy checks in a custom plugin.  Unfortunately,
 `clang-tidy` as distributed by LLVM doesn't support plugins, so making this
 work requires some extra steps.
 
-#### Ubuntu Xenial
+#### Extreme tl;dr for Ubuntu Focal (including WSL)
+The following set of commands should take you from zero to running clang-tidy equivalent to the CI job. This will lint all sources in a random order.
+```sh
+sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-dev llvm-12-tools pip
+sudo pip install compiledb lit
+test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
+# The following command invokes clang-tidy exactly like CI does
+COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy.sh
+```
 
-If you are on Ubuntu Xenial then you might be able to get it working the same
-way Travis does.  Add the LLVM 8 Xenial source [listed
-here](https://apt.llvm.org/) to your `sources.list`, install the `clang-8
-libclang-8-dev llvm-8-dev llvm-8-tools` packages and build Cataclysm with CMake
+#### Ubuntu Focal
+
+If you are on Ubuntu Focal then you might be able to get it working the same
+way our CI does.  Add the LLVM 12 Focal source [listed
+here](https://apt.llvm.org/) to your `sources.list`, install the needed packages (`clang-12
+libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
 On other distributions you will probably need to build `clang-tidy` yourself.
@@ -111,7 +127,7 @@ On other distributions you will probably need to build `clang-tidy` yourself.
 * Add the `build/bin` directory to your path so that `clang-tidy` and
   `FileCheck` are found from there.
 
-Then you can use your locally build `clang-tidy` to compile Cataclysm.  You'll
+Then you can use your locally built `clang-tidy` to compile Cataclysm.  You'll
 need to use the CMake version of the Cataclysm build rather than the `Makefile`
 build.  Add the following CMake options:
 ```sh
@@ -126,7 +142,7 @@ To run `clang-tidy` with this plugin enabled add the
 to your `clang-tidy` command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also
-need `lit`.  This will be built as part of `llvm`, or you can install it via
+need `lit`.  This will be built as part of LLVM, or you can install it via
 `pip` or your local package manager if you prefer.
 
 Then, assuming `build` is your Cataclysm build directory, you can run the tests
@@ -139,34 +155,34 @@ lit -v build/tools/clang-tidy-plugin/test
 
 ##### Build LLVM
 
-To build llvm on Windows, you'll first need to get some tools installed.
+It is probably faster and easier to install WSL and follow the steps described above in [Extreme tl;dr for Ubuntu Focal (including WSL)](<#extreme-tldr-for-ubuntu-focal-including-wsl>).
+
+To build LLVM natively on Windows, you'll first need to get some tools installed.
 - Cmake
-- Python 3 (Python 2 may not work for building llvm, but it's still required to run
-the lit test, which will be discussed in the next section.)
+- Python 3
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
-building llvm on Windows correctly.)
+building LLVM on Windows correctly.)
 - A shell environment
 
 After the tools are installed, a patch still needs to be applied before building
-llvm, since `clang-tidy` as distributed by LLVM doesn't support plugins.
+LLVM, since `clang-tidy` as distributed by LLVM doesn't support plugins.
 
-First, clone the llvm repo from for example [the official github repo](https://github.com/llvm/llvm-project.git).
-Checkout the `release/8.x` branch, since that's where our patch was based on.
+First, clone the LLVM repo from, for example, [the official github repo](https://github.com/llvm/llvm-project.git).
+Checkout the `release/12.x` branch, since that's what our patch was based on.
 
-On windows, instead of applying the patch mentioned in the previous section, you
-shoud apply `plugin-support.patch` from [this PR](https://github.com/jbytheway/clang-tidy-plugin-support/pull/1)
-instead, if it's not merged yet. This is because the `-rdynamic` option is not
-supported on Windows, so clang-tidy needs to be built as a static library instead.
-(If you cloned the repo from the official github repo, replace `tools/extra` with
-`clang-tools-extra` in the patch before applying it.)
+On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
+should also apply
+[`clang-tidy-scripts.patch`](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/clang-tidy-scripts.patch)
+so you can run the lit test with the custom clang-tidy executable and let
+clang-tidy apply suggestions automatically.
 
-After the patch is applied, you can then build the llvm code. Unfortunately, it
-seems that clang itself cannot correctly compile the llvm code on Windows (gives
+After the patch is applied, you can then build the LLVM code. Unfortunately, it
+seems that clang itself cannot correctly compile the LLVM code on Windows (gives
 some sort of relocation error). Luckily, MinGW-w64 can be used instead to compile
 the code.
 
 The first step to build the code is to run CMake to generate the makefile. On
-the root dir of llvm, run the following script (substitute values inside `<>`
+the root dir of LLVM, run the following script (substitute values inside `<>`
 with the actual paths). Make sure CMake, python, and MinGW-w64 are on the path.
 
 ```sh
@@ -185,7 +201,7 @@ cmake \
 The next step is to call `make` to actually build clang-tidy as a library.
 When using MinGW-w64 to build, you should call `mingw32-make` instead.
 Also, because `FileCheck` is not shipped with Windows, you'll also need to build
-it youself using llvm sources by adding the `FileCheck` target to the make command.
+it yourself using LLVM sources by adding the `FileCheck` target to the make command.
 
 ```sh
 mkdir -p build
@@ -198,15 +214,14 @@ are needed to build our custom clang-tidy executable later.
 
 ##### Build clang-tidy with custom checks
 
-After building clang-tidy as a library from the llvm source, the next step is to
+After building clang-tidy as a library from the LLVM source, the next step is to
 build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 In this step, the following tools are required.
-- Python 2 (used to run the lit test for the custom checks)
-- Python 3 (used to run other python scripts)
+- Python 3
 - CMake
 - MinGW-w64
-- FileCheck (built from the llvm source)
+- FileCheck (built from the LLVM source)
 - A shell environment
 
 You also need to install yaml for python 3 to work. Download the `.whl` installer
@@ -216,73 +231,19 @@ and execute the following command inside the `<python3_root>/Scripts` directory
 pip install path/to/your/downloaded/file.whl
 ```
 
-Currently, the CDDA source is still building the custom checks as a plugin,
-which unfortunately is not supported on Windows, so the following patch needs to
-be applied before the custom checks can be built as an executable.
-
-```patch
-diff --git a/tools/clang-tidy-plugin/CMakeLists.txt b/tools/clang-tidy-plugin/CMakeLists.txt
-index 553ef0ebe0..f591bc80d1 100644
---- a/tools/clang-tidy-plugin/CMakeLists.txt
-+++ b/tools/clang-tidy-plugin/CMakeLists.txt
-@@ -3,8 +3,8 @@ include(ExternalProject)
- find_package(LLVM REQUIRED CONFIG)
- find_package(Clang REQUIRED CONFIG)
- 
--add_library(
--    CataAnalyzerPlugin MODULE
-+add_executable(
-+    CataAnalyzerPlugin
-     CataTidyModule.cpp
-     JsonTranslationInputCheck.cpp
-     NoLongCheck.cpp
-@@ -51,6 +51,11 @@ else()
-         CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
- endif()
- 
-+target_link_libraries(
-+    CataAnalyzerPlugin
-+    clangTidyMain
-+    )
-+
- target_compile_definitions(
-     CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
- 
-diff --git a/tools/clang-tidy-plugin/test/lit.cfg b/tools/clang-tidy-plugin/test/lit.cfg
-index 4ab6e913a7..d1a4418ba6 100644
---- a/tools/clang-tidy-plugin/test/lit.cfg
-+++ b/tools/clang-tidy-plugin/test/lit.cfg
-@@ -17,11 +17,13 @@ else:
-             config.plugin_build_root, 'clang-tidy-plugin-support', 'bin',
-             'check_clang_tidy.py')
- 
--cata_include = os.path.join( config.cata_source_dir, "src" )
-+cata_include = os.path.join( config.cata_source_dir, "./src" )
- 
- cata_plugin = os.path.join(
-         config.plugin_build_root, 'libCataAnalyzerPlugin.so')
- 
-+cata_plugin = ''
-+
- config.substitutions.append(('%check_clang_tidy', check_clang_tidy))
- config.substitutions.append(('%cata_include', cata_include))
- config.substitutions.append(('%cata_plugin', cata_plugin))
-```
-
 The next step is to run CMake to generate the compilation database. The compilation
 database contains compiler flags that clang-tidy uses to check the source files.
 
-Make sure Python 2, Python 3, CMake, MinGW-w64, and FileCheck are on the path.
+Make sure Python 3, CMake, MinGW-w64, and FileCheck are on the path.
 Note that two `bin` directories of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`,
 and `<mingw-w64-root>/x86_64-w64-mingw32/bin`. FileCheck's path is `<llvm-source-root>/build/bin`,
-if you built it with the instructions in the previous section. Python 2 should
-precede Python 3 in the path, otherwise scripts that are intended to run with
-Python 2 might not work.
+if you built it with the instructions in the previous section.
 
 Then add the following CMake options to generate the compilation database
-(substitute values inside `<>` with the actual paths), and build the CDDA source
+(substitute values inside `<>` with the actual paths) and build the CDDA source
 and the custom clang-tidy executable with `mingw32-make`. In this tutorial we
-run CMake and `mingw32-make` in the `build` subdirectory.
+run CMake and `mingw32-make` in the `build` subdirectory. Note that `DCATA_CLANG_TIDY_EXECUTABLE`
+is defined instead of `DCATA_CLANG_TIDY_PLUGIN`.
 
 ```sh
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
@@ -290,20 +251,20 @@ run CMake and `mingw32-make` in the `build` subdirectory.
 -DClang_DIR="<llvm-source-root>/build/lib/cmake/clang"
 -DLLVM_INCLUDE_DIRS="<llvm-source-root>/llvm/include"
 -DCLANG_INCLUDE_DIRS="<llvm-source-root>/clang/include"
--DCATA_CLANG_TIDY_PLUGIN=ON
+-DCATA_CLANG_TIDY_EXECUTABLE=ON
 -DCATA_CLANG_TIDY_INCLUDE_DIR="<llvm-source-root>/clang-tools-extra/clang-tidy"
--DCATA_CHECK_CLANG_TIDY="<llvm-source-root>/clang-tools-extra/test/clang-tidy/check_clang_tidy.py -clang-tidy=<cdda-source-root>/build/tools/clang-tidy-plugin/CataAnalyzerPlugin.exe"
+-DCATA_CHECK_CLANG_TIDY="<llvm-source-root>/clang-tools-extra/test/clang-tidy/check_clang_tidy.py -clang-tidy=<cdda-source-root>/build/tools/clang-tidy-plugin/CataAnalyzer.exe"
 ```
 
-Next, change the directory back to the source root, and run `tools/fix-compilation-database.py`
+Next, change the directory back to the source root and run `tools/fix-compilation-database.py`
 with Python 3 to fix some errors in the compilation database. Then the compilation
 database should be usable by clang-tidy.
 
 If you want to check if the custom checks are working correctly, run the following
-script. Note that `python` here is the executable from Python 2.
+script.
 
 ```sh
-python <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
+python3 <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
 ```
 
 Finally, use the following command to run clang-tidy with the custom checks.
@@ -314,28 +275,28 @@ to avoid compiler errors.
 
 ```sh
 python3 <llvm-source-root>/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py \
-    -clang-tidy-binary=build/tools/clang-tidy-plugin/CataAnalyzerPlugin.exe \
+    -clang-tidy-binary=build/tools/clang-tidy-plugin/CataAnalyzer.exe \
     -p=build "\.cpp$" \
     -extra-arg=-target -extra-arg=x86_64-pc-windows-gnu -extra-arg=-pthread -extra-arg=-DSDL_DISABLE_ANALYZE_MACROS \
     -extra-arg=-isystem -extra-arg=<llvm-source-root>/clang/lib/Headers
 ```
 
-You can also add `-fix-errors` to apply fixes reported by the checks, or
+You can also add `-fix-errors` to apply fixes reported by the checks or
 `-checks="-*,xxx,yyy"` to specify the checks you would like to run.
 
 ## include-what-you-use
 
 [include-what-you-use](https://github.com/include-what-you-use/include-what-you-use)
-(IWYU) is a project intended to optimise includes.  It will calculate the
+(IWYU) is a project intended to optimize includes.  It will calculate the
 required headers and add and remove includes as appropriate.
 
-Running on this codebase revealed some issues.  You will need a version of IWYU
+Running IWYU on this codebase revealed some issues.  You will need a version of IWYU
 where the following PR has been merged (which has not yet happened at time of
 writing, but with luck might make it into the clang-10 release of IWYU):
 
 * https://github.com/include-what-you-use/include-what-you-use/pull/775
 
-Once you have IWYU built, build the codebase using cmake, with
+Once you have IWYU built, build the codebase using CMake, with
 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` on to create a compilation database
 (Look for `compile_commands.json` in the build dir to see whether that worked).
 
@@ -389,3 +350,7 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
 * IWYU seems to have particular trouble with types used in maps and
   `cata::optional`.  Have not looked into this in detail, but again worked
   around it with pragmas.
+
+## Python and pyvips on Windows
+
+They are needed to work with `compose.py` and some other tileset infrastructure scripts. See [TILESET.md](/doc/TILESET.md#pyvips)

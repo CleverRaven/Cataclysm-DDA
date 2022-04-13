@@ -5,10 +5,11 @@ Requires: python 3.6+; Windows 7+
 Code format: PEP-8; line breaks at 120; Black default formatting.
 
 Limits a target process to a given amount of memory.
-If the process use more memory than the given limit, the process allocations will start to fail.
+If the process use more memory than the given limit, the process allocations
+will start to fail.
 
 ```
-$ python .\windows_limit_memory.py --help
+$ python .\\windows_limit_memory.py --help
 usage: windows_limit_memory.py [-h]
                                [-l {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                                [-m MEMORY]
@@ -23,7 +24,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -l {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log-level {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}
+  -l,--log-level {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level.
   -m MEMORY, --memory MEMORY
                         Maximum process memory size in MiB.
@@ -34,7 +35,8 @@ Examples:
     $ python windows_limit_memory.py -m 50 pid 22764
 
     ; starting process "cataclysm-tiles.exe" and limiting its memory to 1GiB.
-    $ python windows_limit_memory.py -m 1024 process z:\CDDA\Cataclysm-tiles.exe
+    $ python windows_limit_memory.py -m 1024 process \
+            z:\\CDDA\\Cataclysm-tiles.exe
 """
 
 import argparse
@@ -55,7 +57,10 @@ BOOL = ctypes.c_long
 HANDLE = ctypes.c_void_p
 WORD = ctypes.c_uint16
 DWORD = ctypes.c_uint32
-ULONG_PTR = ctypes.c_ulonglong if ctypes.sizeof(ctypes.c_void_p) == 8 else ctypes.c_ulong
+if ctypes.sizeof(ctypes.c_void_p) == 8:
+    ULONG_PTR = ctypes.c_ulonglong
+else:
+    ULONG_PTR = ctypes.c_ulong
 SIZE_T = ULONG_PTR
 PVOID = ctypes.c_void_p
 LPVOID = PVOID
@@ -67,7 +72,9 @@ PULONG_PTR = ctypes.POINTER(ULONG_PTR)
 #
 CREATE_SUSPENDED = 0x4
 CREATE_BREAKAWAY_FROM_JOB = 0x01000000
-INVALID_HANDLE_VALUE = 2 ** (ctypes.sizeof(ctypes.c_void_p) * 8) - 1  # -1 on 32 or 64-bit.
+
+# -1 on 32 or 64-bit.
+INVALID_HANDLE_VALUE = 2 ** (ctypes.sizeof(ctypes.c_void_p) * 8) - 1
 JobObjectAssociateCompletionPortInformation = 7
 JobObjectExtendedLimitInformation = 9
 JOB_OBJECT_LIMIT_PROCESS_MEMORY = 0x100
@@ -95,7 +102,8 @@ JOB_OBJECT_MSG_SILO_TERMINATED = 13
 
 
 class SECURITY_ATTRIBUTES(ctypes.Structure):
-    _fields_ = [("nLength", DWORD), ("lpSecurityDescriptor", LPVOID), ("bInheritHandle", BOOL)]
+    _fields_ = [("nLength", DWORD), ("lpSecurityDescriptor", LPVOID),
+                ("bInheritHandle", BOOL)]
 
 
 class STARTUPINFO(ctypes.Structure):
@@ -122,7 +130,8 @@ class STARTUPINFO(ctypes.Structure):
 
 
 class PROCESS_INFORMATION(ctypes.Structure):
-    _fields_ = [("hProcess", HANDLE), ("hThread", HANDLE), ("dwProcessId", DWORD), ("dwThreadId", DWORD)]
+    _fields_ = [("hProcess", HANDLE), ("hThread", HANDLE),
+                ("dwProcessId", DWORD), ("dwThreadId", DWORD)]
 
 
 class IO_COUNTERS(ctypes.Structure):
@@ -166,7 +175,8 @@ class JOBOBJECT_ASSOCIATE_COMPLETION_PORT(ctypes.Structure):
 
 
 class OVERLAPPED(ctypes.Structure):
-    _fields_ = [("Internal", ULONG_PTR), ("InternalHigh", ULONG_PTR), ("Pointer", LPVOID), ("hEvent", HANDLE)]
+    _fields_ = [("Internal", ULONG_PTR), ("InternalHigh", ULONG_PTR),
+                ("Pointer", LPVOID), ("hEvent", HANDLE)]
 
 
 LPSECURITY_ATTRIBUTES = ctypes.POINTER(SECURITY_ATTRIBUTES)
@@ -183,7 +193,8 @@ class Kernel32Wrapper:
         """Initialization.
         """
         # get kernel32 instance
-        self._kernel32: ctypes.WinDLL = ctypes.WinDLL("kernel32", use_last_error=True)
+        self._kernel32: ctypes.WinDLL = ctypes.WinDLL(
+            "kernel32", use_last_error=True)
 
         #
         # fetch functions
@@ -193,15 +204,20 @@ class Kernel32Wrapper:
         self._create_job_object.argtypes = (LPSECURITY_ATTRIBUTES, LPCWSTR)
         self._create_job_object.restype = HANDLE
 
-        self._query_information_job_object = self._kernel32.QueryInformationJobObject
-        self._query_information_job_object.argtypes = (HANDLE, ctypes.c_uint32, LPVOID, DWORD, ctypes.POINTER(DWORD))
+        self._query_information_job_object = \
+            self._kernel32.QueryInformationJobObject
+        self._query_information_job_object.argtypes = (
+            HANDLE, ctypes.c_uint32, LPVOID, DWORD, ctypes.POINTER(DWORD))
         self._query_information_job_object.restype = BOOL
 
-        self._set_information_job_object = self._kernel32.SetInformationJobObject
-        self._set_information_job_object.argtypes = (HANDLE, ctypes.c_uint32, LPVOID, DWORD)
+        self._set_information_job_object = \
+            self._kernel32.SetInformationJobObject
+        self._set_information_job_object.argtypes = (
+            HANDLE, ctypes.c_uint32, LPVOID, DWORD)
         self._set_information_job_object.restype = BOOL
 
-        self._assign_process_to_job_object = self._kernel32.AssignProcessToJobObject
+        self._assign_process_to_job_object = \
+            self._kernel32.AssignProcessToJobObject
         self._assign_process_to_job_object.argtypes = (HANDLE, HANDLE)
         self._assign_process_to_job_object.restype = BOOL
 
@@ -225,11 +241,15 @@ class Kernel32Wrapper:
         self._open_process.restype = HANDLE
 
         self._create_io_completion_port = self._kernel32.CreateIoCompletionPort
-        self._create_io_completion_port.argtypes = (HANDLE, HANDLE, ULONG_PTR, DWORD)
+        self._create_io_completion_port.argtypes = (
+            HANDLE, HANDLE, ULONG_PTR, DWORD)
         self._create_io_completion_port.restype = HANDLE
 
-        self._get_queued_completion_status = self._kernel32.GetQueuedCompletionStatus
-        self._get_queued_completion_status.argtypes = (HANDLE, LPDWORD, PULONG_PTR, ctypes.POINTER(LPOVERLAPPED), DWORD)
+        self._get_queued_completion_status = \
+            self._kernel32.GetQueuedCompletionStatus
+        self._get_queued_completion_status.argtypes = (
+            HANDLE, LPDWORD, PULONG_PTR, ctypes.POINTER(LPOVERLAPPED),
+            DWORD)
         self._get_queued_completion_status.restype = BOOL
 
         self._resume_thread = self._kernel32.ResumeThread
@@ -268,7 +288,8 @@ class Kernel32Wrapper:
             AttributeError: the given name is not a known function name.
 
         Returns:
-            If the attribute is a function name, returns the function pointer, otherwise raise an exception.
+            If the attribute is a function name, returns the function pointer,
+            otherwise raise an exception.
         """
         func = self._function_map.get(item)
         if func is None:
@@ -280,16 +301,21 @@ class Kernel32Wrapper:
         """Creates a ctypes unicode buffer given an object convertible to string.
 
         Args:
-            obj: The object from which to create a buffer. Must be convertible to `str`.
-            max_buffer_len: The maximum buffer length for the buffer. If `None` is supplied, default to the length of
-              the given object string.
+            obj: The object from which to create a buffer. Must be convertible
+                to `str`.
+            max_buffer_len: The maximum buffer length for the buffer. If `None`
+                is supplied, default to the length of
+                the given object string.
 
         Returns:
             A unicode buffer of object converted to string.
         """
         str_obj = obj if isinstance(obj, str) else str(obj)
 
-        max_len_value = len(str_obj) + 1 if max_buffer_len is None else max_buffer_len
+        if max_buffer_len is None:
+            max_len_value = len(str_obj) + 1
+        else:
+            max_len_value = max_buffer_len
         max_len = max(max_len_value, len(str_obj))
 
         return ctypes.create_unicode_buffer(str_obj, max_len)
@@ -353,9 +379,11 @@ class ProcessLimiter:
         """Get whether the process object was started by the class or not.
 
         Returns:
-            True if the process was started by this class instance, False otherwise.
+            True if the process was started by this class instance, False
+            otherwise.
         """
-        return self._handle_process is not None and self._handle_thread is not None
+        return (self._handle_process is not None and
+                self._handle_thread is not None)
 
     def _create_io_completion_port(self) -> HANDLE:
         """[Internal] Create an I/O completion port.
@@ -370,13 +398,15 @@ class ProcessLimiter:
             A `HANDLE` to the I/O Port.
         """
         logger.info("Creating IO Port")
-        handle_io_port = self._kernel32.CreateIoCompletionPort(INVALID_HANDLE_VALUE, None, 0, 1)
+        handle_io_port = self._kernel32.CreateIoCompletionPort(
+            INVALID_HANDLE_VALUE, None, 0, 1)
         if not handle_io_port:
             raise ctypes.WinError(ctypes.get_last_error())
         logger.debug(f"IO Port: {handle_io_port:#x}")
         return handle_io_port
 
-    def _query_information_job_object(self, structure: ctypes.Structure, query_type: int) -> ctypes.Structure:
+    def _query_information_job_object(self, structure: ctypes.Structure,
+                                      query_type: int) -> ctypes.Structure:
         """[Internal] Retrieves limit and job state information from the job object.
 
         Args:
@@ -384,16 +414,19 @@ class ProcessLimiter:
             query_type: The information class for the limits to be queried.
 
         Raises:
-            ctypes.WinError: An error occurred while getting the state or limit for the job object.
+            ctypes.WinError: An error occurred while getting the state or limit
+                for the job object.
 
         Returns:
-            Returns the given structure filled with the job limit or state information.
+            Returns the given structure filled with the job limit or state
+            information.
         """
         # query its default properties
         return_length = DWORD(0)
         logger.debug("Querying job object.")
         ret_val = self._kernel32.QueryInformationJobObject(
-            self._handle_job, query_type, ctypes.byref(structure), ctypes.sizeof(structure), ctypes.byref(return_length)
+            self._handle_job, query_type, ctypes.byref(structure),
+            ctypes.sizeof(structure), ctypes.byref(return_length)
         )
         if ret_val == 0 or return_length.value != ctypes.sizeof(structure):
             raise ctypes.WinError(ctypes.get_last_error())
@@ -403,10 +436,12 @@ class ProcessLimiter:
         """[Internal] Resume the main thread of a created process.
 
         Raises:
-            ValueError: the function was called but there is no main thread handle.
-            ctypes.WinError: There was an error while trying to resume the main thread of the process. Note that this is
-                a critical condition resulting in a zombie process. The code will try to kill the zombie process if it
-                happens, without any guaranty of success.
+            ValueError: the function was called but there is no main thread
+                handle.
+            ctypes.WinError: There was an error while trying to resume the main
+                thread of the process. Note that this is a critical condition
+                resulting in a zombie process. The code will try to kill the
+                zombie process if it happens, without any guaranty of success.
         """
         if not self._handle_thread:
             raise ValueError("Thread handle is NULL.")
@@ -414,17 +449,22 @@ class ProcessLimiter:
         logger.debug("Resuming main thread.")
         ret_val = self._kernel32.ResumeThread(self._handle_thread)
         if ret_val == -1:
-            # oops, we now have a zombie process... we'll try to kill it nonetheless.
-            logger.error("Error: ResumeThread failed but the process is started!")
+            # oops, we now have a zombie process... we'll try to kill it
+            # nonetheless.
+            logger.error(
+                "Error: ResumeThread failed but the process is started!")
             # try to kill it
-            if self._kernel32.TerminateProcess(self._handle_process, 0xDEADBEEF) != 0:
+            if 0 != self._kernel32.TerminateProcess(self._handle_process,
+                                                    0xDEADBEEF):
                 logger.info("Successfully killed the zombie process.")
             else:
-                logger.warning("The zombie process is sitll alive. Try to kill it manually.")
+                logger.warning("The zombie process is sitll alive. Try to "
+                               "kill it manually.")
             # we tried to kill the process, now raise.
             raise ctypes.WinError(ctypes.get_last_error())
 
-    def _set_information_job_object(self, structure: ctypes.Structure, set_type: int) -> None:
+    def _set_information_job_object(self, structure: ctypes.Structure,
+                                    set_type: int) -> None:
         """[Internal] Set limit and job state information for the job object.
 
         Args:
@@ -432,10 +472,12 @@ class ProcessLimiter:
             set_type: The information class for the limits to be queried.
 
         Raises:
-            ctypes.WinError: An error occurred while setting the state or limit for the job object.
+            ctypes.WinError: An error occurred while setting the state or limit
+                for the job object.
         """
         ret_val = self._kernel32.SetInformationJobObject(
-            self._handle_job, set_type, ctypes.byref(structure), ctypes.sizeof(structure)
+            self._handle_job, set_type, ctypes.byref(structure),
+            ctypes.sizeof(structure)
         )
         if ret_val == 0:
             raise ctypes.WinError(ctypes.get_last_error())
@@ -445,14 +487,16 @@ class ProcessLimiter:
 
         Raises:
             ValueError: There's no process or job to associate with.
-            ctypes.WinError: There was an error while associating the process with the job.
+            ctypes.WinError: There was an error while associating the process
+                with the job.
         """
         if not self._handle_process:
             raise ValueError("There's no process to associate with the job.")
         if not self._handle_job:
             raise ValueError("There's no job.")
         logger.info("Assigning process to job.")
-        ret_val = self._kernel32.AssignProcessToJobObject(self._handle_job, self._handle_process)
+        ret_val = self._kernel32.AssignProcessToJobObject(
+            self._handle_job, self._handle_process)
         if ret_val == 0:
             raise ctypes.WinError(ctypes.get_last_error())
 
@@ -463,11 +507,12 @@ class ProcessLimiter:
             job_name: The optional job name; can be `None`.
 
         Notes:
-            This function will try to associate the job with an I/O completion port, which is used later in the
-                 `wait_for_job` function.
+            This function will try to associate the job with an I/O completion
+            port, which is used later in the `wait_for_job` function.
 
         Raises:
-            ctypes.WinError: There was an error while creating the job, or, if a completion port exists, an error
+            ctypes.WinError: There was an error while creating the job, or, if
+                a completion port exists, an error
                 occurred while associating the completion port to the job.
         """
         logger.info("Creating job object.")
@@ -483,9 +528,12 @@ class ProcessLimiter:
         job_completion_port = JOBOBJECT_ASSOCIATE_COMPLETION_PORT()
         job_completion_port.CompletionKey = self._handle_job
         job_completion_port.CompletionPort = self._handle_io_port
-        self._set_information_job_object(job_completion_port, JobObjectAssociateCompletionPortInformation)
+        self._set_information_job_object(
+            job_completion_port,
+            JobObjectAssociateCompletionPortInformation)
 
-    def create_process(self, process_path: pathlib.Path, command_line: Optional[str] = None) -> None:
+    def create_process(self, process_path: pathlib.Path,
+                       command_line: Optional[str] = None) -> None:
         """Create a new process object to be associated with the main job.
 
         Args:
@@ -493,7 +541,8 @@ class ProcessLimiter:
             command_line: The command line for the process.
 
         Raises:
-            ctypes.WinError: An error occurred while trying to create the process.
+            ctypes.WinError: An error occurred while trying to create the
+                process.
 
         Notes:
             The command line is prepended with the full binary path.
@@ -505,7 +554,8 @@ class ProcessLimiter:
         pi = PROCESS_INFORMATION()
 
         full_proc_path = process_path.resolve()
-        cmd_line_str = str(full_proc_path) + (command_line if command_line is not None else "")
+        cmd_line_str = str(full_proc_path) + (
+            command_line if command_line is not None else "")
 
         cmd_line = self._kernel32.create_buffer(cmd_line_str)
         current_dir = self._kernel32.create_buffer(str(full_proc_path.parent))
@@ -530,16 +580,19 @@ class ProcessLimiter:
         self._handle_thread = pi.hThread
 
     def get_process(self, pid: int) -> None:
-        """Get a process object from its process identifier (PID). This process will be associated with the main job.
+        """Get a process object from its process identifier (PID). This process
+        will be associated with the main job.
 
         Args:
             pid: The pid of the process to associate with the job.
 
         Raises:
-            ctypes.WinError: An error occurred while trying to ge the process object form its PID. Ensure you have
+            ctypes.WinError: An error occurred while trying to ge the process
+                object form its PID. Ensure you have
                 sufficient rights upon the process.
         """
-        handle_process = self._kernel32.OpenProcess(PROCESS_SET_QUOTA | PROCESS_TERMINATE, False, pid)
+        handle_process = self._kernel32.OpenProcess(
+            PROCESS_SET_QUOTA | PROCESS_TERMINATE, False, pid)
         if not handle_process:
             raise ctypes.WinError(ctypes.get_last_error())
         logger.debug(f"Process: {handle_process:#x}")
@@ -552,32 +605,41 @@ class ProcessLimiter:
             memory_limit: The memory limit of the process, in MiB (MebiBytes).
 
         Raises:
-            ctypes.WinError: There was an error while trying to limit the process memory.
+            ctypes.WinError: There was an error while trying to limit the
+                process memory.
             ValueError: The given memory limit is not valid or there's no job.
         """
-        logger.info(f"Limiting process memory to {memory_limit} MiB ({memory_limit * 1024 * 1024} bytes)")
+        logger.info(f"Limiting process memory to {memory_limit} MiB "
+                    f"({memory_limit * 1024 * 1024} bytes)")
         if memory_limit <= 0:
-            raise ValueError(f"Memory limit can be 0 or negative; got: {memory_limit}")
+            raise ValueError(f"Memory limit can be 0 or negative; got: "
+                             f"{memory_limit}")
         if not self._handle_job:
             raise ValueError("Job handle is NULL.")
         # query current job object
         job_info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION()
-        job_info = self._query_information_job_object(job_info, JobObjectExtendedLimitInformation)
+        job_info = self._query_information_job_object(
+            job_info, JobObjectExtendedLimitInformation)
 
         # limit the process memory; note: not the job memory!
         logger.debug("Setting job information.")
-        job_info.BasicLimitInformation.LimitFlags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY
-        job_info.ProcessMemoryLimit = memory_limit * 1024 * 1024  # MiB to bytes
-        self._set_information_job_object(job_info, JobObjectExtendedLimitInformation)
+        job_info.BasicLimitInformation.LimitFlags |= \
+            JOB_OBJECT_LIMIT_PROCESS_MEMORY
+        # MiB to bytes
+        job_info.ProcessMemoryLimit = memory_limit * 1024 * 1024
+        self._set_information_job_object(
+            job_info, JobObjectExtendedLimitInformation)
 
     def wait_for_job(self) -> bool:
-        """Wait for the job completion. This function returns when the last process of the job exits.
+        """Wait for the job completion. This function returns when the last
+        process of the job exits.
 
         Notes:
             This function returns immediately if there's no IO ports.
 
         Returns:
-            True if the function successfully waited for the job to finish, False otherwise.
+            True if the function successfully waited for the job to finish,
+            False otherwise.
         """
         logger.info("Waiting for the job.")
         if self.is_started_process:
@@ -588,15 +650,22 @@ class ProcessLimiter:
         msg_map: Dict[int, str] = {
             JOB_OBJECT_MSG_END_OF_JOB_TIME: "End of job time",
             JOB_OBJECT_MSG_END_OF_PROCESS_TIME: "End of process time",
-            JOB_OBJECT_MSG_ACTIVE_PROCESS_LIMIT: "Active process limit reached",
-            JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO: "No more active process in job",
+            JOB_OBJECT_MSG_ACTIVE_PROCESS_LIMIT:
+                "Active process limit reached",
+            JOB_OBJECT_MSG_ACTIVE_PROCESS_ZERO:
+                "No more active process in job",
             JOB_OBJECT_MSG_NEW_PROCESS: "New process in job",
             JOB_OBJECT_MSG_EXIT_PROCESS: "A process in the job exited",
-            JOB_OBJECT_MSG_ABNORMAL_EXIT_PROCESS: "A process in the job exited abnormally",
-            JOB_OBJECT_MSG_PROCESS_MEMORY_LIMIT: "A process in the job reached its memory limit",
-            JOB_OBJECT_MSG_JOB_MEMORY_LIMIT: "The job has reached its memory limit",
-            JOB_OBJECT_MSG_NOTIFICATION_LIMIT: "The job reached a notification limit",
-            JOB_OBJECT_MSG_JOB_CYCLE_TIME_LIMIT: "The CPU cycle limit for the job has been reached",
+            JOB_OBJECT_MSG_ABNORMAL_EXIT_PROCESS:
+                "A process in the job exited abnormally",
+            JOB_OBJECT_MSG_PROCESS_MEMORY_LIMIT:
+                "A process in the job reached its memory limit",
+            JOB_OBJECT_MSG_JOB_MEMORY_LIMIT:
+                "The job has reached its memory limit",
+            JOB_OBJECT_MSG_NOTIFICATION_LIMIT:
+                "The job reached a notification limit",
+            JOB_OBJECT_MSG_JOB_CYCLE_TIME_LIMIT:
+                "The CPU cycle limit for the job has been reached",
             JOB_OBJECT_MSG_SILO_TERMINATED: "A silo a terminated.",
         }
 
@@ -616,10 +685,12 @@ class ProcessLimiter:
             )
             if ret_val == 0:
                 # error from GetQueuedCompletionStatus
-                logger.error(f"Error GetQueuedCompletionStatus: {ctypes.get_last_error():#x}")
+                logger.error(f"Error GetQueuedCompletionStatus: "
+                             f"{ctypes.get_last_error():#x}")
                 break
             if completion_key.value != self._handle_job:
-                # we received an event, but it's not from our job; we can ignore it!
+                # we received an event, but it's not from our job; we can
+                # ignore it!
                 continue
             # message
             msg = msg_map.get(completion_code.value)
@@ -648,14 +719,20 @@ def main(args: argparse.Namespace) -> int:
     if args.command_name == "process":
         # check the binary file exists
         if not args.process.is_file():
-            logger.debug(f"The given file path '{args.process}' is not a file or doesn't exist.")
+            logger.debug(f"The given file path '{args.process}' is not a file "
+                         f"or doesn't exist.")
             return -1
-        logger.info(f"Process Path: {args.process}; Memory limit (MiB): {args.memory}")
+        logger.info(f"Process Path: {args.process}; Memory limit (MiB): "
+                    f"{args.memory}")
     elif args.command_name == "pid":
         # pid to int
-        base = 16 if args.pid.startswith("0x") or args.pid.startswith("0X") else 10
+        if args.pid.startswith("0x") or args.pid.startswith("0X"):
+            base = 16
+        else:
+            base = 10
         args.pid = int(args.pid, base)
-        logger.info(f"Process Pid: {args.pid:#x}; Memory limit (MiB): {args.memory}")
+        logger.info(f"Process Pid: {args.pid:#x}; Memory limit (MiB): "
+                    f"{args.memory}")
     else:
         logger.error(f"Unknown command: '{args.command}'")
         return -1
@@ -677,7 +754,8 @@ def main(args: argparse.Namespace) -> int:
 
 
 if __name__ == "__main__":
-    arg_parser = argparse.ArgumentParser(description="C:DDA Memory Limit test script.")
+    arg_parser = argparse.ArgumentParser(
+        description="C:DDA Memory Limit test script.")
 
     #
     # options for all sub-commands
@@ -690,19 +768,27 @@ if __name__ == "__main__":
         help="Set the logging level.",
     )
     arg_parser.add_argument(
-        "-m", "--memory", action="store", type=int, default=1024, help="Maximum process memory size in MiB."
+        "-m", "--memory", action="store", type=int, default=1024,
+        help="Maximum process memory size in MiB."
     )
 
     #
     # sub-commands
     #
-    subparsers = arg_parser.add_subparsers(help='help for sub-commands', dest="command_name")
+    subparsers = arg_parser.add_subparsers(help='help for sub-commands',
+                                           dest="command_name")
 
-    parser_new_process = subparsers.add_parser('process', help='Start a new process.')
-    parser_new_process.add_argument("process", action="store", type=pathlib.Path, help="Path to process binary file.")
+    parser_new_process = subparsers.add_parser(
+        'process', help='Start a new process.')
+    parser_new_process.add_argument(
+        "process", action="store", type=pathlib.Path,
+        help="Path to process binary file.")
 
-    parser_pid = subparsers.add_parser('pid', help='Enforce limit on a given process pid.')
-    parser_pid.add_argument("pid", action="store", type=str, help="Process pid on which to enforce memory limit.")
+    parser_pid = subparsers.add_parser(
+        'pid', help='Enforce limit on a given process pid.')
+    parser_pid.add_argument(
+        "pid", action="store", type=str,
+        help="Process pid on which to enforce memory limit.")
 
     parsed_args = arg_parser.parse_args()
 

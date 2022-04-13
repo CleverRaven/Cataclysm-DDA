@@ -7,7 +7,7 @@
     "symbol": "]",
     "color": "white",
     "looks_like": "cargo_rack",
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "veh_parts",
     "weight": "22000 g",
     "volume": "55 L",

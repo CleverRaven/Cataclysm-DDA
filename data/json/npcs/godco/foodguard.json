@@ -262,6 +262,6 @@
       "success_lie": "Could you give them to me?",
       "failure": "Fine.  I can read something else."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
   }
 ]

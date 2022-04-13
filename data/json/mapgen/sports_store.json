@@ -48,8 +48,8 @@
       "furniture": {
         "#": "f_counter",
         "h": "f_stool",
-        "t": "f_treadmill",
-        "e": "f_ergometer",
+        "t": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "e": [ "f_ergometer", "f_ergometer_mechanical" ],
         "p": "f_floor_canvas",
         "m": "f_exercise",
         "%": "f_sink",

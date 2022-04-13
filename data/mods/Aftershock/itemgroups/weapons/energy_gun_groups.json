@@ -1,0 +1,69 @@
+[
+  {
+    "id": "afs_any_energy_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_any_laser_gun", "prob": 10 }, { "group": "afs_any_plasma_gun", "prob": 5 } ]
+  },
+  {
+    "id": "afs_any_laser_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "afs_v29", 40 ],
+      [ "afs_av22", 60 ],
+      { "item": "afs_archeotech_laspistol", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+    ]
+  },
+  {
+    "id": "afs_any_plasma_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_pam-41", 30 ] ]
+  },
+  {
+    "id": "afs_any_energy_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_any_laser_mag", "prob": 10 }, { "group": "afs_any_plasma_mag", "prob": 5 } ]
+  },
+  {
+    "id": "afs_any_laser_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      [ "afs_cartridge", 10 ],
+      [ "afs_bootleg_cartridge", 80 ],
+      [ "afs_compact_cartridge", 10 ],
+      { "item": "afs_archeotech_cartridge", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
+    ]
+  },
+  {
+    "id": "afs_any_plasma_mag",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [ [ "afs_4g_plasma", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_common",
+    "//": "Added until blacklists are implemented.",
+    "subtype": "distribution",
+    "copy-from": "ammo_pistol_common",
+    "extend": { "items": [ { "group": "afs_any_laser_mag", "prob": 100 }, { "group": "afs_any_plasma_mag", "prob": 50 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_common",
+    "//": "Added until blacklists are implemented.",
+    "subtype": "distribution",
+    "copy-from": "ammo_rifle_common",
+    "extend": { "items": [ { "group": "afs_any_laser_mag", "prob": 100 }, { "group": "afs_any_plasma_mag", "prob": 50 } ] }
+  }
+]

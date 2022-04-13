@@ -144,14 +144,14 @@
         "2": {
           "chunks": [
             [ "null", 50 ],
-            [ "room_6x6_brewer_N", 10 ],
-            [ "room_6x6_junk", 30 ],
-            [ "room_6x6_office_N", 30 ],
+            [ "room_6x6_brewer_S", 10 ],
+            [ "room_6x6_junk_S", 30 ],
+            [ "room_6x6_office_S", 30 ],
             [ "6x6_sewing_open", 20 ],
             [ "6x6_electronics_open", 10 ],
-            [ "room_6x6_brewer_W", 10 ],
-            [ "room_6x6_junk_W", 30 ],
-            [ "room_6x6_office_W", 30 ]
+            [ "room_6x6_brewer_E", 10 ],
+            [ "room_6x6_junk_E", 30 ],
+            [ "room_6x6_office_E", 30 ]
           ]
         }
       }

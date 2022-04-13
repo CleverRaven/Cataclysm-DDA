@@ -1,0 +1,9 @@
+[
+  {
+    "id": "wind_desc",
+    "type": "widget",
+    "label": "Wind",
+    "style": "text",
+    "var": "wind_text"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "emit_clairvoyant",
+    "type": "emit",
+    "field": "fd_clairvoyant",
+    "intensity": 1,
+    "qty": 27,
+    "chance": 100
+  },
+  {
+    "id": "afs_emit_geovent",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 60,
+    "chance": 100
+  }
+]

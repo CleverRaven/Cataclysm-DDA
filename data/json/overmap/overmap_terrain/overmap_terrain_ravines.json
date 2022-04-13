@@ -1,0 +1,45 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_ravine",
+    "name": "ravine",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine",
+    "copy-from": "generic_ravine",
+    "flags": [ "NO_ROTATE", "RAVINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine_edge",
+    "copy-from": "generic_ravine",
+    "sym": "v",
+    "name": "cliffside",
+    "color": "light_gray",
+    "flags": [ "NO_ROTATE", "RAVINE_EDGE" ],
+    "mapgen": [ { "method": "builtin", "name": "ravine_edge" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine_floor_edge",
+    "copy-from": "generic_ravine",
+    "sym": "^",
+    "name": "cliffside",
+    "color": "light_gray",
+    "flags": [ "NO_ROTATE", "RAVINE_EDGE" ],
+    "mapgen": [ { "method": "builtin", "name": "ravine_edge" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ravine_floor",
+    "copy-from": "generic_ravine",
+    "sym": ".",
+    "name": "ravine floor",
+    "color": "light_gray",
+    "flags": [ "NO_ROTATE", "RAVINE" ]
+  }
+]

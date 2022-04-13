@@ -10,6 +10,7 @@
     "id": [
       "TALK_SHELTER",
       "TALK_EVAC_MERCHANT",
+      "TALK_FREE_MERCHANTS_MERCHANT",
       "TALK_ARSONIST",
       "TALK_OLD_GUARD_REP",
       "TALK_EVAC_GUARD2",
@@ -51,7 +52,7 @@
           }
         },
         "no": {
-          "has_no_assigned_mission": "I have another job for you.  Want to hear about it?",
+          "has_no_assigned_mission": "I have a job for you.  Want to hear about it?",
           "no": {
             "has_many_assigned_missions": "I just have one job for you.  Want to hear about it?",
             "no": "I just have one job for you.  Want to hear about it?"
@@ -110,7 +111,7 @@
     "type": "talk_topic",
     "responses": [
       {
-        "text": "I'm sorry…  I failed.",
+        "text": "I'm sorry… I failed.",
         "condition": "mission_failed",
         "topic": "TALK_MISSION_FAILURE",
         "opinion": { "trust": -1, "value": -1, "anger": 1 }
@@ -323,6 +324,20 @@
     "responses": [
       { "text": "Thank you.", "topic": "TALK_NONE", "effect": "clear_mission" },
       { "text": "Thanks, bye.", "topic": "TALK_DONE", "effect": "clear_mission" }
+    ]
+  },
+  {
+    "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
+    "type": "talk_topic",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there yet, <name_g>?  I can't wait to burn that building!",
+    "responses": [
+      {
+        "text": "We're here.  Let's do it!",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "gasoline", "count": 200 } } ] }
+      },
+      { "text": "Be patient, <name_g>, we're getting there soon.", "topic": "TALK_DONE" }
     ]
   }
 ]

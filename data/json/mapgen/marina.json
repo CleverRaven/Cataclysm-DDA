@@ -170,7 +170,10 @@
         "T": [ "f_table" ]
       },
       "toilets": { "&": {  } },
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 13, "y": 59 }, { "item_group": "vending_drink", "x": 13, "y": 60 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 13, "y": 59, "lootable": true },
+        { "item_group": "vending_drink", "x": 13, "y": 60, "lootable": true }
+      ],
       "items": {
         "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 3 ] },
         "e": { "item": "novels", "chance": 70, "repeat": [ 2, 4 ] },
@@ -181,6 +184,17 @@
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],
       "place_loot": [ { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] } ],
       "place_vehicles": [
+        { "vehicle": "lake", "x": 94, "y": 6, "rotation": 90, "chance": 30 },
+        { "vehicle": "lake", "x": 94, "y": 14, "rotation": 90, "chance": 30 },
+        { "vehicle": "lake", "x": 94, "y": 20, "rotation": 90, "chance": 30 },
+        { "vehicle": "lake", "x": 91, "y": 27, "rotation": 90, "chance": 30 },
+        { "vehicle": "lake", "x": 91, "y": 32, "rotation": 0, "chance": 30 },
+        { "vehicle": "lake", "x": 91, "y": 40, "rotation": 0, "chance": 30 },
+        { "vehicle": "lake", "x": 111, "y": 45, "rotation": 270, "chance": 30 },
+        { "vehicle": "lake", "x": 114, "y": 30, "rotation": 270, "chance": 30 },
+        { "vehicle": "lake", "x": 83, "y": 32, "rotation": 180, "chance": 30 },
+        { "vehicle": "lake", "x": 83, "y": 40, "rotation": 180, "chance": 30 },
+        { "vehicle": "lake", "x": 5, "y": 40, "rotation": 0, "chance": 30 },
         { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 5, "y": 10, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 10, "rotation": 270 },
         { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 21, "y": 10, "rotation": 270 },

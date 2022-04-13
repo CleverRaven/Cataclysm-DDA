@@ -2,6 +2,7 @@
   {
     "result": "black_powder_ball",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -13,12 +14,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "result": "black_powder_shot",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -30,12 +33,14 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "result": "reloaded_rifle_ball",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -47,6 +52,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
     ]
@@ -54,12 +60,14 @@
   {
     "result": "bp_rifle_ball",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_ball",
     "components": [ [ [ "chem_black_powder", 12 ] ] ]
   },
   {
     "result": "reloaded_rifle_AP",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_ball",
     "using": [ [ "req_rifle", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
     "components": [
@@ -70,12 +78,14 @@
   {
     "result": "bp_rifle_AP",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_AP",
     "components": [ [ [ "chem_black_powder", 12 ] ], [ [ "copper", 3 ] ] ]
   },
   {
     "result": "reloaded_rifle_huge_ball",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
@@ -87,17 +97,20 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ] ]
   },
   {
     "result": "bp_rifle_huge_ball",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_huge_ball",
     "components": [ [ [ "chem_black_powder", 30 ] ] ]
   },
   {
     "result": "reloaded_rifle_huge_AP",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_huge_ball",
     "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
@@ -105,6 +118,7 @@
   {
     "result": "bp_rifle_huge_AP",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "reloaded_rifle_huge_ball",
     "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]

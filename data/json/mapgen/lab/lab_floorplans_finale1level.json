@@ -1,6 +1,6 @@
 [
   {
-    "//": "autodoc operating theater",
+    "//": "Autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
@@ -35,13 +35,13 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "furniture": { "7": "f_console", "C": "f_centrifuge", "?": "f_autodoc", "/": "f_autodoc_couch" },
       "terrain": {
         ",": "t_floor_blue",
-        "C": "t_centrifuge",
+        "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
-        "7": "t_console",
+        "7": "t_floor_blue",
         "r": "t_floor_blue"
       },
       "place_loot": [
@@ -58,6 +58,7 @@
           ]
         }
       },
+      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
       "computers": {
         "6": {
           "name": "Operating Theater Access Control",
@@ -119,16 +120,8 @@
         "......g..........g......"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "R": "f_rack" },
-      "terrain": {
-        "C": "t_machinery_electronic",
-        "x": "t_machinery_heavy",
-        "?": "t_nanofab",
-        "r": "t_metal_floor",
-        "/": "t_nanofab_body",
-        "Y": "t_thconc_floor_olight",
-        "p": "t_metal_floor"
-      },
+      "furniture": { "C": "f_machinery_electronic", "x": "f_machinery_heavy", "R": "f_rack" },
+      "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
@@ -174,9 +167,9 @@
         ".......................-"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "R": "f_rack", "D": "f_desk" },
+      "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
+      "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "D": {
@@ -184,7 +177,8 @@
             { "item": "sample_t_substrate" },
             { "item": "log_immersion27" },
             { "item": "HAADF_t_substrate" },
-            { "item": "report_t_substrate" }
+            { "item": "report_t_substrate" },
+            { "item": "id_science" }
           ]
         }
       },
@@ -192,6 +186,10 @@
         { "monster": "mon_hound_tindalos", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90 },
         { "monster": "mon_hound_tindalos", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90 },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
+      ],
+      "place_loot": [
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 30 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 }
       ]
     }
   },
@@ -231,8 +229,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "V": "f_standing_tank" },
-      "terrain": { ",": "t_floor_blue", "V": "t_floor_blue", "C": "t_centrifuge" },
+      "furniture": { "V": "f_standing_tank", "C": "f_centrifuge" },
+      "terrain": { ",": "t_floor_blue", "V": "t_floor_blue", "C": "t_floor_blue" },
       "mapping": { "c": { "items": [ { "item": "mut_lab", "chance": 50 } ] } },
       "computers": {
         "6": {
@@ -256,7 +254,7 @@
         { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 },
-        { "monster": "mon_mech_recon", "x": 3, "y": 21, "chance": 80 }
+        { "monster": "mon_mech_recon", "x": 2, "y": 21, "chance": 80 }
       ],
       "place_loot": [ { "item": "id_science", "x": 6, "y": 14, "chance": 100 } ],
       "place_nested": [
@@ -266,9 +264,12 @@
             [ "lab_filltank_mutagen_plant", 2 ],
             [ "lab_filltank_mutagen_insect", 2 ],
             [ "lab_filltank_mutagen_spider", 2 ],
+            [ "lab_filltank_mutagen_snail", 2 ],
+            [ "lab_filltank_mutagen_batrachian", 2 ],
             [ "lab_filltank_mutagen_fish", 2 ],
             [ "lab_filltank_mutagen_slime", 2 ],
             [ "lab_filltank_mutagen_rat", 2 ],
+            [ "lab_filltank_mutagen_rabbit", 2 ],
             [ "lab_filltank_mutagen_beast", 2 ],
             [ "lab_filltank_mutagen_cattle", 2 ],
             [ "lab_filltank_mutagen_cephalopod", 2 ],
@@ -306,8 +307,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_rabbit",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_rabbit" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_spider",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_spider" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_snail",
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_snail" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_filltank_mutagen_batrachian",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_batrachian" } ]
+    }
   },
   {
     "type": "mapgen",

@@ -6,7 +6,7 @@
     "description": "A vehicle headlight to light up the way.",
     "symbol": ";",
     "color": "white",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "category": "veh_parts",
     "weight": "1000 g",
     "volume": "1 L",

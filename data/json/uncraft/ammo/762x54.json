@@ -2,6 +2,7 @@
   {
     "result": "762_54R",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -10,8 +11,8 @@
       [ [ "lead", 3 ] ],
       [ [ "762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 8 ] ],
-      [ [ "copper", 10 ] ]
+      [ [ "gunpowder_large_rifle", 29 ] ],
+      [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

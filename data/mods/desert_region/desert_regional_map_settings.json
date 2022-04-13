@@ -2,7 +2,29 @@
   {
     "type": "region_settings",
     "id": "default",
-    "default_oter": "desert",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "field",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock",
+      "empty_rock"
+    ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
@@ -127,6 +149,7 @@
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
+    "overmap_ravine_settings": { "num_ravines": 5, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
       "noise_threshold_forest_thick": 0.55,
@@ -482,33 +505,33 @@
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
-          "mx_portal": 3,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_portal_in": 1
+          "mx_helicopter": 400,
+          "mx_military": 4,
+          "mx_science": 200,
+          "mx_collegekids": 250,
+          "mx_drugdeal": 200,
+          "mx_supplydrop": 100,
+          "mx_portal": 30,
+          "mx_minefield": 500,
+          "mx_crater": 100,
+          "mx_portal_in": 10
         }
       },
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 25,
-          "mx_science": 40,
-          "mx_collegekids": 50,
-          "mx_roadblock": 100,
-          "mx_bandits_block": 80,
-          "mx_drugdeal": 30,
-          "mx_supplydrop": 10,
-          "mx_portal": 5,
-          "mx_minefield": 80,
-          "mx_crater": 10,
-          "mx_portal_in": 2
+          "mx_helicopter": 400,
+          "mx_military": 50,
+          "mx_science": 400,
+          "mx_collegekids": 500,
+          "mx_roadblock": 1000,
+          "mx_bandits_block": 800,
+          "mx_drugdeal": 300,
+          "mx_supplydrop": 100,
+          "mx_portal": 50,
+          "mx_minefield": 800,
+          "mx_crater": 100,
+          "mx_portal_in": 20
         }
       },
       "build": {
@@ -618,7 +641,7 @@
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
-        "s_jewelry": 200,
+        "s_jewelry_shop": 200,
         "s_antique": 200,
         "s_gardening": 200,
         "museum": 100,
@@ -698,7 +721,6 @@
       "base_temperature": 16.0,
       "base_humidity": 20.0,
       "base_pressure": 1025.0,
-      "base_acid": 0.0,
       "base_wind": 5.7,
       "base_wind_distrib_peaks": 20,
       "base_wind_season_variation": 40,
@@ -709,7 +731,20 @@
       "spring_humidity_manual_mod": 10,
       "summer_humidity_manual_mod": 0,
       "autumn_humidity_manual_mod": 10,
-      "winter_humidity_manual_mod": 15
+      "winter_humidity_manual_mod": 15,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

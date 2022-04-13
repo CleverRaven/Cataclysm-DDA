@@ -34,9 +34,6 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "~": "t_carpet_yellow",
         "_": "t_window_boarded",
@@ -45,7 +42,7 @@
         ",": "t_thconc_floor",
         "#": "t_wall_log"
       },
-      "furniture": { "%": "f_safe_o", "!": "f_region_flower" },
+      "furniture": { "%": "f_safe_o" },
       "place_items": [
         { "chance": 10, "item": "ammo_rifle_common", "x": 9, "y": 17 },
         { "chance": 20, "item": "camping", "x": 13, "y": 19 },
@@ -96,8 +93,6 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "~": "t_carpet_yellow",
         "_": "t_window_domestic_taped",
@@ -106,7 +101,6 @@
         ",": "t_thconc_floor",
         "#": "t_wall_log"
       },
-      "furniture": { "!": "f_region_flower" },
       "place_items": [
         { "chance": 20, "item": "stash_wood", "x": 5, "y": 8 },
         { "chance": 20, "item": "camping", "x": 13, "y": 19 },

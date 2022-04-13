@@ -1,0 +1,59 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "triffid_garden" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "     ..............     ",
+        "  ....................  ",
+        " ......,,,,,,,,,,...... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        " ...,,,,,_____,,,,,,... ",
+        "...,,,,__________,,,,...",
+        "...,,,_______Y____,,,...",
+        "..,,,,_____________,,,..",
+        "..,,,___Y__________,,,..",
+        "..,,,_________Y____,,,..",
+        "..,,________________,,..",
+        "..,,___Y____________,,..",
+        "..,,_______X________,,..",
+        "..,,____________Y___,,..",
+        "..,,,__Y___________,,,..",
+        "..,,,_________Y____,,,..",
+        "..,,,,_____________,,,..",
+        "...,,,____Y_______,,,...",
+        "...,,,,__________,,,,...",
+        " ...,,,,,_____,,,,,,... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        " ......,,,,,,,,,,...... ",
+        "  ....................  ",
+        "     ..............     "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_groundcover_urban", 4 ], "t_dirtmound", [ "t_grass", 2 ], "t_mega_fern" ],
+        ".": [ [ "t_region_groundcover_urban", 2 ], "t_underbrush" ],
+        ",": [ [ "t_region_groundcover_urban", 3 ], [ "t_underbrush", 7 ], "t_dirtmound", "t_shrub" ],
+        "_": [ [ "t_region_groundcover_urban", 25 ], [ "t_dirtmound", 3 ], [ "t_tree", 4 ], [ "t_tree_young", 3 ], [ "t_shrub", 5 ] ],
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
+      "furniture": {
+        " ": [
+          [ "f_null", 18 ],
+          [ "f_boulder_small", 3 ],
+          [ "f_boulder_medium", 2 ],
+          "f_boulder_large",
+          [ "f_dandelion", 2 ],
+          "f_brambles"
+        ],
+        ".": [ [ "f_null", 36 ], [ "f_mutpoppy", 8 ], [ "f_dandelion", 3 ] ],
+        ",": [ [ "f_null", 24 ], [ "f_flower_tulip", 2 ], [ "f_burdock", 5 ] ],
+        "_": [ [ "f_null", 20 ], [ "f_bluebell", 4 ], [ "f_glowingbulb", 2 ] ]
+      },
+      "place_monster": [ { "monster": "mon_zombie_garden", "x": [ 6, 17 ], "y": [ 6, 22 ], "repeat": 10 } ],
+      "monster": { "X": { "monster": "mon_triffid_lifegiver" }, "Y": { "monster": "mon_triffid_flower" } }
+    }
+  }
+]

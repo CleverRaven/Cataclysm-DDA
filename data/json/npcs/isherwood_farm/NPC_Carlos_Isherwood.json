@@ -16,7 +16,7 @@
     "type": "npc_class",
     "id": "NC_ISHERWOOD_CARLOS",
     "name": { "str": "Carlos Isherwood" },
-    "job_description": "I'm Jesse's husband, part of the Isherwood family",
+    "job_description": "I'm Jesse's husband, part of the Isherwood family.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
@@ -28,7 +28,7 @@
         "skill": "ALL",
         "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
       { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
@@ -47,14 +47,14 @@
     "responses": [
       {
         "text": "Yeah, I'm a Marshal, what are you going to do about it?",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -144,14 +144,8 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CARLOS_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "I heard about Barry, can you tell me what captured him?",
@@ -194,7 +188,7 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
+      "effect": [ { "u_spawn_item": "leather_armor_horse", "count": 1 } ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
   },
@@ -206,13 +200,21 @@
     "difficulty": 3,
     "value": 20000,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "assign_mission_target": {
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farms",
+        "om_terrain": "cabin_isherwood",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 20,
+        "min_distance": 8
+      },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_spawn_item": "chainmail_armor_horse", "count": 1 },
         { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },

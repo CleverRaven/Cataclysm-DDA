@@ -2,10 +2,10 @@
   {
     "id": "357mag_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 magnum FMJ" },
-    "description": "Jacketed .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure.",
+    "name": { "str_sp": ".357 Magnum FMJ" },
+    "description": "Jacketed .357 Magnum ammunition.  The .357 Magnum round is derived from the earlier .38 Special, with a marginally longer case and generating greater pressure.",
     "weight": "8 g",
-    "volume": "250 ml",
+    "volume": "145 ml",
     "price": 140,
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -17,7 +17,7 @@
     "ammo_type": "357mag",
     "casing": "357mag_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 28, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 33, "armor_penetration": 4 },
     "dispersion": 30,
     "recoil": 700,
     "effects": [ "COOKOFF" ]
@@ -26,15 +26,15 @@
     "id": "357mag_jhp",
     "copy-from": "357mag_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 magnum JHP" },
-    "description": "Jacketed hollow point .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure.",
+    "name": { "str_sp": ".357 Magnum JHP" },
+    "description": "Jacketed hollow point .357 magnum ammunition.  The .357 Magnum round is derived from the earlier .38 Special, with a marginally longer case and generating greater pressure.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -2 } }
   },
   {
     "id": "bp_357mag_fmj",
     "copy-from": "357mag_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 Magnum FMJ, black powder" },
+    "name": { "str_sp": ".357 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -48,7 +48,7 @@
     "id": "bp_357mag_jhp",
     "copy-from": "357mag_jhp",
     "type": "AMMO",
-    "name": { "str": ".357 Magnum JHP, black powder" },
+    "name": { "str_sp": ".357 Magnum JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },

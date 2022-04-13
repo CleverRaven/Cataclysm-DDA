@@ -34,7 +34,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_region_shrub_fruit", "!": "t_region_groundcover_urban", "'": "t_concrete" },
-      "furniture": { "!": "f_bluebell", "$": "f_treadmill" },
+      "furniture": { "!": "f_bluebell", "$": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "place_loot": [ { "group": "livingroom", "x": [ 7, 16 ], "y": [ 7, 9 ], "chance": 90, "repeat": [ 1, 6 ] } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 21 ], "chance": 5 } ]
     }

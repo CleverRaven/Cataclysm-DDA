@@ -1,0 +1,11 @@
+[
+  {
+    "id": "supplies_xenoreagents_lab",
+    "type": "item_group",
+    "items": [
+      [ "yum_lichen", 10 ],
+      { "group": "afs_biomedical_scrapgroup", "prob": 10 },
+      { "group": "afs_advanced_biomaterial_scrapgroup", "prob": 2 }
+    ]
+  }
+]

@@ -11,17 +11,20 @@ class clone_ptr
 {
     public:
         clone_ptr() = default;
+        // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::nullptr_t ) {}
+        // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
         clone_ptr( const clone_ptr &other ) : p_( other.p_ ? other.p_->clone() : nullptr ) {}
-        clone_ptr( clone_ptr && ) = default;
+        clone_ptr( clone_ptr && ) noexcept = default;
         clone_ptr &operator=( const clone_ptr &other ) {
             p_ = other.p_ ? other.p_->clone() : nullptr;
             return *this;
         }
-        clone_ptr &operator=( clone_ptr && ) = default;
+        clone_ptr &operator=( clone_ptr && ) noexcept = default;
 
         // implicit conversion from unique_ptr
         template<typename U>
+        // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::unique_ptr<U> p ) : p_( std::move( p ) ) {}
 
         T &operator*() {

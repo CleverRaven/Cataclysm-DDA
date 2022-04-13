@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "debug.h"
@@ -11,7 +12,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
 
 namespace
 {
@@ -51,7 +51,6 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
         case clothing_mod_type_bullet: return "bullet";
         case clothing_mod_type_encumbrance: return "encumbrance";
         case clothing_mod_type_warmth: return "warmth";
-        case clothing_mod_type_storage: return "storage";
         case clothing_mod_type_invalid: return "invalid";
         // *INDENT-ON*
         case num_clothing_mod_types:
@@ -81,9 +80,9 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
         for( const JsonValue entry : mv_jo.get_array( "proportion" ) ) {
             const std::string &str = entry.get_string();
             if( str == "thickness" ) {
-                mv.thickness_propotion = true;
+                mv.thickness_proportion = true;
             } else if( str == "coverage" ) {
-                mv.coverage_propotion = true;
+                mv.coverage_proportion = true;
             } else {
                 entry.throw_error( R"(Invalid value, valid are: "coverage" and "thickness")" );
             }
@@ -95,15 +94,15 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
 float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it ) const
 {
     const int thickness = it.get_thickness();
-    const int coverage = it.get_coverage();
+    const int coverage = it.get_avg_coverage();
     float result = 0.0f;
     for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
             float tmp = mv.value;
-            if( mv.thickness_propotion ) {
+            if( mv.thickness_proportion ) {
                 tmp *= thickness;
             }
-            if( mv.coverage_propotion ) {
+            if( mv.coverage_proportion ) {
                 tmp *= coverage / 100.0f;
             }
             if( mv.round_up ) {
@@ -117,7 +116,7 @@ float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it )
 
 bool clothing_mod::has_mod_type( const clothing_mod_type &type ) const
 {
-    for( auto &mv : mod_values ) {
+    for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
             return true;
         }
@@ -154,7 +153,7 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
     } else {
         // Build cache
         std::vector<clothing_mod> list;
-        for( auto &cm : get_all() ) {
+        for( const clothing_mod &cm : get_all() ) {
             if( cm.has_mod_type( type ) ) {
                 list.push_back( cm );
             }

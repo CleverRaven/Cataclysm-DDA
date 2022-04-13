@@ -4,7 +4,8 @@
     "type": "overmap_land_use_code",
     "id": "",
     "sym": "#",
-    "color": "white"
+    "color": "white",
+    "detailed_definition": ""
   },
   {
     "type": "overmap_land_use_code",
@@ -146,7 +147,7 @@
     "id": "industrial",
     "land_use_code": 16,
     "name": "Industrial",
-    "detailed_definition": "Light and heavy industry, including buildings, equipment and parking areas.  ",
+    "detailed_definition": "Light and heavy industry, including buildings, equipment and parking areas.",
     "sym": "#",
     "color": "white"
   },
@@ -209,7 +210,7 @@
     "id": "saltwater_sandy_beach",
     "land_use_code": 25,
     "name": "Saltwater Sandy Beach",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 1, 2, 3, 6, 10, 13, 17 and 19",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 1, 2, 3, 6, 10, 13, 17, and 19",
     "sym": "~",
     "color": "cyan_yellow"
   },
@@ -272,7 +273,7 @@
     "id": "wetland_forest",
     "land_use_code": 37,
     "name": "Forested Wetland",
-    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 14, 15, 16, 24, 25 and 26.",
+    "detailed_definition": "DEP Wetlands (1:12,000) WETCODEs 14, 15, 16, 24, 25, and 26.",
     "sym": "F",
     "color": "green_cyan"
   },

@@ -3,6 +3,7 @@
 #define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -20,6 +21,7 @@
 class Item_group;
 class Item_spawn_data;
 class relic;
+class translation;
 
 namespace cata
 {
@@ -28,12 +30,12 @@ template <typename T> class value_ptr;
 
 bool item_is_blacklisted( const itype_id &id );
 
-using Group_tag = std::string;
 using item_action_id = std::string;
 using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
+class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -42,10 +44,23 @@ class migration
 {
     public:
         itype_id id;
+        std::string variant;
+        cata::optional<std::string> from_variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
-        std::set<itype_id> contents;
+
+        class content
+        {
+            public:
+                itype_id id;
+                int count = 0;
+
+                bool operator==( const content & ) const;
+                void deserialize( const JsonObject &jsobj );
+        };
+        std::vector<content> contents;
+        bool sealed = true;
 };
 
 struct item_blacklist_t {
@@ -107,8 +122,19 @@ class Item_factory
          * ("old" is a distribution, too).
          * @throw JsonError if the json object contains invalid data.
          */
-        void load_item_group( const JsonObject &jsobj, const Group_tag &group_id,
-                              const std::string &subtype );
+        void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
+                              const std::string &subtype, std::string context = {} );
+
+        /**
+        * Actually the load item group data into the group. Matches the above function, which merely
+        * organises which group to load into and the type.
+        * @param jsobj The json object to load from.
+        * @param group_id The ident of the item that is to be loaded.
+        * @param subtype The type of the item group, either "collection", "distribution" or "old"
+        * ("old" is a distribution, too).
+        */
+        void load_item_group_data( const JsonObject &jsobj, Item_group *ig,
+                                   const std::string &subtype );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -120,23 +146,24 @@ class Item_factory
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identifier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode
          * Note that each entry in the array has to be a JSON object. The other function above
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
-        void load_item_group( const JsonArray &entries, const Group_tag &group_id, bool is_collection,
-                              int ammo_chance, int magazine_chance );
+        void load_item_group( const JsonArray &entries, const item_group_id &group_id,
+                              bool is_collection, int ammo_chance, int magazine_chance,
+                              std::string context = {} );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
-        Item_spawn_data *get_group( const Group_tag &group_tag );
+        Item_spawn_data *get_group( const item_group_id & );
         /**
          * Returns the idents of all item groups that are known.
          */
-        std::vector<Group_tag> get_all_group_names();
+        std::vector<item_group_id> get_all_group_names();
         /**
          * Sets the chance of the specified item in the group.
          * @param group_id Group to add item to
@@ -145,7 +172,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const Group_tag &group_id, const itype_id &item_id, int chance );
+        bool add_item_to_group( const item_group_id &, const itype_id &item_id, int chance );
         /*@}*/
 
         /**
@@ -168,7 +195,6 @@ class Item_factory
         void load_comestible( const JsonObject &jo, const std::string &src );
         void load_engine( const JsonObject &jo, const std::string &src );
         void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_fuel( const JsonObject &jo, const std::string &src );
         void load_gunmod( const JsonObject &jo, const std::string &src );
         void load_magazine( const JsonObject &jo, const std::string &src );
         void load_battery( const JsonObject &jo, const std::string &src );
@@ -191,6 +217,9 @@ class Item_factory
 
         /** Migrations transform items loaded from legacy saves */
         void load_migration( const JsonObject &jo );
+
+        // Add or overwrite a migration
+        void add_migration( const migration &m );
 
         /** Applies any migration of the item id */
         itype_id migrate_id( const itype_id &id );
@@ -243,11 +272,6 @@ class Item_factory
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
 
-        /**
-         * Create a new (and currently unused) item type id.
-         */
-        itype_id create_artifact_id() const;
-
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
@@ -260,7 +284,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        using GroupMap = std::map<Group_tag, std::unique_ptr<Item_spawn_data>>;
+        using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
         std::unordered_map<itype_id, ammotype> migrated_ammo;
@@ -285,7 +309,8 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo, const std::string &src );
+        void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
+                        const std::string &src );
 
         /**
          * Load item the item slot if present in json.
@@ -298,25 +323,19 @@ class Item_factory
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_brewable &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_engine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_wheel &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_fuel &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_battery &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_artifact &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_milling &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
-        void emplace_usage( std::map<std::string, use_function> &container, const std::string &iuse_id );
+        void emplace_usage( std::map<std::string, use_function> &container,
+                            const std::string &iuse_id );
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-                                        std::map<std::string, use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale );
 
         use_function usage_from_string( const std::string &type ) const;
 
@@ -338,13 +357,17 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
-        void add_entry( Item_group &ig, const JsonObject &obj );
+        void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void extend_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void set_properties_from_json( const JsonObject &jo, const std::string &member, itype &def );
+
+        // declared here to have friendship status with itype
+        static void npc_implied_flags( itype &item_template );
+        static void set_allergy_flags( itype &item_template );
 
         void clear();
         void init();
@@ -363,10 +386,10 @@ class Item_factory
 
         void add_iuse( const std::string &type, use_function_pointer f );
         void add_iuse( const std::string &type, use_function_pointer f,
-                       const std::string &info );
+                       const translation &info );
         void add_actor( std::unique_ptr<iuse_actor> );
 
-        std::map<itype_id, migration> migrations;
+        std::map<itype_id, std::vector<migration>> migrations;
 
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).

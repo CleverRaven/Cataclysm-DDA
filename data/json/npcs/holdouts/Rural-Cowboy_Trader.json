@@ -1,0 +1,115 @@
+[
+  {
+    "type": "npc",
+    "id": "RURAL_HOLDOUT_TRADER",
+    "//": "A rural holdout survivor willing to trade items",
+    "class": "NC_COWBOY",
+    "attitude": 0,
+    "name_suffix": "Survivor cowboy",
+    "mission": 7,
+    "chat": "TALK_COWBOYT_MAIN",
+    "mission_offered": "MISSION_COWBOYT_SHOTGUN",
+    "faction": "no_faction"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYT_MAIN",
+    "dynamic_line": {
+      "u_has_var": "talked_to_cowboyt",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hey there.",
+      "no": "Hey!  Who goes there?"
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Just another survivor.  What are you doing here?",
+        "topic": "TALK_COWBOYT_INTRODUCTION",
+        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "I'm you, from the future.  I've come to warn you.",
+        "topic": "TALK_COWBOYT_JOKE",
+        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "I am a ghost.  I died here 37 years ago, yet I cannot depart this mortal realm.",
+        "topic": "TALK_COWBOYT_JOKE",
+        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "What did you before all this?",
+        "topic": "TALK_COWBOYT_BACKGROUND",
+        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Is there something I can help you with?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "How about we travel together?",
+        "topic": "TALK_COWBOYT_FOLLOW",
+        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "See you around.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYT_BACKGROUND",
+    "dynamic_line": "Worked as a salesman - high end farming equipment.  Now I know, it may not sound that fancy, but you'd be shocked at how pricy those machines can get.  I was lucky enough to be on a fairly remote farm when everything went to shit.  In a way, being a salesman saved me and the experience from the job might allow me to make a living in the apocalypse, bartering for gear and trinkets, so I got that going for me, I suppose.",
+    "responses": [
+      { "text": "Speaking of which, I'd like to see your wares.", "topic": "TALK_NONE", "effect": "start_trade" },
+      { "text": "Not a bad way to live.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYT_JOKE",
+    "dynamic_line": "Hah, real cute.  Seem the End times didn't take your sense of humor, eh, stranger?",
+    "responses": [ { "text": "I have my moments.  So what are you doing here?", "topic": "TALK_COWBOYT_INTRODUCTION" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYT_INTRODUCTION",
+    "dynamic_line": "Ah, not much really.  Passing through, trying to make a living by trading with folk.  If you're interested, I got a lot of good things on sale, stranger.",
+    "responses": [
+      { "text": "You do?  Let me take a look.", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "I see.", "topic": "TALK_COWBOYT_MAIN" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYT_FOLLOW",
+    "dynamic_line": "You seem like a decent sort, but I'm not really looking for company right now.  Think I'm better off on my own.",
+    "responses": [ { "text": "If you think so.", "topic": "TALK_NONE" }, { "text": "Fair enough.  Goodbye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_COWBOYT_SHOTGUN",
+    "type": "mission_definition",
+    "name": { "str": "Obtain a Remington 870 Express shotgun" },
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "remington_870_express",
+    "difficulty": 2,
+    "value": 40000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Well, now that you mention it…",
+      "offer": "You see, some time ago, I ran into this guy who offered me a substantial payment in exchange for a Remington 870 Express.  I asked if he'd like another weapon, since nowadays, any gun will do, but for some reason, he's dead set on that particular model.  If you could obtain one for me, well, I'd be quite grateful.",
+      "accepted": "Great!  Let me know when you get it, and I'll try to get in touch with him.",
+      "rejected": "Suit yourself.  Ain't a rush.",
+      "advice": "Well, a gun store is a solid bet, but the model is common enough.  Maybe you can find one in a police station, or a store with hunting gear.",
+      "inquire": "Any news on that Remington?",
+      "success": "Fantastic!  I'll try and get it to the buyer, if he's still alive.  If not, well, still a good gun to sell.  Now, how would you like to be compensated?",
+      "success_lie": "How did you even get this option to display the hell.",
+      "failure": "Then where is it?"
+    }
+  }
+]

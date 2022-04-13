@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts_bolts"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -97,6 +103,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "powder_blank",
+    "name": "powder blank",
+    "default": "22_blank"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9mm",
     "name": "9x19mm",
     "default": "9mm"
@@ -110,7 +122,7 @@
   {
     "type": "ammunition_type",
     "id": "357mag",
-    "name": ".357 magnum",
+    "name": ".357 Magnum",
     "default": "357mag_jhp"
   },
   {
@@ -271,6 +283,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "sling-ready_grenade",
+    "name": "sling-ready grenades",
+    "default": "sling-ready_molotov"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"
@@ -304,6 +322,24 @@
     "id": "butane",
     "name": "butane",
     "default": "butane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "aerosol_paint",
+    "name": "paint",
+    "default": "aerosol_paint"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "permanent_ink",
+    "name": "ink",
+    "default": "permanent_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "candle_wax",
+    "name": "wax",
+    "default": "candle_wax"
   },
   {
     "type": "ammunition_type",
@@ -356,7 +392,7 @@
   {
     "type": "ammunition_type",
     "id": "battery",
-    "name": "batteries",
+    "name": "kJ",
     "default": "battery"
   },
   {
@@ -400,6 +436,12 @@
     "id": "weldgas",
     "name": "welding gas",
     "default": "oxyacetylene"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "propane",
+    "name": "propane",
+    "default": "propane"
   },
   {
     "type": "ammunition_type",
@@ -447,13 +489,7 @@
     "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
-    "default": "rebar_rail"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "UPS",
-    "name": "UPS",
-    "default": "UPS"
+    "default": "steel_rail"
   },
   {
     "type": "ammunition_type",
@@ -630,6 +666,18 @@
     "default": "nitrox"
   },
   {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "extinguishing_agent",
+    "name": "extinguishing agent",
+    "default": "extinguishing_agent"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
@@ -642,15 +690,63 @@
     "type": "ammunition_type"
   },
   {
-    "id": "oxygen",
-    "name": "oxygen",
-    "default": "oxygen",
-    "type": "ammunition_type"
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   },
   {
     "type": "ammunition_type",
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "123ln",
+    "name": "12.3ln cartridge",
+    "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glowstick_juice",
+    "name": "glowstick juice",
+    "default": "glowstick_juice"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "graphite",
+    "name": "graphite",
+    "default": "graphite"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "black_pen_ink",
+    "name": "black pen ink",
+    "default": "black_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "red_pen_ink",
+    "name": "red pen ink",
+    "default": "red_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "blue_pen_ink",
+    "name": "blue pen ink",
+    "default": "blue_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "green_pen_ink",
+    "name": "green pen ink",
+    "default": "green_pen_ink"
   }
 ]

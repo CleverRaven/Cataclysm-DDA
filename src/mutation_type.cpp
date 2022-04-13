@@ -6,7 +6,7 @@ struct mutation_type {
     std::string id;
 };
 
-std::map<std::string, mutation_type> mutation_types;
+static std::map<std::string, mutation_type> mutation_types;
 
 void load_mutation_type( const JsonObject &jsobj )
 {
@@ -24,7 +24,7 @@ bool mutation_type_exists( const std::string &id )
 std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
-    for( auto it : mutation_branch::get_all() ) {
+    for( const mutation_branch &it : mutation_branch::get_all() ) {
         if( it.types.find( id ) != it.types.end() ) {
             ret.push_back( it.id );
         }

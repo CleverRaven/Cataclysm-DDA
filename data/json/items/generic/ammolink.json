@@ -8,7 +8,7 @@
     "weight": "2 g",
     "volume": "2ml",
     "stackable": true,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "yellow",
     "damage_states": [ 0, 0 ]

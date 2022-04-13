@@ -1,0 +1,115 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_debug_weakpoint",
+    "category": "prof_weakpoint",
+    "name": { "str": "Debug Weakpoint" },
+    "description": "Basic improvement on the chance of hitting the Weakpoint Monster's weak points.",
+    "can_learn": true,
+    "time_to_learn": "30 m",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": 1
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_debug_weakpoint_expert",
+    "category": "prof_weakpoint",
+    "name": { "str": "Expert Debug Weakpoint" },
+    "description": "Expert improvement on the chance of hitting the Weakpoint Monster's weak points.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_debug_weakpoint" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_zombie",
+    "category": "prof_weakpoint",
+    "name": { "str": "Principles of Zombie Biology" },
+    "description": "Very basic familiarity with various types of undead creatures.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_syn_armored",
+    "category": "prof_weakpoint",
+    "name": { "str": "Synthetic Armors" },
+    "description": "Understanding of man-made armors and ways to exploit them.  You're able to find openings in certain kinds of body armor.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -4
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_nat_armored",
+    "category": "prof_weakpoint",
+    "name": { "str": "Natural Armors" },
+    "description": "You're somewhat familiar with naturally armored creatures.  You're able to find openings in certain kinds of hardened shells.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -4
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_basic_bug",
+    "category": "prof_weakpoint",
+    "name": { "str": "Invertibrate Biology" },
+    "description": "Basic familiarity with various types of insects, arachnids, and worms.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_flying",
+    "category": "prof_weakpoint",
+    "name": { "str": "Creatures of Flight" },
+    "description": "Basic understanding of what's needed for certain creatures to fly, as well as ways of preventing it.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_skeleton",
+    "category": "prof_weakpoint",
+    "name": { "str": "Natural Exoskeletons" },
+    "description": "You're familiar with creatures presenting unsettling bones on their outer structure.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_child",
+    "category": "prof_weakpoint",
+    "name": { "str": "Small Humanoids" },
+    "description": "You have some practice in fighting small humanoids like children.  You don't necessarily feel good about it.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_hulk",
+    "category": "prof_weakpoint",
+    "name": { "str": "Large Humanoids" },
+    "description": "You have some practice in fighting large hulking humanoids.  You're better at reaching certain weak points.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  }
+]

@@ -4,10 +4,8 @@
     "type": "vitamin",
     "vit_type": "vitamin",
     "name": { "str": "Calcium" },
-    "deficiency": "hypocalcemia",
     "min": -12000,
-    "rate": "15 m",
-    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
+    "rate": "90 m"
   },
   {
     "id": "iron",
@@ -18,30 +16,8 @@
     "deficiency": "anemia",
     "min": -12000,
     "max": 3600,
-    "rate": "15 m",
+    "rate": "30 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
-  },
-  {
-    "id": "vitA",
-    "type": "vitamin",
-    "vit_type": "vitamin",
-    "name": { "str": "Vitamin A" },
-    "excess": "hypervitaminosis",
-    "deficiency": "hypovitA",
-    "min": -8400,
-    "max": 3600,
-    "rate": "15 m",
-    "disease": [ [ -2000, -4800 ], [ -4801, -5600 ], [ -5601, -8400 ] ]
-  },
-  {
-    "id": "vitB",
-    "type": "vitamin",
-    "vit_type": "vitamin",
-    "name": { "str": "Vitamin B12" },
-    "deficiency": "hypovitB",
-    "min": -5600,
-    "rate": "15 m",
-    "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
   },
   {
     "id": "vitC",
@@ -51,7 +27,7 @@
     "deficiency": "scurvy",
     "min": -5600,
     "rate": "15 m",
-    "disease": [ [ -2800, -3600, 1 ], [ -3601, -4400, 2 ], [ -4401, -5600, 3 ] ]
+    "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },
   {
     "id": "mutant_toxin",
@@ -65,6 +41,302 @@
     "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
   },
   {
+    "id": "mutagen",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Mutagen" },
+    "excess": "mutagen",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_alpha",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Alpha Mutagen" },
+    "excess": "mutagen_alpha",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_batrachian",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Frog Mutagen" },
+    "excess": "mutagen_batrachian",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_beast",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Beast Mutagen" },
+    "excess": "mutagen_beast",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_bird",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Bird Mutagen" },
+    "excess": "mutagen_bird",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_cattle",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Cattle Mutagen" },
+    "excess": "mutagen_cattle",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_cephalopod",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Cephalopod Mutagen" },
+    "excess": "mutagen_cephalopod",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_chimera",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Chimera Mutagen" },
+    "excess": "mutagen_chimera",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_elfa",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Elf-A Mutagen" },
+    "excess": "mutagen_elfa",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_feline",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Feline Mutagen" },
+    "excess": "mutagen_feline",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_fish",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fish Mutagen" },
+    "excess": "mutagen_fish",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_gastropod",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Snail Mutagen" },
+    "excess": "mutagen_gastropod",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_human",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Purifier" },
+    "excess": "mutagen_human",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_insect",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Insect Mutagen" },
+    "excess": "mutagen_insect",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_lizard",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lizard Mutagen" },
+    "excess": "mutagen_lizard",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_lupine",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Lupine Mutagen" },
+    "excess": "mutagen_lupine",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_medical",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Medical Mutagen" },
+    "excess": "mutagen_medical",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_mouse",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Mouse Mutagen" },
+    "excess": "mutagen_mouse",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_plant",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Plant Mutagen" },
+    "excess": "mutagen_plant",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_rabbit",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Rabbit Mutagen" },
+    "excess": "mutagen_rabbit",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_raptor",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Raptor Mutagen" },
+    "excess": "mutagen_raptor",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_rat",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Rat Mutagen" },
+    "excess": "mutagen_rat",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_slime",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Slime Mutagen" },
+    "excess": "mutagen_slime",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_spider",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Spider Mutagen" },
+    "excess": "mutagen_spider",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_troglobite",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Troglobite Mutagen" },
+    "excess": "mutagen_troglobite",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_ursine",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ursine Mutagen" },
+    "excess": "mutagen_ursine",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "instability",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Instability" },
+    "min": 0,
+    "max": 8000,
+    "flags": [ "NO_DISPLAY" ],
+    "rate": "1 d"
+  },
+  {
     "id": "bad_food",
     "type": "vitamin",
     "vit_type": "counter",
@@ -75,5 +347,29 @@
     "rate": "4 h",
     "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  },
+  {
+    "id": "blood",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Blood" },
+    "deficiency": "hypovolemia",
+    "min": -50000,
+    "max": 0,
+    "rate": "-6 s",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -5000, -7500 ], [ -7510, -15000 ], [ -15010, -20000 ], [ -20010, -50000 ] ]
+  },
+  {
+    "id": "redcells",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Red Blood Cells" },
+    "deficiency": "redcells_anemia",
+    "min": -50000,
+    "max": 0,
+    "rate": "-12 s",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -7510, -20000 ], [ -20010, -35000 ], [ -35010, -50000 ] ]
   }
 ]

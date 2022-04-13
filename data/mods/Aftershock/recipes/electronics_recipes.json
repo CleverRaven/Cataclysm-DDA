@@ -1,0 +1,25 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "UPS_off",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "45 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "advanced_electronics", 4 ], [ "recipe_lab_elec", 4 ], [ "textbook_anarch", 4 ] ],
+    "using": [ [ "soldering_standard", 24 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "afs_energy_storage_1", 2 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_material_1", 4 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  }
+]

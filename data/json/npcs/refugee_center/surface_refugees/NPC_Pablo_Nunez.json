@@ -30,7 +30,6 @@
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
       { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
     ]
   },
@@ -78,6 +77,18 @@
       "TALK_REFUGEE_Pablo_Recruit"
     ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Pablo_Background1" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Pablo_Situation" },
       {
@@ -144,7 +155,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2",
-    "dynamic_line": "Dana and I were evacuated early, because of her pregnancy. They took us to a concentration center, and then we got on a bus to come here. The bus though, it was rolled over by a giant monster, and many died. We made it out along with a few others, and we kept going until we made it here. It wasn't much farther, and for some reason the monster didn't chase us, just kept tearing at the bus.",
+    "dynamic_line": "Dana and I were evacuated early, because of her pregnancy.  They took us to a concentration center, and then we got on a bus to come here.  The bus though, it was rolled over by a giant monster, and many died.  We made it out along with a few others, and we kept going until we made it here.  It wasn't much farther, and for some reason the monster didn't chase us, just kept tearing at the bus.",
     "responses": [
       { "text": "What about the pregnancy?", "topic": "TALK_REFUGEE_Pablo_Background2_pregnancy" },
       { "text": "What happened to the other crash survivors?", "topic": "TALK_REFUGEE_Pablo_Background2_survivors" },

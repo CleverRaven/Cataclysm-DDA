@@ -2,6 +2,7 @@
   {
     "id": "mag_throwing",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "Diskobolus", "str_pl": "issues of Diskobolus" },
     "description": "A biannual magazine devoted to the art and science of discus-throwing.",
     "weight": "60 g",
@@ -10,6 +11,7 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "mag_glam",
     "color": "pink",
     "skill": "throw",
     "max_level": 1,
@@ -20,6 +22,7 @@
   {
     "id": "manual_throw",
     "type": "BOOK",
+    "category": "manuals",
     "name": { "str": "The Complete Guide to Pitching", "str_pl": "copies of The Complete Guide to Pitching" },
     "description": "A detailed guide for baseball pitchers that combines time-tested techniques and information mixed with a common sense approach to pitching.",
     "weight": "400 g",
@@ -28,6 +31,7 @@
     "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "manual_gun",
     "color": "green",
     "skill": "throw",
     "max_level": 3,

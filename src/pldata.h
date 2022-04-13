@@ -2,11 +2,9 @@
 #ifndef CATA_SRC_PLDATA_H
 #define CATA_SRC_PLDATA_H
 
-#include <string>
-
 #include "calendar.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 template <typename E> struct enum_traits;
 
@@ -41,21 +39,6 @@ struct enum_traits<add_type> {
     static constexpr add_type last = add_type::NUM_ADD_TYPES;
 };
 
-enum hp_part : int {
-    hp_head = 0,
-    hp_torso,
-    hp_arm_l,
-    hp_arm_r,
-    hp_leg_l,
-    hp_leg_r,
-    num_hp_parts
-};
-
-template<>
-struct enum_traits<hp_part> {
-    static constexpr hp_part last = num_hp_parts;
-};
-
 class addiction
 {
     public:
@@ -64,10 +47,10 @@ class addiction
         time_duration sated = 1_hours;
 
         addiction() = default;
-        addiction( add_type const t, const int i = 1 ) : type {t}, intensity {i} { }
+        explicit addiction( add_type const t, const int i = 1 ) : type {t}, intensity {i} { }
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &jo );
 };
 
 #endif // CATA_SRC_PLDATA_H

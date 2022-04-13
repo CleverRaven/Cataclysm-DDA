@@ -12,17 +12,17 @@
       "target": "grenade_pistol",
       "msg": "You make the launcher ready for detached use."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 }, "rigid": true } ]
   },
   {
     "id": "grenade_under_mod",
     "copy-from": "m320_mod_mod",
     "type": "GUNMOD",
     "name": { "str_sp": "underbarrel launcher (modified)" },
-    "description": "A stubby single shot launcher for launching grenades or flares.  This launcher can be attached to a rifle or other suitable platform, and includes its own set of sights.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets. A crude homemade bracket has been attached, allowing a wider variety of hosts.",
+    "description": "A stubby single shot launcher for launching grenades or flares.  This launcher can be attached to a rifle or other suitable platform, and includes its own set of sights.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets.  A crude homemade bracket has been attached, allowing a wider variety of hosts.",
     "gun_data": { "ammo": "ammo_grenade", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 }, "rigid": true } ]
   },
   {
     "id": "shotgun_under",
@@ -30,7 +30,7 @@
     "type": "GUNMOD",
     "name": "underbarrel shotgun",
     "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
   },
   {
     "id": "shotgun_under_mod",
@@ -38,7 +38,15 @@
     "type": "GUNMOD",
     "name": { "str": "modified underbarrel shotgun" },
     "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
+  },
+  {
+    "id": "rifle_shotgun_combination_shotgun",
+    "copy-from": "combination_gun_shotgun",
+    "type": "GUNMOD",
+    "name": { "str": "combination gun shotgun" },
+    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 2 }, "rigid": true } ]
   },
   {
     "id": "arredondo_chute",

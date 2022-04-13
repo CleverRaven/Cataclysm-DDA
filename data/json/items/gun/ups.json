@@ -8,6 +8,7 @@
     "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
     "weight": "2950 g",
     "volume": "3 L",
+    "longest_side": "965 mm",
     "price": 1600000,
     "price_postapoc": 6500,
     "to_hit": -1,
@@ -32,22 +33,23 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "gatling_mech_laser",
-    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 20,
     "name": { "str": "CMES laser cannon" },
-    "description": "This is the integral weapon system for the CMES exoskeleton mech-suit, a rotating-barrel active-cooled rapid-fire laser system, can spray death downrange with ease.",
+    "description": "This is the integral weapon system for the CMES exoskeleton mech-suit, a rotating-barrel actively-cooled rapid-fire laser system.",
     "weight": "39500 g",
     "volume": "11 L",
     "price": 9500000,
     "price_postapoc": 8000,
+    "longest_side": "1086 mm",
     "to_hit": -4,
     "bashing": 8,
     "material": [ "superalloy", "plastic" ],
@@ -63,20 +65,10 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [
-      "NO_UNLOAD",
-      "NEVER_JAMS",
-      "MECH_WEAPON",
-      "NO_UNWIELD",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "UNBREAKABLE_MELEE",
-      "NON-FOULING"
-    ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING" ]
   },
   {
     "id": "recon_mech_laser",
-    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 2,
     "name": { "str": "RMES marksman system" },
@@ -85,6 +77,7 @@
     "volume": "5500 ml",
     "price": 9500000,
     "price_postapoc": 8000,
+    "longest_side": "1228 mm",
     "to_hit": -2,
     "bashing": 6,
     "material": [ "superalloy", "plastic" ],
@@ -102,12 +95,11 @@
     "flags": [
       "NO_UNLOAD",
       "NEVER_JAMS",
-      "MECH_WEAPON",
       "NO_UNWIELD",
       "NO_SALVAGE",
       "NO_REPAIR",
       "UNBREAKABLE_MELEE",
-      "NON-FOULING",
+      "NON_FOULING",
       "NEEDS_NO_LUBE"
     ]
   },
@@ -120,6 +112,7 @@
     "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Though the Cataclysm put that on the ash heap of history, this weapon can still do the same to your foes.",
     "weight": "2950 g",
     "volume": "3 L",
+    "longest_side": "900 mm",
     "price": 1600000,
     "price_postapoc": 7500,
     "to_hit": -1,
@@ -145,10 +138,23 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "hm12",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "hm12 dazzle rifle" },
+    "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors with a clean shot.",
+    "price_postapoc": 15000,
+    "ranged_damage": { "damage_type": "pure", "amount": 1 },
+    "ups_charges": 1,
+    "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "v29",
@@ -156,9 +162,11 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "V29 laser pistol" },
-    "description": "This V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but displays no recoil whatsoever.",
+    "description": "This V29 laser pistol was one of the first handheld laser weapons.  It is larger than most traditional handguns, but has no recoil whatsoever.",
     "weight": "680 g",
     "volume": "1 L",
+    "longest_side": "233 mm",
+    "//": "copy-from'd Glock 17, since this looks_like it",
     "price": 720000,
     "price_postapoc": 5500,
     "to_hit": -2,
@@ -185,6 +193,28 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "gatling_mech_laser_single",
+    "copy-from": "gatling_mech_laser",
+    "looks_like": "m134",
+    "type": "GUN",
+    "name": { "str": "salvaged CMES laser cannon" },
+    "description": "This gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
+  },
+  {
+    "id": "recon_mech_laser_single",
+    "copy-from": "recon_mech_laser",
+    "looks_like": "m107a1",
+    "type": "GUN",
+    "name": { "str": "salvaged RMES marksman laser" },
+    "description": "Formerly belonging to the RMES mech-suit, this powerful long-range laser rifle was never designed for human hands.  You might be able to make it work if you deployed it or mounted it to a vehicle, though, and its long range and potency could be pretty handy if you can keep it powered.",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   }
 ]

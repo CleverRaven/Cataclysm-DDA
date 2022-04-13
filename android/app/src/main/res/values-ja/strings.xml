@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">ゲームデータをインストール中...</string>
+    <string name="upgradeTitle">ゲームデータをアップグレード中...</string>
+    <string name="helpTitle">ヘルプ&amp;操作</string>
+    <string name="helpMessage">特定方向にスワイプ(仮想ジョイスティックの場合は長押し)で移動。タップで選択項目の決定と1ターンその場で静止(長押しで数ターン静止)。ダブルタップでキャンセルとメニューに戻る(Escキー機能)。ピンチでズームイン/アウト(ゲーム内画面)。戻るボタンで仮想キーボード切替(長押しでキーボードショートカット切替)。</string>
+    <string name="softwareRendering">ソフトウェアレンダリング</string>
+    <string name="forceFullscreen">強制フルスクリーン</string>
+    <string name="trapBackButton">戻るボタン例外処理</string>
+    <string name="settings">設定</string>
+    <string name="startGame">ゲーム開始</string>
+    <string name="showHelp">ヘルプ表示</string>
+    <string name="crashAlert">前回のプレイ時にゲームが正常に終了しませんでした</string>
+    <string name="crashMessage">configフォルダ内のcrash.logに記録されるクラッシュレポートは、開発者がプログラムエラーを解決する役に立つ場合があります。</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">取消</string>
+    </resources>

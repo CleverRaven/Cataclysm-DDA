@@ -10,7 +10,7 @@
     "weight": "10 kg",
     "volume": "8 L",
     "price": 5000,
-    "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "NO_PICKUP", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
+    "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
     "bashing": 22,
     "to_hit": 1
   },
@@ -38,7 +38,7 @@
     "description": "This weapon measures about 3 feet in length and is fletched like an arrow for better accuracy.  The business end of the javelin has wicked-looking barbs which could cause significant bleeding.",
     "weight": "2500 g",
     "volume": "2830 ml",
-    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN", "TRADER_AVOID", "BLEED", "NO_REPAIR" ]
+    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN", "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "id": "lizardfolk_javelin_gun",

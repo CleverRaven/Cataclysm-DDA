@@ -124,13 +124,13 @@
         "...............+       |",
         "...............|       |",
         "FFFHFFFFFFFFHFF|       |",
-        "..........F....|       |",
-        "..........F....----?---|",
-        ".....PPP..F.............",
-        ".....PPP..F.............",
-        "..........F....----+---|",
+        "..........v....|       |",
+        "..........v....----?---|",
+        ".....PPP..v.............",
+        ".....PPP..v.............",
+        "..........v....----+---|",
         "..........H....|       |",
-        "..........F....|       |",
+        "..........v....|       |",
         "FFFFFHFFFFFFF|-|       |",
         ".............|r|       |",
         "r............+.|       |",
@@ -141,12 +141,11 @@
         "c...c|.rrr...|-|X.ccc.X|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "f": "f_null" },
+      "furniture": { "P": "f_generator_broken" },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "P": "t_generator_broken",
         "F": "t_chainfence_h",
-        "f": "t_chainfence_v",
+        "v": "t_chainfence_v",
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete_lab"
       },
@@ -204,11 +203,8 @@
         "..............l|X.ccc.X|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "=": "t_conveyor",
-        "%": "t_machinery_heavy"
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ], "=": "t_conveyor" },
+      "furniture": { "%": "f_machinery_heavy" },
       "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 }, { "item": "tools_science", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
@@ -254,12 +250,8 @@
         "rrr.....!.....l|-------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "f": "f_null" },
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
-        "C": "t_centrifuge"
-      },
+      "furniture": { "!": [ [ "f_null", 2 ], "f_console_broken", "f_generator_broken" ], "C": "f_centrifuge", "f": "f_null" },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
         "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
@@ -448,22 +440,22 @@
         "....l|         |........",
         "....l|         |........",
         "--+--|         |........",
-        ".....|         |..fFFHFF",
-        ".c.c.?         +..f.....",
-        ".c.c.|         |..fXX..X",
-        ".c.c.|         |..fXX..X",
-        ".....|         |..f....r",
-        "--+--|         |..fXX..r",
-        "RR.RR-----?-----..fXX..r",
+        ".....|         |..vFFHFF",
+        ".c.c.?         +..v.....",
+        ".c.c.|         |..vXX..X",
+        ".c.c.|         |..vXX..X",
+        ".....|         |..v....r",
+        "--+--|         |..vXX..r",
+        "RR.RR-----?-----..vXX..r",
         ".....+............H....r",
-        ".RRR.|............f.....",
-        ".....|............f.rrrr"
+        ".RRR.|............v.....",
+        ".....|............v.rrrr"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "^": "f_indoor_plant", "f": "f_null", "R": "f_rack" },
+      "furniture": { "^": "f_indoor_plant", "R": "f_rack" },
       "terrain": {
         "F": "t_chainfence_h",
-        "f": "t_chainfence_v",
+        "v": "t_chainfence_v",
         "H": "t_chaingate_c",
         "C": "t_gates_control_concrete_lab",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
@@ -498,7 +490,7 @@
     }
   },
   {
-    "//": "autodoc operating theater",
+    "//": "Autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -533,13 +525,13 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "7": "f_console", "C": "f_centrifuge" },
       "terrain": {
         ",": "t_floor_blue",
-        "C": "t_centrifuge",
+        "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
-        "7": "t_console",
+        "7": "t_floor_blue",
         "r": "t_floor_blue"
       },
       "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11, "ammo": 100 } ],
@@ -553,6 +545,7 @@
           ]
         }
       },
+      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
       "computers": {
         "6": {
           "name": "Operating Theater Access Control",
@@ -577,7 +570,7 @@
     }
   },
   {
-    "//": "medical wing, autodoc + centrifuge, monster in autodoc room",
+    "//": "medical wing, Autodoc + centrifuge, monster in Autodoc room",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -613,16 +606,17 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": {
-        "C": "t_centrifuge",
+        "C": "t_floor",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "7": "t_floor",
         "8": "t_floor"
       },
-      "furniture": { "7": "f_autodoc", "8": "f_autodoc_couch" },
+      "furniture": { "C": "f_centrifuge", "7": "f_autodoc", "8": "f_autodoc_couch" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 33 },
         "l": { "item": "surgery", "chance": 50 },
-        "t": { "item": "snacks", "chance": 15 }
+        "t": { "item": "snacks", "chance": 15 },
+        "7": { "item": "autodoc_supplies", "chance": 100 }
       },
       "computers": {
         "6": {
@@ -683,7 +677,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": "t_centrifuge", "7": "t_console", ",": "t_floor_blue" },
+      "furniture": { "7": "f_console", "C": "f_centrifuge" },
+      "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
       "mapping": {
         "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] }
@@ -723,19 +718,19 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ".....|...........f.rrrrr",
-        ".lll.|...........f......",
+        ".....|...........v.rrrrr",
+        ".lll.|...........v......",
         ".....W...........H.....r",
-        "llll.|...........fXX...r",
-        "-----|FFFF|---|..fXX...r",
-        ".....f....|...|..f.....r",
-        ".pSp.f.PP.|.&.|..fXX...X",
-        ".pSp.f.PP.|.x.|..fXX...X",
-        ".....f.PP.|...|..f......",
-        ".....H....|-M-|..fFFHFFf",
-        "FFHFFf........f.........",
-        ".....f........f.........",
-        ".....fFFFHFFFFf.........",
+        "llll.|...........vXX...r",
+        "-----|FFFF|---|..vXX...r",
+        ".....v....|...|..v.....r",
+        ".pSp.v.PP.|.&.|..vXX...X",
+        ".pSp.v.PP.|.x.|..vXX...X",
+        ".....v.PP.|...|..v......",
+        ".....H....|-M-|..vFFHFFv",
+        "FFHFFv........v.........",
+        ".....v........v.........",
+        ".....vFFFHFFFFv.........",
         ".......................x",
         "x................|-g-g--",
         "-------|.........|^.....",
@@ -749,13 +744,12 @@
         ".......|.........|......"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "S": "f_null", "^": "f_indoor_plant", "f": "f_null" },
+      "furniture": { "S": "f_null", "^": "f_indoor_plant", "P": "f_generator_broken" },
       "terrain": {
         "F": "t_chainfence_h",
-        "f": "t_chainfence_v",
+        "v": "t_chainfence_v",
         "H": "t_chaingate_c",
         "&": "t_radio_tower",
-        "P": "t_generator_broken",
         "S": "t_sewage_pump",
         "p": "t_sewage_pipe",
         "C": "t_gates_control_concrete_lab",
@@ -784,7 +778,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_thconc_floor" },
       "furniture": { "X": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ] },
       "mapping": {
         "X": {
@@ -829,15 +822,8 @@
         ".........|....|---------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "furniture": { "^": "f_indoor_plant" },
-      "terrain": {
-        "E": "t_elevator",
-        "e": "t_elevator_control_off",
-        "w": "t_water_sh",
-        "W": "t_water_dp",
-        "=": "t_door_lab_c",
-        "C": "t_centrifuge"
-      },
+      "furniture": { "^": "f_indoor_plant", "C": "f_centrifuge" },
+      "terrain": { "E": "t_elevator", "e": "t_elevator_control_off", "w": "t_water_sh", "W": "t_water_dp", "=": "t_door_lab_c" },
       "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_loot": [
         { "group": "everyday_corpse", "x": 17, "y": 15 },
@@ -888,7 +874,7 @@
       "terrain": { ",": "t_floor_blue", "&": "t_radio_tower", "g": "t_wall_glass", "G": "t_door_glass_lab_c", "r": "t_railing_h" },
       "computers": {
         "6": {
-          "name": "Mk IV Algorithmic Data Analyzer",
+          "name": "Algorithmic Data Analyzer Mk. IV",
           "security": 4,
           "options": [
             { "name": "Run Decryption Algorithm", "action": "data_anal", "security": 4 },
@@ -938,7 +924,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": { "F": "f_sofa", "B": "f_bathtub", "C": "f_counter", "O": "f_oven", "V": "f_table" },
-      "terrain": { "w": "t_window_domestic", "`": "t_grass", "+": "t_door_lab_c" },
+      "terrain": { "w": "t_window_domestic", "`": "t_grass_golf", "+": "t_door_lab_c" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },

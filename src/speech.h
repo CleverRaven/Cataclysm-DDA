@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_SPEECH_H
 #define CATA_SRC_SPEECH_H
 
-#include "translations.h"
+#include <iosfwd>
 
-#include <string>
+#include "translations.h"
 
 class JsonObject;
 
 struct SpeechBubble {
     translation text;
-    int volume;
+    int volume = 0;
 };
 
 void load_speech( const JsonObject &jo );

@@ -1,5 +1,5 @@
-# Max length of a line is 78 characters; the following line is for reference
-# Longer lines will be automatically folded
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
 ##############################################################################
 版本 v0.C Cooper 的主要特點:
 * 怪物互鬥。

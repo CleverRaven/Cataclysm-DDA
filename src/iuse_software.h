@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_IUSE_SOFTWARE_H
 #define CATA_SRC_IUSE_SOFTWARE_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 

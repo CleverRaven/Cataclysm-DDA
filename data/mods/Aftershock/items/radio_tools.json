@@ -1,0 +1,56 @@
+[
+  {
+    "id": "afs_radiodetonator",
+    "type": "TOOL",
+    "copy-from": "radiocontrol",
+    "name": { "str": "radio detonator" },
+    "price": "15 USD",
+    "description": "A standard pattern detonator fabricated for military and industrial use.  This is an advanced model capable of controlling explosive drones alongside simpler devices."
+  },
+  {
+    "id": "afs_cam_spy",
+    "copy-from": "bot_bloodhound_drone",
+    "type": "TOOL",
+    "name": { "str": "cam-spy rover" },
+    "description": "A small wheeled drone, nimble and almost undetectable it mounts a robotic eye for espionage work.  Once turned on, a remote controller will let you use it as a mobile camera.",
+    "symbol": "e",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
+    "use_action": {
+      "target": "afs_cam_spy_on",
+      "menu_text": "Activate cam-spy",
+      "msg": "You activate the cam-spy rover.",
+      "active": true,
+      "type": "transform"
+    },
+    "flags": [ "RADIO_CONTAINER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "item_restriction": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_cam_spy_on",
+    "copy-from": "afs_cam_spy",
+    "type": "TOOL",
+    "name": { "str": "cam-spy rover (on)", "str_pl": "cam-spy rovers (on)" },
+    "description": "This cam-spy rover is on, and continuously transmitting a video-feed of its immediate surroundings.  Use a remote control to drive it around.",
+    "turns_per_charge": 5,
+    "revert_to": "afs_cam_spy",
+    "use_action": {
+      "target": "afs_cam_spy",
+      "menu_text": "Deactivate cam-spy",
+      "msg": "You deactivate the cam-spy.",
+      "type": "transform"
+    },
+    "emits": [ "emit_clairvoyant" ],
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "RADIOCAR" ]
+  }
+]

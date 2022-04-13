@@ -4,7 +4,6 @@
     "id": "robofac_basic_trade",
     "subtype": "distribution",
     "entries": [
-      { "group": "bionics_common", "prob": 100 },
       { "group": "textbooks", "prob": 100 },
       { "group": "electronics", "prob": 100 },
       { "group": "science", "prob": 100 },
@@ -32,5 +31,58 @@
     "id": "robofac_basic_robots",
     "subtype": "distribution",
     "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces",
+    "subtype": "distribution",
+    "items": [
+      [ "robofac_rubber_mantle", 25 ],
+      [ "robofac_nomex_mantle", 25 ],
+      [ "robofac_kevlar_mantle", 25 ],
+      [ "robofac_rubber_skirt", 25 ],
+      [ "robofac_nomex_skirt", 25 ],
+      [ "robofac_kevlar_skirt", 25 ],
+      [ "robofac_rubber_vambraces", 25 ],
+      [ "robofac_nomex_vambraces", 25 ],
+      [ "robofac_kevlar_vambraces", 25 ],
+      [ "robofac_rubber_greaves", 25 ],
+      [ "robofac_nomex_greaves", 25 ],
+      [ "robofac_kevlar_greaves", 25 ],
+      [ "robofac_armor_rig", 25 ]
+    ]
+  },
+  {
+    "id": "robofac_mantle_merc",
+    "type": "item_group",
+    "//": "a robofac poncho with a few armored bits",
+    "container-item": "robofac_armor_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_kevlar_skirt" }, { "item": "robofac_kevlar_mantle" }, { "group": "robofac_merc_mags" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "robofac_merc_mags",
+    "entries": [
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 },
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 }
+    ]
+  },
+  {
+    "id": "robofac_mantle_prototype",
+    "type": "item_group",
+    "//": "a robofac poncho with a few basic bits",
+    "container-item": "robofac_armor_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_basic_skirt" }, { "item": "robofac_basic_mantle" } ]
+  },
+  {
+    "id": "nano_templates",
+    "type": "item_group",
+    "//": "a group of nano templates for one of the missions",
+    "container-item": "box_small_wood",
+    "subtype": "collection",
+    "entries": [ { "item": "template_armor" }, { "item": "template_photonics" } ]
   }
 ]

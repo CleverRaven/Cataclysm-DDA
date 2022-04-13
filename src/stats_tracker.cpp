@@ -1,11 +1,14 @@
 #include "stats_tracker.h"
 
 #include <algorithm>
-#include <cassert>
+#include <cstdlib>
 #include <map>
+#include <string>
 #include <utility>
 
 #include "calendar.h"
+#include "cata_assert.h"
+#include "debug.h"
 #include "event_statistics.h"
 #include "json.h"
 #include "optional.h"
@@ -66,9 +69,8 @@ void event_summary::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void event_summary::deserialize( JsonIn &jsin )
+void event_summary::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.read( "count", count, true );
     jo.read( "first", first, true );
     jo.read( "last", last, true );
@@ -77,7 +79,7 @@ void event_summary::deserialize( JsonIn &jsin )
 void event_multiset::set_type( event_type type )
 {
     // Used during stats_tracker deserialization to set the type
-    assert( type_ == event_type::num_event_types );
+    cata_assert( type_ == event_type::num_event_types );
     type_ = type;
 }
 
@@ -217,6 +219,11 @@ void base_watcher::on_unsubscribe( stats_tracker *s )
 
 stats_tracker_state::~stats_tracker_state() = default;
 
+const cata_variant &stats_tracker_multiset_state::get_value() const
+{
+    cata_fatal( "Trying to get a variant value from a multiset state" );
+}
+
 stats_tracker::~stats_tracker()
 {
     unwatch_all();
@@ -255,7 +262,8 @@ void stats_tracker::add_watcher( const string_id<event_transformation> &id,
     }
 }
 
-void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
+const cata_variant &stats_tracker::add_watcher(
+    const string_id<event_statistic> &id, stat_watcher *watcher )
 {
     stat_watchers[id].insert( watcher );
     watcher->on_subscribe( this );
@@ -263,6 +271,7 @@ void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watc
     if( !state ) {
         state = id->watch( *this );
     }
+    return state->get_value();
 }
 
 void stats_tracker::unwatch( base_watcher *watcher )
@@ -359,7 +368,7 @@ void stats_tracker::notify( const cata::event &e )
     }
 
     if( e.type() == event_type::game_start ) {
-        assert( initial_scores.empty() );
+        cata_assert( initial_scores.empty() );
         for( const score &scr : score::get_all() ) {
             initial_scores.insert( scr.id );
         }

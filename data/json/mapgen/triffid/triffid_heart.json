@@ -1,0 +1,40 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "triffid_finale" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_root_floor",
+      "rows": [
+        "PPPPPPPPPPPPPPPPPPPPPPPP",
+        "PPPPPPPPT.............TP",
+        "PPPPPP!....PPPPPPP.....P",
+        "PP........PP!.<PPPP....P",
+        "PPPP...T......<<PPPP..!P",
+        "PPPPPPPPPPPPP..<<PPP...P",
+        "PPPPPP!.T...PPPPPPP....P",
+        "PPPPP.....P..@@@@@...TPP",
+        "PPP.T..!PPPPPPPPPPPPPPPP",
+        "PP!...PPPPP.......T.!PPP",
+        "P....PP!.T..!PP......D.P",
+        "PPPP@@@....PPPPPPPPPPP.P",
+        "P........PPPP.....T.!P.P",
+        "P..T.!PPPPP@@@!PP....P.P",
+        "P.....PPPPPPDPPP....PP.P",
+        "PPPPPPPPPP....PP!T.....P",
+        "PPPPPPPP!...TPPPPPPPPPPP",
+        "PPPPPPPPPPPDPPPPPPPPPPPP",
+        "PPP.....T........T...PPP",
+        "PP....................PP",
+        "PP.........H..........PP",
+        "PP.....T..............PP",
+        "PPP...........T.....PPPP",
+        "PPPPPPPPPPPPPPPPPPPPPPPP"
+      ],
+      "palettes": [ "triffid" ],
+      "terrain": { ">": "t_rock", "<": "t_triffid_slope_up" },
+      "monster": { "H": { "monster": "mon_triffid_heart" }, "!": { "monster": "mon_creeper_hub", "chance": 60 } }
+    }
+  }
+]

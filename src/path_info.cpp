@@ -1,11 +1,13 @@
 #include "path_info.h"
 
-#include <clocale>
 #include <cstdlib>
+#include <string>
 
 #include "enums.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
+#include "rng.h"
+#include "system_language.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -32,6 +34,7 @@ static std::string datadir_value;
 static std::string base_path_value;
 static std::string savedir_value;
 static std::string autopickup_value;
+static std::string autonote_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
@@ -79,21 +82,20 @@ void PATH_INFO::init_user_dir( std::string dir )
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
+    std::string prefix;
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
-        gfxdir_value = datadir_value + "gfx/";
-        langdir_value = datadir_value + "lang/";
+        prefix = datadir_value;
 #else
         datadir_value = base_path_value + "data/";
-        gfxdir_value = base_path_value + "gfx/";
-        langdir_value = base_path_value + "lang/";
+        prefix = base_path_value;
 #endif
     } else {
         datadir_value = "data/";
-        gfxdir_value = "gfx/";
-        langdir_value = "lang/";
     }
+    gfxdir_value = prefix + "gfx/";
+    langdir_value = prefix + "lang/mo/";
 
     // Shared dirs
 
@@ -119,51 +121,19 @@ void PATH_INFO::set_standard_filenames()
     options_value = config_dir_value + "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
+    autonote_value = config_dir_value + "auto_note.json";
 }
 
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
                                   const std::string &fallback )
 {
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
-    std::string loc_name;
-    if( get_option<std::string>( "USE_LANG" ).empty() ) {
-#if defined(_WIN32)
-        loc_name = getLangFromLCID( GetUserDefaultLCID() );
-        if( !loc_name.empty() ) {
-            const std::string local_path = base_path + loc_name + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
-        }
-#endif
-
-        const char *v = setlocale( LC_ALL, nullptr );
-        if( v != nullptr ) {
-            loc_name = v;
-        }
-    } else {
-        loc_name = get_option<std::string>( "USE_LANG" );
-    }
-    if( loc_name == "C" ) {
-        loc_name = "en";
-    }
+    const std::string language_option = get_option<std::string>( "USE_LANG" );
+    const std::string loc_name = language_option.empty() ? getSystemLanguage() : language_option;
     if( !loc_name.empty() ) {
-        const size_t dotpos = loc_name.find( '.' );
-        if( dotpos != std::string::npos ) {
-            loc_name.erase( dotpos );
-        }
-        // complete locale: en_NZ
         const std::string local_path = base_path + loc_name + extension;
         if( file_exist( local_path ) ) {
             return local_path;
-        }
-        const size_t p = loc_name.find( '_' );
-        if( p != std::string::npos ) {
-            // only the first part: en
-            const std::string local_path = base_path + loc_name.substr( 0, p ) + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
         }
     }
 #else
@@ -175,6 +145,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 std::string PATH_INFO::autopickup()
 {
     return autopickup_value;
+}
+std::string PATH_INFO::autonote()
+{
+    return autonote_value;
 }
 std::string PATH_INFO::base_colors()
 {
@@ -216,6 +190,10 @@ std::string PATH_INFO::defaulttilejson()
 {
     return "tile_config.json";
 }
+std::string PATH_INFO::defaultlayeringjson()
+{
+    return "layering.json";
+}
 std::string PATH_INFO::defaulttilepng()
 {
     return "tinytile.png";
@@ -231,10 +209,6 @@ std::string PATH_INFO::fontdir()
 std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
-}
-std::string PATH_INFO::fontlist()
-{
-    return config_dir_value + "fontlist.txt";
 }
 std::string PATH_INFO::graveyarddir()
 {
@@ -260,33 +234,9 @@ std::string PATH_INFO::lastworld()
 {
     return config_dir_value + "lastworld.json";
 }
-std::string PATH_INFO::legacy_autopickup()
-{
-    return "data/auto_pickup.txt";
-}
-std::string PATH_INFO::legacy_autopickup2()
-{
-    return config_dir_value + "auto_pickup.txt";
-}
 std::string PATH_INFO::legacy_fontdata()
 {
     return datadir_value + "fontdata.json";
-}
-std::string PATH_INFO::legacy_keymap()
-{
-    return "data/keymap.txt";
-}
-std::string PATH_INFO::legacy_options()
-{
-    return "data/options.txt";
-}
-std::string PATH_INFO::legacy_options2()
-{
-    return config_dir_value + "options.txt";
-}
-std::string PATH_INFO::legacy_worldoptions()
-{
-    return "worldoptions.txt";
 }
 std::string PATH_INFO::memorialdir()
 {
@@ -405,6 +355,20 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
+
+    if( !get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+        return _( "Cataclysm: Dark Days Ahead" );
+    }
+
+    if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
+        theme_extension = ".alt1";
+        theme_fallback = datadir_value + "title/" + "en.alt1";
+    }
+
+    if( !get_option<bool>( "SEASONAL_TITLE" ) ) {
+        return find_translated_file( theme_basepath, theme_extension, theme_fallback );
+    }
+
     switch( current_holiday ) {
         case holiday::new_year:
             theme_extension = ".new_year";

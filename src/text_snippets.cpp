@@ -1,6 +1,8 @@
 #include "text_snippets.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <new>
 #include <random>
 #include <utility>
 
@@ -64,6 +66,12 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         }
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;
+        if( jo.has_member( "effect_on_examine" ) ) {
+            EOC_by_id[id] = talk_effect_t( jo, "effect_on_examine" );
+        }
+        translation name;
+        optional( jo, false, "name", name );
+        name_by_id[id] = name;
     } else {
         snippets_by_category[category].no_id.emplace_back( text );
     }
@@ -85,6 +93,24 @@ cata::optional<translation> snippet_library::get_snippet_by_id( const snippet_id
 {
     const auto it = snippets_by_id.find( id );
     if( it == snippets_by_id.end() ) {
+        return cata::nullopt;
+    }
+    return it->second;
+}
+
+cata::optional<talk_effect_t> snippet_library::get_EOC_by_id( const snippet_id &id ) const
+{
+    const auto it = EOC_by_id.find( id );
+    if( it == EOC_by_id.end() ) {
+        return cata::nullopt;
+    }
+    return it->second;
+}
+
+cata::optional<translation> snippet_library::get_name_by_id( const snippet_id &id ) const
+{
+    const auto it = name_by_id.find( id );
+    if( it == name_by_id.end() ) {
         return cata::nullopt;
     }
     return it->second;
@@ -160,7 +186,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     const size_t count = it->second.ids.size() + it->second.no_id.size();
     // uniform_int_distribution always returns zero when the random engine is
     // cata_default_random_engine aka std::minstd_rand0 and the seed is small,
-    // so std::mt19937 is used instead. This engine is deterministcally seeded,
+    // so std::mt19937 is used instead. This engine is deterministically seeded,
     // so acceptable.
     // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 generator( seed );

@@ -277,8 +277,8 @@
     "type": "overmap_terrain",
     "id": "hunting_blind",
     "copy-from": "hunting_blind",
-    "sym": "\u00ED",
-    "color": "brown"
+    "sym": "\u00A0",
+    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
@@ -1209,13 +1209,6 @@
     "id": "cs_public_art_piece",
     "copy-from": "cs_public_art_piece",
     "sym": "\u00F8",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_public_space",
-    "copy-from": "cs_public_space",
-    "sym": "\u00EE",
     "color": "white"
   },
   {

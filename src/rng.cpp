@@ -1,11 +1,12 @@
 #include "rng.h"
 
-#include <cmath>
+#include <algorithm>
 #include <chrono>
-#include <utility>
+#include <cmath>
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "units.h"
 
 unsigned int rng_bits()
 {
@@ -30,6 +31,11 @@ double rng_float( double lo, double hi )
         std::swap( lo, hi );
     }
     return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
+}
+
+units::angle random_direction()
+{
+    return rng_float( 0_pi_radians, 2_pi_radians );
 }
 
 double normal_roll( double mean, double stddev )
@@ -57,7 +63,7 @@ double rng_exponential( double min, double mean )
 
 bool one_in( int chance )
 {
-    return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
+    return chance <= 1 || rng( 0, chance - 1 ) == 0;
 }
 
 bool one_turn_in( const time_duration &duration )
@@ -134,4 +140,18 @@ void rng_set_engine_seed( unsigned int seed )
     if( seed != 0 ) {
         rng_get_engine().seed( seed );
     }
+}
+
+std::string random_string( size_t length )
+{
+    auto randchar = []() -> char {
+        static constexpr char charset[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+        static constexpr size_t num_chars = sizeof( charset ) - 1;
+        return charset[rng( 0, num_chars - 1 )];
+    };
+    std::string str( length, 0 );
+    std::generate_n( str.begin(), length, randchar );
+    return str;
 }
