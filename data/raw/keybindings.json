@@ -3898,5 +3898,99 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.QUIT",
+    "name": "Cancel text input",
+    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.CONFIRM",
+    "name": "Confirm text input",
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.LEFT",
+    "name": "Move cursor left",
+    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.RIGHT",
+    "name": "Move cursor right",
+    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.CLEAR",
+    "name": "Clear text",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+U" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "u" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.BACKSPACE",
+    "name": "Remove previous character",
+    "bindings": [ { "input_method": "keyboard_any", "key": "BACKSPACE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.HOME",
+    "name": "Move cursor to start",
+    "bindings": [ { "input_method": "keyboard_any", "key": "HOME" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.END",
+    "name": "Move cursor to end",
+    "bindings": [ { "input_method": "keyboard_any", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.DELETE",
+    "name": "Remove current character",
+    "bindings": [ { "input_method": "keyboard_any", "key": "DELETE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.PASTE",
+    "name": "Paste from clipboard",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+V" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "v" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.INPUT_FROM_FILE",
+    "name": "Input text from file",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HISTORY_UP",
+    "name": "Show previous history",
+    "category": "STRING_INPUT",
+    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HISTORY_DOWN",
+    "name": "Show next history",
+    "category": "STRING_INPUT",
+    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HELP_KEYBINDINGS",
+    "name": "Display keybindings menu",
+    "category": "STRING_INPUT",
+    "//": "'?' is treated as text input, so a different key is used.",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
   }
 ]
