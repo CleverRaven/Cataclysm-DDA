@@ -891,8 +891,6 @@ class heal_actor : public iuse_actor
         float infect = 0.0f;
         /** Cost in moves to use the item. */
         int move_cost = 100;
-        /** Is using this item a long action. */
-        bool long_action = false;
         /** Extra hp gained per skill level when healing limbs. */
         float limb_scaling = 0.0f;
         /** Extra hp gained per skill level when healing head. */
