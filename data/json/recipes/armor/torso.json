@@ -59,7 +59,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
-	"byproducts": [ [ "scrap_cotton", 4 ] ]
+    "byproducts": [ [ "scrap_cotton", 4 ] ]
   },
   {
     "result": "bikini_top_fur",
@@ -73,7 +73,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_fur_patchwork", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ],
-	"byproducts", [ [ "scrap_fur", 2 ] ]
+    "byproducts": [ [ "scrap_fur", 2 ] ]
   },
   {
     "result": "bikini_top_leather",
@@ -184,7 +184,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-	"components": [ [ [ "sheet_cotton", 3 ], [ "sheet_cotton_patchwork", 3 ] ] ]
+    "components": [ [ [ "sheet_cotton", 3 ], [ "sheet_cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -197,7 +197,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "tanned_pelt", 1 ], [ "sheet_fur_patchwork", 1 ] ] ]
+    "components": [ [ [ "tanned_pelt", 1 ], [ "sheet_fur_patchwork", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -210,7 +210,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "tanned_hide", 1 ], [ "sheet_leather_patchwork", 1 ] ] ]
+    "components": [ [ [ "tanned_hide", 1 ], [ "sheet_leather_patchwork", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -223,7 +223,7 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-	"components": [ [ [ "sheet_felt_patchwork", 4 ], [ "sheet_felt", 4 ] ] ]
+    "components": [ [ [ "sheet_felt_patchwork", 4 ], [ "sheet_felt", 4 ] ] ],
     "using": [ [ "fabric_felt", 9 ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -240,7 +240,7 @@
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
-    "using": [  [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -252,14 +252,14 @@
     "type": "recipe",
     "copy-from": "coat_fur",
     "time": "6 h",
-    "using": [  [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_fur_patchwork", 4 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_fur",
     "type": "recipe",
     "copy-from": "coat_fur",
     "time": "6 h 45 m",
-    "using": [  [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "coat_faux_fur",
@@ -272,7 +272,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 3 ] ],
     "reversible": true,
-    "using": [  [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_faux_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 6 ], [ "tailoring_faux_fur_patchwork", 6 ], [ "fastener_large", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -284,14 +284,14 @@
     "type": "recipe",
     "copy-from": "coat_faux_fur",
     "time": "6 h",
-    "using": [  [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_faux_fur_patchwork", 4 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "tailoring_faux_fur_patchwork", 4 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "xl_coat_faux_fur",
     "type": "recipe",
     "copy-from": "coat_faux_fur",
     "time": "6 h 45 m",
-    "using": [  [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "tailoring_faux_fur_patchwork", 8 ], [ "fastener_large", 1 ] ]
   },
   {
     "result": "coat_gut",

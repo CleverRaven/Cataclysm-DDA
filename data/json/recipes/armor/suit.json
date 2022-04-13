@@ -1875,7 +1875,7 @@
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "tailoring_neoprene_patchwork", 33 ] ],
-    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1890,7 +1890,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "tailoring_neoprene_patchwork", 22 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "zipper_long_plastic", 1 ] ] ]
+    "components": [ [ [ "zipper_long_plastic", 1 ] ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 } ]
   },
   {
