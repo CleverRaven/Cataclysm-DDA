@@ -118,7 +118,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Aliens2",
     "type": "talk_topic",
-    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.\"\n\n[TRANSLATE:] \"Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different Earth. You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town."
+    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.\"\n\n[TRANSLATE:] \"Yeah, that's a big question.  Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that.  Otherlands are closer related.  I'm from Earth, just a different Earth.  You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think.  You should be asking what we're doing hanging out in your part of town."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Home",
@@ -133,7 +133,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Robot",
     "type": "talk_topic",
-    "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"\n\n[TRANSLATE:] \"Robot?  What does that word mean?  Hang on. …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
+    "dynamic_line": "Robot?  What assert is f'r it?  Ahold…\"  Rubik stops for a moment, as if thinking.  \"Ah, an automate?  No, this'n be flesh 'n blood as ye be, encased in a shell o' metal an' wire.  Not so much flesh as there were.  The wire is amixed an' afloat with the flesh, all as one, kennit.\"\n\n[TRANSLATE:] \"Robot?  What does that word mean?  Hang on.  …Ah, an automate?  No, I'm as flesh and blood as you are, encased in a shell of metal and wire.  Not as much flesh as there used to be.  The wire is mixed and woven into the flesh, all as one, you see."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Robot2",
