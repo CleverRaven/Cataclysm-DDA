@@ -78,5 +78,44 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
+  },
+  {
+    "id": "p50",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "Kel-Tec P50" },
+    "description": "Unique, adaptable, and extremely retro, the Kel-Tec P50 is a truly bizarre semi-automatic pistol.  Being regarded as possibly one of the most innovative firearms from Kel-Tec’s entire line-up of guns, the P50 makes use of the high velocity 5.7x28mm cartridge, and feeds from standard FN P90 magazines.  Boasting ambidextrous controls, an AR-15-like T-shaped charging handle, and a reload which involves swinging the receiver and barrel assemblies up and away from the frame to insert the magazine horizontally over the grip, this weapon lends a decidedly retro futuristic touch to almost any situation.",
+    "weight": "1430 g",
+    "volume": "3230 ml",
+    "longest_side": "380 mm",
+    "price": 99500,
+    "price_postapoc": 2950,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "57" ],
+    "skill": "pistol",
+    "dispersion": 380,
+    "durability": 8,
+    "min_cycle_recoil": 81,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
   }
+
 ]
