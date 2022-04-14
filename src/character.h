@@ -42,6 +42,7 @@
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
+#include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -437,6 +438,8 @@ class Character : public Creature, public visitable
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
 
+        cata::optional<city> starting_city;
+        cata::optional<point_abs_om> world_origin;
         bool random_start_location = true;
         start_location_id start_location;
 

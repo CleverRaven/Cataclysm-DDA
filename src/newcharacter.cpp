@@ -43,6 +43,8 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
@@ -384,6 +386,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     randomize_hobbies();
+    starting_city = cata::nullopt;
+    world_origin = cata::nullopt;
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -3491,6 +3495,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+        ctxt.register_action( "CHOOSE_CITY" );
+    }
     ctxt.register_action( "CHOOSE_LOCATION" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -3748,9 +3755,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                             _( "Press <color_light_green>%s</color> to switch gender." ),
                             ctxt.get_desc( "CHANGE_GENDER" ) );
 
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                            ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
+                                _( "Press <color_light_green>%s</color> to select a specific starting location." ),
+                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            } else {
+                fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
+                                _( "Press <color_light_green>%s</color> to select a specific starting city and <color_light_green>%s</color> to select a specific starting location." ),
+                                ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
+            }
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
@@ -4062,6 +4075,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             you.randomize_heartrate();
         } else if( action == "CHANGE_GENDER" ) {
             you.male = !you.male;
+        } else if( action == "CHOOSE_CITY" ) {
+            std::vector<city> cities( city::get_all() );
+            const auto cities_cmp_population = []( const city & a, const city & b ) {
+                return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
+            };
+            std::sort( cities.begin(), cities.end(), cities_cmp_population );
+            uilist cities_menu;
+            ui::omap::setup_cities_menu( cities_menu, cities );
+            cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+            if( c.has_value() ) {
+                you.starting_city = c;
+                you.world_origin = c->pos_om;
+            }
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.query();
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {

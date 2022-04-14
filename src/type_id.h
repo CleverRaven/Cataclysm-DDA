@@ -37,6 +37,9 @@ using character_modifier_id = string_id<character_modifier>;
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
 
+struct city;
+using city_id = string_id<city>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 

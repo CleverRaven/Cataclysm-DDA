@@ -4,6 +4,7 @@ from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
+from .parsers.city import parse_city
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -103,6 +104,7 @@ parsers = {
     "character_mod": parse_character_mod,
     "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
+    "city": parse_city,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,

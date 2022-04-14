@@ -574,10 +574,20 @@ void overmap::unserialize( std::istream &fin )
                     std::string city_member_name = jsin.get_member_name();
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
+                    } else if( city_member_name == "id" ) {
+                        jsin.read( new_city.id );
+                    } else if( city_member_name == "database_id" ) {
+                        jsin.read( new_city.database_id );
+                    } else if( city_member_name == "pos" ) {
+                        jsin.read( new_city.pos );
+                    } else if( city_member_name == "pos_om" ) {
+                        jsin.read( new_city.pos_om );
                     } else if( city_member_name == "x" ) {
                         jsin.read( new_city.pos.x() );
                     } else if( city_member_name == "y" ) {
                         jsin.read( new_city.pos.y() );
+                    } else if( city_member_name == "population" ) {
+                        jsin.read( new_city.population );
                     } else if( city_member_name == "size" ) {
                         jsin.read( new_city.size );
                     }
@@ -1056,8 +1066,11 @@ void overmap::serialize( std::ostream &fout ) const
     for( const city &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
-        json.member( "x", i.pos.x() );
-        json.member( "y", i.pos.y() );
+        json.member( "id", i.id );
+        json.member( "database_id", i.database_id );
+        json.member( "pos_om", i.pos_om );
+        json.member( "pos", i.pos );
+        json.member( "population", i.population );
         json.member( "size", i.size );
         json.end_object();
     }
