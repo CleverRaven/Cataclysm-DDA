@@ -56,14 +56,16 @@ const std::vector<add_type> &add_type::get_all()
     return add_type_factory.get_all();
 }
 
-static void alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
+static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
 {
     const auto morale_type = is_alcohol ? MORALE_CRAVING_ALCOHOL :
                              MORALE_CRAVING_DIAZEPAM;
+    bool ret = false;
     u.mod_per_bonus( -1 );
     u.mod_int_bonus( -1 );
     if( x_in_y( in, to_turns<int>( 2_hours ) ) ) {
         u.mod_healthy_mod( -1, -in * 10 );
+        ret = true;
     }
     if( one_in( 20 ) && rng( 0, 20 ) < in ) {
         const std::string msg_1 = is_alcohol ?
@@ -71,6 +73,7 @@ static void alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
                                   _( "You could use some diazepam." );
         u.add_msg_if_player( m_warning, msg_1 );
         u.add_morale( morale_type, -35, -10 * in );
+        ret = true;
     } else if( rng( 8, 300 ) < in ) {
         const std::string msg_2 = is_alcohol ?
                                   _( "Your hands start shaking… you need a drink bad!" ) :
@@ -78,23 +81,28 @@ static void alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
         u.add_msg_if_player( m_bad, msg_2 );
         u.add_morale( morale_type, -35, -10 * in );
         u.add_effect( effect_shakes, 5_minutes );
+        ret = true;
     } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
         u.add_effect( effect_hallu, 6_hours );
+        ret = true;
     }
+    return ret;
 }
 
-static void crack_coke_add( Character &u, int in, int stim, bool is_crack )
+static bool crack_coke_add( Character &u, int in, int stim, bool is_crack )
 {
     const std::string &cur_msg = !is_crack ?
                                  _( "You feel like you need a bump." ) :
                                  _( "You're shivering, you need some crack." );
     const auto morale_type = !is_crack ? MORALE_CRAVING_COCAINE :
                              MORALE_CRAVING_CRACK;
+    bool ret = false;
     u.mod_int_bonus( -1 );
     u.mod_per_bonus( -1 );
     if( one_in( 900 - 30 * in ) ) {
         u.add_msg_if_player( m_warning, cur_msg );
         u.add_morale( morale_type, -20, -15 * in );
+        ret = true;
     }
     if( dice( 2, 80 ) <= in ) {
         u.add_msg_if_player( m_warning, cur_msg );
@@ -102,12 +110,14 @@ static void crack_coke_add( Character &u, int in, int stim, bool is_crack )
         if( stim > -150 ) {
             u.mod_stim( -3 );
         }
+        ret = true;
     }
+    return ret;
 }
 
 /************** Builtin effects **************/
 
-static void nicotine_effect( Character &u, addiction &add )
+static bool nicotine_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
@@ -122,22 +132,24 @@ static void nicotine_effect( Character &u, addiction &add )
         if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
             u.mod_stim( -1 );
         }
+        return true;
     }
+    return false;
 }
 
-static void alcohol_effect( Character &u, addiction &add )
+static bool alcohol_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
-    alcohol_diazepam_add( u, in, true );
+    return alcohol_diazepam_add( u, in, true );
 }
 
-static void diazepam_effect( Character &u, addiction &add )
+static bool diazepam_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
-    alcohol_diazepam_add( u, in, false );
+    return alcohol_diazepam_add( u, in, false );
 }
 
-static void opiate_effect( Character &u, addiction &add )
+static bool opiate_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     if( calendar::once_every( time_duration::from_turns( 100 - in * 4 ) ) &&
@@ -148,7 +160,7 @@ static void opiate_effect( Character &u, addiction &add )
     // No further effects if we're doped up.
     if( u.get_painkiller() >= 35 ) {
         add.sated = 0_turns;
-        return;
+        return false;
     }
     u.mod_str_bonus( -1 );
     u.mod_per_bonus( -1 );
@@ -169,52 +181,61 @@ static void opiate_effect( Character &u, addiction &add )
     } else if( one_in( 50 ) && dice( 3, 50 ) < in ) {
         u.vomit();
     }
+    return true;
 }
 
-static void amphetamine_effect( Character &u, addiction &add )
+static bool amphetamine_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
+    bool ret = false;
     u.mod_int_bonus( -1 );
     u.mod_str_bonus( -1 );
     if( current_stim > -100 && x_in_y( in, 20 ) ) {
         u.mod_stim( -1 );
+        ret = true;
     }
     if( rng( 0, 150 ) <= in ) {
         u.mod_healthy_mod( -1, -in );
+        ret = true;
     }
     if( dice( 2, 100 ) < in ) {
         u.add_msg_if_player( m_warning, _( "You feel depressed.  Speed would help." ) );
         u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+        ret = true;
     } else if( one_in( 10 ) && dice( 2, 80 ) < in ) {
         u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need a pick-me-up." ) );
         u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
         u.add_effect( effect_shakes, in * 2_minutes );
+        ret = true;
     } else if( one_in( 50 ) && dice( 2, 100 ) < in ) {
         u.add_msg_if_player( m_bad, _( "You stop suddenly, feeling bewildered." ) );
         u.moves -= 300;
+        ret = true;
     } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {
         u.add_effect( effect_hallu, 6_hours );
+        ret = true;
     }
+    return ret;
 }
 
-static void cocaine_effect( Character &u, addiction &add )
+static bool cocaine_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
-    crack_coke_add( u, in, current_stim, false );
+    return crack_coke_add( u, in, current_stim, false );
 }
 
-static void crack_effect( Character &u, addiction &add )
+static bool crack_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
-    crack_coke_add( u, in, current_stim, true );
+    return crack_coke_add( u, in, current_stim, true );
 }
 
 /*********************************************/
 
-static const std::map<std::string, std::function<void( Character &, addiction & )>> builtin_map {
+static const std::map<std::string, std::function<bool( Character &, addiction & )>> builtin_map {
     {"nicotine_effect",    ::nicotine_effect},
     {"alcohol_effect",     ::alcohol_effect},
     {"diazepam_effect",    ::diazepam_effect},
@@ -224,19 +245,21 @@ static const std::map<std::string, std::function<void( Character &, addiction & 
     {"crack_effect",       ::crack_effect}
 };
 
-void addiction::run_effect( Character &u )
+bool addiction::run_effect( Character &u )
 {
+    bool ret = false;
     if( !type->get_effect().is_null() ) {
         dialogue d( get_talker_for( u ), nullptr );
-        type->get_effect()->activate( d );
+        ret = type->get_effect()->activate( d );
     } else {
         auto iter = builtin_map.find( type->get_builtin() );
         if( iter != builtin_map.end() ) {
-            iter->second.operator()( u, *this );
+            ret = iter->second.operator()( u, *this );
         } else {
             debugmsg( "invalid builtin \"%s\" for addiction_type \"%s\"", type->get_builtin(), type.c_str() );
         }
     }
+    return ret;
 }
 
 void add_type::load( const JsonObject &jo, const std::string & )

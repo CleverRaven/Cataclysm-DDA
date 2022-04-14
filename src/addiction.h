@@ -68,7 +68,7 @@ class addiction
         void deserialize( const JsonObject &jo );
 
         /** Runs one update of this addiction's effects **/
-        void run_effect( Character &u );
+        bool run_effect( Character &u );
 };
 
 // Minimum intensity before effects are seen
