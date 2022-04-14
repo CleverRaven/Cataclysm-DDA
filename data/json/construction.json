@@ -3945,7 +3945,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "2 h",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 30 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_scutch_breaker"
   },
