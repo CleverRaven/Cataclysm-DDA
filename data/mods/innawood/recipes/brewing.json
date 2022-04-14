@@ -149,7 +149,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "water", 15 ], [ "water_clean", 15 ] ],
-      [ [ "cattail_rhizome", 12 ], [ "dahlia_root", 12 ], [ "buckwheat", 15 ] ],
+      [ [ "cattail_rhizome", 12 ], [ "buckwheat", 15 ] ],
       [ [ "sugar", 100 ] ],
       [ [ "yeast", 2 ] ]
     ]
