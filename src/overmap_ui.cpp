@@ -509,6 +509,16 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
     return result;
 }
 
+static bool get_and_assign_los( int &los, avatar &player_character, const tripoint_abs_omt &omp,
+                                const int &sight_points )
+{
+    if( los == -1 ) {
+        los = player_character.overmap_los( omp, sight_points );
+    }
+
+    return los;
+}
+
 static void draw_ascii(
     const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
@@ -710,14 +720,17 @@ static void draw_ascii(
                 cur_ter = overmap_buffer.ter( omp );
             }
 
-            const bool is_npc_path = blink && npc_path_route.find( omp ) != npc_path_route.end();
-            const bool is_player_path = blink && player_path_route.find( omp.xy() ) != player_path_route.end();
+            // Check if location is within player line-of-sight
+            // These ints are treated as unassigned booleans. Use get_and_assign_los() to reference
+            // This allows for easy re-use of these variables without the unnecessary lookups if they aren't used
+            int los = -1;
+            int los_sky = -1;
             if( blink && omp == orig ) {
                 // Display player pos, should always be visible
                 ter_color = player_character.symbol_color();
                 ter_sym = "@";
             } else if( viewing_weather && ( uistate.overmap_debug_weather ||
-                                            player_character.overmap_los( omp, sight_points * 2 ) ) ) {
+                                            get_and_assign_los( los_sky, player_character, omp, sight_points * 2 ) ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
                 ter_sym = type->get_symbol();
@@ -745,7 +758,8 @@ static void draw_ascii(
                 // Visible NPCs are cached already
                 ter_color = npc_color[omp].color;
                 ter_sym = "@";
-            } else if( is_player_path ) {
+            } else if( blink && player_path_route.find( omp.xy() ) != player_path_route.end() ) {
+                // player path
                 ter_color = c_blue;
                 const int player_path_z = player_path_route[omp.xy()];
                 if( player_path_z == omp.z() ) {
@@ -755,12 +769,13 @@ static void draw_ascii(
                 } else {
                     ter_sym = "v";
                 }
-            } else if( is_npc_path ) {
+            } else if( blink && npc_path_route.find( omp ) != npc_path_route.end() ) {
+                // npc path
                 ter_color = c_red;
                 ter_sym = "!";
             } else if( blink && showhordes &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE &&
-                       player_character.overmap_los( omp, sight_points ) ) {
+                       get_and_assign_los( los, player_character, omp, sight_points ) ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
                 ter_sym = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
@@ -819,7 +834,7 @@ static void draw_ascii(
                     }
                     // Set the color only if we encountered an eligible group.
                     if( ter_sym == "+" || ter_sym == "-" ) {
-                        if( player_character.overmap_los( omp, sight_points ) ) {
+                        if( get_and_assign_los( los, player_character, omp, sight_points ) ) {
                             ter_color = c_light_blue;
                         } else {
                             ter_color = c_blue;
