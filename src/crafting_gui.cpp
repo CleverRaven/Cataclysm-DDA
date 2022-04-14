@@ -1140,7 +1140,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                                     break;
 
                                 default:
-                                    current.clear();
+                                    break;
                             }
                         } else if( qry_filter_str.size() > 1 && qry_filter_str[0] == '-' ) {
                             filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
