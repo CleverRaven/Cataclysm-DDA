@@ -745,6 +745,20 @@
     "description": "A tan button-down shirt with long sleeves.",
     "weight": "250 g",
     "volume": "750 ml",
+    "variants": [
+      {
+        "id": "sheriff",
+        "name": { "str": "sheriff's shirt" },
+        "description": "A tan button-down shirt with long sleeves.",
+        "weight": 1
+      },
+      {
+        "id": "swat_shirt",
+        "name": { "str": "SWAT shirt" },
+        "description": "A charcoal button-down shirt with long sleeves.  Has a patch with the word \"SWAT\" already affixed on one shoulder.",
+        "weight": 1
+      }
+    ],
     "price": 1100,
     "price_postapoc": 50,
     "material": [ "cotton" ],
