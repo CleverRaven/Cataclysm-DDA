@@ -196,7 +196,7 @@
       { "item": "ruby_silver_ring", "variant": "vampire_ring", "prob": 25 },
       { "item": "ruby_silver_bracelet", "variant": "vampire_bracelet", "prob": 10 },
       { "item": "ruby_silver_pendant_necklace", "variant": "vampire_necklace", "prob": 15 },
-      { "item": "garnet_silver_tiara", "variant": "vampire_tiara", "prob": 15 }
+      { "item": "ruby_silver_tiara", "variant": "vampire_tiara", "prob": 15 }
     ]
   },
   {
