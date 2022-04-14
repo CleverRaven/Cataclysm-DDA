@@ -1,21 +1,24 @@
 [
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "throwing_knives",
-    "category": "ammo",
-    "price": 5200,
-    "price_postapoc": 500,
-    "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "symbol": ";",
     "color": "light_gray",
+    "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "category": "spare_parts",
+    "//": "Make silver-steel or some kind of changeling metal.",
     "material": [ "steel" ],
+    "ammo_type": "throwing_knives",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "volume": "100 ml",
     "weight": "460 g",
-    "to_hit": -2,
-    "bashing": 1,
-    "cutting": 10,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "stabbing": 3,
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "qualities": [ [ "CUT", 1 ] ]
   }
 ]

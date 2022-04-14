@@ -33,7 +33,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "starting_ammo": { "throwing_knivese": 3 },
+    "starting_ammo": { "throwing_knives": 3 },
     "special_attacks": [
       {
         "type": "gun",
@@ -86,7 +86,7 @@
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_drops": "mon_draugr_death_drops",
+    "death_drops": "changeling_death_drops",
     "flags": [
       "SEES",
       "HEARS",

@@ -31,7 +31,6 @@
           "tie_skinny",
           "blazer",
           "trenchcoat",
-          "belt",
           "shoulder_holster",
           "badge_zebra",
           "gloves_leather",
@@ -46,7 +45,7 @@
           { "group": "charged_ref_lighter" },
           { "group": "suppressed_fn57" },
           { "group": "diazepam_scrip" },
-          { "item": "fn57_sup", "ammo-item": "fn57mag", "charges": 20, "container-item": "sholster" }
+          { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" }
         ]
       },
       "male": [ "briefs" ],
