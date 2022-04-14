@@ -3080,48 +3080,6 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-static void armor_encumb_bp_info( const item &it, std::vector<iteminfo> &info,
-                                  int reduce_encumbrance_by, sub_bodypart_id sbp )
-{
-    // some encumbrance stuff is based on overall limbs so pick one at random to query about
-    const bodypart_id &bp = sbp->parent;
-    if( bp == bodypart_id() || !it.covers( bp ) ) {
-        return;
-    }
-
-    const std::string space = "  ";
-    const Character &c = get_player_character();
-    const int encumb = std::max( 0, it.get_encumber( c, bp ) - reduce_encumbrance_by );
-    const int encumb_max = std::max( 0, it.get_encumber( c, bp,
-                                     item::encumber_flags::assume_full ) - reduce_encumbrance_by );
-
-    const int encumb_min = std::max( 0, it.get_encumber( c, bp,
-                                     item::encumber_flags::assume_empty ) - reduce_encumbrance_by );
-
-    const bool has_max = encumb != encumb_max;
-    const bool has_min = encumb != encumb_min;
-
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string bp_cat = string_format( "ARMOR" );
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    info.emplace_back( bp_cat, string_format( "<bold>%s</bold>:",
-                       _( "Encumbrance" ) ) + space, "", iteminfo::no_newline | iteminfo::lower_is_better, encumb );
-
-    if( has_max ) {
-        const std::string when_full_message = space + _( "When full:" ) + space;
-        info.emplace_back( bp_cat, when_full_message, "", iteminfo::no_newline | iteminfo::lower_is_better,
-                           encumb_max );
-    }
-
-    if( has_min ) {
-        const std::string when_empty_message = space + _( "When empty:" ) + space;
-        info.emplace_back( bp_cat, when_empty_message, "", iteminfo::no_newline | iteminfo::lower_is_better,
-                           encumb_min );
-    }
-
-    info.back().bNewLine = true;
-}
-
 static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &info )
 {
     std::string format;
@@ -3157,11 +3115,10 @@ static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &inf
 }
 
 bool item::armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                   bool header, int reduce_encumbrance_by ) const
+                                   bool header, int /*reduce_encumbrance_by*/ ) const
 {
     bool divider_needed = false;
     const std::string space = "  ";
-    Character &player_character = get_player_character();
 
     if( header ) {
         divider_needed = armor_encumb_header_info( *this, info );
@@ -3190,8 +3147,7 @@ bool item::armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_q
             }
             info.emplace_back( "ARMOR", coverage );
 
-            // the following functions need one representative sub limb from which to query data
-            //armor_encumb_bp_info( *this, info, reduce_encumbrance_by, covered.front() );
+            // the following function need one representative sub limb from which to query data
             armor_protection_info( info, parts, 0, false, p.sub_coverage.front() );
             ret = true;
             divider_needed = true;
@@ -3418,6 +3374,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     }
 }
 
+// simple struct used for organizing encumberance in an ordered set
 struct armor_encumb_data {
     int encumb;
     int encumb_max;
@@ -3436,7 +3393,7 @@ struct armor_encumb_data {
     }
 };
 
-bool operator<( const armor_encumb_data &lhs, const armor_encumb_data &rhs )
+static bool operator<( const armor_encumb_data &lhs, const armor_encumb_data &rhs )
 {
     return lhs.encumb < rhs.encumb;
 }
