@@ -47,6 +47,7 @@
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1112,22 +1113,8 @@ void Character::modify_stimulation( const islot_comestible &comest )
           comest.add == STATIC( addiction_id( "crack" ) ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
-        // TODO: Snippet-ize this
-        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
-                                                _( "You have a bad feeling about this." ),
-                                                _( "A powerful sense of dread comes over you." ),
-                                                _( "Your skin starts crawling." ),
-                                                _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea…" ),
-                                                _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching…" ),
-                                                _( "mistake mistake mistake mistake mistake" ),
-                                                _( "Just gotta stay calm, and you'll make it through this." ),
-                                                _( "You're starting to feel very jumpy." ),
-                                                _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done…" ),
-                                                _( "You're feeling even more paranoid than usual." ) };
-        add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
+        add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
+                               translation() ).translated() );
     }
 }
 

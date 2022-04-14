@@ -12,7 +12,6 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "make_static.h"
 #include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
@@ -276,7 +275,7 @@ void add_type::check_add_types()
 {
     for( const add_type &add : add_type::get_all() ) {
         if( add._effect.is_null() == add._builtin.empty() ) {
-            debugmsg( "addiction_type \"%s\" defines %s craving_morale %s builtin.  Addictions must define either field, but not both.",
+            debugmsg( "addiction_type \"%s\" defines %s effect_on_condition %s builtin.  Addictions must define either field, but not both.",
                       add.id.c_str(), add._builtin.empty() ? "neither" : "both", add._builtin.empty() ? "or" : "and" );
         }
         if( !add._builtin.empty() && builtin_map.find( add._builtin ) == builtin_map.end() ) {

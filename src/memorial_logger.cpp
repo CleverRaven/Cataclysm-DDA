@@ -933,7 +933,7 @@ void memorial_logger::notify( const cata::event &e )
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
                      pgettext( "memorial_female", "Overcame addiction to %s." ),
-                     type->get_type_name() );
+                     type->get_type_name().translated() );
             }
             break;
         }
