@@ -519,6 +519,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
+        integrated_armor.emplace_back( itype_id( jv ) );
+    }
+
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
         bionic_slot_bonuses[bodypart_str_id( member.name() )] = member.get_int();
     }

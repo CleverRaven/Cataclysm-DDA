@@ -1649,6 +1649,16 @@ item::sizing item::get_sizing( const Character &p ) const
 
         const bool big = p.get_size() == creature_size::huge;
 
+        if( has_flag( flag_INTEGRATED ) ) {
+            if( big ) {
+                return sizing::big_sized_big_char;
+            } else if( small ) {
+                return sizing::small_sized_small_char;
+            } else {
+                return sizing::human_sized_human_char;
+            }
+        }
+
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
@@ -8354,6 +8364,10 @@ static int get_dmg_lvl_internal( int dmg, int min, int max )
 
 bool item::mod_damage( int qty, damage_type dt )
 {
+    if( has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
+
     bool destroy = false;
     int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
 
@@ -8400,6 +8414,10 @@ bool item::inc_damage()
 
 item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
 {
+    if( has_flag( flag_UNBREAKABLE ) ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = damage_resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
