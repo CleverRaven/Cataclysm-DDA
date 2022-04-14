@@ -54,7 +54,7 @@
 
 "Info / User Interface":
   - "**/ui/**/*"
-  - "**/ui**/*"
+  - "src/**ui**"
   - "**/widget/**/*"
   - "src/list_view.*"
   - "src/surroundings_menu.*"
@@ -63,7 +63,7 @@
   - "**/armor/**/*"
 
 "Items: Containers":
-  - "**/containers/**/*"
+  - "**/**containers**"
 
 "Appliance/Power Grid":
   - "**/appliance**"
@@ -72,9 +72,9 @@
   - "**/monsters/**/*"
 
 "Mutations / Traits / Professions/ Hobbies":
-  - "**/professions/**/*"
-  - "**/mutations/**/*"
-  - data/json/hobbies.json
+  - "**/professions.json"
+  - "**mutations**"
+  - "**hobbies**"
 
 "Lore":
   - data/json/npcs/BG_trait_groups.json
