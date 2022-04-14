@@ -4,7 +4,7 @@
     "id": "translate_dialogue",
     "name": "Translate Complex Dialogue",
     "authors": [ "I-am-Erk" ],
-    "description": "Adds a translation for some of the weirder dialogue in game.  This makes some things a little less interesting.  Keeps the original flavour dialogue visible.",
+    "description": "Adds a translation for some of the weirder dialogue in game.  Keeps the original flavour dialogue visible.",
     "category": "misc_additions",
     "dependencies": [ "dda" ]
   }
