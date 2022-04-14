@@ -3349,7 +3349,7 @@ void Item_factory::npc_implied_flags( itype &item_template )
     }
 
     if( item_template.has_flag( flag_DANGEROUS ) ||
-        item_template.has_flag( flag_PSEUDO ) ) {
+        item_template.has_flag( flag_PSEUDO ) || item_template.has_flag( flag_INTEGRATED ) ) {
         item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }
