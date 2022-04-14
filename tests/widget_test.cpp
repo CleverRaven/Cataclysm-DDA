@@ -20,6 +20,7 @@
 namespace cata_curses_test
 {
 #define NCURSES_NOMACROS
+#define NCURSES_WIDECHAR 1
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
