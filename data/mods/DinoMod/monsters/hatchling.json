@@ -133,6 +133,7 @@
     "melee_cut": 1,
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
@@ -213,6 +214,13 @@
     "name": "dark gray and white hatchling",
     "default_faction": "utahraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
+  },
+  {
+    "id": "mon_dromaeosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_velociraptor_hatchling",
+    "default_faction": "dromaeosaurus_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_dromaeosaurus" }
   },
   {
     "id": "mon_stenonychosaurus_hatchling",

@@ -258,6 +258,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dromaeosaurus",
+    "name": "dromaeosaurus egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_dromaeosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_stenonychosaurus",
     "name": "stenonychosaurus egg",
     "copy-from": "egg_dino_theropod_small",

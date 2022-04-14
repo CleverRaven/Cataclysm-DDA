@@ -478,6 +478,13 @@
       },
       { "monster": "mon_utahraptor", "weight": 100, "cost_multiplier": 30, "conditions": [ "DAY" ] },
       {
+        "monster": "mon_dromaeosaurus",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "NIGHT" ]
+      },
+      {
         "monster": "mon_stenonychosaurus",
         "weight": 150,
         "cost_multiplier": 10,

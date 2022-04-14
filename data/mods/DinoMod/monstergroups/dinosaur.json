@@ -26,6 +26,7 @@
       { "monster": "mon_velociraptor", "weight": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "weight": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor", "weight": 5, "cost_multiplier": 30 },
+      { "monster": "mon_dromaeosaurus", "weight": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stenonychosaurus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
@@ -85,6 +86,7 @@
       { "monster": "mon_velociraptor", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus", "weight": 150, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor", "weight": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dromaeosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stenonychosaurus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -144,6 +146,7 @@
       { "monster": "mon_velociraptor_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus_hatchling", "weight": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor_hatchling", "weight": 5, "cost_multiplier": 30 },
+      { "monster": "mon_dromaeosaurus_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stenonychosaurus_hatchling", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -295,20 +298,22 @@
         "weight": 3,
         "cost_multiplier": 15,
         "pack_size": [ 2, 3 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+        "conditions": [ "NIGHT" ]
       },
       { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "3 days", "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "7 days", "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "cost_multiplier": 30, "starts": "28 days", "pack_size": [ 2, 3 ] },
-      {
-        "monster": "mon_utahraptor",
-        "weight": 3,
-        "cost_multiplier": 30,
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
+      { "monster": "mon_utahraptor", "weight": 3, "cost_multiplier": 30, "conditions": [ "NIGHT" ] },
       { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "3 days" },
       { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "7 days" },
       { "monster": "mon_zutahraptor", "cost_multiplier": 30, "starts": "28 days" },
+      {
+        "monster": "mon_dromaeosaurus",
+        "weight": 3,
+        "cost_multiplier": 15,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "DAY" ]
+      },
       { "monster": "mon_stenonychosaurus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
