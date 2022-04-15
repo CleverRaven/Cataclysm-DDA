@@ -193,7 +193,7 @@
     "looks_like": "textbook_firstaid",
     "skill": "survival",
     "required_level": 3,
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "time_factor": 0.85, "fail_factor": 0.75 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "time_factor": 0.1, "fail_factor": 0.15 } ],
     "max_level": 4,
     "intelligence": 9,
     "time": "45 m"
