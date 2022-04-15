@@ -996,7 +996,7 @@
     "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
+    "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER", "CANNIBAL" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
   },
   {
