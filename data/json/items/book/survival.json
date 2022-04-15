@@ -145,8 +145,8 @@
     "skill": "survival",
     "required_level": 5,
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_factor": 0.5, "fail_factor": 0.5 },
-      { "proficiency": "prof_knapping_speed", "time_factor": 0.5, "fail_factor": 0.5 }
+      { "proficiency": "prof_knapping", "time_factor": 0.8, "fail_factor": 0.8 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.8, "fail_factor": 0.8 }
     ],
     "max_level": 8,
     "intelligence": 10,
