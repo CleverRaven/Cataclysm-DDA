@@ -1514,7 +1514,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return [is_npc, add_id, val, step]( const T & d ) {
                     int intens = d.actor( is_npc )->get_addiction_intensity( add_id );
                     int denom = val - step * intens;
-                    return denom == 0 ? 0 : ( val / denom - 1 );
+                    return denom == 0 ? 0 : ( val / std::max( 1, denom ) - 1 );
                 };
             }
             const int mod = jo.get_int( "mod", 1 );
