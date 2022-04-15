@@ -5,6 +5,7 @@
     "monsters": [
       { "monster": "mon_zilophosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zeratosaurus_fungus", "starts": "3 days" },
+      { "monster": "mon_zorvosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zallosaurus_fungus", "starts": "6 days" },
       { "monster": "mon_zacrocanthosaurus_fungus", "starts": "6 days" },
       { "monster": "mon_ziats_fungus", "starts": "6 days" },
@@ -12,6 +13,7 @@
       { "monster": "mon_zappalachiosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zorgosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zalbertosaurus_fungus", "starts": "3 days" },
+      { "monster": "mon_zaspletosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zyrannosaurus_fungus", "starts": "6 days" },
       { "monster": "mon_zallimimus_fungus", "starts": "3 days" },
       { "monster": "mon_ztruthiomimus_fungus", "starts": "3 days" },
