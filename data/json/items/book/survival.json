@@ -36,8 +36,8 @@
     "skill": "survival",
     "required_level": 1,
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_factor": 0.25, "fail_factor": 0.25 },
-      { "proficiency": "prof_knapping_speed", "time_factor": 0.25, "fail_factor": 0.25 }
+      { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.15 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.15 }
     ],
     "max_level": 3,
     "intelligence": 5,
@@ -99,8 +99,8 @@
     "skill": "survival",
     "max_level": 3,
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.1 },
-      { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.1 }
+      { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.2 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.2 }
     ],
     "intelligence": 4,
     "time": "18 m"
@@ -121,8 +121,8 @@
     "skill": "survival",
     "max_level": 2,
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_factor": 0.2, "fail_factor": 0.1 },
-      { "proficiency": "prof_knapping_speed", "time_factor": 0.2, "fail_factor": 0.1 }
+      { "proficiency": "prof_knapping", "time_factor": 0.25, "fail_factor": 0.3 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
     "intelligence": 6,
     "time": "20 m"
@@ -145,8 +145,8 @@
     "skill": "survival",
     "required_level": 5,
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_factor": 0.8, "fail_factor": 0.8 },
-      { "proficiency": "prof_knapping_speed", "time_factor": 0.8, "fail_factor": 0.8 }
+      { "proficiency": "prof_knapping", "time_factor": 0.1, "fail_factor": 0.15 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.1, "fail_factor": 0.15 }
     ],
     "max_level": 8,
     "intelligence": 10,
