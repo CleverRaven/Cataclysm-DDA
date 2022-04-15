@@ -147,6 +147,7 @@
     "name": { "str_sp": "torvosaurus" },
     "species": "DINOSAUR",
     "default_faction": "torvosaurus",
+    "looks_like": "mon_allosaurus",
     "symbol": "D",
     "color": "red_white",
     "volume": "1000 L",
