@@ -39,6 +39,7 @@ Very high damage: 20+ (zombie predator, super soldier ant, mi-go)
 
 Maximum damage: 50 (highest for balance purposes; melded task force)
 
+
 # Monster HP scaling:
 Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
 
