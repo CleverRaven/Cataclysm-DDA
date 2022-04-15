@@ -294,7 +294,7 @@ static void eff_fun_bleed( Character &u, effect &it )
                 { 6, to_translation( "%1s leaks from your %2s." ) },
                 { 11, to_translation( "%1s flows from your %2s." ) },
                 { 21, to_translation( "%1s pours from your %2s!" ) },
-                { 31, to_translation( "%1s sprays from your %2s!" ) }
+                { 31, to_translation( "%1s gushes from your %2s!" ) }
             };
             translation suffer_string = intensity_strings.at( 0 );
             // iterate in reverse to find the first string that we qualify for based on intensity
