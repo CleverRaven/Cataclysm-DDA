@@ -70,7 +70,7 @@ cd Cataclysm-DDA
 
 Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing.
 
-### Debugging
+### Running and debugging Cataclysm
 
 1. Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project.
 
