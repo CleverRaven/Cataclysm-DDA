@@ -218,23 +218,25 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
-        calendar::turn = calendar::turn_zero + 12_hours;
+        calendar::turn = calendar::turn_zero + 10_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
         REQUIRE( dummy.has_trait( trait_SUNBURN ) );
 
         std::map<bodypart_id, int> bp_hp_lost;
-        WHEN( "totally naked and exposed" ) {
+        WHEN( "totally naked and exposed, with sunglasses" ) {
             dummy.worn.clear();
+            dummy.wear_item( shades, false );
+            REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
-            THEN( "they suffer injury on every body part several times a minute" ) {
+            THEN( "they suffer injuries on every body part" ) {
                 // Should lose an average of 6 HP per minute from each body part with hit points
                 // (head, torso, both arms, both legs)
-                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hours );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
-                    CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
+                    CHECK( bp_hp_lost[bp] == Approx( 10 ).margin( 10 ) );
                 }
             }
 
@@ -245,10 +247,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             }
         }
 
-        WHEN( "naked and wielding an umbrella, with or without sunglasses" ) {
+        WHEN( "naked and wielding an umbrella, with sunglasses" ) {
             dummy.worn.clear();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
+            dummy.wear_item( shades, false );
+            REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {
@@ -258,48 +262,50 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     CHECK( bp_hp_lost[bp] == 0 );
                 }
             }
+            THEN( "they suffer no pain" ) {
+                pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
+                CHECK( pain_felt == 0 );
+            }
+        }
 
-            WHEN( "not wearing sunglasses" ) {
-                REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
-                THEN( "they suffer pain" ) {
-                    // Only about 3 pain per hour from exposed eyes
-                    // This assertion will pass when pain is between 0 and 13 in an hour
-                    //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                    //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+        WHEN( "naked and wielding an umbrella, without sunglasses" ) {
+            dummy.worn.clear();
+            dummy.wield( umbrella );
+            REQUIRE( dummy.get_wielded_item().has_flag( flag_RAIN_PROTECT ) );
+            REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
+            THEN( "they suffer only head injury" ) {
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 1_hour );
+                for( const bodypart_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.id().str() );
+                    if( bp == bodypart_id( "head" )) {
+                        CHECK( bp_hp_lost[bp] == Approx( 10 ).margin( 10 ) );
+                    } else {
+                        CHECK( bp_hp_lost[bp] == 0 );
+                    }
                 }
             }
-
-            // Sunglasses protect from glare and pain
-            WHEN( "wearing sunglasses" ) {
-                dummy.wear_item( shades, false );
-                REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
-
-                THEN( "they suffer no pain" ) {
-                    pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
-                    CHECK( pain_felt == 0 );
-                }
+            THEN( "they suffer pain" ) {
+                // Only about 3 pain per hour from exposed eyes
+                // This assertion will pass when pain is between 0 and 13 in an hour
+                //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
             }
-
         }
 
         WHEN( "torso and arms are 90% covered" ) {
             dummy.worn.clear();
             dummy.wear_item( longshirt, false );
 
-            THEN( "damage to torso is 90% less than other parts" ) {
-                time_duration t = 10_minutes;
-                int num_turns = t / 1_turns;
+            THEN( "damage to torso is 0 and halved for arms" ) {
+                time_duration t = 1_hours;
 
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, t );
                 for( const bodypart_id &bp : body_parts_with_hp ) {
                     CAPTURE( bp.id().str() );
                     if( bp.id().str() == "torso" ) {
-                        // Torso has only 10% chance losing 2 HP, 3x per minute
-                        CHECK_THAT( bp_hp_lost[bp] / 2,
-                                    IsBinomialObservation( num_turns, 1.0 / 200 ) );
+                        CHECK( bp_hp_lost[bp] == 0 );
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
-                        // Arms have 10% chance of losing 1 HP, 3x per minute (6 in 10m)
-                        // But hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
+                        // Hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
                         CHECK_THAT( bp_hp_lost[bp],
                                     IsBinomialObservation( num_turns, 1.0 / 200 + 1.0 / 20 ) );
                     } else {
@@ -315,33 +321,33 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             dummy.worn.clear();
             dummy.wear_item( zentai, false );
 
-            THEN( "they suffer no injury" ) {
-                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
-                for( const bodypart_id &bp : body_parts_with_hp ) {
-                    CAPTURE( bp.id().str() );
-                    CHECK( bp_hp_lost[bp] == 0 );
-                }
-            }
-
             WHEN( "not wearing sunglasses" ) {
                 REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer loss of focus" ) {
                     // Lose focus about 3x the rate of Albino, about 59 focus every 20 minutes
-                    focus_lost = test_suffer_focus_lost( dummy, 20_minutes );
-                    CHECK( focus_lost == Approx( 59 ).margin( 40 ) );
+                    // focus_lost = test_suffer_focus_lost( dummy, 20_minutes );
+                    // CHECK( focus_lost == Approx( 59 ).margin( 40 ) );
                 }
                 THEN( "they suffer pain" ) {
                     // Only about 3 pain per hour from exposed eyes
                     // This assertion will pass when pain is between 0 and 13 in an hour
-                    //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                    //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                    pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                    CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
                 }
             }
 
             WHEN( "wearing sunglasses" ) {
                 dummy.wear_item( shades, false );
                 REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
+
+                THEN( "they suffer no injury" ) {
+                    bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+                    for( const bodypart_id &bp : body_parts_with_hp ) {
+                        CAPTURE( bp.id().str() );
+                        CHECK( bp_hp_lost[bp] == 0 );
+                    }
+                }
 
                 THEN( "they suffer no pain or loss of focus" ) {
                     focus_lost = test_suffer_focus_lost( dummy, 1_hours );

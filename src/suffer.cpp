@@ -889,41 +889,31 @@ static float linear_interpolation( float x_start, float y_start, float x_end, fl
 
 static float light_eff_chance( float exp )
 {
-    if( exp <= 0.05 ) {
-        // Sharp increase until 0.05
-        return linear_interpolation( 0.01, 0.0, 0.05, 1.0, exp );
-    } else {
-        // Slower dropoff until 0.3, then 0
-        return linear_interpolation( 0.05, 1.0, 0.3, 0.0, exp );
-    }
+    // Sharp increase until 5%
+    return linear_interpolation( 0.01, 0.0, 0.05, 1.0, exp );
 }
 
 static float medium_eff_chance( float exp )
 {
-    if( exp <= 0.3 ) {
-        // Starts at 0.05, never reaches 100%
-        return linear_interpolation( 0.05, 0.0, 0.3, 0.9, exp );
-    } else {
-        // Drops off until 0.5
-        return linear_interpolation( 0.3, 0.9, 0.5, 0.0, exp );
-    }
+    // Starts at 5%, peaks at 30%
+    return linear_interpolation( 0.05, 0.0, 0.3, 1.0, exp );
 }
 
 static float heavy_eff_chance( float exp )
 {
-    if( exp <= 0.3 ) {
-        // Starts at 0.1, slowly increases until 0.3
-        return linear_interpolation( 0.1, 0.0, 0.3, 0.1, exp );
+    if( exp <= 0.5 ) {
+        // Starts at 15%, slowly increases to 0.2 until 50%
+        return linear_interpolation( 0.15, 0.0, 0.5, 0.2, exp );
     } else {
-        // Sharp increase after 0.3
-        return linear_interpolation( 0.3, 0.1, 0.5, 1.0, exp );
+        // Sharp increase after 0.5 to 1.0 at 100% exposure
+        return linear_interpolation( 0.5, 0.2, 1.0, 1.0, exp );
     }
 }
 
 void suffer::from_sunburn( Character &you, const bool severe )
 {
-    if( ( severe && !one_turn_in( 20_seconds ) ) ||
-        ( !severe && !one_turn_in( 1_minutes ) ) ) {
+    if( ( severe && !one_turn_in( 3_minutes ) ) ||
+        ( !severe && !one_turn_in( 3_minutes ) ) ) {
         // Sunburn effects occur about 3 times per minute
         // albinism/datura occur about once per minute
         return;
@@ -987,7 +977,7 @@ void suffer::from_sunburn( Character &you, const bool severe )
                 continue;
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
-            exposure = 100;
+            exposure = 1.0;
         } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
@@ -995,16 +985,13 @@ void suffer::from_sunburn( Character &you, const bool severe )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.encumb( body_part_head ) < 10 ) ) {
+            // Eyes suffer even in the presence of the checks in this branch!
             // Umbrellas can keep the sun off all bodyparts
             // Pockets can keep the sun off your hands if you don't wield a too large item
             // Hoods can keep the sun off your unencumbered head
             continue;
         }
 
-        // If a bodypart is more than 50% exposed it suffers a heavy sunburn
-        // + a roll with exposure - 0.5
-        bool overflow = exposure > 0.5;
-        exposure = overflow ? exposure - 0.5 : exposure;
         float heavy_cumul_chance = heavy_eff_chance( exposure );
         float medium_cumul_chance = heavy_cumul_chance + medium_eff_chance( exposure );
         float light_cumul_chance = medium_cumul_chance + light_eff_chance( exposure );
@@ -1024,10 +1011,6 @@ void suffer::from_sunburn( Character &you, const bool severe )
                           body_part_name( bp ), exposure );
             };
             eff = None;
-        }
-        // Do the additional effect last so eff is correctly set
-        if( overflow ) {
-            eff = heavy_sunburn( bp );
         }
         affected_bodyparts.emplace( bp, eff );
     }
