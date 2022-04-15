@@ -30,7 +30,7 @@
             "id": "EOC_CAFFEINE_ADDICTION_SHAKES",
             "condition": {
               "and": [
-                { "compare_int": [ { "const": 8 }, ">=", { "u_val": "addiction_intensity", "addiction": "caffeine" } ] },
+                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "caffeine" }, ">=", { "const": 8 } ] },
                 {
                   "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
                 }
