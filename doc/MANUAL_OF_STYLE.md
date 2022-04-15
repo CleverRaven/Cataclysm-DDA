@@ -13,6 +13,6 @@ Follow these conventions when adding or editing in-game text. Theses conventions
 8. Use ellipsis character (…) instead of three dots (...).  Replace instances of three periods with the dedicated Unicode character for ellipsis, namely U+2026. As to the specifics of using it:
    1. No spaces before it and one space after it.
    2. This character does not end a sentence, use ellipsis followed by a period `….` when ending a sentence with ellipsis.
-9. Don't hesitate to use brand names if needed.
+9. Brand names do not need to be avoided as we are covered under Fair Use.  However, as CDDA-Earth is a parallel universe, nonexistent brands are also allowed.
 10. Don't avoid using Unicode letters, which includes proper names and alphabets when needed, or symbols as ® or ™.
 11. Always make sure that all descriptions follow a sentence case, i.e. they start with a big letter and end with a full stop, even if they are just for testing purposes (they can still appear by mistake and can be seen in debug menus).
