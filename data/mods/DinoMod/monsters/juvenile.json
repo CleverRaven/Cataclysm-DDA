@@ -181,6 +181,7 @@
     "melee_cut": 1,
     "dodge": 2,
     "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_small"

@@ -786,8 +786,17 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
-        omtstart = start_loc.find_player_initial_location();
+        if( select_starting_city ) {
+            if( !u.starting_city.has_value() ) {
+                u.starting_city = random_entry( city::get_all() );
+                u.world_origin = u.starting_city->pos_om;
+            }
+            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+        } else {
+            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+        }
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -1754,7 +1763,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) || it.has_flag( flag_INTEGRATED ) ) {
         return hint_rating::cant;
     }
 

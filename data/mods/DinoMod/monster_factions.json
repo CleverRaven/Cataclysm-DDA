@@ -344,6 +344,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus",
+    "base_faction": "small_predator",
+    "friendly": [ "dromaeosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dromaeosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "stenonychosaurus",
     "base_faction": "small_predator",
     "friendly": [ "stenonychosaurus_hatchling" ]

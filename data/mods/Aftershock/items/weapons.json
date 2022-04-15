@@ -362,7 +362,7 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "white",
-    "name": { "str": "aztlani hunting sword" },
+    "name": { "str": "Aztlani hunting sword" },
     "description": "An ornate, single-handed sword used by Aztlani hunters to finish injured game.  Made from gleaming composite alloy, its tip and frontal blade have been sharpened to a monomolecular point, while its back features a serrated saw edge.",
     "price": 100000,
     "price_postapoc": 450000,

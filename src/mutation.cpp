@@ -10,6 +10,7 @@
 #include "avatar_action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "character_attire.h"
 #include "character.h"
 #include "color.h"
 #include "condition.h"
@@ -395,14 +396,21 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         recalc_hp();
     }
 
+    for( const itype_id &armor : branch.integrated_armor ) {
+        item tmparmor( armor );
+        wear_item( tmparmor, false );
+    }
+
     remove_worn_items_with( [&]( item & armor ) {
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return false;
+        }
+        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-
         // if an item gives an enchantment it shouldn't break or be shoved off
         for( const enchantment &ench : armor.get_enchantments() ) {
             for( const trait_id &inner_mut : ench.get_mutations() ) {
@@ -478,6 +486,13 @@ void Character::mutation_loss_effect( const trait_id &mut )
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
+
+    for( const itype_id &popped_armor : branch.integrated_armor ) {
+        remove_worn_items_with( [&]( item & armor ) {
+            return armor.typeId() == popped_armor;
+        } );
+    }
+
     if( !branch.enchantments.empty() ) {
         recalculate_enchantment_cache();
         recalculate_bodyparts();
