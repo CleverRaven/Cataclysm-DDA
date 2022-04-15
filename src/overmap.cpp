@@ -342,30 +342,29 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-namespace
+generic_factory<city> &get_city_factory()
 {
-
-generic_factory<city> city_factory( "city" );
-
-} // namespace
+    static generic_factory<city> city_factory( "city" );
+    return city_factory;
+}
 
 /** @relates string_id */
 template<>
 const city &string_id<city>::obj() const
 {
-    return city_factory.obj( *this );
+    return get_city_factory().obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<city>::is_valid() const
 {
-    return city_factory.is_valid( *this );
+    return get_city_factory().is_valid( *this );
 }
 
 void city::load_city( const JsonObject &jo, const std::string &src )
 {
-    city_factory.load( jo, src );
+    get_city_factory().load( jo, src );
 }
 
 void city::finalize()
@@ -385,17 +384,17 @@ void city::finalize()
 
 void city::check_consistency()
 {
-    city_factory.check();
+    get_city_factory().check();
 }
 
 const std::vector<city> &city::get_all()
 {
-    return city_factory.get_all();
+    return get_city_factory().get_all();
 }
 
 void city::reset()
 {
-    city_factory.reset();
+    get_city_factory().reset();
 }
 
 void city::load( const JsonObject &jo, const std::string & )

@@ -46,6 +46,8 @@ template<typename Point>
 struct directed_path;
 } // namespace pf
 
+generic_factory<city> &get_city_factory();
+
 struct city {
     void load( const JsonObject &, const std::string & );
     void check() const;
