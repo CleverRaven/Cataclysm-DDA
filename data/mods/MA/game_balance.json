@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SELECT_STARTING_CITY",
+    "info": "Allows to select starting city in new character menu.",
+    "stype": "bool",
+    "value": true
+  }
+]

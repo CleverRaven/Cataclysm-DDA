@@ -251,7 +251,15 @@ class talker
         virtual bool has_charges( const itype_id &, int ) const {
             return false;
         }
+        // bool = match tool containing charges of itype_id
+        virtual bool has_charges( const itype_id &, int, bool ) const {
+            return false;
+        }
         virtual std::list<item> use_charges( const itype_id &, int ) {
+            return {};
+        }
+        // bool = match tool containing charges of itype_id
+        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
             return {};
         }
         virtual bool has_amount( const itype_id &, int ) const {

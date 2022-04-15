@@ -9,6 +9,7 @@
       { "monster": "mon_zallosaurus", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
       { "monster": "mon_zacrocanthosaurus", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
       { "monster": "mon_ziats", "weight": 80, "cost_multiplier": 60, "starts": "6 days" },
+      { "monster": "mon_zryptosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zappalachiosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zorgosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "weight": 40, "cost_multiplier": 70, "starts": "3 days" },
@@ -89,6 +90,15 @@
     "type": "monstergroup",
     "name": "GROUP_ziats_UPGRADE",
     "monsters": [ { "monster": "mon_skiats", "weight": 600 }, { "monster": "mon_ziats_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zryptosaurus_UPGRADE",
+    "monsters": [
+      { "monster": "mon_sryptosaurus", "weight": 400 },
+      { "monster": "mon_zryptosaurus_shady", "weight": 300 },
+      { "monster": "mon_zryptosaurus_brute", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -333,6 +343,7 @@
       { "monster": "mon_zilophosaurus", "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zeratosaurus", "cost_multiplier": 60, "starts": "3 days" },
       { "monster": "mon_zallosaurus", "cost_multiplier": 60, "starts": "6 days" },
+      { "monster": "mon_zryptosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zappalachiosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zorgosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "cost_multiplier": 70, "starts": "3 days" },
