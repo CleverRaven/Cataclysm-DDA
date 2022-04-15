@@ -70,13 +70,9 @@ cd Cataclysm-DDA
 
 5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
 
-Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing:
-```
-  mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES
-  msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
-```
+Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing.
 
-### Debugging
+### Running and debugging Cataclysm
 
 1. Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project.
 
@@ -98,13 +94,10 @@ When debugging, it is not strictly necessary to use a `Debug` build; `Release` b
 
 2. Configure the working directory in the project settings to `$(ProjectDir)..`
 
-3. Configure the command line arguments for the tests
+3. Configure any extra command line arguments for the tests.
 
-    - Under `Configuration Properties > Debugging`, change `Command Arguments` to `--wait-for-keypress exit`
-
-4. Press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests.
-
-    - The Windows console will stay open until you press Enter. This is because of `--wait-for-keypress exit`.
+    - Under `Configuration Properties > Debugging`, change `Command Arguments` to the needed arguments.
+    - `--wait-for-keypress exit` can be helpful by keeping the test window open at the end until you press Enter.
 
 Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
 You can also start the test runner library manually from Windows console. Run it with `--help` for an overview of the arguments.
