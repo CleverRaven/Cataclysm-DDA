@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "id": "eggs_bird",
@@ -13,6 +18,7 @@
         [ "egg_dino_theropod", 1 ],
         [ "egg_dilophosaurus", 1 ],
         [ "egg_ceratosaurus", 1 ],
+        [ "egg_torvosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
         [ "egg_acrocanthosaurus", 1 ],
         [ "egg_siats", 1 ],
@@ -21,6 +27,7 @@
         [ "egg_gorgosaurus", 1 ],
         [ "egg_albertosaurus", 1 ],
         [ "egg_qianzhousaurus", 1 ],
+        [ "egg_daspletosaurus", 1 ],
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
         [ "egg_ornithomimus", 1 ],
@@ -90,3 +97,4 @@
     ]
   }
 ]
+
