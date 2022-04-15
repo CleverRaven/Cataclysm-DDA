@@ -23,7 +23,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you need to update it to at least commit `49b67d9cb856424ff69f10e7721aec5299624268` but not newer than `c0bc5e1b0ff27dd8710ee9ca18b708c0a9accce1` and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `bd1ef2df46303989eeb048eb7aa9b816aa46365e` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
@@ -32,7 +32,6 @@ In a `cmd.exe` shell:
 REM cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 49b67d9cb856424ff69f10e7721aec5299624268
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
@@ -41,7 +40,6 @@ In a Git Bash shell, the commands are almost the same except the filesystem path
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 49b67d9cb856424ff69f10e7721aec5299624268
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
 ```
