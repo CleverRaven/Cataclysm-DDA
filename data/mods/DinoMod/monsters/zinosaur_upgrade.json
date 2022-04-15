@@ -1376,7 +1376,7 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_skinosaurus",
+    "id": "mon_sorvosaurus",
     "name": { "str_sp": "skeletal torvosaurus" },
     "copy-from": "mon_zorvosaurus",
     "color": "white",
