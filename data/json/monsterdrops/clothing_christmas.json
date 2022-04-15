@@ -1,8 +1,30 @@
 [
   {
+    "type": "item_group",
+    "id": "christmas_all_clothing",
+    "//": "mainly used for places for general clothing (like a dresser or a clothing store warehouse)",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "christmas_coats_unisex", "prob": 25 },
+      { "group": "christmas_common_gloves", "prob": 10 },
+      { "group": "christmas_hats", "prob": 50 },
+      { "group": "christmas_accesories_personal_unisex", "prob": 25 },
+      { "group": "christmas_belts", "prob": 5 },
+      { "group": "christmas_pants_male", "prob": 15 },
+      { "group": "christmas_dresses", "prob": 15 }
+    ]
+  },
+  {
     "id": "christmas_coats_unisex",
     "type": "item_group",
     "//": "For use in christmas with the group coats_unisex",
+    "subtype": "distribution",
+    "entries": [ { "item": "santa_jacket", "prob": 80 }, { "item": "santa_jacket_short", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "christmas_jackets",
+    "//": "For now it works the same as christmas_coats_unisex, but this group is exclusive to jackets",
     "subtype": "distribution",
     "entries": [ { "item": "santa_jacket", "prob": 80 }, { "item": "santa_jacket_short", "prob": 20 } ]
   },
