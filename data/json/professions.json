@@ -2627,18 +2627,14 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-          "trenchcoat",
-          "gloves_fingerless",
-          "socks",
-          "boots_combat",
-          "weed",
-          "tobacco",
-          "rolling_paper",
-          "wristwatch",
-          "silver_ear"
-        ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_mp3" }, { "group": "charged_ref_lighter" } ]
+        "items": [ "trenchcoat", "gloves_fingerless", "socks", "boots_combat", "weed", "tobacco", "rolling_paper", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_mp3" },
+          { "group": "charged_ref_lighter" },
+          { "item": "onyx_silver_earring", "variant": "dark_earring" },
+          { "item": "onyx_silver_ring", "variant": "dark_ring" }
+        ]
       },
       "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
       "female": [ "skirt", "corset", "boxer_shorts", "stockings" ]
