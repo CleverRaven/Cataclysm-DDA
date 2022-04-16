@@ -46,8 +46,7 @@
             [ "t_window_boarded", 7 ],
             [ "t_window_boarded_noglass", 5 ],
             [ "t_window_reinforced", 6 ],
-            [ "t_window_reinforced_noglass", 5 ],
-            [ "t_plastic_window", 7 ]
+            [ "t_window_reinforced_noglass", 5 ]
           ]
         }
       },
@@ -105,7 +104,7 @@
       "C": "f_cupboard",
       "D": "f_null",
       "E": "f_null",
-      "F": "f_fridge",
+      "F": "f_icebox",
       "G": "f_null",
       "H": "f_sofa",
       "I": "f_null",
@@ -125,7 +124,7 @@
       "W": [ [ "f_null", 30 ], [ "f_washer", 70 ] ],
       "X": [ [ "f_birdbath", 70 ], [ "f_washer", 30 ] ],
       "Y": "f_null",
-      "Z": "f_dryer",
+      "Z": "f_null",
       "1": "f_cupboard",
       "2": "f_cupboard",
       "3": "f_cupboard",
