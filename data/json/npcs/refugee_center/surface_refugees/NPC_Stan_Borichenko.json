@@ -83,37 +83,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Stan_Borichenko",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
-      "no": "Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan."
+    "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Stan_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Stan, hey?  Nice to meet you.",
-        "effect": { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Stan_1_firstmeet"
-      },
-      {
-        "text": "Hi, Stan.  What's up?",
-        "topic": "TALK_REFUGEE_Stan_2",
-        "condition": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Stan, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Stan.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Stan, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Stan_1_firstmeet" },
+      { "text": "Hi Stan, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Stan_1a",
+    "dynamic_line": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
+    "responses": [
+      { "text": "Hi, Stan.  What's up?", "topic": "TALK_REFUGEE_Stan_2" },
+      { "text": "Hi Stan.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {

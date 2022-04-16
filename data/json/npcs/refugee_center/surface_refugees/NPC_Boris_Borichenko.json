@@ -284,6 +284,14 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Tough",
+    "dynamic_line": "Of course, yes.  I know this, but it is not so easy, is it?  So many are gone, and I do not know which of the two I would prefer, just yet.",
+    "responses": [
+      { "text": "Yeah, fine.  Just wallow in it.  I'm out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Son_Writing",
     "dynamic_line": "No.  In the evacuation shelter, distracted by grief, I forgot it.  We were rushed onto the bus so quickly, and… well, I don't remember much of that time.  His work was all saved on the hard drive, we thought we could download it from the cloud when we arrived but, well, there is no cloud now.  Even if there were, it would only have his writing, not his little games, his silly voice recordings.",
     "//": "TK add a quest.",
