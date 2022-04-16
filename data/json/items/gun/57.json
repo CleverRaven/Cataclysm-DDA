@@ -45,7 +45,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "FN 5.7x28mm PDW" },
-    "description": "An FN manufactured personal defence weapon, this automatic firearm is chambered for the high-velocity proprietary 5.7x28mm cartridge.  Excepting top-mounted 50-round custom magazines which are fitted to the receiver of the weapon behind the grip, thus making it a bullpup design, this little submachine gun packs quite the nasty payload.  It’s comparatively small high-speed calibre makes it excellent at both defeating armoured opponents, and firing short bursts manageably.",
+    "description": "An FN manufactured personal defence weapon, this automatic firearm is chambered for the high-velocity proprietary 5.7x28mm cartridge.  Accepting top-mounted 50-round custom magazines which are fitted to the receiver of the weapon behind the grip, thus making it a bullpup design, this little submachine gun packs quite the nasty payload.  It’s comparatively small high-speed calibre makes it excellent at both defeating armoured opponents, and firing short bursts manageably.",
     "variant_type": "gun",
     "variants": [
       {
