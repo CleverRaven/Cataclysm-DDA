@@ -58,15 +58,29 @@ enum TAB_MODE {
     BATCH
 };
 
+enum CRAFTING_SPEED_STATE {
+    TOO_DARK_TO_CRAFT,
+    TOO_SLOW_TO_CRAFT,
+    SLOW_BUT_CRAFTABLE,
+    FAST_CRAFTING,
+    NORMAL_CRAFTING
+};
+
+static std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
+    {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
+    {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
+    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
+    {FAST_CRAFTING, to_translation( "crafting is fast %d%%" )},
+    {NORMAL_CRAFTING, to_translation( "craftable" )}
+};
+
 // TODO: Convert these globals to handling categories via generic_factory?
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
-static std::map<std::string, std::string> craft_speed_reason_strings = {{"light", "too dark to craft"}, {"too slow", "unable to craft"}, {"slow", "crafting is slow %d%%"}, {"fast", "crafting is fast %d%%"}, {"all good", "craftable"}};
-static std::map<std::string, std::string> normalized_craft_reasons;
 
 static bool query_is_yes( const std::string &query );
-static size_t craft_info_width( const size_t window_width );
+static int craft_info_width( const int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
@@ -135,10 +149,6 @@ static void translate_all()
         for( const auto &subcat : craft_subcat_list[cat] ) {
             normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) );
         }
-    }
-    normalized_craft_reasons.clear();
-    for( const auto &pair : craft_speed_reason_strings ) {
-        normalized_craft_reasons[pair.first] = _( pair.second );
     }
 }
 
@@ -1706,22 +1716,16 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
-static size_t craft_info_width( const size_t window_width )
+static int craft_info_width( const int window_width )
 {
-    size_t reason_width = 0;
+    int reason_width = 0;
     //The crafting speed string is necessary.  Find the longest one
-    for( const auto &pair : normalized_craft_reasons ) {
-        if( utf8_width( pair.second, true ) > int( reason_width ) ) {
-            reason_width = utf8_width( pair.second, true );
-        }
+    for( const auto &pair : craft_speed_reason_strings ) {
+        reason_width = std::max( utf8_width( pair.second.translated(), true ), reason_width );
     }
     reason_width += 2; //Allow for borders
     //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
-    if( reason_width * 4 < window_width ) {
-        return window_width / 4;
-    } else {
-        return reason_width;
-    }
+    return std::max( window_width / 4, reason_width );
 }
 
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
@@ -1746,19 +1750,22 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
     Character &player_character = get_player_character();
+
     // Draw text
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, normalized_craft_reasons["light"] );
+        right_print( w, 0, 1, i_red, craft_speed_reason_strings[TOO_DARK_TO_CRAFT].translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, normalized_craft_reasons["too slow"] );
+        right_print( w, 0, 1, i_red, craft_speed_reason_strings[TOO_SLOW_TO_CRAFT].translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
-        right_print( w, 0, 1, i_yellow, string_format( normalized_craft_reasons["slow"],
-                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+        right_print( w, 0, 1, i_yellow,
+                     string_format( craft_speed_reason_strings[SLOW_BUT_CRAFTABLE].translated(),
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
-        right_print( w, 0, 1, i_green, string_format( normalized_craft_reasons["fast"],
-                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+        right_print( w, 0, 1, i_green,
+                     string_format( craft_speed_reason_strings[FAST_CRAFTING].translated(),
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
-        right_print( w, 0, 1, i_green, normalized_craft_reasons["all good"] );
+        right_print( w, 0, 1, i_green, craft_speed_reason_strings[NORMAL_CRAFTING].translated() );
     }
     wnoutrefresh( w );
 }
