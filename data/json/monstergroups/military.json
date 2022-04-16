@@ -121,5 +121,15 @@
       { "monster": "mon_zombie_scientist", "weight": 100 },
       { "monster": "mon_feral_soldier", "weight": 75 }
     ]
+  },
+  {
+    "name": "GROUP_MIL_MASS_GRAVE",
+    "type": "monstergroup",
+    "//": "Lots of hazmats and burners.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 10 },
+      { "monster": "mon_zombie_flamer", "weight": 20 },
+      { "monster": "mon_zombie_hazmat", "weight": 20 }
+    ]
   }
 ]

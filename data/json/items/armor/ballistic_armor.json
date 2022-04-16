@@ -708,7 +708,7 @@
         "weight": 1
       }
     ],
-    "description": "a simple Level II protection vest.",
+    "description": "A simple Level II protection vest.",
     "weight": "1814 g",
     "volume": "6 L",
     "price": 47000,
@@ -858,7 +858,7 @@
       },
       {
         "id": "national_guard_armor_vest",
-        "name": { "str": "national guard ballistic vest" },
+        "name": { "str": "National Guard ballistic vest" },
         "description": "Covered with urban camo this vest was issued to soldiers and volunteers as things got worse.  Has \"ARMY\" written on the front lapel and across the back.",
         "weight": 1,
         "append": true

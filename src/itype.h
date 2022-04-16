@@ -300,7 +300,8 @@ struct armor_portion_data {
     // how breathable this part of the armor is
     // cached from the material data
     // only tracked for amalgamized body parts entries
-    int breathability = 0; // NOLINT(cata-serialize)
+    // if left the default -1 the value will be recalculated,
+    int breathability = -1; // NOLINT(cata-serialize)
 
     // if this item is rigid, can't be worn with other rigid items
     bool rigid = false; // NOLINT(cata-serialize)

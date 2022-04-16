@@ -35,6 +35,10 @@
     "color": "pink",
     "skill": "survival",
     "required_level": 1,
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.15 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.15 }
+    ],
     "max_level": 3,
     "intelligence": 5,
     "time": "8 m",
@@ -94,6 +98,10 @@
     "color": "green",
     "skill": "survival",
     "max_level": 3,
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "time_factor": 0.15, "fail_factor": 0.2 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.15, "fail_factor": 0.2 }
+    ],
     "intelligence": 4,
     "time": "18 m"
   },
@@ -112,6 +120,10 @@
     "color": "green",
     "skill": "survival",
     "max_level": 2,
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "time_factor": 0.25, "fail_factor": 0.3 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.25, "fail_factor": 0.3 }
+    ],
     "intelligence": 6,
     "time": "20 m"
   },
@@ -132,6 +144,10 @@
     "color": "light_blue",
     "skill": "survival",
     "required_level": 5,
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "time_factor": 0.1, "fail_factor": 0.15 },
+      { "proficiency": "prof_knapping_speed", "time_factor": 0.1, "fail_factor": 0.15 }
+    ],
     "max_level": 8,
     "intelligence": 10,
     "time": "55 m",
@@ -184,7 +200,6 @@
     "category": "manuals",
     "name": { "str": "The Wonderful World of Arthropodology", "str_pl": "copies of The Wonderful World of Arthropodology" },
     "description": "A three-volume doorstopper introducing the whole breadth of modern arthropodology, beginning with a lengthy section on the comparative anatomy of the described taxa.  The authors somehow manage to maintain a gushingly enthusiastic tone, even as they describe the grisly effects of arthropod venoms or the mating habits of horseshoe crabs.  Given the curious lack of man-sized wasps in the illustrations, you have to wonder how much of the contents is still applicable.",
-    "//": "Also a good book to add the basic chitinworking proficiency, if that's implemented",
     "weight": "2200 g",
     "volume": "4 L",
     "price": 10000,
@@ -194,6 +209,7 @@
     "looks_like": "textbook_firstaid",
     "skill": "survival",
     "required_level": 3,
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "time_factor": 0.1, "fail_factor": 0.15 } ],
     "max_level": 4,
     "intelligence": 9,
     "time": "45 m"

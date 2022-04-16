@@ -5,5 +5,54 @@
     "info": "Allows to select starting city in new character menu.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PREGENERATED_PATH",
+    "info": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
+    "stype": "string_input",
+    "value": "MA/MA_overmap"
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
+    "info": "Allows to populate outside connections from neighbors.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RIVERS",
+    "info": "Allows to place procgen rivers during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_LAKES",
+    "info": "Allows to place procgen lakes during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FORESTS",
+    "info": "Allows to place procgen forests during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_SWAMPS",
+    "info": "Allows to place procgen swamps during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAVINES",
+    "info": "Allows to place procgen ravines during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]

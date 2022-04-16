@@ -51,6 +51,7 @@
 #include "overmap_noise.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "rotatable_symbols.h"
@@ -342,30 +343,29 @@ bool overmap_special_id::is_valid() const
     return specials.is_valid( *this );
 }
 
-namespace
+generic_factory<city> &get_city_factory()
 {
-
-generic_factory<city> city_factory( "city" );
-
-} // namespace
+    static generic_factory<city> city_factory( "city" );
+    return city_factory;
+}
 
 /** @relates string_id */
 template<>
 const city &string_id<city>::obj() const
 {
-    return city_factory.obj( *this );
+    return get_city_factory().obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<city>::is_valid() const
 {
-    return city_factory.is_valid( *this );
+    return get_city_factory().is_valid( *this );
 }
 
 void city::load_city( const JsonObject &jo, const std::string &src )
 {
-    city_factory.load( jo, src );
+    get_city_factory().load( jo, src );
 }
 
 void city::finalize()
@@ -385,17 +385,17 @@ void city::finalize()
 
 void city::check_consistency()
 {
-    city_factory.check();
+    get_city_factory().check();
 }
 
 const std::vector<city> &city::get_all()
 {
-    return city_factory.get_all();
+    return get_city_factory().get_all();
 }
 
 void city::reset()
 {
-    city_factory.reset();
+    get_city_factory().reset();
 }
 
 void city::load( const JsonObject &jo, const std::string & )
@@ -3253,13 +3253,44 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     dbg( D_INFO ) << "overmap::generate start…";
 
-    populate_connections_out_from_neighbors( north, east, south, west );
+    const std::string overmap_pregenerated_path =
+        get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
+    if( !overmap_pregenerated_path.empty() ) {
+        const std::string fpath = string_format( "%s/%s/overmap_%d_%d.omap.gz",
+                                  PATH_INFO::moddir(),
+                                  overmap_pregenerated_path, pos().x(), pos().y() );
+        dbg( D_INFO ) << "trying" << fpath;
+        using namespace std::placeholders;
+        if( !read_from_file_optional( fpath, std::bind( &overmap::unserialize_omap, this, _1 ) ) ) {
+            dbg( D_INFO ) << "failed" << fpath;
+            int z = 0;
+            const oter_id lake_surface( "lake_surface" );
+            for( int j = 0; j < OMAPY; j++ ) {
+                for( int i = 0; i < OMAPX; i++ ) {
+                    layer[z + OVERMAP_DEPTH].terrain[i][j] = lake_surface;
+                }
+            }
+        }
+    }
+    if( get_option<bool>( "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS" ) ) {
+        populate_connections_out_from_neighbors( north, east, south, west );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_RIVERS" ) ) {
+        place_rivers( north, east, south, west );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_LAKES" ) ) {
+        place_lakes();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_FORESTS" ) ) {
+        place_forests();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_SWAMPS" ) ) {
+        place_swamps();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_RAVINES" ) ) {
+        place_ravines();
+    }
 
-    place_rivers( north, east, south, west );
-    place_lakes();
-    place_forests();
-    place_swamps();
-    place_ravines();
     place_cities();
     place_forest_trails();
     place_roads( north, east, south, west );

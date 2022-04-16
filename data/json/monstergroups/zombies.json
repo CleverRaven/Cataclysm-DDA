@@ -637,5 +637,21 @@
       { "monster": "mon_zombie_plated", "weight": 50, "starts": "20 days" },
       { "monster": "mon_zombie_shell", "weight": 20, "starts": "40 days" }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MASS_GRAVE",
+    "//": "Corpses buried at a mass grave. No ferals, and few animals.",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 264, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "weight": 266, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_tough", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_swimmer", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 0 }
+    ]
   }
 ]

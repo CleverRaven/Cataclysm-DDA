@@ -46,6 +46,8 @@ template<typename Point>
 struct directed_path;
 } // namespace pf
 
+generic_factory<city> &get_city_factory();
+
 struct city {
     void load( const JsonObject &, const std::string & );
     void check() const;
@@ -430,6 +432,8 @@ class overmap
 
         // parse data in an opened overmap file
         void unserialize( std::istream &fin );
+        // parse data in an opened omap file
+        void unserialize_omap( std::istream &fin );
         // Parse per-player overmap view data.
         void unserialize_view( std::istream &fin );
         // Save data in an opened overmap file
