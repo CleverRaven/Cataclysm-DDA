@@ -165,7 +165,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_Background_Ash",
-    "dynamic_line": "*smiles for a moment, his face returning to what it must have looked like before everything.  \"God, that kid was funny.  Such a little nerd.  He'd come bombing into any conversation to interrupt and tell you about whatever his latest obsession was, didn't matter what else was going on.  We'd have to remind him to go to the bathroom sometimes.\"  Garry looks around, swallowing head for a second, and wipes his hands across his face.  \"It's so damn quiet here without him.",
+    "dynamic_line": "*smiles for a moment, his face returning to what it must have looked like before everything.  \"God, that kid was funny.  Such a little nerd.  He'd come bombing into any conversation to interrupt and tell you about whatever his latest obsession was, didn't matter what else was going on.  We'd have to remind him to go to the bathroom sometimes.\"  Garry looks around, swallowing hard for a second, and wipes his hands across his face.  \"It's so damn quiet here without him.",
     "responses": [
       { "text": "Do you want to tell me about Linda?", "topic": "TALK_REFUGEE_Garry_Background_Linda" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
