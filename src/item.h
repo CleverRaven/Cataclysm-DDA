@@ -1518,7 +1518,8 @@ class item : public visitable
         /*@{*/
         ret_val<bool> can_contain( const item &it, const bool nested = false,
                                    const bool ignore_rigidity = false,
-                                   const bool ignore_pkt_settings = true ) const;
+                                   const bool ignore_pkt_settings = true,
+                                   const item_location &parent_it = item_location() ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
