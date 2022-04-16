@@ -62,8 +62,11 @@ enum TAB_MODE {
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
+static std::map<std::string, std::string> craft_speed_reason_strings = {{"light", "too dark to craft"}, {"too slow", "unable to craft"}, {"slow", "crafting is slow %d%%"}, {"fast", "crafting is fast %d%%"}, {"all good", "craftable"}};
+static std::map<std::string, std::string> normalized_craft_reasons;
 
 static bool query_is_yes( const std::string &query );
+static size_t craft_info_width( const size_t window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
@@ -132,6 +135,10 @@ static void translate_all()
         for( const auto &subcat : craft_subcat_list[cat] ) {
             normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) );
         }
+    }
+    normalized_craft_reasons.clear();
+    for( const auto &pair : craft_speed_reason_strings ) {
+        normalized_craft_reasons[pair.first] = _( pair.second );
     }
 }
 
@@ -702,7 +709,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const int recipe_category_width = width * 3 / 4;
+        const unsigned int header_info_width = craft_info_width( width );
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -744,9 +751,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         dataHalfLines = dataLines / 2;
         dataHeight = TERMY - ( headHeight + subHeadHeight );
 
-        w_head_tabs = catacurses::newwin( headHeight, recipe_category_width, point( wStart, 0 ) );
-        w_head_info = catacurses::newwin( headHeight, ( width - recipe_category_width ),
-                                          point( wStart + recipe_category_width, 0 ) );
+        w_head_tabs = catacurses::newwin( headHeight, ( width - header_info_width ), point( wStart, 0 ) );
+        w_head_info = catacurses::newwin( headHeight, header_info_width,
+                                          point( wStart + ( width - header_info_width ), 0 ) );
         w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
         w_data = catacurses::newwin( dataHeight, width, point( wStart,
                                      headHeight + subHeadHeight ) );
@@ -872,6 +879,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         draw_recipe_tabs( w_head_tabs, tab.cur(), m, is_filtered_unread, is_cat_unread );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m,
                              is_subcat_unread[tab.cur()] );
+
+        //Clear the crafting info panel, since that can change on a per-recipe basis
+        werase( w_head_info );
 
         if( !show_hidden ) {
             draw_hidden_amount( w_head_info, num_hidden, num_recipe );
@@ -1696,6 +1706,24 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
+static size_t craft_info_width( const size_t window_width )
+{
+    size_t reason_width = 0;
+    //The crafting speed string is necessary.  Find the longest one
+    for( const auto &pair : normalized_craft_reasons ) {
+        if( utf8_width( pair.second, true ) > int( reason_width ) ) {
+            reason_width = utf8_width( pair.second, true );
+        }
+    }
+    reason_width += 2; //Allow for borders
+    //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
+    if( reason_width * 4 < window_width ) {
+        return window_width / 4;
+    } else {
+        return reason_width;
+    }
+}
+
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
@@ -1720,18 +1748,19 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     Character &player_character = get_player_character();
     // Draw text
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
+        right_print( w, 0, 1, i_red, normalized_craft_reasons["light"] );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
+        right_print( w, 0, 1, i_red, normalized_craft_reasons["too slow"] );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
-        right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
+        right_print( w, 0, 1, i_yellow, string_format( normalized_craft_reasons["slow"],
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
-        right_print( w, 0, 1, i_green, string_format( _( "crafting is fast %d%%" ),
+        right_print( w, 0, 1, i_green, string_format( normalized_craft_reasons["fast"],
                      static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
-        right_print( w, 0, 1, i_green, _( "craftable" ) );
+        right_print( w, 0, 1, i_green, normalized_craft_reasons["all good"] );
     }
+    wnoutrefresh( w );
 }
 
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode,
@@ -1784,7 +1813,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     werase( w );
     int width = getmaxx( w );
 
-    mvwvline( w, point( 0, 0 ), LINE_XOXO, getmaxy( w ) );  // |
+    mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
     mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
 
     switch( mode ) {
