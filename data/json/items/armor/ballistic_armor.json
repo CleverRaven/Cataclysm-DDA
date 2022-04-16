@@ -428,7 +428,7 @@
       {
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (mag pouches)", "str_pl": "black light ballistic vests (mag pouches)" },
-        "description": "It's a dark grey like something a contractor would wear.",
+        "description": "It's a dark gray like something a contractor would wear.",
         "weight": 4,
         "append": true
       },
@@ -531,7 +531,7 @@
       {
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (storage pouches)", "str_pl": "black light ballistic vests (storage pouches)" },
-        "description": "It's a dark grey like something a contractor would wear.",
+        "description": "It's a dark gray like something a contractor would wear.",
         "weight": 4,
         "append": true
       },
@@ -617,7 +617,7 @@
       {
         "id": "ballistic_vest_light_black",
         "name": { "str": "black light ballistic vest (shoulder pouch)", "str_pl": "black light ballistic vests (shoulder pouch)" },
-        "description": "It's a dark grey like something a contractor would wear.",
+        "description": "It's a dark gray like something a contractor would wear.",
         "weight": 4,
         "append": true
       },
