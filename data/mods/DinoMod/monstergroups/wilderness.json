@@ -405,6 +405,13 @@
         "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_ceratosaurus", "weight": 50, "cost_multiplier": 30, "conditions": [ "WINTER" ] },
+      {
+        "monster": "mon_torvosaurus",
+        "weight": 50,
+        "cost_multiplier": 30,
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_torvosaurus", "weight": 50, "cost_multiplier": 30, "conditions": [ "WINTER" ] },
       { "monster": "mon_allosaurus", "weight": 400, "cost_multiplier": 30, "conditions": [ "NIGHT" ] },
       { "monster": "mon_acrocanthosaurus", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
       { "monster": "mon_siats", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
@@ -412,6 +419,7 @@
       { "monster": "mon_appalachiosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
       { "monster": "mon_gorgosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
       { "monster": "mon_albertosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_daspletosaurus", "weight": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
       { "monster": "mon_tyrannosaurus", "weight": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
       {
         "monster": "mon_compsognathus",
