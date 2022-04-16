@@ -1831,7 +1831,7 @@ void Item_factory::check_definitions() const
 
             // waist is deprecated
             if( type->has_flag( flag_WAIST ) ) {
-                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the belted layer.  If you are making new content make it belted specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
+                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the BELTED layer.  If you are making new content make it BELTED specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
             }
 
             // check that no item has more coverage on any location than the max coverage (100)
