@@ -141,7 +141,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Ruger-57" },
-    "description": "a full-sized polymer framed handgun chambered in the unusual 5.7x28mm cartridge, the Ruger-57 was one of the first commercially available 5.7mm pistols on the market, with it’s main competitor being FN’s decades old, and far pricier, Five-seveN pistol.  Featuring a lightweight ergonomic design, 1911-style thumb-safety, a high visibility green front-sight with adjustable black rear iron-sights, and a price point which hovered a good 500 dollars below its competition, the Ruger-57 made the comparatively niche 5.7x28mm round far more accessible to a wider margin of potential shooters.",
+    "description": "A full-sized polymer framed handgun chambered in the unusual 5.7x28mm cartridge, the Ruger-57 was one of the first commercially available 5.7mm pistols on the market, with its main competitor being FN’s decades old, and far pricier, Five-seveN pistol.  Featuring a lightweight ergonomic design, 1911-style thumb-safety, a high visibility green front-sight with adjustable black rear iron-sights, and a price point which hovered a good 500 dollars below its competition, the Ruger-57 made the comparatively niche 5.7x28mm round far more accessible to a wider margin of potential shooters.",
     "weight": "690 g",
     "volume": "937 ml",
     "longest_side": "220 mm",
