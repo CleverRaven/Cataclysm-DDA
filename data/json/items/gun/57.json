@@ -94,7 +94,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Kel-Tec 5.7x28mm pistol" },
-    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer based materials.  Making use of standard P90 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
+    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard P90 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
     "variant_type": "gun",
     "variants": [
       {
