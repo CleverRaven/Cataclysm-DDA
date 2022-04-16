@@ -679,7 +679,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
     "type": "talk_topic",
-    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignmnt stipulates eight scrip per set, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
+    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignment stipulates eight scrip per set, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
     "responses": [
       {
         "text": "You got it.  I'll let you know if I find any gold.",
@@ -768,7 +768,7 @@
     "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
     "type": "mission_definition",
     "name": { "str": "Return to Hub 01" },
-    "description": "With the source of the radio tower's inteference fixed, return to Hub 01 with Cranberry.",
+    "description": "With the source of the radio tower's interference fixed, return to Hub 01 with Cranberry.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "robofachq_surface_entrance",
     "difficulty": 0,
