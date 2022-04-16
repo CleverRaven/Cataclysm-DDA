@@ -409,6 +409,7 @@ d
 dagnabbit
 dambreaker
 danceable
+daspletosaurus
 datasheet
 datasheets
 datavault
@@ -1743,6 +1744,7 @@ toolshelf
 topazes
 toroids
 torosaurus
+torvosaurus
 totipotent
 tourmaline
 tourmalines
