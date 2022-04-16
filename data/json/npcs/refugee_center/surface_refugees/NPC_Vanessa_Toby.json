@@ -122,33 +122,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Vanessa_Toby",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": "Oh, you're back.",
-      "no": "Oh, great.  Another new mouth to feed?  Just what we need.  Well, I'm Vanessa."
+    "dynamic_line": "*looks you up and down for several seconds before speaking.  \"Oh, great.\"  Her voice is husky with years of smoking, and her glare suggests it's a habit she's recently given up.  \"Another new mouth to feed?  Just what we need.  Well, I'm Vanessa.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Vanessa_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "I'm not a new mouth to feed, but nice to meet you too.",
-        "condition": { "not": { "u_has_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Vanessa_1_firstmeet"
-      },
-      {
-        "text": "Hi, Vanessa.  What's up?",
-        "condition": { "u_has_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Vanessa_2"
-      },
+      { "text": "I'm not a new mouth to feed, but nice to meet you too.", "topic": "TALK_REFUGEE_Vanessa_1_firstmeet" },
       { "text": "Yeah, no.  I'm going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_1a",
+    "dynamic_line": "*peers at you for a while before speaking.  \"Oh, you're back.",
+    "responses": [
+      { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
+      { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1_firstmeet",
-    "dynamic_line": "Well that's good.  If you're going to pull your own weight I guess that's an improvement."
+    "dynamic_line": "Well that's good.\"  She purses her lips and gives you another judgmental stare.  \"If you're going to pull your own weight I guess that's an improvement."
   },
   {
     "type": "talk_topic",
