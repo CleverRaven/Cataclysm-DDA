@@ -328,6 +328,26 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "gloves_claws",
+    "repairs_like": "gloves_light",
+    "type": "ARMOR",
+    "name": { "str": "pair of claw gloves", "str_pl": "pairs of claw gloves" },
+    "description": "A pair of well made black stretch vinyl gloves, with black steel claws connected to the fingers.  Commonly used in BDSM performances or as part of a costume.",
+    "weight": "160 g",
+    "volume": "270 ml",
+    "price": 6000,
+    "price_postapoc": 140,
+    "cutting": 1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "gloves_medical",
+    "color": "dark_gray",
+    "material_thickness": 0.5,
+    "environmental_protection": 4,
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
     "id": "gauntlet_fencing",
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
@@ -683,6 +703,26 @@
     "environmental_protection": 6,
     "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT" ],
     "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "gloves_black",
+    "type": "ARMOR",
+    "repairs_like": "gloves_light",
+    "name": { "str": "pair of black gloves", "str_pl": "pairs of black gloves" },
+    "description": "A pair of black cotton gloves.",
+    "weight": "118 g",
+    "volume": "250 ml",
+    "price": 1100,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "gloves_light",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_plate",
@@ -1118,6 +1158,20 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "gloves_skeleton",
+    "type": "ARMOR",
+    "repairs_like": "gloves_light",
+    "name": { "str": "pair of skeleton gloves", "str_pl": "pairs of skeleton gloves" },
+    "description": "A pair of black costume gloves with a skeletal hand pattern printed on them.",
+    "copy-from": "gloves_liner",
+    "weight": "23 g",
+    "color": "white",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "warmth": 5,
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_golf",

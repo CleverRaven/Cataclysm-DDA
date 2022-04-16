@@ -273,7 +273,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
-    optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
     optional( jo, was_loaded, "valid", valid, true );
@@ -517,6 +517,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         for( const std::string &part_string : ao.get_tags( "parts" ) ) {
             armor[bodypart_str_id( part_string )] += res;
         }
+    }
+
+    for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
+        integrated_armor.emplace_back( itype_id( jv ) );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {

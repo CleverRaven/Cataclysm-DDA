@@ -1130,15 +1130,14 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     if( comp->has_effect( effect_riding ) ) {
         comp->npc_dismount();
     }
-    Character &player_character = get_player_character();
+
     //Ensure we have someone to give equipment to before we lose it
     for( item *i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
-        //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
-            player_character.use_charges( i->typeId(), i->charges );
+            comp->as_character()->use_charges( i->typeId(), i->charges );
         } else {
-            player_character.use_amount( i->typeId(), 1 );
+            comp->as_character()->use_amount( i->typeId(), 1 );
         }
     }
     if( comp->in_vehicle ) {
