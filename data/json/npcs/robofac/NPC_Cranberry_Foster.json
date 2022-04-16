@@ -422,7 +422,7 @@
     "type": "talk_topic",
     "dynamic_line": "Just trying to get some rest.  I don't have anywhere else to stay, so they let me sleep on the couch out here as long as I keep my gun handy.",
     "responses": [
-      { "text": "They don't let you in to sleep?", "topic": "TALK_ROBOFAC_MERC_1_LET_ANYONE_IN" },
+      { "text": "They don't let you in to sleep?", "topic": "TALK_ROBOFAC_MERC_1_GOING_ON_SLEEP" },
       { "text": "Fair enough.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
