@@ -110,7 +110,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1a",
-    "dynamic_line": [ "*smiles and brushes her hair out of her eyes.  \"Hello again.", "*looks you up and down with a faint smile.  \"Good to see you're still around.", "*suppresses a yawn, then sees you approaching and nods with recognition.  \"Oh, hi." ],
+    "dynamic_line": [
+      "*smiles and brushes her hair out of her eyes.  \"Hello again.",
+      "*looks you up and down with a faint smile.  \"Good to see you're still around.",
+      "*suppresses a yawn, then sees you approaching and nods with recognition.  \"Oh, hi."
+    ],
     "responses": [
       { "text": "Hi, Uyen.  Got a minute?", "topic": "TALK_REFUGEE_Uyen_2" },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }

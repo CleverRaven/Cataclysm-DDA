@@ -286,9 +286,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Son_Tough",
     "dynamic_line": "Of course, yes.  I know this, but it is not so easy, is it?  So many are gone, and I do not know which of the two I would prefer, just yet.",
-    "responses": [
-      { "text": "Yeah, fine.  Just wallow in it.  I'm out.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Yeah, fine.  Just wallow in it.  I'm out.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
