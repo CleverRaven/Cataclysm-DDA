@@ -1,5 +1,5 @@
 [
-   {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "shelter_nest_base",
@@ -213,7 +213,7 @@
       "nested": { "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] } }
     }
   },
-   {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "shelter_2_nest_base",
