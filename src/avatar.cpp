@@ -958,7 +958,8 @@ void avatar::reset_stats()
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
-        } else {
+        } else if( !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
+                   .test( body_part_torso ) ) {
             mod_dex_bonus( -1 );
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
@@ -973,6 +974,7 @@ void avatar::reset_stats()
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
+                   .test( body_part_torso ) && !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
                    .test( body_part_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
