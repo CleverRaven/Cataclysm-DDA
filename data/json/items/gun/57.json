@@ -184,7 +184,7 @@
     "id": "fn_ps90",
     "copy-from": "fn_p90",
     "type": "GUN",
-    "name": { "str": "Civilian FN 5.7x28mm carbine" },
+    "name": { "str": "civilian FN 5.7x28mm carbine" },
     "description": "The civilian version of FN’s older 5.7x28mm PDW, this carbine features a 16 inch long barrel, feeds from the same 50-round magazines as its predecessor, and is only capable of semi-automatic fire in order to keep it in line with American firearm restrictions.",
     "variant_type": "gun",
     "variants": [
