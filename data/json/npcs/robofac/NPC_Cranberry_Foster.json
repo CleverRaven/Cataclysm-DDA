@@ -516,7 +516,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_BACKGROUND",
     "type": "talk_topic",
-    "dynamic_line": "*looks quiet.  They chew their lip, looking off towards a point in space.",
+    "dynamic_line": "*goes quiet.  They chew their lip, looking off towards a point in space.",
     "responses": [
       { "text": "I'm sorry.  Too personal?", "topic": "TALK_ROBOFAC_MERC_1_BACKGROUND_1" },
       { "text": "Hey, it can wait.", "topic": "TALK_ROBOFAC_MERC_1_BACKGROUND_1" }
