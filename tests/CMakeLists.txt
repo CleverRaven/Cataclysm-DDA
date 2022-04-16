@@ -16,7 +16,6 @@ if (BUILD_TESTING)
         OUTPUT ${TEST_MO}
         MAIN_DEPENDENCY ${TEST_LANG}/po/ru.po
         COMMAND
-        mkdir -p ${TEST_LANG}/mo/ru/LC_MESSAGES &&
         msgfmt -f -o ${TEST_MO} ${TEST_LANG}/po/ru.po)
 
     add_custom_target(test_mo DEPENDS ${TEST_MO})
