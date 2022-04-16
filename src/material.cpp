@@ -273,10 +273,10 @@ float material_type::thickness_multiple() const
     return _sheet_thickness;
 }
 
-int material_type::breathability() const
+int material_type::breathability_to_rating( breathability_rating breathability )
 {
     // this is where the values for each of these exist
-    switch( _breathability ) {
+    switch( breathability ) {
         case breathability_rating::IMPERMEABLE:
             return 0;
         case breathability_rating::POOR:
@@ -293,6 +293,10 @@ int material_type::breathability() const
             break;
     }
     return 0;
+}
+int material_type::breathability() const
+{
+    return material_type::breathability_to_rating( _breathability );
 }
 
 cata::optional<int> material_type::wind_resist() const
