@@ -41,6 +41,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
 #include "system_language.h"
@@ -569,6 +570,7 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+    ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
 
