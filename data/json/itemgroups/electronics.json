@@ -173,7 +173,8 @@
       { "item": "AID_bio_meteorologist" },
       { "item": "AID_bio_railgun" },
       { "item": "AID_bio_ups" },
-      { "item": "AID_bio_weight" }
+      { "item": "AID_bio_weight" },
+      { "item": "AID_bio_trickle" }
     ]
   },
   {

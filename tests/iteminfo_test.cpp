@@ -2948,13 +2948,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>12.00</color>\n"
+        "  Bash: <color_c_yellow>10.00</color>\n"
         "  Cut: <color_c_yellow>16.00</color>\n"
-        "  Ballistic: <color_c_yellow>4.00</color>\n"
+        "  Ballistic: <color_c_yellow>5.60</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
-        "  Fire: <color_c_yellow>1.20</color>\n"
+        "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_str == info_str );
     CHECK( a_copy_str == info_str );
@@ -2963,13 +2963,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_prop_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>14.40</color>\n"
+        "  Bash: <color_c_yellow>12.00</color>\n"
         "  Cut: <color_c_yellow>19.20</color>\n"
-        "  Ballistic: <color_c_yellow>4.80</color>\n"
+        "  Ballistic: <color_c_yellow>6.72</color>\n"
         "  Acid: <color_c_yellow>4.20</color>\n"
-        "  Fire: <color_c_yellow>1.40</color>\n"
+        "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_copy_prop_str == info_prop_str );
     CHECK( a_copy_w_armor_prop_str == info_prop_str );
@@ -2977,13 +2977,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_rel_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>18.00</color>\n"
+        "  Bash: <color_c_yellow>15.00</color>\n"
         "  Cut: <color_c_yellow>24.00</color>\n"
-        "  Ballistic: <color_c_yellow>6.00</color>\n"
+        "  Ballistic: <color_c_yellow>8.40</color>\n"
         "  Acid: <color_c_yellow>4.80</color>\n"
-        "  Fire: <color_c_yellow>1.60</color>\n"
+        "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_copy_rel_str == info_rel_str );
     CHECK( a_copy_w_armor_rel_str == info_rel_str );

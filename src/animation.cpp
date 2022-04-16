@@ -18,7 +18,6 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
-#include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -34,12 +33,14 @@
 #endif
 
 #include <algorithm>
+#include <chrono>
 #include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <thread>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -68,21 +69,22 @@ class basic_animation
         void progress() const {
             draw();
 
-            // NOLINTNEXTLINE(cata-no-long): timespec uses long int
-            long int remain = delay;
-            while( remain > 0 ) {
-                // NOLINTNEXTLINE(cata-no-long): timespec uses long int
-                long int do_sleep = std::min( remain, 100'000'000L );
-                timespec to_sleep = timespec { 0, do_sleep };
-                nanosleep( &to_sleep, nullptr );
-                inp_mngr.pump_events();
-                remain -= do_sleep;
-            }
+            const auto sleep_till = std::chrono::steady_clock::now() + std::chrono::nanoseconds( delay );
+            do {
+                const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
+                                                 // Pump events every 100 ms
+                                                 std::chrono::nanoseconds( 100'000'000 ) );
+                if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
+                    std::this_thread::sleep_for( sleep_for );
+                    inp_mngr.pump_events();
+                } else {
+                    break;
+                }
+            } while( true );
         }
 
     private:
-        // NOLINTNEXTLINE(cata-no-long): timespec uses long int
-        long int delay;
+        int_least64_t delay;
 };
 
 class explosion_animation : public basic_animation
@@ -545,7 +547,7 @@ void hit_animation( const avatar &u, const tripoint &center, nc_color cColor,
 
         ui_manager::redraw();
         inp_mngr.set_timeout( get_option<int>( "ANIMATION_DELAY" ) );
-        // Skip input (if any), because holding down a key with nanosleep can get yourself killed
+        // Skip input (if any), because holding down a key with sleep_for can get yourself killed
         inp_mngr.get_input_event();
         inp_mngr.reset_timeout();
     }

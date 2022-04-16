@@ -132,6 +132,33 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "flag_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "flag jumpsuit" },
+    "description": "A jumpsuit embroidered with the pattern of an American flag.  Provides decent storage and is not very encumbering.",
+    "weight": "558 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso", "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+  },
+  {
     "id": "jumpsuit",
     "type": "ARMOR",
     "name": { "str": "jumpsuit" },
@@ -200,6 +227,56 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "name": { "str": "skeleton jumpsuit" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion too.",
+    "weight": "939 g",
+    "volume": "3500 ml",
+    "price": 9500,
+    "price_postapoc": 60,
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 }
+    ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You now have a skull as head.",
+      "target": "jumpsuit_skeleton_zipped",
+      "menu_text": "Zip the head portion"
+    },
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "extend": { "flags": [ "HOOD" ] }
+  },
+  {
+    "id": "jumpsuit_skeleton_zipped",
+    "copy-from": "jumpsuit_skeleton",
+    "type": "ARMOR",
+    "name": { "str": "skeleton jumpsuit (zipped)", "str_pl": "skeleton jumpsuits (zipped)" },
+    "description": "A black jumpsuit with a skeleton pattern printed on it.  It covers all the way up to your head and gives a skull pattern to your face.  Use it to unzip the head portion.",
+    "use_action": {
+      "type": "transform",
+      "msg": "You facial skin is now visible.",
+      "target": "jumpsuit_skeleton",
+      "menu_text": "Unzip the head portion"
+    },
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "mouth", "eyes" ], "coverage": 100, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "robofac_jumpsuit",
     "repairs_like": "jumpsuit",
     "type": "ARMOR",
@@ -208,6 +285,29 @@
     "name": { "str": "Hub 01 jumpsuit" },
     "description": "A brown jumpsuit worn by the staff of Hub 01.",
     "color": "brown"
+  },
+  {
+    "id": "mummy_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "name": { "str_sp": "mummy jumpsuit" },
+    "description": "A white and apparently tattered dress made in semblance of ancient mummies.  Very easy to move in, but it doesn't offer any type of protection.",
+    "weight": "639 g",
+    "volume": "3500 ml",
+    "price": 8500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "white",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 2 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 1 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 1 }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "subsuit_xl",
