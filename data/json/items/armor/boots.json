@@ -103,7 +103,7 @@
     "category": "armor",
     "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
     "description": "Boots made from the exoskeletons of insects.",
-    "weight": "1620 g",
+    "weight": "960 g",
     "volume": "4250 ml",
     "price": 13500,
     "price_postapoc": 1250,

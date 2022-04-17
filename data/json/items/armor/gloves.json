@@ -263,7 +263,7 @@
     "category": "armor",
     "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
     "description": "A pair of gauntlets made from the exoskeletons of insects.",
-    "weight": "760 g",
+    "weight": "720 g",
     "volume": "1750 ml",
     "price": 38000,
     "price_postapoc": 1250,

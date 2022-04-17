@@ -117,6 +117,97 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "shoulder_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chitin shoulder guards", "str_pl": "pairs of chitin shoulder guards" },
+    "description": "A pair of shoulder guards made from the exoskeletons of insects.  Light and durable.",
+    "weight": "800 g",
+    "volume": "3000 ml",
+    "price": 22000,
+    "price_postapoc": 800,
+    "to_hit": 1,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "armguard_hard",
+    "color": "green",
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 4,
+        "coverage": 90,
+        "cover_melee": 90,
+        "cover_ranged": 90,
+        "cover_vitals": 50,
+        "specifically_covers": [ "arm_upper_r", "arm_upper_l", "arm_shoulder_r", "arm_shoulder_l" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_shoulder_chitin",
+    "copy-from": "shoulder_chitin",
+    "looks_like": "shoulder_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chitin shoulder guards", "str_pl": "pairs of XL chitin shoulder guards" },
+    "description": "A pair of shoulder guards made from the exoskeletons of insects.  Light and durable.  Larger than average.",
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_shoulder_chitin",
+    "type": "ARMOR",
+    "copy-from": "shoulder_chitin",
+    "looks_like": "shoulder_chitin",
+    "name": { "str": "pair of XS chitin shoulder guards", "str_pl": "pairs of XS chitin shoulder guards" },
+    "description": "A pair of shoulder guards made from the exoskeletons of insects.  Light and durable.  Smaller than average.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "shoulder_acidchitin",
+    "copy-from": "shoulder_chitin",
+    "looks_like": "shoulder_chitin",
+    "type": "ARMOR",
+    "price_postapoc": 1250,
+    "name": { "str": "pair of biosilicified chitin shoulder guards", "str_pl": "pairs of biosilicified chitin shoulder guards" },
+    "description": "A pair of shoulder guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "material_thickness": 4,
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "xl_shoulder_acidchitin",
+    "copy-from": "shoulder_acidchitin",
+    "type": "ARMOR",
+    "name": {
+      "str": "pair of XL biosilicified chitin shoulder guards",
+      "str_pl": "pairs of XL biosilicified chitin shoulder guards"
+    },
+    "description": "A pair of shoulder guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "material_thickness": 5,
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_shoulder_acidchitin",
+    "type": "ARMOR",
+    "copy-from": "shoulder_acidchitin",
+    "looks_like": "shoulder_acidchitin",
+    "name": {
+      "str": "pair of XS biosilicified chitin shoulder guards",
+      "str_pl": "pairs of XS biosilicified chitin shoulder guards"
+    },
+    "description": "A pair of shoulder guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the smallest of survivors.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "armguard_hard",
     "type": "ARMOR",
     "category": "armor",

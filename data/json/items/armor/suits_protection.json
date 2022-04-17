@@ -48,7 +48,7 @@
     "category": "armor",
     "name": { "str": "chitinous armor" },
     "description": "Leg and body armor made from the exoskeletons of insects.",
-    "weight": "2632 g",
+    "weight": "4180 g",
     "volume": "17500 ml",
     "price": 120000,
     "price_postapoc": 3000,
@@ -110,6 +110,93 @@
     "copy-from": "armor_acidchitin",
     "looks_like": "armor_acidchitin",
     "name": { "str": "XS biosilicified chitin armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_chitin_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "chitinous armor suit" },
+    "description": "Full suit of armor made from the exoskeletons of insects.",
+    "weight": "5500 g",
+    "volume": "18500 ml",
+    "price": 180000,
+    "price_postapoc": 4500,
+    "to_hit": -5,
+    "bashing": 2,
+    "symbol": "[",
+    "material": [ "chitin" ],
+    "looks_like": "armor_larmor",
+    "color": "green",
+    "warmth": 10,
+    "longest_side": "60 cm",
+    "flags": [ "STURDY", "OUTER", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 94,
+        "cover_melee": 94,
+        "cover_ranged": 94,
+        "encumbrance": 11,
+        "covers": [ "torso", "leg_l", "leg_r" ]
+      },
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "coverage": 92,
+        "cover_melee": 92,
+        "cover_ranged": 92,
+        "cover_vitals": 50,
+        "encumbrance": 4,
+        "covers": [ "arm_l", "arm_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_armor_chitin_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL chitinous armor suit" },
+    "copy-from": "armor_chitin_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_chitin_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS chitinous armor suit" },
+    "copy-from": "armor_chitin_suit",
+    "looks_like": "armor_chitin_suit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "armor_acidchitin_suit",
+    "copy-from": "armor_chitin_suit",
+    "looks_like": "armor_chitin_suit",
+    "type": "ARMOR",
+    "name": { "str": "biosilicified chitin armor suit" },
+    "description": "Full suit of armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "material": [ "acidchitin" ],
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "price_postapoc": 4800,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "bashing": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "xl_armor_acidchitin_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL biosilicified chitin armor suit" },
+    "copy-from": "armor_acidchitin_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_armor_acidchitin_suit",
+    "type": "ARMOR",
+    "name": { "str": "XS biosilicified chitin armor suit" },
+    "copy-from": "armor_acidchitin_suit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

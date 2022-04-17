@@ -36,7 +36,7 @@
     "category": "armor",
     "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
     "description": "A pair of leg guards made from the exoskeletons of insects.",
-    "weight": "790 g",
+    "weight": "960 g",
     "volume": "5000 ml",
     "price": 25000,
     "price_postapoc": 750,

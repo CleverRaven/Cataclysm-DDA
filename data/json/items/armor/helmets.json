@@ -233,7 +233,7 @@
     "category": "armor",
     "name": { "str": "chitinous helmet" },
     "description": "A helmet made from the exoskeletons of insects.  Covers the entire head; very light and durable.",
-    "weight": "1447 g",
+    "weight": "1020 g",
     "volume": "2500 ml",
     "price": 38000,
     "price_postapoc": 1250,
