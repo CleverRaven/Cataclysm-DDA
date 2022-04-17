@@ -1073,7 +1073,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     std::stable_sort( entries.begin(), entries.end(),
     [this]( const inventory_entry & lhs, const inventory_entry & rhs ) {
         if( *lhs.get_category_ptr() == *rhs.get_category_ptr() ) {
-            if( preset.indent_entries() ) {
+            if( indent_entries() ) {
                 return indented_sort_compare( lhs, rhs );
             }
 
