@@ -8292,7 +8292,7 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             //~ Select components from inventory to consume. %d = number of components left to consume.
             imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
             for( const item *itm : tmp ) {
-                imenu.addentry( itm->tname() );
+                imenu.addentry( itm->display_name() );
             }
             imenu.query();
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
