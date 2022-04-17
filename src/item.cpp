@@ -3114,8 +3114,8 @@ static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &inf
     return true;
 }
 
-bool item::armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                       bool header, int /*reduce_encumbrance_by*/ ) const
+bool item::armor_full_protection_info( std::vector<iteminfo> &info,
+                                       const iteminfo_query *parts ) const
 {
     bool divider_needed = false;
     const std::string space = "  ";
@@ -3542,7 +3542,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::map<armor_encumb_data, std::vector<bodypart_id>> limb_groups;
         const Character &c = get_player_character();
 
-        bool divider = armor_encumb_header_info( *this, info );
+        armor_encumb_header_info( *this, info );
 
         info.emplace_back( "ARMOR", _( "<bold>Encumbrance</bold>: " ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
@@ -3631,7 +3631,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 if( type->get_id() == itype_rm13_armor ) {
                     print_prot = !tmp.armor_full_protection_info( info, parts );
                 } else {
-                    print_prot = !tmp.armor_full_protection_info( info, parts, true );
+                    print_prot = !tmp.armor_full_protection_info( info, parts );
                 }
             }
             if( print_prot ) {
