@@ -2530,6 +2530,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "onyx",
+    "copy-from": "garnet",
+    "color": "dark_gray",
+    "name": { "str": "onyx", "str_pl": "onyxes" },
+    "description": "A beautiful black onyx."
+  },
+  {
+    "type": "GENERIC",
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",

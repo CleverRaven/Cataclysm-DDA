@@ -49,6 +49,9 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_success();
+    }
     if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
@@ -370,6 +373,11 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res
                                             _( "<npcname> is not wearing that item." ) );
     }
 
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't remove a part of your body." ) :
+                                            _( "<npcname> can't remove a part of their body." ) );
+    }
     if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
@@ -1644,11 +1652,15 @@ bool outfit::in_climate_control() const
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
-    // lower layer.
+    // lower layer. Integrated armor goes under normal armor.
     return std::find_if(
                worn.rbegin(), worn.rend(),
     [&]( const item & w ) {
-        return w.get_layer() <= new_item.get_layer();
+        if( w.has_flag( flag_INTEGRATED ) == new_item.has_flag( flag_INTEGRATED ) ) {
+            return w.get_layer() <= new_item.get_layer();
+        } else {
+            return w.has_flag( flag_INTEGRATED );
+        }
     }
            ).base();
 }

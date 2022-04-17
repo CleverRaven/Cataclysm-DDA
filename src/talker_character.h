@@ -79,6 +79,7 @@ class talker_character_const: public talker
         bool is_wearing( const itype_id &item_id ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
+        bool has_charges( const itype_id &item_id, int count, bool in_tools ) const override;
         bool has_amount( const itype_id &item_id, int count ) const override;
         int get_amount( const itype_id &item_id ) const override;
         int cash() const override;
@@ -176,6 +177,7 @@ class talker_character: public talker_character_const
         // inventory, buying, and selling
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
+        std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;

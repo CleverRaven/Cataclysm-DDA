@@ -1981,3 +1981,50 @@ tripoint_abs_omt ui::omap::choose_point( int z, bool show_debug_info )
     loc.z() = z;
     return overmap_ui::display( loc, data );
 }
+
+void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container )
+{
+    if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
+        uilist_entry entry_random_city( RANDOM_CITY_ENTRY, true, '*',
+                                        _( "<color_red>* Random city *</color>" ),
+                                        _( "Location: <color_white>(?,?)</color>:<color_white>(?,?)</color>" ),
+                                        //~ "pop" refers to population count
+                                        _( "(pop <color_white>?</color>)" )
+                                      );
+        cities_menu.entries.emplace_back( entry_random_city );
+        cities_menu.desc_enabled = true;
+        cities_menu.title = _( "Select a starting city" );
+        for( const auto &c : cities_container ) {
+            uilist_entry entry( c.database_id, true, -1, c.name,
+                                string_format(
+                                    _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),
+                                    c.pos_om.to_string(), c.pos.to_string() ),
+                                //~ "pop" refers to population count
+                                string_format( _( "(pop <color_white>%s</color>)" ), c.population ) );
+            cities_menu.entries.emplace_back( entry );
+        }
+        cities_menu.w_height_setup = TERMY - 4;
+    }
+}
+
+cata::optional<city> ui::omap::select_city( uilist &cities_menu,
+        std::vector<city> &cities_container, bool random )
+{
+    cata::optional<city> ret_val = cata::nullopt;
+    if( random ) {
+        ret_val = random_entry( cities_container );
+    } else {
+        cities_menu.show();
+        cities_menu.query();
+        if( cities_menu.ret == RANDOM_CITY_ENTRY ) {
+            ret_val = random_entry( cities_container );
+        } else if( cities_menu.ret == UILIST_CANCEL ) {
+            ret_val = cata::nullopt;
+        } else {
+            if( cities_menu.entries.size() > 1 ) {
+                ret_val = cities_container[cities_menu.selected - 1];
+            }
+        }
+    }
+    return ret_val;
+}

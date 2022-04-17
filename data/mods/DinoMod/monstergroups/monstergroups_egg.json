@@ -51,6 +51,7 @@
     "monsters": [
       { "monster": "mon_dilophosaurus_hatchling", "weight": 1 },
       { "monster": "mon_ceratosaurus_hatchling", "weight": 1 },
+      { "monster": "mon_torvosaurus_hatchling", "weight": 1 },
       { "monster": "mon_allosaurus_hatchling", "weight": 8 },
       { "monster": "mon_acrocanthosaurus_hatchling", "weight": 8 },
       { "monster": "mon_siats_hatchling", "weight": 8 },
@@ -58,6 +59,7 @@
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 8 },
       { "monster": "mon_albertosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_daspletosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
       { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
       { "monster": "mon_ornithomimus_hatchling", "weight": 20 },
@@ -74,6 +76,7 @@
       { "monster": "mon_compsognathus_hatchling", "weight": 20 },
       { "monster": "mon_albertonykus_hatchling", "weight": 20 },
       { "monster": "mon_velociraptor_hatchling", "weight": 15 },
+      { "monster": "mon_dromaeosaurus_hatchling", "weight": 15 },
       { "monster": "mon_stenonychosaurus_hatchling", "weight": 10 }
     ]
   },
@@ -101,6 +104,11 @@
     "name": "GROUP_EGG_spinosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_spinosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_torvosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_torvosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_allosaurus",
@@ -141,6 +149,11 @@
     "name": "GROUP_EGG_qianzhousaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_qianzhousaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_daspletosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_daspletosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_tyrannosaurus",
@@ -196,6 +209,11 @@
     "name": "GROUP_EGG_utahraptor",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_utahraptor_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_dromaeosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dromaeosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_stenonychosaurus",
