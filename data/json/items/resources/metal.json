@@ -1077,7 +1077,7 @@
     "color": "light_gray",
     "ammo_type": "components",
     "qualities": [ [ "HAMMER", 1 ] ]
-  }, 
+  },
   {
     "id": "slag",
     "type": "AMMO",
