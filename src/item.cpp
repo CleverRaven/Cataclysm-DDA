@@ -3114,15 +3114,11 @@ static bool armor_encumb_header_info( const item &it, std::vector<iteminfo> &inf
     return true;
 }
 
-bool item::armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                   bool header, int /*reduce_encumbrance_by*/ ) const
+bool item::armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                       bool header, int /*reduce_encumbrance_by*/ ) const
 {
     bool divider_needed = false;
     const std::string space = "  ";
-
-    if( header ) {
-        divider_needed = armor_encumb_header_info( *this, info );
-    }
 
     bool ret = false;
     if( const islot_armor *t = find_armor_data() ) {
@@ -3527,7 +3523,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        info.emplace_back( "ARMOR", _( "<bold>Average Coverage</bold>: " ) );
+        info.emplace_back( "ARMOR", _( "<bold>Total Coverage</bold>: " ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
             limb_groups[portion_for_bodypart( bp )->coverage].push_back( bp );
         }
@@ -3542,31 +3538,11 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    insert_separation_line( info );
-
-    if( parts->test( iteminfo_parts::ARMOR_BREATHABILITY ) && covers_anything ) {
-
-        std::map<int, std::vector<bodypart_id>> limb_groups;
-        info.emplace_back( "ARMOR", _( "<bold>Breathability</bold>: " ) );
-        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->breathability].push_back( bp );
-        }
-        for( auto &entry : limb_groups ) {
-            std::set<translation, localized_comparator> to_print = body_part_type::consolidate( entry.second );
-            std::string coverage;
-            for( const translation &entry : to_print ) {
-                coverage += string_format( _( " The <info>%s</info>." ), entry );
-            }
-            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
-                               entry.first );
-        }
-    }
-
-    insert_separation_line( info );
-
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::map<armor_encumb_data, std::vector<bodypart_id>> limb_groups;
         const Character &c = get_player_character();
+
+        bool divider = armor_encumb_header_info( *this, info );
 
         info.emplace_back( "ARMOR", _( "<bold>Encumbrance</bold>: " ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
@@ -3609,6 +3585,24 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    if( parts->test( iteminfo_parts::ARMOR_BREATHABILITY ) && covers_anything ) {
+
+        std::map<int, std::vector<bodypart_id>> limb_groups;
+        info.emplace_back( "ARMOR", _( "<bold>Breathability</bold>: " ) );
+        for( const bodypart_str_id &bp : get_covered_body_parts() ) {
+            limb_groups[portion_for_bodypart( bp )->breathability].push_back( bp );
+        }
+        for( auto &entry : limb_groups ) {
+            std::set<translation, localized_comparator> to_print = body_part_type::consolidate( entry.second );
+            std::string coverage;
+            for( const translation &entry : to_print ) {
+                coverage += string_format( _( " The <info>%s</info>." ), entry );
+            }
+            info.emplace_back( "ARMOR", "", string_format( "  <num>%%:%s", coverage ), iteminfo::no_flags,
+                               entry.first );
+        }
+    }
+
     insert_separation_line( info );
 
     if( covers_anything ) {
@@ -3619,8 +3613,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             //no need to clutter the ui with inactive versions when the armor is already active
             if( !active ) {
                 bool print_prot = true;
-                if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
-                    print_prot = !tmp.armor_encumbrance_info( info, parts );
+                if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+                    print_prot = !tmp.armor_full_protection_info( info, parts );
                 }
                 if( print_prot ) {
                     tmp.armor_protection_info( info, parts, batch, debug );
@@ -3633,11 +3627,11 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
             bool print_prot = true;
-            if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
+            if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
                 if( type->get_id() == itype_rm13_armor ) {
-                    print_prot = !tmp.armor_encumbrance_info( info, parts );
+                    print_prot = !tmp.armor_full_protection_info( info, parts );
                 } else {
-                    print_prot = !tmp.armor_encumbrance_info( info, parts, true );
+                    print_prot = !tmp.armor_full_protection_info( info, parts, true );
                 }
             }
             if( print_prot ) {
@@ -3646,8 +3640,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             armor_protect_dmg_info( tmp.damage(), info );
         } else {
             bool print_prot = true;
-            if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) ) {
-                print_prot = !armor_encumbrance_info( info, parts );
+            if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+                print_prot = !armor_full_protection_info( info, parts );
             }
             if( print_prot ) {
                 armor_protection_info( info, parts, batch, debug );

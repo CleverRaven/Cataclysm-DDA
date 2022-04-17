@@ -753,12 +753,12 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
                "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>torso</color>."
-               " The <color_c_cyan>arms</color>.\n" );
+               " The <color_c_cyan>arms</color>."
+               " The <color_c_cyan>torso</color>.\n" );
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>.\n" );
+               "Layer: <color_c_light_blue>Normal</color>." );
 
         // Coverage and warmth are displayed together on a single line
         std::vector<iteminfo_parts> cov_warm_shirt = {
@@ -769,7 +769,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, cov_warm_shirt )
                ==
                "--\n"
-               "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
+               "  Warmth: <color_c_yellow>5</color>\n"
+               "--\n"
+               "<color_c_white>Total Coverage</color>:\n"
+               "  <color_c_yellow>90</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>." );
 
         verify_item_encumbrance(
         longshirt, item::encumber_flags::none, 3, {
@@ -806,14 +809,8 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Size/Fit</color>: <color_c_red>(poor fit)</color>\n"
-               "--\n"
-               "<color_c_white>Arms Encumbrance</color>:  <color_c_yellow>3</color>\n"
-               "<color_c_white>Arms Coverage</color>: <color_c_light_blue>Normal</color>.\n"
-               "  Default:  <color_c_yellow>90</color>\n"
-               "--\n"
-               "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>3</color>\n"
-               "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Normal</color>.\n"
-               "  Default:  <color_c_yellow>90</color>\n" );
+               "<color_c_white>Encumbrance</color>:\n"
+               "  <color_c_yellow>3</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
@@ -821,13 +818,13 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
                "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>torso</color>."
                " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>.\n" );
+               " The <color_c_cyan>legs</color>."
+               " The <color_c_cyan>torso</color>.\n" );
 
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>.\n" );
+               "Layer: <color_c_light_blue>Normal</color>." );
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );

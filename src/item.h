@@ -2717,8 +2717,8 @@ class item : public visitable
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
-        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
+        bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                                         bool header = true, int reduce_encumbrance_by = 0 ) const;
 
     public:
         enum class sizing : int {
