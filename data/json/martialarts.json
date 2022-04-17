@@ -178,7 +178,7 @@
       {
         "id": "buff_barbaran_onblock",
         "name": "Reversing Destreza",
-        "description": "Blocking a key strike will turn the battle around.\n\n-5% movecost\nLasts 3 turns.  Stacks 2 times.",
+        "description": "Blocking a key strike will turn the battle around.\n\n-5% move cost\nLasts 3 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "max_stacks": 2,
@@ -1231,7 +1231,7 @@
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
-    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
+    "initiate": [ "You adopt a narrow fighting stance.", "%s adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
@@ -1502,6 +1502,19 @@
         "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 5.0 } ]
       }
     ],
-    "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
+    "onkill_eocs": [ "EOC_BIOLUM3_cast" ],
+    "ongethit_eocs": [
+      {
+        "id": "EOC_MA_DEBUG_GETHIT",
+        "effect": [
+          {
+            "u_message": "The wound triggers your rare disease, Bleedalotitis - fortunately you have a lot of blood.",
+            "type": "mixed"
+          },
+          { "u_set_field": "fd_blood", "radius": 10 }
+        ]
+      }
+    ],
+    "techniques": [ "tec_debug_slow", "tec_debug_arpen", "tec_debug_eoc_demo" ]
   }
 ]

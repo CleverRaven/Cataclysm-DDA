@@ -63,6 +63,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -292,12 +293,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
-    if( it.is_comestible() ) {
-        obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
-        obj = &obj_it;
-        p.i_add_or_drop( *obj );
-        result = 1;
-    } else if( container.is_empty() ) {
+    if( container.is_empty() ) {
         obj = &it.convert( target );
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
@@ -309,6 +305,8 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             }
             if( !ammo_type.is_empty() ) {
                 obj->ammo_set( ammo_type, qty );
+            } else if( obj->is_ammo() ) {
+                obj->charges = qty;
             } else if( !obj->ammo_current().is_null() ) {
                 obj->ammo_set( obj->ammo_current(), qty );
             } else if( obj->has_flag( flag_RADIO_ACTIVATION ) && obj->has_flag( flag_BOMB ) ) {
@@ -2192,6 +2190,14 @@ void musical_instrument_actor::load( const JsonObject &obj )
 cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( !p.is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
+        music::deactivate_music_id( music::music_id::instrument );
+        // Because musical instrument creates musical sound too
+        if( music::is_active_music_id( music::music_id::sound ) ) {
+            music::deactivate_music_id( music::music_id::sound );
+        }
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
@@ -2249,6 +2255,10 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
 
     // We can play the music now
+    if( !p.is_npc() ) {
+        music::activate_music_id( music::music_id::instrument );
+    }
+
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
                                  _( "You start playing your %s" ),
@@ -2469,17 +2479,33 @@ void cast_spell_actor::load( const JsonObject &obj )
     spell_level = obj.get_int( "level" );
     need_worn = obj.get_bool( "need_worn", false );
     need_wielding = obj.get_bool( "need_wielding", false );
+    mundane = obj.get_bool( "mundane", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    //~ %1$s: spell name, %2$i: spell level
-    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
-                                item_spell->name, spell_level );
-    dump.emplace_back( "DESCRIPTION", message );
-    if( no_fail ) {
-        dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+    if( mundane ) {
+        const std::string message = string_format( _( "This item when activated: %1$s" ),
+                                    item_spell->description );
+        dump.emplace_back( "DESCRIPTION", message );
+    } else {
+        //~ %1$s: spell name, %2$i: spell level
+        const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
+                                    item_spell->name, spell_level );
+        dump.emplace_back( "DESCRIPTION", message );
+        if( no_fail ) {
+            dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+        }
     }
+}
+
+std::string cast_spell_actor::get_name() const
+{
+    if( mundane ) {
+        return string_format( _( "Activate" ) );
+    }
+
+    return string_format( _( "Cast spell" ) );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
@@ -2562,7 +2588,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
     you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                               item_pocket::pocket_type::CONTAINER );
+                               item_pocket::pocket_type::CONTAINER, true );
     return true;
 }
 
@@ -3370,7 +3396,7 @@ cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoin
         return cata::nullopt;
     }
 
-    // each tier of proficiency cuts requred time by half
+    // each tier of proficiency cuts required time by half
     int cost = move_cost;
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
@@ -4084,7 +4110,7 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
     }
 
     item &obj = *loc.get_item();
-    p.add_msg_if_player( _( "You attach %s to your vest." ), obj.tname() );
+    p.add_msg_if_player( _( "You attach %s to your MOLLE webbing." ), obj.tname() );
 
     it.get_contents().add_pocket( obj );
 
@@ -4304,7 +4330,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        // set gun to default incase this changes anything
+        // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
         return 0;
@@ -4513,7 +4539,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
 
     auto filter = [this]( const item & itm ) {
         return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() && !itm.is_gunmod() &&
-               itm.made_of_any( materials );
+               itm.made_of_any( materials ) && !itm.has_flag( flag_INTEGRATED );
     };
     // note: if !p.is_npc() then p is avatar.
     item_location loc = game_menus::inv::titled_filter_menu(

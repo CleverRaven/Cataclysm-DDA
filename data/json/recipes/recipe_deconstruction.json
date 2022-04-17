@@ -48,6 +48,14 @@
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
+    "result": "forged_shears",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
     "result": "elec_shears",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -377,6 +385,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
+    "result": "onyx_silver_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ], [ [ "onyx", 1 ] ] ]
   },
   {
     "result": "diamond_silver_ring",
@@ -2455,7 +2471,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "rag", 1 ] ] ],
-    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
+    "//": "This is intended to be an interim measure until all recipes can be moved away from using or creating rags. Once that's done this can be considered obsolete"
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -2808,6 +2824,14 @@
     "components": [ [ [ "gold_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_gold_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_gold_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2934,6 +2958,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "onyx_gold_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 4 ] ], [ [ "onyx", 2 ] ] ]
   },
   {
     "result": "diamond_gold_earring",
@@ -3287,134 +3319,6 @@
       [ [ "scrap", 200 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
-  },
-  {
-    "result": "money_strap_one",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_one", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_two",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_two", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_five",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_five", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_ten",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_ten", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_twenty",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_fifty",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_fifty", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_hundred",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "money_hundred", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_strap_FMCNote",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "4 s",
-    "components": [ [ [ "FMCNote", 100 ] ], [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_one",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_one", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_two",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_two", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_five",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_five", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_ten",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_ten", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_twenty",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_twenty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_fifty",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_fifty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_hundred",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "money_bundle_FMCNote",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "money_strap_FMCNote", 10 ] ], [ [ "rubber_band", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "months_old_newspaper",
@@ -3831,6 +3735,14 @@
     "components": [ [ [ "gold_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
   {
+    "result": "onyx_gold_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ], [ [ "onyx", 1 ] ] ]
+  },
+  {
     "result": "roadmap",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4006,6 +3918,14 @@
     "components": [ [ [ "silver_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_silver_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_silver_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4124,6 +4044,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "pearl", 2 ] ] ]
+  },
+  {
+    "result": "onyx_silver_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 4 ] ], [ [ "onyx", 2 ] ] ]
   },
   {
     "result": "diamond_silver_earring",
@@ -4564,14 +4492,6 @@
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
-    "result": "wrapper",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "wristwatch",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4725,6 +4645,125 @@
       [ [ "steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
+    ]
+  },
+  {
+    "result": "drill_press",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "spike", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "tablesaw",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "circsaw_blade", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "mitresaw",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "circsaw_blade", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "bandsaw",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "wire", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "router",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "spike", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "planer",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "blade", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "jointer",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 3 ] ],
+      [ [ "blade", 2 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "motor_small", 1 ] ]
     ]
   },
   {
@@ -5205,6 +5244,14 @@
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
+    "result": "onyx_platinum_bracelet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 8 ] ], [ [ "onyx", 4 ] ] ]
+  },
+  {
     "result": "diamond_platinum_bracelet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5333,6 +5380,14 @@
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "pearl", 2 ] ] ]
   },
   {
+    "result": "onyx_platinum_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 4 ] ], [ [ "onyx", 2 ] ] ]
+  },
+  {
     "result": "diamond_platinum_earring",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5459,6 +5514,14 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "pearl", 1 ] ] ]
+  },
+  {
+    "result": "onyx_platinum_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "platinum_small", 2 ] ], [ [ "onyx", 1 ] ] ]
   },
   {
     "result": "diamond_platinum_ring",
@@ -5801,6 +5864,26 @@
   },
   {
     "result": "ballistic_vest_esapi",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "soft_3a_vest",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 10 ] ], [ [ "sheet_kevlar_layered", 12 ] ] ]
+  },
+  {
+    "result": "level_3_vest",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 m",

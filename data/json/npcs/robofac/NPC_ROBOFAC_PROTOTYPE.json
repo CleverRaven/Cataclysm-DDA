@@ -498,7 +498,7 @@
     "dynamic_line": "Yes the 'EXODII' we have yet to make contact but are monitoring them.  If you provide us with 5 rounds, a magazine and the rifle we should be able to easily fabricate the parts.  Should take 3 days.",
     "responses": [
       {
-        "text": "[5 12.3ln, PA Md. 68 magazine, PA md. 68] See you in 3 days.",
+        "text": "[5 12.3ln, PA md. 68 magazine, PA md. 68] See you in 3 days.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "pamd68", "count": 1 } },
@@ -543,7 +543,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
     "//": "Buying HWP Magazines",
     "type": "talk_topic",
-    "dynamic_line": "Certainly we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
+    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
     "responses": [
       {
         "text": "[1 HGC] I'll take a 5.56 NATO mag.",

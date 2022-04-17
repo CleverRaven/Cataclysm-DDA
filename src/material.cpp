@@ -90,6 +90,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
+
     optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
@@ -250,15 +252,31 @@ float material_type::freeze_point() const
     return _freeze_point;
 }
 
-int material_type::density() const
+float material_type::density() const
 {
     return _density;
 }
 
-int material_type::breathability() const
+bool material_type::is_valid_thickness( float thickness ) const
+{
+    // if this doesn't have an expected thickness return true
+    if( _sheet_thickness == 0 ) {
+        return true;
+    }
+
+    // float calcs so rounding need to be mindful of
+    return fmodf( thickness, _sheet_thickness ) < .01;
+}
+
+float material_type::thickness_multiple() const
+{
+    return _sheet_thickness;
+}
+
+int material_type::breathability_to_rating( breathability_rating breathability )
 {
     // this is where the values for each of these exist
-    switch( _breathability ) {
+    switch( breathability ) {
         case breathability_rating::IMPERMEABLE:
             return 0;
         case breathability_rating::POOR:
@@ -275,6 +293,10 @@ int material_type::breathability() const
             break;
     }
     return 0;
+}
+int material_type::breathability() const
+{
+    return material_type::breathability_to_rating( _breathability );
 }
 
 cata::optional<int> material_type::wind_resist() const

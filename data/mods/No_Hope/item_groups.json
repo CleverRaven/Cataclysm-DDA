@@ -180,5 +180,112 @@
       [ "alloy_plate", 10 ],
       [ "robot_controls", 3 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "rare",
+    "subtype": "distribution",
+    "copy-from": "rare",
+    "extend": { "entries": [ { "item": "bio_blade", "prob": 10 }, { "item": "bio_speed", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "sewage_plant",
+    "subtype": "distribution",
+    "copy-from": "sewage_plant",
+    "extend": {
+      "entries": [
+        { "item": "bio_tools", "prob": 10 },
+        { "item": "bio_flashlight", "prob": 10 },
+        { "item": "bio_lighter", "prob": 10 },
+        { "item": "bio_magnet", "prob": 10 },
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_meteorologist", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "toxic_dump_equipment",
+    "subtype": "distribution",
+    "copy-from": "toxic_dump_equipment",
+    "extend": {
+      "entries": [
+        { "item": "bio_tools", "prob": 10 },
+        { "item": "bio_flashlight", "prob": 10 },
+        { "item": "bio_lighter", "prob": 10 },
+        { "item": "bio_magnet", "prob": 10 },
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_meteorologist", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "vault",
+    "subtype": "distribution",
+    "copy-from": "vault",
+    "extend": {
+      "entries": [
+        { "item": "bio_time_freeze", "prob": 4 },
+        { "item": "bio_teleport", "prob": 4 },
+        { "item": "bio_probability_travel", "prob": 4 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "drugdealer",
+    "subtype": "distribution",
+    "copy-from": "drugdealer",
+    "extend": { "entries": [ { "item": "bio_shotgun", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_medical_items",
+    "subtype": "distribution",
+    "copy-from": "hospital_medical_items",
+    "extend": { "entries": [ { "group": "bionics_common", "prob": 5 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_basic_trade",
+    "subtype": "distribution",
+    "copy-from": "robofac_basic_trade",
+    "extend": { "entries": [ { "group": "bionics_common", "prob": 100 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "science",
+    "subtype": "distribution",
+    "copy-from": "science",
+    "extend": {
+      "entries": [
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_sunglasses", "prob": 10 },
+        { "item": "bio_eye_optic", "prob": 10 },
+        { "item": "bio_climate", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_watch", "prob": 10 },
+        { "item": "bio_leukocyte", "prob": 10 },
+        { "item": "bio_faraday", "prob": 10 },
+        { "item": "bio_remote", "prob": 10 },
+        { "item": "bio_soporific", "prob": 5 },
+        { "item": "bio_surgical_razor", "prob": 5 },
+        { "item": "bio_syringe", "prob": 8 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_loot",
+    "subtype": "distribution",
+    "copy-from": "bunker_basement_loot",
+    "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
   }
 ]

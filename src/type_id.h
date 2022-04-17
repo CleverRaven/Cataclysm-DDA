@@ -37,6 +37,9 @@ using character_modifier_id = string_id<character_modifier>;
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
 
+struct city;
+using city_id = string_id<city>;
+
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
@@ -210,6 +213,9 @@ using move_mode_id = string_id<move_mode>;
 
 struct mutation_category_trait;
 using mutation_category_id = string_id<mutation_category_trait>;
+
+struct proficiency_category;
+using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;

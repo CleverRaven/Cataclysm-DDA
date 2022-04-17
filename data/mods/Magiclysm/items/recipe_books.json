@@ -184,7 +184,7 @@
     "id": "enchantment_basic",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "The art of Enchantment", "str_pl": "copies of The art of Enchantment" },
+    "name": { "str": "The Art of Enchantment", "str_pl": "copies of The Art of Enchantment" },
     "description": "A paperback tome on the art of imbuing items with magic properties.",
     "weight": "1 kg",
     "volume": "750 ml",

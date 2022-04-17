@@ -223,6 +223,7 @@ struct part_material {
     material_id id; //material type
     int cover; //portion coverage % of this material
     float thickness; //portion thickness of this material
+    bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
     part_material() : id( material_id::NULL_ID() ), cover( 100 ), thickness( 0.0f ) {}
     part_material( material_id id, int cover, float thickness ) :
@@ -286,11 +287,11 @@ struct armor_portion_data {
     // these are pre-calc values to save us time later
 
     // the chance that every material applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int best_protection_chance = 100; // NOLINT(cata-serialize)
 
     // the chance that the smallest number of materials possible applies to an attack
-    // this is primarily used as a chached value for UI
+    // this is primarily used as a cached value for UI
     int worst_protection_chance = 0; // NOLINT(cata-serialize)
 
     // this is to test if the armor has unique layering information
@@ -299,7 +300,17 @@ struct armor_portion_data {
     // how breathable this part of the armor is
     // cached from the material data
     // only tracked for amalgamized body parts entries
-    int breathability = 0; // NOLINT(cata-serialize)
+    // if left the default -1 the value will be recalculated,
+    int breathability = -1; // NOLINT(cata-serialize)
+
+    // if this item is rigid, can't be worn with other rigid items
+    bool rigid = false; // NOLINT(cata-serialize)
+
+    // if this item only conflicts with rigid items that share a direct layer with it
+    bool rigid_layer_only = false;
+
+    // if this item is comfortable to wear without other items bellow it
+    bool comfortable = false; // NOLINT(cata-serialize)
 
     /**
      * Returns the amount all sublocations this item covers could possibly
@@ -315,6 +326,10 @@ struct armor_portion_data {
 
 struct islot_armor {
     public:
+
+        // thresholds for an item to count as hard / comfortable to wear
+        static const int test_threshold = 40;
+
         /**
         * Whether this item can be worn on either side of the body
         */
@@ -351,6 +366,17 @@ struct islot_armor {
          * Whether this item has pockets that can be ripped off
          */
         bool ripoff_chance = false;
+
+        /**
+         * If the entire item is rigid
+         */
+        bool rigid = false;
+
+        /**
+         * If the entire item is comfortable
+         */
+        bool comfortable = true;
+
         /**
          * Whether this item has pockets that are noisy
          */
@@ -594,6 +620,8 @@ struct itype_variant_data {
     translation alt_description;
     ascii_art_id art;
 
+    bool append = false; // if the description should be appended to the base description.
+
     int weight = 0;
 
     void deserialize( const JsonObject &jo );
@@ -794,7 +822,7 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
-    /** Not compatable on weapons that have this mod slot */
+    /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
     // minimum recoil to cycle while this is installed

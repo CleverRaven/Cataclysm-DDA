@@ -251,7 +251,15 @@ class talker
         virtual bool has_charges( const itype_id &, int ) const {
             return false;
         }
+        // bool = match tool containing charges of itype_id
+        virtual bool has_charges( const itype_id &, int, bool ) const {
+            return false;
+        }
         virtual std::list<item> use_charges( const itype_id &, int ) {
+            return {};
+        }
+        // bool = match tool containing charges of itype_id
+        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
             return {};
         }
         virtual bool has_amount( const itype_id &, int ) const {
@@ -486,6 +494,22 @@ class talker
         }
         virtual void set_height( int ) {}
         virtual int get_height() const {
+            return 0;
+        }
+        virtual void set_npc_trust( int ) {}
+        virtual int get_npc_trust() const {
+            return 0;
+        }
+        virtual void set_npc_fear( int ) {}
+        virtual int get_npc_fear() const {
+            return 0;
+        }
+        virtual void set_npc_value( int ) {}
+        virtual int get_npc_value() const {
+            return 0;
+        }
+        virtual void set_npc_anger( int ) {}
+        virtual int get_npc_anger() const {
             return 0;
         }
         virtual int get_bmi_permil() const {

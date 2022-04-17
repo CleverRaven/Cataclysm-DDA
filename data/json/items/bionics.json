@@ -269,7 +269,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Expanded Digestive System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food.  Installing this CBM will correct any abnormalities in the patient's digestive system",
+    "description": "This module contains three synthetic stomachs and industrial-grade intestines which replace the user's corresponding organs.  Not only will these extract much more nutrition from food, but also increase the user's resistance to foodborne illness, and occasionally allow the digestion of rotten food.  Installing this CBM will correct any abnormalities in the patient's digestive system.",
     "price": 550000,
     "difficulty": 6
   },
@@ -695,7 +695,7 @@
     "id": "bio_power_storage_mkII",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str_sp": "Power Storage CBM Mk. II" },
+    "name": { "str": "Power Storage CBM Mk. II", "str_pl": "Power Storage CBMs Mk. II" },
     "looks_like": "bio_int_enhancer",
     "description": "A Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases the user's power capacity by 250 units.",
     "price": 1000000,
@@ -1047,7 +1047,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
+    "name": { "str_sp": "Pieces of Junk" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1205,7 +1205,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Voice Remodulator" },
-    "description": "Part of the autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
+    "description": "Part of the Autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
     "weight": "100 g",
     "difficulty": 5
   },
@@ -1217,5 +1217,64 @@
     "description": "A broken implant that sends electromagnetic impulses that reduce other implants capacity to store charge.",
     "weight": "100 g",
     "difficulty": 3
+  },
+  {
+    "id": "bio_lampoil",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Oil Generator CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A CBM that generates power out of lamp oil or motor oil.  It is fairly efficient and can store up to 750ml of fuel but works somewhat slowly.",
+    "price": 120000,
+    "difficulty": 4
+  },
+  {
+    "id": "bio_faulty_grossfood",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Taste Fouler" },
+    "description": "A broken and mis-wired module that would cause food and drink to taste terrible.",
+    "weight": "100 g",
+    "difficulty": 7
+  },
+  {
+    "id": "bio_radleak",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Radioactive Leak" },
+    "description": "This broken CBM had been leaking radiation into its user.  The danger seems to have been sealed off during the removal process but you definitely shouldn't put it back.",
+    "weight": "100 g",
+    "difficulty": 9
+  },
+  {
+    "id": "bio_recoil",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Recoil Compensators CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A CBM that contains shock absorbers and kinetic braces which greatly reduce the recoil of guns.",
+    "price": 650000,
+    "weight": "900 g",
+    "difficulty": 5
+  },
+  {
+    "id": "bio_sleep_shutdown",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Sleep Mode Shutdown CBM" },
+    "description": "This CBM completely shuts down all communication between the user's brain and the rest of their body when they fall asleep, preventing them from waking up under any circumstance until their natural sleep cycle completes.  An inability to trigger its effects manually makes it useless as an anesthesia substitute.",
+    "weight": "100 g",
+    "difficulty": 10
+  },
+  {
+    "id": "bio_trickle",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str_sp": "Trickle Charger CBM" },
+    "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
+    "weight": "500 g",
+    "price": 120000,
+    "difficulty": 3,
+    "installation_data": "AID_bio_trickle"
   }
 ]

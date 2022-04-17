@@ -590,9 +590,9 @@ void game_ui::init_ui()
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
-        FULL_SCREEN_HEIGHT = 25;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT + 1;
     } else {
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
     }
 #endif
 }
@@ -786,8 +786,17 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
-        omtstart = start_loc.find_player_initial_location();
+        if( select_starting_city ) {
+            if( !u.starting_city.has_value() ) {
+                u.starting_city = random_entry( city::get_all() );
+                u.world_origin = u.starting_city->pos_om;
+            }
+            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+        } else {
+            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+        }
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -821,6 +830,7 @@ bool game::start_game()
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
+    m.build_lightmap( level, u.pos() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( u.global_omt_location().xy(),
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
@@ -874,7 +884,7 @@ bool game::start_game()
     }
 
     //Create mutation_category_level
-    u.set_highest_cat_level();
+    u.calc_mutation_levels();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
     if( scen->has_flag( "FIRE_START" ) ) {
@@ -1753,7 +1763,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) || it.has_flag( flag_INTEGRATED ) ) {
         return hint_rating::cant;
     }
 
@@ -2753,6 +2763,7 @@ bool game::load( const save_t &name )
     effect_on_conditions::load_existing_character( u );
     // recalculate light level for correctly resuming crafting and disassembly
     m.build_map_cache( m.get_abs_sub().z() );
+    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     return true;
 }
@@ -3345,6 +3356,7 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_p.z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_p.z );
+    m.build_lightmap( ter_view_p.z, u.pos() );
     m.update_visibility_cache( ter_view_p.z );
 
     werase( w_terrain );
@@ -4665,6 +4677,11 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     if( one_in( 100 ) ) {
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
@@ -4691,6 +4708,11 @@ bool game::spawn_hallucination( const tripoint &p )
 bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                 cata::optional<time_duration> lifespan )
 {
+    //Don't spawn hallucinations on open air
+    if( get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+        return false;
+    }
+
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
@@ -5203,7 +5225,7 @@ bool game::npc_menu( npc &who )
         trade
     };
 
-    const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
+    const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
 
@@ -6213,6 +6235,9 @@ void game::zones_manager()
     bool show_all_zones = false;
     int zone_cnt = 0;
 
+    // reset any zones that were temporarily disabled for an activity
+    mgr.reset_disabled();
+
     // cache the players location for person zones
     if( mgr.has_personal_zones() ) {
         mgr.cache_avatar_location();
@@ -6273,7 +6298,7 @@ void game::zones_manager()
     add_draw_callback( zone_cb );
 
     // This lambda returns either absolute coordinates or relative-to-player
-    // corrdinates, depending on whether personal is false or true respectively.
+    // coordinates, depending on whether personal is false or true respectively.
     // In C++20 we could have the return type depend on the parameter using
     // if constexpr( personal ) but for now it will just return tripoints.
     auto query_position =
@@ -7380,7 +7405,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 void game::list_items_monsters()
 {
     // Search whole reality bubble because each function internally verifies
-    // the visibilty of the items / monsters in question.
+    // the visibility of the items / monsters in question.
     std::vector<Creature *> mons = u.get_visible_creatures( 60 );
     const std::vector<map_item_stack> items = find_nearby_items( 60 );
 
@@ -9309,6 +9334,10 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
+    if( u.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
     if( !harmful_stuff.empty() &&
@@ -9601,7 +9630,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
-                                dest_loc ); //fungal furniture has no slowing effect on mycus characters
+                                dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
@@ -9964,6 +9993,7 @@ point game::place_player( const tripoint &dest_loc )
     }
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
+        !m.has_flag_furn( "BRIDGE", u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
@@ -10808,6 +10838,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
+        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
+            add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
+            return;
+        }
+
         const int cost = u.climbing_cost( u.pos(), stairs );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
@@ -11164,7 +11199,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( 87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11172,7 +11207,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_nutr( 10 );
+                u.mod_stored_kcal( 87 );
                 u.mod_thirst( 10 );
             }
         } else {
@@ -11345,6 +11380,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
         m.invalidate_map_cache( zlev );
     }
     m.build_map_cache( m.get_abs_sub().z() );
+    m.build_lightmap( m.get_abs_sub().z(), u.pos() );
 
     // Spawn monsters if appropriate
     // This call will generate new monsters in addition to loading, so it's placed after NPC loading
@@ -11933,7 +11969,7 @@ bool game::slip_down( bool check_for_traps )
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
-    int slip = 100 / ( u.dex_cur + u.str_cur );
+    int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
     add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
     if( u.has_proficiency( proficiency_prof_parkour ) ) {
@@ -11982,7 +12018,7 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     slip *= wet_penalty;
-    add_msg_debug( debugmode::DF_GAME, "Slip chance afer wetness penalty %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
 

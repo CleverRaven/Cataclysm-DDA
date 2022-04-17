@@ -28,6 +28,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "event.h"
@@ -205,8 +206,8 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
+    // UNBREAKABLE_MELEE and UNBREAKABLE items can't be damaged through melee combat usage.
+    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) || shield.has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
 
@@ -726,7 +727,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         if( attack_vector == "HANDS" && get_working_arm_count() < 1 ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
-            add_msg_if_player( m_bad, _( "You arms are too damaged or encumbered to fight effectively!" ) );
+            add_msg_if_player( m_bad, _( "Your arms are too damaged or encumbered to fight effectively!" ) );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         // In the case of a weapon like a glaive or a naginata, the wielder
@@ -1878,7 +1879,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
 
-    // Keep the technique definitons shorter
+    // Keep the technique definitions shorter
     if( technique.attack_override ) {
         move_cost = 0;
         di.clear();
@@ -1933,12 +1934,23 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
             t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
         }
+
+        for( const effect_on_condition_id &eoc : technique.eocs ) {
+            dialogue d( get_talker_for( *this ), get_talker_for( t ) );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a technique activation.  If you don't want the effect_on_condition to happen on its own (without the technique being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this technique with its condition and effects, then have a recurring one queue it." );
+            }
+        }
     }
 
     if( technique.needs_ammo ) {
         const itype_id current_ammo = cur_weapon.ammo_current();
         // if the weapon needs ammo we now expend it
         cur_weapon.ammo_consume( 1, pos(), this );
+        // thing going off should be as loud as the ammo
+        sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
             cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),

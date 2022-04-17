@@ -263,7 +263,7 @@ static void pick_up_from_feet( Character &you, int id )
 
     you.moves = 100;
     you.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( you.pos() ), found ) }, { 0 },
-                                          you.pos() ) ) );
+                                          you.pos(), false ) ) );
     you.activity.do_turn( you );
 
     REQUIRE( items.size() == size_before - 1 );

@@ -1059,7 +1059,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs",
-    "name": { "str_sp": "chili dogs" },
+    "name": { "str": "chili dog" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1081,7 +1081,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chilidogs_wheat_free",
-    "name": { "str_sp": "wheat-free chili dogs" },
+    "name": { "str": "wheat-free chili dog" },
     "weight": "318 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -1103,7 +1103,7 @@
   {
     "type": "COMESTIBLE",
     "id": "corndogs_frozen",
-    "name": { "str_sp": "uncooked corn dogs" },
+    "name": { "str": "uncooked corn dog" },
     "weight": "78 g",
     "color": "yellow",
     "spoils_in": "11 days 16 hours",
@@ -1386,7 +1386,7 @@
     "quench": -4,
     "calories": 220,
     "description": "Peanuts coated in a sweet, crunchy candy coating.  A regional delicacy.",
-    "//": "Based on a new england candy called Boston Baked Beans",
+    "//": "Based on a New England candy called Boston Baked Beans",
     "price": 150,
     "price_postapoc": 600,
     "volume": "250 ml",

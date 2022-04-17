@@ -670,11 +670,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.wear_item( tmp, item( "backpack" ), false, false );
+    tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 
-    tmp.recoil = inital_recoil; // set inital recoil
+    tmp.recoil = inital_recoil; // set initial recoil
     bool throwing = false;
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );

@@ -85,6 +85,10 @@ static const trait_id trait_SHELL2( "SHELL2" );
 
 static bool check_water_affect_items( avatar &you )
 {
+    if( you.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
     std::vector<item_location> wet;
@@ -404,8 +408,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc );
-    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc );
+    bool toSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
+    bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
+                       !m.has_flag_furn( "BRIDGE", dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr;

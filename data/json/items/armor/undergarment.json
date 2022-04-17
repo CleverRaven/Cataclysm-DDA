@@ -32,7 +32,7 @@
     "weight": "49 g",
     "volume": "350 ml",
     "copy-from": "arm_warmers",
-    "flags": [ "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_arm_warmers",
@@ -42,7 +42,7 @@
     "name": { "str": "pair of XS arm warmers", "str_pl": "pairs of XS arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the smallest of survivors.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "army_top",
@@ -146,6 +146,16 @@
     "type": "ARMOR",
     "name": { "str": "bikini top" },
     "description": "A simple bikini top.",
+    "variant_type": "generic",
+    "variants": [
+      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 90 },
+      {
+        "id": "flag_bikini_top",
+        "name": { "str": "flag bikini top" },
+        "description": "A simple bikini top embroidered with the pattern of an American flag",
+        "weight": 10
+      }
+    ],
     "weight": "32 g",
     "volume": "250 ml",
     "price": 1800,
@@ -220,7 +230,7 @@
     "weight": "50 g",
     "volume": "350 ml",
     "copy-from": "boxer_briefs",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xsboxer_briefs",
@@ -230,7 +240,7 @@
     "name": { "str_sp": "XS boxer briefs" },
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boxer_shorts",
@@ -261,7 +271,7 @@
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boxer_shorts",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xsboxer_shorts",
@@ -271,7 +281,7 @@
     "name": { "str_sp": "XS boxer shorts" },
     "description": "Men's XS boxer shorts.  For the very short.  More fashionable than briefs and just as comfortable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boy_shorts",
@@ -302,7 +312,7 @@
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boy_shorts",
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xsboy_shorts",
@@ -312,7 +322,7 @@
     "name": { "str_sp": "XS boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "bra",
@@ -599,7 +609,7 @@
     "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "leg_warmers_xl",
@@ -634,7 +644,7 @@
     "name": { "str": "pair of XS leg warmers", "str_pl": "pairs of XS leg warmers" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "long_underpants",
@@ -751,7 +761,7 @@
     "weight": "160 g",
     "volume": "750 ml",
     "copy-from": "sports_bra",
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xssports_bra",
@@ -761,7 +771,7 @@
     "name": { "str": "XS sports bra" },
     "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "tank_top",

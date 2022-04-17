@@ -1828,7 +1828,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
     /*
     *  Note on memory management:
     *  This method must returns pointers to the objects (std::string *id  and tile_type * tile)
-    *  that are valid when this metod returns. Ideally they should have the lifetime
+    *  that are valid when this method returns. Ideally they should have the lifetime
     *  that is equal or exceeds lifetime of `this` or `this::tileset_ptr`.
     *  For example, `id` argument may have shorter lifetime and thus should not be returned!
     *  The result of `find_tile_with_season` is OK to be returned, because it's guaranteed to
@@ -1906,6 +1906,9 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                     const vpart_info &new_vpi = new_vpid.obj();
                     ret = find_tile_looks_like( "vp_" + new_vpi.looks_like, category, "",
                                                 looks_like_jumps_limit - 1 );
+                    if( !ret.has_value() ) {
+                        ret = find_tile_looks_like( new_vpi.looks_like, category, "", looks_like_jumps_limit - 1 );
+                    }
                 }
             }
             return ret;
@@ -2100,7 +2103,11 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
-                sym = tmp->symbol;
+                if( !tmp->is_linear() ) {
+                    sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
+                } else {
+                    sym = tmp->symbol;
+                }
                 col = tmp->color;
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {

@@ -1337,6 +1337,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_CITY",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Choose character start city",
+    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CHOOSE_LOCATION",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character start location",
@@ -1410,6 +1417,20 @@
     "type": "keybinding",
     "id": "SCROLL_INFOBOX_DOWN",
     "name": "Scroll description down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PREV_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Previous proficiency category",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Next proficiency category",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -2464,6 +2485,12 @@
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Hour Timer",
+    "category": "DEFAULTMODE",
+    "id": "debug_hour_timer"
   },
   {
     "type": "keybinding",
@@ -3619,7 +3646,7 @@
     "type": "keybinding",
     "id": "IGNORE",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
-    "name": "Ignore further distractions and finish",
+    "name": "Ignore this distraction and continue",
     "bindings": [
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
@@ -3756,6 +3783,13 @@
   },
   {
     "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "VIEW_PROFICIENCIES",
+    "name": "View character proficiencies",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
@@ -3829,20 +3863,20 @@
     "id": "DELETE PAGE",
     "name": "Delete page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "d" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "d" ] } ]
   },
   {
     "type": "keybinding",
     "id": "EXPORT_DIARY",
     "name": "Export diary to .txt",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "e" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",
     "id": "NEW_PAGE",
     "name": "Add new page",
     "category": "DIARY",
-    "bindings": [ { "input_method": "keyboard_char", "mod": [  ], "key": [ "n" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
   }
 ]
