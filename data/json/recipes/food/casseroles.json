@@ -84,7 +84,7 @@
       [ [ "flour", 2 ] ],
       [ [ "sherry", 2 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ] ],
-      [ [ "cheese", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ] ],
       [
         [ "seasoning_italian", 7 ],
         [ "wild_herbs", 7 ],

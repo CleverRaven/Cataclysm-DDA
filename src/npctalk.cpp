@@ -2245,11 +2245,11 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
                 count = 0;
             }
 
-            if( count == 0 && charges > 0 && p.has_charges( item_name, charges ) ) {
-                p.use_charges( item_name, charges );
+            if( count == 0 && charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                p.use_charges( item_name, charges, true );
             } else if( p.has_amount( item_name, count ) ) {
-                if( charges > 0 && p.has_charges( item_name, charges ) ) {
-                    p.use_charges( item_name, charges );
+                if( charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                    p.use_charges( item_name, charges, true );
                 }
                 p.use_amount( item_name, count );
             } else {

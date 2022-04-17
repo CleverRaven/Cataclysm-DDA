@@ -162,16 +162,16 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@v10.2
         id: runvcpkg
         with:
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
           # field in vcpkg.json. Caching happens as a post-action which runs at the end of
           # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: '49b67d9cb856424ff69f10e7721aec5299624268'
+          vcpkgGitCommitId: 'bd1ef2df46303989eeb048eb7aa9b816aa46365e'
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |
