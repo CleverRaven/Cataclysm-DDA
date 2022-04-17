@@ -3577,7 +3577,7 @@
     "category": "FRIENDS_ME_CANCEL",
     "name": "With friends",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "f" },
+      { "input_method": "keyboard_char", "key": "F" },
       { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "f" }
     ]
@@ -3588,7 +3588,7 @@
     "category": "FRIENDS_ME_CANCEL",
     "name": "Just me",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "m" },
+      { "input_method": "keyboard_char", "key": "M" },
       { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "m" }
     ]
