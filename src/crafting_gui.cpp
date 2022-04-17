@@ -1750,22 +1750,26 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
     Character &player_character = get_player_character();
+    const float lighting_multiplier = player_character.lighting_craft_speed_multiplier( rec );
+    const float overall_multiplier = player_character.crafting_speed_multiplier( rec );
+    const std::vector<std::tuple<CRAFTING_SPEED_STATE, float, float, nc_color, int>>
+    craft_speed_condition = {
+        //state, max lighting multiplier, max overall multipler, resulting color, % for display
+        {TOO_DARK_TO_CRAFT, 0.0f, FLT_MAX, i_red, 0 },
+        {TOO_SLOW_TO_CRAFT, FLT_MAX, 0.0f, i_red, 0 },
+        {SLOW_BUT_CRAFTABLE, FLT_MAX, 1.0f - FLT_EPSILON, i_yellow, static_cast<int>( overall_multiplier * 100 )},
+        {NORMAL_CRAFTING, FLT_MAX, 1.0f, i_green, 0},
+        {FAST_CRAFTING, FLT_MAX, FLT_MAX, i_green, static_cast<int>( overall_multiplier * 100 )}
+        //TODO: Update crafing_speed_multiplier such that TOO_SLOW_TO_CRAFT and FAST_CRAFTING are achievable
+    };
 
-    // Draw text
-    if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, craft_speed_reason_strings[TOO_DARK_TO_CRAFT].translated() );
-    } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, craft_speed_reason_strings[TOO_SLOW_TO_CRAFT].translated() );
-    } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
-        right_print( w, 0, 1, i_yellow,
-                     string_format( craft_speed_reason_strings[SLOW_BUT_CRAFTABLE].translated(),
-                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
-    } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
-        right_print( w, 0, 1, i_green,
-                     string_format( craft_speed_reason_strings[FAST_CRAFTING].translated(),
-                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
-    } else {
-        right_print( w, 0, 1, i_green, craft_speed_reason_strings[NORMAL_CRAFTING].translated() );
+    for( const auto &state : craft_speed_condition ) {
+        if( lighting_multiplier <= std::get<1>( state ) && overall_multiplier <= std::get<2>( state ) ) {
+            const std::string output = string_format( craft_speed_reason_strings[std::get<0>
+                                       ( state )].translated(), std::get<4>( state ) );
+            right_print( w, 0, 1, std::get<3>( state ), output );
+            break;
+        }
     }
     wnoutrefresh( w );
 }
