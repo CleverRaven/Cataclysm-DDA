@@ -206,31 +206,7 @@ if (MSVC)
     else ()
         add_definitions(-D_X86_)
     endif ()
-    add_compile_options(
-        /utf-8
-        /bigobj
-        /permissive-
-        /sdl-
-        /GS-
-        /wd4068 # unknown pragma
-        /wd4146 # negate unsigned
-        /wd4819 # codepage?
-        /wd6237 # short-circuit eval
-        /wd6319 # a, b: unused a
-        /wd26444 # unnamed objects
-        /wd26451 # overflow
-        /wd26495 # uninitialized member
-    )
-    add_compile_definitions(
-        _SCL_SECURE_NO_WARNINGS
-        _CTR_SECURE_NO_WARNINGS
-        WIN32_LEAN_AND_MEAN
-        LOCALIZE
-        USE_VCPKG
-    )
-    add_link_options(
-        /LTCG:OFF
-    )
+
 else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
