@@ -2758,7 +2758,8 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [monster_type_id, cost, count, pacified, name, true_eocs, false_eocs]( const dialogue & d ) {
+    function = [monster_type_id, cost, count, pacified, name, true_eocs,
+                     false_eocs]( const dialogue & d ) {
         const mtype_id mtype( monster_type_id );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost, count, pacified, name ) ) {
             run_eoc_vector( true_eocs, d );
