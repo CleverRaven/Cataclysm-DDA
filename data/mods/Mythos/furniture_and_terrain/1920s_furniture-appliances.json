@@ -1,8 +1,8 @@
 [
   {
     "type": "furniture",
-    "id": "f_refridgerator",
-    "name": "electric refridgerator",
+    "id": "f_refrigerator",
+    "name": "electric refrigerator",
     "symbol": "{",
     "description": "A very modern tall metal storage container that, if powered, will freeze food and other perishables for preservation.",
     "color": "light_cyan",
