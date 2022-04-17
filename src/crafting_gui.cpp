@@ -66,7 +66,7 @@ enum CRAFTING_SPEED_STATE {
     NORMAL_CRAFTING
 };
 
-static std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
+static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
     {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
@@ -1765,8 +1765,8 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
 
     for( const auto &state : craft_speed_condition ) {
         if( lighting_multiplier <= std::get<1>( state ) && overall_multiplier <= std::get<2>( state ) ) {
-            const std::string output = string_format( craft_speed_reason_strings[std::get<0>
-                                       ( state )].translated(), std::get<4>( state ) );
+            const std::string output = string_format( craft_speed_reason_strings.at( std::get<0>
+                                       ( state ) ).translated(), std::get<4>( state ) );
             right_print( w, 0, 1, std::get<3>( state ), output );
             break;
         }
