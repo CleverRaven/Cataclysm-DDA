@@ -116,7 +116,7 @@
       "n": "f_sink",
       "k": "f_woodstove",
       "l": "f_icebox",
-      "m": "f_glafridge",
+      "m": "f_refridgerator",
       "p": "f_region_weed",
       "r": "f_wood_keg",
       "v": [ [ "f_safe_l", 25 ], [ "f_cardboard_box", 75 ] ],
