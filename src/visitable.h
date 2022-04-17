@@ -76,7 +76,7 @@ class read_only_visitable
          */
         virtual int charges_of( const itype_id &what, int limit = INT_MAX,
                                 const std::function<bool( const item & )> &filter = return_true<item>,
-                                const std::function<void( int )> &visitor = nullptr ) const;
+                                const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

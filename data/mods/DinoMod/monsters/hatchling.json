@@ -38,6 +38,14 @@
     "extend": { "flags": [ "SWIMS" ] }
   },
   {
+    "id": "mon_torvosaurus_hatchling",
+    "type": "MONSTER",
+    "name": "red and white hatchling",
+    "copy-from": "mon_dilophosaurus_hatchling",
+    "default_faction": "torvosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_torvosaurus_juvenile" }
+  },
+  {
     "id": "mon_allosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dilophosaurus_hatchling",
@@ -48,23 +56,21 @@
   {
     "id": "mon_acrocanthosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
-    "name": "brown and white hatchling",
+    "copy-from": "mon_allosaurus_hatchling",
     "default_faction": "acrocanthosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
   },
   {
     "id": "mon_siats_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
-    "name": "brown and white hatchling",
+    "copy-from": "mon_allosaurus_hatchling",
     "default_faction": "siats_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
     "id": "mon_dryptosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
+    "copy-from": "mon_allosaurus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "dryptosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_dryptosaurus_juvenile" }
@@ -72,34 +78,37 @@
   {
     "id": "mon_appalachiosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
-    "name": "light red and white hatchling",
+    "copy-from": "mon_dryptosaurus_hatchling",
     "default_faction": "appalachiosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_appalachiosaurus_juvenile" }
   },
   {
     "id": "mon_gorgosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
-    "name": "light red and white hatchling",
+    "copy-from": "mon_dryptosaurus_hatchling",
     "default_faction": "gorgosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_gorgosaurus_juvenile" }
   },
   {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_dilophosaurus_hatchling",
-    "name": "light red and white hatchling",
+    "copy-from": "mon_dryptosaurus_hatchling",
     "default_faction": "albertosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
   },
   {
     "id": "mon_qianzhousaurus_hatchling",
     "type": "MONSTER",
-    "name": "light red and white hatchling",
-    "copy-from": "mon_dilophosaurus_hatchling",
+    "copy-from": "mon_dryptosaurus_hatchling",
     "default_faction": "qianzhousaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
+  },
+  {
+    "id": "mon_daspletosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dryptosaurus_hatchling",
+    "default_faction": "daspletosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_daspletosaurus_juvenile" }
   },
   {
     "id": "mon_tyrannosaurus_hatchling",
@@ -133,6 +142,7 @@
     "melee_cut": 1,
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
@@ -213,6 +223,13 @@
     "name": "dark gray and white hatchling",
     "default_faction": "utahraptor_hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
+  },
+  {
+    "id": "mon_dromaeosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_velociraptor_hatchling",
+    "default_faction": "dromaeosaurus_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_dromaeosaurus" }
   },
   {
     "id": "mon_stenonychosaurus_hatchling",

@@ -32,6 +32,7 @@
 #include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
@@ -41,6 +42,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
 #include "system_language.h"
@@ -569,6 +571,7 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+    ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
 
@@ -677,8 +680,8 @@ int main( int argc, const char *argv[] )
     if( !test_mode ) {
         try {
             // set minimum FULL_SCREEN sizes
-            FULL_SCREEN_WIDTH = 80;
-            FULL_SCREEN_HEIGHT = 24;
+            FULL_SCREEN_WIDTH = EVEN_MINIMUM_TERM_WIDTH;
+            FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized

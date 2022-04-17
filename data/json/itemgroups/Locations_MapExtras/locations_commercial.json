@@ -227,6 +227,10 @@
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
       [ "sword_cane", 5 ],
       [ "hollow_cane", 5 ],
+      [ "sinister_cane", 2 ],
+      [ "wizard_cane_cheap", 2 ],
+      [ "wizard_cane", 1 ],
+      { "group": "costume_jewelry", "prob": 1 },
       [ "advanced_ecig", 5 ],
       [ "television", 10 ],
       [ "microwave", 5 ],
@@ -615,7 +619,8 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "costume_all_clothing", "prob": 10 }
     ]
   },
   {
