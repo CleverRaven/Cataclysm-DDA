@@ -1964,7 +1964,7 @@
     "type": "material",
     "id": "steel",
     "name": "Steel",
-    "density": 30,
+    "density": 8,
     "bash_resist": 6,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
