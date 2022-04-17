@@ -3628,8 +3628,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
             bool print_prot = true;
             if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
-                if( type->get_id() == itype_rm13_armor ) {
-                    print_prot = !tmp.armor_full_protection_info( info, parts );
                 print_prot = !tmp.armor_full_protection_info( info, parts );
             }
             if( print_prot ) {
