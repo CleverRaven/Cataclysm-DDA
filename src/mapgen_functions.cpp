@@ -1170,22 +1170,22 @@ void mapgen_subway( mapgendata &dat )
         case 3:
             // tee
             mapf::formatted_set_simple( m, point_zero,
-                                        "........^D^^^D^.........\n"
-                                        ".......^D---D^..........\n"
-                                        "......^D^^^D^...........\n"
-                                        ".....^D^^^D^............\n"
-                                        "....^D---D^.............\n"
-                                        "...^D^^^D^..............\n"
-                                        "..^D^^^D^...............\n"
-                                        ".^D---D^................\n"
-                                        "^D^^^D^^^^^^^^^^^^^^^^^^\n"
+                                        "..........D^^^D.........\n"
+                                        "........-D---D-.........\n"
+                                        "........D^^^D...........\n"
+                                        ".......D^^^D............\n"
+                                        ".....-D---D-............\n"
+                                        ".....D^^^D..............\n"
+                                        "....D^^^D...............\n"
+                                        "..-D---D-...............\n"
+                                        ".^D^^^D^................\n"
+                                        "^D^^^D^^|^^|^^|^^|^^|^^|\n"
                                         "DxXXDXXxXXxXXxXXxXXxXXxX\n"
                                         "^^|D^|^^|^^|^^|^^|^^|^^|\n"
                                         "^^D^^|^^|^^|^^|^^|^^|^^|\n"
                                         "^D|^^|^^|^^|^^|^^|^^|^^|\n"
-                                        "DxXXxXXxXXxXXxXXxXXxXXxX\n"
-                                        "^^^^^^^^^^^^^^^^^^^^^^^^\n"
-                                        "........................\n"
+                                        "DxXXxXXxXXxXXx|XxXXxXXxX\n"
+                                        "^^|^^|^^|^^|^^|^^|^^|^^|\n"
                                         "........................\n"
                                         "........................\n"
                                         "........................\n"
@@ -1194,7 +1194,7 @@ void mapgen_subway( mapgendata &dat )
                                         "........................\n"
                                         "........................\n"
                                         "CCCCCCCCCCCCCCCCCCCCCCCC",
-                                        mapf::ter_bind( ". C ^ | X x / D",
+                                        mapf::ter_bind( ". C ^ | X x / D -",
                                                 t_thconc_floor,
                                                 t_strconc_wall,
                                                 t_railroad_rubble,
@@ -1202,8 +1202,10 @@ void mapgen_subway( mapgendata &dat )
                                                 t_railroad_track,
                                                 t_railroad_track_on_tie,
                                                 t_railroad_tie_d,
-                                                t_railroad_track_d ),
-                                        mapf::furn_bind( ". C ^ | X x / D",
+                                                t_railroad_track_d,
+                                                t_railroad_tie ),
+                                        mapf::furn_bind( ". C ^ | X x / D -",
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
@@ -1217,7 +1219,7 @@ void mapgen_subway( mapgendata &dat )
             // straight or diagonal
             if( diag ) { // diagonal subway gets drawn differently from all other types
                 mapf::formatted_set_simple( m, point_zero,
-                                            "C........^DD^^DD^.......\n"
+                                            "C........^DD^^DD^......C\n"
                                             "C.........^DD^^DD^......\n"
                                             "C..........^DD^^DD^.....\n"
                                             "C...........^DD^^DD^....\n"
