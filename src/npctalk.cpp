@@ -179,7 +179,7 @@ static void run_eoc_vector( std::vector<effect_on_condition_id> eocs, const dial
     }
 }
 
-static std::vector<effect_on_condition_id> load_eoc_vector( JsonObject jo, std::string member )
+static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo, std::string member )
 {
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
@@ -2247,7 +2247,7 @@ void talk_effect_fun_t::set_u_spawn_item( const itype_id &item_name, int count,
 }
 
 void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int count,
-                                        const std::string &container_name, JsonObject jo )
+                                        const std::string &container_name, const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2263,7 +2263,7 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
 }
 
 void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, int count,
-        JsonObject jo )
+        const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2341,7 +2341,7 @@ void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_u_spend_cash( int amount, JsonObject jo )
+void talk_effect_fun_t::set_u_spend_cash( int amount, const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2754,7 +2754,7 @@ const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewar
 }
 
 void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, int cost, int count,
-        bool pacified, const translation &name, JsonObject jo )
+        bool pacified, const translation &name, const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2924,7 +2924,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_open_dialogue( JsonObject jo )
+void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -2947,7 +2947,7 @@ void talk_effect_fun_t::set_open_dialogue( JsonObject jo )
     };
 }
 
-void talk_effect_fun_t::set_take_control( JsonObject jo )
+void talk_effect_fun_t::set_take_control( const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );

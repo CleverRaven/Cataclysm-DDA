@@ -72,7 +72,7 @@
   {
     "id": "EOC_blacksmith_crafting_armor",
     "type": "effect_on_condition",
-    "effects": [
+    "effect": [
       { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
       { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
       { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
