@@ -290,6 +290,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     item *obj;
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
+    std::list<item> inv_obj;
     if( it.is_tool() ) {
         result = int( it.type->charges_to_use() * double( scale ) );
     }
@@ -327,9 +328,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         }
     }
     if( p.is_worn( *obj ) ) {
-        p.calc_encumbrance();
-        p.update_bodytemp();
-        p.on_worn_item_transform( obj_copy, *obj );
+        if (!obj->is_armor()) {
+            item_location il = item_location(p, obj);
+            //std::list<item> inv_obj;
+            p.takeoff(il,&inv_obj);
+            obj = &(inv_obj.front());
+            p.i_add(*obj, true, &obj_copy, &obj_copy, true, !p.has_weapon());
+        }
+        else {
+            p.calc_encumbrance();
+            p.update_bodytemp();
+            p.on_worn_item_transform(obj_copy, *obj);
+        }
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
