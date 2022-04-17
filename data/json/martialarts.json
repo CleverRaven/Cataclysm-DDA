@@ -1231,7 +1231,7 @@
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
-    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
+    "initiate": [ "You adopt a narrow fighting stance.", "%s adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,

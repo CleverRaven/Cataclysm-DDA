@@ -590,9 +590,9 @@ void game_ui::init_ui()
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
-        FULL_SCREEN_HEIGHT = 25;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT + 1;
     } else {
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
     }
 #endif
 }
@@ -786,8 +786,17 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
-        omtstart = start_loc.find_player_initial_location();
+        if( select_starting_city ) {
+            if( !u.starting_city.has_value() ) {
+                u.starting_city = random_entry( city::get_all() );
+                u.world_origin = u.starting_city->pos_om;
+            }
+            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+        } else {
+            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+        }
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -1754,7 +1763,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) || it.has_flag( flag_INTEGRATED ) ) {
         return hint_rating::cant;
     }
 
@@ -11190,7 +11199,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( 87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11198,7 +11207,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_nutr( 10 );
+                u.mod_stored_kcal( 87 );
                 u.mod_thirst( 10 );
             }
         } else {
