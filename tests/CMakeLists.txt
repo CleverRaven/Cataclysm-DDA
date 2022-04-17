@@ -12,11 +12,13 @@ if (BUILD_TESTING)
     # build dir
     set(TEST_LANG ${CMAKE_SOURCE_DIR}/data/mods/TEST_DATA/lang)
     set(TEST_MO ${TEST_LANG}/mo/ru/LC_MESSAGES/TEST_DATA.mo)
+    if(MSVC)
+        find_package(Gettext REQUIRED)
+    endif()
     add_custom_command(
         OUTPUT ${TEST_MO}
         MAIN_DEPENDENCY ${TEST_LANG}/po/ru.po
-        COMMAND
-        msgfmt -f -o ${TEST_MO} ${TEST_LANG}/po/ru.po)
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f -o ${TEST_MO} ${TEST_LANG}/po/ru.po)
 
     add_custom_target(test_mo DEPENDS ${TEST_MO})
 

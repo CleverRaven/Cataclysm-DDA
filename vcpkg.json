@@ -8,6 +8,10 @@
           "name": "sdl2-mixer",
           "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
-      "sdl2-ttf"
+        "sdl2-ttf",
+        {
+          "name": "gettext",
+          "features": [ "tools" ]
+        }
     ]
 }
