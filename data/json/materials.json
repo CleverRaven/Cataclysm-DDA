@@ -2416,7 +2416,7 @@
     "type": "material",
     "id": "wood",
     "name": "Wood",
-    "density": 1.26,
+    "density": 0.6,
     "specific_heat_liquid": 1.7,
     "specific_heat_solid": 1.7,
     "latent_heat": 273,
