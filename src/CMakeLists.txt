@@ -63,7 +63,7 @@ if (TILES)
 
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
-
+    target_precompile_headers(cataclysm-tiles-common PUBLIC ../pch/main-pch.hpp)
     if (LOCALIZE)
         target_include_directories(cataclysm-tiles-common PUBLIC
                 ${LIBINTL_INCLUDE_DIR}
