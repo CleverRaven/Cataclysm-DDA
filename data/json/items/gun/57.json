@@ -1,4 +1,4 @@
-[
+a[
   {
     "id": "fn57",
     "looks_like": "glock_17",
@@ -45,11 +45,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "FN 5.7x28mm PDW" },
-<<<<<<< HEAD
-    "description": "An FN manufactured personal defence weapon, this automatic firearm is chambered for the high-velocity proprietary 5.7x28mm cartridge.  Accepting top-mounted 50-round custom magazines which are fitted to the receiver of the weapon behind the grip, thus making it a bullpup design, this little submachine gun packs quite the nasty payload.  Its comparatively small high-speed caliber makes it excellent at both defeating armored opponents, and firing short bursts manageably.",
-=======
     "description": "An FN manufactured personal defence weapon, this automatic firearm is chambered for the high-velocity proprietary 5.7x28mm cartridge.  Accepting top-mounted 50-round custom magazines which are fitted to the receiver of the weapon behind the grip, thus making it a bullpup design, this little submachine gun packs quite the nasty payload.  It’s comparatively small high-speed calibre makes it excellent at both defeating armoured opponents, and firing short bursts manageably.",
->>>>>>> 31291c9f5f5ea2868c346f149dd9a1dfb122988a
     "variant_type": "gun",
     "variants": [
       {
@@ -98,11 +94,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Kel-Tec 5.7x28mm pistol" },
-<<<<<<< HEAD
-    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard FN 5.7x28mm 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
-=======
-    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard P90 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
->>>>>>> 31291c9f5f5ea2868c346f149dd9a1dfb122988a
+    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard 5.7x28mm 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
     "variant_type": "gun",
     "variants": [
       {
