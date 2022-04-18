@@ -66,8 +66,8 @@
       "TALK_REFUGEE_Stan_2",
       "TALK_REFUGEE_Stan_Background",
       "TALK_REFUGEE_Stan_Situation",
-      "TALK_REFUGEE_Boris",
-      "TALK_REFUGEE_Garry"
+      "TALK_REFUGEE_Stan_Boris",
+      "TALK_REFUGEE_Stan_Garry"
     ],
     "responses": [
       {
@@ -104,7 +104,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_1a",
-    "dynamic_line": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
+    "dynamic_line": {
+      "and": [
+        "*seems to look past you for a while before realizing you are there.  \"",
+        [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
+        "\""
+      ]
+    },
     "responses": [
       { "text": "Hi, Stan.  What's up?", "topic": "TALK_REFUGEE_Stan_2" },
       { "text": "Hi Stan.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -130,8 +136,8 @@
     "id": "TALK_REFUGEE_Stan_Background",
     "dynamic_line": "No, I don't particularly want to talk about it, but I can I guess.  Before <the_cataclysm> I was an insurance adjuster.  My husband Boris and I were evacuated with my brother Garry, and from our evacuation center we caught a commissioned bus out here.  The bus was attacked by a monster, we lived.  Not everyone on the bus did.  We lost people dear to us, now we're stuck here with little to do but think about it.",
     "responses": [
-      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Boris" },
-      { "text": "Tell me about Garry.", "topic": "TALK_REFUGEE_Garry" },
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
+      { "text": "Tell me about Garry.", "topic": "TALK_REFUGEE_Stan_Garry" },
       { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" }
     ]
@@ -153,14 +159,14 @@
       ]
     },
     "responses": [
-      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Boris" },
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Stan_Boris" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I had better be going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Boris",
+    "id": "TALK_REFUGEE_Stan_Boris",
     "dynamic_line": {
       "and": [
         "He's a strong man.  The things we've been through… that he's been through, before any of this.  If anyone can survive the loss we've seen, it's him.  But he pushes it all down, ",
@@ -169,7 +175,7 @@
           "type": "mission",
           "context": "completed",
           "value": "yes",
-          "yes": "if he's left with it too long.  It's helping him to work.  Cleaning up that back room might seem small, but it was a big deal for him.",
+          "yes": "if he's left with it too long.  Having work has been helping him.  Cleaning up that back room might seem small, but it was a big deal for him.",
           "no": "and if he keeps it up, I don't know how much of him will be left.  He needs something to *do*.  We can't just sit here, trapped like rats in a cage forever."
         },
         {
@@ -189,7 +195,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Garry",
+    "id": "TALK_REFUGEE_Stan_Garry",
     "dynamic_line": {
       "and": [
         "*smiles thinly.  \"Best little brother a guy could ask for.  He's been with me through everything, literally everything.",
