@@ -23,4 +23,5 @@ add_compile_definitions(
 )
 add_link_options(
     /LTCG:OFF
+    /MANIFEST:NO
 )
