@@ -612,6 +612,11 @@
   },
   {
     "type": "recipe",
+    "result": "dragonskin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "rope_6_from_filament",
     "obsolete": true
   },
