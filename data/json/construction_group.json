@@ -1246,6 +1246,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_car_battery",
+    "name": "Place Car Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
   },
