@@ -4543,7 +4543,7 @@
     "components": [ [ [ "cardboard", 450 ] ] ]
   },
   {
-    "result": "box_small",
+    "result": "box_small_wood",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
