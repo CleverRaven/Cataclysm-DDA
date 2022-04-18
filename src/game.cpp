@@ -8119,7 +8119,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         color = p->symbol_color();
                     }
                     if( !player_knows ) {
-                        sText = "Unknown";
+                        sText = _( "Unknown" );
                         color = c_yellow;
                     }
                     mvwprintz( w_monsters, point( width - 19, y ), color, sText );
