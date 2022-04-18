@@ -77,7 +77,9 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
 if (NOT DYNAMIC_LINKING)
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    if(NOT MSVC)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    endif()
     set(BUILD_SHARED_LIBRARIES OFF)
     check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
@@ -206,7 +208,6 @@ if (MSVC)
     else ()
         add_definitions(-D_X86_)
     endif ()
-
 else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
