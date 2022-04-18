@@ -38,7 +38,7 @@
     "symbol": "{",
     "looks_like": "f_dresser",
     "color": "brown",
-    "description": "A traditonal wooden icebox, designed to chill food and other perishables for preservation if stocked with ice.",
+    "description": "A traditional wooden icebox, designed to chill food and other perishables for preservation if stocked with ice.",
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
