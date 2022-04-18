@@ -4937,6 +4937,7 @@ void overmap::place_cities()
 
         tripoint_om_omt p;
         city tmp;
+        bool placeit = false;
         if( use_random_cities ) {
             // randomly make some cities smaller or larger
             int size = rng( op_city_size - 1, op_city_size + 1 );
@@ -4960,11 +4961,16 @@ void overmap::place_cities()
                 ter_set( p, oter_road_nesw ); // every city starts with an intersection
                 tmp.pos = p.xy();
                 tmp.size = size;
+                placeit = true;
             }
         } else {
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
             ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_road_nesw );
+            placeit = true;
+        }
+        if( !placeit ) {
+            continue;
         }
         cities.push_back( tmp );
         const om_direction::type start_dir = om_direction::random();
