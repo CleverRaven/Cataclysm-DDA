@@ -7005,7 +7005,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     const time_point update_from = last_update;
-    if( update_to < update_from ) {
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
         // Special case going backwards in time - that happens
         last_update = update_to;
         return;
