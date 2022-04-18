@@ -71,13 +71,15 @@ item *get_topmost_parent( item *topmost, item_location loc,
 }
 
 using parent_path_t = std::vector<item_location>;
-parent_path_t path_to_top( inventory_entry const &e )
+parent_path_t path_to_top( inventory_entry const &e, inventory_selector_preset const &pr )
 {
     item_location it = e.any_item();
     parent_path_t path{ it };
     while( it.has_parent() ) {
         it = it.parent_item();
-        path.emplace_back( it );
+        if( pr.is_shown( it ) ) {
+            path.emplace_back( it );
+        }
     }
     return path;
 }
@@ -1020,18 +1022,20 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         inventory_entry const &rhs )
 {
     // place children below all parents
-    parent_path_t const path_lhs = path_to_top( lhs );
-    parent_path_t const path_rhs = path_to_top( rhs );
+    parent_path_t const path_lhs = path_to_top( lhs, preset );
+    parent_path_t const path_rhs = path_to_top( rhs, preset );
     parent_path_t::size_type const common_depth = std::min( path_lhs.size(), path_rhs.size() );
-    item_location p_lhs = path_lhs[path_lhs.size() - common_depth];
-    item_location p_rhs = path_rhs[path_rhs.size() - common_depth];
+    parent_path_t::size_type li = path_lhs.size() - common_depth;
+    parent_path_t::size_type ri = path_rhs.size() - common_depth;
+    item_location p_lhs = path_lhs[li];
+    item_location p_rhs = path_rhs[ri];
     if( p_lhs == p_rhs ) {
         return path_lhs.size() < path_rhs.size();
     }
     // otherwise sort the entries below their lowest common ancestor
-    while( p_lhs.has_parent() and p_lhs.parent_item() != p_rhs.parent_item() ) {
-        p_lhs = p_lhs.parent_item();
-        p_rhs = p_rhs.parent_item();
+    while( li < path_lhs.size() and path_lhs[li] != path_rhs[ri] ) {
+        p_lhs = path_lhs[li++];
+        p_rhs = path_rhs[ri++];
     }
 
     inventory_entry const ep_lhs( { p_lhs }, nullptr, true, 0, lhs.generation );
