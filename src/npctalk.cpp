@@ -1117,10 +1117,14 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 return _( "&You yell." );
             }
         }
-    } else if( topic == "TALK_SIZE_UP" ) {
+    } else if( topic == "TALK_SIZE_UP" && !player_character.is_blind() ) {
         return actor( true )->evaluation_by( *actor( false ) );
-    } else if( topic == "TALK_LOOK_AT" ) {
+    } else if( topic == "TALK_SIZE_UP" && player_character.is_blind() ) {
+        return _( "You cannot size up characters when blinded." );
+    } else if( topic == "TALK_LOOK_AT" && !player_character.is_blind() ) {
         return "&" + actor( true )->short_description();
+    } else if( topic == "TALK_LOOK_AT" && player_character.is_blind() ) {
+        return _( "You cannot look at characters when blinded." );
     } else if( topic == "TALK_OPINION" ) {
         return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
