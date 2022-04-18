@@ -520,11 +520,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_welding" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 16 ] ] ]
   },
@@ -970,7 +966,7 @@
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 10 ] ] ],
-	"byproducts": [ [ "splinter", 12 ] ]
+    "byproducts": [ [ "splinter", 12 ] ]
   },
   {
     "type": "recipe",
@@ -1044,11 +1040,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "welding_standard", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_welding" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
@@ -1064,11 +1056,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "welding_standard", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_welding" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 8 ] ] ]
   },
@@ -1084,11 +1072,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "welding_standard", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_welding" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 8 ] ] ]
   },
