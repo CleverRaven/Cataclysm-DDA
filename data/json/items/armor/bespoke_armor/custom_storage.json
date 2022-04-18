@@ -31,7 +31,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
-        "description": "Secured under compression straps or with a tool loop",
+        "description": "Secured under compression straps or with a tool loop.",
         "ripoff": 5
       },
       {
@@ -44,7 +44,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
-        "description": "Secured under compression straps or with a tool loop",
+        "description": "Secured under compression straps or with a tool loop.",
         "ripoff": 5
       },
       {
@@ -57,7 +57,7 @@
         "min_item_length": "40 cm",
         "moves": 80,
         "extra_encumbrance": 5,
-        "description": "tucked under the carry handles",
+        "description": "Tucked under the carry handles.",
         "ripoff": 1
       }
     ],
@@ -97,7 +97,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
-        "description": "Small pocket for a waterbottle",
+        "description": "Small pocket for a water bottle.",
         "ripoff": 2
       },
       {
@@ -110,7 +110,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
-        "description": "Secured under compression straps or with a tool loop",
+        "description": "Secured under compression straps or with a tool loop.",
         "ripoff": 5
       },
       {
@@ -124,7 +124,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "description": "Attached with a carabiner or strap",
+        "description": "Attached with a carabiner or strap.",
         "activity_noise": { "volume": 8, "chance": 60 }
       },
       {
@@ -138,7 +138,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "description": "Attached with a carabiner or strap",
+        "description": "Attached with a carabiner or strap.",
         "activity_noise": { "volume": 8, "chance": 60 }
       }
     ],
@@ -180,7 +180,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "description": "Attached with a carabiner or strap",
+        "description": "Attached with a carabiner or strap.",
         "activity_noise": { "volume": 8, "chance": 60 }
       },
       {
@@ -194,7 +194,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "description": "Attached with a carabiner or strap",
+        "description": "Attached with a carabiner or strap.",
         "activity_noise": { "volume": 8, "chance": 60 }
       },
       {
@@ -208,7 +208,7 @@
         "moves": 150,
         "extra_encumbrance": 3,
         "ripoff": 2,
-        "description": "Attached with a carabiner or strap",
+        "description": "Attached with a carabiner or strap.",
         "activity_noise": { "volume": 8, "chance": 60 }
       },
       {
@@ -221,7 +221,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
-        "description": "Secured under compression straps or with a tool loop",
+        "description": "Secured under compression straps or with a tool loop.",
         "ripoff": 5
       },
       {
@@ -234,7 +234,7 @@
         "min_item_length": "40 cm",
         "moves": 300,
         "extra_encumbrance": 1,
-        "description": "Secured under compression straps or with a tool loop",
+        "description": "Secured under compression straps or with a tool loop.",
         "ripoff": 5
       }
     ],
@@ -291,7 +291,7 @@
         "max_contains_weight": "6 kg",
         "moves": 80,
         "max_item_length": "30 cm",
-        "description": "upper leg pouch"
+        "description": "Upper leg pouch."
       },
       {
         "pocket_type": "CONTAINER",
@@ -299,21 +299,21 @@
         "max_contains_weight": "6 kg",
         "moves": 80,
         "max_item_length": "30 cm",
-        "description": "upper leg pouch"
+        "description": "Upper leg pouch."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "3 kg",
         "moves": 120,
-        "description": "tactical fanny pack"
+        "description": "Tactical fanny pack."
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "3 kg",
         "moves": 200,
-        "description": "back tactical fanny pack"
+        "description": "Back tactical fanny pack."
       }
     ],
     "warmth": 1,
@@ -408,7 +408,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "description": "Liquid storage compartment",
+        "description": "Liquid storage compartment.",
         "airtight": true,
         "watertight": true,
         "max_contains_volume": "3000 ml",
@@ -419,7 +419,7 @@
         "volume_encumber_modifier": 0.3
       },
       {
-        "description": "Archaic holster",
+        "description": "Archaic holster.",
         "magazine_well": "1500 ml",
         "max_contains_volume": "3 L",
         "max_contains_weight": "4 kg",

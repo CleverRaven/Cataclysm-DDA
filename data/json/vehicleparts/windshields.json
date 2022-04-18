@@ -53,7 +53,8 @@
     "copy-from": "windshield_abstract",
     "id": "windshield_full",
     "looks_like": "windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "name": { "str": "full windshield" }
   },
   {
     "abstract": "reinforced_windshield_abstract",
@@ -104,6 +105,7 @@
     "copy-from": "reinforced_windshield_abstract",
     "id": "reinforced_windshield_full",
     "looks_like": "reinforced_windshield",
-    "type": "vehicle_part"
+    "type": "vehicle_part",
+    "name": { "str": "reinforced full windshield" }
   }
 ]

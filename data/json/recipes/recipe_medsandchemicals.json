@@ -810,6 +810,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
+    "id_suffix": "from_sulphuric",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -840,6 +841,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
+    "id_suffix": "from_muriatic",
     "byproducts": [ [ "chem_potassium_chloride" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -890,7 +892,8 @@
     "charges": 100,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "sieve_steel", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
   },
   {
@@ -968,8 +971,28 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
     "charges": 470,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_black_powder",
+    "id_suffix": "sulpherless",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "charges": 421,
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [
+      [ [ "chem_saltpetre", 10 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "chem_ethanol", 83 ], [ "chem_methanol", 83 ], [ "ether", 83 ], [ "denat_alcohol", 83 ] ],
+      [ [ "charcoal", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1005,7 +1028,8 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "tools": [ [ [ "matches", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1128,6 +1152,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hmtd",
+    "id_suffix": "from_acetic",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1141,6 +1166,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hmtd",
+    "id_suffix": "from_citric",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1599,10 +1625,10 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "20 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "autolearn": true,
     "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
-    "tools": [ [ [ "mortar_pestle", -1 ], [ "funnel", -1 ] ] ],
+    "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
   {
@@ -1614,8 +1640,7 @@
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "3 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "spurge", 20 ] ] ]
   },
   {

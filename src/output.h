@@ -147,8 +147,10 @@ extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
-extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
-extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+// Width of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_WIDTH;
+// Height of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_HEIGHT;
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal characters
@@ -482,7 +484,8 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
  *   this flag, the popup is centered on the screen.
  *   The flag is passed by @ref popup_top.
- * - PF_FULLSCREEN makes the popup window as big as the whole screen.
+ * - PF_FULLSCREEN makes the window have a size of `FULL_SCREEN_WIDTH` and `FULL_SCREEN_HEIGHT`.
+ *   The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
  *   This flag is passed by @ref full_screen_popup.
  * - PF_NONE is a placeholder for none of the above flags.
  *

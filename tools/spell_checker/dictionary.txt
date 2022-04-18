@@ -1,4 +1,5 @@
 abcdefghijklmnopqrstuvwxyz
+aberrance
 aboveground
 abso
 acausal
@@ -32,6 +33,7 @@ alate
 alates
 alay
 albertosaurus
+albertonykus
 aldosterone
 alembic
 alexandrites
@@ -72,8 +74,10 @@ antimateriel
 antipodes
 antlered
 antlion
+anzu
 apatosaurus
 aposematic
+appalachiosaurus
 applet
 aprotic
 aquacultural
@@ -229,7 +233,6 @@ brewable
 brimless
 bronchodilator
 bronchospasm
-bubblewrap
 bubblicious
 buchner
 bucka
@@ -263,6 +266,7 @@ cannelured
 caparison
 capiche
 caprison
+carapaces
 carryin
 casehead
 castable
@@ -291,6 +295,8 @@ chasin
 chausses
 cheapshot
 cheescutter
+chelator
+chelators
 chestpiece
 chestrig
 chestwrap
@@ -403,6 +409,7 @@ d
 dagnabbit
 dambreaker
 danceable
+daspletosaurus
 datasheet
 datasheets
 datavault
@@ -416,6 +423,7 @@ deadun
 deadzone
 deathcam
 deathmobile
+deathrattle
 decelerates
 deceptived
 defatted
@@ -426,7 +434,7 @@ deinonychus
 deles
 delsihous
 demihuman
-denatonuim
+denatonium
 deployer
 dermatik
 derring
@@ -477,9 +485,11 @@ dragonscale
 drawknife
 driers
 drivetrain
+dromaeosaurus
 dropoff
 droppers
 druidry
+dryptosaurus
 drywalled
 dunderfuck
 dyoplosaurus
@@ -514,6 +524,8 @@ enjoyability
 envenomations
 eocs
 eoraptor
+epicuticle
+epicuticles
 eppies
 ergometer
 erlischt
@@ -547,6 +559,8 @@ eyebags
 eyebot
 eyebots
 eyecatching
+eyespot
+eyespots
 eyestalks
 f
 faceplates
@@ -584,6 +598,7 @@ firemask
 firepit
 firestarters
 firesuit
+firesuits
 fireweed
 fishfolk
 fishily
@@ -688,6 +703,7 @@ glyceride
 goooood
 gooorge
 goops
+gorget
 gorgosaurus
 gowod
 gozu
@@ -719,6 +735,7 @@ gutskin
 guvnah
 gymnocladus
 h
+hadrosaurus
 haematopoiesis
 hahahahahaha
 hahd
@@ -778,7 +795,7 @@ hrm
 hrmmm
 hsh
 hsss
-http
+https
 hulled
 humaniform
 humaniforms
@@ -914,6 +931,7 @@ lajatang
 lamellar
 landshark
 langourous
+latticed
 lavrae
 lawd
 layin
@@ -1013,6 +1031,8 @@ methothexazole
 metrology
 miasaura
 micellular
+microbian
+microbians
 microbrewed
 microcentrifuge
 microcontrollers
@@ -1065,7 +1085,6 @@ mountable
 mouthgear
 mouthpart
 mouthwear
-movecost
 movestr
 mph
 mr
@@ -1158,6 +1177,8 @@ nrmmy
 numpad
 obovate
 octo
+ocularium
+oculariums
 officiants
 offputting
 offroad
@@ -1168,12 +1189,14 @@ oleaginous
 olors
 ompare
 omplete
+onyxes
 openable
 openair
 opengl
 openingly
 opy
 orichalcum
+ornithomimus
 orrery
 otes
 otha
@@ -1228,6 +1251,8 @@ pesquisando
 peto
 petpack
 peytral
+phelloderm
+phelloderms
 phenotypes
 phenotypical
 phenotypically
@@ -1466,6 +1491,7 @@ sawteeth
 sayig
 scatterer
 scissorlimbs
+sclerotin
 scrabblin
 screecher
 screechin
@@ -1528,7 +1554,6 @@ slamfire
 slapjack
 sld
 sleepin
-slimespring
 sludged
 sluglike
 smallmouth
@@ -1554,6 +1579,7 @@ sp
 spacebar
 spadelike
 spak
+spall
 spasmically
 spearcat
 spearhand
@@ -1597,6 +1623,7 @@ std
 steeltoed
 steerable
 stegosaurusfindsrobot
+stenonychosaurus
 stimulative
 stimulatory
 stipe
@@ -1616,6 +1643,7 @@ stratoscomm
 streetfighters
 stressfully
 strobus
+struthiomimus
 stungun
 stupidass
 stylette
@@ -1686,6 +1714,7 @@ testbed
 tetradrachm
 th
 thawb
+thawbs
 thermochemistry
 thermoplastics
 thonged
@@ -1713,8 +1742,10 @@ toolmaking
 toolmod
 toolset
 toolshelf
+topazes
 toroids
 torosaurus
+torvosaurus
 totipotent
 tourmaline
 tourmalines
@@ -1758,6 +1789,7 @@ uncleaned
 uncoils
 underbarrel
 undercovering
+undergrown
 underprepared
 underslung
 undersuit
@@ -1915,6 +1947,7 @@ yipe
 ynn
 yoroi
 yowl
+yo-yo
 yugg
 yulecat
 z

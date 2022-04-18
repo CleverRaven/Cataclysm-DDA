@@ -212,7 +212,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
@@ -470,7 +470,15 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ], [ "aluminum_foil", 6 ] ] ]
+    "components": [
+      [
+        [ "jug_plastic", 1 ],
+        [ "bottle_plastic", 3 ],
+        [ "bottle_bathroom", 3 ],
+        [ "bottle_plastic_small", 6 ],
+        [ "aluminum_foil", 6 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -618,6 +626,76 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "lc_wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "mc_wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "mc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "hc_wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "hc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "ch_wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "qt_wire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "qt_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wire_barbed",
     "category": "CC_OTHER",
@@ -758,7 +836,7 @@
     "flags": [ "BLIND_EASY" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
     "components": [
-      [ [ "glasses_safety", 1 ] ],
+      [ [ "glasses_safety", 1 ], [ "glass_goggles", 1 ] ],
       [ [ "hose", 3 ], [ "makeshift_hose", 3 ] ],
       [ [ "flask_glass", 4 ], [ "jar_glass_sealed", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
       [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "rucksack", 1 ] ]
@@ -862,7 +940,7 @@
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ] ] ]
+    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -947,6 +1025,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "//": "Alternative to the press explained above: this electroplates the tin using an electrolysis kit.",
     "result": "pot_copper",
+    "id_suffix": "by_electrolysis",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "chemistry",
@@ -986,7 +1065,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "string_6", 2 ] ] ]
+    "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1365,6 +1444,24 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
+    "result": "grapnel",
+    "id_suffix": "from_scratch",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "1 h 30 m",
+    "reversible": true,
+    "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "rope_superior", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "well_pump",
     "category": "CC_OTHER",
@@ -1476,9 +1573,24 @@
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_plastic_small", 20 ] ],
+      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_bathroom", 10 ], [ "bottle_plastic_small", 20 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fish_trap_basket",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 3 ],
+    "difficulty": 4,
+    "time": "7 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1933,6 +2045,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "plant_fibre",
+    "id_suffix": "s_scutcher",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "tools": [ [ [ "scutcheritem", -1 ] ] ],
+    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ] ] ],
+    "charges": 80
+  },
+  {
+    "type": "recipe",
     "activity_level": "fake",
     "result": "wash_kit",
     "category": "CC_OTHER",
@@ -1960,6 +2088,90 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "lc_chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "lc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "mc_chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "mc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "hc_chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "hc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "ch_chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "ch_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "qt_chain_link",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
+    "components": [ [ [ "qt_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "link_sheet",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -1970,6 +2182,76 @@
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
     "components": [ [ [ "chain_link", 1000 ] ], [ [ "wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "lc_link_sheet",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
+    "components": [ [ [ "lc_chain_link", 1000 ] ], [ [ "lc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "mc_link_sheet",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
+    "components": [ [ [ "mc_chain_link", 1000 ] ], [ [ "mc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "hc_link_sheet",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
+    "components": [ [ [ "hc_chain_link", 1000 ] ], [ [ "hc_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "ch_link_sheet",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
+    "components": [ [ [ "ch_chain_link", 1000 ] ], [ [ "ch_wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "qt_link_sheet",
+    "id_suffix": "fabrication",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
+    "using": [ [ "chainmail_standard", 1 ] ],
+    "components": [ [ [ "qt_chain_link", 1000 ] ], [ [ "qt_wire", 1 ] ] ]
   },
   {
     "result": "bundle_rag",
@@ -2389,7 +2671,41 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "oil_press_primitive",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "using": [ [ "waterproofing", 1 ] ],
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
+      [ [ "oil_cooker", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "bag_canvas", 1 ] ],
+      [ [ "2x4", 20 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "stick_long", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "propane_cooker",
+    "id_suffix": "cutting",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",

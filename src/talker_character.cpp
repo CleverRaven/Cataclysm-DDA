@@ -11,6 +11,7 @@
 #include "skill.h"
 #include "talker_character.h"
 #include "vehicle.h"
+#include "weather.h"
 
 class time_duration;
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
@@ -151,6 +152,17 @@ bool talker_character_const::is_mute() const
     return me_chr_const->is_mute();
 }
 
+void talker_character::mutate( const int &highest_cat_chance, const bool &use_vitamins )
+{
+    me_chr->mutate( highest_cat_chance, use_vitamins );
+}
+
+void talker_character::mutate_category( const mutation_category_id &mut_cat,
+                                        const bool &use_vitamins )
+{
+    me_chr->mutate_category( mut_cat, use_vitamins );
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
@@ -270,9 +282,28 @@ bool talker_character_const::has_charges( const itype_id &item_id, int count ) c
     return me_chr_const->has_charges( item_id, count );
 }
 
+bool talker_character_const::has_charges( const itype_id &item_id, int count, bool in_tools ) const
+{
+    if( !in_tools ) {
+        return me_chr_const->has_charges( item_id, count );
+    } else {
+        return me_chr_const->charges_of( item_id, count, return_true<item>, nullptr, in_tools ) >= count;
+    }
+}
+
 std::list<item> talker_character::use_charges( const itype_id &item_name, const int count )
 {
     return me_chr->use_charges( item_name, count );
+}
+
+std::list<item> talker_character::use_charges( const itype_id &item_name, const int count,
+        bool in_tools )
+{
+    if( !in_tools ) {
+        return me_chr->use_charges( item_name, count );
+    } else {
+        return me_chr->use_charges( item_name, count, -1, return_true<item>, in_tools );
+    }
 }
 
 std::list<item> talker_character::use_amount( const itype_id &item_name, const int count )
@@ -597,6 +628,34 @@ int talker_character_const::get_fine_detail_vision_mod() const
 int talker_character_const::get_health() const
 {
     return me_chr_const->get_healthy();
+}
+
+static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
+{
+    bodypart_id current_bp_extreme = u->get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
+    for( const bodypart_id &bp : u->get_all_body_parts() ) {
+        if( std::abs( u->get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+            current_bp_extreme = bp;
+        }
+        if( std::abs( u->get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            std::abs( u->get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+            conv_bp_extreme = bp;
+        }
+    }
+    return std::make_pair( current_bp_extreme, conv_bp_extreme );
+}
+
+int talker_character_const::get_body_temp() const
+{
+    return me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
+}
+
+int talker_character_const::get_body_temp_delta() const
+{
+    return me_chr_const->get_part_temp_conv( temp_delta( me_chr_const ).second ) -
+           me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
 void talker_character::add_bionic( const bionic_id &new_bionic )

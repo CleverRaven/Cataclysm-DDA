@@ -79,6 +79,7 @@ class talker_character_const: public talker
         bool is_wearing( const itype_id &item_id ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
+        bool has_charges( const itype_id &item_id, int count, bool in_tools ) const override;
         bool has_amount( const itype_id &item_id, int count ) const override;
         int get_amount( const itype_id &item_id ) const override;
         int cash() const override;
@@ -122,6 +123,8 @@ class talker_character_const: public talker
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
+        int get_body_temp() const override;
+        int get_body_temp_delta() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -159,6 +162,8 @@ class talker_character: public talker_character_const
         void set_per_max( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
@@ -172,6 +177,7 @@ class talker_character: public talker_character_const
         // inventory, buying, and selling
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
+        std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;

@@ -31,6 +31,7 @@
 
 class Character;
 class item;
+class item_stack;
 class string_input_popup;
 class ui_adaptor;
 struct point;
@@ -606,9 +607,11 @@ class inventory_selector
             return this->use_invlet;
         }
 
+        void categorize_map_items( bool toggle );
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 2>;
+        using stats = std::array<stat, 3>;
 
     protected:
         Character &u;
@@ -626,16 +629,6 @@ class inventory_selector
                         std::vector<item_location> &&locations,
                         const item_category *custom_category = nullptr,
                         size_t chosen_count = 0, item *topmost_parent = nullptr );
-
-        void add_item( inventory_column &target_column,
-                       item_location &&location,
-                       const item_category *custom_category = nullptr,
-                       item *topmost_parent = nullptr );
-
-        void add_items( inventory_column &target_column,
-                        const std::function<item_location( item * )> &locator,
-                        const std::vector<std::list<item *>> &stacks,
-                        const item_category *custom_category = nullptr );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
@@ -668,7 +661,8 @@ class inventory_selector
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume &volume_carried, const units::volume &volume_capacity,
-            const units::length &longest_length, const units::volume &largest_free_volume );
+            const units::length &longest_length, const units::volume &largest_free_volume,
+            const units::volume &holster_volume, const int used_holsters, const int total_holsters );
 
         /** Get stats to display in top right.
          *
@@ -727,6 +721,8 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
+        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+                             std::function<item_location( item & )> const &floc );
 
     public:
         /**

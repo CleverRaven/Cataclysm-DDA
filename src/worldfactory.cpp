@@ -280,7 +280,7 @@ void worldfactory::init()
 
     all_worlds.clear();
 
-    // The validity of a world is determined by the existance of any
+    // The validity of a world is determined by the existence of any
     // option files or the master save file.
     static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
         return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
@@ -376,13 +376,14 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt )
+WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for( std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end(); ) {
-        if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+        if( *it == "TUTORIAL" || *it == "DEFENSE" ||
+            ( empty_only && !get_world( *it )->world_saves.empty() ) ) {
             it = world_names.erase( it );
         } else {
             ++it;

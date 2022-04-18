@@ -45,6 +45,7 @@
         "9": "t_linoleum_gray",
         "-": "t_linoleum_gray",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "N": "t_thconc_floor",
         "q": "t_thconc_floor"

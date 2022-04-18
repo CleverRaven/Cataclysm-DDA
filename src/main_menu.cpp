@@ -30,6 +30,7 @@
 #include "mapbuffer.h"
 #include "mapsharing.h"
 #include "messages.h"
+#include "music.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -367,8 +368,11 @@ bool main_menu::opening_screen()
     // set holiday based on local system time
     current_holiday = get_holiday_from_time();
 
-    // Play title music, whoo!
-    play_music( "title" );
+    if( music::get_music_id() != music::music_id::title ) {
+        music::deactivate_music_id_all();
+    } else {
+        play_music( music::get_music_id_string() );
+    }
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
@@ -772,7 +776,7 @@ bool main_menu::new_character_tab()
                     // First load the mods, this is done by
                     // loading the world.
                     // Pick a world, suppressing prompts if it's "play now" mode.
-                    WORLDPTR world = world_generator->pick_world( sel2 != 3 && sel2 != 4 );
+                    WORLDPTR world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
                     if( world == nullptr ) {
                         continue;
                     }

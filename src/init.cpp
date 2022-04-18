@@ -262,6 +262,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
+    add( "proficiency_category", &proficiency_category::load_proficiency_categories );
     add( "speed_description", &speed_description::load_speed_descriptions );
     add( "mood_face", &mood_face::load_mood_faces );
     add( "skill", &Skill::load_skill );
@@ -310,7 +311,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
     add( "requirement", []( const JsonObject & jo ) {
-        requirement_data::load_requirement( jo );
+        requirement_data::load_requirement( jo, string_id<requirement_data>::NULL_ID(), true );
     } );
     add( "trap", &trap::load_trap );
 
@@ -401,6 +402,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
+    add( "city", &city::load_city );
     add( "overmap_special", &overmap_specials::load );
     add( "overmap_special_migration", &overmap_special_migration::load_migrations );
     add( "city_building", &city_buildings::load );
@@ -541,8 +543,10 @@ void DynamicDataLoader::unload_data()
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();
+    ascii_art::reset();
     behavior::reset();
     body_part_type::reset();
+    butchery_requirements::reset();
     sub_body_part_type::reset();
     weapon_category::reset();
     clear_techniques_and_martial_arts();
@@ -550,6 +554,7 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    disease_type::reset();
     dreams.clear();
     emit::reset();
     enchantment::reset();
@@ -562,6 +567,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     harvest_drop_type::reset();
     harvest_list::reset();
+    item_category::reset();
     item_controller->reset();
     json_flag::reset();
     limb_score::reset();
@@ -581,17 +587,20 @@ void DynamicDataLoader::unload_data()
     overmap_connections::reset();
     overmap_land_use_codes::reset();
     overmap_locations::reset();
+    city::reset();
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
     profession::reset();
     proficiency::reset();
+    proficiency_category::reset();
     mood_face::reset();
     speed_description::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
+    relic_procgen_data::reset();
     requirement_data::reset();
     reset_bionics();
     reset_constructions();
@@ -614,6 +623,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
     VehicleGroup::reset();
@@ -626,6 +636,7 @@ void DynamicDataLoader::unload_data()
     weakpoints::reset();
     weather_types::reset();
     widget::reset();
+    zone_type::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()
@@ -680,6 +691,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
+            { _( "Cities" ), &city::finalize },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
@@ -778,6 +790,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
+            { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Start locations" ), &start_locations::check_consistency },

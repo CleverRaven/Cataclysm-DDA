@@ -82,8 +82,8 @@
     "symbol": "[",
     "color": "yellow",
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ],
-    "armor": [ { "coverage": 50, "covers": [ "mouth" ] } ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE", "PADDED" ],
+    "armor": [ { "coverage": 50, "covers": [ "mouth" ], "rigid_layer_only": true } ]
   },
   {
     "id": "tie_skinny",
@@ -206,7 +206,7 @@
     "id": "tie_necktie",
     "type": "ARMOR",
     "name": { "str": "necktie" },
-    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
+    "description": "An ordinary, green necktie.  It's more difficult to put on, and it takes real skill to do so.  Wearing a necktie is much better than wearing a clip-on tie.",
     "weight": "15 g",
     "volume": "25 ml",
     "price": 1000,
@@ -215,6 +215,25 @@
     "symbol": "[",
     "color": "green",
     "flags": [ "FANCY" ]
+  },
+  {
+    "id": "vampire_fangs",
+    "repairs_like": "mouthpiece",
+    "type": "ARMOR",
+    "name": { "str_sp": "vampire fangs" },
+    "description": "A pair of white vampire fangs made of plastic.",
+    "weight": "23 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 10,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mouthpiece",
+    "color": "white",
+    "material_thickness": 0.01,
+    "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 10, "covers": [ "mouth" ] } ]
   },
   {
     "id": "veil_wedding",

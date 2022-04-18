@@ -4,6 +4,7 @@ from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
+from .parsers.city import parse_city
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -37,6 +38,7 @@ from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
 from .parsers.proficiency import parse_proficiency
+from .parsers.proficiency_category import parse_proficiency_category
 from .parsers.recipe import parse_recipe
 from .parsers.recipe_category import parse_recipe_category
 from .parsers.recipe_group import parse_recipe_group
@@ -102,6 +104,7 @@ parsers = {
     "character_mod": parse_character_mod,
     "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
+    "city": parse_city,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,
@@ -179,6 +182,7 @@ parsers = {
     "profession": parse_profession,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
+    "proficiency_category": parse_proficiency_category,
     "recipe": parse_recipe,
     "recipe_category": parse_recipe_category,
     "recipe_group": parse_recipe_group,

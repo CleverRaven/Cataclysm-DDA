@@ -58,6 +58,7 @@ static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -331,9 +332,9 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max += this_max;
     }
 
-    for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
-        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+    std::vector<item> byproducts = rec.create_byproducts();
+    for( const item &byproduct : byproducts ) {
+        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
@@ -471,6 +472,10 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
             fun_max *= 3;
             fun = fun * 3 / 2;
         }
+    }
+
+    if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
+        fun = fun - 13;
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
@@ -689,7 +694,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
-        // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+        // For all those folks who loved eating Marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                     _( "We can't eat that.  It's not right for us." ) );
@@ -1304,11 +1309,8 @@ void Character::modify_morale( item &food, const int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level[mutation_category_URSINE] > 40 ) {
-        // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
-                        mutation_category_level[mutation_category_URSINE] / 12;
+        mutation_category_level[mutation_category_URSINE] > 20 ) {
+        int honey_fun = std::min( mutation_category_level[mutation_category_URSINE] / 5, 20 );
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {

@@ -11,6 +11,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "timed_event.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -202,10 +203,10 @@ std::string display::date_string()
 
 std::string display::time_string( const Character &u )
 {
-    // Return exact time if character has a watch, or approximate time if aboveground
+    // Return exact time if character has a watch, or approximate time if can see the sky
     if( u.has_watch() ) {
         return to_string_time_of_day( calendar::turn );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         return display::time_approx();
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -917,17 +918,6 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     return std::make_pair( fuel_text, fuel_color );
 }
 
-std::string display::colorized_bodypart_outer_armor( const Character &u, const bodypart_id &bp )
-{
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, 0 );
-        }
-    }
-    return "-";
-}
-
 // Single-letter move mode (W, R, C, P)
 std::pair<std::string, nc_color> display::move_mode_letter_color( const Character &u )
 {
@@ -1129,7 +1119,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     for( int row = top; row <= bottom; row++ ) {
         // Scan across the width of the row
         for( int col = left; col <= right; col++ ) {
-            // Is this point along the border of the overmap text area we have to work wth?
+            // Is this point along the border of the overmap text area we have to work with?
             // If so, overmap_tile_symbol_color may draw a mission indicator at this point.
             const bool edge = !found_mi && !( mission_xyz.x() >= center_xyz.x() + left &&
                                               mission_xyz.x() <= center_xyz.x() + right &&
@@ -1137,7 +1127,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
                                               mission_xyz.y() <= center_xyz.y() + bottom ) &&
                               ( row == top || row == bottom || col == left || col == right );
             // Get colorized symbol for this point
-            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z );
+            const tripoint_abs_omt omt( center_xyz.xy() + point( col, row ), here.get_abs_sub().z() );
             std::pair<std::string, nc_color> sym_color = display::overmap_tile_symbol_color( u, omt, edge,
                     found_mi );
 
@@ -1165,6 +1155,14 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
     point_om_omt omt;
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     return string_format( _( "LEVEL %i, %d'%d, %d'%d" ), loc.z(), om.x(), omt.x(), om.y(), omt.y() );
+}
+
+std::string display::current_position_text( const tripoint_abs_omt &loc )
+{
+    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return _( e->string_id );
+    }
+    return overmap_buffer.ter( loc )->get_name();
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

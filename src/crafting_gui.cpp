@@ -309,10 +309,16 @@ static std::vector<std::string> recipe_info(
     }
     const float time_maluses = avail.proficiency_time_maluses;
     const float fail_maluses = avail.proficiency_failure_maluses;
-    if( time_maluses != 1.0 || fail_maluses != 1.0 ) {
+    if( time_maluses != 1.0 && fail_maluses != 1.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
                                  "and be %.1fx more likely to incur failures, because you "
-                                 "lack some of the proficiencies used.\n" ), time_maluses, fail_maluses );
+                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, fail_maluses );
+    } else if( time_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), time_maluses );
+    } else if( fail_maluses != 1.0 ) {
+        oss << string_format( _( "<color_yellow>This recipe will be %.1fx more likely to incur failures, "
+                                 "because you lack some of the proficiencies used.</color>\n" ), fail_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
         oss << _( "<color_red>Cannot be crafted because you lack"
@@ -321,7 +327,7 @@ static std::vector<std::string> recipe_info(
 
     if( recp.has_byproducts() ) {
         oss << _( "Byproducts:\n" );
-        for( const std::pair<const itype_id, int> &bp : recp.byproducts ) {
+        for( const std::pair<const itype_id, int> &bp : recp.get_byproducts() ) {
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
@@ -462,7 +468,7 @@ class recipe_result_info_cache
 void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
         std::vector<iteminfo> &summary_info, std::vector<iteminfo> &details_info )
 {
-    for( const std::pair<const itype_id, int> &bp : rec->byproducts ) {
+    for( const std::pair<const itype_id, int> &bp : rec->get_byproducts() ) {
         //Add dividers between item details
         insert_iteminfo_blank_line( details_info );
         insert_iteminfo_separator_line( details_info );
@@ -774,6 +780,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     int num_recipe = 0;
     int batch_line = 0;
     const recipe *chosen = nullptr;
+    int last_line = -1;
+    bool just_toggled_unread = false;
 
     Character &player_character = get_player_character();
     const inventory &crafting_inv = player_character.crafting_inventory();
@@ -1216,9 +1224,15 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             // list.
             user_moved_line = false;
             uistate.read_recipes.insert( current[line]->ident() );
+            if( last_line != -1 ) {
+                uistate.read_recipes.insert( current[last_line]->ident() );
+                last_line = -1;
+            }
             recalc_unread = true;
         }
 
+        const bool previously_toggled_unread = just_toggled_unread;
+        just_toggled_unread = false;
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
@@ -1263,9 +1277,15 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "DOWN" ) {
+            if( !previously_toggled_unread ) {
+                last_line = line;
+            }
             line++;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "UP" ) {
+            if( !previously_toggled_unread ) {
+                last_line = line;
+            }
             line--;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "PAGE_DOWN" ) {
@@ -1473,6 +1493,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
+            just_toggled_unread = true;
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {

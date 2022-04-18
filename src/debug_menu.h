@@ -40,7 +40,6 @@ enum class debug_menu_index : int {
     EDIT_PLAYER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
-    SPAWN_PORTAL_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
     MAP_EDITOR,
     CHANGE_WEATHER,
@@ -62,6 +61,7 @@ enum class debug_menu_index : int {
     BENCHMARK,
     OM_TELEPORT,
     OM_TELEPORT_COORDINATES,
+    OM_TELEPORT_CITY,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -93,6 +93,7 @@ enum class debug_menu_index : int {
     EDIT_CAMP_LARDER,
     WRITE_GLOBAL_EOCS,
     WRITE_GLOBAL_VARS,
+    EDIT_GLOBAL_VARS,
     ACTIVATE_EOC,
     last
 };

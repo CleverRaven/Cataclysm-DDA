@@ -10,6 +10,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "display.h"
 #include "enum_conversions.h"
 #include "line.h"
 #include "optional.h"
@@ -72,6 +73,17 @@ std::string enum_to_string<moon_phase>( moon_phase phase_num )
     }
     cata_fatal( "Invalid moon_phase %d", phase_num );
 }
+template<>
+std::string enum_to_string<time_accuracy>( time_accuracy acc )
+{
+    switch( acc ) {
+        case time_accuracy::NONE: return "NONE";
+        case time_accuracy::PARTIAL: return "PARTIAL";
+        case time_accuracy::FULL: return "FULL";
+        case time_accuracy::NUM_TIME_ACCURACY: break;
+    }
+    cata_fatal( "Invalid time_accuracy %d", acc );
+}
 // *INDENT-ON*
 } // namespace io
 
@@ -129,7 +141,7 @@ static std::pair<units::angle, units::angle> sun_ra_declination(
     // J2000, so use that as our offset too.  The relative drift is slow, so we
     // neglect it.
     const units::angle mean_anomaly = 77_degrees + mean_long;
-    // The two arbitrary constants in the caclulation of ecliptic longitude
+    // The two arbitrary constants in the calculation of ecliptic longitude
     // relate to the non-circularity of the Earth's orbit.
     const units::angle ecliptic_longitude =
         mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
@@ -802,6 +814,90 @@ std::string to_string( const time_point &p )
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
+}
+
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc )
+{
+    const int days = to_days<int>( turn_diff );
+    const int hours = to_hours<int>( turn_diff ) % 24;
+    const int minutes = to_minutes<int>( turn_diff ) % 60;
+    std::string days_text;
+    std::string hours_text;
+    std::string minutes_text;
+    switch( acc ) {
+        case time_accuracy::FULL:
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
+            }
+            if( hours > 0 ) {
+                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
+            }
+            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
+            break;
+        case time_accuracy::PARTIAL:
+            if( days > 0 ) {
+                days_text = string_format( n_gettext( "%d day", "%d days", days ), days );
+            } else if( hours > 0 ) {
+                //~ Estimate of how much time has passed since the last entry
+                days_text = _( "Less than a day" );
+            } else {
+                //~ Estimate of how much time has passed since the last entry
+                days_text = _( "Not long" );
+            }
+            break;
+        case time_accuracy::NONE:
+            //~ Estimate of how much time has passed since the last entry
+            days_text = days > 0 ? _( "A long while" ) : hours > 0 ? _( "A while" ) : _( "A short while" );
+            break;
+        default:
+            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
+    }
+    //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
+    return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
+}
+
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
+{
+    const int year = to_turns<int>( turn - calendar::turn_zero ) /
+                     to_turns<int>( calendar::year_length() ) + 1;
+    const int day = day_of_season<int>( turn ) + 1;
+    switch( acc ) {
+        case time_accuracy::FULL:
+            return to_string( turn );
+        case time_accuracy::PARTIAL:
+            // partial accuracy, able to see the sky
+            //~ Time of year:
+            //~ $1 = year since Cataclysm
+            //~ $2 = season
+            //~ $3 = day of season
+            //~ $4 = approximate time of day
+            return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
+                                  calendar::name_season( season_of_year( turn ) ),
+                                  day, display::time_approx() );
+        case time_accuracy::NONE: {
+            // normalized to 100 day seasons
+            const int day_norm = ( day * 100 ) / to_days<int>( calendar::season_length() );
+            std::string seas_point;
+            if( day_norm < 33 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Early" );
+            } else if( day_norm < 66 ) {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Mid" );
+            } else {
+                //~ Estimated point in the current season
+                seas_point = pgettext( "time of season", "Late" );
+            }
+            //~ Estimated day-of-season string: $1 = Early/Mid/Late, $2 = Spring/Summer/Fall/Winter
+            std::string season = string_format( _( "%1$s %2$s" ), seas_point,
+                                                calendar::name_season( season_of_year( turn ) ) );
+            //~ Time of year: $1 = year since Cataclysm, $2 = season
+            return string_format( _( "Year %1$d, %2$s" ), year, season );
+        }
+        default:
+            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
+    }
+    return std::string();
 }
 
 time_point::time_point()

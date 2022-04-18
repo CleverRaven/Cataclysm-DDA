@@ -1,5 +1,40 @@
 [
   {
+    "id": "fatigue_desc_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 191 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 383 } ] }
+          ]
+        }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 383 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 575 } ] }
+          ]
+        }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 575 } ] }
+      }
+    ]
+  },
+  {
     "id": "fatigue_num",
     "type": "widget",
     "label": "Fatigue",
@@ -22,7 +57,6 @@
     "type": "widget",
     "label": "Rest",
     "style": "text",
-    "var": "fatigue_text",
-    "//": "Uses display::fatigue_text_color"
+    "copy-from": "fatigue_desc_template"
   }
 ]

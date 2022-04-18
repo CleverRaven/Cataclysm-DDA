@@ -314,7 +314,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ]
     ],
     "pocket_data": [
       {
@@ -370,7 +371,7 @@
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "MK 18 CQBR" },
+        "name": { "str": "Mk 18 CQBR" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
@@ -476,7 +477,7 @@
       {
         "id": "acr",
         "name": { "str": "Remington ACR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]

@@ -13,6 +13,8 @@
 
 class JsonObject;
 
+generic_factory<ammo_effect> &get_all_ammo_effects();
+
 struct ammo_effect {
     public:
         void load( const JsonObject &jo, const std::string &src );
@@ -48,6 +50,7 @@ struct ammo_effect {
     public:
         // Used by generic_factory
         string_id<ammo_effect> id;
+        std::vector<std::pair<string_id<ammo_effect>, mod_id>> src;
         bool was_loaded = false;
 
     public:

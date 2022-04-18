@@ -327,6 +327,21 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return rhs.settings.priority() > this->settings.priority();
     }
 
+    // if we've somehow bypassed the pocket autoinsert rules, check them here
+    if( !rhs.settings.accepts_item( it ) ) {
+        return false;
+    } else if( !this->settings.accepts_item( it ) ) {
+        return true;
+    }
+
+    const bool rhs_whitelisted = !rhs.settings.get_item_whitelist().empty() ||
+                                 !rhs.settings.get_category_whitelist().empty();
+    const bool lhs_whitelisted = !this->settings.get_item_whitelist().empty() ||
+                                 !this->settings.get_category_whitelist().empty();
+    if( rhs_whitelisted != lhs_whitelisted ) {
+        return rhs_whitelisted;
+    }
+
     const bool rhs_it_stack = rhs.has_item_stacks_with( it );
     if( has_item_stacks_with( it ) != rhs_it_stack ) {
         return rhs_it_stack;
@@ -1006,6 +1021,11 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                        "<num>", iteminfo::lower_is_better, data->moves );
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
+    }
+
+    if( data->holster ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "This is a <info>holster</info>, it only holds <info>one item at a time</info>." ) );
     }
 
     if( data->extra_encumbrance > 0 ) {
@@ -1806,13 +1826,18 @@ item_pocket *item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     item_pocket *ret = nullptr;
+    // If the current pocket has restrictions or blacklists the item,
+    // try the nested pocket regardless of whether it's soft or rigid.
+    const bool ignore_rigidity =
+        !settings.accepts_item( it ) ||
+        !get_pocket_data()->get_flag_restrictions().empty();
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
         item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                     allow_sealed, ignore_settings, /*nested=*/true ).second;
+                                     allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity ).second;
         if( nested_pocket != nullptr &&
             ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
             ret = nested_pocket;
@@ -1837,6 +1862,11 @@ bool item_pocket::is_type( pocket_type ptype ) const
 bool item_pocket::is_ablative() const
 {
     return get_pocket_data()->ablative;
+}
+
+bool item_pocket::is_holster() const
+{
+    return get_pocket_data()->holster;
 }
 
 const translation &item_pocket::get_description() const
