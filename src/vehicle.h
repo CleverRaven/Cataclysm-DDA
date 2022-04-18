@@ -1689,7 +1689,7 @@ class vehicle
         * @return items that provide consumed charges
         */
         std::list<item> use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
-                                     const std::function<bool( const item & )> &filter );
+                                     const std::function<bool( const item & )> &filter, bool in_tools = false );
 
         // opens/closes doors or multipart doors
         void open( int part_index );

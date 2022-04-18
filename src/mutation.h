@@ -344,7 +344,8 @@ struct mutation_branch {
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
-        std::map<bodypart_str_id, resistances> armor;
+        std::map<bodypart_str_id, resistances> armor; // Modifiers to protection values
+        std::vector<itype_id> integrated_armor; // Armor pseudo-items that are put on by this mutation
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:

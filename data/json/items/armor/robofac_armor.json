@@ -20,7 +20,7 @@
     "material_thickness": 3,
     "pocket_data": [
       {
-        "description": "Watertight internal reservoir",
+        "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "watertight": true,
@@ -29,7 +29,7 @@
         "moves": 120
       },
       {
-        "description": "Watertight internal reservoir",
+        "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "watertight": true,
@@ -38,7 +38,7 @@
         "moves": 120
       },
       {
-        "description": "Quick access pouches",
+        "description": "Quick access pouches.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "4 kg",
@@ -46,7 +46,7 @@
         "moves": 80
       },
       {
-        "description": "Quick access pouches",
+        "description": "Quick access pouches.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "4 kg",
@@ -60,7 +60,7 @@
         "max_contains_volume": "5000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Hooks for an armored mantle",
+        "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
       },
       {
@@ -70,7 +70,7 @@
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Hooks for an armored skirt",
+        "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
       },
       {
@@ -80,7 +80,7 @@
         "max_item_length": "70 cm",
         "moves": 200,
         "holster": true,
-        "description": "Strap for a gun barrel",
+        "description": "Strap for a gun barrel.",
         "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
       }
     ],
@@ -113,7 +113,7 @@
     "material": [ "nylon", "kevlar", "ceramic" ],
     "pocket_data": [
       {
-        "description": "Watertight internal reservoir",
+        "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "watertight": true,
@@ -122,7 +122,7 @@
         "moves": 120
       },
       {
-        "description": "Watertight internal reservoir",
+        "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
         "watertight": true,
@@ -131,7 +131,7 @@
         "moves": 120
       },
       {
-        "description": "Quick access pouches",
+        "description": "Quick access pouches.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "4 kg",
@@ -139,7 +139,7 @@
         "moves": 80
       },
       {
-        "description": "Quick access pouches",
+        "description": "Quick access pouches.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "4 kg",
@@ -153,7 +153,7 @@
         "max_contains_volume": "5000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Hooks for an armored mantle",
+        "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
       },
       {
@@ -163,7 +163,7 @@
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Hooks for an armored skirt",
+        "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
       },
       {
@@ -173,7 +173,7 @@
         "max_item_length": "70 cm",
         "moves": 200,
         "holster": true,
-        "description": "Strap for a gun barrel",
+        "description": "Strap for a gun barrel.",
         "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
       },
       { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }

@@ -1,16 +1,17 @@
 #include "iuse_software_kitten.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstdlib>  // Needed for rand()
 #include <functional>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "input.h"
 #include "optional.h"
 #include "output.h"
-#include "posix_time.h"
 #include "rng.h"
 #include "text_snippets.h"
 #include "translations.h"
@@ -288,13 +289,20 @@ void robot_finds_kitten::process_input()
                 }
             } else {
                 refresh_display();
-                timespec ts;
-                ts.tv_sec = 0;
-                ts.tv_nsec = 100'000'000; // 100 ms
-                for( int i = 0; i < 10; ++i ) {
-                    nanosleep( &ts, nullptr );
-                    inp_mngr.pump_events();
-                }
+                // Sleep for 1 s
+                const auto sleep_till = std::chrono::steady_clock::now()
+                                        + std::chrono::nanoseconds( 1'000'000'000 );
+                do {
+                    const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
+                                                     // Pump events every 100 ms
+                                                     std::chrono::nanoseconds( 100'000'000 ) );
+                    if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
+                        std::this_thread::sleep_for( sleep_for );
+                        inp_mngr.pump_events();
+                    } else {
+                        break;
+                    }
+                } while( true );
                 end_animation_frame++;
             }
             break;

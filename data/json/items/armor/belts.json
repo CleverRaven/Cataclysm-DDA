@@ -318,7 +318,7 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "description": "Clipped directly to belt",
+        "description": "Clipped directly to belt.",
         "flag_restriction": [ "BELT_CLIP" ]
       }
     ],
