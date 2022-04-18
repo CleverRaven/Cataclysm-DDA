@@ -221,7 +221,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 50, 100 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 350, 450 ] } ]
     }
   },
   {
@@ -246,7 +246,7 @@
       "str_max": 16,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 100, 200 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 700, 900 ] } ]
     }
   },
   {
