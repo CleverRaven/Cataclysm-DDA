@@ -54,5 +54,40 @@
     "info": "Allows to place procgen ravines during overmap generation.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_CITIES",
+    "info": "Allows to place cities during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FOREST_TRAILS",
+    "info": "Allows to place procgen forest trails during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_ROADS",
+    "info": "Allows to place procgen roads during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_SPECIALS",
+    "info": "Allows to place overmap specials during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
+    "info": "Allows to place procgen forest trailheads during overmap generation.",
+    "stype": "bool",
+    "value": true
   }
 ]
