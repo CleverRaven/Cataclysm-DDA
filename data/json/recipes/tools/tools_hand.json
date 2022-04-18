@@ -69,8 +69,8 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "pipe", 2 ], [ "rebar", 2 ] ], [ [ "nail", 1 ] ] ],
-    "byproducts": [ [ "steel_lump", 1 ], [ "steel_chunk", 3 ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "pipe", 1 ], [ "rebar", 1 ] ], [ [ "nail", 1 ] ] ],
+    "byproducts": [ [ "scrap", 3 ] ]
   },
   {
     "type": "recipe",
