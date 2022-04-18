@@ -2523,6 +2523,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
+void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
+{
+    std::string npc_id;
+    mandatory( jo, false, member, npc_id );
+    function = [npc_id]( const dialogue & ) {
+        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
+            return npc.idz == npc_id;
+        } );
+        for( npc *npc : npc_list ) {
+            overmap_buffer.remove_npc( npc->getID() );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
@@ -4176,6 +4190,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_member( "remove_npc" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
