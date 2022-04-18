@@ -303,6 +303,25 @@
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
+    "id": "poncho_makeshift",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "black",
+    "name": { "str": "makeshift poncho" },
+    "description": "A large plastic trash bag with holes cut for the head and arms.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "50 ml",
+    "to_hit": -1,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OVERSIZE", "HOOD", "OUTER", "SOFT" ],
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "snuggie",
     "type": "ARMOR",
     "name": { "str": "snuggie" },
