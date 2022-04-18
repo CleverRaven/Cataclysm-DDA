@@ -532,6 +532,7 @@
     "type": "vehicle_part",
     "id": "ap_battery_car",
     "name": { "str": "car grid battery" },
+    "categories": [ "energy" ],
     "symbol": "B",
     "looks_like": "battery_car",
     "location": "structure",
