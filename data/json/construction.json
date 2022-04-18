@@ -3961,6 +3961,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_scutch_breaker",
+    "group": "build_stationary_scutcher",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 30 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_scutch_breaker"
+  },
+  {
+    "type": "construction",
     "id": "constr_junk_palisade",
     "group": "build_junk_metal_barrier",
     "category": "CONSTRUCT",

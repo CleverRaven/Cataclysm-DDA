@@ -907,6 +907,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
+    optional( jo, was_loaded, "dissect", dissect );
+
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
         for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
@@ -1376,6 +1378,10 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( !mon.dissect.is_empty() && !mon.dissect.is_valid() ) {
+            debugmsg( "monster %s has invalid dissection harvest_entry: %s", mon.id.c_str(),
+                      mon.dissect.c_str() );
         }
         if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
             debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );

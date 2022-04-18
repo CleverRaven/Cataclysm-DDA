@@ -183,6 +183,7 @@
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
     "max_volume": "200 L",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "fridge" },
     "bash": {
       "str_min": 18,
       "str_max": 50,
@@ -259,6 +260,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
     "max_volume": "450 L",
@@ -363,9 +365,10 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oven" },
+    "//": "TODO: Replace FIRE_CONTAINER with some flag choking out small files",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
     "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
-    "examine_action": "fireplace",
     "max_volume": "120 L",
     "bash": {
       "str_min": 8,
@@ -586,6 +589,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "solar_panel" },
     "flags": [ "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "solar_panel", "count": 1 } ] },
     "bash": {

@@ -278,6 +278,7 @@
   {
     "id": "TALK_EVAC_MERCHANT",
     "type": "talk_topic",
+    "speaker_effect": { "effect": [ { "u_add_var": "found_refugee_center", "value": "yes" } ] },
     "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal…", "no": "Welcome…" }
   },
   {
