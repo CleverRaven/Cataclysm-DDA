@@ -909,7 +909,6 @@
     "type": "MONSTER",
     "id": "mon_apatosaurus",
     "name": { "str_sp": "apatosaurus" },
-    "looks_like": "mon_camptosaurus",
     "species": "DINOSAUR",
     "default_faction": "herbivore_dino",
     "symbol": "D",
