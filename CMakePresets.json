@@ -16,7 +16,6 @@
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe",
         "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
-        "DYNAMIC_LINKING": "True",
         "CURSES": "False",
         "LOCALIZE": "False",
         "TILES": "True"
@@ -36,14 +35,22 @@
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "DYNAMIC_LINKING": "False",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+      }
     },
     {
       "name": "x64-release",
       "displayName": "x64 Release",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "inherits": "x64-debug",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "DYNAMIC_LINKING": "False",
+        "VCPKG_TARGET_TRIPLET":"x64-windows-static"
+      }
     },
     {
       "name": "x86-debug",
