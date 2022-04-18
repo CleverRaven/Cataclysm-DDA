@@ -252,6 +252,7 @@
       { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
+      { "item": "shot_glass", "prob": 60 },
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
