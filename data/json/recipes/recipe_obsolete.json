@@ -612,11 +612,6 @@
   },
   {
     "type": "recipe",
-    "result": "dragonskin",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rope_6_from_filament",
     "obsolete": true
   },
@@ -713,6 +708,11 @@
   {
     "type": "recipe",
     "result": "rope_makeshift_6_spinwheel_dissasemble",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dragonskin",
     "obsolete": true
   }
 ]
