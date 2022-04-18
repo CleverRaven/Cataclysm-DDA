@@ -1,10 +1,10 @@
 add_compile_options(
         /MP # cl.exe build with multiple processes
-        /utf-8
-        /bigobj
-        /permissive-
-        /sdl-
-        /GS-
+        /utf-8 # set source and execution character sets to UTF-8
+        /bigobj # increase # of sections in object files
+        /permissive- # to allow alternative operators ("and", "or", "not")
+        /sdl- # disable additional security checks
+        /GS- # disable buffer security checks
         /wd4068 # unknown pragma
         /wd4146 # negate unsigned
         /wd4819 # codepage?
