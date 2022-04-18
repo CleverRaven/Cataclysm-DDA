@@ -139,46 +139,38 @@
       ]
     },
     "responses": [
-      {
-        "text": "Nice to meet you, Boris.",
-        "topic": "TALK_REFUGEE_Boris_1_firstmeet"
-      },
-      {
-        "text": "Hi Boris, nice to meet you.  I gotta go though.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Boris.", "topic": "TALK_REFUGEE_Boris_1_firstmeet" },
+      { "text": "Hi Boris, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1a",
-    "dynamic_line": { "and": [ "*stares at you for a moment before nodding in recognition.  \"", [ "Well, well.  You are back.", "So, you have survived." ] },
+    "dynamic_line": {
+      "and": [
+        "*stares at you for a moment before nodding in recognition.  \"",
+        [ "Well, well.  You are back.", "So, you have survived." ]
+      ]
+    },
     "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
     "responses": [
-      {
-        "text": "Hi, Boris.  What's up?",
-        "topic": "TALK_REFUGEE_Boris_2"
-      },
-      {
-        "text": "Hi Boris.  I can't stay to talk.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Hi, Boris.  What's up?", "topic": "TALK_REFUGEE_Boris_2" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1b",
-    "dynamic_line": { "and": [ "*nods at you, his eyes lighting up a little as you approach.  \"", [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ] },
-	"//": "Later meetings with Boris, after you've started doing quests for him",
+    "dynamic_line": {
+      "and": [
+        "*nods at you, his eyes lighting up a little as you approach.  \"",
+        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ]
+      ]
+    },
+    "//": "Later meetings with Boris, after you've started doing quests for him",
     "responses": [
-      {
-        "text": "Good to see you, Boris.  Are things looking up for you at all?",
-        "topic": "TALK_REFUGEE_Boris_3"
-      },
-      {
-        "text": "Hi Boris.  I can't stay to talk.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Good to see you, Boris.  Are things looking up for you at all?", "topic": "TALK_REFUGEE_Boris_3" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -453,7 +445,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
-		{ "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
+        { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ]
     }
