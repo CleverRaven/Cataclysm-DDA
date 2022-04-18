@@ -18,7 +18,7 @@
     "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
     "info": "Allows to populate outside connections from neighbors.",
     "stype": "bool",
-    "value": false
+    "value": true
   },
   {
     "type": "EXTERNAL_OPTION",
