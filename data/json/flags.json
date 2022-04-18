@@ -1403,6 +1403,11 @@
     "type": "json_flag"
   },
   {
+    "id": "MUTAGEN_SAMPLE",
+    "type": "json_flag",
+    "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
+  },
+  {
     "id": "MUTAGEN_CATALYST",
     "type": "json_flag",
     "info": "Injecting it will <neutral>jumpstart mutation</neutral>."
