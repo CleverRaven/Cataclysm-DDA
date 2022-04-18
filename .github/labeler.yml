@@ -106,6 +106,9 @@
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
 
+"Mods: MA":
+  - data/mods/MA/**/*
+
 "Mods: MMA":
   - data/mods/MMA/**/*
 

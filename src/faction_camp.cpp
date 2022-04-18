@@ -1682,6 +1682,14 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         if( must_feed ) {
             camp_food_supply( duration );
         }
+
+        map *target_map = &get_map();
+        for( item *i : equipment ) {
+            int count = i->count();
+            target_map->use_charges( target_map->getlocal( get_dumping_spot() ), basecamp::inv_range,
+                                     i->typeId(), count );
+        }
+        target_map->save();
     }
     return comp;
 }
@@ -3053,13 +3061,18 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_i
                                               _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
-                seed_cnt += seeds->count();
+                size_t num_seeds = seeds->count();
+                if( seed_cnt + num_seeds > plots_cnt ) {
+                    num_seeds = plots_cnt - seed_cnt;
+                    seeds->charges = num_seeds;
+                }
+                seed_cnt += num_seeds;
             }
-            size_t plots_seeded = std::min( seed_cnt, plots_cnt );
+
             if( !seed_cnt ) {
                 return;
             }
-            work += 1_minutes * plots_seeded;
+            work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
                            _( "begins planting the field…" ), false, plant_these,
                            skill_survival, 1 );

@@ -869,8 +869,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        // Temporarily scale by 5x as we adjust MAX_RECOIL.
-        recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
+        // Temporarily scale by 5x as we adjust MAX_RECOIL, factoring in the recoil enchantment also.
+        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
+                  ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -927,8 +928,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         // Reset aim for bows and other reload-and-shoot weapons.
         recoil = MAX_RECOIL;
     } else {
-        // apply delayed recoil
-        recoil += delay;
+        // apply delayed recoil, factor in recoil enchantments
+        recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, delay );
         if( is_mech_weapon ) {
             // mechs can handle recoil far better. they are built around their main gun.
             // TODO: shouldn't this affect only recoil accumulated during this function?

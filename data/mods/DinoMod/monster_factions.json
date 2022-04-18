@@ -143,6 +143,24 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "torvosaurus",
+    "base_faction": "predator_dino",
+    "friendly": [ "torvosaurus_juvenile", "torvosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "torvosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "torvosaurus", "torvosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "torvosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "torvosaurus", "torvosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "allosaurus",
     "base_faction": "predator_dino",
     "friendly": [ "allosaurus_juvenile", "allosaurus_hatchling" ]
@@ -275,6 +293,26 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "daspletosaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "daspletosaurus_juvenile", "daspletosaurus_hatchling" ],
+    "by_mood": [ "daspletosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "daspletosaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "daspletosaurus", "daspletosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "daspletosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "daspletosaurus", "daspletosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "tyrannosaurus",
     "base_faction": "predator_dino",
     "hate": [ "animal", "zombie", "human" ],
@@ -341,6 +379,18 @@
     "name": "utahraptor_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "utahraptor", "utahraptor_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus",
+    "base_faction": "small_predator",
+    "friendly": [ "dromaeosaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dromaeosaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "dromaeosaurus" ]
   },
   {
     "type": "MONSTER_FACTION",

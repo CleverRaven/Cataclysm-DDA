@@ -42,6 +42,7 @@
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
+#include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -437,6 +438,8 @@ class Character : public Creature, public visitable
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
 
+        cata::optional<city> starting_city;
+        cata::optional<point_abs_om> world_origin;
         bool random_start_location = true;
         start_location_id start_location;
 
@@ -2473,7 +2476,8 @@ class Character : public Creature, public visitable
         * @return List of items used
         */
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
+                                     bool in_tools = false );
 
         item find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
@@ -3245,7 +3249,7 @@ class Character : public Creature, public visitable
                                            int count = INT_MAX ) override;
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        const std::function<void( int )> &visitor = nullptr ) const override;
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
