@@ -1900,7 +1900,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     }
     if( player_character.is_mute() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ),
-                                player_character.is_blind() || !player_character.sees( pos() ) ? _( "someone" ) : get_name() );
+                                get_name() );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
@@ -1908,9 +1908,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ),
-                                       player_character.is_blind() ||
-                                       !player_character.sees( pos() ) ? _( "someone" ) : get_name(), formatted_line );
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
 
     // Sound happens even if we can't hear it
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
