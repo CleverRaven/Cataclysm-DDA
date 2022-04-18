@@ -62,7 +62,13 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Stan_2", "TALK_REFUGEE_Stan_Background", "TALK_REFUGEE_Stan_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Stan_2",
+      "TALK_REFUGEE_Stan_Background",
+      "TALK_REFUGEE_Stan_Situation",
+      "TALK_REFUGEE_Boris",
+      "TALK_REFUGEE_Garry"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -83,7 +89,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_1",
-    "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.",
+    "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.\"",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
@@ -124,6 +130,8 @@
     "id": "TALK_REFUGEE_Stan_Background",
     "dynamic_line": "No, I don't particularly want to talk about it, but I can I guess.  Before <the_cataclysm> I was an insurance adjuster.  My husband Boris and I were evacuated with my brother Garry, and from our evacuation center we caught a commissioned bus out here.  The bus was attacked by a monster, we lived.  Not everyone on the bus did.  We lost people dear to us, now we're stuck here with little to do but think about it.",
     "responses": [
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Boris" },
+      { "text": "Tell me about Garry.", "topic": "TALK_REFUGEE_Garry" },
       { "text": "I'm sorry for your loss.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Sorry to hear that.  I'll leave you be.", "topic": "TALK_DONE" }
     ]
@@ -131,7 +139,59 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Stan_Situation",
-    "dynamic_line": "Mostly my family and I have just been mourning.  This isn't the best place to do it.  I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again.",
+    "dynamic_line": {
+      "and": [
+        "Mostly my family and I have just been mourning.  This isn't the best place to do it.  ",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "Still, now that we've found ways to make this community a bit of our own, I feel like maybe there's a chance things will get better.  Sometimes, when he's working, Boris seems like himself again and I have some hope.",
+          "no": "I hope we'll have something productive to do soon; Boris, in particular, has skills to contribute that might help him feel alive again."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "Tell me about Boris.", "topic": "TALK_REFUGEE_Boris" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris",
+    "dynamic_line": {
+      "and": [
+        "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ", but it is a bit better since we cleaned up our dead",
+          "no": ", woken by zombies in the night"
+        },
+        ".  To me, though, that is all just a drop in the bucket.  ",
+        {
+          "u_has_var": "Boris_mission_3",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+          "no": "I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I had better be going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry",
+    "dynamic_line": "",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I had better be going.", "topic": "TALK_DONE" }
