@@ -37,7 +37,8 @@
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
-    "harvest": "mutant_rodent"
+    "harvest": "mutant_mammal_small_fur",
+    "dissect": "dissect_rat_sample_single"
   },
   {
     "id": "mon_zap_rat",
@@ -92,7 +93,8 @@
       }
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
+    "dissect": "dissect_rat_sample_small"
   },
   {
     "id": "mon_teke_mouse",
@@ -118,6 +120,7 @@
     "armor_cut": 3,
     "armor_bullet": 26,
     "death_drops": "ratkin_death_drops_teke",
+    "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" } ],
@@ -149,6 +152,7 @@
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
     "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
+    "dissect": "dissect_rat_sample_small"
   }
 ]
