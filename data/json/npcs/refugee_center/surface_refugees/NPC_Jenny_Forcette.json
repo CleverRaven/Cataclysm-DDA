@@ -334,9 +334,9 @@
         "text": "What do you need to know?  I'm pretty handy with pneumatic devices, I can probably help.",
         "topic": "TALK_REFUGEE_JENNY_Project1_help",
         "effect": { "u_add_var": "Jenny_pneumatics", "value": "mission_complete" },
+		"//": "Eventually when we can check for the presence of a pneumatics proficiency, it should be done here",
         "condition": {
           "and": [
-            { "u_has_proficiency": "prof_pneumatics" },
             { "not": { "u_has_var": "Jenny_pneumatics", "value": "mission_complete" } },
             { "not": { "days_since_cataclysm": 60 } }
           ]

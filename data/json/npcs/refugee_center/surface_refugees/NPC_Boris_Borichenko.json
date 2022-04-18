@@ -361,7 +361,28 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Situation",
-    "dynamic_line": "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers, woken by zombies in the night.  To me, though, that is all just a drop in the bucket.  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+    "dynamic_line": {
+      "and": [
+        "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ", but it is a bit better since we cleaned up our dead",
+          "no": ", woken by zombies in the night"
+        },
+        ".  To me, though, that is all just a drop in the bucket.  ",
+        {
+          "u_has_var": "Boris_mission_3",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": "What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+          "no": "I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
+        }
+      ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

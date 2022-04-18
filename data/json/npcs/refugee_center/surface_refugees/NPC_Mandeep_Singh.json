@@ -88,37 +88,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Mandeep_Singh",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": "Hello again.",
-      "no": { "u_male": true, "yes": "Hello sir.  I am Mandeep Singh.", "no": "Hello ma'am.  I am Mandeep Singh." }
+    "dynamic_line": { "and": [ "*is a middle-aged woman with long dark hair tied back in a braid.  She meets your gaze as you approach, her expression stony.  \"Hello ", { "u_male": true, "yes": "sir", "no": "ma'am" }, ".  I am Mandeep Singh." ] },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Mandeep_1a" }
+      ]
     },
     "responses": [
-      {
-        "text": "Nice to meet you, Mandeep.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Mandeep_1_firstmeet"
-      },
-      {
-        "text": "Hi, Mandeep.  What's up?",
-        "topic": "TALK_REFUGEE_Mandeep_2",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi Mandeep, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Mandeep.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Mandeep.", "topic": "TALK_REFUGEE_Mandeep_1_firstmeet" },
+      { "text": "Hi Mandeep, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_1a",
+    "dynamic_line": "*peers at you with her intense gaze, her face unreadable.  \"Hello again.",
+    "responses": [
+      { "text": "Hi, Mandeep.  What's up?", "topic": "TALK_REFUGEE_Mandeep_2" },
+      { "text": "Hi Mandeep.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
