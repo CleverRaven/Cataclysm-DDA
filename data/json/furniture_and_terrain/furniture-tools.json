@@ -401,6 +401,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_scutch_breaker",
+    "name": "stationary scutcher",
+    "looks_like": "f_rack",
+    "description": "Bulky simple-hinged wooden device to break up the hard parts of fibre plants, with nail combs on the back for separating them out.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "crafting_pseudo_item": "scutcheritem",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_smoking_rack_active",
     "name": "active smoking rack",
     "looks_like": "f_smoking_rack",
