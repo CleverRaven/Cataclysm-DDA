@@ -821,7 +821,7 @@
   },
   {
     "type": "city",
-    "id": "MA_83_EAST BRIDGEWATER",
+    "id": "MA_83_EAST_BRIDGEWATER",
     "database_id": 83,
     "name": "EAST BRIDGEWATER",
     "population": 13794,
@@ -831,7 +831,7 @@
   },
   {
     "type": "city",
-    "id": "MA_84_EAST BROOKFIELD",
+    "id": "MA_84_EAST_BROOKFIELD",
     "database_id": 84,
     "name": "EAST BROOKFIELD",
     "population": 2183,
@@ -841,7 +841,7 @@
   },
   {
     "type": "city",
-    "id": "MA_85_EAST LONGMEADOW",
+    "id": "MA_85_EAST_LONGMEADOW",
     "database_id": 85,
     "name": "EAST LONGMEADOW",
     "population": 15720,
@@ -941,7 +941,7 @@
   },
   {
     "type": "city",
-    "id": "MA_95_FALL RIVER",
+    "id": "MA_95_FALL_RIVER",
     "database_id": 95,
     "name": "FALL RIVER",
     "population": 88857,
@@ -1121,7 +1121,7 @@
   },
   {
     "type": "city",
-    "id": "MA_113_GREAT BARRINGTON",
+    "id": "MA_113_GREAT_BARRINGTON",
     "database_id": 113,
     "name": "GREAT BARRINGTON",
     "population": 7104,
@@ -1941,7 +1941,7 @@
   },
   {
     "type": "city",
-    "id": "MA_195_MOUNT WASHINGTON",
+    "id": "MA_195_MOUNT_WASHINGTON",
     "database_id": 195,
     "name": "MOUNT WASHINGTON",
     "population": 167,
@@ -1991,7 +1991,7 @@
   },
   {
     "type": "city",
-    "id": "MA_200_NEW ASHFORD",
+    "id": "MA_200_NEW_ASHFORD",
     "database_id": 200,
     "name": "NEW ASHFORD",
     "population": 228,
@@ -2001,7 +2001,7 @@
   },
   {
     "type": "city",
-    "id": "MA_201_NEW BEDFORD",
+    "id": "MA_201_NEW_BEDFORD",
     "database_id": 201,
     "name": "NEW BEDFORD",
     "population": 95072,
@@ -2011,7 +2011,7 @@
   },
   {
     "type": "city",
-    "id": "MA_202_NEW BRAINTREE",
+    "id": "MA_202_NEW_BRAINTREE",
     "database_id": 202,
     "name": "NEW BRAINTREE",
     "population": 999,
@@ -2021,7 +2021,7 @@
   },
   {
     "type": "city",
-    "id": "MA_203_NEW MARLBOROUGH",
+    "id": "MA_203_NEW_MARLBOROUGH",
     "database_id": 203,
     "name": "NEW MARLBOROUGH",
     "population": 1509,
@@ -2031,7 +2031,7 @@
   },
   {
     "type": "city",
-    "id": "MA_204_NEW SALEM",
+    "id": "MA_204_NEW_SALEM",
     "database_id": 204,
     "name": "NEW SALEM",
     "population": 990,
@@ -2081,7 +2081,7 @@
   },
   {
     "type": "city",
-    "id": "MA_209_NORTH ADAMS",
+    "id": "MA_209_NORTH_ADAMS",
     "database_id": 209,
     "name": "NORTH ADAMS",
     "population": 13708,
@@ -2091,7 +2091,7 @@
   },
   {
     "type": "city",
-    "id": "MA_210_NORTH ANDOVER",
+    "id": "MA_210_NORTH_ANDOVER",
     "database_id": 210,
     "name": "NORTH ANDOVER",
     "population": 28352,
@@ -2101,7 +2101,7 @@
   },
   {
     "type": "city",
-    "id": "MA_211_NORTH ATTLEBOROUGH",
+    "id": "MA_211_NORTH_ATTLEBOROUGH",
     "database_id": 211,
     "name": "NORTH ATTLEBOROUGH",
     "population": 28712,
@@ -2111,7 +2111,7 @@
   },
   {
     "type": "city",
-    "id": "MA_212_NORTH BROOKFIELD",
+    "id": "MA_212_NORTH_BROOKFIELD",
     "database_id": 212,
     "name": "NORTH BROOKFIELD",
     "population": 4680,
@@ -2121,7 +2121,7 @@
   },
   {
     "type": "city",
-    "id": "MA_213_NORTH READING",
+    "id": "MA_213_NORTH_READING",
     "database_id": 213,
     "name": "NORTH READING",
     "population": 14892,
@@ -2201,7 +2201,7 @@
   },
   {
     "type": "city",
-    "id": "MA_221_OAK BLUFFS",
+    "id": "MA_221_OAK_BLUFFS",
     "database_id": 221,
     "name": "OAK BLUFFS",
     "population": 4527,
@@ -2741,7 +2741,7 @@
   },
   {
     "type": "city",
-    "id": "MA_275_SOUTH HADLEY",
+    "id": "MA_275_SOUTH_HADLEY",
     "database_id": 275,
     "name": "SOUTH HADLEY",
     "population": 17514,
@@ -3201,7 +3201,7 @@
   },
   {
     "type": "city",
-    "id": "MA_321_WEST BOYLSTON",
+    "id": "MA_321_WEST_BOYLSTON",
     "database_id": 321,
     "name": "WEST BOYLSTON",
     "population": 7669,
@@ -3211,7 +3211,7 @@
   },
   {
     "type": "city",
-    "id": "MA_322_WEST BRIDGEWATER",
+    "id": "MA_322_WEST_BRIDGEWATER",
     "database_id": 322,
     "name": "WEST BRIDGEWATER",
     "population": 6916,
@@ -3221,7 +3221,7 @@
   },
   {
     "type": "city",
-    "id": "MA_323_WEST BROOKFIELD",
+    "id": "MA_323_WEST_BROOKFIELD",
     "database_id": 323,
     "name": "WEST BROOKFIELD",
     "population": 3701,
@@ -3231,7 +3231,7 @@
   },
   {
     "type": "city",
-    "id": "MA_324_WEST NEWBURY",
+    "id": "MA_324_WEST_NEWBURY",
     "database_id": 324,
     "name": "WEST NEWBURY",
     "population": 4235,
@@ -3241,7 +3241,7 @@
   },
   {
     "type": "city",
-    "id": "MA_325_WEST SPRINGFIELD",
+    "id": "MA_325_WEST_SPRINGFIELD",
     "database_id": 325,
     "name": "WEST SPRINGFIELD",
     "population": 28391,
@@ -3251,7 +3251,7 @@
   },
   {
     "type": "city",
-    "id": "MA_326_WEST STOCKBRIDGE",
+    "id": "MA_326_WEST_STOCKBRIDGE",
     "database_id": 326,
     "name": "WEST STOCKBRIDGE",
     "population": 1306,
@@ -3261,7 +3261,7 @@
   },
   {
     "type": "city",
-    "id": "MA_327_WEST TISBURY",
+    "id": "MA_327_WEST_TISBURY",
     "database_id": 327,
     "name": "WEST TISBURY",
     "population": 2740,
