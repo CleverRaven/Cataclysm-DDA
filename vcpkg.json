@@ -10,8 +10,9 @@
         },
         "sdl2-ttf",
         {
+          "features": [ "tools" ],
           "name": "gettext",
-          "features": [ "tools" ]
+          "platform": "windows"
         }
     ]
 }
