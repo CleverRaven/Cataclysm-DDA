@@ -3066,6 +3066,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "perception_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name, type, min, max]( const dialogue & d, int input ) {
@@ -3176,6 +3192,11 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, min, max, add_id]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_addiction_turns( add_id, handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "stim" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );

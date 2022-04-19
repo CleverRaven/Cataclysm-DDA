@@ -29,7 +29,6 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -1271,7 +1270,8 @@ void Character::disp_info( bool customize_character )
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
+            effect_name_and_text.emplace_back( elem.type->get_name().translated(),
+                                               elem.type->get_description().translated() );
         }
     }
 
