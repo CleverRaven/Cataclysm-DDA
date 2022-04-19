@@ -69,6 +69,7 @@
       "corpse_type": "NO_CORPSE",
       "effect": { "id": "death_blob_brain", "hit_self": true }
     },
+    "death_drops": "slime_sample_huge",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN" ]
   },
   {
@@ -167,6 +168,7 @@
     "armor_bash": 10,
     "armor_elec": 2,
     "harvest": "exempt",
+    "death_drops": "slime_sample_small",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]

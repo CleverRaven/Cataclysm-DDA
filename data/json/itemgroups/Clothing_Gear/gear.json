@@ -10,7 +10,6 @@
       [ "ammo_satchel", 5 ],
       [ "bootstrap", 5 ],
       [ "chestpouch", 5 ],
-      [ "dragonskin", 5 ],
       [ "flashbang", 30 ],
       { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "goggles_nv", "prob": 10, "charges": [ 0, 100 ] },

@@ -5935,5 +5935,12 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ] ]
+  },
+  {
+    "result": "bag_garbage",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "12 s",
+    "components": [ [ [ "plastic_sheet", 1 ] ] ]
   }
 ]

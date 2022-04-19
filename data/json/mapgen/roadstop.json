@@ -35,12 +35,12 @@
       "terrain": {
         " ": "t_floor",
         "#": "t_wall_log",
-        ".": "t_grass",
-        "2": "t_dirt",
+        ".": "t_region_groundcover",
+        "2": "t_region_groundcover_barren",
         "3": "t_door_c",
         "6": "t_floor",
         "7": "t_floor",
-        "8": "t_dirt",
+        "8": "t_region_groundcover_barren",
         "A": "t_floor",
         "S": "t_sidewalk"
       },
@@ -125,17 +125,17 @@
       "terrain": {
         " ": "t_floor",
         "#": "t_wall_log",
-        ".": "t_grass",
-        "2": "t_dirt",
+        ".": "t_region_groundcover",
+        "2": "t_region_groundcover_barren",
         "3": "t_door_c",
         "6": "t_floor",
         "7": "t_floor",
-        "8": "t_dirt",
+        "8": "t_region_groundcover_barren",
         "A": "t_floor",
         "S": "t_sidewalk",
-        "i": "t_dirt",
-        "o": "t_dirt",
-        "t": "t_tree"
+        "i": "t_region_groundcover_barren",
+        "o": "t_region_groundcover_barren",
+        "t": "t_region_tree"
       },
       "furniture": { "6": "f_table", "7": "f_toilet", "8": "f_trashcan", "A": "f_sink", "i": "f_sign", "o": "f_crate_c" },
       "signs": {

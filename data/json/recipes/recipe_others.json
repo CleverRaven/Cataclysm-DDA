@@ -2045,6 +2045,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "plant_fibre",
+    "id_suffix": "s_scutcher",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "tools": [ [ [ "scutcheritem", -1 ] ] ],
+    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ] ] ],
+    "charges": 80
+  },
+  {
+    "type": "recipe",
     "activity_level": "fake",
     "result": "wash_kit",
     "category": "CC_OTHER",
