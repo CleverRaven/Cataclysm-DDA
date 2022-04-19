@@ -121,7 +121,8 @@
     "dynamic_line": {
       "and": [
         "*dusts off his jacket and makes eye contact with you.  \"",
-        [ "Hello, nice to see you again.", "It's good to see you're still around." ], "\""
+        [ "Hello, nice to see you again.", "It's good to see you're still around." ],
+        "\""
       ]
     },
     "responses": [

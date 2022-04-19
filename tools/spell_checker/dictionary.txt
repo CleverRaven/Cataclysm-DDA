@@ -1532,6 +1532,7 @@ sightedness
 siloed
 siloing
 sinensis
+sixgun
 skeletonized
 skeltal
 skirmisher
