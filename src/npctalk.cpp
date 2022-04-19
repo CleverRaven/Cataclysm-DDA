@@ -179,7 +179,8 @@ static void run_eoc_vector( std::vector<effect_on_condition_id> eocs, const dial
     }
 }
 
-static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo, std::string member )
+static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo,
+        std::string member )
 {
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
