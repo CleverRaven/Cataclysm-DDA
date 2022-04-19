@@ -272,7 +272,7 @@
     "species": [ "FUNGUS" ],
     "volume": "120000 ml",
     "weight": "45000 g",
-    "//": "Weight is more than it’s zombie counterpart cause of the fungal elements. It’s still rather slow, but it also has more health cause the fungus acts as a sort of makeshift armour.",
+    "//": "Weight is more than its zombie counterpart cause of the fungal elements. It’s still rather slow, but it also has more health cause the fungus acts as a sort of makeshift armour.",
     "hp": 45,
     "speed": 20,
     "material": [ "flesh" ],
