@@ -168,12 +168,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "eoc_robofac_surveillance",
+    "id": "robofac_surveillance",
+    "recurrence": [ "1 days", "7 days" ],
     "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
-    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
-      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
-      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future": [ "1 days", "7 days" ] }
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true }
     ]
   },
   {
