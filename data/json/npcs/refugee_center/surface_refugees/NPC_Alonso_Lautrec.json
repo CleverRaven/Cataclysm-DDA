@@ -147,7 +147,7 @@
           "yes": "it's good to see such a strong and handsome fellow around here",
           "no": "you're a beautiful lady, so nice to see you"
         },
-        ".\"  He slides his hand through his hair and smiles, his eyes half-lidded.  \"They call me Alonso."
+        ".\"  He slides his hand through his hair and smiles, his eyes half-lidded.  \"They call me Alonso.\""
       ]
     },
     "speaker_effect": {
@@ -164,7 +164,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1a",
-    "dynamic_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous",
+    "dynamic_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
     "responses": [
       { "text": "Hi, Alonso.  What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
       { "text": "Hi Alonso.  I can't stay to talk.", "topic": "TALK_DONE" }
