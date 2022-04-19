@@ -951,7 +951,8 @@ void inventory_column::add_entry( const inventory_entry &entry )
             }
             item_location found_entry_item = entry.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.position() == found_entry_item.position() and
+            return entry_item.where() == found_entry_item.where() and
+                   entry_item.position() == found_entry_item.position() and
                    ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
                      ( entry_item.has_parent() and found_entry_item.has_parent() and
                        entry_item.parent_item() == found_entry_item.parent_item() ) ) and
