@@ -34,6 +34,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -4401,8 +4402,16 @@ void cata_variant::deserialize( JsonIn &jsin )
         *this = cata_variant::make<cata_variant_type::bool_>( jsin.get_bool() );
     } else {
         jsin.start_array();
-        if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
-            jsin.error( "Failed to read cata_variant" );
+        int const rewind = jsin.tell();
+        // FIXME: add_type migration - remove after 0.G
+        if( jsin.get_string() == "add_type" ) {
+            type_ = cata_variant_type::addiction_id;
+            value_ = add_type_legacy_conv( jsin.get_string() );
+        } else {
+            jsin.seek( rewind );
+            if( !( jsin.read( type_ ) && jsin.read( value_ ) ) ) {
+                jsin.error( "Failed to read cata_variant" );
+            }
         }
         jsin.end_array();
     }

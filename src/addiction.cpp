@@ -283,3 +283,35 @@ void add_type::check_add_types()
         }
     }
 }
+
+std::string add_type_legacy_conv( std::string const &v )
+{
+    if( v == "CAFFEINE" ) {
+        return "caffeine";
+    } else if( v == "ALCOHOL" ) {
+        return "alcohol";
+    } else if( v == "SLEEP" ) {
+        return "sleeping pill";
+    } else if( v == "PKILLER" ) {
+        return "opiate";
+    } else if( v == "SPEED" ) {
+        return "amphetamine";
+    } else if( v == "CIG" ) {
+        return "nicotine";
+    } else if( v == "COKE" ) {
+        return "cocaine";
+    } else if( v == "CRACK" ) {
+        return "crack";
+    } else if( v == "MUTAGEN" ) {
+        return "mutagen";
+    } else if( v == "DIAZEPAM" ) {
+        return "diazepam";
+    } else if( v == "MARLOSS_R" ) {
+        return "marloss_r";
+    } else if( v == "MARLOSS_B" ) {
+        return "marloss_b";
+    } else if( v == "MARLOSS_Y" ) {
+        return "marloss_y";
+    }
+    return {};
+}
