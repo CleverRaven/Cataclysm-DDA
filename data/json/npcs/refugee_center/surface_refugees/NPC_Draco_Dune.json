@@ -76,14 +76,22 @@
       "yes": "Always good to see you, friend.",
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Draco_1a" }
+      ]
+    },
     "responses": [
-      {
-        "text": "Nice to meet you, Draco.",
-        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Draco_1_firstmeet",
-        "switch": true
-      },
+      { "text": "Nice to meet you, Draco.", "topic": "TALK_REFUGEE_Draco_1_firstmeet" },
+      { "text": "Hi Draco, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_1a",
+    "dynamic_line": "Always good to see you, friend.",
+    "responses": [
       {
         "text": "Hi, Draco, how are you doing?",
         "condition": {
@@ -113,16 +121,7 @@
         "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" },
         "topic": "TALK_REFUGEE_Draco_7"
       },
-      {
-        "text": "Hi Draco, nice to meet you.  I gotta go though.",
-        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Draco, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Hi Draco, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
     ]
   },
   {
