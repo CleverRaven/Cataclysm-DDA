@@ -11280,8 +11280,8 @@ void Character::pause()
         } else {
             e.mod_duration( - ( benefit - penalty ) );
             add_msg_player_or_npc( m_warning,
-                                   _( "You attempt to put pressure on the bleeding wound!" ),
-                                   _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+                                   _( "You put pressure on the bleeding wound…" ),
+                                   _( "<npcname> puts pressure on the bleeding wound…" ) );
             practice( skill_firstaid, 1 );
             practice_proficiency( proficiency_prof_wound_care, 1_turns );
             practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );
