@@ -1,0 +1,125 @@
+[
+  {
+    "id": "practical_pants",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Assortment of practical pants characters would wear during the apocalpyse.",
+    "items": [
+      { "item": "pants_army" },
+      { "item": "pants_cargo" },
+      { "item": "jeans" },
+      { "item": "motorbike_pants" }
+    ]
+  },
+  {
+    "id": "practical_skintight_tops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Assortment of practical under shirts and underwear characters would wear during the apocalpyse.",
+    "items": [
+      { "item": "army_top" },
+      { "item": "tank_top" },
+      { "item": "under_armor" },
+      { "item": "tshirt" },
+      { "item": "tshirt_tour" },
+      { "item": "longshirt" }
+    ]
+  },
+  {
+    "id": "practical_regular_tops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Assortment of practical normal layer clothes characters would wear during the apocalpyse.",
+    "items": [
+      { "item": "combat_shirt" },
+      { "item": "hoodie" },
+      { "item": "sheriffshirt" },
+      { "item": "sweater" },
+      { "item": "sweatshirt" }
+    ]
+  },
+  {
+    "id": "practical_underwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Assortment of practical underwear characters would wear during the apocalpyse.",
+    "items": [
+      { "item": "boxer_briefs" },
+      { "item": "boxer_shorts" },
+      { "item": "leggings" },
+      { "item": "boy_shorts" },
+      { "item": "briefs" },
+      { "item": "panties" },
+      { "item": "sports_bra" },
+      { "item": "under_armor_shorts" }
+    ]
+  },
+  {
+    "id": "practical_socks",
+    "type": "item_group",
+    "//": "assortment of practical socks characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "socks" },
+      { "item": "socks_wool" }
+    ]
+  },
+  {
+    "id": "practical_shoes",
+    "type": "item_group",
+    "//": "assortment of practical shoes characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "boots" },
+      { "item": "boots_hiking" },
+      { "item": "boots_combat" },
+      { "item": "sneakers" },
+      { "item": "boots_rubber" }
+    ]
+  },
+  {
+    "id": "makeshift_body_armor",
+    "type": "item_group",
+    "//": "assortment of simple hand made body armor characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "armor_lamellar" },
+      { "item": "cuirass_scrap" },
+      { "item": "tireplate" },
+      { "item": "cuirass_tire" }
+    ]
+  },
+  {
+    "id": "civilian_body_armor",
+    "type": "item_group",
+    "//": "assortment of the sort of civilian body armor characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "stab_vest" },
+      { "item": "soft_3a_vest" },
+      { "item": "chestguard_hard" },
+      { "item": "football_armor" },
+      { "item": "motorbike_armor" },
+      { "item": "apron_leather" }
+    ]
+  },
+  {
+    "id": "practical_jackets",
+    "type": "item_group",
+    "//": "assortment of the sort of civilian jackets characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "jacket_leather" },
+      { "item": "jacket_flannel" },
+      { "item": "jacket_army_modern" },
+      { "item": "jacket_army" },
+      { "item": "duster_leather" },
+      { "item": "coat_rain" },
+      { "item": "jacket_jean" },
+      { "item": "jacket_light" },
+      { "item": "jacket_windbreaker" },
+      { "item": "leather_police_jacket" }
+    ]
+  },
+
+]
