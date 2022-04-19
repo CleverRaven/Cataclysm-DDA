@@ -1487,17 +1487,29 @@ void construct::done_appliance( const tripoint &p, Character &who )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
-    cata::optional<item> base = cata::nullopt;
-    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
-    if( pc ) {
-        for( item &obj : pc->components ) {
-            if( obj.typeId() == vpart->base_item ) {
-                base = obj;
-            }
-        }
-    } else {
-        debugmsg( "partial construction not found" );
+
+    if( !pc ) {
+        debugmsg( "partial construction not found (possible cause: appliance construction entry with category other than APPLIANCE)" );
+        return;
     }
+
+    cata::optional<item> base = cata::nullopt;
+
+    itype_id base_item;
+    if( !pc->id.obj().appliance_base.empty() ) {
+        base_item = itype_id( pc->id.obj().appliance_base );
+    } else {
+        base_item = who.lastconsumed;
+    }
+
+    const vpart_id &vpart = vpart_appliance_from_item( base_item );
+
+    for( item &obj : pc->components ) {
+        if( obj.typeId() == vpart->base_item ) {
+            base = obj;
+        }
+    }
+
     here.partial_con_remove( p );
     place_appliance( p, vpart, base );
 }

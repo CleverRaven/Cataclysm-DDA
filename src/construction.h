@@ -53,6 +53,8 @@ struct construction {
         std::string pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
+        // Base item of appliance to be constructed (if different from component)
+        std::string appliance_base;
 
         // Item group of byproducts created by the construction on success.
         cata::optional<item_group_id> byproduct_item_group;
