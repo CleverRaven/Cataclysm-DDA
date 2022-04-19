@@ -58,12 +58,29 @@ enum TAB_MODE {
     BATCH
 };
 
+enum CRAFTING_SPEED_STATE {
+    TOO_DARK_TO_CRAFT,
+    TOO_SLOW_TO_CRAFT,
+    SLOW_BUT_CRAFTABLE,
+    FAST_CRAFTING,
+    NORMAL_CRAFTING
+};
+
+static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
+    {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
+    {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
+    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
+    {FAST_CRAFTING, to_translation( "crafting is fast %d%%" )},
+    {NORMAL_CRAFTING, to_translation( "craftable" )}
+};
+
 // TODO: Convert these globals to handling categories via generic_factory?
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
+static int craft_info_width( const int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
@@ -680,7 +697,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
     input_context ctxt = make_crafting_context( highlight_unread_recipes );
 
-    catacurses::window w_head;
+    catacurses::window w_head_tabs; //For the recipe category tabs on the left
+    catacurses::window w_head_info; //For the new/hidden/status information on the right
     catacurses::window w_subhead;
     catacurses::window w_data;
     catacurses::window w_iteminfo;
@@ -693,6 +711,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
+        const unsigned int header_info_width = craft_info_width( width );
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -734,7 +753,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         dataHalfLines = dataLines / 2;
         dataHeight = TERMY - ( headHeight + subHeadHeight );
 
-        w_head = catacurses::newwin( headHeight, width, point( wStart, 0 ) );
+        w_head_tabs = catacurses::newwin( headHeight, ( width - header_info_width ), point( wStart, 0 ) );
+        w_head_info = catacurses::newwin( headHeight, header_info_width,
+                                          point( wStart + ( width - header_info_width ), 0 ) );
         w_subhead = catacurses::newwin( subHeadHeight, width, point( wStart, 3 ) );
         w_data = catacurses::newwin( dataHeight, width, point( wStart,
                                      headHeight + subHeadHeight ) );
@@ -857,12 +878,15 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
 
         const TAB_MODE m = batch ? BATCH : filterstring.empty() ? NORMAL : FILTERED;
-        draw_recipe_tabs( w_head, tab.cur(), m, is_filtered_unread, is_cat_unread );
+        draw_recipe_tabs( w_head_tabs, tab.cur(), m, is_filtered_unread, is_cat_unread );
         draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m,
                              is_subcat_unread[tab.cur()] );
 
+        //Clear the crafting info panel, since that can change on a per-recipe basis
+        werase( w_head_info );
+
         if( !show_hidden ) {
-            draw_hidden_amount( w_head, num_hidden, num_recipe );
+            draw_hidden_amount( w_head_info, num_hidden, num_recipe );
         }
 
         // Clear the screen of recipe data, and draw it anew
@@ -932,8 +956,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         if( !current.empty() ) {
             const recipe &recp = *current[line];
 
-            draw_can_craft_indicator( w_head, recp );
-            wnoutrefresh( w_head );
+            draw_can_craft_indicator( w_head_info, recp );
 
             const availability &avail = available[line];
             // border + padding + name + padding
@@ -1685,6 +1708,18 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
+static int craft_info_width( const int window_width )
+{
+    int reason_width = 0;
+    //The crafting speed string is necessary.  Find the longest one
+    for( const auto &pair : craft_speed_reason_strings ) {
+        reason_width = std::max( utf8_width( pair.second.translated(), true ), reason_width );
+    }
+    reason_width += 2; //Allow for borders
+    //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
+    return std::max( window_width / 4, reason_width );
+}
+
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
@@ -1697,26 +1732,33 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
         right_print( w, 1, 1, c_green, string_format( _( "* No hidden recipe - %s in category *" ),
                      num_recipe ) );
     }
+    //Finish border connection with the recipe tabs
+    mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
+    mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    wnoutrefresh( w );
 }
 
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
     Character &player_character = get_player_character();
-    // Draw text
+
     if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
+        right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_DARK_TO_CRAFT ).translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
-        right_print( w, 0, 1, i_red, _( "unable to craft" ) );
+        right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_SLOW_TO_CRAFT ).translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
-        right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
-                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+        right_print( w, 0, 1, i_yellow,
+                     string_format( craft_speed_reason_strings.at( SLOW_BUT_CRAFTABLE ).translated(),
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
-        right_print( w, 0, 1, i_green, string_format( _( "crafting is fast %d%%" ),
-                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+        right_print( w, 0, 1, i_green,
+                     string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
-        right_print( w, 0, 1, i_green, _( "craftable" ) );
+        right_print( w, 0, 1, i_green, craft_speed_reason_strings.at( NORMAL_CRAFTING ).translated() );
     }
+    wnoutrefresh( w );
 }
 
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode,
@@ -1726,20 +1768,23 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 
     switch( mode ) {
         case NORMAL: {
-            draw_tabs( w, normalized_names, craft_cat_list, tab );
-            int pos_x = 2;
-            for( const std::string &cat : craft_cat_list ) {
-                pos_x += utf8_width( normalized_names[cat] ) + 3;
+            std::map<std::string, std::string> flagged_names = normalized_names;
+            for( const auto &cat : craft_cat_list ) {
                 if( unread[cat] ) {
-                    mvwprintz( w, point( pos_x - 2, 1 ), c_light_green, "⁺" );
+                    auto it = flagged_names.find( cat );
+                    cata_assert( it != flagged_names.end() );
+                    ( *it ).second += "<color_green>*</color>";
                 }
             }
+            std::pair<std::vector<std::string>, size_t> fitted_cat_list;
+            fitted_cat_list = fit_tabs_to_width( getmaxx( w ), tab, flagged_names, craft_cat_list,
+                                                 true );
+            draw_tabs( w, fitted_cat_list.first, fitted_cat_list.second );
             break;
         }
         case FILTERED: {
             mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
             mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
-            mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
             const std::string tab_name = _( "Searched" );
             draw_tab( w, 2, tab_name, true );
             if( filtered_unread ) {
@@ -1750,11 +1795,11 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
         case BATCH:
             mvwhline( w, point( 0, getmaxy( w ) - 1 ), LINE_OXOX, getmaxx( w ) - 1 );
             mvwputch( w, point( 0, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXXO ); // |^
-            mvwputch( w, point( getmaxx( w ) - 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OOXX ); // ^|
             draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
-
+    //draw_tabs will produce a border ending with // ^| but that's inappropriate here, so clean it up
+    mvwputch( w, point( getmaxx( w ) - 1, 2 ), BORDER_COLOR, LINE_OXOX ); //_
     wnoutrefresh( w );
 }
 
@@ -1765,30 +1810,23 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
 {
     werase( w );
     int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        if( i == 0 ) {
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XXXO ); // |-
-        } else if( i == width ) { // TODO: that is always false!
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_XOXX ); // -|
-        } else {
-            mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
-        }
-    }
 
-    for( int i = 0; i < 3; i++ ) {
-        mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( w, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
-    }
+    mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
+    mvwvline( w, point( width - 1, 0 ), LINE_XOXO, getmaxy( w ) );  // |
 
     switch( mode ) {
         case NORMAL: {
+            std::vector<std::string> current_subcat_list = craft_subcat_list[tab];
+            std::vector<std::string> fitted_subcat_list = simple_fit_tabs_to_width( width, subtab,
+                    normalized_names, current_subcat_list );
             // Draw the tabs on each other
             int pos_x = 2;
             // Step between tabs, two for tabs border
             int tab_step = 3;
-            for( const auto &stt : craft_subcat_list[tab] ) {
-                bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
-                const std::string subtab_name = normalized_names[stt];
+            for( const auto &stt : fitted_subcat_list ) {
+                bool empty = ( stt == "<" ||
+                               stt == ">" ) ? false : available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
+                const std::string subtab_name = ( stt == "<" || stt == ">" ) ? stt : normalized_names[stt];
                 draw_subtab( w, pos_x, subtab_name, subtab == stt, true, empty );
                 pos_x += utf8_width( subtab_name ) + tab_step;
                 if( unread[stt] ) {
