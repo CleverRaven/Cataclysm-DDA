@@ -1117,7 +1117,8 @@
       "SWIM_GOGGLES",
       "SUN_GLASSES",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "PADDED"
     ],
     "armor": [
       {
@@ -1217,7 +1218,8 @@
       "GNV_EFFECT",
       "CLIMATE_CONTROL",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "PADDED"
     ]
   },
   {
