@@ -900,7 +900,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 10 ] ], [ [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "cardboard", 5 ] ], [ [ "duct_tape", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -913,7 +913,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 90 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "cardboard", 40 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -926,7 +926,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 500 ] ], [ [ "duct_tape", 200 ] ] ]
+    "components": [ [ [ "cardboard", 200 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -939,7 +939,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "box_large", 2 ] ], [ [ "duct_tape", 200 ] ] ]
+    "components": [ [ [ "box_large", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -952,7 +952,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 500 ] ], [ [ "duct_tape", 200 ] ] ]
+    "components": [ [ [ "cardboard", 200 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
