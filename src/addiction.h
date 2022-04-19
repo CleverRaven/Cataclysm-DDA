@@ -71,6 +71,8 @@ class addiction
         bool run_effect( Character &u );
 };
 
+std::string add_type_legacy_conv( std::string const &v );
+
 // Minimum intensity before effects are seen
 constexpr int MIN_ADDICTION_LEVEL = 3;
 constexpr int MAX_ADDICTION_LEVEL = 20;
