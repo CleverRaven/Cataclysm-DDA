@@ -577,7 +577,7 @@
     "id": "mon_shambling_mound",
     "type": "MONSTER",
     "name": "shambling mound",
-    "description": "This giant plant mess is one of the ancients magic species in the world.  They don't like to walk too much, but the number of nutrients .",
+    "description": "This giant plant mess is one of the eldest magic species in the world.  They we're too rare way before, but the Cataclysm increase their population a lot.",
     "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
     "default_faction": "magical_beast",
     "volume": "679000 ml",
