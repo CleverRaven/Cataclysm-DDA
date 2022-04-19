@@ -5,6 +5,16 @@
 "[JSON]":
   - "**/*.json"
 
+"[Markdown]":
+  - "**/*.md"
+
+"Game: Achievements / Conducts / Scores":
+  - "**/scores**"
+  - "**/statistics**"
+  - "**/achievements**"
+  - "**/conducts**"
+  - "**/event_statistics.*"
+
 "[Python]":
   - "**/*.py"
 
@@ -20,6 +30,10 @@
 
 "Code: Tests":
   - tests/**/*
+
+"Character / World Generation":
+  - src/newcharacter.cpp
+  - "**/worldfactory.*"
 
 "Code: Build":
   - build-data/**/*
@@ -40,15 +54,27 @@
 
 "Info / User Interface":
   - "**/ui/**/*"
+  - "src/**ui**"
   - "**/widget/**/*"
   - "src/list_view.*"
   - "src/surroundings_menu.*"
+
+"Items: Armor / Clothing":
+  - "**/armor/**/*"
+
+"Items: Containers":
+  - "**/**containers**"
 
 "Appliance/Power Grid":
   - "**/appliance**"
 
 "Monsters":
   - "**/monsters/**/*"
+
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/professions.json"
+  - "**mutations**"
+  - "**hobbies**"
 
 "Lore":
   - data/json/npcs/BG_trait_groups.json
@@ -72,6 +98,7 @@
   - "**/mapgen/**/*"
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
+  - "**/overmap**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -85,6 +112,9 @@
 "SDL: Tiles / Sound":
   - gfx/**/*
   - sound/**/*
+
+"Scenarios":
+  - "**/scenario**"
 
 "Translation":
   - lang/**/*
@@ -121,5 +151,11 @@
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
+"Mods: TropiCataclysm 🌴":
+  - data/mods/TropiCataclysm/**/*
+
 "Mods":
   - data/mods/**/*
+
+"Mechanics: Weather":
+  - "**/weather**"

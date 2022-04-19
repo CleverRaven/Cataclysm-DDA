@@ -1,5 +1,6 @@
 from .parsers.achievement import parse_achievement
 from .parsers.activity_type import parse_activity_type
+from .parsers.addiction_type import parse_addiction_type
 from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
@@ -88,6 +89,7 @@ def dummy_parser(json, origin):
 parsers = {
     "achievement": parse_achievement,
     "activity_type": parse_activity_type,
+    "addiction_type": parse_addiction_type,
     "ammo": parse_generic,
     "ammo_effect": dummy_parser,
     "ammunition_type": parse_ammunition_type,

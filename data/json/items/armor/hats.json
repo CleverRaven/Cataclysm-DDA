@@ -293,7 +293,7 @@
     "warmth": 5,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
   },
   {
@@ -314,7 +314,7 @@
     "warmth": 6,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 13, "coverage": 80, "covers": [ "head" ] } ]
   },
   {

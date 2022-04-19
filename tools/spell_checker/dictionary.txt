@@ -409,6 +409,7 @@ d
 dagnabbit
 dambreaker
 danceable
+daspletosaurus
 datasheet
 datasheets
 datavault
@@ -422,6 +423,7 @@ deadun
 deadzone
 deathcam
 deathmobile
+deathrattle
 decelerates
 deceptived
 defatted
@@ -1743,6 +1745,7 @@ toolshelf
 topazes
 toroids
 torosaurus
+torvosaurus
 totipotent
 tourmaline
 tourmalines

@@ -1120,7 +1120,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_SIZE_UP" ) {
         return actor( true )->evaluation_by( *actor( false ) );
     } else if( topic == "TALK_LOOK_AT" ) {
-        return "&" + actor( true )->short_description();
+        if( actor( false )->can_see() ) {
+            return "&" + actor( true )->short_description();
+        } else {
+            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
+        }
     } else if( topic == "TALK_OPINION" ) {
         return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
@@ -2523,6 +2527,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
+void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
+{
+    std::string npc_id;
+    mandatory( jo, false, member, npc_id );
+    function = [npc_id]( const dialogue & ) {
+        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
+            return npc.idz == npc_id;
+        } );
+        for( npc *npc : npc_list ) {
+            overmap_buffer.remove_npc( npc->getID() );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
@@ -3048,6 +3066,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "perception_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name, type, min, max]( const dialogue & d, int input ) {
@@ -3158,6 +3192,11 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, min, max, add_id]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_addiction_turns( add_id, handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "stim" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );
@@ -4176,6 +4215,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_member( "remove_npc" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {

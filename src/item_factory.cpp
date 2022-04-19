@@ -1083,30 +1083,38 @@ void Item_factory::finalize_post( itype &obj )
         // calculate each body part breathability of the armor
         // breathability is the worst breathability of any material on that portion
         for( armor_portion_data &armor_data : obj.armor->data ) {
-            std::vector<part_material> sorted_mats = armor_data.materials;
-            std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
-            const part_material & rhs ) {
-                return lhs.id->breathability() < rhs.id->breathability();
-            } );
 
-            // now that mats are sorted least breathable to most
-            int coverage_counted = 0;
-            int combined_breathability = 0;
-            for( const part_material &mat : sorted_mats ) {
-                // this isn't perfect since its impossible to know the positions of each material relatively
-                // so some guessing is done
-                // specifically count the worst breathability then then next best with additional coverage
-                // and repeat until out of matts or fully covering.
-                combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
-                coverage_counted = std::max( mat.cover, coverage_counted );
+            // only recalculate the breathability when the value is not set in JSON
+            // or when the value in JSON is invalid
+            if( armor_data.breathability < 0 ) {
 
-                // this covers the whole piece of armor so we can stop counting better breathability
-                if( coverage_counted == 100 ) {
-                    break;
+                std::vector<part_material> sorted_mats = armor_data.materials;
+                std::sort( sorted_mats.begin(), sorted_mats.end(), []( const part_material & lhs,
+                const part_material & rhs ) {
+                    return lhs.id->breathability() < rhs.id->breathability();
+                } );
+
+                // now that mats are sorted least breathable to most
+                int coverage_counted = 0;
+                int combined_breathability = 0;
+
+                // only calcuate the breathability if the armor has no valid loaded value
+                for( const part_material &mat : sorted_mats ) {
+                    // this isn't perfect since its impossible to know the positions of each material relatively
+                    // so some guessing is done
+                    // specifically count the worst breathability then then next best with additional coverage
+                    // and repeat until out of matts or fully covering.
+                    combined_breathability += std::max( ( mat.cover - coverage_counted ) * mat.id->breathability(), 0 );
+                    coverage_counted = std::max( mat.cover, coverage_counted );
+
+                    // this covers the whole piece of armor so we can stop counting better breathability
+                    if( coverage_counted == 100 ) {
+                        break;
+                    }
                 }
+                // whatever isn't covered is as good as skin so 100%
+                armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
             }
-            // whatever isn't covered is as good as skin so 100%
-            armor_data.breathability = ( combined_breathability / 100 ) + ( 100 - coverage_counted );
         }
 
         for( const armor_portion_data &armor_data : obj.armor->data ) {
@@ -1823,7 +1831,7 @@ void Item_factory::check_definitions() const
 
             // waist is deprecated
             if( type->has_flag( flag_WAIST ) ) {
-                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the belted layer.  If you are making new content make it belted specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
+                msg += string_format( "Waist has been deprecated as an armor layer and is now a sublocation of the torso on the BELTED layer.  If you are making new content make it BELTED specifically covering the torso_waist.  If you are loading an old mod you are probably safe to ignore this.\n" );
             }
 
             // check that no item has more coverage on any location than the max coverage (100)
@@ -2624,6 +2632,13 @@ void armor_portion_data::deserialize( const JsonObject &jo )
         jo.throw_error( string_format( "need to specify covered limbs for each body part" ) );
     }
     optional( jo, false, "coverage", coverage, 0 );
+
+    // load a breathability override
+    breathability_rating temp_enum;
+    optional( jo, false, "breathability", temp_enum, breathability_rating::last );
+    if( temp_enum != breathability_rating::last ) {
+        breathability = material_type::breathability_to_rating( temp_enum );
+    }
     optional( jo, false, "specifically_covers", sub_coverage );
 
 
@@ -3010,11 +3025,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-
-    if( jo.has_string( "addiction_type" ) ) {
-        slot.add = addiction_type( jo.get_string( "addiction_type" ) );
-    }
-
+    assign( jo, "addiction_type", slot.add, strict );
     assign( jo, "addiction_potential", slot.addict, strict );
 
     bool got_calories = false;

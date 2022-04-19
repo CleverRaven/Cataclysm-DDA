@@ -13,6 +13,9 @@ using achievement_id = string_id<achievement>;
 class activity_type;
 using activity_id = string_id<activity_type>;
 
+struct add_type;
+using addiction_id = string_id<add_type>;
+
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 

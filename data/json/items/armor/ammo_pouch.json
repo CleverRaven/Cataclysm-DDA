@@ -603,7 +603,7 @@
     ],
     "pocket_data": [
       {
-        "description": "rifle sling",
+        "description": "Rifle sling.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1000 ml",
@@ -663,7 +663,7 @@
     ],
     "pocket_data": [
       {
-        "description": "rifle sling",
+        "description": "Rifle sling.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1000 ml",
