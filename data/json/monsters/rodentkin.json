@@ -60,7 +60,7 @@
     "id": "mon_tunnel_rat",
     "type": "MONSTER",
     "name": { "str": "tunnel runner" },
-    "description": "Prior to the Cataclysm someone might have referred to this dog-sized rat as a 'mass of claws and teeth,' but that could describe nearly everything you meet these days. In any case, this particular mass of claws and teeth is eyeing its surroundings hungrily.",
+    "description": "Prior to the Cataclysm someone might have referred to this dog-sized rat as a 'mass of claws and teeth,' but that could describe nearly everything you meet these days.  In any case, this particular mass of claws and teeth is eyeing its surroundings hungrily.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
