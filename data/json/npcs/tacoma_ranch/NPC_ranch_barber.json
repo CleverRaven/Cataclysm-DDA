@@ -25,7 +25,7 @@
           {
             "u_sell_item": "FMCNote",
             "count": 3,
-            "true_eocs": { "id": "eoc_barber_shave", "effects": [ "buy_shave", "barber_beard" ] }
+            "true_eocs": { "id": "eoc_barber_shave", "effect": [ "buy_shave", "barber_beard" ] }
           }
         ]
       },
@@ -37,7 +37,7 @@
           {
             "u_sell_item": "FMCNote",
             "count": 6,
-            "true_eocs": { "id": "eoc_barber_hair", "effects": [ "buy_haircut", "barber_hair" ] }
+            "true_eocs": { "id": "eoc_barber_hair", "effect": [ "buy_haircut", "barber_hair" ] }
           }
         ]
       },

@@ -131,12 +131,7 @@
             "count": 800,
             "true_eocs": {
               "id": "EOC_gunsmith_762_51",
-              "effect":{
-              "u_add_var": "gunsmith_ammo_from",
-              "type": "number",
-              "context": "artisans",
-              "value": "76251"
-              }
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76251" }
             }
           }
         ],
@@ -162,12 +157,7 @@
             "count": 200,
             "true_eocs": {
               "id": "EOC_gunsmith_762_5m87",
-              "effect":{
-              "u_add_var": "gunsmith_ammo_from",
-              "type": "number",
-              "context": "artisans",
-              "value": "76239"
-              }
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "76239" }
             }
           }
         ],
@@ -211,7 +201,10 @@
           {
             "u_sell_item": "545",
             "count": 200,
-            "true_eocs": { "id": "EOC_gunsmith_545","effect":{ "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }}
+            "true_eocs": {
+              "id": "EOC_gunsmith_545",
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "545" }
+            }
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -253,12 +246,7 @@
             "count": 200,
             "true_eocs": {
               "id": "EOC_gunsmith_300blk",
-              "effect":{
-              "u_add_var": "gunsmith_ammo_from",
-              "type": "number",
-              "context": "artisans",
-              "value": "300"
-              }
+              "effect": { "u_add_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "value": "300" }
             }
           }
         ],
