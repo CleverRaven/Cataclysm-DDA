@@ -298,22 +298,29 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 2, "melee": 1 },
         "coverage_mult": { "broad": 0.5 },
-        "effects": [ { "effect": "staggered", "chance": 15, "message": "The %s gargles as it’s sent wobbling!", "damage_required": [ 10, 100 ] } ],
+        "effects": [
+          {
+            "effect": "staggered",
+            "chance": 15,
+            "message": "The %s gargles as it’s sent wobbling!",
+            "damage_required": [ 10, 100 ]
+          }
+        ],
         "coverage": 40
       }
     ],
-      "special_attacks": [
-        {
-          "type": "spell",
-          "spell_data": { "id": "big_fungal_raptor_spawn", "hit_self": true },
-          "cooldown": 50,
-          "monster_message": "With a high-pitched shriek, the wretch's belly splits open, and gore-smeared winged beasts climb out of the corpse!"
-        }
-      ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "big_fungal_raptor_spawn", "hit_self": true },
+        "cooldown": 50,
+        "monster_message": "With a high-pitched shriek, the wretch's belly splits open, and gore-smeared winged beasts climb out of the corpse!"
+      }
+    ],
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
     "death_drops": "child_items",
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "HEARS", "SMELLS", "STUMBLES", "WARM",  "POISON", "NO_BREATHE", "REVIVES", "FLIES", "FILTHY" ]
+    "flags": [ "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FLIES", "FILTHY" ]
   },
   {
     "id": "mon_fungal_raptor",
