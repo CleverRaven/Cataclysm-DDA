@@ -24,6 +24,7 @@
     "melee_cut": 0,
     "dodge": 2,
     "harvest": "human",
+    "dissect": "dissect_human",
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },

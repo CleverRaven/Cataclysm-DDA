@@ -1838,8 +1838,7 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
-                   loc->has_flag( flag_PALS_LARGE );
+            return loc->can_attach_as_pocket();
         }
 
         std::string get_denial( const item_location &loc ) const override {

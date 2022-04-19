@@ -222,7 +222,7 @@
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",
-    "name": { "str": "beach volleyball", "str_pl": "volleyballs" },
+    "name": { "str": "beach volleyball" },
     "category": "other",
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
     "price": 1200,

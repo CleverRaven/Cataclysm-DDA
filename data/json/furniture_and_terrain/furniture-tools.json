@@ -401,6 +401,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_scutch_breaker",
+    "name": "stationary scutcher",
+    "looks_like": "f_rack",
+    "description": "Bulky simple-hinged wooden device to break up the hard parts of fibre plants, with nail combs on the back for separating them out.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "crafting_pseudo_item": "scutcheritem",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 20 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_smoking_rack_active",
     "name": "active smoking rack",
     "looks_like": "f_smoking_rack",
@@ -617,6 +639,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "drill_press" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "drill_press", "count": 1 } ] },
     "bash": {
@@ -670,6 +693,7 @@
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "tablesaw" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "tablesaw", "count": 1 } ] },
     "bash": {
@@ -696,6 +720,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "mitresaw" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "mitresaw", "count": 1 } ] },
     "bash": {
@@ -722,6 +747,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "bandsaw" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "bandsaw", "count": 1 } ] },
     "bash": {
@@ -748,6 +774,7 @@
     "move_cost_mod": 8,
     "coverage": 35,
     "required_str": 14,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "router" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "router", "count": 1 } ] },
     "bash": {
@@ -774,6 +801,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "planer" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "planer", "count": 1 } ] },
     "bash": {
@@ -800,6 +828,7 @@
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 14,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "jointer" },
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "jointer", "count": 1 } ] },
     "bash": {

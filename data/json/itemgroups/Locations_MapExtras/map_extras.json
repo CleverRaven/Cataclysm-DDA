@@ -127,5 +127,16 @@
       { "item": "cig_butt" },
       { "item": "can_drink" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "corpse_in_body_bag",
+    "container-item": "bag_body_bag",
+    "entries": [
+      { "group": "corpse_male", "damage": [ 1, 4 ] },
+      { "group": "corpse_male", "damage": [ 1, 4 ] },
+      { "group": "corpse_child", "damage": [ 1, 4 ] }
+    ]
   }
 ]
