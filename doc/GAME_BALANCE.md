@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster maximum damage scaling:
+Minimum damage: 0 (no damage potential; spore cloud, hallucination)
+
+Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
+
+Average damage: 6 (normal day one threat; zombie, wasp)
+
+High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
+
+Very high damage: 20+ (zombie predator, super soldier ant, mi-go) 
+
+Maximum damage: 50 (highest for balance purposes; melded task force)
+
+
 # Monster HP scaling:
 Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
 

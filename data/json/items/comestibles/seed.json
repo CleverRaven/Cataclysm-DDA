@@ -756,7 +756,6 @@
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
-    "addiction_type": "caffeine",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ]
   },
   {

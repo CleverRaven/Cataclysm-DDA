@@ -30,6 +30,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "bird_large",
+    "dissect": "dissect_bird_sample_large",
     "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },
   {
@@ -61,6 +62,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "death_drops": "amigara_drops",
+    "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
   },
   {
@@ -645,6 +647,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "harvest": "demihuman_snail",
+    "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
@@ -748,7 +751,8 @@
     "vision_day": 50,
     "vision_night": 15,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mammal_small_fur_rabbit",
+    "harvest": "mammal_small_fur",
+    "dissect": "dissect_beast_sample_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {

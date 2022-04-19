@@ -5,6 +5,16 @@
 "[JSON]":
   - "**/*.json"
 
+"[Markdown]":
+  - "**/*.md"
+
+"Game: Achievements / Conducts / Scores":
+  - "**/scores**"
+  - "**/statistics**"
+  - "**/achievements**"
+  - "**/conducts**"
+  - "**/event_statistics.*"
+
 "[Python]":
   - "**/*.py"
 
@@ -20,6 +30,10 @@
 
 "Code: Tests":
   - tests/**/*
+
+"Character / World Generation":
+  - src/newcharacter.cpp
+  - "**/worldfactory.*"
 
 "Code: Build":
   - build-data/**/*
@@ -38,11 +52,40 @@
 "NPC / Factions":
   - "**/npcs/**/*"
 
+"Info / User Interface":
+  - "**/ui/**/*"
+  - "src/**ui**"
+  - "**/widget/**/*"
+  - "src/list_view.*"
+  - "src/surroundings_menu.*"
+
+"Items: Armor / Clothing":
+  - "**/armor/**/*"
+
+"Items: Containers":
+  - "**/**containers**"
+
 "Appliance/Power Grid":
   - "**/appliance**"
 
 "Monsters":
   - "**/monsters/**/*"
+
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/professions.json"
+  - "**mutations**"
+  - "**hobbies**"
+
+"Lore":
+  - data/json/npcs/BG_trait_groups.json
+  - data/json/npcs/Personality_trait_groups.json
+  - data/json/npcs/personality_traits.json
+  - "**/Backgrounds/**/*"
+  - "**/snippets/**/*"
+
+"Limbs":
+  - "src/bodypart.*"
+  - "data/json/limb_scores.json"
 
 "Spawn":
   - "**/itemgroups/**/*"
@@ -55,6 +98,7 @@
   - "**/mapgen/**/*"
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
+  - "**/overmap**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -69,8 +113,12 @@
   - gfx/**/*
   - sound/**/*
 
+"Scenarios":
+  - "**/scenario**"
+
 "Translation":
   - lang/**/*
+  - "src/translation.*"
 
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
@@ -88,6 +136,9 @@
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
 
+"Mods: MA":
+  - data/mods/MA/**/*
+
 "Mods: MMA":
   - data/mods/MMA/**/*
 
@@ -100,5 +151,11 @@
 "Mods: No Hope":
   - data/mods/No_Hope/**/*
 
+"Mods: TropiCataclysm 🌴":
+  - data/mods/TropiCataclysm/**/*
+
 "Mods":
   - data/mods/**/*
+
+"Mechanics: Weather":
+  - "**/weather**"

@@ -24,6 +24,12 @@
     "name": { "str": "spinning wheel" }
   },
   {
+    "id": "scutcheritem",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "stationary scutcher" }
+  },
+  {
     "id": "fake_burrowing",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -194,48 +200,6 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_drill_press",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "drill press", "str_pl": "drill presses" }
-  },
-  {
-    "id": "fake_tablesaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "table saw" }
-  },
-  {
-    "id": "fake_mitresaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "mitre saw" }
-  },
-  {
-    "id": "fake_bandsaw",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "band saw" }
-  },
-  {
-    "id": "fake_router",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "router table" }
-  },
-  {
-    "id": "fake_planer",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "planer" }
-  },
-  {
-    "id": "fake_jointer",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "jointer" }
-  },
-  {
     "id": "fake_hydraulic_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
@@ -254,10 +218,70 @@
     "name": { "str": "air compressor" }
   },
   {
+    "id": "fake_appliance_tool",
+    "name": { "str": "fake appliance tool" },
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "drill_press_tool",
+    "type": "TOOL",
+    "name": { "str": "drill press", "str_pl": "drill presses" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "tablesaw_tool",
+    "type": "TOOL",
+    "name": { "str": "table saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "mitresaw_tool",
+    "type": "TOOL",
+    "name": { "str": "mitre saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "bandsaw_tool",
+    "type": "TOOL",
+    "name": { "str": "band saw" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "router_tool",
+    "type": "TOOL",
+    "name": { "str": "router" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "planer_tool",
+    "type": "TOOL",
+    "name": { "str": "planer" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "jointer_tool",
+    "type": "TOOL",
+    "name": { "str": "jointer" },
+    "copy-from": "fake_appliance_tool"
+  },
+  {
     "id": "fake_oven",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "oven" }
+    "name": { "str": "oven" },
+    "qualities": [ [ "OVEN", 2 ] ]
   },
   {
     "id": "fake_water_purifier",
@@ -311,7 +335,7 @@
   {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
-    "name": { "str": "training dummy" },
+    "name": { "str": "training dummy", "str_pl": "training dummies" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "@",
     "color": "brown",
@@ -320,7 +344,7 @@
   {
     "id": "pseudo_training_dummy_heavy",
     "type": "TOOL",
-    "name": { "str": "armored training dummy" },
+    "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "@",
     "color": "brown",

@@ -524,8 +524,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     if( ( &given == &player_character.get_wielded_item() &&
           given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
-          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
-        // Bionic weapon or shackles
+          ( given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ||
+            given.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) ) ) {
+        // Integrated item or shackles
         return _( "How?" );
     }
 
@@ -804,6 +805,10 @@ std::string talker_npc::get_job_description() const
 
 std::string talker_npc::evaluation_by( const talker &alpha ) const
 {
+    if( !alpha.can_see() ) {
+        return _( "&You're blind and can't make anything out." );
+    }
+
     ///\EFFECT_PER affects whether player can size up NPCs
 
     ///\EFFECT_INT slightly affects whether player can size up NPCs

@@ -3212,6 +3212,83 @@
   },
   {
     "type": "construction",
+    "id": "app_drill_press",
+    "group": "place_drill_press",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "drill_press", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_tablesaw",
+    "group": "place_tablesaw",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "tablesaw", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_mitresaw",
+    "group": "place_mitresaw",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "mitresaw", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_bandsaw",
+    "group": "place_bandsaw",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "bandsaw", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_router",
+    "group": "place_router",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "router", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_planer",
+    "group": "place_planer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "planer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_jointer",
+    "group": "place_jointer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "jointer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_solar",
     "group": "place_solar_panel",
     "category": "APPLIANCE",
@@ -3326,6 +3403,17 @@
   },
   {
     "type": "construction",
+    "id": "app_battery_car",
+    "group": "place_car_battery",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "battery_car", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
@@ -3343,6 +3431,28 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 s",
     "components": [ [ [ "standing_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "ap_foot_locker_recharge_station",
+    "group": "place_ap_foot_locker_recharge_station",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "4 m",
+    "components": [ [ [ "foot_locker_recharge_station", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "ap_box_battery_charger",
+    "group": "place_ap_box_battery_charger",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "2 m",
+    "components": [ [ [ "box_battery_charger", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance"
   },
@@ -3859,6 +3969,18 @@
     "components": [ [ [ "2x4", 20 ] ], [ [ "string_36", 15 ] ], [ [ "nail", 25 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_spinwheel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scutch_breaker",
+    "group": "build_stationary_scutcher",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 30 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_scutch_breaker"
   },
   {
     "type": "construction",
