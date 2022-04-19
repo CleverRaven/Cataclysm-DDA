@@ -577,14 +577,17 @@ class pickup_activity_actor : public activity_actor
     public:
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
-                               const cata::optional<tripoint> &starting_pos ) : target_items( target_items ),
-            quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ) {}
+                               const cata::optional<tripoint> &starting_pos,
+                               bool autopickup ) : target_items( target_items ),
+            quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
+            autopickup( autopickup ) {}
 
         /**
           * Used to check at the end of a pickup activity if the character was able
           * to stash everything. If not, a message is displayed to clarify.
           */
         bool stash_successful;
+        bool autopickup;
 
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP" );
@@ -1737,6 +1740,57 @@ class chop_tree_activity_actor : public activity_actor
         item_location tool;
 };
 
+class churn_activity_actor : public activity_actor
+{
+    public:
+        churn_activity_actor() = default;
+        churn_activity_actor( int moves, const item_location &tool ) : moves( moves ), tool( tool ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CHURN" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<churn_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        item_location tool;
+};
+
+class clear_rubble_activity_actor : public activity_actor
+{
+    public:
+        clear_rubble_activity_actor() = default;
+        explicit clear_rubble_activity_actor( int moves ) : moves( moves ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CLEAR_RUBBLE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<clear_rubble_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+};
+
 class disable_activity_actor : public activity_actor
 {
     public:
@@ -1820,6 +1874,33 @@ class forage_activity_actor : public activity_actor
 
     private:
         int moves;
+};
+
+class gunmod_add_activity_actor : public activity_actor
+{
+    public:
+        gunmod_add_activity_actor() = default;
+        gunmod_add_activity_actor( int moves, std::string name ) : moves( moves ),
+            name( std::move( name ) ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GUNMOD_ADD" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<gunmod_add_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        std::string name;
 };
 
 class longsalvage_activity_actor : public activity_actor

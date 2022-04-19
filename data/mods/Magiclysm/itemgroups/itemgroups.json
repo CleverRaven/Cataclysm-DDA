@@ -8,53 +8,66 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ]
+    "copy-from": "religious_books",
+    "extend": { "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ] }
   },
   {
     "type": "item_group",
     "id": "novels",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ]
+    "copy-from": "novels",
+    "extend": { "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ] }
   },
   {
     "type": "item_group",
     "id": "homebooks",
-    "items": [ { "group": "spellbook_loot_0", "prob": 4 } ]
+    "copy-from": "homebooks",
+    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 } ] }
   },
   {
     "type": "item_group",
     "id": "manuals",
-    "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ]
+    "copy-from": "manuals",
+    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ] }
   },
   {
     "type": "item_group",
     "id": "lab_bookshelves",
-    "items": [
-      { "group": "spellbook_loot_1", "prob": 3 },
-      { "group": "magic_recipe_basic", "prob": 3 },
-      { "group": "magic_recipe_advanced", "prob": 1 },
-      { "group": "dragon_books", "prob": 3 },
-      { "item": "spellcraft_theory", "prob": 2 }
-    ]
+    "copy-from": "lab_bookshelves",
+    "extend": {
+      "items": [
+        { "group": "spellbook_loot_1", "prob": 3 },
+        { "group": "magic_recipe_basic", "prob": 3 },
+        { "group": "magic_recipe_advanced", "prob": 1 },
+        { "group": "dragon_books", "prob": 3 },
+        { "item": "spellcraft_theory", "prob": 2 }
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "mansion_books",
-    "items": [
-      { "group": "spellbook_loot_0", "prob": 6 },
-      { "group": "magic_recipe_basic", "prob": 6 },
-      { "group": "magic_recipe_advanced", "prob": 2 },
-      { "group": "dragon_books", "prob": 5 },
-      { "group": "spellcraft_books", "prob": 4 }
-    ]
+    "copy-from": "mansion_books",
+    "extend": {
+      "items": [
+        { "group": "spellbook_loot_0", "prob": 6 },
+        { "group": "magic_recipe_basic", "prob": 6 },
+        { "group": "magic_recipe_advanced", "prob": 2 },
+        { "group": "dragon_books", "prob": 5 },
+        { "group": "spellcraft_books", "prob": 4 }
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [
-      { "group": "spellbook_loot_1", "prob": 3 },
-      { "group": "dragon_books", "prob": 2 },
-      { "group": "spellcraft_books", "prob": 1 }
-    ]
+    "copy-from": "exotic_books",
+    "extend": {
+      "items": [
+        { "group": "spellbook_loot_1", "prob": 3 },
+        { "group": "dragon_books", "prob": 2 },
+        { "group": "spellcraft_books", "prob": 1 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -64,80 +77,97 @@
   {
     "type": "item_group",
     "id": "tools_medical",
-    "items": [ [ "scalpel_plus_one", 5 ], [ "scalpel_plus_two", 2 ] ]
+    "copy-from": "tools_medical",
+    "extend": { "items": [ [ "scalpel_plus_one", 5 ], [ "scalpel_plus_two", 2 ] ] }
   },
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "items": [
-      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 },
-      { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 }
-    ]
+    "copy-from": "guns_pistol_rare",
+    "extend": {
+      "items": [
+        { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
+        { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 },
+        { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 }
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common",
-    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 5 } ]
+    "copy-from": "guns_rifle_common",
+    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 5 } ] }
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_display",
-    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
+    "copy-from": "guns_rifle_common_display",
+    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 0 } ] }
   },
   {
     "type": "item_group",
     "id": "mags_rifle_rare",
-    "items": [ [ "borealmosin_clip", 5 ] ]
+    "copy-from": "mags_rifle_rare",
+    "extend": { "items": [ [ "borealmosin_clip", 5 ] ] }
   },
   {
     "type": "item_group",
     "id": "displays",
-    "items": [
-      [ "mana_potion_lesser", 50 ],
-      [ "magi_staff_minor", 5 ],
-      [ "wizard_hat", 5 ],
-      [ "cauldron_demon_chitin", 3 ],
-      [ "manatouched_serum", 3 ],
-      [ "wolfsbane", 2 ],
-      [ "wolfshead_cufflinks", 3 ],
-      [ "magic_knife_bag", 3 ]
-    ]
+    "copy-from": "displays",
+    "extend": {
+      "items": [
+        [ "mana_potion_lesser", 50 ],
+        [ "magi_staff_minor", 5 ],
+        [ "wizard_hat", 5 ],
+        [ "cauldron_demon_chitin", 3 ],
+        [ "manatouched_serum", 3 ],
+        [ "wolfsbane", 2 ],
+        [ "wolfshead_cufflinks", 3 ],
+        [ "magic_knife_bag", 3 ]
+      ]
+    }
   },
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 10 ] ]
+    "copy-from": "coffee_display_2",
+    "extend": { "items": [ [ "mana_potion_lesser", 10 ] ] }
   },
   {
     "type": "item_group",
     "id": "bar_alcohol",
-    "items": [ [ "mana_potion_lesser", 20 ], [ "manatouched_serum", 1 ] ]
+    "copy-from": "bar_alcohol",
+    "extend": { "items": [ [ "mana_potion_lesser", 20 ], [ "manatouched_serum", 1 ] ] }
   },
   {
     "type": "item_group",
     "id": "bar_fridge",
-    "items": [ [ "mana_potion_lesser", 5 ] ]
+    "copy-from": "bar_fridge",
+    "extend": { "items": [ [ "mana_potion_lesser", 5 ] ] }
   },
   {
     "type": "item_group",
     "id": "pizza_beer",
-    "items": [ [ "mana_potion_lesser", 5 ] ]
+    "copy-from": "pizza_beer",
+    "extend": { "items": [ [ "mana_potion_lesser", 5 ] ] }
   },
   {
     "type": "item_group",
     "id": "pizza_soda",
-    "items": [ [ "mana_potion_lesser", 3 ] ]
+    "copy-from": "pizza_soda",
+    "extend": { "items": [ [ "mana_potion_lesser", 3 ] ] }
   },
   {
     "id": "groce_softdrink",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 15 ] ]
+    "copy-from": "groce_softdrink",
+    "extend": { "items": [ [ "mana_potion_lesser", 15 ] ] }
   },
   {
     "id": "trash",
     "type": "item_group",
-    "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ] ]
+    "copy-from": "trash",
+    "extend": { "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ] ] }
   },
   {
     "type": "item_group",
@@ -277,11 +307,14 @@
   {
     "type": "item_group",
     "id": "pawn",
-    "items": [
-      { "group": "enchanted_wands_lesser", "prob": 3 },
-      { "group": "enchanted_rings_common", "prob": 1 },
-      [ "wolfshead_cufflinks", 10 ]
-    ]
+    "copy-from": "pawn",
+    "extend": {
+      "items": [
+        { "group": "enchanted_wands_lesser", "prob": 3 },
+        { "group": "enchanted_rings_common", "prob": 1 },
+        [ "wolfshead_cufflinks", 10 ]
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -363,7 +396,7 @@
   {
     "id": "enchanted_misc",
     "type": "item_group",
-    "//": "all enchanted miscellanious items",
+    "//": "all enchanted miscellaneous items",
     "items": [
       { "item": "golemcore", "prob": 10 },
       { "item": "heat_cube", "prob": 100 },
@@ -796,7 +829,8 @@
   {
     "id": "science",
     "type": "item_group",
-    "items": [ { "group": "magical_reagents", "prob": 18 } ]
+    "copy-from": "science",
+    "extend": { "items": [ { "group": "magical_reagents", "prob": 18 } ] }
   },
   {
     "id": "magus_items",
@@ -1081,11 +1115,14 @@
     "//": "A distribution of magical items for classless themed spaces.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [
-      { "group": "enchanted_tokens_tool", "prob": 3 },
-      { "group": "enchanted_tokens_weapon", "prob": 2 },
-      { "group": "potions_common", "prob": 12 }
-    ]
+    "copy-from": "tools_hunting",
+    "extend": {
+      "items": [
+        { "group": "enchanted_tokens_tool", "prob": 3 },
+        { "group": "enchanted_tokens_weapon", "prob": 2 },
+        { "group": "potions_common", "prob": 12 }
+      ]
+    }
   },
   {
     "id": "classless_items",

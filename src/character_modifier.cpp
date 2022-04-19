@@ -102,7 +102,8 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
             for( JsonValue jval : jobj.get_array( "limb_score" ) ) {
                 if( jval.test_array() ) {
                     JsonArray jsc = jval.get_array();
-                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ), jsc.get_float( 1 ) );
+                    limbscores.emplace( limb_score_id( jsc.get_string( 0 ) ),
+                                        static_cast<float>( jsc.get_float( 1 ) ) );
                 } else {
                     limbscores.emplace( limb_score_id( jval.get_string() ), 1.0f );
                 }
@@ -143,25 +144,35 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
 // Scores
 
 // the total of the manipulator score in the best limb group
-static float manipulator_score( const std::map<bodypart_str_id, bodypart> body )
+static float manipulator_score( const std::map<bodypart_str_id, bodypart> body,
+                                body_part_type::type type, int override_encumb, int override_wounds )
 {
-    std::map<body_part_type::type, std::vector<bodypart>> bodypart_groups;
+    std::map<body_part_type::type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
     std::vector<float> score_groups;
+    const bool required_type = type != body_part_type::type::num_types;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        bodypart_groups[id.first->limb_type].emplace_back( id.second );
-        for( const body_part_type::type &secondary : id.first->secondary_types ) {
-            bodypart_groups[ secondary ].emplace_back( id.second );
+        if( required_type ) {
+            for( const auto &bp_type : id.first->limbtypes ) {
+                if( bp_type.first == type ) {
+                    bodypart_groups[ bp_type.first ].emplace_back( id.second, bp_type.second );
+                }
+            }
+        } else if( id.first->primary_limb_type() != body_part_type::type::num_types ) {
+            bodypart_groups[ id.first->primary_limb_type() ].emplace_back( id.second,
+                    id.first->limbtypes.at( id.first->primary_limb_type() ) );
         }
     }
-    for( std::pair<const body_part_type::type, std::vector<bodypart>> &part : bodypart_groups ) {
+    for( auto &part : bodypart_groups ) {
         float total = 0.0f;
         std::sort( part.second.begin(), part.second.end(),
-        []( const bodypart & a, const bodypart & b ) {
-            return a.get_limb_score_max( limb_score_manip ) < b.get_limb_score_max( limb_score_manip );
+        []( const std::pair<bodypart, float> &a, const std::pair<bodypart, float> &b ) {
+            return a.first.get_limb_score_max( limb_score_manip ) * a.second <
+                   b.first.get_limb_score_max( limb_score_manip ) * b.second;
         } );
-        for( const bodypart &id : part.second ) {
-            total = std::min( total + id.get_limb_score( limb_score_manip ),
-                              id.get_limb_score_max( limb_score_manip ) );
+        for( const std::pair<bodypart, float> &id : part.second ) {
+            total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
+                              override_wounds ) * id.second,
+                              id.first.get_limb_score_max( limb_score_manip ) * id.second );
         }
         score_groups.emplace_back( total );
     }
@@ -179,15 +190,20 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     int skill = -1;
     // manipulator/swim scores are treated a little special for now
     if( score == limb_score_manip ) {
-        return manipulator_score( body );
+        return manipulator_score( body, bp, override_encumb, override_wounds );
     } else if( score == limb_score_swim ) {
         skill = get_skill_level( skill_swimming );
     }
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
-        if( bp == body_part_type::type::num_types || id.first->has_type( bp ) ) {
-            total += id.second.get_limb_score( score, skill, override_encumb, override_wounds );
+        float mod = 0.0f;
+        if( bp == body_part_type::type::num_types ) {
+            mod = id.second.get_limb_score( score, skill, override_encumb, override_wounds );
+        } else if( id.first->has_type( bp ) ) {
+            mod = id.second.get_limb_score( score, skill, override_encumb,
+                                            override_wounds ) * id.first->limbtypes.at( bp );
         }
+        total += mod;
     }
     return std::max( 0.0f, total );
 }

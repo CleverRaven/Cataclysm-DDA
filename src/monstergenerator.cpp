@@ -210,6 +210,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
+        case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -906,6 +907,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
+    optional( jo, was_loaded, "dissect", dissect );
+
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
         for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
@@ -1281,7 +1284,7 @@ void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
     if( regeneration_modifiers.count( effect ) > 0 ) {
         regeneration_modifiers.erase( effect );
         if( test_mode ) {
-            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+            debugmsg( "%s specifies more than one regeneration modifier for effect %s, ignoring all but the last",
                       id.c_str(), effect_name );
         }
     }
@@ -1375,6 +1378,10 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( !mon.dissect.is_empty() && !mon.dissect.is_valid() ) {
+            debugmsg( "monster %s has invalid dissection harvest_entry: %s", mon.id.c_str(),
+                      mon.dissect.c_str() );
         }
         if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
             debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );

@@ -152,6 +152,17 @@ bool talker_character_const::is_mute() const
     return me_chr_const->is_mute();
 }
 
+void talker_character::mutate( const int &highest_cat_chance, const bool &use_vitamins )
+{
+    me_chr->mutate( highest_cat_chance, use_vitamins );
+}
+
+void talker_character::mutate_category( const mutation_category_id &mut_cat,
+                                        const bool &use_vitamins )
+{
+    me_chr->mutate_category( mut_cat, use_vitamins );
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
@@ -271,9 +282,28 @@ bool talker_character_const::has_charges( const itype_id &item_id, int count ) c
     return me_chr_const->has_charges( item_id, count );
 }
 
+bool talker_character_const::has_charges( const itype_id &item_id, int count, bool in_tools ) const
+{
+    if( !in_tools ) {
+        return me_chr_const->has_charges( item_id, count );
+    } else {
+        return me_chr_const->charges_of( item_id, count, return_true<item>, nullptr, in_tools ) >= count;
+    }
+}
+
 std::list<item> talker_character::use_charges( const itype_id &item_name, const int count )
 {
     return me_chr->use_charges( item_name, count );
+}
+
+std::list<item> talker_character::use_charges( const itype_id &item_name, const int count,
+        bool in_tools )
+{
+    if( !in_tools ) {
+        return me_chr->use_charges( item_name, count );
+    } else {
+        return me_chr->use_charges( item_name, count, -1, return_true<item>, in_tools );
+    }
 }
 
 std::list<item> talker_character::use_amount( const itype_id &item_name, const int count )

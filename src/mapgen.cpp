@@ -232,12 +232,18 @@ void map::generate( const tripoint &p, const time_point &when )
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
-    map_extras ex = region_settings_map["default"].
-                    region_extras[terrain_type->get_extras()].filtered_by( dat );
-    if( ex.chance > 0 && one_in( ex.chance ) ) {
+    map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+    map_extras ex = this_ex.filtered_by( dat );
+    if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+        DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                         " (extra type \"" << terrain_type->get_extras() <<
+                                         "\") zlevel = " << abs_omt.z() <<
+                                         " is out of range of all assigned map extras.  Skipping map extra generation.";
+    } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
         if( extra == nullptr ) {
-            debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
+            debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                      terrain_type->get_type_id().str() );
         } else {
             MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
         }
@@ -871,6 +877,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
+    setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
@@ -923,7 +930,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -1331,7 +1338,7 @@ class mapgen_value
                 std::vector<std::string> possible_values = on->all_possible_results( params );
                 for( const std::string &value : possible_values ) {
                     if( !cases.count( value ) ) {
-                        debugmsg( "mapgen '%s' has switch whcih does not account for potential "
+                        debugmsg( "mapgen '%s' has switch which does not account for potential "
                                   "case '%s' of the switched-on value", context, value );
                     }
                 }
@@ -2103,12 +2110,16 @@ class jmapgen_item_group : public jmapgen_piece
     public:
         item_group_id group_id;
         jmapgen_int chance;
+        std::string faction;
         jmapgen_item_group( const JsonObject &jsi, const std::string &context ) :
             chance( jsi, "chance", 1, 1 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void check( const std::string &context, const mapgen_parameters &,
                     const jmapgen_int &/*x*/, const jmapgen_int &/*y*/ ) const override {
@@ -2119,7 +2130,7 @@ class jmapgen_item_group : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
-                               calendar::start_of_cataclysm );
+                               calendar::start_of_cataclysm, 0, 0, faction );
         }
 };
 
@@ -2355,6 +2366,7 @@ class jmapgen_vehicle : public jmapgen_piece
         std::vector<units::angle> rotation;
         int fuel;
         int status;
+        std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string &/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
             , chance( jsi, "chance", 1, 1 )
@@ -2369,6 +2381,10 @@ class jmapgen_vehicle : public jmapgen_piece
             } else {
                 rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
             }
+
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
@@ -2380,7 +2396,7 @@ class jmapgen_vehicle : public jmapgen_piece
                 return;
             }
             dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
-                               fuel, status );
+                               fuel, status, true, faction );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -2404,6 +2420,7 @@ class jmapgen_spawn_item : public jmapgen_piece
     public:
         mapgen_value<itype_id> type;
         std::string variant;
+        std::string faction;
         jmapgen_int amount;
         jmapgen_int chance;
         std::set<flag_id> flags;
@@ -2414,6 +2431,9 @@ class jmapgen_spawn_item : public jmapgen_piece
             , flags( jsi.get_tags<flag_id>( "custom-flags" ) ) {
             if( jsi.has_string( "variant" ) ) {
                 variant = jsi.get_string( "variant" );
+            }
+            if( jsi.has_string( "faction" ) ) {
+                faction = jsi.get_string( "faction" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -2434,7 +2454,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), chosen_id, amount.get(),
-                                  0, calendar::start_of_cataclysm, 0, flags, variant );
+                                  0, calendar::start_of_cataclysm, 0, flags, variant, faction );
             }
         }
 
@@ -2953,51 +2973,6 @@ class jmapgen_zone : public jmapgen_piece
             zone_type.check( oter_name, parameters );
             faction.check( oter_name, parameters );
         }
-};
-
-/**
- * Removes items
- */
-class jmapgen_remove_items : public jmapgen_piece
-{
-    public:
-        std::vector<itype_id> items_to_remove;
-        jmapgen_remove_items( const JsonObject &jo, const std::string &/*context*/ ) {
-            for( std::string item_id : jo.get_string_array( "items" ) ) {
-                items_to_remove.emplace_back( itype_id( item_id ) );
-            }
-        }
-        mapgen_phase phase() const override {
-            return mapgen_phase::removal;
-        }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                    const std::string &/*context*/ ) const override {
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            std::vector<itype_id> items_to_remove_local = items_to_remove;
-            auto item_filter = [items_to_remove_local]( const item & it ) {
-                if( items_to_remove_local.empty() ) {
-                    return true;
-                }
-                for( const itype_id &item_id : items_to_remove_local ) {
-                    if( it.typeId() == item_id ) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            if( start == end ) {
-                map_selector( get_map().getlocal( start ) ).remove_items_with( item_filter );
-            } else {
-                tripoint_range<tripoint> range = tripoint_range<tripoint>( get_map().getlocal( start ),
-                                                 get_map().getlocal( end ) );
-                for( const tripoint &p : range ) {
-                    map_selector( p ).remove_items_with( item_filter );
-                }
-            }
-        };
-
 };
 
 /**
@@ -3795,9 +3770,8 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_monster_group>( jo, "monsters", format_placings, c );
     new_pal.load_place_mapings<jmapgen_vehicle>( jo, "vehicles", format_placings, c );
     // json member name is not optimal, it should be plural like all the others above, but that conflicts
-    // with the items entry with refers to item groups.
+    // with the items entry which refers to item groups.
     new_pal.load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_remove_items>( jo, "remove_items", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_vehicles>( jo, "remove_vehicles", format_placings, c );
     new_pal.load_place_mapings<jmapgen_remove_all>( jo, "remove_all", format_placings, c );
     new_pal.load_place_mapings<jmapgen_trap>( jo, "traps", format_placings, c );
@@ -4068,7 +4042,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     // which are not under our control.
     objects.load_objects<jmapgen_spawn_item>( jo, "add", context_ );
     objects.load_objects<jmapgen_spawn_item>( jo, "place_item", context_ );
-    objects.load_objects<jmapgen_remove_items>( jo, "remove_items", context_ );
     objects.load_objects<jmapgen_field>( jo, "place_fields", context_ );
     objects.load_objects<jmapgen_npc>( jo, "place_npcs", context_ );
     objects.load_objects<jmapgen_sign>( jo, "place_signs", context_ );
@@ -4231,10 +4204,13 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_ITEM_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4292,6 +4268,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.set_radiation( point( x_get(), y_get() ), val.get() );
             }
             break;
+            case JMAPGEN_SETMAP_TRAP_REMOVE: {
+                mremove_trap( &m, point( x_get(), y_get() ), trap_id( val.get() ).id() );
+            }
+            break;
+            case JMAPGEN_SETMAP_ITEM_REMOVE: {
+                m.i_clear( point( x_get(), y_get() ) );
+            }
+            break;
             case JMAPGEN_SETMAP_BASH: {
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
             }
@@ -4326,6 +4310,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mremove_trap( &m, i, trap_id( val.get() ).id() );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    m.i_clear( i );
                 }
             }
             break;
@@ -4371,6 +4363,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 }
             }
             break;
+            case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        m.i_clear( point( tx, ty ) );
+                    }
+                }
+            }
+            break;
             case JMAPGEN_SETMAP_SQUARE_RADIATION: {
                 const point c2( x_get(), y_get() );
                 const int cx2 = x2_get();
@@ -4412,10 +4415,12 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
         case JMAPGEN_SETMAP_LINE_FURN:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TER:
         case JMAPGEN_SETMAP_SQUARE_FURN:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
             end.x = x2_get();
             end.y = y2_get();
             break;
@@ -6494,7 +6499,8 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
-    const bool ongrass, const time_point &turn, const int magazine, const int ammo )
+    const bool ongrass, const time_point &turn, const int magazine, const int ammo,
+    const std::string &faction )
 {
     std::vector<item *> res;
 
@@ -6546,6 +6552,8 @@ std::vector<item *> map::place_items(
                 e->ammo_set( e->ammo_default() );
             }
         }
+
+        e->set_owner( faction_id( faction ) );
     }
     return res;
 }
@@ -6596,25 +6604,26 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks, faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
-                           int veh_fuel, int veh_status, bool merge_wrecks )
+                           int veh_fuel, int veh_status, bool merge_wrecks, const std::string &faction )
 {
-    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks );
+    return add_vehicle( type, tripoint( p, abs_sub.z() ), dir, veh_fuel, veh_status, merge_wrecks,
+                        faction );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks, const std::string &faction )
 {
     if( !type.is_valid() ) {
         debugmsg( "Nonexistent vehicle type: \"%s\"", type.c_str() );
@@ -6631,6 +6640,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     tripoint p_ms = p;
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
+    if( !faction.empty() ) {
+        veh->set_owner( faction_id( faction ) );
+    }
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -6738,7 +6750,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         first_veh->install_part( target_point, *vp );
                     }
 
-                    // this couuld probably be done in a single loop with installing parts above
+                    // this could probably be done in a single loop with installing parts above
                     std::vector<int> parts_in_square = veh_to_add->parts_at_relative( source_point, true );
                     std::set<int> parts_to_check;
                     for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
@@ -7673,7 +7685,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
                 : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( rotation, true );
                 }
             }
@@ -7681,7 +7693,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             ~rotation_guard() {
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.
-                if( rotation != 0 ) {
+                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
                     md.m.rotate( 4 - rotation, true );
                 }
             }
@@ -7689,9 +7701,8 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    if( !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-        rotation_guard rot( md_with_params );
-    }
+    rotation_guard rot( md_with_params );
+
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
                                    verify );
 }

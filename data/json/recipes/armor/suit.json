@@ -255,6 +255,7 @@
   {
     "result": "xs_armor_lightplate",
     "type": "recipe",
+    "id_suffix": "assembly",
     "copy-from": "armor_lightplate",
     "time": "20 m",
     "flags": [ "NO_RESIZE" ],
@@ -405,17 +406,17 @@
     ]
   },
   {
-    "result": "armor_scavenger",
+    "result": "armor_mercenary_top",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 8,
+    "difficulty": 6,
     "skills_required": [ "fabrication", 3 ],
-    "time": "1 h 20 m",
+    "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
+    "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -423,15 +424,8 @@
     ],
     "components": [
       [ [ "jacket_army", 1 ], [ "jacket_army_modern", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "chestrig", 1 ] ],
-      [ [ "mbag", 1 ], [ "runner_bag", 1 ] ],
-      [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "XL_holster", 1 ] ],
-      [ [ "sheath", 1 ] ],
-      [ [ "pants_army", 1 ] ],
       [ [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_light", 1 ], [ "ballistic_vest_esapi", 1 ], [ "swat_armor", 1 ] ]
+      [ [ "ballistic_vest_esapi", 1 ] ]
     ]
   },
   {
@@ -446,13 +440,14 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "cordage", 6 ], [ "mixed_steel", 5 ] ],
+    "components": [ [ [ "rag", 28 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 170 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ]
   },
   {
     "result": "armor_scrapsuit",
+    "id_suffix": "assembly",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -472,6 +467,7 @@
   },
   {
     "result": "armor_tiresuit",
+    "id_suffix": "assembly",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
@@ -505,35 +501,6 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
     "components": [ [ [ "rubber_tire_chunk", 24 ] ] ]
-  },
-  {
-    "result": "chainmail_hauberk",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "1 h 45 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_hauberk_xs",
-    "type": "recipe",
-    "copy-from": "chainmail_hauberk",
-    "time": "1 h 45 m",
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_hauberk",
-    "type": "recipe",
-    "copy-from": "chainmail_hauberk",
-    "time": "1h 45m",
-    "components": [ [ [ "xl_chainmail_vest", 1 ] ], [ [ "xl_chainmail_arms", 1 ] ], [ [ "xl_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_hauberk",
@@ -679,78 +646,6 @@
     "copy-from": "qt_chainmail_hauberk",
     "time": "1h 45m",
     "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h 50 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "chainmail_suit_xs",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "time": "1 h 50 m",
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_suit",
-    "type": "recipe",
-    "copy-from": "chainmail_suit",
-    "time": "1h 50m",
-    "components": [
-      [ [ "xl_chainmail_hood", 1 ] ],
-      [ [ "xl_chainmail_vest", 1 ] ],
-      [ [ "xl_chainmail_arms", 1 ] ],
-      [ [ "xl_chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "chainmail_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
-  },
-  {
-    "result": "xl_chainmail_suit",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "id_suffix": "hauberk",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
-    ],
-    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit",
@@ -1301,7 +1196,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "tailor_portfolio", 8 ] ],
     "using": [ [ "sewing_standard", 200 ], [ "fabric_nomex", 40 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -1314,7 +1209,6 @@
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
         [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 24 ]
       ]
     ]
@@ -1325,7 +1219,7 @@
     "copy-from": "entry_suit",
     "time": "6 h",
     "using": [ [ "sewing_standard", 150 ], [ "fabric_nomex", 30 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_kevlar_layered", 6 ] ],
       [ [ "duct_tape", 150 ], [ "superglue", 3 ] ],
@@ -1333,7 +1227,6 @@
         [ "kevlar", 1 ],
         [ "ballistic_vest_light", 1 ],
         [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
         [ "sheet_kevlar_layered", 18 ]
       ]
     ]
@@ -1344,7 +1237,7 @@
     "copy-from": "entry_suit",
     "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 300 ], [ "fabric_nomex", 60 ] ],
-    "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_kevlar_layered", 12 ] ],
       [ [ "duct_tape", 300 ], [ "superglue", 7 ] ],
@@ -1352,112 +1245,6 @@
         [ "kevlar", 2 ],
         [ "ballistic_vest_light", 2 ],
         [ "ballistic_vest_esapi", 2 ],
-        [ "swat_armor", 2 ],
-        [ "sheet_kevlar_layered", 48 ]
-      ]
-    ]
-  },
-  {
-    "result": "fsurvivor_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 8,
-    "skills_required": [ "fabrication", 7 ],
-    "time": "12 h 20 m",
-    "autolearn": true,
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 4 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" }
-    ],
-    "components": [
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 200 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 24 ]
-      ]
-    ]
-  },
-  {
-    "result": "xs_fsurvivor_suit",
-    "type": "recipe",
-    "copy-from": "fsurvivor_suit",
-    "time": "12 h 20 m",
-    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 3 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
-    "components": [
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 150 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 18 ]
-      ]
-    ]
-  },
-  {
-    "result": "xl_fsurvivor_suit",
-    "type": "recipe",
-    "copy-from": "fsurvivor_suit",
-    "time": "13 h 50 m",
-    "using": [ [ "sewing_standard", 300 ], [ "fabric_standard_nostretch", 8 ] ],
-    "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
-    "components": [
-      [ [ "xl_nomex_suit", 1 ], [ "xl_entry_suit", 1 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 300 ] ],
-      [
-        [ "kevlar", 2 ],
-        [ "ballistic_vest_light", 2 ],
-        [ "ballistic_vest_esapi", 2 ],
-        [ "swat_armor", 2 ],
         [ "sheet_kevlar_layered", 48 ]
       ]
     ]
@@ -1474,7 +1261,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1494,7 +1281,7 @@
     "copy-from": "mask_wsurvivor_nofur",
     "time": "4 h",
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1514,7 +1301,7 @@
     "time": "4 h",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ], [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
@@ -1580,6 +1367,7 @@
   {
     "result": "gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1607,6 +1395,7 @@
   {
     "result": "gambeson_vest_xs",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1673,6 +1462,7 @@
   {
     "result": "k_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1701,6 +1491,7 @@
   {
     "result": "k_gambeson_vest_xs",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1735,6 +1526,7 @@
   {
     "result": "xl_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1771,6 +1563,7 @@
   {
     "result": "xl_k_gambeson_vest",
     "type": "recipe",
+    "id_suffix": "cutting",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1797,7 +1590,7 @@
     "components": [ [ [ "sheet_kevlar_layered", 25 ] ] ]
   },
   {
-    "result": "hsurvivor_suit",
+    "result": "hsurvivor_jumpsuit",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
@@ -1807,71 +1600,68 @@
     "skills_required": [ "fabrication", 7 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 20 ], [ "fabric_leather_hide", 4 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ], [ "fabric_lycra", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_elastics", "fail_multiplier": 1.2, "time_multiplier": 1.3 },
+      { "proficiency": "prof_closures", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation", "fail_multiplier": 1.1, "time_multiplier": 1.1 },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_quenching" }
     ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "welder", 64 ], [ "welder_crude", 97 ], [ "soldering_iron", 97 ], [ "toolset", 97 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
     "components": [
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
       [ [ "duct_tape", 300 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 24 ]
-      ]
+      [ [ "sheet_kevlar", 590 ] ]
     ]
   },
   {
-    "result": "xshsurvivor_suit",
+    "result": "xs_hsurvivor_jumpsuit",
     "type": "recipe",
-    "copy-from": "hsurvivor_suit",
-    "time": "20 h",
-    "using": [ [ "sewing_standard", 150 ], [ "fabric_standard_nostretch", 15 ], [ "fabric_leather_hide", 3 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "activity_level": "MODERATE_EXERCISE",
+    "copy-from": "hsurvivor_jumpsuit",
+    "using": [ [ "sewing_kevlar", 150 ], [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ], [ "fabric_lycra", 15 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "welder", 48 ], [ "welder_crude", 72 ], [ "soldering_iron", 72 ], [ "toolset", 72 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
     "components": [
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
       [ [ "duct_tape", 225 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "swat_armor", 1 ],
-        [ "sheet_kevlar_layered", 18 ]
-      ]
+      [ [ "sheet_kevlar_layered", 408 ] ]
+    ]
+  },
+  {
+    "result": "xl_hsurvivor_jumpsuit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "copy-from": "hsurvivor_jumpsuit",
+    "time": "23 h",
+    "using": [ [ "sewing_kevlar", 300 ], [ "blacksmithing_standard", 15 ], [ "mc_steel_standard", 5 ], [ "fabric_lycra", 30 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "welder", 72 ], [ "welder_crude", 109 ], [ "soldering_iron", 109 ], [ "toolset", 109 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -240 ] ]
+    ],
+    "components": [
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [ [ "duct_tape", 450 ] ],
+      [ [ "sheet_kevlar_layered", 864 ] ]
     ]
   },
   {
@@ -2074,7 +1864,7 @@
     "time": "10 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 50 ], [ "fabric_standard_nostretch", 12 ], [ "fabric_neoprene", 12 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
+    "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -2089,7 +1879,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 40 ], [ "fabric_standard_nostretch", 8 ], [ "fabric_neoprene", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ]
+    "qualities": [ { "id": "SEW_CURVED", "level": 1 } ]
   },
   {
     "result": "wool_suit",
@@ -2102,53 +1892,6 @@
     "time": "10 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 150 ], [ "fabric_felt", 24 ] ]
-  },
-  {
-    "result": "xlhsurvivor_suit",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 8,
-    "skills_required": [ "fabrication", 8 ],
-    "time": "22 h 30 m",
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ], [ "fabric_standard_nostretch", 30 ], [ "fabric_leather_hide", 7 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_articulation" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" }
-    ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
-    "components": [
-      [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
-      [ [ "duct_tape", 400 ] ],
-      [
-        [ "kevlar", 2 ],
-        [ "ballistic_vest_light", 2 ],
-        [ "ballistic_vest_esapi", 2 ],
-        [ "swat_armor", 2 ],
-        [ "sheet_kevlar_layered", 48 ]
-      ]
-    ]
   },
   {
     "result": "yukata",

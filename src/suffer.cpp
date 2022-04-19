@@ -68,6 +68,8 @@ static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_radleak( "bio_radleak" );
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -240,7 +242,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.deactivate_mutation( mut_id );
             } else {
                 // does not directly modify hunger, but burns kcal
-                you.mod_stored_nutr( mut_id->cost );
+                you.mod_stored_kcal( mut_id->cost );
             }
         }
         if( mut_id->thirst ) {
@@ -708,7 +710,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.mod_power_level( -bio_gills->power_trigger / 8 );
             you.add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
-        } else if( auto_use ) {
+        } else if( auto_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
                 you.add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
@@ -717,7 +719,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                 you.add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                                   "and go back to sleep." ) );
             }
-        } else if( nearby_use ) {
+        } else if( nearby_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             // create new variable to resolve a reference issue
             int amount = 1;
             if( !here.use_charges( you.pos(), 2, itype_inhaler, amount ).empty() ) {
@@ -731,7 +733,9 @@ void suffer::from_asthma( Character &you, const int current_stim )
         } else {
             you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( you.has_effect( effect_sleep ) ) {
-                you.wake_up();
+                if( !you.has_bionic( bio_sleep_shutdown ) ) {
+                    you.wake_up();
+                }
             } else {
                 if( !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
@@ -853,19 +857,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0f;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
-        // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
-        for( const bodypart_id &bp : all_body_parts )  {
-            if( !covered.test( bp.id() ) ) {
-                continue;
-            }
-            // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
-            // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            bp_exposure[bp] *= part_exposure;
-        }
-    }
+    worn.bodypart_exposure( bp_exposure, all_body_parts );
     return bp_exposure;
 }
 
@@ -1024,7 +1016,8 @@ void suffer::from_item_dropping( Character &you )
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
-            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
+            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) &&
+                !dump_item->has_flag( flag_INTEGRATED ) ) {
                 tumble_items.push_back( *dump_item );
             }
         }
@@ -1280,6 +1273,14 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_power_weakness ) && you.has_max_power() &&
         you.get_power_level() >= you.get_max_power_level() * .75 ) {
         you.mod_str_bonus( -3 );
+    }
+    if( you.has_bionic( bio_radleak ) && one_turn_in( 300_minutes ) ) {
+        you.add_msg_if_player( m_bad, _( "You CBM leaks radiation." ) );
+        if( you.has_effect( effect_iodine ) ) {
+            you.mod_rad( 2 );
+        } else {
+            you.mod_rad( 5 );
+        }
     }
 }
 
@@ -1863,7 +1864,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         const int curr_wetness = get_part_wetness( bp );
         if( curr_wetness < wetness_max ) {
-            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment ) );
+            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment * 100 ) );
         }
     }
     const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
@@ -1900,7 +1901,7 @@ void Character::apply_wetness_morale( int temperature )
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = get_part_wetness( bp );
+        const int part_drench = get_part_wetness( bp ) / 100;
         if( part_drench == 0 ) {
             continue;
         }

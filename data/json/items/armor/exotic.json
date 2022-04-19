@@ -74,7 +74,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6,
-    "non_functional": "migo_plate_undergrown",
+    "non_functional": "migo_plate_naked",
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },
@@ -116,7 +116,7 @@
         "coverage": 0,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "material": [ { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 } ]
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
       }
     ]
   },
@@ -156,12 +156,18 @@
         "encumbrance": 0
       },
       {
+        "material": [ { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso", "arm_l", "arm_r" ],
         "specifically_covers": [ "torso_lower", "arm_upper_l", "arm_elbow_l", "arm_lower_l", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 2 }
+      {
+        "material": [ { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
     ],
     "use_action": [
       {
@@ -174,13 +180,13 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT" ]
   },
   {
     "id": "migo_skin_off",
     "type": "ARMOR",
     "name": { "str": "resonating gorget" },
-    "description": "A heavy duty gorget made from odd materials that hums slightly, it feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
+    "description": "A heavy-duty gorget made from odd materials that hums slightly, it feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
     "weight": "1500 g",
     "volume": "100 ml",
     "price": 2500,
@@ -215,7 +221,7 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ]
   },
   {
     "id": "feeding_kit",

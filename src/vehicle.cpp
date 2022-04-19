@@ -1802,6 +1802,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     return found_all_parts;
 }
 
+bool vehicle::merge_vehicle_parts( vehicle *veh )
+{
+    for( const vehicle_part &part : veh->parts ) {
+        point part_loc = veh->mount_to_tripoint( part.mount ).xy();
+
+        parts.push_back( part );
+        vehicle_part &copied_part = parts.back();
+        copied_part.mount = part_loc - global_pos3().xy();
+
+        refresh();
+    }
+
+    map &here = get_map();
+    here.destroy_vehicle( veh );
+
+    return true;
+}
+
 /**
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
@@ -5508,6 +5526,12 @@ void vehicle::place_spawn_items()
                         e.ammo_set( e.ammo_default() );
                     }
                 }
+
+                // Copy vehicle owner for items within
+                if( has_owner() ) {
+                    e.set_owner( get_owner() );
+                }
+
                 add_item( part, e );
             }
         }
@@ -6825,8 +6849,7 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
 }
 
 std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,
-                                      int &quantity,
-                                      const std::function<bool( const item & )> &filter )
+                                      int &quantity, const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> ret;
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
@@ -6861,7 +6884,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
     if( cargo_vp ) {
         vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
-        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter );
+        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;
@@ -6982,7 +7005,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     const time_point update_from = last_update;
-    if( update_to < update_from ) {
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
         // Special case going backwards in time - that happens
         last_update = update_to;
         return;
@@ -7155,7 +7178,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box()
+bounding_box vehicle::get_bounding_box( bool use_precalc )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
@@ -7166,9 +7189,18 @@ bounding_box vehicle::get_bounding_box()
 
     precalc_mounts( 0, turn_dir, point() );
 
-    int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
+        point pt;
+        if( use_precalc ) {
+            const int i_use = 0;
+            int part_idx = part_at( p.xy() );
+            if( part_idx < 0 ) {
+                continue;
+            }
+            pt = parts[part_idx].precalc[i_use].xy();
+        } else {
+            pt = p.xy();
+        }
         if( pt.x < min_x ) {
             min_x = pt.x;
         }

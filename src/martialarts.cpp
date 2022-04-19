@@ -238,6 +238,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "needs_ammo", needs_ammo, false );
+
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
@@ -262,6 +264,13 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
+
+    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
+    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
+
+    for( JsonValue jv : jo.get_array( "eocs" ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -365,6 +374,40 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
+    for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
     optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
     optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
@@ -373,6 +416,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "allow_all_weapons", allow_all_weapons, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
+    optional( jo, was_loaded, "prevent_weapon_blocking", prevent_weapon_blocking, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -804,7 +848,9 @@ ma_technique::ma_technique()
     wall_adjacent = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
-    miss_recovery = false; // allows free recovery from misses, like tec_feint
+    needs_ammo = false;       // technique only works if the item is loaded with ammo
+
+    miss_recovery = false; // reduces the total move cost of a miss by 50%, post stumble modifier
     grab_break = false; // allows grab_breaks, like tec_break
 }
 
@@ -1137,6 +1183,74 @@ void martialart::apply_onkill_buffs( Character &u ) const
     simultaneous_add( u, onkill_buffs );
 }
 
+void martialart::activate_eocs( Character &u,
+                                const std::vector<effect_on_condition_id> &eocs ) const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        dialogue d( get_talker_for( u ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void martialart::apply_static_eocs( Character &u ) const
+{
+    activate_eocs( u, static_eocs );
+}
+
+void martialart::apply_onmove_eocs( Character &u ) const
+{
+    activate_eocs( u, onmove_eocs );
+}
+
+void martialart::apply_onpause_eocs( Character &u ) const
+{
+    activate_eocs( u, onpause_eocs );
+}
+
+void martialart::apply_onhit_eocs( Character &u ) const
+{
+    activate_eocs( u, onhit_eocs );
+}
+
+void martialart::apply_onattack_eocs( Character &u ) const
+{
+    activate_eocs( u, onattack_eocs );
+}
+
+void martialart::apply_ondodge_eocs( Character &u ) const
+{
+    activate_eocs( u, ondodge_eocs );
+}
+
+void martialart::apply_onblock_eocs( Character &u ) const
+{
+    activate_eocs( u, onblock_eocs );
+}
+
+void martialart::apply_ongethit_eocs( Character &u ) const
+{
+    activate_eocs( u, ongethit_eocs );
+}
+
+void martialart::apply_onmiss_eocs( Character &u ) const
+{
+    activate_eocs( u, onmiss_eocs );
+}
+
+void martialart::apply_oncrit_eocs( Character &u ) const
+{
+    activate_eocs( u, oncrit_eocs );
+}
+
+void martialart::apply_onkill_eocs( Character &u ) const
+{
+    activate_eocs( u, onkill_eocs );
+}
+
 bool martialart::has_technique( const Character &u, const matec_id &tec_id ) const
 {
     for( const matec_id &elem : techniques ) {
@@ -1236,6 +1350,40 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
+
+std::string character_martial_arts::get_valid_attack_vector( const Character &user,
+        std::vector<std::string> attack_vectors ) const
+{
+    for( auto av : attack_vectors ) {
+        if( can_use_attack_vector( user, av ) ) {
+            return av;
+        }
+    }
+
+    return "NONE";
+}
+
+bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+{
+    martialart ma = style_selected.obj();
+    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
+    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
+    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
+    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
+    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
+    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
+    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
+    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool always_ok = av == "HEAD" || av == "TORSO";
+    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
+    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
+                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
+    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
+    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
+
+    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+}
+
 bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
@@ -1260,7 +1408,8 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
         // Check all standard legs for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::leg ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::leg ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1293,7 +1442,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
         // Check all standard arms for the score threshold
         for( const bodypart_id &bp : owner.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
             if( !bp->has_flag( json_flag_NONSTANDARD_BLOCK ) &&
-                owner.get_part( bp )->get_limb_score( limb_score_block ) >= 0.25f ) {
+                owner.get_part( bp )->get_limb_score( limb_score_block ) * bp->limbtypes.at(
+                    body_part_type::type::arm ) >= 0.25f ) {
                 return true;
             }
         }
@@ -1343,6 +1493,11 @@ bool character_martial_arts::is_force_unarmed() const
     return style_selected->force_unarmed;
 }
 
+bool character_martial_arts::can_weapon_block() const
+{
+    return !style_selected->prevent_weapon_blocking;
+}
+
 void character_martial_arts::clear_all_effects( Character &owner )
 {
     style_selected->remove_all_buffs( owner );
@@ -1353,46 +1508,57 @@ void character_martial_arts::clear_all_effects( Character &owner )
 void character_martial_arts::ma_static_effects( Character &owner )
 {
     style_selected->apply_static_buffs( owner );
+    style_selected->apply_static_eocs( owner );
 }
 void character_martial_arts::ma_onmove_effects( Character &owner )
 {
     style_selected->apply_onmove_buffs( owner );
+    style_selected->apply_onmove_eocs( owner );
 }
 void character_martial_arts::ma_onpause_effects( Character &owner )
 {
     style_selected->apply_onpause_buffs( owner );
+    style_selected->apply_onpause_eocs( owner );
 }
 void character_martial_arts::ma_onhit_effects( Character &owner )
 {
     style_selected->apply_onhit_buffs( owner );
+    style_selected->apply_onhit_eocs( owner );
 }
 void character_martial_arts::ma_onattack_effects( Character &owner )
 {
     style_selected->apply_onattack_buffs( owner );
+    style_selected->apply_onattack_eocs( owner );
 }
 void character_martial_arts::ma_ondodge_effects( Character &owner )
 {
     style_selected->apply_ondodge_buffs( owner );
+    style_selected->apply_ondodge_eocs( owner );
 }
 void character_martial_arts::ma_onblock_effects( Character &owner )
 {
     style_selected->apply_onblock_buffs( owner );
+    style_selected->apply_onblock_eocs( owner );
 }
 void character_martial_arts::ma_ongethit_effects( Character &owner )
 {
     style_selected->apply_ongethit_buffs( owner );
+    style_selected->apply_ongethit_eocs( owner );
 }
 void character_martial_arts::ma_onmiss_effects( Character &owner )
 {
     style_selected->apply_onmiss_buffs( owner );
+    style_selected->apply_onmiss_eocs( owner );
 }
 void character_martial_arts::ma_oncrit_effects( Character &owner )
 {
     style_selected->apply_oncrit_buffs( owner );
+    style_selected->apply_oncrit_eocs( owner );
 }
 void character_martial_arts::ma_onkill_effects( Character &owner )
 {
     style_selected->apply_onkill_buffs( owner );
+    style_selected->apply_onkill_eocs( owner );
 }
 
 template<typename C, typename F>
@@ -1718,7 +1884,7 @@ std::string ma_technique::get_description() const
     }
 
     if( miss_recovery ) {
-        dump += _( "* Will grant <info>free recovery</info> from a <info>miss</info>" ) +
+        dump += _( "* Reduces the time of a <info>miss</info> by <info>half</info>" ) +
                 std::string( "\n" );
     }
 

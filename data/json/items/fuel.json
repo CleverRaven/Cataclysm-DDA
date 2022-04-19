@@ -32,7 +32,7 @@
     "name": { "str": "denatured alcohol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
-    "description": "A high-strength ethanol solution mixed with denatonuim benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
+    "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": 10,
     "price_postapoc": 300
   },
@@ -241,7 +241,8 @@
     "type": "AMMO",
     "name": { "str_sp": "propane" },
     "description": "Propane gas, useful for everything from torches to barbeque grills to metalworking.",
-    "weight": "375 g",
+    "weight": "3300 mg",
+    "//": "Density of propane gas at 25C is 1.808 kg/m3, liquid propane at 25C is 0.493 g/cm3, propane tanks are pressurized enough to turn it liquid.",
     "volume": "200ml",
     "price": 200,
     "price_postapoc": 500,

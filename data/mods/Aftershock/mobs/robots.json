@@ -343,7 +343,7 @@
   {
     "id": "mon_medibot",
     "type": "MONSTER",
-    "name": "Faulty Surgical Droid",
+    "name": "faulty surgical droid",
     "looks_like": "mon_tripod",
     "description": "A free roaming medical robot capable of administering powerful anesthetics and performing complex surgical operations, usually in that order.  Faulty bio-diagnostic programs resulted in numerous lawsuits before the Cataclysm.",
     "default_faction": "utility_bot",

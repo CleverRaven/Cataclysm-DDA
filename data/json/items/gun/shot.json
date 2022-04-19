@@ -243,7 +243,7 @@
       {
         "id": "SPAS_12",
         "name": { "str": "Franchi SPAS-12" },
-        "description": "Mean and intimidating looking, the SPAS 12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
+        "description": "Mean and intimidating looking, the SPAS-12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
       }
     ],
     "ascii_picture": "mossberg590",
@@ -269,7 +269,7 @@
       {
         "id": "mossberg_930",
         "name": { "str": "Mossberg 930 SPX" },
-        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
+        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed Picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
         "weight": 1
       },
       {
@@ -466,7 +466,7 @@
     "variants": [
       {
         "id": "remington_870_express",
-        "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
+        "name": { "str": "Remington 870 Express", "str_pl": "Remington 870 Expresses" },
         "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
         "weight": 1
       }
@@ -529,7 +529,7 @@
       {
         "id": "saiga_12",
         "name": { "str": "Saiga-12" },
-        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
+        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
         "weight": 1
       }
     ],

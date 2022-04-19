@@ -41,6 +41,8 @@
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_anemia( "anemia" );
@@ -145,7 +147,7 @@ static void eff_fun_spores( Character &u, effect &it )
 }
 static void eff_fun_antifungal( Character &u, effect & )
 {
-    // antifungal drugs are deadly poison for marloss people
+    // antifungal drugs are deadly poison for Marloss people
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
         if( one_in( 10 ) ) {
             u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
@@ -972,7 +974,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_nutr( -5 );
+                    u.mod_stored_kcal( -43 );
                 }
             }
             if( u.get_thirst() >= -40 ) {
@@ -999,18 +1001,22 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id highcat = u.get_highest_category();
-    int highest = u.mutation_category_level[highcat];
+    mutation_category_id cat;
+    weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
+    if( cat_list.get_weight() > 0 ) {
+        cat = *cat_list.pick();
+    }
+    int cat_strength = u.mutation_category_level[cat];
 
     // Determine the strength of effects or dreams based upon category strength
     int strength = 0; // Category too weak for any effect or dream
     if( u.crossed_threshold() ) {
         strength = 4; // Post-human.
-    } else if( highest >= 20 && highest < 35 ) {
+    } else if( cat_strength >= 15 && cat_strength < 22 ) {
         strength = 1; // Low strength
-    } else if( highest >= 35 && highest < 50 ) {
+    } else if( cat_strength >= 22 && cat_strength < 30 ) {
         strength = 2; // Medium strength
-    } else if( highest >= 50 ) {
+    } else if( cat_strength >= 30 ) {
         strength = 3; // High strength
     }
 
@@ -1019,7 +1025,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         //Once every 6 / 3 / 2 hours, with a bit of randomness
         if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
             // Select a dream
-            std::string dream = u.get_category_dream( highcat, strength );
+            std::string dream = u.get_category_dream( cat, strength );
             if( !dream.empty() ) {
                 u.add_msg_if_player( dream );
             }
@@ -1027,7 +1033,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
                     u.mutate_category( mutation_category_MYCUS );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( 87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
                 }
@@ -1038,7 +1044,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
-        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
+        !u.has_active_mutation( trait_CHLOROMORPH ) && !u.has_bionic( bio_sleep_shutdown ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
@@ -1539,10 +1545,12 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
                     } else if( ( !( has_trait( trait_HEAVYSLEEPER ) ||
-                                    has_trait( trait_HEAVYSLEEPER2 ) ) &&
+                                    has_trait( trait_HEAVYSLEEPER2 ) ||
+                                    has_bionic( bio_sleep_shutdown ) ) &&
                                  dice( 2, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
-                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ) {
+                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ||
+                               has_bionic( bio_sleep_shutdown ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();

@@ -31,5 +31,26 @@
       "limb_score_op": "+",
       "denominator": 6.0
     }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_thrown_dex_mod",
+    "description": "Dexterity when throwing items <color_dark_gray>(Manipulation)</color>",
+    "mod_type": "x",
+    "value": { "limb_score": "manip" }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_thrown_dex_mod_hand",
+    "description": "Dexterity when throwing items <color_dark_gray>(Manipulation)</color>",
+    "mod_type": "x",
+    "value": { "limb_score": "manip", "limb_type": "hand" }
+  },
+  {
+    "type": "character_mod",
+    "id": "test_ranged_dispersion_manip_mod",
+    "description": "Hand dispersion when using ranged attacks <color_dark_gray>(Manipulation)</color>",
+    "mod_type": "+",
+    "value": { "limb_score": "manip", "limb_type": "hand", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
   }
 ]
