@@ -322,7 +322,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Luger P08" },
-    "description": "A semi-automatic 9x19mm military issued pistol with an unusual toggle-lock action. Well-known for its use by the Germans during both World Wars, it's a notably accurate handgun even by modern standards, and this example of a P08 was more than likely either brought back state-side as a war trophy by a veteran, or imported.",
+    "description": "A semi-automatic 9x19mm military issued pistol with an unusual toggle-lock action.  Well-known for its use by the Germans during both World Wars, it's a notably accurate handgun even by modern standards, and this example of a P08 was more than likely either brought back state-side as a war trophy by a veteran, or imported.",
     "weight": "871 g",
     "volume": "465 ml",
     "longest_side": "248 mm",
