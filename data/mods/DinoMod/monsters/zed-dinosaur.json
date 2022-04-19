@@ -98,6 +98,7 @@
     ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
+    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
@@ -135,6 +136,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
+    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
@@ -363,6 +365,7 @@
     ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
+    "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
