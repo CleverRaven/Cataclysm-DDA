@@ -554,8 +554,8 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
 
     for( auto &elem : player->addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effects_column.add_column_line( selection_line( addiction_name( elem ), addiction_text( elem ),
-                                            max_width ) );
+            effects_column.add_column_line( selection_line( elem.type->get_name().translated(),
+                                            elem.type->get_description().translated(), max_width ) );
         }
     }
 
