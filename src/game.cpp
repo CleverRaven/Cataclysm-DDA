@@ -5311,7 +5311,9 @@ bool game::npc_menu( npc &who )
         item &used = *loc;
         if( used.has_flag( json_flag_SPLINT ) ) {
             std::string reason = _( "Nope." );
-            who.wear_if_wanted( used, reason );
+            if( who.wear_if_wanted( used, reason ) ) {
+                u.i_rem( &used );
+            }
         } else {
             bool did_use = u.invoke_item( &used, heal_string, who.pos() );
             if( did_use ) {
