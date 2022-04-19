@@ -30,11 +30,6 @@
 #include "translations.h"
 #include "units.h"
 
-static const furn_str_id furn_f_arcade_machine( "f_arcade_machine" );
-
-static const item_group_id Item_spawn_data_mechanics( "mechanics" );
-static const item_group_id Item_spawn_data_mischw( "mischw" );
-
 static const itype_id itype_software_hacking( "software_hacking" );
 static const itype_id itype_software_math( "software_math" );
 static const itype_id itype_software_medical( "software_medical" );
@@ -52,10 +47,6 @@ static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
 static const overmap_special_id overmap_special_evac_center( "evac_center" );
-
-static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
-
-static const vproto_id vehicle_prototype_car_chassis( "car_chassis" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -374,79 +365,6 @@ void mission_start::find_safety( mission *miss )
             miss->target = place + point( 20, 20 );
             break;
     }
-}
-
-static const int RANCH_SIZE = 5;
-
-void mission_start::ranch_scavenger_1( mission *miss )
-{
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_48", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.draw_square_ter( t_chainfence, point( 15, 13 ), point( 15, 22 ) );
-    bay.draw_square_ter( t_chainfence, point( 16, 13 ), point( 23, 13 ) );
-    bay.draw_square_ter( t_chainfence, point( 16, 22 ), point( 23, 22 ) );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( Item_spawn_data_mechanics, 65, point( 9, 13 ), point( 10, 16 ), true,
-                     calendar::turn_zero );
-    bay.draw_square_ter( t_chainfence, point( 0, 22 ), point( 7, 22 ) );
-    bay.draw_square_ter( t_dirt, point( 2, 22 ), point( 3, 22 ) );
-    bay.spawn_item( point( 7, 19 ), "30gal_drum" );
-    bay.save();
-}
-
-void mission_start::ranch_scavenger_2( mission *miss )
-{
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_48", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.add_vehicle( vehicle_prototype_car_chassis, point( 20, 15 ), 0_degrees );
-    bay.draw_square_ter( t_wall_half, point( 18, 19 ), point( 21, 22 ) );
-    bay.draw_square_ter( t_dirt, point( 19, 20 ), point( 20, 21 ) );
-    bay.ter_set( point( 19, 19 ), t_door_frame );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( Item_spawn_data_mischw, 65, point( 12, 13 ), point( 13, 16 ), true,
-                     calendar::start_of_cataclysm );
-    bay.draw_square_ter( t_chaingate_l, point( 2, 22 ), point( 3, 22 ) );
-    bay.spawn_item( point( 7, 20 ), "30gal_drum" );
-    bay.save();
-}
-
-void mission_start::ranch_scavenger_3( mission *miss )
-{
-    tripoint_abs_omt site = mission_util::target_om_ter_random(
-                                "ranch_camp_48", 1, miss, false, RANCH_SIZE );
-    tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.translate( t_door_frame, t_door_locked );
-    bay.translate( t_wall_half, t_wall_wood );
-    bay.draw_square_ter( t_dirtfloor, point( 19, 20 ), point( 20, 21 ) );
-    bay.spawn_item( point( 16, 21 ), "wheel_wide" );
-    bay.spawn_item( point( 17, 21 ), "wheel_wide" );
-    bay.spawn_item( point( 23, 18 ), "v8_combustion" );
-    bay.furn_set( point( 23, 17 ), furn_f_arcade_machine );
-    bay.ter_set( point( 23, 16 ), ter_t_machinery_light );
-    bay.furn_set( point( 20, 21 ), f_woodstove );
-    bay.save();
-
-    site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::sm>( site ), false );
-    bay.place_items( Item_spawn_data_mischw, 65, point( 2, 10 ), point( 4, 10 ), true,
-                     calendar::start_of_cataclysm );
-    bay.place_items( Item_spawn_data_mischw, 65, point( 2, 13 ), point( 4, 13 ), true,
-                     calendar::start_of_cataclysm );
-    bay.furn_set( point( 1, 15 ), f_fridge );
-    bay.spawn_item( point( 2, 15 ), "hdframe" );
-    bay.furn_set( point( 3, 15 ), f_washer );
-    bay.save();
 }
 
 void mission_start::place_book( mission * )

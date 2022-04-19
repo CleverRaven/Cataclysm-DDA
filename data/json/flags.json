@@ -1333,6 +1333,11 @@
     "type": "json_flag"
   },
   {
+    "id": "INTEGRATED",
+    "type": "json_flag",
+    "info": "This is <info>integrated into the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },
@@ -1396,6 +1401,11 @@
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
     "type": "json_flag"
+  },
+  {
+    "id": "MUTAGEN_SAMPLE",
+    "type": "json_flag",
+    "info": "Used in the <neutral>creation of mutagenic drugs</neutral>."
   },
   {
     "id": "MUTAGEN_CATALYST",
@@ -1798,6 +1808,10 @@
   },
   {
     "id": "STR_DRAW",
+    "type": "json_flag"
+  },
+  {
+    "id": "UNBREAKABLE",
     "type": "json_flag"
   },
   {

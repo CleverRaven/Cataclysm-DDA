@@ -7,7 +7,7 @@
       {
         "//": "Parked vehicles",
         "weight": 1000,
-        "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_parked", "number": 1, "fuel": 0, "status": -1 }
+        "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_parked", "number": 1, "fuel": 0, "status": 1 }
       },
       {
         "//": "Randomly-distributed wrecks",
@@ -44,7 +44,7 @@
       {
         "//": "Out of fuel vehicle",
         "weight": 100,
-        "vehicle_json": { "vehicle": "highway", "placement": "%t_highway", "number": 1, "fuel": 0, "status": -1 }
+        "vehicle_json": { "vehicle": "highway", "placement": "%t_highway", "number": 1, "fuel": 0, "status": 1 }
       },
       {
         "//": "Wrecks",
@@ -81,7 +81,7 @@
       {
         "//": "Unfueled Vehicle on the bridge",
         "weight": 1000,
-        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": 1 }
       },
       {
         "//": "Wrecked vehicles",
@@ -118,7 +118,7 @@
       {
         "//": "Vehicle on the highway",
         "weight": 100,
-        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": 1 }
       },
       {
         "//": "Wrecked vehicles",

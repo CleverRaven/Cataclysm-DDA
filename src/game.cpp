@@ -281,6 +281,7 @@ static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescue
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
@@ -590,9 +591,9 @@ void game_ui::init_ui()
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
-        FULL_SCREEN_HEIGHT = 25;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT + 1;
     } else {
-        FULL_SCREEN_HEIGHT = 24;
+        FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
     }
 #endif
 }
@@ -786,8 +787,17 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
-        omtstart = start_loc.find_player_initial_location();
+        if( select_starting_city ) {
+            if( !u.starting_city.has_value() ) {
+                u.starting_city = random_entry( city::get_all() );
+                u.world_origin = u.starting_city->pos_om;
+            }
+            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+        } else {
+            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+        }
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
@@ -875,7 +885,7 @@ bool game::start_game()
     }
 
     //Create mutation_category_level
-    u.set_highest_cat_level();
+    u.calc_mutation_levels();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
     if( scen->has_flag( "FIRE_START" ) ) {
@@ -1754,7 +1764,7 @@ static hint_rating rate_action_read( const avatar &you, const item &it )
 
 static hint_rating rate_action_take_off( const avatar &you, const item &it )
 {
-    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) ) {
+    if( !it.is_armor() || it.has_flag( flag_NO_TAKEOFF ) || it.has_flag( flag_INTEGRATED ) ) {
         return hint_rating::cant;
     }
 
@@ -2321,6 +2331,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
+    ctxt.register_action( "medical" );
     ctxt.register_action( "sort_armor" );
     ctxt.register_action( "wait" );
     ctxt.register_action( "craft" );
@@ -5300,7 +5311,9 @@ bool game::npc_menu( npc &who )
         item &used = *loc;
         if( used.has_flag( json_flag_SPLINT ) ) {
             std::string reason = _( "Nope." );
-            who.wear_if_wanted( used, reason );
+            if( who.wear_if_wanted( used, reason ) ) {
+                u.i_rem( &used );
+            }
         } else {
             bool did_use = u.invoke_item( &used, heal_string, who.pos() );
             if( did_use ) {
@@ -7406,11 +7419,16 @@ void game::list_items_monsters()
     }
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        const Creature::Attitude att_lhs = lhs->attitude_to( u );
-        const Creature::Attitude att_rhs = rhs->attitude_to( u );
+        if( !u.has_trait( trait_INATTENTIVE ) ) {
+            const Creature::Attitude att_lhs = lhs->attitude_to( u );
+            const Creature::Attitude att_rhs = rhs->attitude_to( u );
 
-        return att_lhs < att_rhs || ( att_lhs == att_rhs
-                                      && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+            return att_lhs < att_rhs || ( att_lhs == att_rhs
+                                          && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        } else { // Sort just by ditance if player has inattentive trait
+            return ( rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+        }
+
     } );
 
     // If the current list is empty, switch to the non-empty list
@@ -7997,12 +8015,14 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     // first integer is the row the attitude category string is printed in the menu
     std::map<int, Creature::Attitude> mSortCategory;
-
-    for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
-        const Creature::Attitude attitude = monster_list[i]->attitude_to( u );
-        if( static_cast<int>( attitude ) != last_attitude ) {
-            mSortCategory[i + mSortCategory.size()] = attitude;
-            last_attitude = static_cast<int>( attitude );
+    const bool player_knows = !u.has_trait( trait_INATTENTIVE );
+    if( player_knows ) {
+        for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
+            const Creature::Attitude attitude = monster_list[i]->attitude_to( u );
+            if( static_cast<int>( attitude ) != last_attitude ) {
+                mSortCategory[i + mSortCategory.size()] = attitude;
+                last_attitude = static_cast<int>( attitude );
+            }
         }
     }
 
@@ -8052,7 +8072,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                 const int endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
-                    if( CatSortIter != mSortCategory.cend() ) {
+
+                    if( player_knows && CatSortIter != mSortCategory.cend() ) {
                         const int iCurPos = iStartPos + y;
                         const int iCatPos = CatSortIter->first;
                         if( iCurPos == iCatPos ) {
@@ -8063,11 +8084,12 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                             continue;
                         }
                     }
+
                     // select current monster
                     Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( u ) ) {
+                    if( critter->sees( u ) && player_knows ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
@@ -8124,7 +8146,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sText = npc_attitude_name( p->get_attitude() );
                         color = p->symbol_color();
                     }
-                    mvwprintz( w_monsters, point( width - 25, y ), color, sText );
+                    if( !player_knows ) {
+                        sText = _( "Unknown" );
+                        color = c_yellow;
+                    }
+                    mvwprintz( w_monsters, point( width - 19, y ), color, sText );
 
                     const int mon_dist = rl_dist( u.pos(), critter->pos() );
                     const int numd = mon_dist > 999 ? 4 :
@@ -11190,7 +11216,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
                     u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
-                    u.mod_stored_nutr( 10 );
+                    u.mod_stored_kcal( 87 );
                     u.mod_thirst( 10 );
                 } else {
                     add_msg( _( "You gingerly descend using your vines." ) );
@@ -11198,7 +11224,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             } else {
                 add_msg( _( "You effortlessly lower yourself and leave a vine rooted for future use." ) );
                 rope_ladder = true;
-                u.mod_stored_nutr( 10 );
+                u.mod_stored_kcal( 87 );
                 u.mod_thirst( 10 );
             }
         } else {

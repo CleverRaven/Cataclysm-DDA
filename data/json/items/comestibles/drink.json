@@ -76,7 +76,6 @@
     "id": "atomic_coffee",
     "name": { "str_sp": "atomic coffee" },
     "copy-from": "coffee",
-    "addiction_type": "caffeine",
     "fatigue_mod": 90,
     "stim": 30,
     "container": "bottle_plastic",

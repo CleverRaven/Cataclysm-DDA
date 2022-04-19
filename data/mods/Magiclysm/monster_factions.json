@@ -35,7 +35,7 @@
     "type": "MONSTER_FACTION",
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
-    "friendly": "forge_lords"
+    "friendly": [ "forge_lords" ]
   },
   {
     "type": "MONSTER_FACTION",

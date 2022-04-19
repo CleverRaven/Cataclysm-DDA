@@ -1065,7 +1065,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "string_6", 2 ] ] ]
+    "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2045,6 +2045,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "plant_fibre",
+    "id_suffix": "s_scutcher",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "batch_time_factors": [ 50, 2 ],
+    "autolearn": true,
+    "tools": [ [ [ "scutcheritem", -1 ] ] ],
+    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ] ] ],
+    "charges": 80
+  },
+  {
+    "type": "recipe",
     "activity_level": "fake",
     "result": "wash_kit",
     "category": "CC_OTHER",
@@ -2650,6 +2666,39 @@
       [ [ "wire_mesh", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "foot_crank", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "oil_press_primitive",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "using": [ [ "waterproofing", 1 ] ],
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [
+        [ "funnel", 1 ],
+        [ "metal_funnel", 1 ],
+        [ "makeshift_funnel", 1 ],
+        [ "birchbark_funnel", 1 ],
+        [ "leather_funnel", 1 ]
+      ],
+      [ [ "oil_cooker", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "bag_canvas", 1 ] ],
+      [ [ "2x4", 20 ] ],
+      [ [ "nail", 30 ] ],
+      [ [ "stick_long", 1 ] ]
     ]
   },
   {
