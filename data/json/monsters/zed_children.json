@@ -265,7 +265,7 @@
   {
     "id": "mon_zombie_wretch",
     "type": "MONSTER",
-    "name": { "str": "swollen wretch" },
+    "name": { "str": "swollen wretch", "str_pl": "swollen wretches" },
     "description": "The hideously deformed corpse of what, you hesitate to guess, was once either a mere child or adolescent.  Its skin has detached from its skeletal and muscular structure and has overgrown into a malformed fleshy chrysalis containing its rotting innards, with a faint glow emanating from within the creature’s swollen body as various lighter than air decomposing gasses are created and burned in a chain reaction.  This has caused its flesh, like a nightmarish balloon, to distend to obscene proportions, causing its overtaxed skin to become translucent and for the abomination to hover a few feet off the floor at any given moment.  All of the orifices in its head have sealed over into a transparent membrane, save for its narrow slit of a maw, from which a stream of noxious gas escapes; seemingly allowing the monstrosity to regulate its buoyancy.  From within its immensely swollen body, you can just make out faint shadowy forms moving about.",
     "default_faction": "zombie",
     "bodytype": "blob",
