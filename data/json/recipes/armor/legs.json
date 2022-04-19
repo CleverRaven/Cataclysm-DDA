@@ -230,7 +230,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "skirt",
@@ -966,7 +966,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {

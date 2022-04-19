@@ -543,7 +543,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
     "//": "Buying HWP Magazines",
     "type": "talk_topic",
-    "dynamic_line": "Certainly we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
+    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
     "responses": [
       {
         "text": "[1 HGC] I'll take a 5.56 NATO mag.",

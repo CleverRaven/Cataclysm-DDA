@@ -3,7 +3,7 @@
     "id": "bronze_axe",
     "type": "TOOL",
     "name": { "str": "bronze axe" },
-    "description": "This is socketed bronze axe with a work-hardened edge, tightly bound to the shaft with cords as your ancestors did.",
+    "description": "This is a socketed bronze axe with a work-hardened edge, tightly bound to the shaft with cords as your ancestors did.",
     "weight": "3600 g",
     "volume": "2500 ml",
     "longest_side": "96 cm",
@@ -134,5 +134,27 @@
     "price": 300,
     "price_postapoc": 0,
     "material": [ "bronze" ]
+  },
+  {
+    "id": "brush_axe",
+    "type": "GENERIC",
+    "name": { "str": "brush axe" },
+    "description": "Also known as a bill, this is a long, slightly curved and hooked blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut grass and branches.",
+    "weight": "3000 g",
+    "volume": "2500 ml",
+    "longest_side": "150 cm",
+    "price": 5500,
+    "price_postapoc": 250,
+    "bashing": 20,
+    "cutting": 30,
+    "to_hit": 0,
+    "material": [ "wood", "bronze" ],
+    "symbol": "/",
+    "color": "yellow",
+    "looks_like": "glaive",
+    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -70 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
   }
 ]

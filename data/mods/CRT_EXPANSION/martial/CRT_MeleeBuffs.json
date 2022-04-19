@@ -10,7 +10,8 @@
   {
     "id": "book_martial",
     "type": "item_group",
-    "items": [ [ "manual_crt_cqb", 5 ] ]
+    "copy-from": "book_martial",
+    "extend": { "items": [ [ "manual_crt_cqb", 5 ] ] }
   },
   {
     "type": "mutation",

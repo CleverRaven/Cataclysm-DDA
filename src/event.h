@@ -530,7 +530,7 @@ template<>
 struct event_spec<event_type::gains_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
-            { "add_type", cata_variant_type::add_type },
+            { "add_type", cata_variant_type::addiction_id },
         }
     };
 };
@@ -625,7 +625,7 @@ template<>
 struct event_spec<event_type::loses_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
-            { "add_type", cata_variant_type::add_type },
+            { "add_type", cata_variant_type::addiction_id },
         }
     };
 };
