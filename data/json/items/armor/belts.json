@@ -352,7 +352,7 @@
     "looks_like": "leather_belt",
     "color": "black",
     "material_thickness": 1.5,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ], 
+    "flags": [ "WAIST", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
