@@ -149,7 +149,8 @@
     "dynamic_line": {
       "and": [
         "*stares at you for a moment before nodding in recognition.  \"",
-        [ "Well, well.  You are back.", "So, you have survived." ]
+        [ "Well, well.  You are back.", "So, you have survived." ],
+		"\""
       ]
     },
     "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
@@ -164,7 +165,8 @@
     "dynamic_line": {
       "and": [
         "*nods at you, his eyes lighting up a little as you approach.  \"",
-        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ]
+        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
+		"\""
       ]
     },
     "//": "Later meetings with Boris, after you've started doing quests for him",
@@ -368,14 +370,14 @@
           "yes": ", but it is a bit better since we cleaned up our dead",
           "no": ", woken by zombies in the night"
         },
-        ".  To me, though, that is all just a drop in the bucket.  ",
+        ".  To me, though, that is all just a drop in the bucket",
         {
           "u_has_var": "Boris_mission_3",
           "type": "mission",
           "context": "completed",
           "value": "yes",
-          "yes": "What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
-          "no": "I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
+          "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+          "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
         }
       ]
     },

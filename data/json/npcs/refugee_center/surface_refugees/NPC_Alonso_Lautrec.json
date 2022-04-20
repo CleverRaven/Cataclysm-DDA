@@ -141,11 +141,11 @@
     "id": "TALK_REFUGEE_Alonso_1",
     "dynamic_line": {
       "and": [
-        "*is an uncharacteristically well-groomed young man, his hair trim and slicked back.  In this stark setting, he looks like a cartoon character on a live-action set piece.  \"Oh my, ",
+        "*is an uncharacteristically well-groomed young man, his hair trim and slicked back.  In this stark setting, he looks like a cartoon character on a live-action set piece.  \"",
         {
           "u_male": true,
-          "yes": "it's good to see such a strong and handsome fellow around here",
-          "no": "you're a beautiful lady, so nice to see you"
+          "yes": "Oh my, it's good to see such a strong and handsome fellow around here",
+          "no": "Oh my, you're a beautiful lady, so nice to see you"
         },
         ".\"  He slides his hand through his hair and smiles, his eyes half-lidded.  \"They call me Alonso.\""
       ]

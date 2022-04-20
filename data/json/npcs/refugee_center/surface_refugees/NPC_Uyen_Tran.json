@@ -110,11 +110,17 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1a",
-    "dynamic_line": [
-      "*smiles and brushes her hair out of her eyes.  \"Hello again.\"",
-      "*looks you up and down with a faint smile.  \"Good to see you're still around.\"",
-      "*suppresses a yawn, then sees you approaching and nods with recognition.  \"Oh, hi.\""
-    ],
+    "dynamic_line": {
+      "and": [
+        [
+          "*smiles and brushes her hair out of her eyes.  \"",
+          "*looks you up and down with a faint smile.  \"",
+          "*suppresses a yawn, then sees you approaching and nods with recognition.  \""
+        ],
+        [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+        "\""
+      ]
+    },
     "responses": [
       { "text": "Hi, Uyen.  Got a minute?", "topic": "TALK_REFUGEE_Uyen_2" },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -163,7 +169,7 @@
           "context": "refugee_center",
           "op": ">=",
           "value": 6,
-          "yes": ".  Things have been getting better.  I wasn't even sure it was possible.",
+          "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
           "no": ", as long as this doesn't last too long."
         },
         {
@@ -171,8 +177,8 @@
           "type": "mission",
           "context": "completed",
           "value": "yes",
-          "yes": "  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.\"",
-          "no": "  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy.\""
+          "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.\"",
+          "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy.\""
         }
       ]
     }

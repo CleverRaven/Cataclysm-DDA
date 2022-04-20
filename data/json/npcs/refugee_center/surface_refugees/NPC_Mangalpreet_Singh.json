@@ -138,23 +138,23 @@
     "id": "TALK_REFUGEE_Mangalpreet_Situation",
     "dynamic_line": {
       "and": [
-        "I have my family.  I have the Guru Granth Sahib.  ",
+        "I have my family.  I have the Guru Granth Sahib",
         {
           "u_compare_var": "refugee_happiness",
           "type": "counter",
           "context": "refugee_center",
           "op": ">=",
           "value": 7,
-          "yes": "For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, we ",
-          "no": "I have these things, but I do not have peace.  No one here does.  We "
+          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, w",
+          "no": ".  I have these things, but I do not have peace.  No one here does.  W"
         },
         {
           "u_has_var": "Boris_mission_1",
           "type": "mission",
           "context": "completed",
           "value": "yes",
-          "yes": "have so much work to do to make a home here.",
-          "no": "are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
+          "yes": "e have so much work to do to make a home here.",
+          "no": "e are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
         }
       ]
     },

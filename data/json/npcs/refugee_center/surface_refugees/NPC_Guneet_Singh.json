@@ -128,7 +128,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_2",
-    "dynamic_line": ".",
+    "dynamic_line": "\"What's up?\"  He stares at you for a moment.  \"What a weird question.  The world ended.  That's what's up.  What am I supposed to answer to that one?\"",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
@@ -167,15 +167,15 @@
     "id": "TALK_REFUGEE_Guneet_Situation",
     "dynamic_line": {
       "and": [
-        "It sucks in here, there's no two ways about it.  ",
+        "It sucks in here, there's no two ways about it",
         {
           "u_compare_var": "refugee_happiness",
           "type": "counter",
           "context": "refugee_center",
           "op": ">=",
           "value": 7,
-          "yes": "Still, we're starting to find a bit of a place for ourselves.  I've been hanging out with Aleesha a bit, I didn't used to think we'd have a lot in common but there's more than you'd think.  My mom and dad are starting to relax a little too.",
-          "no": "People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence."
+          "yes": ".  Still, we're starting to find a bit of a place for ourselves.  I've been hanging out with Aleesha a bit, I didn't used to think we'd have a lot in common but there's more than you'd think.  My mom and dad are starting to relax a little too.",
+          "no": ".  People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence."
         }
       ]
     },

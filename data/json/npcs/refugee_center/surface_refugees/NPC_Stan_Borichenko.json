@@ -205,7 +205,7 @@
           "context": "refugee_center",
           "op": ">=",
           "value": 6,
-          "yes": "  I wouldn't wish this world we find ourselves in on anyone, but I'm glad Garry made it through with me.\"  Stan sighs, touching his neck.",
+          "yes": "\u00A0 I wouldn't wish this world we find ourselves in on anyone, but I'm glad Garry made it through with me.\"  Stan sighs, touching his neck.",
           "no": "\"  He seems to realize where he is suddenly, and the faint smile melts.  \"He's lost too much, too.\""
         }
       ]
