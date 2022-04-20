@@ -556,7 +556,7 @@
     "location": "structure",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "WASHING_MACHINE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "description": "An appliance used to do laundry, plugged into a power supply and using internal tanks",
+    "description": "An appliance used to do laundry, plugged into a power supply and using internal tanks.",
     "size": 540,
     "copy-from": "washing_machine",
     "item": "household_washing_machine"
@@ -570,7 +570,7 @@
     "location": "structure",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "DISHWASHER", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks",
+    "description": "An appliance used to clean dishes, plugged into a power supply and using internal tanks.",
     "size": 480,
     "copy-from": "dishwasher",
     "item": "household_dishwasher"
