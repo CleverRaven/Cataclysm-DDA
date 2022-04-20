@@ -9,7 +9,9 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
+#if !defined(__APPLE__)
 #define NCURSES_WIDECHAR 1
+#endif
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else

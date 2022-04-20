@@ -36,7 +36,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pldata.h"
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "sdlsound.h"

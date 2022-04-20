@@ -212,6 +212,7 @@
     "color": "light_gray",
     "move_cost_mod": 2,
     "required_str": 1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "standing_lamp" },
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "standing_lamp", "count": 1 } ] },
     "bash": {

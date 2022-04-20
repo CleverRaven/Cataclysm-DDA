@@ -243,7 +243,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 ter_sym = sym_color.first;
                 ter_color = sym_color.second;
             } else if( !seen ) {
-                // Always grey # for unseen
+                // Always gray # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
             } else if( vehicle_here ) {

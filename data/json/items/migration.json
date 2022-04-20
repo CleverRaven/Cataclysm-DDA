@@ -1635,5 +1635,35 @@
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
     "contents": [ { "id": "sourdough_starter_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "reptile_sample",
+    "type": "MIGRATION",
+    "replace": "lizard_sample"
+  },
+  {
+    "id": "molerat_sample",
+    "type": "MIGRATION",
+    "replace": "troglobite_sample"
+  },
+  {
+    "id": "bovine_sample",
+    "type": "MIGRATION",
+    "replace": "cattle_sample"
+  },
+  {
+    "id": "snail_sample",
+    "type": "MIGRATION",
+    "replace": "gastropod_sample"
+  },
+  {
+    "id": "frog_sample",
+    "type": "MIGRATION",
+    "replace": "batrachian_sample"
+  },
+  {
+    "id": "rabbit_foot",
+    "type": "MIGRATION",
+    "replace": "rabbit_sample"
   }
 ]

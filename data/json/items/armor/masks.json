@@ -168,6 +168,7 @@
   },
   {
     "id": "mask_guy_fawkes",
+    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },

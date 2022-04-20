@@ -746,6 +746,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stationary_scutcher",
+    "name": "Build Stationary Scutcher"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
@@ -1238,6 +1243,11 @@
     "type": "construction_group",
     "id": "place_large_battery",
     "name": "Place Large Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_car_battery",
+    "name": "Place Car Battery"
   },
   {
     "type": "construction_group",

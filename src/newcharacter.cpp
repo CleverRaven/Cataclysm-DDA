@@ -47,7 +47,6 @@
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -1854,7 +1853,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -2292,7 +2291,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
-                    buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
+                    buffer += string_format( format, a.type->get_name().translated(), a.intensity ) + "\n";
                 }
             }
 
@@ -3451,7 +3450,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             w_traits = catacurses::newwin( TERMY - 10, ncol2, point( beginx2, 9 ) );
             w_bionics = catacurses::newwin( TERMY - 10, ncol3, point( beginx3, 9 ) );
             w_proficiencies = catacurses::newwin( TERMY - 20, 19, point( 2, 15 ) );
-            w_hobbies = catacurses::newwin( TERMY - 10, ncol4, point( beginx4, 9 ) );
+            // Extra - 11 to avoid overlap with long text in w_guide.
+            w_hobbies = catacurses::newwin( TERMY - 10 - 11, ncol4, point( beginx4, 9 ) );
             w_scenario = catacurses::newwin( 1, ncol2, point( beginx2, 3 ) );
             w_profession = catacurses::newwin( 1, ncol3, point( beginx3, 3 ) );
             w_skills = catacurses::newwin( TERMY - 10, 23, point( 22, 9 ) );
@@ -3737,7 +3737,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
                                 _( "Press <color_light_green>%s</color> to pick a random name, "
                                    "<color_light_green>%s</color> to randomize all description values, "
-                                   "<color_light_green>%s</color> to randomize all but scenario or "
+                                   "<color_light_green>%s</color> to randomize all but scenario, or "
                                    "<color_light_green>%s</color> to randomize everything." ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
                                 ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
@@ -3852,7 +3852,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
-                    wprintz( w_addictions, c_white, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_white, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         } else {
@@ -3864,7 +3865,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 for( const addiction &a : prof_addictions ) {
                     const char *format = "%1$s (%2$d) ";
                     wprintz( w_addictions, c_light_gray, "\n" );
-                    wprintz( w_addictions, c_light_gray, string_format( format, addiction_name( a ), a.intensity ) );
+                    wprintz( w_addictions, c_light_gray, string_format( format, a.type->get_name().translated(),
+                             a.intensity ) );
                 }
             }
         }

@@ -1752,12 +1752,6 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->has_flag( flag_COLLAPSE_CONTENTS ) ) {
-            if( !is_container( type ) ) {
-                msg += "is not a container so COLLAPSE_CONTENTS is unnecessary.\n";
-            }
-        }
-
         if( !type->picture_id.is_empty() && !type->picture_id.is_valid() ) {
             msg +=  "item has unknown ascii_picture.";
         }
@@ -3025,11 +3019,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-
-    if( jo.has_string( "addiction_type" ) ) {
-        slot.add = addiction_type( jo.get_string( "addiction_type" ) );
-    }
-
+    assign( jo, "addiction_type", slot.add, strict );
     assign( jo, "addiction_potential", slot.addict, strict );
 
     bool got_calories = false;

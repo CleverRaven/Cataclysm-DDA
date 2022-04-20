@@ -438,4 +438,12 @@ constexpr bool is_decreasing( monotonically m )
     return m == monotonically::constant || m == monotonically::decreasing;
 }
 
+enum class character_type : int {
+    CUSTOM,
+    RANDOM,
+    TEMPLATE,
+    NOW,
+    FULL_RANDOM,
+};
+
 #endif // CATA_SRC_ENUMS_H

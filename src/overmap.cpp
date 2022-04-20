@@ -3290,12 +3290,21 @@ void overmap::generate( const overmap *north, const overmap *east,
     if( get_option<bool>( "OVERMAP_PLACE_RAVINES" ) ) {
         place_ravines();
     }
-
-    place_cities();
-    place_forest_trails();
-    place_roads( north, east, south, west );
-    place_specials( enabled_specials );
-    place_forest_trailheads();
+    if( get_option<bool>( "OVERMAP_PLACE_CITIES" ) ) {
+        place_cities();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILS" ) ) {
+        place_forest_trails();
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_ROADS" ) ) {
+        place_roads( north, east, south, west );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_SPECIALS" ) ) {
+        place_specials( enabled_specials );
+    }
+    if( get_option<bool>( "OVERMAP_PLACE_FOREST_TRAILHEADS" ) ) {
+        place_forest_trailheads();
+    }
 
     polish_river();
 
@@ -4962,17 +4971,20 @@ void overmap::place_cities()
                 tmp.size = size;
             }
         } else {
+            placement_attempts = 0;
             tmp = random_entry( cities_to_place );
             p = tripoint_om_omt( tmp.pos, 0 );
             ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_road_nesw );
         }
-        cities.push_back( tmp );
-        const om_direction::type start_dir = om_direction::random();
-        om_direction::type cur_dir = start_dir;
+        if( placement_attempts == 0 ) {
+            cities.push_back( tmp );
+            const om_direction::type start_dir = om_direction::random();
+            om_direction::type cur_dir = start_dir;
 
-        do {
-            build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp );
-        } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+            do {
+                build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp );
+            } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+        }
     }
 }
 
