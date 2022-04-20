@@ -1,0 +1,243 @@
+[
+  {
+    "type": "npc",
+    "id": "FM_caravan_merchant_random",
+    "//": "Random NPC, non persistent, can direct you to the free merchants and sell you things.",
+    "name_suffix": "Caravan Merchant",
+    "class": "NC_TRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_CARAVAN_MERCHANT_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "FM_caravan_guard_A",
+    "//": "Random NPC, non persistent, tells you about being a guard and directs you to free merchants.",
+    "name_suffix": "Caravan Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_CARAVAN_GUARD_A1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "FM_caravan_guard_B",
+    "//": "Random NPC, non persistent, doesn't have much to say.",
+    "name_suffix": "Caravan Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CARAVAN_GUARD_B",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_1",
+    "dynamic_line": "Well well, another traveler.  Don't try anything, you're outnumbered here and we're well armed.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_MERCHANT_2" } },
+    "responses": [
+      { "text": "Are you threatening me?", "topic": "TALK_CARAVAN_MERCHANT_Threatening" },
+      { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_Job" },
+      { "text": "I won't try anything if you don't.  Just passing through.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_2",
+    "dynamic_line": "What can I do for you?",
+    "responses": [
+      { "text": "Do you have anything to trade?", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
+      { "text": "What's your story?", "topic": "TALK_CARAVAN_MERCHANT_Story" },
+      { "text": "Nothing much.  Just passing through.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Threatening",
+    "dynamic_line": "No, not at all.  Just being cautious.  You know how it gets out here.  We're not looking for trouble.  In fact, if you've got anything worthwhile, maybe we could do a little trading.",
+    "responses": [
+      { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
+      { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_Job" },
+      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Job",
+    "dynamic_line": "We're just travelers, making a pit stop.  Might be willing to trade a bit, if you've got anything to share.  We're not looking for trouble, there's plenty of that on the roads already.",
+    "responses": [
+      { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
+      { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_MERCHANT_Story" },
+      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Story",
+    "dynamic_line": "We're with a larger group of survivors, working out of one of the old FEMA bunkers.  Folks have taken to calling us Free Merchants, although that sounds kinda on the nose to me.  We know about a few survivor groups and we make regular trips around, sharing supplies back and forth and bringing them home.  We're on the way back now.",
+    "responses": [
+      { "text": "That's interesting.  Well, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
+      {
+        "text": "Can you give me directions to any of these other survivor groups?",
+        "topic": "TALK_CARAVAN_MERCHANT_Others"
+      },
+      {
+        "text": "Where is 'home'?",
+        "topic": "TALK_CARAVAN_MERCHANT_Home",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Others",
+    "dynamic_line": "No offense, but my clients definitely would not like me giving strangers directions to their hideouts.  You'll have to find them on their own terms.",
+    "responses": [
+      {
+        "text": "I can understand that.  Well, let's trade.",
+        "topic": "TALK_CARAVAN_MERCHANT_Trade",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Where is 'home'?",
+        "topic": "TALK_CARAVAN_MERCHANT_Home",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Home",
+    "dynamic_line": "Here, I'll mark it on your map.  Feel free to come by and trade, or if you're the type, we might have use for your services as a merc.",
+    "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+    "responses": [
+      { "text": "Hey, thanks.  Well, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
+      {
+        "text": "Can you give me directions to any of these other survivor groups?",
+        "topic": "TALK_CARAVAN_MERCHANT_Others"
+      },
+      { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_MERCHANT_Trade",
+    "dynamic_line": "Always good to do a little trading.",
+    "responses": [
+      {
+        "text": "Actually I had a little more to trade still.",
+        "topic": "TALK_CARAVAN_MERCHANT_Trade",
+        "effect": "start_trade"
+      },
+      { "text": "Thanks.  What were we talking about before?", "topic": "TALK_NONE" },
+      { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A1",
+    "dynamic_line": "Sup?  Nice to see a survivor.  If you're here for business, talk to the trader.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_GUARD_A2" } },
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_CARAVAN_GUARD_A_Job" },
+      { "text": "Thanks for the tip.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A2",
+    "dynamic_line": "Hi again.  You want something?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_CARAVAN_GUARD_A_Job" },
+      { "text": "You looking for work?  I might be hiring.", "topic": "TALK_CARAVAN_GUARD_A_Hire" },
+      { "text": "Nope, just saying hi.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A_Job",
+    "dynamic_line": "I'm a caravan guard, working for the Free Merchants.  I'm an independent contractor though.  Seems like a good way to get safety in numbers and try to find a safe place to settle down.",
+    "responses": [
+      { "text": "So you're working for these guys, but aren't one of them?", "topic": "TALK_CARAVAN_GUARD_A_Merc" },
+      { "text": "You looking for work?  I might be hiring.", "topic": "TALK_CARAVAN_GUARD_A_Hire" },
+      {
+        "text": "The Free Merchants?  Do they have some kind of trade outpost or anything like that?",
+        "topic": "TALK_CARAVAN_GUARD_A_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "It's a living, eh?  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A_Merc",
+    "dynamic_line": "Yeah, these guys snagged some kind of FEMA evacuation bunker during the early part of <the_cataclysm> and hoard the space.  They don't let anyone else join, but they need supplies, so they send out traders, and those traders need protection, so they send out guys like me.",
+    "responses": [
+      { "text": "You looking for work?  I might be hiring.", "topic": "TALK_CARAVAN_GUARD_A_Hire" },
+      {
+        "text": "How do I get there?",
+        "topic": "TALK_CARAVAN_GUARD_A_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "It's a living, eh?  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A_Hire",
+    "dynamic_line": "I'm good for the moment, but you can usually find a merc or two waiting between jobs, back at the Free Merchant base.",
+    "responses": [
+      {
+        "text": "How do I get there?",
+        "topic": "TALK_CARAVAN_GUARD_A_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_A_Directions",
+    "dynamic_line": "Sure, I can mark it on your map if you like.  Here.",
+    "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+    "responses": [
+      { "text": "Thanks for the tip!  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_GUARD_B",
+    "dynamic_line": "*tips their hat down from their eyes and looks at you blearily.  \"Huh?  Hey, I'm tryin'a sleep here.  I was on night watch.",
+    "responses": [ { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" } ]
+  }
+]

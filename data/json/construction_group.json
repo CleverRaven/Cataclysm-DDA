@@ -746,6 +746,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stationary_scutcher",
+    "name": "Build Stationary Scutcher"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
@@ -1241,8 +1246,23 @@
   },
   {
     "type": "construction_group",
+    "id": "place_car_battery",
+    "name": "Place Car Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_foot_locker_recharge_station",
+    "name": "Place Recharging Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ap_box_battery_charger",
+    "name": "Place Battery Charger"
   },
   {
     "type": "construction_group",

@@ -10,11 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+class addiction;
 class avatar;
 class item;
 class Character;

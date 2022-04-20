@@ -748,6 +748,7 @@ Effect | Description
 `take_control_menu`. Opens up a menu to choose a follower to take control of.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
 `finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
+`offer_mission" mission_type_id string or array`. Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: time_in_future_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` seconds or if it is a string the future values of them or if they are variable objects the variable they name.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will run all members of the `effect_on_condition_array` on nearby npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
@@ -953,6 +954,7 @@ Example | Description
 `"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
+`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
 `"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
 `"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
 `"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
@@ -974,6 +976,8 @@ Example | Description
 `"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned.
+`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
+`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
 `"u_val": "stim"` | Current stim level.
 `"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.

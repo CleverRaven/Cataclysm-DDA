@@ -70,28 +70,39 @@ cd Cataclysm-DDA
 
 Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing.
 
-### Debugging
+### Running and debugging Cataclysm
 
 1. Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project.
 
-    - Right click the project in the Solution Explorer pane, select `Set as Startup Project`
+    - By default it should be already. If the project name is **Bold** in the Solution Explorer pane, then it is already set.
+    - Otherwise, right click the project in the Solution Explorer pane, select `Set as Startup Project`.
 
-2. Configure the working directory in the project settings to `$(ProjectDir)..`
+2. Run or debug Cataclysm
 
-    - Right click the project in the Solution Explorer pane, select `Properties`
-    - Under `Configuration Properties > Debugging`, change `Working Directory` to `$(ProjectDir)..`
-    - **Note:** If you change configurations (eg from `Release` to `Debug`), you will have to repeat this step. You only have to do it once per configuration, the setting will persist.
-
-If you discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1, that is because of the wrong working directory.
+    - To debug with the debugger attached, press the 'Local Windows Debugger' button at the top of the window with a solid green arrow on it, or press F5 which is the default shortcut, or go to the Debug menu and select 'Start Debugging'.
+    - To run without a debugger, press the empty green arrow next to the 'Local Windows Debugger', or the default shortcut ctrl-F5, or go to the Debug menu and select 'Start Without Debugging'.
 
 When debugging, it is not strictly necessary to use a `Debug` build; `Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
 
 ### Running unit tests
 
-Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project, configure the working directory in the project settings to `$(ProjectDir)..`, and then press the debug button (or use the appropriate shortcut, e.g. F5). This will run all of the unit tests.
+1. Ensure that the Cataclysm test project (`Cataclysm-test-vcpkg-static`) is the selected startup project.
+
+    - This is done the same way as you do it for Cataclysm, except for the test project.
+
+2. Configure any extra command line arguments for the tests.
+
+    - Under `Configuration Properties > Debugging`, change `Command Arguments` to the needed arguments.
+    - `--wait-for-keypress exit` can be helpful by keeping the test window open at the end until you press Enter.
+
+3. Run the tests
+
+    - The same ways you run Cataclysm can be used to run the unit tests, assuming you've set the test project as the startup project.
 
 Additional command line arguments may be configured in the project's command line arguments setting, or if you are using a compatible unit test runner (e.g. Resharper) you can run or debug individual tests from the unit test sessions.
-You can also start the test runner library manually from windows console. Run it with `--help` for an overview of the arguments.
+You can also start the test runner library manually from Windows console. Run it with `--help` for an overview of the arguments.
+
+It is recommended you run the unit tests in a Release configuration. Debug builds of the unit tests generally run intolerably slowly, but can raise signal that Release builds will not catch, like invalid iterators or improper STL usage.
 
 ### Make a distribution
 

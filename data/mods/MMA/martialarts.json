@@ -429,25 +429,6 @@
       }
     ],
     "techniques": [ "mma_tec_shii_cho_disarm", "mma_tec_shii_cho_wide" ],
-    "weapons": [
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake",
-      "sword_wood",
-      "tanto",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake"
-    ],
     "weapon_category": [ "SHORT_SWORDS", "MEDIUM_SWORDS", "LONG_SWORDS" ]
   },
   {

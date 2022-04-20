@@ -25,6 +25,7 @@ Use the `Home` key to return to the top.
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
+    - [Addiction types](#addiction-types)
     - [Body_parts](#body_parts)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -219,6 +220,9 @@ Use the `Home` key to return to the top.
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
   - [`terrain`](#terrain)
+  - [`city_sizes`](#city_sizes)
+  - [`city_distance`](#city_distance)
+  - [`allowed_z_levels`](#allowed_z_levels)
   - [`flags`](#flags-3)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   - [`id`](#id-2)
@@ -613,6 +617,63 @@ This section describes each json file and their contents. Each json has their ow
   }
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
+
+### Addiction types
+
+Addictions are defined in JSON using `"addiction_type"`:
+
+```JSON
+{
+  "type": "addiction_type",
+  "id": "caffeine",
+  "name": "Caffeine Withdrawal",
+  "type_name": "caffeine",
+  "description": "Strength - 1;   Slight sluggishness;   Occasional cravings",
+  "craving_morale": "morale_craving_caffeine",
+  "effect_on_condition": "EOC_CAFFEINE_ADDICTION"
+}
+```
+
+| Field                   | Description
+|---                      |---
+| `"name"`                | The name of the addiction's effect as it appears in the player's status
+| `"type_name"`           | The name of the addiction's source
+| `"description"`         | Description of the addiction's effects as it appears in the player's status
+| `"craving_morale"`      | ID of the `morale_type` penalty
+| `"effect_on_condition"` | ID of the `effect_on_condition` (can also be an inline EOC) which activates on each `update_body` (aka every turn)
+| `"builtin"`             | *(for legacy addiction code)* Name of a hardcoded function to process the addiction's effect. For new addictions, use `"effect_on_condition"` instead.
+
+Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
+
+```JSON
+{
+  "type": "effect_on_condition",
+  "id": "EOC_MARLOSS_R_ADDICTION",
+  "condition": { "compare_int": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
+  "effect": [
+    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+    {
+      "run_eocs": [
+        {
+          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
+          "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
+        }
+      ]
+    }
+  ]
+}
+```
+
+Current hardcoded builtins:
+- `nicotine_effect`
+- `alcohol_effect`
+- `diazepam_effect`
+- `opiate_effect`
+- `amphetamine_effect`
+- `cocaine_effect`
+- `crack_effect`
 
 ### Body_parts
 

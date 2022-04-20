@@ -527,5 +527,74 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "description": "A large battery to store electrical power in a static power grid.",
     "copy-from": "large_storage_battery"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_battery_car",
+    "name": { "str": "car grid battery" },
+    "categories": [ "energy" ],
+    "symbol": "B",
+    "looks_like": "battery_car",
+    "location": "structure",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A car battery wired into a static power grid.",
+    "item": "battery_car",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] }
+    ],
+    "durability": 120
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_foot_locker_recharge_station",
+    "name": { "str": "foot locker recharging station" },
+    "symbol": "o",
+    "categories": [ "cargo" ],
+    "color": "light_green",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 40,
+    "description": "An appliance for recharging batteries.  When turned on, it steadily charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space, drawing from its internal capacity.",
+    "bonus": 600,
+    "size": 800,
+    "item": "foot_locker_recharge_station",
+    "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 5, 7 ] }
+    ],
+    "damage_reduction": { "all": 10 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_box_battery_charger",
+    "name": { "str": "box battery charger" },
+    "symbol": "o",
+    "categories": [ "cargo" ],
+    "color": "light_green",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "An appliance for recharging batteries.  When turned on, it slowly charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space, drawing from its internal capacity.",
+    "bonus": 15,
+    "size": 200,
+    "item": "box_battery_charger",
+    "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 3, 5 ] },
+      { "item": "nail", "charges": [ 10, 15 ] },
+      { "item": "plastic_chunk", "prob": 50 },
+      { "item": "cable", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "damage_reduction": { "all": 5 }
   }
 ]

@@ -541,7 +541,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and gold cufflinks" },
-    "description": "A pair of cufflinks with inset onyx.",
+    "description": "A pair of cufflinks with inset onyxes.",
     "color": "dark_gray"
   },
   {
@@ -683,19 +683,19 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and silver cufflinks" },
-    "description": "A pair of cufflinks with inset onyx.",
+    "description": "A pair of cufflinks with inset onyxes.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_cufflinks",
         "name": { "str_sp": "onyx and silver cufflinks" },
-        "description": "A pair of cufflinks with inset onyx.",
+        "description": "A pair of cufflinks with inset onyxes.",
         "weight": 99
       },
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
-        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
+        "description": "A pair of cufflinks with inset onyxes and a couple of dark silver cat decorations.",
         "weight": 1
       }
     ],
@@ -825,7 +825,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset onyx.",
+    "description": "A pair of cufflinks with inset onyxes.",
     "color": "dark_gray"
   },
   {
@@ -2584,7 +2584,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and gold bracelet" },
-    "description": "A gold bracelet with onyx.",
+    "description": "A gold bracelet with onyxes.",
     "color": "dark_gray"
   },
   {
@@ -2731,13 +2731,13 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and silver bracelet" },
-    "description": "A silver bracelet with onyx.",
+    "description": "A silver bracelet with onyxes.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_bracelet",
         "name": { "str": "onyx and silver bracelet" },
-        "description": "A silver bracelet with onyx.",
+        "description": "A silver bracelet with onyxes.",
         "weight": 99
       },
       {
@@ -2878,7 +2878,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum bracelet" },
-    "description": "A platinum bracelet with onyx.",
+    "description": "A platinum bracelet with onyxes.",
     "color": "dark_gray"
   },
   {
@@ -3005,7 +3005,7 @@
     "copy-from": "garnet_gold_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "onyx and gold pendant necklace" },
-    "description": "A shiny gold necklace adorned with an onyx pendant.",
+    "description": "A shiny, gold necklace adorned with an onyx pendant.",
     "color": "dark_gray"
   },
   {
@@ -3289,7 +3289,7 @@
     "copy-from": "garnet_platinum_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum pendant necklace" },
-    "description": "A shiny platinum necklace adorned with an onyx pendant.",
+    "description": "A shiny, platinum necklace adorned with an onyx pendant.",
     "color": "dark_gray"
   },
   {
@@ -3418,7 +3418,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum tiara" },
-    "description": "A shiny platinum tiara adorned with onyx.",
+    "description": "A shiny, platinum tiara adorned with onyxes.",
     "color": "dark_gray"
   },
   {
@@ -3547,7 +3547,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and gold tiara" },
-    "description": "A shiny gold tiara adorned with onyx.",
+    "description": "A shiny, gold tiara adorned with onyxes.",
     "color": "dark_gray"
   },
   {
@@ -3691,19 +3691,19 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and silver tiara" },
-    "description": "A shiny, silver tiara adorned with onyx.",
+    "description": "A shiny, silver tiara adorned with onyxes.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_tiara",
         "name": { "str": "onyx and silver tiara" },
-        "description": "A shiny, silver tiara adorned with onyx.",
+        "description": "A shiny, silver tiara adorned with onyxes.",
         "weight": 99
       },
       {
         "id": "dark_tiara",
         "name": { "str": "dark tiara" },
-        "description": "A dark silver tiara adorned with onyx.",
+        "description": "A dark silver tiara adorned with onyxes.",
         "weight": 1
       }
     ],
