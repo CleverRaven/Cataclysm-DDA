@@ -3,6 +3,7 @@
 #include "display.h"
 #include "flag.h"
 #include "game.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "morale_types.h"
@@ -1224,7 +1225,8 @@ void Character::update_heartrate_index()
     float hr_nicotine_mod = 0.0f;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) >
+            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
             hr_nicotine_mod = 0.4f;
         } else {
             hr_nicotine_mod = 0.1f;

@@ -530,6 +530,25 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_battery_car",
+    "name": { "str": "car grid battery" },
+    "categories": [ "energy" ],
+    "symbol": "B",
+    "looks_like": "battery_car",
+    "location": "structure",
+    "color": "red",
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "description": "A car battery wired into a static power grid.",
+    "item": "battery_car",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] }
+    ],
+    "durability": 120
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
     "symbol": "o",

@@ -1235,7 +1235,7 @@
       {
         "id": "my_little_nazgul_tshirt",
         "name": { "str": "My Little Nazgûl t-shirt" },
-        "description": "A light grey t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
         "weight": 1
       },
       {
@@ -1253,7 +1253,7 @@
       {
         "id": "doom_song_tshirt",
         "name": { "str": "doom song t-shirt" },
-        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song.  Doom, doom, doom, dooooom!!",
+        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it.  \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
         "weight": 1
       },
       {

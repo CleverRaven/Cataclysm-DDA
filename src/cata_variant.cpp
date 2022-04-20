@@ -37,7 +37,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         // *INDENT-OFF*
         case cata_variant_type::void_: return "void";
         case cata_variant_type::achievement_id: return "achievement_id";
-        case cata_variant_type::add_type: return "add_type";
+        case cata_variant_type::addiction_id: return "addiction_id";
         case cata_variant_type::bionic_id: return "bionic_id";
         case cata_variant_type::body_part: return "body_part";
         case cata_variant_type::bool_: return "bool";

@@ -24,6 +24,12 @@
     "name": { "str": "spinning wheel" }
   },
   {
+    "id": "scutcheritem",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "stationary scutcher" }
+  },
+  {
     "id": "fake_burrowing",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -212,12 +218,6 @@
     "name": { "str": "air compressor" }
   },
   {
-    "id": "fake_oven",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "oven" }
-  },
-  {
     "id": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
@@ -275,6 +275,13 @@
     "type": "TOOL",
     "name": { "str": "jointer" },
     "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" },
+    "qualities": [ [ "OVEN", 2 ] ]
   },
   {
     "id": "fake_water_purifier",

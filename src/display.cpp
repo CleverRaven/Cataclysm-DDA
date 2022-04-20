@@ -1043,7 +1043,7 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
         ter_sym = sym_color.first;
         ter_color = sym_color.second;
     } else if( !seen ) {
-        // Always grey # for unseen
+        // Always gray # for unseen
         ter_sym = "#";
         ter_color = c_dark_gray;
     } else if( vehicle_here ) {

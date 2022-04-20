@@ -49,7 +49,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "skill.h"
@@ -62,6 +61,9 @@
 #include "units.h"
 #include "weather.h"
 #include "weather_type.h"
+
+static const addiction_id addiction_alcohol( "alcohol" );
+static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
@@ -334,7 +336,7 @@ void suffer::from_addictions( Character &you )
     for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-            addict_effect( you, cur_addiction );
+            cur_addiction.run_effect( you );
         }
         cur_addiction.sated -= 1_turns;
         // Higher intensity addictions heal faster
@@ -1700,13 +1702,13 @@ void Character::mend( int rate_multiplier )
     if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::CIG ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( addiction_nicotine ) );
     }
 
     if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
     } else {
-        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( add_type::ALCOHOL ) );
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( addiction_alcohol ) );
     }
 
     if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
@@ -1968,9 +1970,9 @@ void Character::apply_wetness_morale( int temperature )
     add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
-void Character::add_addiction( add_type type, int strength )
+void Character::add_addiction( const addiction_id &type, int strength )
 {
-    if( type == add_type::NONE ) {
+    if( type.is_null() ) {
         return;
     }
     time_duration timer = 2_hours;
@@ -2009,14 +2011,14 @@ void Character::add_addiction( add_type type, int strength )
     const int roll = rng( 0, 100 );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
-        const std::string &type_name = addiction_type_name( type );
+        const std::string type_name = type->get_type_name().translated();
         add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }
 }
 
-bool Character::has_addiction( add_type type ) const
+bool Character::has_addiction( const addiction_id &type ) const
 {
     return std::any_of( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -2024,7 +2026,7 @@ bool Character::has_addiction( add_type type ) const
     } );
 }
 
-void Character::rem_addiction( add_type type )
+void Character::rem_addiction( const addiction_id &type )
 {
     auto iter = std::find_if( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {
@@ -2037,7 +2039,7 @@ void Character::rem_addiction( add_type type )
     }
 }
 
-int Character::addiction_level( add_type type ) const
+int Character::addiction_level( const addiction_id &type ) const
 {
     auto iter = std::find_if( addictions.begin(), addictions.end(),
     [type]( const addiction & ad ) {

@@ -78,7 +78,6 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -2071,7 +2070,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            you.add_addiction( add_type::PKILLER, 1 );
+            you.add_addiction( STATIC( addiction_id( "opiate" ) ), 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
