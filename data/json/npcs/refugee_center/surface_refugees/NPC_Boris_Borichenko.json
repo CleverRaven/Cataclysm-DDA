@@ -150,7 +150,7 @@
       "and": [
         "*stares at you for a moment before nodding in recognition.  \"",
         [ "Well, well.  You are back.", "So, you have survived." ],
-		"\""
+        "\""
       ]
     },
     "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
@@ -166,7 +166,7 @@
       "and": [
         "*nods at you, his eyes lighting up a little as you approach.  \"",
         [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
-		"\""
+        "\""
       ]
     },
     "//": "Later meetings with Boris, after you've started doing quests for him",
