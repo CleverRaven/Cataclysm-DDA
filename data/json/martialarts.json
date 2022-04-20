@@ -654,7 +654,7 @@
       {
         "id": "buff_judo_static",
         "name": "Judo Stance",
-        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly. In addition, you can counter grabs and takedown attacks with a judo throw.",
+        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "unarmed_weapons_allowed": false,
