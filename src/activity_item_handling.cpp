@@ -39,6 +39,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -3189,7 +3190,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == add_type::ALCOHOL && !you.has_addiction( add_type::ALCOHOL ) ) {
+            if( comest.get_comestible()->add == STATIC( addiction_id( "alcohol" ) ) &&
+                !you.has_addiction( comest.get_comestible()->add ) ) {
                 continue;
             }
 

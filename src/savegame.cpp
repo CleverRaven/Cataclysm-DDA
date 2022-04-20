@@ -40,13 +40,12 @@
 
 class overmap_connection;
 
-static const oter_str_id lake_bed( "lake_bed" );
-static const oter_str_id lake_shore( "lake_shore" );
-static const oter_str_id lake_surface( "lake_surface" );
-static const oter_str_id lake_water_cube( "lake_water_cube" );
-static const oter_str_id forest( "forest" );
-static const oter_str_id forest_thick( "forest_thick" );
-static const oter_str_id forest_water( "forest_water" );
+static const oter_str_id oter_forest( "forest" );
+static const oter_str_id oter_forest_thick( "forest_thick" );
+static const oter_str_id oter_lake_bed( "lake_bed" );
+static const oter_str_id oter_lake_shore( "lake_shore" );
+static const oter_str_id oter_lake_surface( "lake_surface" );
+static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
@@ -836,10 +835,10 @@ void overmap::unserialize_omap( std::istream &fin )
                     }
                     count--;
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
-                    if( tmp_otid == lake_shore || tmp_otid == lake_surface ) {
+                    if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
                         lake_points.emplace_back( tripoint_om_omt( i, j, z ) );
                     }
-                    if( tmp_otid == forest || tmp_otid == forest_thick ) {
+                    if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
                         forest_points.emplace_back( tripoint_om_omt( i, j, z ) );
                     }
                 }
@@ -868,15 +867,15 @@ void overmap::unserialize_omap( std::istream &fin )
             }
         }
 
-        ter_set( tripoint_om_omt( p ), shore ? lake_shore : lake_surface );
+        ter_set( tripoint_om_omt( p ), shore ? oter_lake_shore : oter_lake_surface );
 
         // If this is not a shore, we'll make our subsurface lake cubes and beds.
         if( !shore ) {
             for( int z = -1; z > settings->overmap_lake.lake_depth; z-- ) {
-                ter_set( tripoint_om_omt( p.xy(), z ), lake_water_cube );
+                ter_set( tripoint_om_omt( p.xy(), z ), oter_lake_water_cube );
             }
-            ter_set( tripoint_om_omt( p.xy(), settings->overmap_lake.lake_depth ), lake_bed );
-            layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = lake_surface;
+            ter_set( tripoint_om_omt( p.xy(), settings->overmap_lake.lake_depth ), oter_lake_bed );
+            layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_lake_surface;
         }
     }
 
@@ -899,7 +898,7 @@ void overmap::unserialize_omap( std::istream &fin )
             }
         }
 
-        ter_set( tripoint_om_omt( p ), forest_border ? forest : forest_thick );
+        ter_set( tripoint_om_omt( p ), forest_border ? oter_forest : oter_forest_thick );
     }
 }
 

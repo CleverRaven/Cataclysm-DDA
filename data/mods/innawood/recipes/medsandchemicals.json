@@ -190,5 +190,37 @@
     "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
     "tools": [ [ [ "funnel", -1 ], [ "metal_funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
+  },
+  {
+    "result": "bandages_birchbark",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "charges": 1,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "birchbark", 1 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "bandages_birchbark_adv",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "survival",
+    "time": "5 m",
+    "batch_time_factors": [ 60, 2 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "autolearn": true,
+    "charges": 3,
+    "flags": [ "BLIND_EASY" ],
+    "components": [
+      [ [ "bandages_birchbark", 3 ] ],
+      [ [ "chem_glycerol", 4 ], [ "lard", 1 ] ],
+      [ [ "garlic_clove", 6 ], [ "garlic", 1 ] ]
+    ]
   }
 ]

@@ -41,13 +41,13 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1107,25 +1107,14 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
-          ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
+        ( comest.add == STATIC( addiction_id( "caffeine" ) ) ||
+          comest.add == STATIC( addiction_id( "amphetamine" ) ) ||
+          comest.add == STATIC( addiction_id( "cocaine" ) ) ||
+          comest.add == STATIC( addiction_id( "crack" ) ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
-        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
-                                                _( "You have a bad feeling about this." ),
-                                                _( "A powerful sense of dread comes over you." ),
-                                                _( "Your skin starts crawling." ),
-                                                _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea…" ),
-                                                _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching…" ),
-                                                _( "mistake mistake mistake mistake mistake" ),
-                                                _( "Just gotta stay calm, and you'll make it through this." ),
-                                                _( "You're starting to feel very jumpy." ),
-                                                _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done…" ),
-                                                _( "You're feeling even more paranoid than usual." ) };
-        add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
+        add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
+                               translation() ).translated() );
     }
 }
 
@@ -1142,8 +1131,8 @@ void Character::modify_radiation( const islot_comestible &comest )
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
-    if( addiction_craving( comest.add ) != MORALE_NULL ) {
-        rem_morale( addiction_craving( comest.add ) );
+    if( !comest.add.is_null() && comest.add->get_craving_morale() != MORALE_NULL ) {
+        rem_morale( comest.add->get_craving_morale() );
     }
 }
 
