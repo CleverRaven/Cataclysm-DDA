@@ -35,8 +35,18 @@
     "dynamic_line": "I found a map to this place in an evac center and thought I'd see if it was just full of <zombies> or if there was something up.  Didn't expect to find so many survivors still alive though.",
     "responses": [
       { "text": "You looking for a travelling companion?  I could use someone to watch my back.", "topic": "TALK_RC_SURVIVOR_Join" },
-      { "text": "Seen anything interesting on your travels?", "topic": "TALK_RC_SURVIVOR_Tips" },
       { "text": "Well, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Tips",
+    "dynamic_line": "Sure.  Don't tangle with too many zombies at once.  One person, one zombie, that's the safe balance.  If you have a travelling buddy you can tackle a lot more.",
+    "//": "TK: Add more tips and possibly mission prompts",
+    "responses": [
+      { "text": "They could come along too.", "topic": "TALK_RC_SURVIVOR_Join1" },
+      { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
+      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
