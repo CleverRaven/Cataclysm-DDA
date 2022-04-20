@@ -524,12 +524,12 @@ struct vehicle_part {
         item_group::ItemList pieces_for_broken_part() const;
 
         /* probably should be private, but I'm too lazy to write setters and getters */
-        bool is_fake = false;
-        bool is_active_fake = false;
-        int fake_part_to = -1;
-        int fake_protrusion_on = -1;
-        bool has_fake = false;
-        int fake_part_at = -1;
+        bool is_fake = false; // NOLINT(cata-serialize)
+        bool is_active_fake = false; // NOLINT(cata-serialize)
+        int fake_part_to = -1; // NOLINT(cata-serialize)
+        int fake_protrusion_on = -1; // NOLINT(cata-serialize)
+        bool has_fake = false; // NOLINT(cata-serialize)
+        int fake_part_at = -1; // NOLINT(cata-serialize)
 
 };
 
