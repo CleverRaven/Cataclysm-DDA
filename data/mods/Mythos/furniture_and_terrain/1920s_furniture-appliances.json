@@ -93,7 +93,7 @@
     "symbol": "#",
     "looks_like": "f_woodstove",
     "bgcolor": "red",
-    "description": "A large cast-iron stove heated by a wood burning fire.  With multiple oven compartments, it is the centerpice of any kitchen, good for cooking or heating food, and safe to have indoors.",
+    "description": "A large cast-iron stove heated by a wood burning fire.  With multiple oven compartments, it is the centerpiece of any kitchen, good for cooking or heating food, and safe to have indoors.",
     "move_cost_mod": 3,
     "coverage": 80,
     "required_str": 15,
