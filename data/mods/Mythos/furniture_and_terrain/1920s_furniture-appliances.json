@@ -108,7 +108,7 @@
       "items": [
         { "item": "scrap", "count": [ 6, 12 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
-        { "item": "pipe_fitings", "prob": 50 }
+        { "item": "pipe_fittings", "prob": 50 }
       ]
     },
     "deconstruct": {
