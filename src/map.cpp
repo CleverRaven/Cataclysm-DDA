@@ -4760,10 +4760,11 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 {
     bool washing_machine_finished = false;
 
-    const bool washer_here = cur_veh.is_part_on(part) && (cur_veh.part_flag(part, VPFLAG_WASHING_MACHINE) || 
-                             cur_veh.part_flag(part, VPFLAG_DISHWASHER));
-                             
-    if (washer_here) {
+    const bool washer_here = cur_veh.is_part_on( part ) &&
+                             ( cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) ||
+                               cur_veh.part_flag( part, VPFLAG_DISHWASHER ) );
+
+    if( washer_here ) {
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
@@ -4778,14 +4779,15 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 break;
             }
         }
-        if (washing_machine_finished && !cur_veh.part_flag(part, VPFLAG_APPLIANCE)) {
+        if( washing_machine_finished && !cur_veh.part_flag( part, VPFLAG_APPLIANCE ) ) {
             //~ %1$s: Cleaner, %2$s: Name of the vehicle
-            add_msg( _("The %1$s in the %2$s has finished washing."), cur_veh.part(part).name(false), cur_veh.name);
-        } else if (washing_machine_finished) {
-            if (washer_here ) {
-               add_msg( _("The washing machine has finished washing."));
+            add_msg( _( "The %1$s in the %2$s has finished washing." ), cur_veh.part( part ).name( false ),
+                     cur_veh.name );
+        } else if( washing_machine_finished ) {
+            if( washer_here ) {
+                add_msg( _( "The washing machine has finished washing." ) );
             } else {
-                    add_msg( _("The dishwasher in has finished washing."));
+                add_msg( _( "The dishwasher in has finished washing." ) );
             }
         }
     }
