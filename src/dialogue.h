@@ -109,6 +109,7 @@ struct talk_effect_fun_t {
         void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_finish_mission( const JsonObject &jo, const std::string &member );
+        void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
