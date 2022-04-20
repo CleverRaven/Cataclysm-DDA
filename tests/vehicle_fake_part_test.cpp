@@ -17,6 +17,12 @@
 #include "vpart_range.h"
 #include "veh_type.h"
 
+static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
+static const vproto_id vehicle_prototype_suv( "suv" );
+static const vproto_id vehicle_prototype_test_van( "test_van" );
+
+
 static void really_clear_map()
 {
     clear_map();
@@ -73,7 +79,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
                 really_clear_map();
                 map &here = get_map();
 
-                vehicle *veh = here.add_vehicle( vproto_id( "test_van" ), test_origin, angle, 100, 0 );
+                vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, angle, 100, 0 );
                 REQUIRE( veh != nullptr );
 
                 /* since we want all the doors closed anyway, go ahead and test that opening
@@ -103,7 +109,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         really_clear_map();
         map &here = get_map();
         const tripoint test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vproto_id( "test_van" ), test_origin, 0_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 0_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
 
         /* since we want all the doors closed anyway, go ahead and test that opening
@@ -161,7 +167,7 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
     really_clear_map();
     const tripoint test_origin( 30, 30, 0 );
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "suv" ), test_origin, 0_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 0, 0 );
     REQUIRE( veh != nullptr );
 
     veh->tags.insert( "IN_CONTROL_OVERRIDE" );
@@ -189,7 +195,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
     map &here = get_map();
     GIVEN( "A moving vehicle traveling at a 45 degree angle to the X axis" ) {
         const tripoint test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vproto_id( "suv" ), test_origin, 0_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_suv, test_origin, 0_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
@@ -245,11 +251,9 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
 {
     really_clear_map();
     map &here = get_map();
-    vproto_id test_van( "test_van" );
-    vproto_id school_bus( "schoolbus" );
     GIVEN( "A moving vehicle traveling at a 30 degree angle to the X axis" ) {
         const tripoint test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( test_van, test_origin, 30_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
         const tripoint global_origin = veh->global_pos3();
 
@@ -261,7 +265,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         here.vehmove();
         const tripoint global_move = veh->global_pos3();
         const tripoint obstacle_point = test_origin + 2 * ( global_move - global_origin );
-        vehicle *trg = here.add_vehicle( school_bus, obstacle_point, 90_degrees, 100, 0 );
+        vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100, 0 );
         REQUIRE( trg != nullptr );
         trg->name = "crash bus";
         WHEN( "A vehicle is placed in the vehicle's path such that it will hit a true part" ) {
@@ -305,7 +309,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
     map &here = get_map();
     GIVEN( "A vehicle with no parts that block movement" ) {
         const tripoint test_origin( 30, 30, 0 );
-        vehicle *veh = here.add_vehicle( vproto_id( "bicycle" ), test_origin, 45_degrees, 100, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_bicycle, test_origin, 45_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
         WHEN( "The vehicle is placed in the world" ) {
             THEN( "There are no fake parts added" ) {
