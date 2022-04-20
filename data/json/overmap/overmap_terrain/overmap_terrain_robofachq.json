@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "robofachq_roof_a0", "robofachq_roof_a3", "robofachq_roof_e" ],
+    "id": [ "robofachq_roof_a0", "robofachq_roof_a3" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"
@@ -33,13 +33,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "robofachq_rock",
-    "name": "solid rock",
+    "id": [ "robofachq_rock", "robofachq_roof_e" ],
+    "name": "A buggy non-place",
     "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
