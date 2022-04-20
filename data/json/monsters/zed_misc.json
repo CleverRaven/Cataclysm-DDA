@@ -205,7 +205,7 @@
     "id": "mon_afs_headless_horror",
     "type": "MONSTER",
     "name": { "str": "headless horror" },
-    "description": "This headless zombie has swollen to frightening proportions, towering almost nine feet tall.  Six-foot-long feelers of black ooze blindly wave from its neck, violently twitching at nearby sounds.   Its long stride allows it to quickly pursue its targets, which it pummels into pulp with its huge, swollen fists.",
+    "description": "This headless zombie has swollen to frightening proportions, towering almost nine feet tall.  Six-foot-long feelers of black ooze blindly wave from its neck, violently twitching at nearby sounds.  Its long stride allows it to quickly pursue its targets, which it pummels into pulp with its huge, swollen fists.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
