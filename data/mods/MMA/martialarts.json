@@ -367,8 +367,7 @@
       }
     ],
     "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
-    "weapons": [ "kris", "kris_fake", "sword_crude", "sword_nail", "sword_wood" ],
-    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS" ]
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",
