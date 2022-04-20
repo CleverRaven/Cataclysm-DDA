@@ -4784,11 +4784,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             add_msg( _( "The %1$s in the %2$s has finished washing." ), cur_veh.part( part ).name( false ),
                      cur_veh.name );
         } else if( washing_machine_finished ) {
-            if( washer_here ) {
-                add_msg( _( "The washing machine has finished washing." ) );
-            } else {
-                add_msg( _( "The dishwasher in has finished washing." ) );
-            }
+            add_msg( _( "The %1$s has finished washing." ), cur_veh.part( part ).name( false ) );
         }
     }
 
