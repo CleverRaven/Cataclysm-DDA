@@ -4524,7 +4524,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 15 ] ] ]
+    "components": [ [ [ "cardboard", 4 ] ] ]
   },
   {
     "result": "box_medium",
@@ -4532,7 +4532,7 @@
     "time": "3 m 30 s",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 85 ] ] ]
+    "components": [ [ [ "cardboard", 35 ] ] ]
   },
   {
     "result": "box_large",
@@ -4540,7 +4540,15 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cardboard", 125 ] ] ]
+    "components": [ [ [ "cardboard", 180 ] ] ]
+  },
+  {
+    "result": "box_small_wood",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "splinter", 4 ] ] ]
   },
   {
     "result": "washing_machine",
