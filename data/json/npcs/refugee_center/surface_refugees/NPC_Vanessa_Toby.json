@@ -176,10 +176,10 @@
           "context": "refugee_center",
           "op": ">=",
           "value": 5,
-          "yes": "Well,\u00A0",
-          "no": "You want the sarcastic version, or the really sarcastic version? \u00A0"
+          "yes": "Well, I",
+          "no": "You want the sarcastic version, or the really sarcastic version?  I"
         },
-        "I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
+        "'m stuck in a dank shitty brick building with two dozen strangers, the world's dead",
         {
           "u_has_var": "tacoma_started",
           "type": "knowledge",
