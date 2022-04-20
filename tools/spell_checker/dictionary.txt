@@ -387,6 +387,7 @@ crosshair
 crossin
 crosstie
 croupiere
+crowdfunded
 cryomask
 crystaltender
 ctivate
@@ -950,6 +951,7 @@ leverpostej
 lewede
 leylines
 lickin
+lidded
 lifegiver
 lifestraw
 lightnin
@@ -1542,6 +1544,7 @@ sightedness
 siloed
 siloing
 sinensis
+sixgun
 skeletonized
 skeltal
 skirmisher
