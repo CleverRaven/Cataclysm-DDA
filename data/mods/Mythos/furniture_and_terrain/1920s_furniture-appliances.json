@@ -85,5 +85,35 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ironstove",
+    "name": "cast-iron stove",
+    "symbol": "#",
+    "looks_like": "f_woodstove",
+    "bgcolor": "red",
+    "description": "A large cast-iron stove heated by a wood burning fire.  With multiple oven compartments, it is the centerpice of any kitchen, good for cooking or heating food, and safe to have indoors.",
+    "move_cost_mod": 3,
+    "coverage": 80,
+    "required_str": 15,
+    "max_volume": "250 L",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fitings", "prob": 50 }
+      ]
+    },
+    "deconstruct": {
+      "items": [ { "item": "metal_tank", "count": 2 }, { "item": "pipe", "count": 3 }, { "item": "pipe_fittings", "count": 1 } ]
+    },
+    "crafting_pseudo_item": "fake_oven"
   }
 ]
