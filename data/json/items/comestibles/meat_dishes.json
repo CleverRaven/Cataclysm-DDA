@@ -307,6 +307,29 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "lobster_platter",
+    "name": { "str_sp": "lobster platter" },
+    "weight": "205 g",
+    "color": "red",
+    "spoils_in": "2 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "healthy": 3,
+    "calories": 560,
+    "description": "Fresh lobster meat perfectly seasoned with plenty of butter and its veggie accompaniments.  A gourmet dish that is both healthy and delicious.",
+    "price": 4000,
+    "price_postapoc": 1500,
+    "material": [ "flesh", "veggy" ],
+    "primary_material": "flesh",
+    "volume": "750 ml",
+    "charges": 3,
+    "flags": [ "EATEN_HOT" ],
+    "fun": 18,
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "currywurst",
     "name": { "str": "currywurst" },
     "conditional_names": [
@@ -384,6 +407,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "dry_lobster",
+    "name": { "str_sp": "dehydrated lobster" },
+    "copy-from": "lobster_cooked",
+    "primary_material": "cured_meat",
+    "weight": "85 g",
+    "color": "light_gray",
+    "spoils_in": "360 days",
+    "quench": -3,
+    "description": "Dehydrated lobster meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "price": 500,
+    "price_postapoc": 300,
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rehydrated_lobster",
+    "name": { "str_sp": "rehydrated lobster" },
+    "copy-from": "lobster_cooked",
+    "color": "white",
+    "description": "Reconstituted lobster meat, which is much more enjoyable to eat now that it has been rehydrated.",
+    "price": 500,
+    "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fish_pickled",
     "name": { "str_sp": "pickled fish" },
     "copy-from": "fish_cooked",
@@ -410,6 +459,21 @@
     "price_postapoc": 250,
     "sealed": true,
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lobster_canned",
+    "name": { "str_sp": "canned lobster" },
+    "copy-from": "lobster_cooked",
+    "color": "light_gray",
+    "spoils_in": "1 day 16 hours",
+    "container": "can_food",
+    "healthy": 1,
+    "description": "Low-sodium preserved lobster.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked lobster.",
+    "price": 250,
+    "price_postapoc": 250,
+    "sealed": true,
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -440,6 +504,18 @@
     "calories": 572,
     "description": "A delicious deep-fried biscuit loaded with crab meat.",
     "//": "Currently only found in worldgen and is uncraftable. If crab gets added please make a recipe for crab cakes.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lobster_cakes",
+    "name": { "str": "lobster cake" },
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 765,
+    "description": "A delicious deep-fried biscuit loaded with lobster meat.",
     "volume": "175 ml",
     "looks_like": "fish_fried",
     "fun": 13

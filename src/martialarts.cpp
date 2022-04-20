@@ -268,6 +268,10 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
+    for( JsonValue jv : jo.get_array( "eocs" ) ) {
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+
     reqs.load( jo, src );
     bonuses.load( jo );
 }
@@ -369,6 +373,40 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onmiss_buffs", onmiss_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
+
+    for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+    for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
     optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
@@ -1145,6 +1183,74 @@ void martialart::apply_onkill_buffs( Character &u ) const
     simultaneous_add( u, onkill_buffs );
 }
 
+void martialart::activate_eocs( Character &u,
+                                const std::vector<effect_on_condition_id> &eocs ) const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        dialogue d( get_talker_for( u ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a martial art activation.  If you don't want the effect_on_condition to happen on its own (without the martial art being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this martial art with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+}
+
+void martialart::apply_static_eocs( Character &u ) const
+{
+    activate_eocs( u, static_eocs );
+}
+
+void martialart::apply_onmove_eocs( Character &u ) const
+{
+    activate_eocs( u, onmove_eocs );
+}
+
+void martialart::apply_onpause_eocs( Character &u ) const
+{
+    activate_eocs( u, onpause_eocs );
+}
+
+void martialart::apply_onhit_eocs( Character &u ) const
+{
+    activate_eocs( u, onhit_eocs );
+}
+
+void martialart::apply_onattack_eocs( Character &u ) const
+{
+    activate_eocs( u, onattack_eocs );
+}
+
+void martialart::apply_ondodge_eocs( Character &u ) const
+{
+    activate_eocs( u, ondodge_eocs );
+}
+
+void martialart::apply_onblock_eocs( Character &u ) const
+{
+    activate_eocs( u, onblock_eocs );
+}
+
+void martialart::apply_ongethit_eocs( Character &u ) const
+{
+    activate_eocs( u, ongethit_eocs );
+}
+
+void martialart::apply_onmiss_eocs( Character &u ) const
+{
+    activate_eocs( u, onmiss_eocs );
+}
+
+void martialart::apply_oncrit_eocs( Character &u ) const
+{
+    activate_eocs( u, oncrit_eocs );
+}
+
+void martialart::apply_onkill_eocs( Character &u ) const
+{
+    activate_eocs( u, onkill_eocs );
+}
+
 bool martialart::has_technique( const Character &u, const matec_id &tec_id ) const
 {
     for( const matec_id &elem : techniques ) {
@@ -1402,46 +1508,57 @@ void character_martial_arts::clear_all_effects( Character &owner )
 void character_martial_arts::ma_static_effects( Character &owner )
 {
     style_selected->apply_static_buffs( owner );
+    style_selected->apply_static_eocs( owner );
 }
 void character_martial_arts::ma_onmove_effects( Character &owner )
 {
     style_selected->apply_onmove_buffs( owner );
+    style_selected->apply_onmove_eocs( owner );
 }
 void character_martial_arts::ma_onpause_effects( Character &owner )
 {
     style_selected->apply_onpause_buffs( owner );
+    style_selected->apply_onpause_eocs( owner );
 }
 void character_martial_arts::ma_onhit_effects( Character &owner )
 {
     style_selected->apply_onhit_buffs( owner );
+    style_selected->apply_onhit_eocs( owner );
 }
 void character_martial_arts::ma_onattack_effects( Character &owner )
 {
     style_selected->apply_onattack_buffs( owner );
+    style_selected->apply_onattack_eocs( owner );
 }
 void character_martial_arts::ma_ondodge_effects( Character &owner )
 {
     style_selected->apply_ondodge_buffs( owner );
+    style_selected->apply_ondodge_eocs( owner );
 }
 void character_martial_arts::ma_onblock_effects( Character &owner )
 {
     style_selected->apply_onblock_buffs( owner );
+    style_selected->apply_onblock_eocs( owner );
 }
 void character_martial_arts::ma_ongethit_effects( Character &owner )
 {
     style_selected->apply_ongethit_buffs( owner );
+    style_selected->apply_ongethit_eocs( owner );
 }
 void character_martial_arts::ma_onmiss_effects( Character &owner )
 {
     style_selected->apply_onmiss_buffs( owner );
+    style_selected->apply_onmiss_eocs( owner );
 }
 void character_martial_arts::ma_oncrit_effects( Character &owner )
 {
     style_selected->apply_oncrit_buffs( owner );
+    style_selected->apply_oncrit_eocs( owner );
 }
 void character_martial_arts::ma_onkill_effects( Character &owner )
 {
     style_selected->apply_onkill_buffs( owner );
+    style_selected->apply_onkill_eocs( owner );
 }
 
 template<typename C, typename F>

@@ -74,6 +74,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zorvosaurus_brute",
+    "name": { "str": "Torvosaurus Terror" },
+    "copy-from": "mon_zorvosaurus",
+    "description": "Enormous putrid dinosaur corpse with long, sharp teeth, oozing black eyes, and a tail.  Its body is even bigger than normal, bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zallosaurus_brute",
     "name": { "str": "Allosaurus Avalanche" },
     "copy-from": "mon_zallosaurus",
@@ -141,6 +165,56 @@
     "bleed_rate": 50,
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zryptosaurus_brute",
+    "name": { "str": "Dryptosaurus Dynamo" },
+    "copy-from": "mon_zryptosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Large jaws lifted by an upright undead dinosaur body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zappalachiosaurus_brute",
+    "name": { "str": "Appalachian Anvil" },
+    "copy-from": "mon_zappalachiosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Massive jaws lifted by an upright undead dinosaur body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -221,6 +295,31 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zaspletosaurus_brute",
+    "name": { "str": "Daspletosaurus Damage" },
+    "copy-from": "mon_zaspletosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "Massive jaws with long, sharp teeth lifted by an undead body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zyrannosaurus_brute",
     "name": { "str_sp": "Rage Rex" },
     "copy-from": "mon_zyrannosaurus",
@@ -253,6 +352,7 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 202,
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
@@ -267,6 +367,33 @@
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ztruthiomimus_brute",
+    "name": { "str": "Struthiomimus Striker" },
+    "copy-from": "mon_zallimimus_brute",
+    "looks_like": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 210,
+    "attack_cost": 210,
+    "burn_into": "mon_ztruthiomimus_scorched",
+    "fungalize_into": "mon_ztruthiomimus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zornithomimus_brute",
+    "name": { "str_sp": "Ornery Ornithomimus" },
+    "copy-from": "mon_zallimimus_brute",
+    "looks_like": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 185,
+    "attack_cost": 185,
+    "burn_into": "mon_zornithomimus_scorched",
+    "fungalize_into": "mon_zornithomimus_fungus",
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",
@@ -993,6 +1120,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zorvosaurus_shady",
+    "name": { "str": "shady torvosaurus zombie" },
+    "copy-from": "mon_zorvosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with a large head and a tail.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zallosaurus_shady",
     "name": { "str_sp": "shady allosaurus zombie" },
     "copy-from": "mon_zallosaurus",
@@ -1002,6 +1142,34 @@
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
     "vision_night": 40,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zryptosaurus_shady",
+    "name": { "str_sp": "shady dryptosaurus zombie" },
+    "copy-from": "mon_zryptosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zappalachiosaurus_shady",
+    "name": { "str_sp": "shady appalachiosaurus zombie" },
+    "copy-from": "mon_zappalachiosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -1026,6 +1194,20 @@
     "looks_like": "mon_zyrannosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 30,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaspletosaurus_shady",
+    "name": { "str_sp": "shady daspletosaurus zombie" },
+    "copy-from": "mon_zaspletosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
     "upgrades": {  },
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 3,
@@ -1133,6 +1315,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1160,6 +1343,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1187,6 +1371,34 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sorvosaurus",
+    "name": { "str_sp": "skeletal torvosaurus" },
+    "copy-from": "mon_zorvosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting enormous, sharp, pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1200,7 +1412,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
+    "description": "Monstrous columns of dense bone lifting sharp, serrated teeth dripping with black goo.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -1213,6 +1425,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1239,6 +1452,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1265,6 +1479,63 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sryptosaurus",
+    "name": { "str_sp": "skeletal dryptosaurus" },
+    "copy-from": "mon_zryptosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sappalachiosaurus",
+    "name": { "str_sp": "skeletal appalachiosaurus" },
+    "copy-from": "mon_zappalachiosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1292,6 +1563,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1319,6 +1591,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1345,6 +1618,34 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_saspletosaurus",
+    "name": { "str_sp": "skeletal daspletosaurus" },
+    "copy-from": "mon_zaspletosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting a large jaw with long, pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1372,6 +1673,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1387,6 +1689,7 @@
     "armor_bash": 0,
     "description": "Monstrous columns of dense bone lifting sharp teeth dripping with black goo.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "attack_cost": 118,
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -1398,10 +1701,38 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sktruthiomimus",
+    "name": { "str_sp": "skeletal struthiomimus" },
+    "copy-from": "mon_sallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "420 L",
+    "weight": "420 kg",
+    "speed": 122,
+    "attack_cost": 122,
+    "burn_into": "mon_ztruthiomimus_scorched",
+    "fungalize_into": "mon_ztruthiomimus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sornithomimus",
+    "name": { "str_sp": "skeletal ornithomimus" },
+    "copy-from": "mon_sallimimus",
+    "looks_like": "mon_gallimimus",
+    "volume": "170 L",
+    "weight": "170 kg",
+    "speed": 109,
+    "attack_cost": 109,
+    "burn_into": "mon_zornithomimus_scorched",
+    "fungalize_into": "mon_zornithomimus_fungus",
+    "extend": { "flags": [ "CLIMBS" ] }
   },
   {
     "type": "MONSTER",
@@ -1424,6 +1755,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1450,6 +1782,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1476,6 +1809,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1502,6 +1836,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1528,6 +1863,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1554,6 +1890,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1588,6 +1925,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1617,7 +1955,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified Alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
+    "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -1630,6 +1968,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1656,6 +1995,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1682,6 +2022,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1709,6 +2050,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1735,6 +2077,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1761,6 +2104,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1787,6 +2131,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1813,6 +2158,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1839,6 +2185,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1865,6 +2212,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1891,6 +2239,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1917,6 +2266,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1943,6 +2293,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1969,6 +2320,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -1995,6 +2347,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2021,6 +2374,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2047,6 +2401,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2073,6 +2428,7 @@
       "vision_day": -20
     },
     "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
@@ -2093,6 +2449,7 @@
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "wheel", "count": 4 },
@@ -2117,6 +2474,7 @@
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
@@ -2141,6 +2499,7 @@
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
@@ -2165,6 +2524,7 @@
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },

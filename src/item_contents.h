@@ -41,7 +41,7 @@ class item_contents
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false );
+                bool nested = false, bool ignore_rigidity = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -61,9 +61,10 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it ) const;
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         /**
@@ -179,6 +180,9 @@ class item_contents
         // related vectors
         // returns the item that was attached
         item remove_pocket( int index );
+
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
 
         std::vector<const item *> get_added_pockets() const;
 

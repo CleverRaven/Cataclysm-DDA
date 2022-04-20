@@ -30,6 +30,7 @@
     "vision_night": 20,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -93,6 +94,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
+    "dissect": "dissect_fish_sample_single",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -123,6 +125,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
+    "dissect": "dissect_fish_sample_single",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -153,6 +156,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fish_large",
+    "dissect": "dissect_fish_sample_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -183,6 +187,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_large",
+    "dissect": "dissect_fish_sample_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -497,8 +502,8 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_cut": 1,
-    "luminance": 0,
-    "harvest": "shellfish",
+    "harvest": "lobster",
+    "dissect": "dissect_gastropod_sample_single",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -527,6 +532,7 @@
     "melee_cut": 1,
     "luminance": 0,
     "harvest": "shellfish",
+    "dissect": "dissect_gastropod_sample_single",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -557,6 +563,7 @@
     "luminance": 5,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
+    "dissect": "dissect_fish_sample_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -583,6 +590,7 @@
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
+    "dissect": "dissect_slime_sample_single",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -594,6 +602,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
+    "dissect": "dissect_gastropod_sample_single",
     "upgrades": { "half_life": 14, "into": "mon_giant_crayfish" }
   },
   {
@@ -621,6 +630,7 @@
     "armor_bullet": 6,
     "bleed_rate": 85,
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_gastropod_sample_small",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
@@ -642,6 +652,7 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "vision_day": 84,
+    "dissect": "dissect_gastropod_sample_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
@@ -674,6 +685,7 @@
     "vision_night": 15,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_gastropod_sample_single",
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -703,6 +715,7 @@
     "dodge": 5,
     "luminance": 0,
     "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_small",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
@@ -731,6 +744,7 @@
     "dodge": 5,
     "luminance": 0,
     "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_small",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 150 },
     "baby_flags": [ "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
@@ -760,6 +774,7 @@
     "vision_day": 1,
     "vision_night": 30,
     "harvest": "mutant_fish",
+    "dissect": "dissect_fish_sample_single",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },

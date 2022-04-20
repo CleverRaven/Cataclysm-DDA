@@ -1,6 +1,6 @@
 [
   {
-    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, eg those introduced by mods.",
+    "//": "This group picks out background traits that could apply to any survivor. Eventually these should be implemented as the catch-all for NPCs of an unknown class, e.g. those introduced by mods.",
     "type": "trait_group",
     "id": "BG_survival_story_UNIVERSAL",
     "subtype": "distribution",
