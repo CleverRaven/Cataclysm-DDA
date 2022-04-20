@@ -1032,7 +1032,7 @@
     "symbol": "{",
     "color": "white",
     "name": { "str": "household dishwasher" },
-    "description": "An appliance used to clean dishes, not much of a use without power and water. Can be placed as an appliance",
+    "description": "An appliance used to clean dishes, not much of a use without power and water.  Can be placed as an appliance.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "steel" ],
