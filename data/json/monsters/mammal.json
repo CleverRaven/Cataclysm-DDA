@@ -542,7 +542,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
     "name": { "str": "calico kitten" },
-    "description": "Splotches of tan and grey mark this young cat as a calico, and probably female.",
+    "description": "Splotches of tan and gray mark this young cat as a calico, and probably female.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_calico" }
   },
   {
