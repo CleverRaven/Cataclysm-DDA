@@ -38,7 +38,9 @@
         "damage_mult": { "all": 0 },
         "difficulty": { "ranged": 5, "melee": 1 },
         "coverage_mult": { "point": 0 },
-        "effects": [ { "effect": "downed", "permanent": true, "chance": 5, "message": "The %s is knocked down, its legs a mangled mess." } ],
+        "effects": [
+          { "effect": "downed", "permanent": true, "chance": 5, "message": "The %s is knocked down, its legs a mangled mess." }
+        ],
         "coverage": 5
       },
       {
