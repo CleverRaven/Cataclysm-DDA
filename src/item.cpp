@@ -6396,9 +6396,9 @@ nc_color item::color() const
     if( is_corpse() ) {
         return corpse->color;
     }
-	if( has_itype_variant() ) {
-		return _itype_variant->alt_color;
-	}
+    if( has_itype_variant() ) {
+        return _itype_variant->alt_color;
+    }
     return type->color;
 }
 
