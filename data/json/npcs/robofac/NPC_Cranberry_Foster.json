@@ -386,7 +386,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_TWO_OF_US",
     "type": "talk_topic",
-    "dynamic_line": "I guess so.\"  They beam sheepishly.  \"Uh, call be Cranberry.  Cran is fine too.  It's nice to meet someone else from here.  I guess having some company for once wouldn't be awful.",
+    "dynamic_line": "I guess so.\"  They beam sheepishly.  \"Uh, call me Cranberry.  Cran is fine too.  It's nice to meet someone else from here.  I guess having some company for once wouldn't be awful.",
     "speaker_effect": {
       "effect": { "u_add_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
       "sentinel": "robofac_merc_1_stay"
