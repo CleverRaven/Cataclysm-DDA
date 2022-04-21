@@ -5,10 +5,20 @@
     "weakpoints": [
       {
         "id": "default",
-        "name": "the body",
         "crit_mult": { "all": 0 },
         "damage_mult": { "all": 0 },
         "effects": [ { "effect": "staggered", "chance": 5, "message": "The %s is knocked off-balance!" } ]
+      },
+      {
+        "id": "destabilizing_hit",
+        "name": "the chest",
+        "//": "This weakpoint represents knocking the zombie back with any sort of melee weapon.  These zombies have bad balance.  Ranged weapons still have a chance but this is mostly to buff melee.",
+        "crit_mult": { "all": 0 },
+        "damage_mult": { "all": 0 },
+        "difficulty": { "point": 6, "broad": 1 },
+        "coverage_mult": { "ranged": 0.1 },
+        "effects": [ { "effect": "staggered", "chance": 100, "message": "The %s is knocked off-balance!" } ],
+        "coverage": 10
       },
       {
         "id": "part_grabbing",
@@ -212,6 +222,17 @@
         "crit_mult": { "all": 0 },
         "damage_mult": { "all": 0 },
         "effects": [ { "effect": "staggered", "chance": 2, "message": "The %s is knocked off-balance!" } ]
+      },
+      {
+        "id": "destabilizing_hit",
+        "name": "the chest",
+        "//": "This weakpoint represents knocking the zombie back with any sort of melee weapon.  These zombies have bad balance.  Ranged weapons still have a chance but this is mostly to buff melee.",
+        "crit_mult": { "all": 0 },
+        "damage_mult": { "all": 0 },
+        "difficulty": { "point": 7, "broad": 3 },
+        "coverage_mult": { "ranged": 0.1 },
+        "effects": [ { "effect": "staggered", "chance": 100, "message": "The %s is knocked off-balance!" } ],
+        "coverage": 8
       }
     ]
   },
@@ -225,6 +246,17 @@
         "crit_mult": { "all": 0 },
         "damage_mult": { "all": 0 },
         "effects": [ { "effect": "staggered", "chance": 1, "message": "The %s is knocked off-balance!" } ]
+      },
+      {
+        "id": "destabilizing_hit",
+        "name": "the chest",
+        "//": "This weakpoint represents knocking the zombie back with any sort of melee weapon.  These zombies have bad balance.  Ranged weapons still have a chance but this is mostly to buff melee.",
+        "crit_mult": { "all": 0 },
+        "damage_mult": { "all": 0 },
+        "difficulty": { "point": 8, "broad": 5 },
+        "coverage_mult": { "ranged": 0.1 },
+        "effects": [ { "effect": "staggered", "chance": 100, "message": "The %s is knocked off-balance!" } ],
+        "coverage": 6
       }
     ]
   },
@@ -238,6 +270,17 @@
         "crit_mult": { "all": 0 },
         "damage_mult": { "all": 0 },
         "effects": [ { "effect": "staggered", "chance": 2, "message": "The %s is knocked off-balance!" } ]
+      },
+      {
+        "id": "destabilizing_hit",
+        "name": "the chest",
+        "//": "This weakpoint represents knocking the zombie back with any sort of melee weapon.  These zombies have bad balance.  Ranged weapons still have a chance but this is mostly to buff melee.",
+        "crit_mult": { "all": 0 },
+        "damage_mult": { "all": 0 },
+        "difficulty": { "point": 7, "broad": 4 },
+        "coverage_mult": { "ranged": 0.1 },
+        "effects": [ { "effect": "staggered", "chance": 100, "message": "The %s is knocked off-balance!" } ],
+        "coverage": 7
       }
     ]
   },
