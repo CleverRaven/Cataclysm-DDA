@@ -53,7 +53,7 @@
   - "**/npcs/**/*"
 
 "Melee":
-  - "**/melee/**/*"
+  - "**/**melee**"
 
 "Info / User Interface":
   - "**/ui/**/*"
