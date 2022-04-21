@@ -315,8 +315,11 @@
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
-    "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
+    "ammo": [ "nitrox" ],
+    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "EXO_LARGE_GADGET" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    "countdown_interval": 70,
+    "countdown_action": { "type": "recharge", "target": "exo_bio_oxygen", "msg": "The bacteria in the tank replenish some of the air supply." },
   }
 ]
