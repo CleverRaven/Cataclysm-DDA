@@ -124,12 +124,12 @@
     "end": {
       "update_mapgen": [
         {
-          "om_terrain": "robofachq_surface_b0",
-          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+          "om_terrain": "robofachq_surface_parking",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ]
         },
         {
           "om_terrain": "robofachq_surface_entrance",
-          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 6, "y": 7 } ]
         }
       ],
       "effect": [
