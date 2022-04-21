@@ -1,0 +1,41 @@
+[  
+  {
+    "type": "talk_topic",
+    "id": "TALK_BORIS_MISSION_LIST",
+    "dynamic_line": { "and": [ 
+      "Oh, my friend.  Yes, I have many plans.  My family is joining me, to work with me, but even others have seen what we can do, and now I think we have a chance",
+      "npc_has_var": "Boris_upgrade_mission_1", "value": "done",
+      "no": ".  For a start, I am just working on talking to my fellows about what is next.  I think we need bedrooms, not to sleep in the shared open.  I can do this, easily!  I have some wood, but of course I will need more.  Also I would like to show some others my plans, so we can all agree on how to use the space we have.",
+      "yes": ".  However, for the moment, I need some time to think, because I have not been written to have more answers yet."
+    "responses": [
+      { "text": "I think I know the other people here pretty well now.  Want me to ask around for you?", "topic": "TALK_BORIS_MISSION_UPGRADE1_askaround" },
+      { "text": "Hi Boris, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_REFUGEE_UPGRADE1_askaround",
+    "type": "mission_definition",
+    "name": { "str": "Help Boris get opinions on upgrades." },
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": "",
+      "accepted": "You are a kind soul.",
+      "rejected": "Ah well.  I can ask around myself, perhaps.",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": "I see…",
+      "failure": "Oh well.  Let me know if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "npc_add_var": "Boris_upgrade_mission_1", "value": "done" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+      ]
+    }
+  }
+]
