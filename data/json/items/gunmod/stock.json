@@ -342,7 +342,7 @@
     "id": "sub2000_folding_mechanism_folded",
     "type": "GUNMOD",
     "name": { "str": "integral folding mechanism (folded))", "str_pl": "integral folding mechanisms (folded)" },
-    "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  Shooting this firearm would be particularly tricky given that the barrel assembly is folded and locked backwords for storage, rendering the weapon inoperable.",
+    "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  Shooting this firearm would be particularly tricky given that the barrel assembly is folded and locked backwards for storage, rendering the weapon inoperable.",
     "weight": "10 g",
     "volume": "10 ml",
     "integral_volume": "0 ml",
