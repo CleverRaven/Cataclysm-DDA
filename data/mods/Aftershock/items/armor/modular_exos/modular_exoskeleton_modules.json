@@ -302,5 +302,21 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ] } ]
     }
+  },
+  {
+    "id": "exo_bio_oxygen",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit air supply module", "str_pl": "exosuit air supply modules" },
+    "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.",
+    "weight": "2 kg",
+    "volume": "2500 ml",
+    "material": [ "plastic", "steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
   }
 ]
