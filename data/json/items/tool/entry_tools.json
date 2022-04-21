@@ -10,7 +10,7 @@
     "price": 1300,
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 20,
+    "bashing": 18,
     "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
