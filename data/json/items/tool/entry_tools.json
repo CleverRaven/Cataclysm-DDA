@@ -61,7 +61,7 @@
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "uneven" },
-    "bashing": 22,
+    "bashing": 20,
     "cutting": 8,
     "material": [ "steel" ],
     "symbol": ";",
