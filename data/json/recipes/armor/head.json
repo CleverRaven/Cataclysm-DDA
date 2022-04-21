@@ -1215,6 +1215,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_millinery" },
+      { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_polymerworking" }
