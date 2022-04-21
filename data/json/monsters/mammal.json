@@ -2602,7 +2602,7 @@
     "type": "MONSTER",
     "copy-from": "mon_wolf",
     "name": { "str": "wolf puppy", "str_pl": "wolf puppies" },
-    "description": "An adorable, defenseless wolf pup that will, in time, grow into a not-so-defenseless and debatably-adorable wolf. Unlike a fully-grown wolf, you could tame it, if its parents don't maul you.",
+    "description": "An adorable, defenseless wolf pup that will, in time, grow into a not-so-defenseless and debatably-adorable wolf.  Unlike a fully-grown wolf, you could tame it, if its parents don't maul you.",
     "looks_like": "mon_dog_auscattle_pup",
     "volume": "900 ml",
     "weight": "1200 g",
