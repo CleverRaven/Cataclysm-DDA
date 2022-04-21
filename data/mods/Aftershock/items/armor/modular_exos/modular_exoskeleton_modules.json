@@ -316,11 +316,10 @@
     "looks_like": "rebreather",
     "color": "light_gray",
     "ammo": [ "oxygen" ],
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
     "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_LARGE_GADGET" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 30 } }
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 60 } }
     ],
     "use_action": {
       "type": "transform",
@@ -345,8 +344,8 @@
     "looks_like": "rebreather",
     "color": "light_gray",
     "ammo": [ "oxygen" ],
-    "environmental_protection": 1,
-    "environmental_protection_with_filter": 16,
+    "environmental_protection": 15,
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
     "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_LARGE_GADGET" ],
     "turns_per_charge": 30,
     "pocket_data": [
