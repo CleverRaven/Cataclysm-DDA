@@ -519,6 +519,28 @@ std::vector<om_vehicle> overmapbuffer::get_vehicle( const tripoint_abs_omt &p )
     return result;
 }
 
+std::string overmapbuffer::get_vehicle_ter_sym( const tripoint_abs_omt &omt )
+{
+    std::string ter_sym;
+    std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omt );
+    int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
+    for( om_vehicle vehicle : vehicles ) {
+        int temp_distance = std::abs( vehicle.p.z() - omt.z() );
+        if( temp_distance < distance ) {
+            distance = temp_distance;
+            if( vehicle.p.z() == omt.z() ) {
+                return "c"; // Break to always show vehicles on current level first
+            } else if( vehicle.p.z() > omt.z() ) {
+                ter_sym = "^";
+            } else {
+                ter_sym = "v";
+            }
+        }
+    }
+
+    return ter_sym;
+}
+
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
     const int radius = sig_power;

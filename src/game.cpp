@@ -3666,22 +3666,7 @@ void game::draw_minimap()
                 ter_color = c_black;
             } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omp );
-                int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
-                for( om_vehicle vehicle : vehicles ) {
-                    int temp_distance = std::abs( vehicle.p.z() - omp.z() );
-                    if( temp_distance < distance ) {
-                        distance = temp_distance;
-                        if( vehicle.p.z() == omp.z() ) {
-                            ter_sym = "c";
-                            break; // Break to always show vehicles on current level first
-                        } else if( vehicle.p.z() > omp.z() ) {
-                            ter_sym = "^";
-                        } else {
-                            ter_sym = "v";
-                        }
-                    }
-                }
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();

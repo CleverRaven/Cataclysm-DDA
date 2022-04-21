@@ -1036,7 +1036,6 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
 
     // Terrain color and symbol to use for this point
     const bool seen = overmap_buffer.seen( omt );
-    const bool vehicle_here = overmap_buffer.has_vehicle( omt );
     if( overmap_buffer.has_note( omt ) ) {
         const std::string &note_text = overmap_buffer.note( omt );
         std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
@@ -1046,26 +1045,9 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
         // Always grey # for unseen
         ter_sym = "#";
         ter_color = c_dark_gray;
-    } else if( vehicle_here ) {
+    } else if( overmap_buffer.has_vehicle( omt ) ) {
         ter_color = c_cyan;
-        std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle(omt);
-        int distance = std::max(OVERMAP_DEPTH, OVERMAP_HEIGHT) + 1;
-        for (om_vehicle vehicle : vehicles) {
-            int temp_distance = std::abs(vehicle.p.z() - omt.z());
-            if (temp_distance < distance) {
-                distance = temp_distance;
-                if (vehicle.p.z() == omt.z()) {
-                    ter_sym = "c";
-                    break; // Break to always show vehicles on current level first
-                }
-                else if (vehicle.p.z() > omt.z()) {
-                    ter_sym = "^";
-                }
-                else {
-                    ter_sym = "v";
-                }
-            }
-        }
+        ter_sym = overmap_buffer.get_vehicle_ter_sym( omt );
     } else {
         // Otherwise, get symbol and color appropriate for the terrain
         const oter_id &cur_ter = overmap_buffer.ter( omt );
