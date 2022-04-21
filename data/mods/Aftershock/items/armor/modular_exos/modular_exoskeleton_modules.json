@@ -311,15 +311,49 @@
     "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time.",
     "weight": "2 kg",
     "volume": "2500 ml",
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
-    "looks_like": "storage_battery",
+    "looks_like": "rebreather",
     "color": "light_gray",
-    "ammo": [ "nitrox" ],
+    "ammo": [ "oxygen" ],
     "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "EXO_LARGE_GADGET" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
-    "countdown_interval": 70,
-    "countdown_action": { "type": "recharge", "target": "exo_bio_oxygen", "msg": "The bacteria in the tank replenish some of the air supply." },
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 60 } }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Activate",
+      "msg": "You activate your %s.",
+      "target": "exo_bio_oxygen_on",
+      "active": true,
+      "need_charges_msg": "The %s's tank is ehxausted."
+    },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
+  },
+  {
+    "id": "exo_bio_oxygen_on",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit air supply module (on)", "str_pl": "exosuit air supply modules (on)" },
+    "description": "This is a SCBA, a self-contained breathing apparatus.  A series of tanks contain a tailored bacteria that processes Co2 back into breathable air over time. It is activated and will supply breathable air.",
+    "weight": "2 kg",
+    "volume": "2500 ml",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "rebreather",
+    "color": "light_gray",
+    "ammo": [ "oxygen" ],
+    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_LARGE_GADGET" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 60 } }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Deactivate",
+      "msg": "You deactivate your %s.",
+      "target": "exo_bio_oxygen",
+      "need_charges_msg": "The %s's tank is ehxausted."
+    },
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
   }
 ]
