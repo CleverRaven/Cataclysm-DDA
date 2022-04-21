@@ -449,7 +449,8 @@
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 },
-        { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_8" }
+        { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
+        { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
       ]
     }
   },
@@ -533,7 +534,7 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "boris_cleanup_back_bay",
+    "update_mapgen_id": "boris_cleanup_garage",
     "method": "json",
     "object": {
       "set": [
@@ -546,6 +547,19 @@
         { "square": "field_remove", "x": 2, "y": 2, "x2": 21, "y2": 17 },
         { "square": "field_remove", "x": 22, "y": 11, "x2": 23, "y2": 17 },
         { "square": "terrain", "id": "t_rdoor_c", "x": 21, "y": 13, "x2": 21, "y2": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_cleanup_back_bay",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "item_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "field_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "furniture", "id": "f_locker", "x": 17, "y": 6, "x2": 17, "y2": 19 }
       ]
     }
   }
