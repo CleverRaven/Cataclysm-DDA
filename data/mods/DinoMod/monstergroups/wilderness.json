@@ -2,7 +2,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FOREST",
-    "//": "Current SPRING first DAY count is 230.",
+    "//": "Current SPRING first DAY count is 207.",
     "is_animal": true,
     "monsters": [
       {
@@ -46,6 +46,13 @@
         "cost_multiplier": 25,
         "pack_size": [ 4, 12 ],
         "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_amargasaurus_juvenile",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_apatosaurus",
