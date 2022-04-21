@@ -129,7 +129,7 @@
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
-	  {
+	    {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3001 ml",
