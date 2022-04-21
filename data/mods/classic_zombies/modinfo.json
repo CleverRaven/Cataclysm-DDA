@@ -12,12 +12,7 @@
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false },
+    "flag": { "name": "REVIVES", "value": false, "name": "DEADLY_VIRUS", "value": true },
     "stat": { "name": "speed", "modifier": 0.95 }
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "flag": { "name": "DEADLY_VIRUS", "value": true }
   }
 ]
