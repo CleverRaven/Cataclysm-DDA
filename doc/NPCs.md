@@ -527,11 +527,13 @@ Will be shown to the user, no further meaning.
 ### trial
 Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
 
-The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass.
+The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
 
 An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
 
 `"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
+
+`"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
 
 ### success and failure
 Both objects have the same structure. `topic` defines which topic the dialogue will switch to. `opinion` is optional, if given it defines how the opinion of the NPC will change. The given values are *added* to the opinion of the NPC, they are all optional and default to 0. `effect` is a function that is executed after choosing the response, see below.
@@ -552,6 +554,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
+"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "swimming" }
 ```
 
 `topic` can also be a single topic object (the `type` member is not required here):
@@ -748,6 +751,7 @@ Effect | Description
 `take_control_menu`. Opens up a menu to choose a follower to take control of.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
 `finish_mission: mission_type_id string`,(*optional* `success: success_bool` ), (*optional `step: step_int`)  | Will complete mission `mission_type_id` to the player as a success if `success` is true, as a failure otherwise. If a `step` is provided that step of the mission will be completed.
+`offer_mission" mission_type_id string or array`. Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: time_in_future_int or string or variable_object` | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` seconds or if it is a string the future values of them or if they are variable objects the variable they name.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `npcs_to_affect: npcs_to_affect_string_array`, (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: npc_range_int`) | Will run all members of the `effect_on_condition_array` on nearby npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If any names are listed in `npcs_to_affect` then only they will be affected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.

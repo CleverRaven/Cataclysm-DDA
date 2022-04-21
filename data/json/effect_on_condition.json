@@ -328,6 +328,56 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "record_portal_storm_data",
+    "recurrence": "5 minutes",
+    "global": true,
+    "condition": { "and": [ { "is_weather": "portal_storm" }, { "u_has_item": "nre_recorder" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },
+      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "print_portal_storm_data",
+    "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "large_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 25 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
+        },
+        {
+          "id": "medium_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 3 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
+        },
+        {
+          "id": "small_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
+        }
+      ]
+    },
+    "false_effect": { "u_message": "The recorder prints: \"NO DATA\" in a short piece of paper", "type": "info" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "isolated_artisans_gunsmith_refresh",
     "eoc_type": "OM_MOVE",
     "condition": {

@@ -204,7 +204,7 @@
     "id": "mon_sparrow",
     "type": "MONSTER",
     "name": { "str": "sparrow" },
-    "description": "A small bird with brown and grey feathers.  Introduced to North America in the 1850s, it is now one of the most abundant birds in the continent.",
+    "description": "A small bird with brown and gray feathers.  Introduced to North America in the 1850s, it is now one of the most abundant birds in the continent.",
     "bodytype": "bird",
     "default_faction": "small_animal",
     "categories": [ "WILDLIFE" ],
