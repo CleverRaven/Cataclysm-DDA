@@ -2602,7 +2602,7 @@
     "type": "MONSTER",
     "copy-from": "mon_wolf",
     "name": { "str": "wolf puppy", "str_pl": "wolf puppies" },
-    "description": "An adorable, defenseless wolf pup that will, in time, grow into a not-so-defenseless and debatably-adorable wolf.  Unlike a fully-grown wolf, you could tame it, if its parents don't maul you.",
+    "description": "An adorable, defenseless wolf pup that will, in time, grow into a not-so-defenseless and debatably-adorable wolf.  Be careful of its parents, which are sure to be around nearby!",
     "looks_like": "mon_dog_auscattle_pup",
     "volume": "900 ml",
     "weight": "1200 g",
@@ -2619,12 +2619,6 @@
     "harvest": "mammal_tiny",
     "dissect": "dissect_lupine_sample_single",
     "upgrades": { "age_grow": 42, "into": "mon_wolf" },
-    "petfood": {
-      "food": [ "DOGFOOD" ],
-      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
-    },
-    "//": "A wolf pup that's raised with humans displays signs of both attachment and affection towards their owners, these feelings last into adulthood.",
     "extend": { "flags": [ "NO_BREED" ] }
   },
   {
