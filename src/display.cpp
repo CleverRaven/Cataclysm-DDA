@@ -1047,9 +1047,25 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
         ter_sym = "#";
         ter_color = c_dark_gray;
     } else if( vehicle_here ) {
-        // Always cyan c for vehicle
         ter_color = c_cyan;
-        ter_sym = "c";
+        std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle(omt);
+        int distance = std::max(OVERMAP_DEPTH, OVERMAP_HEIGHT) + 1;
+        for (om_vehicle vehicle : vehicles) {
+            int temp_distance = std::abs(vehicle.p.z() - omt.z());
+            if (temp_distance < distance) {
+                distance = temp_distance;
+                if (vehicle.p.z() == omt.z()) {
+                    ter_sym = "c";
+                    break; // Break to always show vehicles on current level first
+                }
+                else if (vehicle.p.z() > omt.z()) {
+                    ter_sym = "^";
+                }
+                else {
+                    ter_sym = "v";
+                }
+            }
+        }
     } else {
         // Otherwise, get symbol and color appropriate for the terrain
         const oter_id &cur_ter = overmap_buffer.ter( omt );
