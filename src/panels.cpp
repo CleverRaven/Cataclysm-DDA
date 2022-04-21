@@ -247,22 +247,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 ter_color = c_dark_gray;
             } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                std::vector<om_vehicle> vehicles = overmap_buffer.get_vehicle( omp );
-                int distance = std::max( OVERMAP_DEPTH, OVERMAP_HEIGHT ) + 1;
-                for( om_vehicle vehicle : vehicles ) {
-                    int temp_distance = std::abs( vehicle.p.z() - omp.z() );
-                    if( temp_distance < distance ) {
-                        distance = temp_distance;
-                        if( vehicle.p.z() == omp.z() ) {
-                            ter_sym = "c";
-                            break; // Break to always show vehicles on current level first
-                        } else if( vehicle.p.z() > omp.z() ) {
-                            ter_sym = "^";
-                        } else {
-                            ter_sym = "v";
-                        }
-                    }
-                }
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
