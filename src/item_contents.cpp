@@ -2056,7 +2056,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {
-                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d Pockets</bold> with capacity:" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d pockets</bold> with capacity:" ),
                                    pocket_num[idx] ) );
             } else {
                 // If this is the only pocket the item has, label it "Total capacity"
