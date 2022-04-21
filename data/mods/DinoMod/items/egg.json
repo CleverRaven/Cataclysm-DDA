@@ -125,6 +125,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_torvosaurus",
+    "name": "torvosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_torvosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_allosaurus",
     "name": "allosaurus egg",
     "copy-from": "egg_dino_theropod",
@@ -143,6 +150,13 @@
     "name": "siats egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_siats"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dryptosaurus",
+    "name": "dryptosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_dryptosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -174,6 +188,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_daspletosaurus",
+    "name": "daspletosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_daspletosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_tyrannosaurus",
     "name": "tyrannosaurus egg",
     "copy-from": "egg_dino_theropod_large",
@@ -192,6 +213,20 @@
     "name": "gallimimus egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_gallimimus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_struthiomimus",
+    "name": "struthiomimus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_struthiomimus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ornithomimus",
+    "name": "ornithomimus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_ornithomimus"
   },
   {
     "type": "COMESTIBLE",
@@ -234,6 +269,13 @@
     "name": "utahraptor egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_utahraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dromaeosaurus",
+    "name": "dromaeosaurus egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_dromaeosaurus"
   },
   {
     "type": "COMESTIBLE",

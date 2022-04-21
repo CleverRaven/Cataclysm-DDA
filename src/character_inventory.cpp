@@ -490,19 +490,8 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
 {
 
     for( auto &e : worn ) {
-        if( e.can_holster( *obj ) ) {
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            opts.emplace_back( dispose_option{
-                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
-                [&guy, ptr, &e, obj] {
-                    // *obj by itself attempts to use the const version of the operator (in gcc9),
-                    // so construct a new item_location which allows using the non-const version
-                    return ptr->store( guy, e, *item_location( obj ) );
-                }
-            } );
-        } else if( e.get_contents().has_additional_pockets() && e.can_contain( *obj ).success() ) {
+        // check for attachable subpockets first (the parent item may be defined as a holster)
+        if( e.get_contents().has_additional_pockets() && e.can_contain( *obj ).success() ) {
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
@@ -528,6 +517,18 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                     }
                 } );
             }
+        } else if( e.can_holster( *obj ) ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
+            opts.emplace_back( dispose_option{
+                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
+                guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
+                [&guy, ptr, &e, obj] {
+                    // *obj by itself attempts to use the const version of the operator (in gcc9),
+                    // so construct a new item_location which allows using the non-const version
+                    return ptr->store( guy, e, *item_location( obj ) );
+                }
+            } );
         }
     }
 }

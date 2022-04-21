@@ -400,7 +400,7 @@
     "cutting": 16,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },

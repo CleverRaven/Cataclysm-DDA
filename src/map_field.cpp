@@ -84,9 +84,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
 
-static const mutation_category_id mutation_category_INSECT( "INSECT" );
-static const mutation_category_id mutation_category_SPIDER( "SPIDER" );
-
 static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -95,8 +92,10 @@ static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
+static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 
 using namespace map_field_processing;
 
@@ -1764,8 +1763,8 @@ void map::player_in_field( Character &you )
                                                        intensity * 1_minutes );
                     if( you.has_trait( trait_THRESH_MYCUS ) || you.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas &&
-                          ( you.get_highest_category() == mutation_category_INSECT ||
-                            you.get_highest_category() == mutation_category_SPIDER ) ) ) {
+                          ( you.has_trait( trait_THRESH_INSECT ) ||
+                            you.has_trait( trait_THRESH_SPIDER ) ) ) ) {
                         inhaled |= you.add_env_effect( effect_badpoison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
                         you.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         you.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );

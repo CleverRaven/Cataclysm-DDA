@@ -3150,8 +3150,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
         TERM.x -= TERM.x % scaling_factor;
         TERM.y -= TERM.y % scaling_factor;
-        get_option( "TERMINAL_X" ).setValue( std::max( FULL_SCREEN_WIDTH * scaling_factor, TERM.x ) );
-        get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERM.y ) );
+        const point set_term( std::max( EVEN_MINIMUM_TERM_WIDTH * scaling_factor, TERM.x ),
+                              std::max( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor, TERM.y ) );
+        get_option( "TERMINAL_X" ).setValue( set_term.x );
+        get_option( "TERMINAL_Y" ).setValue( set_term.y );
         save();
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
