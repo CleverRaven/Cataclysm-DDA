@@ -97,6 +97,16 @@
         "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
       },
       {
+        "text": "Now that you've got your tools, what are you going to do next?",
+        "topic": "TALK_BORIS_MISSION_LIST",
+        "condition": {
+          "and": [
+            { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+            { "not": { "npc_has_var": "Boris_upgrade_mission_1", "value": "done" } }
+          ]
+        }
+      },
+      {
         "text": "Got anything else I can help out with?",
         "topic": "TALK_MISSION_LIST",
         "condition": {
@@ -477,10 +487,18 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 },
+        { "mapgen_update": "boris_setup_workshop", "om_terrain": "evac_center_8" }
       ]
-    },
-    "//": "TK add update mapgen."
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_setup_workshop",
+    "method": "json",
+    "object": {
+      "//": "I should probably do some work before I start mapping."
+    }
   },
   {
     "id": "MISSION_REFUGEE_Boris_LAPTOP",
