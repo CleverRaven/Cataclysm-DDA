@@ -474,7 +474,9 @@ class pickup_inventory_preset : public inventory_selector_preset
     public:
         explicit pickup_inventory_preset( const Character &you,
                                           bool skip_wield_check = false ) : you( you ),
-            skip_wield_check( skip_wield_check ) {}
+            skip_wield_check( skip_wield_check ) {
+            _pk_type = item_pocket::pocket_type::LAST;
+        }
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {

@@ -117,6 +117,26 @@ void talker_character::set_per_max( int value )
     me_chr->per_max = value;
 }
 
+void talker_character::set_str_bonus( int value )
+{
+    me_chr->mod_str_bonus( value );
+}
+
+void talker_character::set_dex_bonus( int value )
+{
+    me_chr->mod_dex_bonus( value );
+}
+
+void talker_character::set_int_bonus( int value )
+{
+    me_chr->mod_int_bonus( value );
+}
+
+void talker_character::set_per_bonus( int value )
+{
+    me_chr->mod_per_bonus( value );
+}
+
 int talker_character_const::get_str_max() const
 {
     return me_chr_const->str_max;
@@ -135,6 +155,26 @@ int talker_character_const::get_int_max() const
 int talker_character_const::get_per_max() const
 {
     return me_chr_const->per_max;
+}
+
+int talker_character_const::get_str_bonus() const
+{
+    return me_chr_const->get_str_bonus();
+}
+
+int talker_character_const::get_dex_bonus() const
+{
+    return me_chr_const->get_dex_bonus();
+}
+
+int talker_character_const::get_int_bonus() const
+{
+    return me_chr_const->get_int_bonus();
+}
+
+int talker_character_const::get_per_bonus() const
+{
+    return me_chr_const->get_per_bonus();
 }
 
 bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
@@ -282,9 +322,28 @@ bool talker_character_const::has_charges( const itype_id &item_id, int count ) c
     return me_chr_const->has_charges( item_id, count );
 }
 
+bool talker_character_const::has_charges( const itype_id &item_id, int count, bool in_tools ) const
+{
+    if( !in_tools ) {
+        return me_chr_const->has_charges( item_id, count );
+    } else {
+        return me_chr_const->charges_of( item_id, count, return_true<item>, nullptr, in_tools ) >= count;
+    }
+}
+
 std::list<item> talker_character::use_charges( const itype_id &item_name, const int count )
 {
     return me_chr->use_charges( item_name, count );
+}
+
+std::list<item> talker_character::use_charges( const itype_id &item_name, const int count,
+        bool in_tools )
+{
+    if( !in_tools ) {
+        return me_chr->use_charges( item_name, count );
+    } else {
+        return me_chr->use_charges( item_name, count, -1, return_true<item>, in_tools );
+    }
 }
 
 std::list<item> talker_character::use_amount( const itype_id &item_name, const int count )
@@ -522,6 +581,30 @@ int talker_character_const::get_rad() const
 int talker_character_const::get_stim() const
 {
     return me_chr_const->get_stim();
+}
+
+int talker_character_const::get_addiction_intensity( const addiction_id &add_id ) const
+{
+    return me_chr_const->addiction_level( add_id );
+}
+
+int talker_character_const::get_addiction_turns( const addiction_id &add_id ) const
+{
+    for( const auto &add : me_chr_const->addictions ) {
+        if( add.type == add_id ) {
+            return to_turns<int>( add.sated );
+        }
+    }
+    return 0;
+}
+
+void talker_character::set_addiction_turns( const addiction_id &add_id, int amount )
+{
+    for( addiction &add : me_chr->addictions ) {
+        if( add.type == add_id ) {
+            add.sated += time_duration::from_turns( amount );
+        }
+    }
 }
 
 void talker_character::set_stim( int amount )

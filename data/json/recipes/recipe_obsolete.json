@@ -693,5 +693,10 @@
     "type": "recipe",
     "result": "hi_q_distillate_cart",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dragonskin",
+    "obsolete": true
   }
 ]

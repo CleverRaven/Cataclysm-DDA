@@ -743,7 +743,7 @@ class item : public visitable
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr );
+                          Character *carrier = nullptr, bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -800,6 +800,8 @@ class item : public visitable
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        ret_val<std::vector<const item_pocket *>> get_all_standard_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.

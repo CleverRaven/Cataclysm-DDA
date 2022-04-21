@@ -8,6 +8,8 @@
       [ "bio_ethanol", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_trickle", 10 ],
+      [ "bio_lampoil", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
       [ "bio_flashlight", 10 ],
@@ -89,7 +91,8 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
-      [ "bio_soporific", 10 ]
+      [ "bio_soporific", 10 ],
+      [ "bio_recoil", 10 ]
     ]
   },
   {
@@ -101,6 +104,8 @@
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
+      [ "bio_trickle", 10 ],
+      [ "bio_lampoil", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],
@@ -177,7 +182,8 @@
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
-      [ "bio_shotgun", 10 ]
+      [ "bio_shotgun", 10 ],
+      [ "bio_recoil", 10 ]
     ]
   }
 ]
