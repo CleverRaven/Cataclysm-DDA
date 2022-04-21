@@ -2589,7 +2589,7 @@
     "harvest": "mammal_fur",
     "dissect": "dissect_lupine_sample_single",
     "reproduction": { "baby_monster": "mon_wolf_pup", "baby_count": 6, "baby_timer": 365 },
-	"//": "Wolves breed once a year, 4 to 6 puppies in one litter.",
+    "//": "Wolves breed once a year, 4 to 6 puppies in one litter.",
     "baby_flags": [ "SPRING" ],
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
@@ -2624,7 +2624,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat their head."
     },
-	"//": "A wolf pup that's raised with humans displays signs of both attachment and affection towards their owners, these feelings last into adulthood.",
+    "//": "A wolf pup that's raised with humans displays signs of both attachment and affection towards their owners, these feelings last into adulthood.",
     "extend": { "flags": [ "NO_BREED" ] }
   },
   {
