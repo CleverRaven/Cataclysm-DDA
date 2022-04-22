@@ -683,5 +683,35 @@
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
     "fun": -4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fermenting_yogurt",
+    "looks_like": "milk",
+    "name": { "str": "fermenting yogurt" },
+    "weight": "236 g",
+    "color": "white",
+    "spoils_in": "1 d",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "calories": 132,
+    "description": "Milk inoculated with lactobacillus.  It requires some time fermenting to hopefully end up as delicious yogurt.",
+    "price": 20,
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "price_postapoc": 20,
+    "phase": "liquid",
+    "fun": -12,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "use_action": {
+      "target": "yoghurt",
+      "msg": "The milk has finished fermenting and turned into a slightly clumpy yogurt.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 28800,
+      "not_ready_msg": "The yogurt is still fermenting."
+    }
   }
 ]
