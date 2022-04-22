@@ -878,6 +878,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
+    setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
@@ -930,7 +931,8 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
+                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -4205,12 +4207,15 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4276,6 +4281,10 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.i_clear( point( x_get(), y_get() ) );
             }
             break;
+            case JMAPGEN_SETMAP_FIELD_REMOVE: {
+                mremove_fields( &m, point( x_get(), y_get() ) );
+            }
+            break;
             case JMAPGEN_SETMAP_BASH: {
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
             }
@@ -4318,6 +4327,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     m.i_clear( i );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    mremove_fields( &m, i );
                 }
             }
             break;
@@ -4370,6 +4387,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         m.i_clear( point( tx, ty ) );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        mremove_fields( &m, point( tx, ty ) );
                     }
                 }
             }
