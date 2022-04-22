@@ -387,5 +387,4 @@
     "use_action": { "type": "holster" },
     "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
-  }
 ]
