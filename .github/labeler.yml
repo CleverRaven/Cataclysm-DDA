@@ -52,6 +52,9 @@
 "NPC / Factions":
   - "**/npcs/**/*"
 
+"Melee":
+  - "**/**melee**"
+
 "Info / User Interface":
   - "**/ui/**/*"
   - "src/**ui**"
