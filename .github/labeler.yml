@@ -61,6 +61,7 @@
 
 "Melee":
   - "**/**melee**"
+    - data/json/techniques.json
 
 "Info / User Interface":
   - "**/ui/**/*"
@@ -113,8 +114,6 @@
 "Martial Arts":
   - data/json/martialarts.json
 
-"Melee":
-  - data/json/techniques.json
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
