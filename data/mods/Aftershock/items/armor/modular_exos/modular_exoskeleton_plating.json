@@ -12,7 +12,7 @@
     "looks_like": "power_armor_helmet_basic",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 6,
+    "material_thickness": 4,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_HELMET_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
   },
@@ -73,7 +73,7 @@
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 6,
+    "material_thickness": 4,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
   },
@@ -134,7 +134,7 @@
     "looks_like": "backpack_tactical_large",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 6,
+    "material_thickness": 4,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_PSU_PLATE" ],
     "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "torso" ] } ]
   },
@@ -195,7 +195,7 @@
     "looks_like": "armguard_lightplate",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 6,
+    "material_thickness": 4,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],
     "armor": [
       {
@@ -264,7 +264,7 @@
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 6,
+    "material_thickness": 4,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_LEG_PLATE" ],
     "armor": [
       {
