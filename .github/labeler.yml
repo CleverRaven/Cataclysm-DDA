@@ -49,8 +49,15 @@
   - data/json/construction_group.json
   - data/json/deconstruction.json
 
+"Fields / Furniture / Terrain / Traps":
+  - "**/furniture**"
+
+"Items: Food / Vitamins":
+  - "**/food**"
+  - "**/comestibles**"
+
 "NPC / Factions":
-  - "**/npcs/**/*"
+  - "**/npc**"
 
 "Melee":
   - "**/**melee**"
@@ -160,5 +167,12 @@
 "Mods":
   - data/mods/**/*
 
+"Mechanics: Enchantments / Spells":
+  - "**/enchantments**"
+  - "**/spells**"
+
 "Mechanics: Weather":
   - "**/weather**"
+
+"Vehicles":
+  - "**/vehicle**"
