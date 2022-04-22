@@ -360,5 +360,23 @@
       "need_charges_msg": "The %s's tank is exhausted."
     },
     "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
+  },
+  {
+    "id": "exo_imager",
+    "type": "TOOL",
+    "name": { "str": "exosuit structural imager module" },
+    "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be mounted to an exosuit helmet.  It can be activated to reveal a small conical area around you.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 50,
+    "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
+    "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET" ]
   }
 ]
