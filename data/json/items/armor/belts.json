@@ -342,7 +342,7 @@
     "id": "suspenders_cloth",
     "type": "ARMOR",
     "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
-    "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist. Gives a wonderful western feel!",
+    "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "weight": "250g",
     "volume": "500 ml",
     "price": 1000,
@@ -359,17 +359,17 @@
     "id": "suspenders_leather",
     "type": "ARMOR",
     "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
-    "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist. Gives a wonderful western feel!",
+    "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "material": [ "leather", "steel" ],
     "color": "brown",
-    "copy_from": "suspenders_cloth"
+    "copy-from": "suspenders_cloth"
   },
   {
     "id": "suspenders_holster",
     "type": "ARMOR",
     "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
     "description": "A pair of leather suspenders with a holster placed near the stomach.",
-    "copy_from": "suspenders_leather",
+    "copy-from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
     "pocket_data": [
@@ -384,7 +384,6 @@
         "moves": 50
       }
     ],
-    "use_action": { "type": "holster" },
     "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]
