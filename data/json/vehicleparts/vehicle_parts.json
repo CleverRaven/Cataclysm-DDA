@@ -417,7 +417,7 @@
   {
     "type": "vehicle_part",
     "id": "hdroof",
-    "name": { "str": "heavy duty roof" },
+    "name": { "str": "heavy-duty roof" },
     "symbol": "#",
     "categories": [ "hull" ],
     "color": "dark_gray",
@@ -2202,7 +2202,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
-    "name": { "str": "heavy duty trunk door" },
+    "name": { "str": "heavy-duty trunk door" },
     "symbol": "+",
     "categories": [ "hull" ],
     "color": "light_gray",
@@ -2520,7 +2520,7 @@
   {
     "type": "vehicle_part",
     "id": "hd_tow_cable",
-    "name": { "str": "heavy duty tow cable" },
+    "name": { "str": "heavy-duty tow cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "light_blue",
@@ -2528,7 +2528,7 @@
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "durability": 120,
-    "description": "A heavy duty tow cable, if the other end was attached to another vehicle, it could pull it.",
+    "description": "A heavy-duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
     "requirements": { "removal": { "time": 500 } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],

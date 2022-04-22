@@ -1277,6 +1277,12 @@
   },
   {
     "type": "keybinding",
+    "id": "MEDICAL_MENU",
+    "name": "Open Medical Menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_TEMPLATE",
     "category": "DEFENSE_SETUP",
     "name": "Save template",
@@ -1334,6 +1340,13 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHOOSE_CITY",
+    "category": "NEW_CHAR_DESCRIPTION",
+    "name": "Choose character start city",
+    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
   },
   {
     "type": "keybinding",
@@ -1410,6 +1423,20 @@
     "type": "keybinding",
     "id": "SCROLL_INFOBOX_DOWN",
     "name": "Scroll description down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PREV_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Previous proficiency category",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_CATEGORY",
+    "category": "PROFICIENCY_WINDOW",
+    "name": "Next proficiency category",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -1861,6 +1888,13 @@
   },
   {
     "type": "keybinding",
+    "id": "APPLY",
+    "category": "MEDICAL",
+    "name": "Apply and/or Use Item",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Pause",
     "category": "DEFAULTMODE",
     "id": "pause",
@@ -2227,6 +2261,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View Medical",
+    "category": "DEFAULTMODE",
+    "id": "medical",
+    "bindings": [ { "input_method": "keyboard_char", "key": "N" }, { "input_method": "keyboard_code", "key": "n", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Re-layer armor/clothing",
     "category": "DEFAULTMODE",
     "id": "sort_armor",
@@ -2464,6 +2505,12 @@
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Hour Timer",
+    "category": "DEFAULTMODE",
+    "id": "debug_hour_timer"
   },
   {
     "type": "keybinding",
@@ -3753,6 +3800,13 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "VIEW_PROFICIENCIES",
+    "name": "View character proficiencies",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "type": "keybinding",

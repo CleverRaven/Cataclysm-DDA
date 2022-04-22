@@ -291,11 +291,6 @@
   },
   {
     "type": "item_action",
-    "id": "ARROW_FLAMABLE",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
     "id": "AUTOCLAVE",
     "name": { "str": "Sterilize" }
   },

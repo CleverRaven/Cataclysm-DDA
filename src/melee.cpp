@@ -206,8 +206,8 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
+    // UNBREAKABLE_MELEE and UNBREAKABLE items can't be damaged through melee combat usage.
+    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) || shield.has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
 

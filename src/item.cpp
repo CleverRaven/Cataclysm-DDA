@@ -294,7 +294,15 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *pocket : contents.get_all_standard_pockets().value() ) {
+            pocket->settings.set_collapse( true );
+        }
+    } else {
+        auto const mag_filter = []( item_pocket const & pck ) {
+            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) or
+                   pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+        };
+        for( item_pocket *pocket : contents.get_pockets( mag_filter ).value() ) {
             pocket->settings.set_collapse( true );
         }
     }
@@ -1649,6 +1657,16 @@ item::sizing item::get_sizing( const Character &p ) const
 
         const bool big = p.get_size() == creature_size::huge;
 
+        if( has_flag( flag_INTEGRATED ) ) {
+            if( big ) {
+                return sizing::big_sized_big_char;
+            } else if( small ) {
+                return sizing::small_sized_small_char;
+            } else {
+                return sizing::human_sized_human_char;
+            }
+        }
+
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
@@ -2016,7 +2034,13 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.emplace_back( "DESCRIPTION", idescription->second );
         } else if( has_itype_variant() ) {
-            info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
+            // append the description instead of fully overwriting it
+            if( itype_variant().append ) {
+                info.emplace_back( "DESCRIPTION", _( string_format( "%s  %s", type->description.translated(),
+                                                     itype_variant().alt_description.translated() ) ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", itype_variant().alt_description.translated() );
+            }
         } else {
             if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.emplace_back( "DESCRIPTION",
@@ -5968,12 +5992,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                       //~ [container item name] " > [inner item name] (qty)
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
+
+            if( is_collapsed() ) {
+                contents_suffix_text += string_format( " %s", _( "hidden" ) );
+            }
         }
-    } else if( !contents.empty() && contents.num_item_stacks() != 0 ) {
-        contents_suffix_text = string_format( npgettext( "item name",
-                                              //~ [container item name] " > [count] item"
-                                              " > %1$zd item", " > %1$zd items",
-                                              contents.num_item_stacks() ), contents.num_item_stacks() );
+    } else if( !contents.empty_container() && contents.num_item_stacks() != 0 ) {
+        std::string const suffix =
+            npgettext( "item name",
+                       //~ [container item name] " > [count] item"
+                       " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
+        std::string const hidden =
+            is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
+        contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
     }
 
     Character &player_character = get_player_character();
@@ -6292,17 +6323,12 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    std::string collapsed;
-    if( is_collapsed() ) {
-        collapsed = string_format( " %s", _( "hidden" ) );
-    }
-
-    return string_format( "%s%s%s%s", name, sidetxt, amt, collapsed );
+    return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
 bool item::is_collapsed() const
 {
-    std::vector<const item_pocket *> const &pck = get_all_contained_pockets().value();
+    std::vector<const item_pocket *> const &pck = get_all_standard_pockets().value();
     return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
         return !it->empty() && it->settings.is_collapsed();
     } );
@@ -8348,6 +8374,10 @@ static int get_dmg_lvl_internal( int dmg, int min, int max )
 
 bool item::mod_damage( int qty, damage_type dt )
 {
+    if( has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
+
     bool destroy = false;
     int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
 
@@ -8394,6 +8424,10 @@ bool item::inc_damage()
 
 item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
 {
+    if( has_flag( flag_UNBREAKABLE ) ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = damage_resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
@@ -9192,6 +9226,16 @@ ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() cons
 ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
 {
     return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_standard_pockets() const
+{
+    return contents.get_all_standard_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_standard_pockets()
+{
+    return contents.get_all_standard_pockets();
 }
 
 item_pocket *item::contained_where( const item &contained )
@@ -11353,11 +11397,13 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter, Character *carrier )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter,
+                        Character *carrier, bool in_tools )
 {
     std::vector<item *> del;
 
-    visit_items( [&what, &qty, &used, &pos, &del, &filter, &carrier]( item * e, item * parent ) {
+    visit_items(
+    [&what, &qty, &used, &pos, &del, &filter, &carrier, &in_tools]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -11368,7 +11414,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( e->is_tool() ) {
-            if( e->typeId() == what || e->ammo_current() == what ) {
+            if( e->typeId() == what || ( in_tools && e->ammo_current() == what ) ) {
                 int n;
                 if( carrier ) {
                     n = e->ammo_consume( qty, pos, carrier );
@@ -13293,6 +13339,11 @@ int item::get_pocket_size() const
     } else {
         return 3;
     }
+}
+
+bool item::can_attach_as_pocket() const
+{
+    return has_flag( flag_PALS_SMALL ) || has_flag( flag_PALS_MEDIUM ) || has_flag( flag_PALS_LARGE );
 }
 
 units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const

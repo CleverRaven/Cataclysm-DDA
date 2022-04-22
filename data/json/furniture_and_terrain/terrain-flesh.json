@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_thconc_floor_flesh",
     "name": "overgrown floor",
-    "description": "A bare concrete floor, almost completely covered by twitching filaments of grey flesh.",
+    "description": "A bare concrete floor, almost completely covered by twitching filaments of gray flesh.",
     "symbol": ".",
     "color": "red_yellow",
     "move_cost": 5,

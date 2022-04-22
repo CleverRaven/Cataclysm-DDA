@@ -231,7 +231,7 @@
     "id": "mon_moxie_spartan",
     "type": "MONSTER",
     "name": { "str": "MoxPhore Spartan" },
-    "description": "A human stands here, its body bulging and ripped as the tissue is torn, showing bluish muscle, and grey bones.  Ice crystals jut out of its visible wounds as it wanders.",
+    "description": "A human stands here, its body bulging and ripped as the tissue is torn, showing bluish muscle, and gray bones.  Ice crystals jut out of its visible wounds as it wanders.",
     "default_faction": "moxie",
     "bodytype": "human",
     "species": [ "MOXIE" ],

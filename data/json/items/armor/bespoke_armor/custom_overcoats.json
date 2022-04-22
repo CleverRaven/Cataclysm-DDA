@@ -134,7 +134,7 @@
     "id": "armor_mercenary_top",
     "type": "ARMOR",
     "name": { "str": "mercenary coat" },
-    "description": "A sturdy coat fit for a soldier of fortune.  Made from a ballistic vest combined with a military jacket reinforced with soft armor panels.  Has pockets for armor inserts and MOLLE rigging to attach accessories.",
+    "description": "A sturdy coat fit for a soldier of fortune.  Made from a ballistic vest combined with a military jacket reinforced with soft armor panels.  Has pockets for armor inserts and MOLLE webbing to attach accessories.",
     "//": "weight is currently an estimation could be better",
     "weight": "5500 g",
     "volume": "7500 ml",
@@ -178,7 +178,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for front plate",
+        "description": "Pocket for front plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -188,7 +188,7 @@
         "max_contains_volume": "1600 ml",
         "max_contains_weight": "5 kg",
         "moves": 200,
-        "description": "Pocket for back plate",
+        "description": "Pocket for back plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -198,7 +198,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for right side plate",
+        "description": "Pocket for right side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       },
       {
@@ -208,7 +208,7 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
         "moves": 200,
-        "description": "Pocket for left side plate",
+        "description": "Pocket for left side plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],

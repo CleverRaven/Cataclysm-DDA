@@ -23,6 +23,7 @@
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -1320,14 +1321,20 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
 {
-    int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
+    int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 
     mvwputch( w, point( iOffsetX, 0 ),      c_light_gray, LINE_OXXO ); // |^
     mvwputch( w, point( iOffsetXRight, 0 ), c_light_gray, LINE_OOXX ); // ^|
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_white : c_light_gray, sText );
+    nc_color selected = h_white;
+    nc_color not_selected = c_light_gray;
+    if( bSelected ) {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), selected, selected, sText );
+    } else {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), not_selected, not_selected, sText );
+    }
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
@@ -1393,7 +1400,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     for( size_t i = 0; i < tab_texts.size(); ++i ) {
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
-        x += utf8_width( tab_text ) + tab_step;
+        x += utf8_width( tab_text, true ) + tab_step;
     }
 }
 
@@ -1403,6 +1410,103 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
     cata_assert( it != tab_texts.end() );
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
+}
+
+std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab,
+        const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate )
+{
+    std::pair<std::vector<std::string>, size_t> placeholder_result;
+    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
+                                            original_tab_list, translate );
+    return placeholder_result.first;
+}
+
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list,  bool translate )
+{
+    const int tab_step = 3; // Step between tabs, two for tab border
+    size_t available_width = max_width - 1;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::vector<size_t> tab_width;
+    tab_width.resize( original_tab_list.size() );
+
+    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
+        auto tab_name_it = tab_names.find( original_tab_list[i] );
+        cata_assert( tab_name_it != tab_names.end() );
+        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
+        if( original_tab_list[i] == current_tab ) {
+            tab_list_and_index.second = i;
+        }
+    }
+
+    //Start by assuming the entire collection will fit, then work your way down until it does
+    size_t best_fit = 0;
+    size_t best_fit_start = 0;
+    size_t best_fit_width = 1;
+    for( size_t num_fitting = original_tab_list.size(); num_fitting > 0; --num_fitting ) {
+        //Iterate through all possible places the list can start
+        for( size_t start_index = 0; start_index <= ( original_tab_list.size() - num_fitting );
+             ++start_index ) {
+            size_t width_required = 0;
+            size_t dummy_tab_allowance = 0;
+            bool current_tab_included = false;
+            for( size_t i = start_index; i < ( num_fitting + start_index ); ++i ) {
+                width_required += tab_width[i] + tab_step;
+                if( i == tab_list_and_index.second ) {
+                    current_tab_included = true;
+                }
+            }
+            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
+            if( start_index != 0 && start_index + num_fitting != original_tab_list.size() ) {
+                dummy_tab_allowance = tab_step + 1;
+            }
+            if( ( width_required < ( available_width - dummy_tab_allowance ) ) && current_tab_included ) {
+                if( width_required > best_fit ) {
+                    best_fit_start = start_index;
+                    best_fit_width = num_fitting;
+                    best_fit = width_required;
+                }
+            }
+        }
+        //If a fitting option has been found, don't move to fewer entries in the list
+        if( best_fit > 0 ) {
+            break;
+        }
+        //If not everything fits, need at least one continuation indicator
+        else if( num_fitting == original_tab_list.size() ) {
+            available_width -= 2 + tab_step;
+        }
+    }
+
+    //Assemble list to return
+    if( best_fit_start != 0 ) { //Signify that the list continues left
+        tab_list_and_index.first.emplace_back( "<" );
+    }
+    for( size_t i = best_fit_start; i < original_tab_list.size(); ++i ) {
+        if( i < best_fit_start + best_fit_width ) {
+            //Update tab_list_and_index to suit new list:
+            if( i == tab_list_and_index.second ) {
+                tab_list_and_index.second = tab_list_and_index.first.size();
+            }
+            //Assemble the string vector
+            if( translate ) {
+                auto tab_name_it = tab_names.find( original_tab_list[i] );
+                cata_assert( tab_name_it != tab_names.end() );
+                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
+            } else {
+                tab_list_and_index.first.push_back( original_tab_list[i] );
+            }
+        }
+    }
+    if( best_fit_start + best_fit_width !=
+        original_tab_list.size() ) { //Signify that the list continues right
+        tab_list_and_index.first.emplace_back( ">" );
+    }
+
+    return tab_list_and_index;
 }
 
 /**
@@ -2591,7 +2695,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
-    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+    return width < EVEN_MINIMUM_TERM_WIDTH ? EVEN_MINIMUM_TERM_WIDTH : width;
 }
 
 int get_terminal_height()

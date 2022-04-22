@@ -80,7 +80,6 @@
         { "item": "dissection", "x": 3, "y": 21, "chance": 70 },
         { "item": "church", "x": [ 16, 18 ], "y": [ 14, 20 ], "chance": 50 },
         { "item": "lab_torso", "x": 8, "y": 19, "chance": 50 },
-        { "item": "bionics_common", "x": 8, "y": 19, "chance": 30 },
         { "item": "homebooks", "x": [ 5, 6 ], "y": 17, "chance": 50 },
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],

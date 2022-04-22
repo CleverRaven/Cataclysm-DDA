@@ -87,26 +87,30 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Rhyzaea_Johnny",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?" ],
-      "no": "Hi there.  I don't think we've met before.  I'm Rhyzaea, people call me Rhy."
+    "dynamic_line": "Hi there.  I don't think we've met before.  I'm Rhyzaea, people call me Rhy.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Rhyzaea_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "Nice to meet you, Rhy.",
-        "condition": { "not": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet"
-      },
-      {
-        "text": "Hi, Rhy.  How's it going?",
-        "condition": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Rhyzaea_2"
-      },
+      { "text": "Nice to meet you, Rhy.", "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet" },
+      { "text": "Nice to meet you, Rhy.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Rhyzaea_1a",
+    "dynamic_line": {
+      "and": [
+        "*tilts her head in recognition as you approach.  \"",
+        [ "Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?" ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Rhy.  How's it going?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },

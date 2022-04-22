@@ -209,11 +209,7 @@
       { "proficiency": "prof_knapping_speed" },
       { "proficiency": "prof_carving", "fail_multiplier": 1.15 }
     ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "rock_flaking_any", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "sharpened_pipe",
