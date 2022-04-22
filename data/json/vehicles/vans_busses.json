@@ -1311,7 +1311,7 @@
       { "x": -3, "y": 1, "chance": 5, "items": [ "brazier" ] },
       { "x": -4, "y": 0, "chance": 20, "item_groups": [ "barbecue" ] },
       { "x": -4, "y": 1, "chance": 12, "items": [ "extinguisher" ] },
-      { "x": -5, "y": 1, "chance": 100, "items": [ "jack", "tire_iron" ] },
+      { "x": -5, "y": 1, "chance": 100, "items": [ "jack", "lug_wrench" ] },
       { "x": -5, "y": 1, "chance": 75, "items": [ "wheel_wide_or" ] },
       { "x": -7, "y": 0, "chance": 20, "item_groups": [ "mixed_alcoholic_drinks" ] },
       { "x": -7, "y": 0, "chance": 20, "item_groups": [ "bed" ] },

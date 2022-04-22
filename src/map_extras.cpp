@@ -100,6 +100,7 @@ static const itype_id itype_chunk_sulfur( "chunk_sulfur" );
 static const itype_id itype_hatchet( "hatchet" );
 static const itype_id itype_jack_small( "jack_small" );
 static const itype_id itype_landmine( "landmine" );
+static const itype_id itype_lug_wrench( "lug_wrench" );
 static const itype_id itype_material_sand( "material_sand" );
 static const itype_id itype_material_soil( "material_soil" );
 static const itype_id itype_rag( "rag" );
@@ -108,7 +109,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_tire_iron( "tire_iron" );
 static const itype_id itype_vodka( "vodka" );
 static const itype_id itype_wheel( "wheel" );
 static const itype_id itype_withered( "withered" );
@@ -2461,7 +2461,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             for( const vpart_reference &vp : veh->get_any_parts( "CARGO" ) ) {
                 const size_t p = vp.part_index();
                 for( item &elem : veh->get_items( p ) ) {
-                    if( elem.typeId() == itype_wheel || elem.typeId() == itype_tire_iron ||
+                    if( elem.typeId() == itype_wheel || elem.typeId() == itype_lug_wrench ||
                         elem.typeId() == itype_jack_small ) {
                         veh->remove_item( p, &elem );
                     }
@@ -2471,7 +2471,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
-            m.spawn_item( { 16, 16, abs_sub.z }, itype_tire_iron );
+            m.spawn_item( { 16, 16, abs_sub.z }, itype_lug_wrench );
             m.spawn_item( { 16, 16, abs_sub.z }, itype_jack_small );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy

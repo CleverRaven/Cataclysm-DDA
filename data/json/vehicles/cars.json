@@ -1190,7 +1190,7 @@
       { "x": 0, "y": 1, "chance": 7, "item_groups": [ "fast_food" ] },
       { "x": -1, "y": 0, "chance": 20, "item_groups": [ "mixed_alcoholic_drinks" ] },
       { "x": -1, "y": 0, "chance": 13, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 100, "items": [ "jack", "tire_iron" ] },
+      { "x": -2, "y": 1, "chance": 100, "items": [ "jack", "lug_wrench" ] },
       { "x": -2, "y": 1, "chance": 75, "items": [ "wheel_wide_or" ] }
     ]
   }
