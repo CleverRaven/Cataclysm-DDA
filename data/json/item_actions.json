@@ -291,11 +291,6 @@
   },
   {
     "type": "item_action",
-    "id": "AUTOCLAVE",
-    "name": { "str": "Sterilize" }
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": { "str": "Ring" }
   },
