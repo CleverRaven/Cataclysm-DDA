@@ -563,4 +563,5 @@
       },
       "monsters": { "_": { "monster": "GROUP_ZOMBIE", "chance": 40 }, "b": { "monster": "GROUP_ZOMBIE", "chance": 10 } }
     }
+  }
 ]
