@@ -98,20 +98,7 @@
       }
     ],
     "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
-    "weapons": [
-      "fencing_foil",
-      "fencing_epee",
-      "fencing_foil_sharpened",
-      "fencing_epee_sharpened",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "pointy_stick",
-      "rapier",
-      "rapier_fake",
-      "shock_foil",
-      "shock_epee"
-    ]
+    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS" ]
   },
   {
     "type": "martial_art",
