@@ -13,6 +13,7 @@
   {
     "type": "proficiency",
     "id": "prof_high_pressure_systems",
+    "category": "prof_mechanic",
     "name": { "str": "High Pressure Systems" },
     "description": "You know how to safely and efficiently build, repair, maintain and use various appliances that make use of high pressure.",
     "can_learn": true,
@@ -24,6 +25,7 @@
   {
     "type": "proficiency",
     "id": "prof_chemical_engineering",
+    "category": "prof_mechanic",
     "name": { "str": "Chemical Engineering" },
     "description": "You know how to safely and efficiently build, repair, maintain and use various complex machinery that makes use of chemical processes.",
     "can_learn": true,
