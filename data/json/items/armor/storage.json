@@ -1059,7 +1059,7 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
-        "encumbrance": [ 2, 7 ],
+        "encumbrance": [ 1, 5 ],
         "coverage": 50,
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_r", "arm_upper_l" ]
