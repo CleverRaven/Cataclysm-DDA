@@ -110,6 +110,12 @@
   - "**/overmap/**/*"
   - "**/overmap**"
 
+"Martial Arts":
+  - data/json/martialarts.json
+
+"Melee":
+  - data/json/techniques.json
+
 "Player Faction Base / Camp":
   - "src/basecamp.*"
   - "src/faction_camp.*"
