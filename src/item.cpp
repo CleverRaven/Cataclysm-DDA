@@ -3718,8 +3718,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 }
 
-void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                              bool debug ) const
+void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                              int /*batch*/, bool /*debug*/ ) const
 {
     if( !is_pet_armor() ) {
         return;
