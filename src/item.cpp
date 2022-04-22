@@ -294,7 +294,15 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *pocket : contents.get_all_standard_pockets().value() ) {
+            pocket->settings.set_collapse( true );
+        }
+    } else {
+        auto const mag_filter = []( item_pocket const & pck ) {
+            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) or
+                   pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+        };
+        for( item_pocket *pocket : contents.get_pockets( mag_filter ).value() ) {
             pocket->settings.set_collapse( true );
         }
     }
@@ -5984,12 +5992,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                       //~ [container item name] " > [inner item name] (qty)
                                                       " > %1$s (%2$zd)" ), contents_tname, contents_count );
             }
+
+            if( is_collapsed() ) {
+                contents_suffix_text += string_format( " %s", _( "hidden" ) );
+            }
         }
-    } else if( !contents.empty() && contents.num_item_stacks() != 0 ) {
-        contents_suffix_text = string_format( npgettext( "item name",
-                                              //~ [container item name] " > [count] item"
-                                              " > %1$zd item", " > %1$zd items",
-                                              contents.num_item_stacks() ), contents.num_item_stacks() );
+    } else if( !contents.empty_container() && contents.num_item_stacks() != 0 ) {
+        std::string const suffix =
+            npgettext( "item name",
+                       //~ [container item name] " > [count] item"
+                       " > %1$zd%2$s item", " > %1$zd%2$s items", contents.num_item_stacks() );
+        std::string const hidden =
+            is_collapsed() ? string_format( " %s", _( "hidden" ) ) : std::string();
+        contents_suffix_text = string_format( suffix, contents.num_item_stacks(), hidden );
     }
 
     Character &player_character = get_player_character();
@@ -6308,17 +6323,12 @@ std::string item::display_name( unsigned int quantity ) const
         }
     }
 
-    std::string collapsed;
-    if( is_collapsed() ) {
-        collapsed = string_format( " %s", _( "hidden" ) );
-    }
-
-    return string_format( "%s%s%s%s", name, sidetxt, amt, collapsed );
+    return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
 bool item::is_collapsed() const
 {
-    std::vector<const item_pocket *> const &pck = get_all_contained_pockets().value();
+    std::vector<const item_pocket *> const &pck = get_all_standard_pockets().value();
     return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
         return !it->empty() && it->settings.is_collapsed();
     } );
@@ -9216,6 +9226,16 @@ ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() cons
 ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
 {
     return contents.get_all_contained_pockets();
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_standard_pockets() const
+{
+    return contents.get_all_standard_pockets();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_standard_pockets()
+{
+    return contents.get_all_standard_pockets();
 }
 
 item_pocket *item::contained_where( const item &contained )

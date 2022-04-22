@@ -326,13 +326,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             it.seal();
         }
     }
-    if( p.is_worn( *obj ) ) {
-        p.calc_encumbrance();
-        p.update_bodytemp();
-        p.on_worn_item_transform( obj_copy, *obj );
-    }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
+    if( p.is_worn( *obj ) ) {
+        if( !obj->is_armor() ) {
+            item_location il = item_location( p, obj );
+            p.takeoff( il );
+        } else {
+            p.calc_encumbrance();
+            p.update_bodytemp();
+            p.on_worn_item_transform( obj_copy, *obj );
+        }
+    }
 
     return result;
 }

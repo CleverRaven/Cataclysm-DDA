@@ -1251,6 +1251,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_washing_machine",
+    "name": "Place Washing Machine"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_dishwasher",
+    "name": "Place Dishwasher"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
   },

@@ -1400,6 +1400,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_NONE:
             chance = 100;
             break;
+        case TALK_TRIAL_SKILL_CHECK:
+            chance = d.actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 : 0;
+            break;
         case TALK_TRIAL_CONDITION:
             chance = condition( d ) ? 100 : 0;
             break;
@@ -1683,6 +1686,14 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
         ftext = text;
+    } else if( trial.type == TALK_TRIAL_SKILL_CHECK ) {
+        const Skill &req_skill = skill_id( trial.skill_required ).obj();
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d/%3$d] %4$s" ),
+                               req_skill.name(),
+                               std::min( d.actor( false )->get_skill_level( req_skill.ident() ),
+                                         trial.difficulty ),
+                               trial.difficulty,
+                               text );
     } else {
         // dialogue w/ a % chance to work
         //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
@@ -1939,6 +1950,7 @@ talk_trial::talk_trial( const JsonObject &jo )
             WRAP( LIE ),
             WRAP( PERSUADE ),
             WRAP( INTIMIDATE ),
+            WRAP( SKILL_CHECK ),
             WRAP( CONDITION )
 #undef WRAP
         }
@@ -1950,6 +1962,9 @@ talk_trial::talk_trial( const JsonObject &jo )
     type = iter->second;
     if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
         difficulty = jo.get_int( "difficulty" );
+    }
+    if( type == TALK_TRIAL_SKILL_CHECK ) {
+        skill_required = jo.get_string( "skill_required" );
     }
 
     read_condition<dialogue>( jo, "condition", condition, false );
@@ -3510,6 +3525,29 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
     };
 }
 
+void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::string &member )
+{
+    std::vector<std::string> mission_names;
+
+    if( jo.has_array( member ) ) {
+        for( const std::string mission_name : jo.get_array( member ) ) {
+            mission_names.push_back( mission_name );
+        }
+    } else if( jo.has_string( member ) ) {
+        mission_names.push_back( jo.get_string( member ) );
+    } else {
+        jo.throw_error( "Invalid input for set_offer_mission" );
+    }
+
+    function = [mission_names]( const dialogue & d ) {
+        npc *p = d.actor( true )->get_npc();
+
+        for( const std::string &mission_name : mission_names ) {
+            p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
+        }
+    };
+}
+
 void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
@@ -4261,6 +4299,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_string( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
+    } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
+        subeffect_fun.set_offer_mission( jo, "offer_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {

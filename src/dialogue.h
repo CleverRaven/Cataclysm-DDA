@@ -30,6 +30,7 @@ enum talk_trial_type : unsigned char {
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_SKILL_CHECK, // Check a skill's current level against the difficulty
     TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
@@ -56,6 +57,9 @@ struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
     std::function<bool( const dialogue & )> condition;
+
+    // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
+    std::string skill_required;
 
     int calc_chance( const dialogue &d ) const;
     /**
@@ -109,6 +113,7 @@ struct talk_effect_fun_t {
         void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_finish_mission( const JsonObject &jo, const std::string &member );
+        void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );

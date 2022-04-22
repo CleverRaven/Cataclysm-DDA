@@ -1752,12 +1752,6 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->has_flag( flag_COLLAPSE_CONTENTS ) ) {
-            if( !is_container( type ) ) {
-                msg += "is not a container so COLLAPSE_CONTENTS is unnecessary.\n";
-            }
-        }
-
         if( !type->picture_id.is_empty() && !type->picture_id.is_valid() ) {
             msg +=  "item has unknown ascii_picture.";
         }
