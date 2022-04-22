@@ -62,7 +62,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10
+      uses: lukka/run-vcpkg@v10.2
       id: runvcpkg
       with:
         # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
@@ -73,7 +73,7 @@ jobs:
         # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: '49b67d9cb856424ff69f10e7721aec5299624268'
+        vcpkgGitCommitId: 'bd1ef2df46303989eeb048eb7aa9b816aa46365e'
 
     - name: Integrate vcpkg
       run: |

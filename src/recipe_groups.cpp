@@ -23,6 +23,7 @@ using group_id = string_id<recipe_group_data>;
 
 struct recipe_group_data {
     group_id id;
+    std::vector<std::pair<group_id, mod_id>> src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
@@ -103,6 +104,19 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
         return all_rec;
     }
     return group.recipes;
+}
+
+std::string recipe_group::get_building_of_recipe( const std::string &recipe )
+{
+    for( const auto &group : recipe_groups_data.get_all() ) {
+        for( const auto &rec : group.recipes ) {
+            if( rec.first.str() == recipe ) {
+                return group.building_type;
+            }
+        }
+    }
+
+    return "";
 }
 
 void recipe_group::load( const JsonObject &jo, const std::string &src )

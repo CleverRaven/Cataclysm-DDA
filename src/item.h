@@ -743,7 +743,7 @@ class item : public visitable
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr );
+                          Character *carrier = nullptr, bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -800,6 +800,8 @@ class item : public visitable
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        ret_val<std::vector<const item_pocket *>> get_all_standard_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -866,6 +868,11 @@ class item : public visitable
         units::volume get_total_contained_volume( bool unrestricted_pockets_only = false ) const;
         units::mass get_total_contained_weight( bool unrestricted_pockets_only = false ) const;
 
+        int get_used_holsters() const;
+        int get_total_holsters() const;
+        units::volume get_total_holster_volume() const;
+        units::volume get_used_holster_volume() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -877,6 +884,11 @@ class item : public visitable
         // returns the abstract 'size' of the pocket
         // used for attaching to molle items
         int get_pocket_size() const;
+
+        /**
+         * Returns true if the item can be attached with PALS straps
+         */
+        bool can_attach_as_pocket() const;
 
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
@@ -1209,8 +1221,20 @@ class item : public visitable
         float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
 
         /**
+         * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
+         * range 0 - 100 (no breathability - full breathability)
+         * takes as a value the body part to check
+         * @return armor data consolidated breathability
+         */
+        int breathability( const bodypart_id &bp ) const;
+        int breathability() const;
+
+        /**
          * Assuming that specified du hit the armor, reduce du based on the item's resistance to the
          * damage type. This will never reduce du.amount below 0.
+         * roll is normally set to 0 which means all materials protect for legacy
+         * giving a roll between 0-99 will influence the covered materials with a fixed roll
+         * giving a roll of -1 (< 0) will mean each material is rolled individually
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
@@ -1410,6 +1434,7 @@ class item : public visitable
         bool is_bionic() const;
         bool is_magazine() const;
         bool is_battery() const;
+        bool is_vehicle_battery() const;
         bool is_ammo_belt() const;
         bool is_holster() const;
         bool is_ammo() const;
@@ -1488,15 +1513,18 @@ class item : public visitable
          * Can the pocket contain the specified item?
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
+         * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, const bool nested = false ) const;
+        ret_val<bool> can_contain( const item &it, const bool nested = false,
+                                   const bool ignore_rigidity = false,
+                                   const bool ignore_pkt_settings = true ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false );
+                bool nested = false, bool ignore_rigidity = false );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -1530,6 +1558,18 @@ class item : public visitable
          * Is this item flexible enough to be worn on body parts like antlers?
          */
         bool is_soft() const;
+
+        // is any bit of the armor rigid
+        bool is_rigid() const;
+        // is any bit of the armor comfortable
+        bool is_comfortable() const;
+        template <typename T>
+        bool is_bp_rigid( const T &bp ) const;
+        // check if rigid and that it only cares about the layer it is on
+        template <typename T>
+        bool is_bp_rigid_selective( const T &bp ) const;
+        template <typename T>
+        bool is_bp_comfortable( const T &bp ) const;
 
         /**
          * Set the snippet text (description) of this specific item, using the snippet library.
@@ -1715,7 +1755,7 @@ class item : public visitable
         */
         bool has_own_flag( const flag_id &f ) const;
 
-        /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
+        /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
@@ -1921,6 +1961,7 @@ class item : public visitable
 
         /**
          * Returns true if an item has a given layer level on a specific part.
+         * matches to any layer within the vector input.
          */
         bool has_layer( const std::vector<layer_level> &ll, const bodypart_id bp ) const;
 
@@ -1933,6 +1974,11 @@ class item : public visitable
          * Returns true if an item has any of the given layer levels.
          */
         bool has_layer( const std::vector<layer_level> &ll ) const;
+
+        /**
+         * Returns highest layer of an item
+         */
+        layer_level get_highest_layer( sub_bodypart_id sbp ) const;
 
         enum class cover_type {
             COVER_DEFAULT,
@@ -2782,7 +2828,7 @@ class item : public visitable
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
-        int wetness = 0;           // Turns until this item is completly dry.
+        int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

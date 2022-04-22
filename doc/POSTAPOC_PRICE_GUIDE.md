@@ -37,7 +37,7 @@ pretty much the most anyone will be willing to spend on any one thing, no matter
 #### Currently Implemented faction currencies
     "id": "FMCNote",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
-    "name": { "str": "Merch" }, 
+    "name": { "str": "merch" }, 
     "price_postapoc": 250
 
 

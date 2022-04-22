@@ -138,6 +138,7 @@ class item_pocket
         bool is_valid() const;
         bool is_type( pocket_type ptype ) const;
         bool is_ablative() const;
+        bool is_holster() const;
         // checks if the pocket is a holster and if it has something in it
         bool holster_full() const;
         bool empty() const;

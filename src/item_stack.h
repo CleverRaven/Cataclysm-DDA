@@ -86,7 +86,7 @@ class item_stack
         * @return Duplicates of each item that provided consumed charges
         */
         std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint &pos,
-                                     const std::function<bool( const item & )> &filter );
+                                     const std::function<bool( const item & )> &filter, bool in_tools = false );
 };
 
 #endif // CATA_SRC_ITEM_STACK_H

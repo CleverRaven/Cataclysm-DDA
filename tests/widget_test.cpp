@@ -20,6 +20,7 @@
 namespace cata_curses_test
 {
 #define NCURSES_NOMACROS
+#define NCURSES_WIDECHAR 1
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
@@ -75,6 +76,9 @@ static const widget_id widget_test_2_column_layout( "test_2_column_layout" );
 static const widget_id widget_test_3_column_layout( "test_3_column_layout" );
 static const widget_id widget_test_4_column_layout( "test_4_column_layout" );
 static const widget_id widget_test_activity_clauses( "test_activity_clauses" );
+static const widget_id widget_test_body_temp_clause( "test_body_temp_clause" );
+static const widget_id widget_test_body_temp_delta_sym( "test_body_temp_delta_sym" );
+static const widget_id widget_test_body_temp_delta_text( "test_body_temp_delta_text" );
 static const widget_id widget_test_bp_wetness_head_num( "test_bp_wetness_head_num" );
 static const widget_id widget_test_bp_wetness_torso_num( "test_bp_wetness_torso_num" );
 static const widget_id widget_test_bucket_graph( "test_bucket_graph" );
@@ -93,6 +97,7 @@ static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
+static const widget_id widget_test_fatigue_clause( "test_fatigue_clause" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
@@ -459,6 +464,23 @@ TEST_CASE( "widgets showing avatar stats with color for normal value", "[widget]
     }
 }
 
+TEST_CASE( "widget showing character fatigue status", "[widget]" )
+{
+    widget fatigue_w = widget_test_fatigue_clause.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_fatigue( 0 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: " );
+    ava.set_fatigue( 192 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
+    ava.set_fatigue( 384 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    ava.set_fatigue( 576 );
+    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
+}
+
 TEST_CASE( "widgets showing avatar health with color for normal value", "[widget][health][color]" )
 {
     widget health_w = widget_test_health_color_num.obj();
@@ -488,6 +510,58 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
     ava.set_healthy( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
+}
+
+TEST_CASE( "widgets showing body temperature and delta", "[widget]" )
+{
+    widget w_temp = widget_test_body_temp_clause.obj();
+    widget w_dtxt = widget_test_body_temp_delta_text.obj();
+    widget w_dsym = widget_test_body_temp_delta_sym.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    ava.set_all_parts_temp_cur( 499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_blue>Freezing!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_red>(Rising!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_red>↑↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 1999 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_cyan>Very cold!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_red>↑↑</color>" );
+
+    ava.set_all_parts_temp_cur( 3499 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_blue>Chilly</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_yellow>(Rising)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_yellow>↑</color>" );
+
+    ava.set_all_parts_temp_cur( 5000 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_green>Comfortable</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: " );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_green>-</color>" );
+
+    ava.set_all_parts_temp_cur( 6501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_yellow>warm</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_blue>↓</color>" );
+
+    ava.set_all_parts_temp_cur( 8001 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_red>Very hot!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_cyan>↓↓</color>" );
+
+    ava.set_all_parts_temp_cur( 9501 );
+    ava.set_all_parts_temp_conv( 5000 );
+    CHECK( w_temp.layout( ava ) == "Heat: <color_c_red>Scorching!</color>" );
+    CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
+    CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );
 }
 
 TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
@@ -682,8 +756,8 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
         CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
         ava.drench( 100, { body_part_head, body_part_torso }, false );
-        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
-        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 200" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 200" );
     }
 }
 
@@ -1121,17 +1195,17 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
     CHECK( torso_armor_w.layout( ava ) == "Torso Armor: -" );
 
     // Wearing something covering torso
-    ava.worn.emplace_back( "test_zentai" );
+    ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
-    ava.worn.emplace_back( "test_socks" );
+    ava.worn.wear_item( ava, item( "test_socks" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
-    ava.worn.emplace_back( "test_hazmat_suit" );
+    ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
            "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
 }
@@ -1148,7 +1222,7 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.emplace_back( rad_badge );
+    ava.worn.wear_item( ava, rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );
@@ -1329,11 +1403,11 @@ TEST_CASE( "compass widget", "[widget][compass]" )
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 " );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
     }
 }
@@ -1686,7 +1760,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  2 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 2 );
     }
@@ -1706,7 +1780,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
                  3 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing bovine samples when dissected</color>\n"
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 3 );
     }

@@ -56,6 +56,7 @@
         ";": "t_privacy_fencegate_c",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",

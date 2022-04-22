@@ -1,5 +1,7 @@
 #include <string>
 
+#include "cata_utility.h"
+#include "get_version.h"
 #include "name.h"
 #include "path_info.h"
 #include "translations.h"
@@ -93,4 +95,6 @@ void set_language()
 #endif // LOCALIZE
 
     reload_names();
+
+    set_title( string_format( _( "Cataclysm: Dark Days Ahead - %s" ), getVersionString() ) );
 }

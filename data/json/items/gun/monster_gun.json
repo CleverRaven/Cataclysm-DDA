@@ -116,7 +116,7 @@
     "id": "v29_turret",
     "copy-from": "v29",
     "type": "GUN",
-    "name": { "str": "mounted_laser" },
+    "name": { "str": "mounted laser" },
     "ups_charges": 0,
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },

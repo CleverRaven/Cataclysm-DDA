@@ -52,7 +52,7 @@ that outline.
 ### Overmap generation
 
 Generating an overmap happens in the following sequence of functions ( see generate::overmap in overmap.cpp ):
-   
+
 	populate_connections_out_from_neighbors( north, east, south, west );
     place_rivers( north, east, south, west );
     place_lakes();
@@ -283,11 +283,11 @@ sewers, subways), and have JSON-defined rules guiding their placement.
 
 There are a finite number of sectors in which overmap specials can be placed during overmap
 generation, each being a square with side length equal to `OMSPEC_FREQ` (defined in omdata.h; at
-the time of writing `OMSPEC_FREQ`= 15 meaning each overmap has 144 sectors for placing specials). 
-At the beginning of overmap generation, a list of eligable map specials is built 
+the time of writing `OMSPEC_FREQ`= 15 meaning each overmap has 144 sectors for placing specials).
+At the beginning of overmap generation, a list of eligible map specials is built
 (`overmap_special_batch`).  Next, a free sector is chosen where a special will be placed.  A random
-point in that sector is checked against a random rotation of a random special from the special batch 
-to see if it can be placed there. If not, a new random point in the sector is checked against a new 
+point in that sector is checked against a random rotation of a random special from the special batch
+to see if it can be placed there. If not, a new random point in the sector is checked against a new
 special, and so on until a valid spawn is rolled.
 
 ### Fixed vs mutable specials
@@ -324,7 +324,7 @@ Connections with `existing` set to true are used to test the validity of an over
 placement. Unlike normal connection points these do not have to reference road/tunnel terrain types.
 They will not generate new terrain, and may even be overwritten by the overmap special's terrain.
 However, since the overmap special algorithm considers a limited number of random locations per overmap,
-the use of `existing` connections that target a rare terrain lowers the chances of the special 
+the use of `existing` connections that target a rare terrain lowers the chances of the special
 spawning considerably.
 
 ### Occurrences (default)
@@ -332,8 +332,8 @@ spawning considerably.
 Occurrences is the way to set the baseline rarity of a special. The field can behave in two ways:
 by default, it sets the minimum and maximum occurrences of the special per overmap. Currently all
 overmap specials have a minimum occurrence of 0, to keep the overmaps from being too similar to each
-other. In addition, there are no specials with a maximum occurrence of 1. This is important because 
-each normal special has a very high chance of being placed at least once per overmap, owing to some 
+other. In addition, there are no specials with a maximum occurrence of 1. This is important because
+each normal special has a very high chance of being placed at least once per overmap, owing to some
 quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
 overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
@@ -341,7 +341,7 @@ than once per overmap please use the "UNIQUE" flag.
 
 ### Occurrences ( UNIQUE )
 
-When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed 
+When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed
 the occurrences field defines the chance of the special to be included in any one given overmap.
 Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
 value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
@@ -359,13 +359,13 @@ locations may instead be specified for the entire special using the top level `l
 value for an individual entry takes precedence over the top level value, so you may define the top
 level value and then only specify it for individual entries that differ.
 
-### City distance and size 
+### City distance and size
 
-During generation of a new overmap, cities and their connecting roads will be generated before 
-specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
-intersection. The city distance field specifies the minimum and maximum distance the special can be 
+During generation of a new overmap, cities and their connecting roads will be generated before
+specials are placed. Each city gets assigned a size at generation and will begin its life as a single
+intersection. The city distance field specifies the minimum and maximum distance the special can be
 placed from the edge of the urban radius of a city, and not from the center of the city.
-Both city size and city distance requirements are only checked for the "nearest" city, measured from the 
+Both city size and city distance requirements are only checked for the "nearest" city, measured from the
 original intersection.
 
 
@@ -608,7 +608,7 @@ relative positions and rotations.  The overmaps are taken from the ones defined
 for this special.  Rotation of `"north"` is the default, so specifying that has
 no effect, but it's included here to demonstrate the syntax.
 
-The postions and rotations are relative.  The chunk can be placed at any offset
+The positions and rotations are relative.  The chunk can be placed at any offset
 and rotation, so long as all the overmaps are shifted and rotated together like
 a rigid body.
 
@@ -622,7 +622,7 @@ placement can help you.
 `check_for_locations` defines a list of extra constraints that are
 checked before the special is attempted to be placed.  Each constraint is a
 pair of a position (relative to the root) and a set of locations.  The existing
-OMT in each postion must fall into one of the given locations, else the
+OMT in each position must fall into one of the given locations, else the
 attempted placement is aborted.
 
 The `check_for_locations` constraints ensure that the `below_entrance` overmap
@@ -632,9 +632,9 @@ the four other joins of `below_entrance`.
 
 ##### `check_for_locations_area`
 
-`check_for_locations_area` defines a list of extra, rectangular regions of constraints 
+`check_for_locations_area` defines a list of extra, rectangular regions of constraints
 to be considered in addition to the `check_for_locations` constraints. It is an array
-of objects that define a singular location, as well as a `from` and `to` tripoint that 
+of objects that define a singular location, as well as a `from` and `to` tripoint that
 define the square region of constraints, like this:
 
 ```json
@@ -985,4 +985,38 @@ by the frequency assigned to the city building within the `region_settings`. Con
   }
 ]
 
+```
+
+## Cities
+
+Object of `city` type define cities that would appear on overmap in specific location.
+Note that no random cities would be spawned if there is at least one city defined.
+
+### Fields
+
+|    Identifier     |                                        Description                                         |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| `id`              | Id of the city.                                                                            |
+| `database_id`     | Id of the city in MA database.                                                             |
+| `name`            | Name of the city.                                                                          |
+| `population`      | Original population of the city.                                                           |
+| `size`            | Size of the city.                                                                          |
+| `pos_om`          | location of the city (in overmap coordinates).                                             |
+| `pos`             | location of the city (in overmap terrain coordinates).                                     |
+
+### Example
+
+```json
+{
+  {
+    "type": "city",
+    "id": "35",
+    "database_id": 35,
+    "name": "BOSTON",
+    "population": 617594,
+    "size": 64,
+    "pos_om": [ 46, 15 ],
+    "pos": [ 57, 94 ]
+  }
+}
 ```

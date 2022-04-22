@@ -1,0 +1,66 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "test_EOC_CAFFEINE_ADDICTION",
+    "condition": {
+      "compare_int": [
+        { "rand": 2000 },
+        "<=",
+        { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": { "val": 2000, "step": 20 } }
+      ]
+    },
+    "effect": [
+      { "u_add_morale": "morale_craving_caffeine", "bonus": -5, "max_bonus": -30 },
+      {
+        "run_eocs": [
+          {
+            "id": "test_EOC_CAFFEINE_ADDICTION_MODSTIM",
+            "condition": {
+              "and": [
+                {
+                  "compare_int": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": -10 } ]
+                },
+                {
+                  "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
+                }
+              ]
+            },
+            "effect": { "arithmetic": [ { "u_val": "stim" }, "-=", { "const": 1 } ] }
+          },
+          {
+            "id": "test_EOC_CAFFEINE_ADDICTION_SHAKES",
+            "condition": {
+              "and": [
+                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "test_caffeine" }, ">=", { "const": 8 } ] },
+                {
+                  "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
+                }
+              ]
+            },
+            "effect": [ { "u_add_effect": "shakes", "duration": "2 minutes" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "//": "Intentionally hardcoded (builtin)",
+    "type": "addiction_type",
+    "id": "test_nicotine",
+    "name": "Nicotine Withdrawal",
+    "type_name": "nicotine",
+    "description": "Intelligence - 1;   Occasional cravings",
+    "craving_morale": "morale_craving_nicotine",
+    "builtin": "nicotine_effect"
+  },
+  {
+    "//": "Intentionally JSONified (effect_on_condition)",
+    "type": "addiction_type",
+    "id": "test_caffeine",
+    "name": "Caffeine Withdrawal",
+    "type_name": "caffeine",
+    "description": "Strength - 1;   Slight sluggishness;   Occasional cravings",
+    "craving_morale": "morale_craving_caffeine",
+    "effect_on_condition": "test_EOC_CAFFEINE_ADDICTION"
+  }
+]

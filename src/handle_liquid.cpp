@@ -335,9 +335,9 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     return true;
 }
 
-static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
-                                     const vehicle *const source_veh, const int part_num,
-                                     const monster *const /*source_mon*/, liquid_dest_opt &target )
+bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
+                              const vehicle *const source_veh, const int part_num,
+                              const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -372,7 +372,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
-            } else if( player_character.pour_into( *target.item_loc, liquid ) ) {
+            } else if( player_character.pour_into( *target.item_loc, liquid, true ) ) {
                 if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {

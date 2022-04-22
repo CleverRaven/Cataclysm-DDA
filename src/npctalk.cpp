@@ -349,15 +349,16 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
-static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
-        const std::string &prompt,
-        std::function<bool( const npc * )> exclude_func = nullptr )
+std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
+                                   const std::string &prompt,
+                                   std::function<bool( const Character * )> exclude_func )
 {
     std::vector<int> picked;
     if( npc_list.empty() ) {
         return picked;
     }
     const int npc_count = npc_list.size();
+    int last_index = 0;
     do {
         uilist nmenu;
         nmenu.text = prompt;
@@ -367,10 +368,11 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
                 entry = "* ";
             }
             bool enable = exclude_func == nullptr || !exclude_func( npc_list[i] );
-            entry += npc_list[i]->name_and_activity();
+            entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
         nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
@@ -383,6 +385,7 @@ static std::vector<int> npcs_select_menu( const std::vector<npc *> &npc_list,
         } else {
             picked.push_back( nmenu.ret );
         }
+        last_index = nmenu.fselected;
     } while( true );
     return picked;
 }
@@ -713,8 +716,9 @@ void game::chat()
             if( !sk.is_valid() ) {
                 return;
             }
-            std::vector<int> selected = npcs_select_menu( followers,
-            _( "Who should participate in the training seminar?" ), [&]( const npc * n ) {
+            std::vector<Character *> clist( followers.begin(), followers.end() );
+            std::vector<int> selected = npcs_select_menu( clist,
+            _( "Who should participate in the training seminar?" ), [&]( const Character * n ) {
                 return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
             } );
             if( selected.empty() ) {
@@ -822,7 +826,7 @@ void game::chat()
     }
 
     if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
+        message = string_format( _( "\"%s\"" ), yell_msg );
     }
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
@@ -1116,7 +1120,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_SIZE_UP" ) {
         return actor( true )->evaluation_by( *actor( false ) );
     } else if( topic == "TALK_LOOK_AT" ) {
-        return "&" + actor( true )->short_description();
+        if( actor( false )->can_see() ) {
+            return "&" + actor( true )->short_description();
+        } else {
+            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
+        }
     } else if( topic == "TALK_OPINION" ) {
         return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
@@ -1392,6 +1400,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
         case TALK_TRIAL_NONE:
             chance = 100;
             break;
+        case TALK_TRIAL_SKILL_CHECK:
+            chance = d.actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 : 0;
+            break;
         case TALK_TRIAL_CONDITION:
             chance = condition( d ) ? 100 : 0;
             break;
@@ -1547,6 +1558,10 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             } else {
                 phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
             }
+        } else if( tag == "<u_name>" ) {
+            phrase.replace( fa, l, u.get_name() );
+        } else if( tag == "<npc_name>" ) {
+            phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
             if( !me_weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
@@ -1595,20 +1610,20 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
-            phrase.replace( fa, l, u.get_value( var ) );
+            phrase.replace( fa, l, u.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<npc_val:" ) != std::string::npos ) {
             //adding a npc variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
-            phrase.replace( fa, l, me.get_value( var ) );
+            phrase.replace( fa, l, me.get_value( "npctalk_var_" + var ) );
         } else if( tag.find( "<global_val:" ) != std::string::npos ) {
             //adding a global variable to the string
             std::string var = tag.substr( tag.find( ':' ) + 1 );
             // remove the trailing >
             var.pop_back();
             global_variables &globvars = get_globals();
-            phrase.replace( fa, l, globvars.get_global_value( var ) );
+            phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1671,6 +1686,14 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
         ftext = text;
+    } else if( trial.type == TALK_TRIAL_SKILL_CHECK ) {
+        const Skill &req_skill = skill_id( trial.skill_required ).obj();
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d/%3$d] %4$s" ),
+                               req_skill.name(),
+                               std::min( d.actor( false )->get_skill_level( req_skill.ident() ),
+                                         trial.difficulty ),
+                               trial.difficulty,
+                               text );
     } else {
         // dialogue w/ a % chance to work
         //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
@@ -1753,7 +1776,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     gen_responses( topic );
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
-        challenge = "\"" + challenge + "\"";
+        challenge = string_format( _( "\"%s\"" ), challenge );
     }
 
     // Parse any tags in challenge
@@ -1795,6 +1818,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
@@ -1833,7 +1857,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             input_event evt;
             action = ctxt.handle_input();
             evt = ctxt.get_raw_input();
-            d_win.handle_scrolling( action );
+            d_win.handle_scrolling( action, response_lines.size() );
             talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
@@ -1841,6 +1865,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             if( action == "HELP_KEYBINDINGS" ) {
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
+            } else if( action == "CONFIRM" ) {
+                response_ind = d_win.sel_response;
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -1849,7 +1875,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
             } else if( action == "QUIT" ) {
                 response_ind = get_best_quit_response();
             }
-        } while( ( action != "ANY_INPUT" && action != "QUIT" ) || response_ind >= response_hotkeys.size() );
+        } while( response_ind >= response_hotkeys.size() ||
+                 ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
@@ -1923,6 +1950,7 @@ talk_trial::talk_trial( const JsonObject &jo )
             WRAP( LIE ),
             WRAP( PERSUADE ),
             WRAP( INTIMIDATE ),
+            WRAP( SKILL_CHECK ),
             WRAP( CONDITION )
 #undef WRAP
         }
@@ -1934,6 +1962,9 @@ talk_trial::talk_trial( const JsonObject &jo )
     type = iter->second;
     if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
         difficulty = jo.get_int( "difficulty" );
+    }
+    if( type == TALK_TRIAL_SKILL_CHECK ) {
+        skill_required = jo.get_string( "skill_required" );
     }
 
     read_condition<dialogue>( jo, "condition", condition, false );
@@ -2044,6 +2075,27 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     std::string old_trait = jo.get_string( member );
     function = [is_npc, old_trait]( const dialogue & d ) {
         d.actor( is_npc )->unset_mutation( trait_id( old_trait ) );
+    };
+}
+
+void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &member,
+                                    bool is_npc )
+{
+    int_or_var highest_cat = get_int_or_var( jo, member, true, 0 );
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+    function = [is_npc, highest_cat, use_vitamins]( const dialogue & d ) {
+        d.actor( is_npc )->mutate( highest_cat.evaluate( d.actor( highest_cat.is_npc() ) ), use_vitamins );
+    };
+}
+
+void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
+    const bool use_vitamins = jo.get_bool( "use_vitamins", true );
+    function = [is_npc, mut_cat, use_vitamins]( const dialogue & d ) {
+        d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d.actor(
+                                                mut_cat.is_npc() ) ) ), use_vitamins );
     };
 }
 
@@ -2200,28 +2252,35 @@ void talk_effect_fun_t::set_u_sell_item( const itype_id &item_name, int cost, in
 }
 
 void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::string &member,
-        int count,
-        bool is_npc )
+        int count, int charges, bool is_npc )
 {
     itype_id item_name;
     jo.read( member, item_name, true );
-    function = [is_npc, item_name, count]( const dialogue & d ) {
+    function = [is_npc, item_name, count, charges]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
-        const auto consume_item = [&]( talker & p, const itype_id & item_name, int count ) {
-            item old_item( item_name );
-            if( p.has_charges( item_name, count ) ) {
-                p.use_charges( item_name, count );
+        const auto consume_item = [&]( talker & p, const itype_id & item_name, int count, int charges ) {
+            if( charges == 0 && item::count_by_charges( item_name ) ) {
+                charges = count;
+                count = 0;
+            }
+
+            if( count == 0 && charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                p.use_charges( item_name, charges, true );
             } else if( p.has_amount( item_name, count ) ) {
+                if( charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                    p.use_charges( item_name, charges, true );
+                }
                 p.use_amount( item_name, count );
             } else {
+                item old_item( item_name );
                 //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
                 popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item.tname() );
             }
         };
         if( is_npc ) {
-            consume_item( *d.actor( true ), item_name, count );
+            consume_item( *d.actor( true ), item_name, count, charges );
         } else {
-            consume_item( *d.actor( false ), item_name, count );
+            consume_item( *d.actor( false ), item_name, count, charges );
         }
     };
 }
@@ -2335,6 +2394,8 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 {
     int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 0 );
     int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 0 );
+    int_or_var iov_z_adjust = get_int_or_var( jo, "z_adjust", false, 0 );
+    bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     cata::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
@@ -2346,10 +2407,11 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     var_type type = var.type;
     std::string var_name = var.name;
     function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, target_params,
-                    is_npc, type]( const dialogue & d ) {
+                    is_npc, type, iov_z_adjust, z_override]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
+
         int max_radius = iov_max_radius.evaluate( d.actor( iov_max_radius.is_npc() ) );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
@@ -2371,7 +2433,14 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                 return;
             }
         }
-        write_var_value( type, var_name, target, target_pos.to_string() );
+        if( z_override ) {
+            target_pos = tripoint( target_pos.xy(),
+                                   iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
+        } else {
+            target_pos = target_pos + tripoint( 0, 0,
+                                                iov_z_adjust.evaluate( d.actor( iov_z_adjust.is_npc() ) ) );
+        }
+        write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
     };
 }
 
@@ -2380,10 +2449,9 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
 {
     ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( "ter_furn_transform" ) );
     int_or_var iov = get_int_or_var( jo, member );
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -2391,18 +2459,17 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
         type = var.type;
         target_var = var.name;
     }
-    function = [iov, transform, target_var, type, is_npc, dov_time_in_future_min,
-         dov_time_in_future_max]( const dialogue & d ) {
+    function = [iov, transform, target_var, type, is_npc, dov_time_in_future]( const dialogue & d ) {
         talker *target = d.actor( is_npc );
         tripoint target_pos = get_tripoint_from_var( target, target_var, type,
                               d.actor( type == var_type::npc ) );
 
         int radius = iov.evaluate( d.actor( iov.is_npc() ) );
-        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
-        if( min > 0_seconds ) {
+        time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
+        if( future > 0_seconds ) {
             get_timed_events().add( timed_event_type::TRANSFORM_RADIUS,
-                                    calendar::turn + rng( min, dov_time_in_future_max.evaluate( d.actor(
-                                                dov_time_in_future_max.is_npc() ) ) ),
+                                    calendar::turn + future + 1_seconds,
+                                    //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, tripoint_abs_sm( target_pos ), radius, transform.str() );
         } else {
             get_map().transform_radius( transform, radius, target_pos );
@@ -2411,14 +2478,25 @@ void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::s
     };
 }
 
+void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::string &member )
+{
+    str_or_var new_place = get_str_or_var( jo.get_member( member ), member );
+    duration_or_var dov_length = get_duration_or_var( jo, "length", true );
+
+    function = [new_place, dov_length]( const dialogue & d ) {
+        get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
+                                calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) + 1_seconds,
+                                //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+                                -1, tripoint_abs_sm( tripoint_zero ), -1, new_place.evaluate( d.actor( new_place.is_npc() ) ) );
+    };
+}
+
 void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
     std::vector<update_mapgen_id> update_ids;
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
     if( jo.has_string( member ) ) {
         update_ids.emplace_back( update_mapgen_id( jo.get_string( member ) ) );
     } else if( jo.has_array( member ) ) {
@@ -2433,9 +2511,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
         type = var.type;
         target_var = var.name;
     }
-    bool revert = jo.get_bool( "revert", false );
-    function = [target_params, update_ids, target_var, type, dov_time_in_future_min,
-                   dov_time_in_future_max, revert]( const dialogue & d ) {
+    function = [target_params, update_ids, target_var, type, dov_time_in_future]( const dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
             const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
@@ -2448,33 +2524,62 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             }
             omt_pos = mission_util::get_om_terrain_pos( update_params );
         }
-        time_duration min = dov_time_in_future_min.evaluate( d.actor( dov_time_in_future_min.is_npc() ) );
-        if( min > 0_seconds ) {
-            time_point tif = calendar::turn + rng( min,
-                                                   dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
-            if( !revert ) {
-                for( const update_mapgen_id &mapgen_update_id : update_ids ) {
-                    get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
-                                            0, mapgen_update_id.str() );
-                }
-            } else {
-                // maptile is 4 submaps so queue up 4 submap reverts
-                for( int x = 0; x < 2; x++ ) {
-                    for( int y = 0; y < 2; y++ ) {
-                        tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
-                        revert_sm += tripoint( x, y, 0 );
-                        const submap *sm = MAPBUFFER.lookup_submap( tripoint( revert_sm.x(), revert_sm.y(),
-                                           revert_sm.z() ) );
-                        get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
-                                                sm->get_revert_submap() );
-                    }
-                }
+        time_duration future = dov_time_in_future.evaluate( d.actor( dov_time_in_future.is_npc() ) );
+        if( future > 0_seconds ) {
+            time_point tif = calendar::turn + future + 1_seconds;
+            //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+            for( const update_mapgen_id &mapgen_update_id : update_ids ) {
+                get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::sm>( omt_pos ),
+                                        0, mapgen_update_id.str() );
             }
+
         } else {
             for( const update_mapgen_id &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
             }
             get_map().invalidate_map_cache( omt_pos.z() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
+{
+    std::string npc_id;
+    mandatory( jo, false, member, npc_id );
+    function = [npc_id]( const dialogue & ) {
+        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
+            return npc.idz == npc_id;
+        } );
+        for( npc *npc : npc_list ) {
+            overmap_buffer.remove_npc( npc->getID() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
+{
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
+
+    cata::optional<std::string> target_var;
+    var_info var = read_var_info( jo.get_object( member ), false );
+    var_type type = var.type;
+    target_var = var.name;
+    function = [target_var, type, dov_time_in_future]( const dialogue & d ) {
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var( d.actor( type == var_type::npc ), target_var,
+                                      type, d.actor( type == var_type::npc ) ) );
+        tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
+        time_point tif = calendar::turn + dov_time_in_future.evaluate( d.actor(
+                             dov_time_in_future.is_npc() ) ) + 1_seconds;
+        //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
+        // maptile is 4 submaps so queue up 4 submap reverts
+        for( int x = 0; x < 2; x++ ) {
+            for( int y = 0; y < 2; y++ ) {
+                tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
+                revert_sm += point( x, y );
+                const submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1, revert_sm, 0, "",
+                                        sm->get_revert_submap() );
+            }
         }
     };
 }
@@ -2674,12 +2779,21 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
         } else {
             translated_message = _( message );
         }
+        Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+        if( !alpha ) {
+            alpha = &get_player_character();
+        }
+        Character *beta = d.has_beta ? d.actor( true )->get_character() : nullptr;
+        if( !beta ) {
+            beta = &get_player_character();
+        }
+        parse_tags( translated_message, *alpha, *beta );
         if( sound ) {
             bool display = false;
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-                if( !outdoor_only || here.get_abs_sub().z >= 0 ||
-                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                if( !outdoor_only || here.get_abs_sub().z() >= 0 ||
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                                       target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                     display = true;
                 }
@@ -2790,12 +2904,12 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
         int local_volume = volume;
         Character *target = &get_player_character(); //Only the player can hear sound effects.
         if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
-            if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
+            if( !outdoor_event || here.get_abs_sub().z() >= 0 ) {
                 if( local_volume == -1 ) {
                     local_volume = 80;
                 }
                 sfx::play_variant_sound( id, variant, local_volume, random_direction() );
-            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
                                          target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
                 if( local_volume == -1 ) {
                     local_volume = 80 * target->mutation_value( "hearing_modifier" );
@@ -2858,8 +2972,8 @@ void talk_effect_fun_t::set_next_weather()
     };
 }
 
-static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_var> min,
-                           cata::optional<int_or_var> max )
+static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_var_part> min,
+                           cata::optional<int_or_var_part> max )
 {
     if( min.has_value() ) {
         int min_val = min.value().evaluate( d.actor( min.value().is_npc() ) );
@@ -2873,7 +2987,7 @@ static int handle_min_max( const dialogue &d, int input, cata::optional<int_or_v
 }
 
 static std::function<void( const dialogue &, int )> get_set_int( const JsonObject &jo,
-        cata::optional<int_or_var> min, cata::optional<int_or_var> max )
+        cata::optional<int_or_var_part> min, cata::optional<int_or_var_part> max )
 {
     if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
@@ -2906,7 +3020,9 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return [min, max]( const dialogue & d, int input ) {
-                get_weather().weather_precise->temperature = handle_min_max( d, input, min, max );;
+                const int new_temperature = handle_min_max( d, input, min, max );
+                get_weather().weather_precise->temperature = new_temperature;
+                get_weather().temperature = new_temperature;
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {
@@ -2962,6 +3078,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
                 d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "perception_base" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "perception_bonus" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
@@ -3075,6 +3207,11 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, min, max, add_id]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_addiction_turns( add_id, handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "stim" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );
@@ -3131,6 +3268,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "npc_trust" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_trust( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_fear" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_fear( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_value" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_value( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "npc_anger" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_npc_anger( handle_min_max( d, input, min, max ) );
+            };
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );
@@ -3140,21 +3293,21 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
 void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    cata::optional<int_or_var> min;
-    cata::optional<int_or_var> max;
+    cata::optional<int_or_var_part> min;
+    cata::optional<int_or_var_part> max;
     if( jo.has_member( "min" ) ) {
-        min = get_int_or_var( jo, "min" );
+        min = get_int_or_var_part( jo.get_member( "min" ), "min" );
     } else if( jo.has_member( "min_time" ) ) {
-        int_or_var value;
+        int_or_var_part value;
         time_duration min_time;
         mandatory( jo, false, "min_time", min_time );
         value.int_val = to_turns<int>( min_time );
         min = value;
     }
     if( jo.has_member( "max" ) ) {
-        max = get_int_or_var( jo, "max" );
+        max = get_int_or_var_part( jo.get_member( "max" ), "max" );
     } else if( jo.has_member( "max_time" ) ) {
-        int_or_var value;
+        int_or_var_part value;
         time_duration max_time;
         mandatory( jo, false, "max_time", max_time );
         value.int_val = to_turns<int>( max_time );
@@ -3312,6 +3465,24 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
     }
 }
 
+void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::string &member )
+{
+    std::vector<str_or_var> values;
+    if( jo.has_array( member ) ) {
+        for( JsonValue value : jo.get_array( member ) ) {
+            values.emplace_back( get_str_or_var( value, member ) );
+        }
+    } else {
+        values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+    }
+    var_info var = read_var_info( jo.get_member( "target_var" ), false );
+    function = [values, var]( const dialogue & d ) {
+        int index = rng( 0, values.size() - 1 );
+        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ),
+                         values[index].evaluate( d.actor( values[index].is_npc() ) ) );
+    };
+}
+
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
@@ -3350,6 +3521,29 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
                 }
                 break;
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::string &member )
+{
+    std::vector<std::string> mission_names;
+
+    if( jo.has_array( member ) ) {
+        for( const std::string mission_name : jo.get_array( member ) ) {
+            mission_names.push_back( mission_name );
+        }
+    } else if( jo.has_string( member ) ) {
+        mission_names.push_back( jo.get_string( member ) );
+    } else {
+        jo.throw_error( "Invalid input for set_offer_mission" );
+    }
+
+    function = [mission_names]( const dialogue & d ) {
+        npc *p = d.actor( true )->get_npc();
+
+        for( const std::string &mission_name : mission_names ) {
+            p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
         }
     };
 }
@@ -3505,17 +3699,21 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
-    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
-            0_seconds );
-    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
-            0_seconds );
-    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
-        time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor(
-                                                dov_time_in_future_min.is_npc() ) ),
-                                            dov_time_in_future_max.evaluate( d.actor( dov_time_in_future_max.is_npc() ) ) );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+    function = [dov_time_in_future, eocs]( const dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d.actor(
+                                           dov_time_in_future.is_npc() ) );
         for( const effect_on_condition_id &eoc : eocs ) {
             if( eoc->type == eoc_type::ACTIVATION ) {
-                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                if( alpha ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha );
+                } else if( eoc->global ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                }
+                // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+                // this is so monster attacks against other monsters won't give error messages.
             } else {
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }
@@ -3526,24 +3724,31 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
-    weighted_int_list<effect_on_condition_id> eocs;
-    for( JsonArray pair : jo.get_array( member ) ) {
-        effect_on_condition_id eoc;
-        int weight = 1;
-        for( JsonValue jv : pair ) {
-            if( jv.test_int() ) {
-                weight = jv.get_int();
-            } else {
-                eoc = effect_on_conditions::load_inline_eoc( jv, "" );
-            }
-        }
-        eocs.add( eoc, weight );
+    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
+    for( JsonArray ja : jo.get_array( member ) ) {
+        JsonValue eoc = ja.next_value();
+        JsonObject weight = ja.next_object();
+        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
+                                conditional_t< dialogue >::get_get_int( weight ) );
     }
-    function = [eocs]( const dialogue & ) {
-        dialogue d( get_talker_for( get_avatar() ), nullptr );
-
-        effect_on_condition_id eoc = *eocs.pick();
-        eoc->activate( d );
+    function = [eoc_pairs]( const dialogue & d ) {
+        weighted_int_list<effect_on_condition_id> eocs;
+        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
+             eoc_pairs ) {
+            eocs.add( eoc_pair.first, eoc_pair.second( d ) );
+        }
+        effect_on_condition_id picked_eoc = *eocs.pick();
+        Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+        item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+        Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+        item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+        dialogue newDialog(
+            creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
+                item_alpha ) : nullptr,
+            creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
+                item_beta ) : nullptr
+        );
+        picked_eoc->activate( newDialog );
     };
 }
 
@@ -3597,12 +3802,10 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
         const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
-    duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
-    duration_or_var dov_length_max = get_duration_or_var( jo, "length_max", false, 0_seconds );
-    function = [dov_length_min, dov_length_max, iov]( const dialogue & d ) {
+    duration_or_var dov_length = get_duration_or_var( jo, "length", false, 0_seconds );
+    function = [dov_length, iov]( const dialogue & d ) {
         get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
-                                calendar::turn + rng( dov_length_min.evaluate( d.actor( dov_length_min.is_npc() ) ),
-                                        dov_length_max.evaluate( d.actor( dov_length_max.is_npc() ) ) ) +
+                                calendar::turn + dov_length.evaluate( d.actor( dov_length.is_npc() ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( iov.is_npc() ) ) );
     };
@@ -3657,8 +3860,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
 
-    duration_or_var dov_lifespan_min = get_duration_or_var( jo, "lifespan_min", false, 0_seconds );
-    duration_or_var dov_lifespan_max = get_duration_or_var( jo, "lifespan_max", false, 0_seconds );
+    duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     cata::optional<std::string> target_var;
     var_type type = var_type::u;
     if( jo.has_member( "target_var" ) ) {
@@ -3669,8 +3871,8 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     std::string spawn_message = jo.get_string( "spawn_message", "" );
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
-            dov_lifespan_max, target_var, type, spawn_message, spawn_message_plural]( const dialogue & d ) {
+                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan, target_var, type,
+            spawn_message, spawn_message_plural]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -3704,10 +3906,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
-                time_duration min = dov_lifespan_min.evaluate( d.actor( dov_lifespan_min.is_npc() ) );
-                if( min > 0_seconds ) {
-                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
-                }
+                lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
                 if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
                     Creature *critter = get_creature_tracker().creature_at( spawn_point );
                     if( critter && get_avatar().sees( *critter ) ) {
@@ -3725,11 +3924,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                     if( get_avatar().sees( *spawned ) ) {
                         visible_spawns++;
                     }
-                }
-                time_duration min = dov_lifespan_min.evaluate( d.actor( dov_lifespan_min.is_npc() ) );
-                if( min > 0_seconds ) {
-                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( dov_lifespan_max.is_npc() ) ) );
-                    spawned->set_summon_time( lifespan.value() );
+                    lifespan = dov_lifespan.evaluate( d.actor( dov_lifespan.is_npc() ) );
+                    if( lifespan.value() > 0_seconds ) {
+                        spawned->set_summon_time( lifespan.value() );
+                    }
                 }
             }
         }
@@ -3924,6 +4122,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_string( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
+    } else if( jo.has_member( "u_mutate" ) ) {
+        subeffect_fun.set_mutate( jo, "u_mutate" );
+    } else if( jo.has_member( "npc_mutate" ) ) {
+        subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
+    } else if( jo.has_member( "u_mutate_category" ) ) {
+        subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
+    } else if( jo.has_member( "npc_mutate_category" ) ) {
+        subeffect_fun.set_mutate_category( jo, "npc_mutate_category", is_npc );
     } else if( jo.has_int( "u_spend_cash" ) ) {
         int cash_change = jo.get_int( "u_spend_cash" );
         subeffect_fun.set_u_spend_cash( cash_change );
@@ -3935,10 +4141,18 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         if( jo.has_int( "cost" ) ) {
             cost = jo.get_int( "cost" );
         }
-        int count = 1;
+        int count = 0;
+        int charges = 0;
+        if( jo.has_int( "charges" ) ) {
+            charges = jo.get_int( "charges" );
+        } else {
+            count = 1;
+        }
+
         if( jo.has_int( "count" ) ) {
             count = jo.get_int( "count" );
         }
+
         std::string container_name;
         if( jo.has_string( "container" ) ) {
             container_name = jo.get_string( "container" );
@@ -3959,9 +4173,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             jo.read( "u_spawn_item", item_name, true );
             subeffect_fun.set_u_spawn_item( item_name, count, container_name );
         } else if( jo.has_string( "u_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "u_consume_item", count );
+            subeffect_fun.set_consume_item( jo, "u_consume_item", count, charges );
         } else if( jo.has_string( "npc_consume_item" ) ) {
-            subeffect_fun.set_consume_item( jo, "npc_consume_item", count, is_npc );
+            subeffect_fun.set_consume_item( jo, "npc_consume_item", count, charges, is_npc );
         } else if( jo.has_string( "u_remove_item_with" ) ) {
             subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
         } else if( jo.has_string( "npc_remove_item_with" ) ) {
@@ -4039,6 +4253,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_member( "remove_npc" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
+    } else if( jo.has_member( "revert_location" ) ) {
+        subeffect_fun.set_revert_location( jo, "revert_location" );
+    } else if( jo.has_member( "place_override" ) ) {
+        subeffect_fun.set_place_override( jo, "place_override" );
     } else if( jo.has_object( "u_transform_radius" ) || jo.has_int( "u_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
     } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
@@ -4079,6 +4299,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_string( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
+    } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
+        subeffect_fun.set_offer_mission( jo, "offer_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
@@ -4147,6 +4369,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else if( jo.has_object( "give_equipment" ) ) {
         subeffect_fun.set_give_equipment( jo, "give_equipment" );
+    } else if( jo.has_member( "set_string_var" ) || jo.has_array( "set_string_var" ) ) {
+        subeffect_fun.set_set_string_var( jo, "set_string_var" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
@@ -4194,6 +4418,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( end_conversation ),
             WRAP( insult_combat ),
             WRAP( give_equipment ),
+            WRAP( lesser_give_aid ),
+            WRAP( lesser_give_all_aid ),
             WRAP( give_aid ),
             WRAP( give_all_aid ),
             WRAP( barber_beard ),
@@ -4202,8 +4428,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_shave ),
             WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
-            WRAP( buy_10_logs ),
-            WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
             WRAP( drop_items_in_place ),

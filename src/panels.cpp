@@ -231,25 +231,23 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         // (same algorithm)
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
             // omp is the current overmap point, at the current z-level
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
             // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
                 const std::string &note_text = overmap_buffer.note( omp );
                 std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
                 ter_sym = sym_color.first;
                 ter_color = sym_color.second;
             } else if( !seen ) {
-                // Always grey # for unseen
+                // Always gray # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
-            } else if( vehicle_here ) {
-                // Always cyan c for vehicle
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
@@ -569,7 +567,7 @@ static void draw_time( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -867,14 +865,13 @@ static void draw_loc_labels( const draw_args &args, bool minimap )
     const catacurses::window &w = args._win;
 
     werase( w );
-    // display location
-    const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
-    wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    wprintz( w, c_white, utf8_truncate( display::current_position_text( u.global_omt_location() ),
+                                        getmaxx( w ) - 13 ) );
     map &here = get_map();
     // display weather
-    if( here.get_abs_sub().z < 0 ) {
+    if( here.get_abs_sub().z() < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
@@ -1092,10 +1089,10 @@ static void draw_env_compact( const draw_args &args )
     mvwprintz( w, point( text_left, 1 ), c_light_gray, "%s",
                u.martial_arts_data->selected_style_name( u ) );
     // location
-    mvwprintz( w, point( text_left, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
+    mvwprintz( w, point( text_left, 2 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 8 ) );
     // weather
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
@@ -1261,20 +1258,15 @@ static void draw_armor_padding( const draw_args &args )
                                + 2;
     const int max_length = getmaxx( w ) - heading_length;
     trim_and_print( w, point( heading_length, 0 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "head" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "head" ) ) );
     trim_and_print( w, point( heading_length, 1 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "torso" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "torso" ) ) );
     trim_and_print( w, point( heading_length, 2 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "arm_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "arm_r" ) ) );
     trim_and_print( w, point( heading_length, 3 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "leg_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "leg_r" ) ) );
     trim_and_print( w, point( heading_length, 4 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "foot_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1295,20 +1287,15 @@ static void draw_armor( const draw_args &args )
                                + 1;
     const int max_length = getmaxx( w ) - heading_length;
     trim_and_print( w, point( heading_length, 0 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "head" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "head" ) ) );
     trim_and_print( w, point( heading_length, 1 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "torso" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "torso" ) ) );
     trim_and_print( w, point( heading_length, 2 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "arm_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "arm_r" ) ) );
     trim_and_print( w, point( heading_length, 3 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "leg_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "leg_r" ) ) );
     trim_and_print( w, point( heading_length, 4 ), max_length, color,
-                    display::colorized_bodypart_outer_armor( u,
-                            bodypart_id( "foot_r" ) ) );
+                    u.worn.get_armor_display( bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1454,8 +1441,8 @@ static void draw_location_classic( const draw_args &args )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Location:" ) );
-    mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
-                   u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
+    mvwprintz( w, point( 10, 0 ), c_white,
+               utf8_truncate( display::current_position_text( u.global_omt_location() ), getmaxx( w ) - 13 ) );
 
     wnoutrefresh( w );
 }
@@ -1466,7 +1453,7 @@ static void draw_weather_classic( const draw_args &args )
 
     werase( w );
 
-    if( get_map().get_abs_sub().z < 0 ) {
+    if( get_map().get_abs_sub().z() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
@@ -1535,7 +1522,7 @@ static void draw_time_classic( const draw_args &args )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( get_map().get_abs_sub().z >= 0 ) {
+    } else if( is_creature_outside( u ) ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
