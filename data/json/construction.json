@@ -3414,6 +3414,28 @@
   },
   {
     "type": "construction",
+    "id": "app_washing_machine",
+    "group": "place_washing_machine",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "household_washing_machine", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
+    "id": "app_dishwasher",
+    "group": "place_dishwasher",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "6 m",
+    "components": [ [ [ "household_dishwasher", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",

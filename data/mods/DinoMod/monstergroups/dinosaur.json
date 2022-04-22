@@ -337,13 +337,7 @@
         "weight": 10,
         "cost_multiplier": 20,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zamargasaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -352,6 +346,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zamargasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zamargasaurus",
@@ -372,13 +373,7 @@
         "weight": 10,
         "cost_multiplier": 20,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zapatosaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -387,6 +382,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zapatosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zapatosaurus",
@@ -407,13 +409,7 @@
         "weight": 10,
         "cost_multiplier": 20,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zrontosaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -422,6 +418,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zrontosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zrontosaurus",
@@ -442,10 +445,11 @@
         "weight": 10,
         "cost_multiplier": 20,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
+        "starts": "3 days"
       },
-      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "3 days" },
       { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "7 days" },
+      { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "14 days" },
       { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "28 days" },
       { "monster": "mon_ziplodocus", "weight": 2, "cost_multiplier": 25, "pack_size": [ 4, 12 ], "starts": "90 days" },
       {
@@ -453,13 +457,7 @@
         "weight": 10,
         "cost_multiplier": 25,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zamarasaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -468,6 +466,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zamarasaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zamarasaurus",
@@ -488,13 +493,7 @@
         "weight": 10,
         "cost_multiplier": 25,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zrachiosaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -503,6 +502,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zrachiosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zrachiosaurus",
@@ -523,13 +529,7 @@
         "weight": 10,
         "cost_multiplier": 25,
         "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_zalamosaurus",
-        "weight": 2,
-        "cost_multiplier": 30,
-        "pack_size": [ 4, 12 ],
+        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ],
         "starts": "3 days"
       },
       {
@@ -538,6 +538,13 @@
         "cost_multiplier": 30,
         "pack_size": [ 4, 12 ],
         "starts": "7 days"
+      },
+      {
+        "monster": "mon_zalamosaurus",
+        "weight": 2,
+        "cost_multiplier": 30,
+        "pack_size": [ 4, 12 ],
+        "starts": "14 days"
       },
       {
         "monster": "mon_zalamosaurus",
@@ -735,9 +742,9 @@
       },
       { "monster": "mon_pteranodon", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_quetzalcoatlus", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60 },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "3 days" },
+      { "monster": "mon_mosasaurus", "weight": 4, "cost_multiplier": 60, "starts": "3 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "7 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "14 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "28 days" },
       { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "90 days" }
     ]

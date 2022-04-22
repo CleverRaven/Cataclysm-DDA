@@ -85,7 +85,6 @@ static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_escape_cells( "lab_escape_cells" );
 static const oter_str_id oter_lab_escape_entrance( "lab_escape_entrance" );
 static const oter_str_id oter_lab_train_depot( "lab_train_depot" );
-static const oter_str_id oter_mine( "mine" );
 static const oter_str_id oter_open_air( "open_air" );
 static const oter_str_id oter_river_c_not_ne( "river_c_not_ne" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -123,7 +122,6 @@ static const oter_type_str_id oter_type_ice_lab_stairs( "ice_lab_stairs" );
 static const oter_type_str_id oter_type_lab_core( "lab_core" );
 static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
-static const oter_type_str_id oter_type_mine_down( "mine_down" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_type_str_id oter_type_slimepit_bottom( "slimepit_bottom" );
@@ -1041,13 +1039,6 @@ bool oter_t::is_hardcoded() const
         "lab_core",
         "lab_stairs",
         "lab_finale",
-        "mine",
-        "mine_down",
-        "mine_finale",
-        "office_tower_1",
-        "office_tower_1_entrance",
-        "office_tower_b",
-        "office_tower_b_entrance",
         "slimepit",
         "slimepit_down",
         "temple_finale",
@@ -3346,7 +3337,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
-    std::vector<city> mine_points;
 
     const auto add_goo_point = [&]( const tripoint_om_omt & p ) {
         const int size = rng( MIN_GOO_SIZE, MAX_GOO_SIZE );
@@ -3421,22 +3411,10 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_central_lab.id() );
             }
         },
-        {
-            oter_type_mine_down.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ter_set( p, oter_mine.id() );
-                mine_points.emplace_back( p.xy(), rng( 6 + z, 10 + z ) );
-                // technically not all finales need a sub level,
-                // but at this point we don't know
-                requires_sub = true;
-            }
-        },
     };
 
     // Avoid constructing strings inside the loop
     static const std::string s_hidden_lab_stairs = "hidden_lab_stairs";
-    static const std::string s_mine_entrance = "mine_entrance";
 
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
@@ -3472,9 +3450,6 @@ bool overmap::generate_sub( const int z )
                 above_action_it->second( p );
             } else if( is_ot_match( s_hidden_lab_stairs, oter_above, ot_match_type::contains ) ) {
                 lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            } else if( is_ot_match( s_mine_entrance, oter_ground, ot_match_type::prefix ) && z == -2 ) {
-                mine_points.emplace_back( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) );
-                requires_sub = true;
             }
         }
     }
@@ -3620,10 +3595,6 @@ bool overmap::generate_sub( const int z )
             spawn_mon_group( mongroup( GROUP_SUBWAY_CITY,
                                        sm_pos, i.size * 2, i.size * i.size * 2 ) );
         }
-    }
-
-    for( auto &i : mine_points ) {
-        build_mine( tripoint_om_omt( i.pos, z ), i.size );
     }
 
     return requires_sub;
@@ -5302,36 +5273,6 @@ bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )
     }
 
     return requires_sub;
-}
-
-void overmap::build_mine( const tripoint_om_omt &origin, int s )
-{
-    bool finale = s <= rng( 1, 3 );
-    const oter_id mine( "mine" );
-    const oter_id mine_finale_or_down( finale ? "mine_finale" : "mine_down" );
-    const oter_id empty_rock( "empty_rock" );
-
-    int built = 0;
-    if( s < 2 ) {
-        s = 2;
-    }
-    tripoint_om_omt p = origin;
-    while( built < s ) {
-        ter_set( p, mine );
-        std::vector<tripoint_om_omt> next;
-        for( const point &offset : four_adjacent_offsets ) {
-            if( ter( p + offset ) == empty_rock ) {
-                next.push_back( p + offset );
-            }
-        }
-        if( next.empty() ) { // Dead end!  Go down!
-            ter_set( p, mine_finale_or_down );
-            return;
-        }
-        p = random_entry( next );
-        built++;
-    }
-    ter_set( p, mine_finale_or_down );
 }
 
 void overmap::place_ravines()

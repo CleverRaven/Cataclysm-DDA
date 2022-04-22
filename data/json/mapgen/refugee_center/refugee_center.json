@@ -203,7 +203,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "wasteland_scavengers", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "free_merchants", "x": [ 24, 32 ], "y": [ 3, 20 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "wasteland_scavengers", "x": [ 24, 32 ], "y": [ 3, 20 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 21, 23 ] },
+        { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": [ 72, 72 ], "y": [ 23, 23 ] }
       ],
       "items": {
         "D": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
@@ -286,7 +287,9 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 29, 47 ], "y": [ 2, 19 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 59 ], "y": [ 2, 19 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "old_guard", "x": [ 48, 48 ], "y": [ 0, 0 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "lobby_beggars", "x": [ 51, 68 ], "y": [ 0, 4 ] },
+        { "type": "LOOT_CURRENCY", "faction": "free_merchants", "x": [ 70, 70 ], "y": [ 1, 1 ] },
+        { "type": "LOOT_WOOD", "faction": "free_merchants", "x": [ 71, 71 ], "y": [ 1, 1 ] }
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },

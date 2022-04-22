@@ -1072,6 +1072,7 @@
       [ "stick", 50 ],
       [ "rock", 50 ],
       [ "rock_flaking", 5 ],
+      [ "flint", 1 ],
       [ "rock_large", 5 ],
       [ "plastic_shopping_bag", 40 ],
       [ "sinew", 40 ],

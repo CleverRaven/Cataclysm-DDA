@@ -1599,12 +1599,15 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 5 ],
-    "difficulty": 6,
-    "time": "4 m",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet_metal_small", 10 ] ], [ [ "nail", 15 ] ], [ [ "wire", 1 ] ] ]
+    "using": [ [ "welding_standard", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 32 ] ] ]
   },
   {
     "type": "recipe",
