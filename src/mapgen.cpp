@@ -180,6 +180,9 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
+
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -2952,11 +2955,15 @@ class jmapgen_zone : public jmapgen_piece
         mapgen_value<zone_type_id> zone_type;
         mapgen_value<faction_id> faction;
         std::string name;
+        std::string filter;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ )
             : zone_type( jsi.get_member( "type" ) )
             , faction( jsi.get_member( "faction" ) ) {
             if( jsi.has_string( "name" ) ) {
                 name = jsi.get_string( "name" );
+            }
+            if( jsi.has_string( "filter" ) ) {
+                filter = jsi.get_string( "filter" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2964,9 +2971,14 @@ class jmapgen_zone : public jmapgen_piece
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
             zone_manager &mgr = zone_manager::get_manager();
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
-            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end );
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
+            auto options = zone_options::create( chosen_zone_type );
+            if( chosen_zone_type == zone_type_LOOT_CUSTOM or
+                chosen_zone_type == zone_type_LOOT_ITEM_GROUP ) {
+                dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+            }
+            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end, options );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
