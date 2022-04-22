@@ -26,7 +26,7 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "0": "t_window_empty",
-      "u": "t_chainfence",
+      "u": "t_chaingate_c",
       "U": "t_chainfence",
       "#": "t_rock"
     },

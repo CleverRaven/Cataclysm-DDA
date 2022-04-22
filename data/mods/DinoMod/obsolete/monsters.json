@@ -57,7 +57,6 @@
     "luminance": 4,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "description": "The raggedly flying corpse of a feathered reptile, with short wings and a colorful glowing beak.  It has been implanted with crackling bionics and is dripping black goo.",
-    "special_when_hit": [ "ZAPBACK", 75 ],
-    "harvest": "CBM_ZINO_FEATHER"
+    "special_when_hit": [ "ZAPBACK", 75 ]
   }
 ]

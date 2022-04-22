@@ -98,7 +98,7 @@ struct om_map_extra {
 };
 
 struct om_vehicle {
-    point_om_omt p; // overmap coordinates of tracked vehicle
+    tripoint_om_omt p; // overmap coordinates of tracked vehicle
     std::string name;
 };
 

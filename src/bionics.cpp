@@ -2179,7 +2179,8 @@ float Character::bionics_adjusted_skill( bool autodoc, int skill_level ) const
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
     float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                            static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>( 10.0 ) );
-    adjusted_skill *= env_surgery_bonus( 1 ) + get_effect_int( effect_assisted );
+    adjusted_skill += get_effect_int( effect_assisted );
+    adjusted_skill *= env_surgery_bonus( 1 );
     return adjusted_skill;
 }
 
