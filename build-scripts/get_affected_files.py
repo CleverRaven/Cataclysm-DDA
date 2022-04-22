@@ -103,6 +103,8 @@ def main(changed_files_file):
     for lintable_file in lintable_files:
         print(lintable_file)
 
+    return 0
+
 
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
