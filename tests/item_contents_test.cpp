@@ -11,7 +11,7 @@
 #include "type_id.h"
 #include "units.h"
 
-static const itype_id itype_crowbar( "crowbar_pocket_test" );
+static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_purse( "purse" );
 
@@ -76,7 +76,7 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.num_item_stacks() == 4 );
 
     tool_belt.remove_items_with( []( const item & it ) {
-        return it.typeId() == itype_crowbar;
+        return it.typeId() == itype_crowbar_pocket_test;
     } );
     // check to see that removing an item works
     CHECK( tool_belt.num_item_stacks() == 3 );
