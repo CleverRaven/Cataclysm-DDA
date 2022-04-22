@@ -1267,5 +1267,4 @@ clean-pch:
 
 .PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
--include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
