@@ -696,7 +696,7 @@
     "symbol": "~",
     "quench": 8,
     "calories": 132,
-    "description": "Milk inoculated with lactobacillus. It requires some time fermenting to hopefully end up as delicious yogurt.",
+    "description": "Milk inoculated with lactobacillus.  It requires some time fermenting to hopefully end up as delicious yogurt.",
     "price": 20,
     "material": [ "milk" ],
     "volume": "250 ml",
