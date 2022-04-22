@@ -1,0 +1,23 @@
+[
+  {
+    "id": "crowbar_pocket_test",
+    "type": "TOOL",
+    "name": { "str": "crowbar" },
+    "description": "This is a test crowbar from early pocket implementation tests. Some or all of these values will possibly not match the current in-game stats, so beware.",
+    "weight": "1200 g",
+    "volume": "170 ml",
+    "longest_side": "50 cm",
+    "price": 1300,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "bashing": 20,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
+    "use_action": [ "HAMMER", "CROWBAR" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
+  }
+]

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "tool_belt_pocket_test",
+    "type": "ARMOR",
+    "name": { "str": "tool belt" },
+    "description": "This is a test tool_belt from early pocket implementation tests. Some or all of these values will possibly not match the current in-game stats, so beware.",
+    "weight": "2000 g",
+    "volume": "2250 ml",
+    "price": 4500,
+    "price_postapoc": 1500,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "material_thickness": 2,
+    "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "max_item_length": "40 cm", "moves": 100 },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      },
+      {
+        "holster": true,
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  }
+]
