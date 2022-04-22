@@ -1,0 +1,15 @@
+[
+  {
+    "id": "nanobracket",
+    "type": "AMMO",
+    "name": { "str": "nanobracket" },
+    "copy-from": "nail",
+    "description": "A mounting bracket constructed in a nanofabricator, designed to interface with an exosuit's systems.  Used in the construction of exosuit modules and plating.",
+    "weight": "10 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "material": [ "nanoprinted_alloy", "copper", "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray"
+  }
+]
