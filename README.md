@@ -1,4 +1,4 @@
-#  I plan to do some changes on the game。
+# This is a branch of Cataclysm: Dark Days Ahead
 
 
 # Cataclysm: Dark Days Ahead
