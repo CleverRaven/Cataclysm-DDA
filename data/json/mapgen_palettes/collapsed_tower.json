@@ -13,6 +13,7 @@
       "3": "t_door_metal_c",
       "5": "t_door_metal_locked",
       ">": "t_stairs_down",
+      "<": "t_stairs_up",
       "D": "t_door_metal_locked",
       "E": "t_elevator_control",
       "T": "t_region_tree_shade",
