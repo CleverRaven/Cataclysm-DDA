@@ -28,6 +28,16 @@
     "color": "white",
     "extend": { "flags": [ "GENERIC_LOOT" ] }
   },
+    {
+    "type": "overmap_terrain",
+    "id": [ "trailerparksmall0", "trailerparksmall1", "trailerparksmall2" ],
+    "copy-from": "generic_city_trailerpark"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof" ],
+    "copy-from": "generic_city_trailerpark_roof"
+  },
   {
     "type": "overmap_terrain",
     "id": "emptyresidentiallot",
