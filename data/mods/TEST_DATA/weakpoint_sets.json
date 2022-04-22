@@ -95,5 +95,25 @@
         "coverage": 10
       }
     ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_body",
+    "weakpoints": [
+      {
+        "id": "test_wp1",
+        "name": "test weakpoint 1",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 10
+      },
+      {
+        "id": "test_wp2",
+        "name": "test weakpoint 2",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 20
+      }
+    ]
   }
 ]
