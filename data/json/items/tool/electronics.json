@@ -29,7 +29,7 @@
     "id": "camera_pro",
     "type": "TOOL",
     "name": { "str": "professional camera" },
-    "description": "A 35 mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
+    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
     "price": 800000,
@@ -266,6 +266,35 @@
     "revert_to": "geiger_off",
     "use_action": [ "GEIGER" ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "nre_recorder",
+    "type": "TOOL",
+    "name": { "str": "NRE recorder" },
+    "description": "A strange apparatus, seemingly consisting of a glass encased microphone linked to a small thermal printer and digital screen.  The screen remains perpetually blank, save for a battery indicator on its upper right, and on its left side lies a single red button: \"PRINT DATA\".",
+    "weight": "225 g",
+    "volume": "2735 ml",
+    "price": 15000,
+    "price_postapoc": 100,
+    "bashing": 2,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "charges_per_use": 10,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate the recorder's printer",
+      "effect_on_conditions": [ "print_portal_storm_data" ]
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
   },
   {
     "id": "hand_crank_charger",
@@ -573,7 +602,7 @@
   {
     "id": "UPS_off",
     "type": "TOOL",
-    "name": { "str": "UPS", "str_pl": "UPS's" },
+    "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
     "weight": "680 g",
     "volume": "2500 ml",
@@ -623,7 +652,7 @@
   {
     "id": "gas_charger",
     "type": "TOOL",
-    "name": { "str": "gas-powered UPS (off)", "str_pl": "fueled UPS's (off)" },
+    "name": { "str": "gas-powered UPS (off)", "str_pl": "gas-powered UPSes (off)" },
     "description": "This is a compact thermoelectric generator.  Burns gas to charge UPS devices.  Use it to turn it on.",
     "weight": "680 g",
     "volume": "2500 ml",
@@ -658,7 +687,7 @@
     "id": "gas_charger_on",
     "copy-from": "gas_charger",
     "type": "TOOL",
-    "name": { "str": "gas-powered UPS (on)", "str_pl": "fueled UPS's (on)" },
+    "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "This is a compact thermoelectric generator.  When connected to a fuel tank, it will slowly charge UPS-compatible devices.",
     "power_draw": 60,
     "revert_to": "gas_charger",

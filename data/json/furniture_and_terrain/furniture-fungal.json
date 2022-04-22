@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_flower_marloss",
-    "name": "marloss flower",
+    "name": "Marloss flower",
     "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color.  It emits an aroma both overwhelming and strangely alluring.",
     "symbol": "f",
     "color": "cyan",
@@ -29,7 +29,7 @@
     "type": "furniture",
     "id": "f_fungal_mass",
     "name": "fungal mass",
-    "description": "Thick ropes of mycal matter have covered the ground here completely.  It's soft to the touch, but not firm enough to hold any weight.",
+    "description": "Thick ropes of Mycal matter have covered the ground here completely.  It's soft to the touch, but not firm enough to hold any weight.",
     "symbol": "O",
     "bgcolor": "dark_gray",
     "move_cost_mod": -10,

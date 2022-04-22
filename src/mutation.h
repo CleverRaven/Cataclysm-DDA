@@ -235,7 +235,7 @@ struct mutation_branch {
         cata::optional<float> stomach_size_multiplier = cata::nullopt;
         // the modifier for the vomit chance
         cata::optional<float> vomit_multiplier = cata::nullopt;
-        // the modifier for sweat ammount
+        // the modifier for sweat amount
         cata::optional<float> sweat_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
@@ -291,6 +291,8 @@ struct mutation_branch {
         cata::optional<bool> hide_on_activated = cata::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
         cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        /** Monster cameras added by this mutation */
+        std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */
@@ -342,7 +344,8 @@ struct mutation_branch {
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
-        std::map<bodypart_str_id, resistances> armor;
+        std::map<bodypart_str_id, resistances> armor; // Modifiers to protection values
+        std::vector<itype_id> integrated_armor; // Armor pseudo-items that are put on by this mutation
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:

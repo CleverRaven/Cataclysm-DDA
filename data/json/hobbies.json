@@ -540,7 +540,7 @@
     "subtype": "hobby",
     "id": "football",
     "name": "Football",
-    "description": "You could have gone pro if the world hadn't ended,, but at least you've gone longer than most.",
+    "description": "You could have gone pro if the world hadn't ended, but at least you've gone longer than most.",
     "points": 2,
     "skills": [ { "level": 1, "name": "throw" }, { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
   },

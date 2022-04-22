@@ -471,16 +471,21 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     return ret;
 }
 
+void outfit::get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const
+{
+    for( const auto &it : worn ) {
+        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
+        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
+    }
+}
+
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
     const item &weapon = get_wielded_item();
     conts = get_eligible_containers_recursive( weapon, true );
 
-    for( const auto &it : worn ) {
-        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
-        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
-    }
+    worn.get_eligible_containers_for_crafting( conts );
 
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
@@ -794,7 +799,7 @@ static item_location place_craft_or_disassembly(
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
-                // This almost certianly shouldn't happen
+                // This almost certainly shouldn't happen
                 put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
             }
         } else {

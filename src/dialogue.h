@@ -30,6 +30,7 @@ enum talk_trial_type : unsigned char {
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_SKILL_CHECK, // Check a skill's current level against the difficulty
     TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
@@ -56,6 +57,9 @@ struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
     std::function<bool( const dialogue & )> condition;
+
+    // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
+    std::string skill_required;
 
     int calc_chance( const dialogue &d ) const;
     /**
@@ -109,6 +113,7 @@ struct talk_effect_fun_t {
         void set_assign_activity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_assign_mission( const JsonObject &jo, const std::string &member );
         void set_finish_mission( const JsonObject &jo, const std::string &member );
+        void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -129,7 +134,7 @@ struct talk_effect_fun_t {
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
         void set_u_sell_item( const itype_id &item_name, int cost, int count );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count,
+        void set_consume_item( const JsonObject &jo, const std::string &member, int count, int charges,
                                bool is_npc = false );
         void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
@@ -147,6 +152,7 @@ struct talk_effect_fun_t {
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
+        void set_remove_npc( const JsonObject &jo, const std::string &member );
         void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );

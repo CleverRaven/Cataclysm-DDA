@@ -44,12 +44,6 @@ enum mission_kind : int {
     Forage_Job,
     Caravan_Commune_Center_Job,
 
-    //  Tacoma Farm direct tasks
-    Purchase_East_Field,
-    Upgrade_East_Field,
-    Plant_East_Field,
-    Harvest_East_Field,
-
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
     Camp_Assign_Jobs,
@@ -166,23 +160,22 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt 
  * @param id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
+ * @param silent_failure is used to add an additional companion to a mission.
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc_ptr individual_mission( npc &p, const std::string &desc, const mission_id &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {} );
+                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false );
 npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const mission_id &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
-                            const std::map<skill_id, int> &required_skills = {} );
+                            const std::map<skill_id, int> &required_skills = {}, bool silent_failure = false );
 
 ///All of these missions are associated with the ranch camp and need to be updated/merged into the new ones
 void caravan_return( npc &p, const std::string &dest, const mission_id &miss_id );
 void caravan_depart( npc &p, const std::string &dest, const mission_id &miss_id );
 int caravan_dist( const std::string &dest );
 
-void field_build_1( npc &p );
-void field_build_2( npc &p );
 void field_plant( npc &p, const std::string &place );
 void field_harvest( npc &p, const std::string &place );
 bool scavenging_patrol_return( npc &p );
@@ -219,7 +212,10 @@ comp_list companion_list( const tripoint &omt_pos, const std::string &role_id,
 comp_list companion_sort( comp_list available,
                           const std::map<skill_id, int> &required_skills = {} );
 std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = true );
-npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {} );
+// silent_failure is used when an additional companion is requested to modify the query and just return
+// without a popup when no companion is found/selected.
+npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {}, bool silent_failure =
+                              false );
 npc_ptr companion_choose_return( const npc &p, const mission_id &miss_id,
                                  const time_point &deadline, const bool ignore_parameters = false );
 npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
@@ -229,9 +225,8 @@ npc_ptr companion_choose_return( comp_list &npc_list );
 
 //Return NPC to your party
 void companion_return( npc &comp );
-//Smash stuff, steal valuables, and change map maker
-// TODO: Make this return the loot gained
-void loot_building( const tripoint_abs_omt &site );
+//Smash stuff, steal valuables, and change map marker
+std::set<item> loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H

@@ -263,7 +263,7 @@ static void pick_up_from_feet( Character &you, int id )
 
     you.moves = 100;
     you.assign_activity( player_activity( pickup_activity_actor( { item_location( map_cursor( you.pos() ), found ) }, { 0 },
-                                          you.pos() ) ) );
+                                          you.pos(), false ) ) );
     you.activity.do_turn( you );
 
     REQUIRE( items.size() == size_before - 1 );
@@ -466,7 +466,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.emplace_back( "backpack" );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some two items that can be wielded, worn, and picked up
         item tshirt( "tshirt" );
@@ -548,7 +548,7 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
-    dummy.worn.emplace_back( "backpack" );
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     // some stackable item that can be wielded and worn
     item tshirt1( "tshirt" );
@@ -684,7 +684,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.emplace_back( "backpack" );
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
         // some stackable item
         item tshirt1( "tshirt" );

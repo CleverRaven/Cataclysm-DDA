@@ -191,8 +191,8 @@ struct mass_volume {
 
 namespace base_camps
 {
-static const std::string recover_ally_string = "Recover Ally, ";
-static const std::string expansion_string = " Expansion";
+static const translation recover_ally_string = to_translation( "Recover Ally, " );
+static const translation expansion_string = to_translation( " Expansion" );
 
 
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
@@ -426,10 +426,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Carpentry_Job:
         case Forage_Job:
         case Caravan_Commune_Center_Job:
-        case Purchase_East_Field:
-        case Upgrade_East_Field:
-        case Plant_East_Field:
-        case Harvest_East_Field:
         case Camp_Emergency_Recall:
         default:
             return "";
@@ -783,8 +779,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id, _( base_camps::recover_ally_string )
-                                    + dir_abbr + _( base_camps::expansion_string ),
+            mission_key.add_return( miss_id, base_camps::recover_ally_string.translated()
+                                    + dir_abbr + base_camps::expansion_string.translated(),
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
@@ -807,7 +803,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id,
-                                        _( base_camps::recover_ally_string ) + dir_abbr +
+                                        base_camps::recover_ally_string.translated() + dir_abbr +
                                         " " + upgrade.name, entry, avail );
             }
         }
@@ -1686,8 +1682,80 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         if( must_feed ) {
             camp_food_supply( duration );
         }
+
+        map *target_map = &get_map();
+        for( item *i : equipment ) {
+            int count = i->count();
+            target_map->use_charges( target_map->getlocal( get_dumping_spot() ), basecamp::inv_range,
+                                     i->typeId(), count );
+        }
+        target_map->save();
     }
     return comp;
+}
+
+comp_list basecamp::start_multi_mission( const mission_id &miss_id,
+        bool must_feed, const std::string &desc,
+        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+        const skill_id &skill_tested, int skill_level )
+{
+    std::map<skill_id, int> required_skills;
+    required_skills[skill_tested] = skill_level;
+    return start_multi_mission( miss_id, must_feed, desc, required_skills );
+}
+
+comp_list basecamp::start_multi_mission( const mission_id &miss_id,
+        bool must_feed, const std::string &desc,
+        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
+        const std::map<skill_id, int> &required_skills )
+{
+
+    const recipe &making = recipe_id( miss_id.parameters ).obj();
+    comp_list result;
+
+    time_duration work_days;
+
+    while( true ) { //  We'll break out of the loop when all the workers have been assigned
+        work_days = base_camps::to_workdays( making.batch_duration(
+                get_player_character() ) / ( result.size() + 1 ) );
+
+        if( must_feed && camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ) ) ) {
+            if( result.empty() ) {
+                popup( _( "You don't have enough food stored to feed your companion for this task." ) );
+                return result;
+            } else {
+                popup( _( "You don't have enough food stored to feed a larger work crew." ) );
+                break;
+            }
+        }
+
+        //  We should allocate the full set of tools to each companion sent off on a mission,
+        //  but currently recipes only provides a function to check for the full set of requirement,
+        //  with no access to the tool subset, so no tools are actually assigned.
+        npc_ptr comp = talk_function::individual_mission( omt_pos, base_camps::id, desc, miss_id,
+                       false, {}, required_skills, !result.empty() );
+
+        if( comp == nullptr ) {
+            break;
+        } else {
+            result.push_back( comp );
+        }
+    }
+
+    if( result.empty() ) {
+        return result;
+    } else {
+        work_days = base_camps::to_workdays( making.batch_duration(
+                get_player_character() ) / result.size() );
+
+        for( npc_ptr &comp : result ) {
+            comp->companion_mission_time_ret = calendar::turn + work_days;
+        }
+        if( must_feed ) {
+            camp_food_supply( work_days * result.size() );
+        }
+        return result;
+    }
 }
 
 void basecamp::start_upgrade( const mission_id &miss_id )
@@ -1711,23 +1779,21 @@ void basecamp::start_upgrade( const mission_id &miss_id )
             return;
         }
 
-        time_duration work_days = base_camps::to_workdays( making.batch_duration(
-                                      get_player_character() ) );
-        npc_ptr comp = nullptr;
+        comp_list comp;
         if( making.required_skills.empty() ) {
             if( making.skill_used.is_valid() ) {
-                comp = start_mission( miss_id, work_days, must_feed,
-                                      _( "begins to upgrade the camp…" ), false, {},
-                                      making.skill_used, making.difficulty );
+                comp = start_multi_mission( miss_id, must_feed,
+                                            _( "begins to upgrade the camp…" ),
+                                            making.skill_used, making.difficulty );
             } else {
-                comp = start_mission( miss_id, work_days, must_feed,
-                                      _( "begins to upgrade the camp…" ), false, {} );
+                comp = start_multi_mission( miss_id, must_feed,
+                                            _( "begins to upgrade the camp…" ) );
             }
         } else {
-            comp = start_mission( miss_id, work_days, must_feed, _( "begins to upgrade the camp…" ),
-                                  false, {}, making.required_skills );
+            comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ),
+                                        making.required_skills );
         }
-        if( comp == nullptr ) {
+        if( comp.empty() ) {
             return;
         }
         components.consume_components();
@@ -2488,9 +2554,6 @@ bool basecamp::common_salt_water_pipe_construction(
 {
     const recipe &making = recipe_id(
                                miss_id.parameters ).obj(); //  Actually a template recipe that we'll rotate and mirror as required.
-    time_duration work_days = base_camps::to_workdays( making.batch_duration(
-                                  get_player_character() ) );
-
     int remaining_segments = pipe->segments.size() - 1;
 
     if( segment_number == 0 ) {
@@ -2504,25 +2567,25 @@ bool basecamp::common_salt_water_pipe_construction(
         return false;
     }
 
-    npc_ptr comp;
+    comp_list comp;
 
     if( segment_number == 0 ) {
-        comp = start_mission( miss_id, work_days, true,
-                              _( "Start constructing salt water pipes…" ), false, {},
-                              making.required_skills );
+        comp = start_multi_mission( miss_id, true,
+                                    _( "Start constructing salt water pipes…" ),
+                                    making.required_skills );
     } else {
-        comp = start_mission( miss_id, work_days, true,
-                              _( "Continue constructing salt water pipes…" ), false, {},
-                              making.required_skills );
+        comp = start_multi_mission( miss_id, true,
+                                    _( "Continue constructing salt water pipes…" ),
+                                    making.required_skills );
     }
 
-    if( comp != nullptr ) {
+    if( !comp.empty() ) {
         components.consume_components();
         update_in_progress( miss_id.parameters, miss_id.dir.value() );  // Dir will always have a value
         pipe->segments[segment_number].started = true;
     }
 
-    return comp != nullptr;
+    return !comp.empty();
 }
 
 void basecamp::start_salt_water_pipe( const mission_id &miss_id )
@@ -2921,10 +2984,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                            int plant_cnt = rng( skillLevel / 2, skillLevel );
-                            plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
-                            int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
+                            int plant_count = rng( skillLevel / 2, skillLevel );
+                            plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
+                            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                            int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
                             }
@@ -2997,13 +3061,18 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_i
                                               _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
-                seed_cnt += seeds->count();
+                size_t num_seeds = seeds->count();
+                if( seed_cnt + num_seeds > plots_cnt ) {
+                    num_seeds = plots_cnt - seed_cnt;
+                    seeds->charges = num_seeds;
+                }
+                seed_cnt += num_seeds;
             }
-            size_t plots_seeded = std::min( seed_cnt, plots_cnt );
+
             if( !seed_cnt ) {
                 return;
             }
-            work += 1_minutes * plots_seeded;
+            work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
                            _( "begins planting the field…" ), false, plant_these,
                            skill_survival, 1 );
@@ -3122,6 +3191,29 @@ npc_ptr basecamp::emergency_recall( const mission_id miss_id )
     npc_ptr comp = talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
                    calendar::turn - 24_hours, false );
     if( comp != nullptr ) {
+
+        //  Special handing for camp upgrades. If multiple companions are assigned, the remaining time
+        //  is divided between the remaining workers. Note that this logic relies on there being only
+        //  a single instance of each construction active, and thus all workers assigned to that
+        //  blueprint are on the same mission. Won't work with e.g. crafting, as different instances of
+        //  the same crafting mission may be in various stages of completion concurrently.
+        if( comp->get_companion_mission().miss_id.id == Camp_Upgrade ) {
+            comp_list npc_list = get_mission_workers( comp->get_companion_mission().miss_id );
+
+            if( npc_list.size() > 1 ) {
+                time_duration remaining_time = comp->companion_mission_time_ret - calendar::turn;
+                if( remaining_time > time_duration::from_turns( 0 ) ) {
+                    remaining_time = remaining_time * npc_list.size() / ( npc_list.size() - 1 );
+                }
+
+                for( npc_ptr &worker : npc_list ) {
+                    if( worker != comp ) {
+                        worker->companion_mission_time_ret = calendar::turn + remaining_time;
+                    }
+                }
+            }
+        }
+
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *comp, false, return_msg, skill_menial.str(), 0, true );
     }
@@ -3144,12 +3236,17 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     const tripoint_abs_omt upos = e->second.pos;
     const recipe &making = recipe_id( bldg ).obj();
 
-    time_duration work_days = base_camps::to_workdays( making.batch_duration(
-                                  get_player_character() ) );
-    npc_ptr comp = companion_choose_return( miss_id, work_days );
-
-    if( comp == nullptr ) {
+    comp_list npc_list = get_mission_workers( miss_id );
+    if( npc_list.empty() ) {
         return false;
+    }
+
+    std::string companion_list;
+    for( const npc_ptr &comp : npc_list ) {
+        if( comp != npc_list[0] ) {
+            companion_list += ", ";
+        }
+        companion_list += comp->disp_name();
     }
 
     bool mirror_horizontal;
@@ -3162,20 +3259,20 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
             mirror_vertical,
             rotation,
             "%s failed to build the %s upgrade",
-            comp->disp_name() ) ) {
+            companion_list ) ) {
         return false;
     }
 
     if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_swamp_N ) {
-        return salt_water_pipe_swamp_return( miss_id, work_days );
+        return salt_water_pipe_swamp_return( miss_id, npc_list );
     } else if( making.get_blueprint().str() == faction_expansion_salt_water_pipe_N ) {
-        return salt_water_pipe_return( miss_id, work_days );
+        return salt_water_pipe_return( miss_id, npc_list );
     }
 
     if( !run_mapgen_update_func( making.get_blueprint(), upos, nullptr, true, mirror_horizontal,
                                  mirror_vertical, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
-               comp->disp_name(),
+               companion_list,
                making.get_blueprint().str() );
         return false;
     }
@@ -3184,7 +3281,10 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
 
     const std::string msg = _( "returns from upgrading the camp having earned a bit of "
                                "experience…" );
-    finish_return( *comp, false, msg, "construction", making.difficulty );
+
+    for( const npc_ptr &comp : npc_list ) {
+        finish_return( *comp, false, msg, "construction", making.difficulty );
+    }
 
     return true;
 }
@@ -3378,14 +3478,9 @@ void salt_water_pipe_orientation_adjustment( const point dir, bool &orthogonal,
 }
 
 bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
-        const time_duration work_days )
+        const comp_list &npc_list )
 {
     const point dir = miss_id.dir.value();  //  Will always have a value
-    npc_ptr comp = companion_choose_return( miss_id, work_days );
-
-    if( comp == nullptr ) {
-        return false;
-    }
 
     expansion_salt_water_pipe *pipe;
 
@@ -3459,22 +3554,19 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
     update_provides( miss_id.parameters, e->second );
     update_resources( miss_id.parameters );
 
-    finish_return( *comp, true,
-                   _( "returns from construction of the salt water pipe swamp segment…" ), "construction", 2 );
+    for( const npc_ptr &comp : npc_list ) {
+        finish_return( *comp, true,
+                       _( "returns from construction of the salt water pipe swamp segment…" ), "construction", 2 );
+    }
 
     return true;
 }
 
 bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
-                                       const time_duration work_days )
+                                       const comp_list &npc_list )
 {
     const recipe &making = recipe_id( miss_id.parameters ).obj();
     const point dir = miss_id.dir.value();  //  Will always have a value
-    npc_ptr comp = companion_choose_return( miss_id, work_days );
-
-    if( comp == nullptr ) {
-        return false;
-    }
 
     expansion_salt_water_pipe *pipe;
 
@@ -3569,8 +3661,10 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
     update_provides( miss_id.parameters, e->second );
     update_resources( miss_id.parameters );
 
-    finish_return( *comp, true, _( "returns from construction of a salt water pipe segment…" ),
-                   "construction", 2 );
+    for( const npc_ptr &comp : npc_list ) {
+        finish_return( *comp, true, _( "returns from construction of a salt water pipe segment…" ),
+                       "construction", 2 );
+    }
 
     return true;
 }
@@ -3812,7 +3906,8 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
     }
 
     const std::string msg = _( "returns from working your fields…" );
-    npc_ptr comp = companion_choose_return( miss_id, 15_minutes );
+    npc_ptr comp = talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
+                   calendar::before_time_starts );
     if( comp == nullptr ) {
         return false;
     }

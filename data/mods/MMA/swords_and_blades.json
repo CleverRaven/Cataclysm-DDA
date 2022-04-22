@@ -1,0 +1,9 @@
+[
+  {
+    "id": "scimitar",
+    "copy-from": "scimitar",
+    "type": "TOOL",
+    "name": { "str": "scimitar" },
+    "extend": { "weapon_category": [ "DESERT_SWORDS" ] }
+  }
+]

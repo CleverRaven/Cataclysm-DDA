@@ -1803,22 +1803,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine",
-    "copy-from": "mine",
-    "name": "mine",
-    "sym": "m",
-    "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "copy-from": "mine_down",
-    "name": "mine",
-    "sym": "M",
-    "color": "i_black"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine_finale",
     "copy-from": "mine_finale",
     "name": "mine",
@@ -6247,6 +6231,30 @@
     "id": "debug_ramps",
     "copy-from": "debug_ramps",
     "name": "ramp testing area",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_house",
+    "copy-from": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_house_roof",
+    "copy-from": "looted_house_roof",
+    "name": "looted house roof",
+    "sym": "%",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "looted_house_basement",
+    "copy-from": "looted_house_basement",
+    "name": "looted house basement",
     "sym": "%",
     "color": "white"
   },

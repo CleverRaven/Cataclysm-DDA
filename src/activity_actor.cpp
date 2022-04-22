@@ -600,7 +600,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_stored_kcal( 43 - 9 * helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     if( grave ) {
@@ -671,7 +671,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     }
 
     const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_stored_kcal( 43 - 9 * helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
@@ -1999,9 +1999,6 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
         return;
     }
 
-    // Auto_resume implies autopickup.
-    const bool autopickup = who.activity.auto_resume;
-
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup, stash_successful );
 
@@ -2035,13 +2032,14 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
     jsout.member( "stash_successful", stash_successful );
+    jsout.member( "autopickup", autopickup );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
-    pickup_activity_actor actor( {}, {}, cata::nullopt );
+    pickup_activity_actor actor( {}, {}, cata::nullopt, false );
 
     JsonObject data = jsin.get_object();
 
@@ -2049,6 +2047,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &j
     data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
     data.read( "stash_successful", actor.stash_successful );
+    data.read( "autopickup", actor.autopickup );
 
     return actor.clone();
 }
@@ -5666,6 +5665,44 @@ std::unique_ptr<activity_actor> churn_activity_actor::deserialize( JsonValue &js
     return actor.clone();
 }
 
+void clear_rubble_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
+{
+    const tripoint &pos = act.placement;
+    map &here = get_map();
+    who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
+    here.furn_set( pos, f_null );
+
+    act.set_to_null();
+
+    here.maybe_trigger_trap( pos, who, true );
+}
+
+void clear_rubble_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> clear_rubble_activity_actor::deserialize( JsonValue &jsin )
+{
+    clear_rubble_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
 void firstaid_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
@@ -5716,7 +5753,7 @@ void firstaid_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> firstaid_activity_actor::deserialize( JsonValue &jsin )
 {
-    firstaid_activity_actor actor( {} );
+    firstaid_activity_actor actor( {}, {} );
 
     JsonObject data = jsin.get_object();
 
@@ -5837,6 +5874,91 @@ std::unique_ptr<activity_actor> forage_activity_actor::deserialize( JsonValue &j
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
+
+    return actor.clone();
+}
+
+void gunmod_add_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+    act.name = name;
+}
+
+void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    // first unpack all of our arguments
+    if( act.values.size() != 4 ) {
+        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    item &gun = *act.targets.at( 0 );
+    item &mod = *act.targets.at( 1 );
+
+    // chance of success (%)
+    const int roll = act.values[1];
+    // chance of damage (%)
+    const int risk = act.values[2];
+
+    // any tool charges used during installation
+    const itype_id tool( act.name );
+    const int qty = act.values[3];
+
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
+        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    if( !tool.is_empty() && qty > 0 ) {
+        who.use_charges( tool, qty );
+    }
+
+    if( rng( 0, 100 ) <= roll ) {
+        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
+                 gun.tname() );
+        gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+
+    } else if( rng( 0, 100 ) <= risk ) {
+        if( gun.inc_damage() ) {
+            // Remove irremovable mods prior to destroying the gun
+            for( item *mod : gun.gunmods() ) {
+                if( mod->is_irremovable() ) {
+                    who.remove_item( *mod );
+                }
+            }
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname(),
+                     gun.tname() );
+            who.i_rem( &gun );
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname(),
+                     gun.tname() );
+        }
+
+    } else {
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname() );
+    }
+}
+
+void gunmod_add_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "name", name );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_add_activity_actor::deserialize( JsonValue &jsin )
+{
+    gunmod_add_activity_actor actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "name", actor.name );
 
     return actor.clone();
 }

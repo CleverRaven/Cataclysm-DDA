@@ -441,23 +441,23 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
 
             CHECK( item_info_str( waterskin, rigidity ) ==
                    "--\n"
-                   "* This item is <color_c_cyan>not rigid</color>."
+                   "* This items pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( backpack, rigidity ) ==
                    "--\n"
-                   "* This item is <color_c_cyan>not rigid</color>."
+                   "* This items pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( quiver, rigidity ) ==
                    "--\n"
-                   "* This item is <color_c_cyan>not rigid</color>."
+                   "* This items pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             // Non-armor item - volume increases, but not encumbrance
             CHECK( item_info_str( condom, rigidity ) ==
                    "--\n"
-                   "* This item is <color_c_cyan>not rigid</color>."
+                   "* This items pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume increases with contents.\n" );
         }
 
@@ -469,12 +469,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
                    "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
@@ -490,12 +490,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n"
                    "--\n"
                    "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
                    "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Waist</color>.\n"
+                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
                    "  Default:  <color_c_yellow>10</color>\n" );
         }
     }
@@ -1162,6 +1162,23 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Covers</color>: <color_c_cyan>Nothing</color>.\n" );
     }
+}
+
+// Related JSON fields:
+// material softness
+// padded flag
+TEST_CASE( "armor rigidity", "[iteminfo][armor][coverage]" )
+{
+    clear_avatar();
+
+    // test complex materials armors
+    item super_tank_top( "test_complex_tanktop" );
+    REQUIRE( super_tank_top.get_covered_body_parts().any() );
+
+    CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_RIGIDITY } ) ==
+           "--\n"
+           "<color_c_white>This armor is rigid</color>\n"
+           "<color_c_white>This armor is comfortable</color>\n" );
 }
 
 // Related JSON fields:
@@ -2529,7 +2546,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
-        player_character.worn.emplace_back( "backpack" );
+        player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
         item &iodine = player_character.i_add( item( "iodine" ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );
@@ -2684,10 +2701,12 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
            "--\n"
+           "<color_c_white>Specifically</color>: The <color_c_cyan>waist</color> (100).\n"
+           "--\n"
            "<color_c_white>Total capacity</color>:\n"
            "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
            "--\n"
-           "<color_c_white>4 Pockets</color> with capacity:\n"
+           "<color_c_white>4 pockets</color> with capacity:\n"
            "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.20</color> kg\n"
            "Item length: <color_c_yellow>0</color> cm to <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050</color> L\n"
@@ -2929,13 +2948,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>12.00</color>\n"
+        "  Bash: <color_c_yellow>10.00</color>\n"
         "  Cut: <color_c_yellow>16.00</color>\n"
-        "  Ballistic: <color_c_yellow>4.00</color>\n"
+        "  Ballistic: <color_c_yellow>5.60</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
-        "  Fire: <color_c_yellow>1.20</color>\n"
+        "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_str == info_str );
     CHECK( a_copy_str == info_str );
@@ -2944,13 +2963,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_prop_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>14.40</color>\n"
+        "  Bash: <color_c_yellow>12.00</color>\n"
         "  Cut: <color_c_yellow>19.20</color>\n"
-        "  Ballistic: <color_c_yellow>4.80</color>\n"
+        "  Ballistic: <color_c_yellow>6.72</color>\n"
         "  Acid: <color_c_yellow>4.20</color>\n"
-        "  Fire: <color_c_yellow>1.40</color>\n"
+        "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_copy_prop_str == info_prop_str );
     CHECK( a_copy_w_armor_prop_str == info_prop_str );
@@ -2958,13 +2977,13 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
     const std::string info_rel_str =
         "--\n"
         "<color_c_white>Protection</color>:\n"
-        "  Bash: <color_c_yellow>18.00</color>\n"
+        "  Bash: <color_c_yellow>15.00</color>\n"
         "  Cut: <color_c_yellow>24.00</color>\n"
-        "  Ballistic: <color_c_yellow>6.00</color>\n"
+        "  Ballistic: <color_c_yellow>8.40</color>\n"
         "  Acid: <color_c_yellow>4.80</color>\n"
-        "  Fire: <color_c_yellow>1.60</color>\n"
+        "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n"
-        "  Breathability: <color_c_yellow>0</color>\n";
+        "  Breathability: <color_c_yellow>80</color>\n";
 
     CHECK( a_copy_rel_str == info_rel_str );
     CHECK( a_copy_w_armor_rel_str == info_rel_str );

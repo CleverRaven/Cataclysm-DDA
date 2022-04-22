@@ -97,7 +97,7 @@
     "type": "SPELL",
     "id": "teleport_charge",
     "name": "Teleport Charge",
-    "description": "Edit all this tomorrow",
+    "description": "Edit all this tomorrow.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "IGNORE_WALLS" ],
     "effect": "dash",
@@ -113,7 +113,7 @@
   {
     "id": "prank",
     "type": "SPELL",
-    "name": "Leprechaun prank",
+    "name": "Leprechaun Prank",
     "description": "Pranks the PC.  Gag humor.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_LEGS" ],
@@ -204,5 +204,23 @@
     "effect": "attack",
     "shape": "line",
     "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+  },
+  {
+    "id": "shambling_aoe",
+    "type": "SPELL",
+    "name": "Shambling attack",
+    "description": "Devastating AoE attack.  You can see it only on debug mode.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "max_level": 0,
+    "min_damage": 15,
+    "max_damage": 70,
+    "min_range": 2,
+    "max_range": 2,
+    "min_aoe": 90,
+    "max_aoe": 270,
+    "damage_type": "bash"
   }
 ]

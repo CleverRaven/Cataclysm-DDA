@@ -57,7 +57,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     clear_avatar();
     Character &p = get_player_character();
-    p.worn.emplace_back( "backpack" );
+    p.worn.wear_item( p, item( "backpack" ), false, false );
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
     map &here = get_map();
 

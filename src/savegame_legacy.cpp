@@ -16,13 +16,11 @@ static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -248,9 +246,9 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         ACT_CRACKING,
         ACT_REPAIR_ITEM,
         ACT_MEND_ITEM,
-        ACT_GUNMOD_ADD,
+        activity_id::NULL_ID(), // ACT_GUNMOD_ADD
         ACT_WAIT_NPC,
-        ACT_CLEAR_RUBBLE,
+        activity_id::NULL_ID(), // ACT_CLEAR_RUBBLE
         ACT_MEDITATE,
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
