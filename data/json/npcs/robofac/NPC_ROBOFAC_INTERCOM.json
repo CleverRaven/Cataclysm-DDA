@@ -124,12 +124,12 @@
     "end": {
       "update_mapgen": [
         {
-          "om_terrain": "robofachq_surface_b0",
-          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+          "om_terrain": "robofachq_surface_parking",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ]
         },
         {
           "om_terrain": "robofachq_surface_entrance",
-          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 6, "y": 7 } ]
         }
       ],
       "effect": [
@@ -324,7 +324,7 @@
         "text": "[Identify yourself before the intercom.]",
         "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
-        "effect": [ { "run_eocs": "eoc_robofac_surveillance" }, { "u_add_effect": "robofac_surveillance", "duration": "14 days" } ]
+        "effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
       },
       {
         "text": "[Press the button.]",

@@ -172,6 +172,7 @@
     "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],

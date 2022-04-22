@@ -1036,7 +1036,6 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
 
     // Terrain color and symbol to use for this point
     const bool seen = overmap_buffer.seen( omt );
-    const bool vehicle_here = overmap_buffer.has_vehicle( omt );
     if( overmap_buffer.has_note( omt ) ) {
         const std::string &note_text = overmap_buffer.note( omt );
         std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
@@ -1046,10 +1045,9 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
         // Always gray # for unseen
         ter_sym = "#";
         ter_color = c_dark_gray;
-    } else if( vehicle_here ) {
-        // Always cyan c for vehicle
+    } else if( overmap_buffer.has_vehicle( omt ) ) {
         ter_color = c_cyan;
-        ter_sym = "c";
+        ter_sym = overmap_buffer.get_vehicle_ter_sym( omt );
     } else {
         // Otherwise, get symbol and color appropriate for the terrain
         const oter_id &cur_ter = overmap_buffer.ter( omt );

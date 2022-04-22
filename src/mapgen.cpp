@@ -180,6 +180,9 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
+static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
+
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -878,6 +881,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
+    setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
     setmap_opmap[ "bash" ] = JMAPGEN_SETMAP_BASH;
     setmap_opmap[ "variable" ] = JMAPGEN_SETMAP_VARIABLE;
@@ -930,7 +934,8 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
-        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ) {
+        } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
+                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -2950,11 +2955,15 @@ class jmapgen_zone : public jmapgen_piece
         mapgen_value<zone_type_id> zone_type;
         mapgen_value<faction_id> faction;
         std::string name;
+        std::string filter;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ )
             : zone_type( jsi.get_member( "type" ) )
             , faction( jsi.get_member( "faction" ) ) {
             if( jsi.has_string( "name" ) ) {
                 name = jsi.get_string( "name" );
+            }
+            if( jsi.has_string( "filter" ) ) {
+                filter = jsi.get_string( "filter" );
             }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2962,9 +2971,14 @@ class jmapgen_zone : public jmapgen_piece
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
             zone_manager &mgr = zone_manager::get_manager();
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
-            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end );
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
+            auto options = zone_options::create( chosen_zone_type );
+            if( chosen_zone_type == zone_type_LOOT_CUSTOM or
+                chosen_zone_type == zone_type_LOOT_ITEM_GROUP ) {
+                dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+            }
+            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end, options );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -4205,12 +4219,15 @@ mapgen_phase jmapgen_setmap::phase() const
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
         case JMAPGEN_SETMAP_RADIATION:
         case JMAPGEN_SETMAP_BASH:
@@ -4276,6 +4293,10 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 m.i_clear( point( x_get(), y_get() ) );
             }
             break;
+            case JMAPGEN_SETMAP_FIELD_REMOVE: {
+                mremove_fields( &m, point( x_get(), y_get() ) );
+            }
+            break;
             case JMAPGEN_SETMAP_BASH: {
                 m.bash( tripoint( x_get(), y_get(), m.get_abs_sub().z() ), 9999 );
             }
@@ -4318,6 +4339,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     m.i_clear( i );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    mremove_fields( &m, i );
                 }
             }
             break;
@@ -4370,6 +4399,17 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         m.i_clear( point( tx, ty ) );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        mremove_fields( &m, point( tx, ty ) );
                     }
                 }
             }
