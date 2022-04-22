@@ -18,6 +18,12 @@
   {
     "type": "monster_adjustment",
     "species": "ZOMBIE",
-    "flag": { "name": "DEADLY_VIRUS", "value": true }
+    "flag": { "name": "DEADLY_VIRUS", "value": true },
+    "stat": { "name": "hp", "modifier": 5 }
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "stat": { "name": "bleed_rate", "modifier": 0 }
   }
 ]
