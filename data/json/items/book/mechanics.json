@@ -26,7 +26,7 @@
     "copy-from": "book_icef",
     "name": { "str": "Pneumatic Pnowledge", "str_pl": "copies of Pneumatic Pnowledge" },
     "description": "A whimsical guide to the world of building and designing compressed air and pneumatic devices, loaded with puns and dry technical diagrams.  It is unclear who the audience for a book like this would be.",
-    "proficiencies": [ { "proficiency": "prof_peumatics", "time_factor": 0.7, "fail_factor": 0.5 } ],
+    "proficiencies": [ { "proficiency": "prof_pneumatics", "time_factor": 0.7, "fail_factor": 0.5 } ],
     "time": "40 m",
     "fun": 1
   },
