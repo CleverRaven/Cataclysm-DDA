@@ -564,7 +564,7 @@
       {
         "id": "mma_buff_tiger_claw_onkill",
         "name": "Prey on the Weak",
-        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times",
+        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
