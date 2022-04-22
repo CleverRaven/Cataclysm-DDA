@@ -743,7 +743,7 @@ class item : public visitable
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
                           const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr );
+                          Character *carrier = nullptr, bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -800,6 +800,8 @@ class item : public visitable
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        ret_val<std::vector<const item_pocket *>> get_all_standard_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -882,6 +884,11 @@ class item : public visitable
         // returns the abstract 'size' of the pocket
         // used for attaching to molle items
         int get_pocket_size() const;
+
+        /**
+         * Returns true if the item can be attached with PALS straps
+         */
+        bool can_attach_as_pocket() const;
 
         // what will the move cost be of taking @it out of this container?
         // should only be used from item_location if possible, to account for
@@ -1558,6 +1565,9 @@ class item : public visitable
         bool is_comfortable() const;
         template <typename T>
         bool is_bp_rigid( const T &bp ) const;
+        // check if rigid and that it only cares about the layer it is on
+        template <typename T>
+        bool is_bp_rigid_selective( const T &bp ) const;
         template <typename T>
         bool is_bp_comfortable( const T &bp ) const;
 

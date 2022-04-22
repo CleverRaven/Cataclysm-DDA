@@ -170,6 +170,12 @@ class item_contents
         // gets all CONTAINER pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
         ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        ret_val<std::vector<const item_pocket *>> get_all_standard_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_standard_pockets();
+        ret_val<std::vector<const item_pocket *>> get_pockets( const
+                                               std::function<bool( item_pocket const & )> &filter ) const;
+        ret_val<std::vector<item_pocket *>> get_pockets( const std::function<bool( item_pocket const & )>
+                                         &filter );
 
         // called when adding an item as pockets
         // to a molle item
@@ -180,6 +186,9 @@ class item_contents
         // related vectors
         // returns the item that was attached
         item remove_pocket( int index );
+
+        // retrieves the pocket in contents corresponding to the added pocket item
+        const item_pocket *get_added_pocket( int index ) const;
 
         std::vector<const item *> get_added_pockets() const;
 

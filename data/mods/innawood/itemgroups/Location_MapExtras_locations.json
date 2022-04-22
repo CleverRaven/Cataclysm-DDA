@@ -2,22 +2,26 @@
   {
     "type": "item_group",
     "id": "field",
-    "items": [ [ "rock", 400000 ], [ "rock_flaking", 100000 ], [ "rock_large", 50000 ], [ "sharp_rock", 50000 ] ]
+    "copy-from": "field",
+    "extend": { "items": [ [ "rock", 400000 ], [ "rock_flaking", 100000 ], [ "rock_large", 50000 ], [ "sharp_rock", 50000 ] ] }
   },
   {
     "type": "item_group",
     "id": "forest",
-    "items": [
-      [ "rock", 400000 ],
-      [ "rock_flaking", 50000 ],
-      [ "rock_large", 50000 ],
-      [ "stick", 950000 ],
-      [ "pine_bough", 200000 ],
-      [ "acorns", 150000 ],
-      [ "pinecone", 50000 ],
-      [ "juniper", 50000 ],
-      [ "hickory_root", 30000 ],
-      [ "hickory_nut", 50000 ]
-    ]
+    "copy-from": "forest",
+    "extend": {
+      "items": [
+        [ "rock", 400000 ],
+        [ "rock_flaking", 50000 ],
+        [ "rock_large", 50000 ],
+        [ "stick", 950000 ],
+        [ "pine_bough", 200000 ],
+        [ "acorns", 150000 ],
+        [ "pinecone", 50000 ],
+        [ "juniper", 50000 ],
+        [ "hickory_root", 30000 ],
+        [ "hickory_nut", 50000 ]
+      ]
+    }
   }
 ]

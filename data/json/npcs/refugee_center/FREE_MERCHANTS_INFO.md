@@ -1,7 +1,7 @@
 # Shops
 
 At the start of the Cataclysm, the Free Merchants' economy looks something like this:
-* The Free Merchants use a type of currency called Merch. Shopkeepers should stock it in large quantities, and members with missions should offer it as a reward, since it's the main thing they use as money.
+* The Free Merchants use a type of currency called merch. Shopkeepers should stock it in large quantities, and members with missions should offer it as a reward, since it's the main thing they use as money.
 * The Merchants have a surplus of spare parts, tools, and useful things for crafting. In general, if it's common and annoying to loot, the Free Merchants should sell it. Expendables like solder, thread, nails, sheets of cloth, and so on should be stocked in large quantities, both because they had a surplus in the center and because scavengers sell to them. They're practically swimming in it. In general, they are always ready and willing to export raw supplies.
 * The refugee center does not have food to spare. They're walking on a tightrope to keep everybody fed, and they can't afford to sell it to anyone. On the other hand, they're always willing to buy it in bulk, and they'll pay extra for stuff that'll last a while, like jerky and canned/pickled foods.
 * Weapons and armor are needed by the center, so mid-range and high-end weapons should not be sold, since they'll be using these things themselves. They might sell low-caliber ammunition, normal clothing, and makeshift melee weapons.

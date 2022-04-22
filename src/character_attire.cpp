@@ -49,6 +49,9 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_success();
+    }
     if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
@@ -370,6 +373,11 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res
                                             _( "<npcname> is not wearing that item." ) );
     }
 
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't remove a part of your body." ) :
+                                            _( "<npcname> can't remove a part of their body." ) );
+    }
     if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
@@ -1206,6 +1214,12 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
                 continue;
             }
 
+            // skip if either item cares only about it's layer and they don't match up
+            if( ( i.is_bp_rigid_selective( sbp ) || clothing.is_bp_rigid_selective( sbp ) ) &&
+                !i.has_layer( clothing.get_layer( sbp ), sbp ) ) {
+                continue;
+            }
+
             if( i.is_bp_rigid( sbp ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
             }
@@ -1638,11 +1652,15 @@ bool outfit::in_climate_control() const
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
-    // lower layer.
+    // lower layer. Integrated armor goes under normal armor.
     return std::find_if(
                worn.rbegin(), worn.rend(),
     [&]( const item & w ) {
-        return w.get_layer() <= new_item.get_layer();
+        if( w.has_flag( flag_INTEGRATED ) == new_item.has_flag( flag_INTEGRATED ) ) {
+            return w.get_layer() <= new_item.get_layer();
+        } else {
+            return w.has_flag( flag_INTEGRATED );
+        }
     }
            ).base();
 }
@@ -1842,7 +1860,8 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
                 covered_sbps.insert( sbp );
             }
             // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
-            if( i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+            // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
+            if( !i.is_bp_rigid_selective( sbp ) && i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }

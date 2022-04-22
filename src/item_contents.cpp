@@ -1479,13 +1479,14 @@ const
     return total_weight;
 }
 
-ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
+ret_val<std::vector<const item_pocket *>> item_contents::get_pockets( const
+                                       std::function<bool( item_pocket const & )> &filter ) const
 {
     std::vector<const item_pocket *> pockets;
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( filter( pocket ) ) {
             found = true;
             pockets.push_back( &pocket );
         }
@@ -1497,13 +1498,14 @@ ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pocke
     }
 }
 
-ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+ret_val<std::vector<item_pocket *>> item_contents::get_pockets( const
+                                 std::function<bool( item_pocket const & )> &filter )
 {
     std::vector<item_pocket *> pockets;
     bool found = false;
 
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( filter( pocket ) ) {
             found = true;
             pockets.push_back( &pocket );
         }
@@ -1513,6 +1515,34 @@ ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
     } else {
         return ret_val<std::vector<item_pocket *>>::make_failure( pockets );
     }
+}
+
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( item_pocket::pocket_type::CONTAINER );
+    } );
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( item_pocket::pocket_type::CONTAINER );
+    } );
+}
+
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_standard_pockets() const
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_standard_type();
+    } );
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_standard_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 std::vector<const item *> item_contents::get_added_pockets() const
@@ -1578,6 +1608,27 @@ item item_contents::remove_pocket( int index )
     additional_pockets.erase( additional_pockets.begin() + index );
 
     return it_return;
+}
+
+const item_pocket *item_contents::get_added_pocket( int index ) const
+{
+    if( additional_pockets.empty() || index >= static_cast<int>( additional_pockets.size() ) ) {
+        return nullptr;
+    }
+
+    // start at the first pocket
+    auto rit = contents.rbegin();
+
+    // find the pockets to remove from the item
+    for( int i = additional_pockets.size() - 1; i >= index; --i ) {
+        // move the iterator past all the pockets we aren't removing
+        std::advance( rit, additional_pockets[i].get_all_contained_pockets().value().size() );
+    }
+
+    // at this point reversed past the pockets we want to get rid of so now start going forward
+    auto it = std::next( rit ).base();
+
+    return &*it;
 }
 
 bool item_contents::has_additional_pockets() const
@@ -2005,7 +2056,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {
-                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d Pockets</bold> with capacity:" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%d pockets</bold> with capacity:" ),
                                    pocket_num[idx] ) );
             } else {
                 // If this is the only pocket the item has, label it "Total capacity"

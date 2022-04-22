@@ -124,6 +124,22 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones",
+    "items": [ { "group": "phones_case", "prob": 10 }, { "group": "phones_no_case", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones_case",
+    "container-item": "waterproof_smart_phone_case",
+    "items": [
+      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
+      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones_no_case",
     "items": [
       { "item": "cell_phone", "prob": 2, "charges-min": 0, "charges-max": 15 },
       { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
@@ -157,7 +173,8 @@
       { "item": "AID_bio_meteorologist" },
       { "item": "AID_bio_railgun" },
       { "item": "AID_bio_ups" },
-      { "item": "AID_bio_weight" }
+      { "item": "AID_bio_weight" },
+      { "item": "AID_bio_trickle" }
     ]
   },
   {

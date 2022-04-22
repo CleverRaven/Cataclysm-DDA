@@ -1309,6 +1309,7 @@ static cata::clone_ptr<iexamine_actor> iexamine_actor_from_jsobj( const JsonObje
 
 void init_mapdata()
 {
+    add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
 }

@@ -1816,7 +1816,7 @@ void vehicle::use_washing_machine( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from your vehicle's tanks." ) );
+                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled from the water tanks." ) );
     }
 }
 
@@ -1873,7 +1873,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from your vehicle's tanks." ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks" ) );
     }
 }
 
@@ -2415,7 +2415,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
         }
         case EXAMINE: {
             if( is_appliance ) {
-                g->exam_appliance( *this );
+                g->exam_appliance( *this, vp.mount() );
             } else {
                 g->exam_vehicle( *this );
             }

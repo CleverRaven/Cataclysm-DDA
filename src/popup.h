@@ -164,6 +164,7 @@ class query_popup
         query_popup &on_top( bool top );
         /**
          * Whether to show the popup in `FULL_SCREEN_HEIGHT` and `FULL_SCREEN_WIDTH`.
+         * The name is a misnomer from legacy code, the popup is not actually full-screen.
          **/
         query_popup &full_screen( bool full );
         /**

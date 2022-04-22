@@ -826,7 +826,7 @@ void game::chat()
     }
 
     if( !yell_msg.empty() ) {
-        message = string_format( "\"%s\"", yell_msg );
+        message = string_format( _( "\"%s\"" ), yell_msg );
     }
     if( !message.empty() ) {
         add_msg( _( "You yell %s" ), message );
@@ -1120,7 +1120,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_SIZE_UP" ) {
         return actor( true )->evaluation_by( *actor( false ) );
     } else if( topic == "TALK_LOOK_AT" ) {
-        return "&" + actor( true )->short_description();
+        if( actor( false )->can_see() ) {
+            return "&" + actor( true )->short_description();
+        } else {
+            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
+        }
     } else if( topic == "TALK_OPINION" ) {
         return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
@@ -1395,6 +1399,9 @@ int talk_trial::calc_chance( const dialogue &d ) const
             break;
         case TALK_TRIAL_NONE:
             chance = 100;
+            break;
+        case TALK_TRIAL_SKILL_CHECK:
+            chance = d.actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 : 0;
             break;
         case TALK_TRIAL_CONDITION:
             chance = condition( d ) ? 100 : 0;
@@ -1679,6 +1686,14 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
         ftext = text;
+    } else if( trial.type == TALK_TRIAL_SKILL_CHECK ) {
+        const Skill &req_skill = skill_id( trial.skill_required ).obj();
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d/%3$d] %4$s" ),
+                               req_skill.name(),
+                               std::min( d.actor( false )->get_skill_level( req_skill.ident() ),
+                                         trial.difficulty ),
+                               trial.difficulty,
+                               text );
     } else {
         // dialogue w/ a % chance to work
         //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
@@ -1935,6 +1950,7 @@ talk_trial::talk_trial( const JsonObject &jo )
             WRAP( LIE ),
             WRAP( PERSUADE ),
             WRAP( INTIMIDATE ),
+            WRAP( SKILL_CHECK ),
             WRAP( CONDITION )
 #undef WRAP
         }
@@ -1946,6 +1962,9 @@ talk_trial::talk_trial( const JsonObject &jo )
     type = iter->second;
     if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
         difficulty = jo.get_int( "difficulty" );
+    }
+    if( type == TALK_TRIAL_SKILL_CHECK ) {
+        skill_required = jo.get_string( "skill_required" );
     }
 
     read_condition<dialogue>( jo, "condition", condition, false );
@@ -2245,11 +2264,11 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
                 count = 0;
             }
 
-            if( count == 0 && charges > 0 && p.has_charges( item_name, charges ) ) {
-                p.use_charges( item_name, charges );
+            if( count == 0 && charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                p.use_charges( item_name, charges, true );
             } else if( p.has_amount( item_name, count ) ) {
-                if( charges > 0 && p.has_charges( item_name, charges ) ) {
-                    p.use_charges( item_name, charges );
+                if( charges > 0 && p.has_charges( item_name, charges, true ) ) {
+                    p.use_charges( item_name, charges, true );
                 }
                 p.use_amount( item_name, count );
             } else {
@@ -2519,6 +2538,20 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
                 run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
             }
             get_map().invalidate_map_cache( omt_pos.z() );
+        }
+    };
+}
+
+void talk_effect_fun_t::set_remove_npc( const JsonObject &jo, const std::string &member )
+{
+    std::string npc_id;
+    mandatory( jo, false, member, npc_id );
+    function = [npc_id]( const dialogue & ) {
+        std::vector<npc *> npc_list = g->get_npcs_if( [npc_id]( const npc & npc ) -> bool {
+            return npc.idz == npc_id;
+        } );
+        for( npc *npc : npc_list ) {
+            overmap_buffer.remove_npc( npc->getID() );
         }
     };
 }
@@ -3048,6 +3081,22 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
+        } else if( checked_value == "strength_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "dexterity_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "intelligence_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
+            };
+        } else if( checked_value == "perception_bonus" ) {
+            return [is_npc, min, max]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name, type, min, max]( const dialogue & d, int input ) {
@@ -3158,6 +3207,11 @@ static std::function<void( const dialogue &, int )> get_set_int( const JsonObjec
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "addiction_turns" ) {
+            const addiction_id add_id( jo.get_string( "addiction" ) );
+            return [is_npc, min, max, add_id]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_addiction_turns( add_id, handle_min_max( d, input, min, max ) );
+            };
         } else if( checked_value == "stim" ) {
             return [is_npc, min, max]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );
@@ -3467,6 +3521,29 @@ void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::str
                 }
                 break;
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::string &member )
+{
+    std::vector<std::string> mission_names;
+
+    if( jo.has_array( member ) ) {
+        for( const std::string mission_name : jo.get_array( member ) ) {
+            mission_names.push_back( mission_name );
+        }
+    } else if( jo.has_string( member ) ) {
+        mission_names.push_back( jo.get_string( member ) );
+    } else {
+        jo.throw_error( "Invalid input for set_offer_mission" );
+    }
+
+    function = [mission_names]( const dialogue & d ) {
+        npc *p = d.actor( true )->get_npc();
+
+        for( const std::string &mission_name : mission_names ) {
+            p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
         }
     };
 }
@@ -4176,6 +4253,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
+    } else if( jo.has_member( "remove_npc" ) ) {
+        subeffect_fun.set_mapgen_update( jo, "remove_npc" );
     } else if( jo.has_member( "revert_location" ) ) {
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
@@ -4220,6 +4299,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_string( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
+    } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
+        subeffect_fun.set_offer_mission( jo, "offer_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
