@@ -378,5 +378,19 @@
     "charges_per_use": 50,
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET" ]
+  },
+  {
+    "id": "exo_climb",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit climbing assist module", "str_pl": "exosuit climbing assist modules" },
+    "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.  Requires four modules across the suit for full effect.",
+    "weight": "2 kg",
+    "volume": "1 L",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET", "WALL_CLING_FOURTH" ]
   }
 ]
