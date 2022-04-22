@@ -177,7 +177,7 @@
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
     "stun_dur": 2,
-    "description": "Stun 2 turns, crit only",
+    "description": "Stun 2 turns, crit only, min 3 melee",
     "attack_vectors": [ "WEAPON" ]
   },
   {
