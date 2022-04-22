@@ -3380,6 +3380,39 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     }
 }
 
+void item::pet_armor_protection_info( std::vector<iteminfo> &info,
+                                      const iteminfo_query *parts ) const
+{
+    if( !is_pet_armor() ) {
+        return;
+    }
+
+    if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
+        const std::string space = "  ";
+
+        info.emplace_back( "ARMOR", _( "<bold>Protection</bold>:" ), "" );
+        info.emplace_back( "ARMOR", space + _( "Bash: " ), "",
+                           iteminfo::is_decimal, bash_resist() );
+        info.emplace_back( "ARMOR", space + _( "Cut: " ), "",
+                           iteminfo::is_decimal, cut_resist() );
+        info.emplace_back( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
+                           bullet_resist() );
+        info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
+                           iteminfo::is_decimal, acid_resist() );
+        info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
+                           iteminfo::is_decimal, fire_resist() );
+        info.emplace_back( "ARMOR", space + _( "Environmental: " ),
+                           get_base_env_resist( *this ) );
+
+        if( damage() > 0 ) {
+            info.emplace_back( "ARMOR",
+                               _( "Protection values are <bad>reduced by damage</bad> and "
+                                  "you may be able to <info>improve them by repairing this "
+                                  "item</info>." ) );
+        }
+    }
+}
+
 // simple struct used for organizing encumberance in an ordered set
 struct armor_encumb_data {
     int encumb;
@@ -3533,7 +3566,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        info.emplace_back( "ARMOR", _( "<bold>Total Coverage</bold>: " ) );
+        info.emplace_back( "ARMOR", _( "<bold>Total Coverage</bold>:" ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
             limb_groups[portion_for_bodypart( bp )->coverage].push_back( bp );
         }
@@ -3554,7 +3587,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         armor_encumb_header_info( *this, info );
 
-        info.emplace_back( "ARMOR", _( "<bold>Encumbrance</bold>: " ) );
+        info.emplace_back( "ARMOR", _( "<bold>Encumbrance</bold>:" ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
             armor_encumb_data encumbrance( get_encumber( c, bp, item::encumber_flags::assume_empty ),
                                            get_encumber( c, bp ), get_encumber( c, bp, item::encumber_flags::assume_full ) );
@@ -3598,7 +3631,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_BREATHABILITY ) && covers_anything ) {
 
         std::map<int, std::vector<bodypart_id>> limb_groups;
-        info.emplace_back( "ARMOR", _( "<bold>Breathability</bold>: " ) );
+        info.emplace_back( "ARMOR", _( "<bold>Breathability</bold>:" ) );
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
             limb_groups[portion_for_bodypart( bp )->breathability].push_back( bp );
         }
@@ -3691,7 +3724,7 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     if( !is_pet_armor() ) {
         return;
     }
-    armor_protection_info( info, parts, batch, debug );
+    pet_armor_protection_info( info, parts );
 }
 
 void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
