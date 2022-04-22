@@ -225,6 +225,12 @@
     ]
   },
   {
+    "id": "filament_durable",
+    "type": "requirement",
+    "//": "Materials for use when sewing high end items, restricted to only the aramid threads.",
+    "components": [ [ [ "thread_kevlar", 1 ], [ "thread_nomex", 1 ] ] ]
+  },
+  {
     "id": "glazing",
     "type": "requirement",
     "//": "Materials for glazing pottery",
@@ -301,6 +307,12 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ], [ "flint", 1 ] ] ]
   },
   {
     "id": "waterproofing",

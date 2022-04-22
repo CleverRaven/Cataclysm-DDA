@@ -150,6 +150,9 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
+static const addiction_id addiction_opiate( "opiate" );
+static const addiction_id addiction_sleeping_pill( "sleeping pill" );
+
 static const ammotype ammo_battery( "battery" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
@@ -162,6 +165,7 @@ static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_ups( "bio_ups" );
@@ -1217,7 +1221,9 @@ void Character::react_to_felt_pain( int intensity )
     if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
         int pain_thresh = rng( 3, 5 );
 
-        if( has_trait( trait_HEAVYSLEEPER ) ) {
+        if( has_bionic( bio_sleep_shutdown ) ) {
+            pain_thresh += 999;
+        } else if( has_trait( trait_HEAVYSLEEPER ) ) {
             pain_thresh += 2;
         } else if( has_trait( trait_HEAVYSLEEPER2 ) ) {
             pain_thresh += 5;
@@ -7493,7 +7499,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( has_effect( effect_sleep ) ) {
+        if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
         if( !is_npc() && !has_effect( effect_narcosis ) ) {
@@ -7971,6 +7977,9 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
+    if( has_bionic( bio_sleep_shutdown ) ) {
+        add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response." ) );
+    }
     if( has_active_mutation( trait_HIBERNATE ) &&
         get_kcal_percent() > 0.8f ) {
         if( is_avatar() ) {
@@ -8286,7 +8295,7 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             //~ Select components from inventory to consume. %d = number of components left to consume.
             imenu.title = string_format( _( "Select which component to use (%d left)" ), quantity );
             for( const item *itm : tmp ) {
-                imenu.addentry( itm->tname() );
+                imenu.addentry( itm->display_name() );
             }
             imenu.query();
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
@@ -8379,7 +8388,7 @@ int Character::consume_ups( int64_t qty, const int radius )
 }
 
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
-                                        const std::function<bool( const item & )> &filter )
+                                        const std::function<bool( const item & )> &filter, bool in_tools )
 {
     std::list<item> res;
     inventory inv = crafting_inventory( pos(), radius, true );
@@ -8412,11 +8421,11 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos(), radius, what, qty, return_true<item> );
+        get_map().use_charges( pos(), radius, what, qty, return_true<item>, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter]( item * e, item * ) {
-            if( e->use_charges( what, qty, res, pos(), filter, this ) ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
+            if( e->use_charges( what, qty, res, pos(), filter, this, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -9352,7 +9361,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     // Handle painkillers
     val = get_effect( "PKILL", reduced );
     if( val != 0 ) {
-        mod = it.get_addict_mod( "PKILL", addiction_level( add_type::PKILLER ) );
+        mod = it.get_addict_mod( "PKILL", addiction_level( addiction_opiate ) );
         if( is_new || it.activated( calendar::turn, "PKILL", val, reduced, mod ) ) {
             mod_painkiller( bound_mod_to_vals( get_painkiller(), val, it.get_max_val( "PKILL", reduced ), 0 ) );
         }
@@ -9498,7 +9507,7 @@ int Character::sleep_spot( const tripoint &p ) const
     bool watersleep = has_trait( trait_WATERSLEEP );
     bool activechloro = has_active_mutation( trait_CHLOROMORPH );
 
-    if( has_addiction( add_type::SLEEP ) ) {
+    if( has_addiction( addiction_sleeping_pill ) ) {
         sleepy -= 4;
     }
 
@@ -9615,6 +9624,7 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -11270,8 +11280,8 @@ void Character::pause()
         } else {
             e.mod_duration( - ( benefit - penalty ) );
             add_msg_player_or_npc( m_warning,
-                                   _( "You attempt to put pressure on the bleeding wound!" ),
-                                   _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+                                   _( "You put pressure on the bleeding wound…" ),
+                                   _( "<npcname> puts pressure on the bleeding wound…" ) );
             practice( skill_firstaid, 1 );
             practice_proficiency( proficiency_prof_wound_care, 1_turns );
             practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );

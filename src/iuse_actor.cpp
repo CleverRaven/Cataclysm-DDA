@@ -326,13 +326,18 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
             it.seal();
         }
     }
-    if( p.is_worn( *obj ) ) {
-        p.calc_encumbrance();
-        p.update_bodytemp();
-        p.on_worn_item_transform( obj_copy, *obj );
-    }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
+    if( p.is_worn( *obj ) ) {
+        if( !obj->is_armor() ) {
+            item_location il = item_location( p, obj );
+            p.takeoff( il );
+        } else {
+            p.calc_encumbrance();
+            p.update_bodytemp();
+            p.on_worn_item_transform( obj_copy, *obj );
+        }
+    }
 
     return result;
 }
@@ -4539,7 +4544,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
 
     auto filter = [this]( const item & itm ) {
         return itm.is_armor() && !itm.is_firearm() && !itm.is_power_armor() && !itm.is_gunmod() &&
-               itm.made_of_any( materials );
+               itm.made_of_any( materials ) && !itm.has_flag( flag_INTEGRATED );
     };
     // note: if !p.is_npc() then p is avatar.
     item_location loc = game_menus::inv::titled_filter_menu(

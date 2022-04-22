@@ -1216,5 +1216,43 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "STURDY", "OUTER" ]
+  },
+  {
+    "id": "dragonskinempty",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "lamellar Kevlar vest" },
+    "description": "A lamellar Kevlar vest, there are intricately cut voids usually filled with stitched in ceramic disks, you could repair the stitching if needed",
+    "weight": "2060 g",
+    "volume": "4 L",
+    "price": 1900,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered" ],
+    "symbol": "[",
+    "looks_like": "dragonskin",
+    "color": "light_red",
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 6, "coverage": 25, "covers": [ "torso" ] } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "ceramicdisks",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "ceramic disk" },
+    "description": "A set of small slightly elongated disks, made of high-grade ceramic.  They remind you of scales.",
+    "price": 0,
+    "price_postapoc": 25,
+    "material": [ "ceramic" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "to_hit": -3
   }
 ]

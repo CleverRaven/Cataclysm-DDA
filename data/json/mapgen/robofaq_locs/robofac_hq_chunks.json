@@ -57,9 +57,8 @@
       "mapgensize": [ 2, 2 ],
       "rows": [
         "  ",
-        " ."
+        "  "
       ],
-      "terrain": { ".": "t_thconc_floor" },
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }
   }

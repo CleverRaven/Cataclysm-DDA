@@ -18,6 +18,16 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
   },
   {
+    "id": "balaclava_skull",
+    "type": "ARMOR",
+    "repairs_like": "balclava",
+    "copy-from": "balclava",
+    "name": { "str": "skull balaclava" },
+    "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
+    "warmth": 10,
+    "material_thickness": 0.2
+  },
+  {
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
     "name": { "str": "cut-resistant balaclava" },
@@ -158,6 +168,7 @@
   },
   {
     "id": "mask_guy_fawkes",
+    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
@@ -219,6 +230,28 @@
     "environmental_protection": 1,
     "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
+  },
+  {
+    "id": "mask_skull",
+    "type": "ARMOR",
+    "category": "armor",
+    "repairs_like": "mask_hockey",
+    "name": { "str": "skull mask" },
+    "description": "A plastic skull mask that covers the face.  Spooky.",
+    "weight": "50 g",
+    "volume": "750 ml",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "mask_hockey",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "santa_beard",

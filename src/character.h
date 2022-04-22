@@ -24,6 +24,7 @@
 
 #include "activity_tracker.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -42,9 +43,9 @@
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
+#include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -437,6 +438,8 @@ class Character : public Creature, public visitable
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
 
+        cata::optional<city> starting_city;
+        cata::optional<point_abs_om> world_origin;
         bool random_start_location = true;
         start_location_id start_location;
 
@@ -2391,13 +2394,13 @@ class Character : public Creature, public visitable
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         /** Adds an addiction to the player */
-        void add_addiction( add_type type, int strength );
+        void add_addiction( const addiction_id &type, int strength );
         /** Removes an addition from the player */
-        void rem_addiction( add_type type );
+        void rem_addiction( const addiction_id &type );
         /** Returns true if the player has an addiction of the specified type */
-        bool has_addiction( add_type type ) const;
+        bool has_addiction( const addiction_id &type ) const;
         /** Returns the intensity of the specified addiction */
-        int addiction_level( add_type type ) const;
+        int addiction_level( const addiction_id &type ) const;
 
         /** Returns true if the character is familiar with the given creature type **/
         bool knows_creature_type( const Creature *c ) const;
@@ -2473,7 +2476,8 @@ class Character : public Creature, public visitable
         * @return List of items used
         */
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
-                                     const std::function<bool( const item & )> &filter = return_true<item> );
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
+                                     bool in_tools = false );
 
         item find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
@@ -3245,7 +3249,7 @@ class Character : public Creature, public visitable
                                            int count = INT_MAX ) override;
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        const std::function<void( int )> &visitor = nullptr ) const override;
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
         int amount_of( const itype_id &what, bool pseudo = true,
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;

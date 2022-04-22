@@ -414,7 +414,7 @@
     "color": "light_gray",
     "symbol": "/",
     "material": [ "steel", "wood" ],
-    "techniques": [ "WBLOCK_1", "PRECISE", "IMPALE" ],
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
     "volume": "2500 ml",
     "longest_side": "180 cm",
     "bashing": 5,

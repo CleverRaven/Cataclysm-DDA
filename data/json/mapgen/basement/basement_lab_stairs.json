@@ -102,6 +102,8 @@
         { "group": "pool_table", "x": [ 17, 18 ], "y": [ 11, 13 ], "chance": 90 },
         { "group": "livingroom", "x": [ 9, 23 ], "y": [ 6, 16 ], "chance": 60 },
         { "group": "dresser", "x": 18, "y": 19, "chance": 80 },
+        { "group": "costume_all", "x": 18, "y": 19, "chance": 15 },
+        { "group": "costume_all", "x": 22, "y": 19, "chance": 15 },
         { "group": "dresser", "x": 22, "y": 19, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 19, "chance": 80 }
       ],
