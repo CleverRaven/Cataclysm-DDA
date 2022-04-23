@@ -606,7 +606,7 @@
     "id": "robofac_hardcase",
     "type": "GENERIC",
     "name": { "str": "DARPA hard case" },
-    "description": "A heavy and very durable protective case made of steel and thick plastic, locked with a six-digit code.  A sticker with the logo of DARPA is attached to the front, but looking at the surface, you can see that another marking - formerly stenciled into the material - was recently and hastily destroyed.",
+    "description": "A heavy and very durable protective case made of steel and thick plastic, locked with a six dials.  A sticker with the logo of DARPA is attached to the front, but looking at the surface, you can see that another marking - formerly stenciled into the material - was recently and hastily destroyed.",
     "weight": "1202 g",
     "volume": "7958 ml",
     "longest_side": "30 cm",
