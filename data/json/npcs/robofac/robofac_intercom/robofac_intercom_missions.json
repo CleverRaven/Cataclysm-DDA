@@ -352,7 +352,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_2_ADVICE_DARPA",
     "type": "talk_topic",
     "//": "This is a lie.  The researcher was XEDRA; DARPA is just the organization being used as a front.",
-    "dynamic_line": "Officially speaking, they were a senior DARPA researcher.  Their corpse should stick out - it's likely the only one not wearing camouflage.  That's all you need to know."
+    "dynamic_line": "Officially speaking, they were a senior DARPA researcher.  Their corpse should stick out; it's likely the only one not wearing camouflage.  That's all you need to know."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
@@ -443,7 +443,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location",
     "type": "talk_topic",
-    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage - as a result, you will need to find a way down yourself.  While there were stairs as well, it's highly likely that they have been destroyed.\"\n\n\"We advise bringing a way to safely enter and exit the lower level; a grappling hook would work well for this purpose.  Given the damage profile, the elevator shaft itself probably remains intact, and would be your likeliest point of entry to the underground portion of the building."
+    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage - as a result, you will need to find a way down yourself.  While there were stairs as well, it's highly likely that they have been destroyed.\"\n\n\"We advise bringing a way to safely enter and exit the lower level; a grappling hook would work well for this purpose.  Given the damage, the elevator shaft itself probably remains intact, and would be your likeliest point of entry to the underground portion of the building."
   },
   {
     "id": [
@@ -466,7 +466,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Toxins",
     "type": "talk_topic",
-    "dynamic_line": "Correct.  The source of the chemicals is unknown, as its the exact composition; only trace amounts are present in the air itself.  We can, however, extrapolate that something within the ruins is creating highly poisonous emissions.  We do not know how strong these emissions will become, or what form they will take."
+    "dynamic_line": "Correct.  The source of the chemicals is unknown, as is the exact composition; only trace amounts are present in the air itself.  We can, however, extrapolate that something within the ruins is creating highly poisonous emissions.  We do not know how strong these emissions will become, or what form they will take."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Heat",
@@ -597,7 +597,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_5",
     "type": "talk_topic",
-    "dynamic_line": "…Uh.  We are- thank you for finding the photonics.  We will, ah, make sure that the threat profile of your future contracts are adequately assessed.  Um.  Thank you.",
+    "dynamic_line": "…Uh.  We are- thank you for finding the photonics.  We will, ah, make sure that the threat conditions of your future contracts are adequately assessed.  Um.  Thank you.",
     "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
   },
   {
@@ -699,12 +699,12 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Trifacet",
     "type": "talk_topic",
-    "dynamic_line": "We are as of yet uncertain of its origin and purpose.  Its body most closely resembles a pyramid on what we believe are three sets of legs for mobility.  It is lightly armed, and has attacked our cam-spy drones using high-voltage electric discharge.  We theorize that this is most likely for deterrence, and not to cause direct harm.  Nonetheless, we advise a great deal of caution."
+    "dynamic_line": "We are as of yet uncertain of its origin and purpose.  Its body most closely resembles a pyramid on what we believe are three sets of legs for mobility.  It is lightly armed, and has attacked our cam-spy drones using high-voltage electric discharge.  We theorize that this is most likely for deterrence, and not to cause direct harm.  Nonetheless, we need to emphasize that its full capabilities are unknown, and we do not know how it will react when confronted with a living threat."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a heavy battery, a sheaf of papers in a binder, and a UPS. \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact*.  Battered salvage is of no use to us.  To safely perform the task of deactivation, please review the provided documentation, and pay special attention to the procedures detailed in subsections IV and VII."
+    "dynamic_line": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a heavy battery, a sheaf of papers in a binder, and a UPS. \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, please review the provided documentation, and pay special attention to the procedures detailed in subsections IV and VII."
   },
   {
     "id": [
