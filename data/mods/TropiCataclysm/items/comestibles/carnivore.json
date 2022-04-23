@@ -19,7 +19,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": { "str": "chunk of mollusk meat", "str_pl": "chunks of mollusk meat" },
-    "description": "The flesh of a mollusk. A staple of cuisine in many riverine and coastal towns.",
+    "description": "The flesh of a mollusk.  A staple of cuisine in many riverine and coastal towns.",
     "//": "Nutrition information roughly averaged from edible cephalopods, gastropods and bivalves. if you know more pls expand",
     "weight": "148 g",
     "volume": "250 ml",
