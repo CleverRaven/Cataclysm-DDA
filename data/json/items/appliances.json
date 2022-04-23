@@ -157,7 +157,7 @@
     "id": "autoclave",
     "type": "TOOL",
     "name": { "str": "autoclave" },
-    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so will need to be plugged into a power grid.",
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so it will need to be plugged into a power grid.",
     "weight": "34500 g",
     "volume": "76 L",
     "price": 162654,
