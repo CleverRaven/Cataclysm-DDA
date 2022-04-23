@@ -4517,5 +4517,20 @@
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "patriot",
+    "name": "Patriot",
+    "description": "You are a true american patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
+    "points": -1,
+    "items": {
+      "both": { "items": [ "american_flag", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "male": [ "flag_shirt", "flag_pants", "flag_swimsuit" ],
+      "female": {
+        "items": [ "flag_jumpsuit" ],
+        "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
+      }
+    }
   }
 ]
