@@ -198,7 +198,7 @@
     "melee_cut": 3,
     "dodge": 5,
     "armor_cut": 5,
-    "armor_bullet": 30,
+    "armor_bullet": 15,
     "bleed_rate": 40,
     "vision_day": 50,
     "//": "need to add the harvest",
