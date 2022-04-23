@@ -126,7 +126,7 @@
     "material": [ "vacuum_carbide" ],
     "looks_like": "power_armor_helmet_basic",
     "non_functional": "destroyed_exo_helmet_vcc_plate",
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "extend": { "flags": [ "NO_REPAIR" ] },
     "armor": [
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
