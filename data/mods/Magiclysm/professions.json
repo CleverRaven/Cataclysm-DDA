@@ -392,16 +392,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "cloak_vampire",
-          "gloves_claws",
-          "socks",
-          "dress_shoes",
-          "knit_scarf",
-          "sunglasses",
-          "platinum_watch",
-          "vampire_fangs"
-        ],
+        "items": [ "cloak_vampire", "gloves_claws", "dress_shoes", "knit_scarf", "sunglasses", "platinum_watch", "vampire_fangs" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "knife_baselard", "container-item": "sheath" },
@@ -415,14 +406,14 @@
         ]
       },
       "male": {
-        "items": [ "dress_shirt", "pants", "tie_necktie", "tieclip", "briefs" ],
+        "items": [ "dress_shirt", "pants", "tie_necktie", "tieclip", "briefs", "socks" ],
         "entries": [
           { "item": "ruby_silver_cufflinks", "variant": "vampire_cufflinks" },
           { "item": "ruby_silver_bracelet", "variant": "vampire_bracelet" }
         ]
       },
       "female": {
-        "items": [ "sinister_dress", "bra", "panties", "purse" ],
+        "items": [ "sinister_dress", "bra", "panties", "stockings", "garter_belt", "purse" ],
         "entries": [
           { "item": "ruby_silver_earring", "variant": "vampire_earring" },
           { "item": "ruby_silver_pendant_necklace", "variant": "vampire_necklace" }
