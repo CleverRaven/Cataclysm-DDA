@@ -578,7 +578,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_autoclave",
-    "name": { "str": "autoclave" },
+    "name": { "str": "small autoclave" },
     "looks_like": "f_autoclave",
     "symbol": "D",
     "location": "structure",
