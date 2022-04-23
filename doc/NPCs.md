@@ -728,7 +728,7 @@ Effect | Description
 `set_npc_engagement_rule: rule_string` | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 `set_npc_aim_rule: rule_string` | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 `npc_die` | The NPC will die at the end of the conversation.
-`npc_set_goal:assign_mission_target_object`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the item is sold then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`npc_set_goal:assign_mission_target_object`, *optional* `true_eocs: eocs_array`, *optional* `false_eocs: eocs_array` | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 
 #### Map Updates
 Effect | Description
