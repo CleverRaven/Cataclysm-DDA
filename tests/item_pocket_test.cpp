@@ -2525,3 +2525,52 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
         }
     }
 }
+
+TEST_CASE( "item cannot contain contents it already has", "[item][pocket]" )
+{
+    item backpack( "test_backpack" );
+    item bottle( "bottle_plastic" );
+    item water( "water" );
+
+    water.charges = 1;
+    bottle.fill_with( water, 1 );
+    REQUIRE( !bottle.is_container_empty() );
+    REQUIRE( bottle.only_item().typeId() == water.typeId() );
+    backpack.put_in( bottle, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( !backpack.is_container_empty() );
+    REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
+
+    const tripoint ipos = get_player_character().pos();
+    map &m = get_map();
+    clear_map();
+
+    item_location backpack_loc( map_cursor( ipos ), &m.add_item( ipos, backpack ) );
+    item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
+    item_location water_loc( bottle_loc, &bottle_loc->only_item() );
+
+    REQUIRE( water_loc->count() == 1 );
+
+    const item &water_item = *water_loc;
+
+    // Check bottle containing water
+    bool in_top = false;
+    for( const item *contained : bottle_loc->all_items_top() ) {
+        if( contained == water_loc.get_item() ) {
+            in_top = true;
+        }
+    }
+    CHECK( in_top );
+    CHECK( bottle_loc->can_contain( water_item ).success() );
+    CHECK( !bottle_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+
+    // Check backpack containing bottle containing water
+    in_top = false;
+    for( const item *contained : backpack_loc->all_items_top() ) {
+        if( contained == water_loc.get_item() ) {
+            in_top = true;
+        }
+    }
+    CHECK( !in_top );
+    CHECK( backpack_loc->can_contain( water_item ).success() );
+    CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+}
