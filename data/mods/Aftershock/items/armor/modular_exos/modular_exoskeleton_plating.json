@@ -184,7 +184,7 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -206,7 +206,7 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 }
         ],
         "covers": [ "torso" ],
         "coverage": 85,
@@ -238,7 +238,7 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 6 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -260,7 +260,7 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "torso" ],
         "coverage": 85,
