@@ -1261,6 +1261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_autoclave",
+    "name": "Place Autoclave"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
   },
