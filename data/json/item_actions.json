@@ -111,11 +111,6 @@
   },
   {
     "type": "item_action",
-    "id": "MIND_SPLICER",
-    "name": { "str": "Extract data from memory banks" }
-  },
-  {
-    "type": "item_action",
     "id": "ROBOTCONTROL",
     "name": { "str": "Hack a robot" }
   },
