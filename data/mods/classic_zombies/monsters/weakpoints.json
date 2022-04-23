@@ -124,6 +124,41 @@
             "damage_required": [ 26, 100 ]
           }
         ]
+      },
+      {
+        "id": "head_coup",
+        "name": "the head",
+        "//": "If a zombie is downed, it's way easier to get a headshot.",
+        "coverage": 25,
+        "crit_mult": { "all": 2 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "ranged": 5 },
+        "coverage_mult": { "melee": 2 },
+        "damage_mult": { "all": 15 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ],
+        "required_effects": [ "downed" ]
       }
     ]
   },
@@ -537,6 +572,40 @@
             "damage_required": [ 20, 100 ]
           }
         ]
+      },
+      {
+        "id": "head_coup",
+        "name": "the head",
+        "//": "If a zombie is downed, it's way easier to get a headshot.  The armour still applies though.",
+        "coverage": 25,
+        "crit_mult": { "all": 1.5 },
+        "difficulty": { "ranged": 7 },
+        "coverage_mult": { "melee": 2 },
+        "damage_mult": { "all": 15 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ],
+        "required_effects": [ "downed" ]
       }
     ]
   },
