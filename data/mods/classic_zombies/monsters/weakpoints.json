@@ -57,10 +57,20 @@
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.1 },
         "effects": [
-          { "effect": "downed", "chance": 40, "message": "The %s is knocked down, and doesn't look like it can get back up!", "damage_required": [ 5, 10 ] },
-          { "effect": "downed", "chance": 80, "message": "TThe %s is knocked down, and doesn't look like it can get back up!", "damage_required": [ 11, 100 ] }
+          {
+            "effect": "downed",
+            "chance": 40,
+            "message": "The %s is knocked down, and doesn't look like it can get back up!",
+            "damage_required": [ 5, 10 ]
+          },
+          {
+            "effect": "downed",
+            "chance": 80,
+            "message": "TThe %s is knocked down, and doesn't look like it can get back up!",
+            "damage_required": [ 11, 100 ]
+          }
         ],
-        "coverage": 10,
+        "coverage": 10
       },
       {
         "id": "head",
@@ -70,7 +80,7 @@
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 5 },
         "coverage_mult": { "melee": 2 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           {
             "effect": "stunned",
@@ -103,7 +113,7 @@
         "crit_mult": { "all": 2.5 },
         "difficulty": { "ranged": 8, "melee": 6 },
         "coverage_mult": { "broad": 0.5 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -129,7 +139,7 @@
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 5 },
         "coverage_mult": { "melee": 2 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           {
             "effect": "stunned",
@@ -162,7 +172,7 @@
         "crit_mult": { "all": 2.5 },
         "difficulty": { "ranged": 7, "melee": 5 },
         "coverage_mult": { "broad": 0.5 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -188,7 +198,7 @@
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 6 },
         "coverage_mult": { "melee": 2 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           {
             "effect": "stunned",
@@ -221,7 +231,7 @@
         "crit_mult": { "all": 2.5 },
         "difficulty": { "ranged": 10, "melee": 8 },
         "coverage_mult": { "broad": 0.5 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -397,7 +407,7 @@
         "armor_mult": { "physical": 1.5 },
         "crit_mult": { "all": 0.5 },
         "coverage_mult": { "melee": 0.75 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "coverage": 4
       },
       {
@@ -406,7 +416,7 @@
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 2 },
         "difficulty": { "melee": 2, "ranged": 7 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "coverage_mult": { "melee": 2 },
         "coverage": 6,
         "effects": [
@@ -439,7 +449,7 @@
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 2.5 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
         "effects": [
@@ -459,7 +469,7 @@
         "armor_mult": { "physical": 0.25 },
         "difficulty": { "melee": 4, "ranged": 6 },
         "coverage_mult": { "broad": 0.5 },
-		"damage_mult": { "all": 5 },
+        "damage_mult": { "all": 5 },
         "coverage": 1
       }
     ]
@@ -474,7 +484,7 @@
         "//": "the hard part of the helmet is actually the opposite of a weakpoint.",
         "armor_mult": { "physical": 1.5 },
         "crit_mult": { "all": 0.5 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "coverage_mult": { "melee": 0.75 },
         "coverage": 4
       },
@@ -484,7 +494,7 @@
         "crit_mult": { "all": 1.5 },
         "difficulty": { "melee": 2, "ranged": 7 },
         "coverage_mult": { "melee": 2 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "coverage": 6,
         "effects": [
           {
@@ -517,7 +527,7 @@
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           {
             "effect": "blind",
@@ -541,7 +551,7 @@
         "coverage": 1,
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 7, "broad": 9 },
-		"damage_mult": { "all": 10 },
+        "damage_mult": { "all": 10 },
         "effects": [
           {
             "effect": "blind",
