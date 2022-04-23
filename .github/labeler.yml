@@ -60,7 +60,8 @@
   - "**/npc**"
 
 "Melee":
-  - "**/**melee**"
+  - "**/melee**"
+  - "**/**techniques**"
 
 "Info / User Interface":
   - "**/ui/**/*"
@@ -109,6 +110,9 @@
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
   - "**/overmap**"
+
+"Martial Arts":
+  - "**/martialarts**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
