@@ -197,6 +197,13 @@
     "description": "An alien creature brought by the portal storms.  It resembles a mix between fish and bird."
   },
   {
+    "id": "mon_fish_cloudscale",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_flying_tiny",
+    "name": { "str": "cloudscale" },
+    "description": "An alien creature brought by the portal storms.  It resembles a tiny tropical fish, its scales shifting color with the sky."
+  },
+  {
     "id": "mon_fish_flagtail",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_small",
@@ -211,6 +218,13 @@
     "description": "An alien creature brought by the portal storms.  It resembles a rotund fish filled with gas."
   },
   {
+    "id": "mon_fish_angelfin",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_flying_small",
+    "name": { "str": "angel fin" },
+    "description": "An alien creature brought by the portal storms.  It resembles a sleek fish with long angelic fins."
+  },
+  {
     "id": "mon_fish_wingmane",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_medium",
@@ -222,7 +236,14 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_medium",
     "name": { "str": "mosaicus", "str_pl": "mosaicuses" },
-    "description": "An alien creature brought by the portal storms.  It resembles a round fish with bright shimmering scales."
+    "description": "An alien creature brought by the portal storms.  It resembles a round fish with bright multicolor scales."
+  },
+  {
+    "id": "mon_fish_cometbass",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_flying_medium",
+    "name": { "str": "comet bass", "str_pl": "comet basses" },
+    "description": "An alien creature brought by the portal storms.  It resembles a bulky fish with cloudy scales."
   },
   {
     "id": "mon_fish_aeroctinus",
@@ -232,6 +253,13 @@
     "description": "An alient creature brought by the portal storms.  It resembles a sleek and lightweight predatory fish."
   },
   {
+    "id": "mon_fish_boreasbanner",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_flying_large",
+    "name": { "str": "boreas banner" },
+    "description": "An alient creature brought by the portal storms.  It resembles a fast ocean going fish with a large bluish dorsal fin."
+  },
+  {
     "id": "mon_fish_macawfin",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_large",
@@ -239,17 +267,24 @@
     "description": "An alient creature brought by the portal storms.  It resembles a bulky beaked fish with colored scales and fins like a parrot or macaw."
   },
   {
-    "id": "mon_fish_solaspis",
+    "id": "mon_fish_astroaspis",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
-    "name": { "str": "solaspis", "str_pl": "solaspises" },
+    "name": { "str": "astrolaspis", "str_pl": "astrolaspises" },
     "description": "An alient creature brought by the portal storms.  It resembles a round ocean going fish with a sandy coloration like some ancient sun dial."
+  },
+  {
+    "id": "mon_fish_eolocanth",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_flying_huge",
+    "name": { "str": "eolocanth" },
+    "description": "An alient creature brought by the portal storms.  It resembles a prehistoric fish with pearl scales as if made of porcelain."
   },
   {
     "id": "mon_fish_cosmoserpent",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
-    "name": { "str": "cosmos serpent" },
-    "description": "An alient creature brought by the portal storms.  It resembles a long eel or moray with dark sking and bright spots."
+    "name": { "str": "cosmo serpent" },
+    "description": "An alient creature brought by the portal storms.  It resembles a long eel or moray with dark skin and luminous spots."
   }
 ]
