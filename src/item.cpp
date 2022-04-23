@@ -294,7 +294,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_standard_pockets().value() ) {
+        for( item_pocket *pocket : contents.get_all_standard_pockets() ) {
             pocket->settings.set_collapse( true );
         }
     } else {
@@ -302,7 +302,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             return pck.is_type( item_pocket::pocket_type::MAGAZINE ) or
                    pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
         };
-        for( item_pocket *pocket : contents.get_pockets( mag_filter ).value() ) {
+        for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
             pocket->settings.set_collapse( true );
         }
     }
@@ -6328,10 +6328,9 @@ std::string item::display_name( unsigned int quantity ) const
 
 bool item::is_collapsed() const
 {
-    std::vector<const item_pocket *> const &pck = get_all_standard_pockets().value();
-    return std::any_of( pck.begin(), pck.end(), []( const item_pocket * it ) {
-        return !it->empty() && it->settings.is_collapsed();
-    } );
+    return !contents.get_pockets( []( item_pocket const & pocket ) {
+        return pocket.settings.is_collapsed() and pocket.is_standard_type();
+    } ).empty();
 }
 
 nc_color item::color() const
@@ -7367,7 +7366,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
         // add the encumbrance values of any ablative plates and additional encumbrance pockets
         if( is_ablative() || has_additional_encumbrance() ) {
-            for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
                     // get the contained plate
                     const item &ablative_armor = pocket->front();
@@ -9218,22 +9217,22 @@ bool item::all_pockets_rigid() const
     return contents.all_pockets_rigid();
 }
 
-ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() const
+std::vector<const item_pocket *> item::get_all_contained_pockets() const
 {
     return contents.get_all_contained_pockets();
 }
 
-ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
+std::vector<item_pocket *> item::get_all_contained_pockets()
 {
     return contents.get_all_contained_pockets();
 }
 
-ret_val<std::vector<const item_pocket *>> item::get_all_standard_pockets() const
+std::vector<const item_pocket *> item::get_all_standard_pockets() const
 {
     return contents.get_all_standard_pockets();
 }
 
-ret_val<std::vector<item_pocket *>> item::get_all_standard_pockets()
+std::vector<item_pocket *> item::get_all_standard_pockets()
 {
     return contents.get_all_standard_pockets();
 }
@@ -9569,7 +9568,7 @@ ret_val<bool> item::can_contain( const item &it, const bool nested,
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<bool>::make_failure();
     }
-    for( const item_pocket *pkt : contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
         if( pkt->empty() ) {
             continue;
         }
@@ -13314,12 +13313,12 @@ units::volume item::check_for_free_space() const
     units::volume volume;
 
     for( const item *container : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        ret_val<std::vector<const item_pocket *>> containedPockets =
-                container->contents.get_all_contained_pockets();
-        if( containedPockets.success() ) {
+        std::vector<const item_pocket *> containedPockets =
+            container->contents.get_all_contained_pockets();
+        if( !containedPockets.empty() ) {
             volume += container->check_for_free_space();
 
-            for( const item_pocket *pocket : containedPockets.value() ) {
+            for( const item_pocket *pocket : containedPockets ) {
                 if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
                     volume += pocket->remaining_volume();
                 }
