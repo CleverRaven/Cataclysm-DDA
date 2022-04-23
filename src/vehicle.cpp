@@ -5872,6 +5872,8 @@ void vehicle::refresh( const bool remove_fakes )
             vehicle_part &part_real = parts.at( real_index );
             if( part_real.has_fake &&
                 static_cast<size_t>( part_real.fake_part_at ) < parts.size() ) {
+                relative_parts[ parts[ part_real.fake_part_at ].mount ].push_back(
+                    part_real.fake_part_at );
                 return;
             }
             vehicle_part part_fake( parts.at( real_index ) );
@@ -5891,13 +5893,7 @@ void vehicle::refresh( const bool remove_fakes )
             part_real.fake_part_at = fake_index;
             fake_parts.push_back( fake_index );
             parts.push_back( part_fake );
-            if( relative_parts.find( part_fake.mount ) == relative_parts.end() ) {
-                std::vector<int> relative;
-                relative.push_back( fake_index );
-                relative_parts[ part_fake.mount ] = relative;
-            } else {
-                relative_parts[ part_fake.mount ].push_back( fake_index );
-            }
+            relative_parts[ part_fake.mount ].push_back( fake_index );
             edges.emplace( real_mount, edge_info );
         }
     };
@@ -5909,9 +5905,19 @@ void vehicle::refresh( const bool remove_fakes )
             add_fake_part( rp.first, "OBSTACLE" );
         }
         // then add protrusions that hanging on top of fake obstacles.
+
         std::vector<int> current_fakes = fake_parts; // copy, not a reference
         for( const int fake_index : current_fakes ) {
             add_fake_part( parts.at( fake_index ).mount, "PROTRUSION" );
+        }
+    } else {
+        // Always repopulate fake parts in relative_parts cache since we cleared it.
+        for( const int fake_index : fake_parts ) {
+            if( parts[fake_index].removed ) {
+                continue;
+            }
+            point pt = parts[fake_index].mount;
+            relative_parts[pt].push_back( fake_index );
         }
     }
 
