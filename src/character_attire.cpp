@@ -1440,7 +1440,7 @@ units::volume outfit::free_space() const
     units::volume volume_capacity = 0_ml;
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -1508,7 +1508,7 @@ units::volume outfit::small_pocket_volume( const units::volume &threshold )  con
     units::volume small_spaces = 0_ml;
     for( const item &w : worn ) {
         if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
                 if( pocket->volume_capacity() <= threshold ) {
                     small_spaces += pocket->volume_capacity();
                 }
@@ -2190,7 +2190,7 @@ int outfit::clatter_sound() const
     for( const item &i : worn ) {
         // if the item has noise making pockets we should check if they have clatered
         if( i.has_noisy_pockets() ) {
-            for( const item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
                 int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
                 int volume = pocket->get_pocket_data()->activity_noise.volume;
                 if( noise_chance > 0 && !pocket->empty() ) {
@@ -2232,7 +2232,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     for( item &i : worn ) {
         // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }
