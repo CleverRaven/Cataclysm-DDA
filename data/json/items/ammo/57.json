@@ -31,7 +31,7 @@
     "relative": {
       "price": 100,
       "range": -1,
-      "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": -6 },
+      "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": -6 },
       "recoil": -40
     }
   },
