@@ -190,7 +190,6 @@ static const harvest_drop_type_id harvest_drop_skin( "skin" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );

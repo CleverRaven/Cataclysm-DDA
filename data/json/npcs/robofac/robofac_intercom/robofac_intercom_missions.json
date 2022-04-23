@@ -22,7 +22,7 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
-        "//": "This is to prevent players who accepted the mission before its update from being unable to continue the questline.  Remove after 0.G",
+        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
         "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
         "effect": [
@@ -199,7 +199,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "//": "All dialogue for most of the intercom's missions is handled through talk_topics; we don't use these strings for those such missions",
       "describe": "…",
       "offer": "…",
       "accepted": "…",
@@ -308,7 +308,6 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
       "describe": "…",
       "offer": "…",
       "accepted": "…",
@@ -649,7 +648,6 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
       "describe": "…",
       "offer": "…",
       "accepted": "…",
@@ -758,14 +756,14 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "…",
-      "offer": "As we mentioned before, our research into the portal storm phenomena requires we obtain some additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for the completion of this contract.",
-      "accepted": "Excellent.  Please remember to exercise caution, the effects of the storms on human physiology remain poorly understood.",
-      "rejected": "That seems reasonable… all things considered.  Perhaps it'd be best to defer this contract until we can offer some better protection to our agents, I'll submit that as a suggestion.",
-      "advice": "Once the storm starts, it should be enough to walk outside while carrying the NRE as the recording requires no particular actions from your part.  Research insist on the fact that you must personally hold the NRE to take accurate measurements, so leaving it outside while you take shelter wont work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself…  Oh, you might want to obtain a high caliber firearm before attempting to take the measurements, just in case things start leaking into uhm… prime.",
-      "inquire": "Have you obtained the portal storm data?",
-      "success": "Excellent, we expected nothing less.",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
       "success_lie": "…",
-      "failure": "Simply useless…"
+      "failure": "…"
     }
   },
   {

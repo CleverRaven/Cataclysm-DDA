@@ -155,12 +155,10 @@
     "responses": [
       {
         "text": "Let's discuss contracts.",
-        "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS",
-        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" }
+        "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS"
       },
       {
         "text": "Let's trade.",
-        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
         "effect": "start_trade"
       },
@@ -303,7 +301,6 @@
     ]
   },
   {
-    "//": "This file contains dialogue for the whole intro sequence to Hub 01, including initial conversations and dialogue introducing the first mission.  Check robofac_intercom_missions.json for a complete definition of the intro mission, as well as some related dialogue calls.",
     "id": "TALK_ROBOFAC_INTERCOM_INTRO",
     "type": "talk_topic",
     "dynamic_line": {
