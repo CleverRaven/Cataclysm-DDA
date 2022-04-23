@@ -12,7 +12,7 @@ Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and 
 
 The `"id"` member is the unique identifier for this monster type. It can be any string, but by convention has the prefix `mon_`. This id is referenced in monster groups or in mapgen to spawn specific monsters.
 
-For quantity strings (ie. volume, weight) use the largest unit you can keep full precision with.
+For quantity strings (i.e. volume, weight) use the largest unit you can keep full precision with.
 
 
 ## Monster properties

@@ -3500,6 +3500,8 @@ void veh_interact::complete_vehicle( Character &you )
                     }
                 }
                 veh->part_removal_cleanup();
+                //always stop after removing an appliance
+                you.activity.set_to_null();
             }
 
             if( veh->part_count() < 2 ) {

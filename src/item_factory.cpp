@@ -1476,7 +1476,6 @@ void Item_factory::init()
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
-    add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
@@ -1749,12 +1748,6 @@ void Item_factory::check_definitions() const
                 if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
-            }
-        }
-
-        if( type->has_flag( flag_COLLAPSE_CONTENTS ) ) {
-            if( !is_container( type ) ) {
-                msg += "is not a container so COLLAPSE_CONTENTS is unnecessary.\n";
             }
         }
 
@@ -3025,11 +3018,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-
-    if( jo.has_string( "addiction_type" ) ) {
-        slot.add = addiction_type( jo.get_string( "addiction_type" ) );
-    }
-
+    assign( jo, "addiction_type", slot.add, strict );
     assign( jo, "addiction_potential", slot.addict, strict );
 
     bool got_calories = false;

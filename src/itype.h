@@ -22,7 +22,6 @@
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
-#include "pldata.h" // add_type
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -140,7 +139,7 @@ struct islot_comestible {
         int addict = 0;
 
         /** effects of addiction */
-        add_type add = add_type::NONE;
+        addiction_id add = addiction_id::NULL_ID();
 
         /** stimulant effect */
         int stim = 0;

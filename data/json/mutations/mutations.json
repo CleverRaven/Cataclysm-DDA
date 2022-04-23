@@ -338,6 +338,16 @@
   },
   {
     "type": "mutation",
+    "id": "INATTENTIVE",
+    "name": { "str": "Inattentive" },
+    "points": -2,
+    "starting_trait": true,
+    "description": "You never paid attention to your surroundings and specifically to people around you.  You can't judge intent of critters you see.",
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "OUTDOORSMAN",
     "name": { "str": "Outdoorsman" },
     "points": 1,
@@ -1225,6 +1235,20 @@
     "types": [ "HEALING" ],
     "healing_resting": -0.9,
     "mending_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "NOHEAL",
+    "name": { "str": "Irreparable" },
+    "points": -12,
+    "description": "Whatever caused the end of the world affected you in a horrible way.  Your wounds will never heal on their own and your broken limbs will never mend.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "HEALING" ],
+    "healing_resting": -1.0,
+    "mending_modifier": 0,
+    "flags": [ "NO_MINIMAL_HEALING" ]
   },
   {
     "type": "mutation",

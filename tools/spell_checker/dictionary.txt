@@ -387,6 +387,7 @@ crosshair
 crossin
 crosstie
 croupiere
+crowdfunded
 cryomask
 crystaltender
 ctivate
@@ -423,6 +424,7 @@ deadun
 deadzone
 deathcam
 deathmobile
+deathrattle
 decelerates
 deceptived
 defatted
@@ -926,6 +928,7 @@ kunst
 kzzz
 l
 labbit
+lactobacillus
 lajatang
 lamellar
 landshark
@@ -949,6 +952,7 @@ leverpostej
 lewede
 leylines
 lickin
+lidded
 lifegiver
 lifestraw
 lightnin
@@ -1348,6 +1352,7 @@ pushmower
 pussywillows
 pwn
 pyrolusite
+parabellum
 pyrophoric
 pyrrolidone
 q
@@ -1412,6 +1417,7 @@ reimpose
 reluctancy
 remodulator
 rended
+rearwards
 renderer
 renfaires
 rennet
@@ -1541,6 +1547,7 @@ sightedness
 siloed
 siloing
 sinensis
+sixgun
 skeletonized
 skeltal
 skirmisher

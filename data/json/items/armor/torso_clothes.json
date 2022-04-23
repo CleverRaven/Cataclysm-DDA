@@ -57,7 +57,7 @@
     "id": "bee_dress",
     "repairs_like": "dress",
     "type": "ARMOR",
-    "name": { "str_sp": "bee dress" },
+    "name": { "str": "bee dress", "str_pl": "bee dresses" },
     "description": "A short black and yellow dress, reminiscent of a bee.  It includes bee wings, a hood, and a pair of antenna.",
     "weight": "739 g",
     "volume": "4000 ml",
@@ -169,7 +169,7 @@
     "id": "cheerleader_top",
     "repairs_like": "tank_top",
     "type": "ARMOR",
-    "name": { "str_sp": "cheerleader top" },
+    "name": { "str": "cheerleader tank top" },
     "description": "A red cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
     "weight": "120 g",
     "volume": "250 ml",
@@ -188,7 +188,7 @@
     "id": "cheerleader_top_short",
     "repairs_like": "tank_top",
     "type": "ARMOR",
-    "name": { "str_sp": "short cheerleader top" },
+    "name": { "str": "short cheerleader tank top" },
     "description": "A red and short cheerleader tank top.  It has the words \"Cheers\" printed on its front.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -1235,7 +1235,7 @@
       {
         "id": "my_little_nazgul_tshirt",
         "name": { "str": "My Little Nazgûl t-shirt" },
-        "description": "A light grey t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
+        "description": "A light gray t-shirt with a drawing of a Nazgûl riding a black horse.  All drawings are done in the style of old My Little Pony cartoons.",
         "weight": 1
       },
       {
@@ -1253,7 +1253,7 @@
       {
         "id": "doom_song_tshirt",
         "name": { "str": "doom song t-shirt" },
-        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it. 'It's time for the DOOM song.  Doom, doom, doom, dooooom!!",
+        "description": "A black shirt with a green robot poorly disguised as a dog.  It has words on it.  \"It's time for the DOOM song.  Doom, doom, doom, dooooom!!\"",
         "weight": 1
       },
       {

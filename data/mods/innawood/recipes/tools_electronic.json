@@ -195,7 +195,7 @@
       [ [ "motor_micro", 1 ] ],
       [ [ "superglue", 2 ] ],
       [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "power_supply", 1 ], [ "makeshift_transformer", 2 ] ]
     ]
   },
@@ -224,7 +224,7 @@
       [ [ "vac_pump", 1 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wood_panel", 1 ] ],
-      [ [ "hose", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
       [ [ "power_supply", 1 ], [ "makeshift_transformer", 2 ] ]
     ]
   }

@@ -157,7 +157,7 @@
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
       [ "jumper_cable_heavy", 2 ],
-      [ "tire_iron", 20 ],
+      [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
@@ -325,7 +325,7 @@
     "ammo": 100,
     "items": [
       [ "jack", 80 ],
-      [ "tire_iron", 80 ],
+      [ "lug_wrench", 80 ],
       [ "jack_small", 80 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],

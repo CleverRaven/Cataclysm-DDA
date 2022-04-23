@@ -24,6 +24,7 @@
 
 #include "activity_tracker.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -45,7 +46,6 @@
 #include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -2394,13 +2394,13 @@ class Character : public Creature, public visitable
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         /** Adds an addiction to the player */
-        void add_addiction( add_type type, int strength );
+        void add_addiction( const addiction_id &type, int strength );
         /** Removes an addition from the player */
-        void rem_addiction( add_type type );
+        void rem_addiction( const addiction_id &type );
         /** Returns true if the player has an addiction of the specified type */
-        bool has_addiction( add_type type ) const;
+        bool has_addiction( const addiction_id &type ) const;
         /** Returns the intensity of the specified addiction */
-        int addiction_level( add_type type ) const;
+        int addiction_level( const addiction_id &type ) const;
 
         /** Returns true if the character is familiar with the given creature type **/
         bool knows_creature_type( const Creature *c ) const;

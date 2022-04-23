@@ -28,6 +28,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 10 ], [ "ABSORB_MEAT", 10 ] ],
     "harvest": "zombie",
+    "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 15, "into": "mon_flesh_golem" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
@@ -60,6 +61,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ] ],
     "harvest": "flesh_golem",
+    "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 15, "into": "mon_jabberwock" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
@@ -93,6 +95,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "harvest": "jabberwock",
+    "dissect": "dissect_beast_sample_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
   }
 ]

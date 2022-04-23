@@ -3076,7 +3076,9 @@
       [ "tieclip", 15 ],
       [ "hairpin", 15 ],
       [ "santa_beard", 5 ],
-      [ "santa_hat", 4 ]
+      [ "santa_hat", 4 ],
+      [ "vampire_fangs", 5 ],
+      [ "mask_skull", 4 ]
     ]
   },
   {

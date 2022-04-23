@@ -154,6 +154,33 @@
     "weight": "300 kg"
   },
   {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": { "str": "autoclave" },
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so it will need to be plugged into a power grid.",
+    "weight": "34500 g",
+    "volume": "76 L",
+    "price": 162654,
+    "price_postapoc": 2000,
+    "to_hit": -6,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": "A",
+    "color": "yellow",
+    "looks_like": "microwave",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "15 kg",
+        "flag_restriction": [ "CBM" ],
+        "item_restriction": [ "water_clean", "water" ]
+      }
+    ]
+  },
+  {
     "type": "TOOL",
     "id": "power_cord",
     "name": { "str": "power cord" },
