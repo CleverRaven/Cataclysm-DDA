@@ -80,6 +80,7 @@
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]

@@ -71,6 +71,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -7569,6 +7570,13 @@ void map::actualize( const tripoint &grid )
             rad_scorch( pnt, time_since_last_actualize );
 
             decay_cosmetic_fields( pnt, time_since_last_actualize );
+        }
+    }
+
+    tripoint_abs_sm const sm = abs_sub + grid;
+    for( auto const &guy : overmap_buffer.get_npcs_near( sm, 0 ) ) {
+        if( guy->get_location().z() == sm.z() ) {
+            guy->shop_restock();
         }
     }
 

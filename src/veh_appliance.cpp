@@ -418,7 +418,8 @@ void veh_app_interact::rename()
 
 void veh_app_interact::remove()
 {
-    vehicle_part &vp = veh->part( veh->part_at( a_point ) );
+    int const part = veh->part_at( a_point );
+    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
     const vpart_info &vpinfo = vp.info();
     const requirement_data reqs = vpinfo.removal_requirements();
     Character &you = get_player_character();
