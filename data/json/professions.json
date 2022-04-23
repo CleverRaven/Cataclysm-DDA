@@ -4522,7 +4522,7 @@
     "type": "profession",
     "id": "patriot",
     "name": "Patriot",
-    "description": "You are a true american patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
+    "description": "You are a true American patriot, dressed with star-spangled clothing from head to toes.  The government has fallen, but the nation lives on with its people.",
     "points": -1,
     "items": {
       "both": { "items": [ "american_flag", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_smart_phone" } ] },
