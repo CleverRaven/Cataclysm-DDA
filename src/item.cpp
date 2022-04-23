@@ -5751,8 +5751,10 @@ void item::on_wield( Character &you )
         you.martial_arts_data->martialart_use_message( you );
     }
 
-    // Update encumbrance in case we were wearing it
+    // Update sight, encumbrance, and discomfort in case we were wearing it
+    you.recalc_sight_limits();
     you.flag_encumbrance();
+    you.calc_discomfort();
     you.on_item_acquire( *this );
 }
 

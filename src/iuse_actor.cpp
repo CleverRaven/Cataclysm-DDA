@@ -3146,6 +3146,7 @@ static bool damage_item( Character &pl, item_location &fix )
 
         pl.recalc_sight_limits();
         pl.calc_encumbrance();
+        pl.calc_discomfort();
 
         return true;
     }
