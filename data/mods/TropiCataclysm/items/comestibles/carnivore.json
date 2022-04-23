@@ -1,0 +1,32 @@
+[
+  {
+    "id": "echinoderm",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of echinoderm flesh", "str_pl": "chunks of echinoderm flesh" },
+    "description": "The flesh of an echinoderm.  Considered a delicacy in several parts of the world but otherwise poor in nutritional value.",
+    "//": "Nutrition information roughly based on edible sea cucumbers, if you know more pls expand",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "calories": 60
+  },
+  {
+    "id": "mollusk",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of mollusk meat", "str_pl": "chunks of mollusk meat" },
+    "description": "The flesh of a mollusk. A staple of cuisine in many riverine and coastal towns.",
+    "//": "Nutrition information roughly averaged from edible cephalopods, gastropods and bivalves. if you know more pls expand",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "calories": 130
+  }
+]
