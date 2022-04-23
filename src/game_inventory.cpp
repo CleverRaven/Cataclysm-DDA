@@ -2323,7 +2323,7 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_bionic();
+            return loc->is_bionic() && loc->is_owned_by( you, true );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2411,7 +2411,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_bionic();
+            return loc->is_bionic() && loc->is_owned_by( you, true );
         }
 
         std::string get_denial( const item_location &loc ) const override {
