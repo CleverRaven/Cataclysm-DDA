@@ -616,7 +616,8 @@
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
     "types": [ "SOLES" ],
-    "category": [ "GASTROPOD" ]
+    "changes_to": [ "PADDED_FEET" ],
+    "category": [ "GASTROPOD", "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE" ]
   },
   {
     "type": "mutation",
@@ -3505,10 +3506,11 @@
     "type": "mutation",
     "id": "PADDED_FEET",
     "name": { "str": "Padded Feet" },
-    "points": 1,
+    "points": 2,
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "SOLES" ],
+    "prereqs": [ "TOUGH_FEET" ],
     "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE" ]
   },
   {
