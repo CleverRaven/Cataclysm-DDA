@@ -134,7 +134,8 @@
         "coverage": 85,
         "encumbrance": 25
       }
-    ],
+    ]
+  },
   {
     "id": "destroyed_exo_helmet_vcc_plate",
     "type": "ARMOR",

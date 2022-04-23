@@ -205,9 +205,7 @@
     ],
     "armor": [
       {
-        "material": [
-          { "type": "titanium", "covered_by_mat": 100, "thickness": 2 }
-        ],
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -229,9 +227,7 @@
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
       {
-        "material": [
-          { "type": "titanium", "covered_by_mat": 100, "thickness": 2 }
-        ],
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 5
