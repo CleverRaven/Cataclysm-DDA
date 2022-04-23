@@ -24,7 +24,7 @@
     "name": "alien sponge",
     "description": "This looks like some kind of alien sponge.  It has a bluish color and seems sturdy as a rock.",
     "symbol": "0",
-    "color": "white_blue",
+    "color": "blue",
     "move_cost_mod": 6,
     "coverage": 45,
     "required_str": 16,
