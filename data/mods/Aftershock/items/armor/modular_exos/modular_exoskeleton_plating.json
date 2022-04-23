@@ -108,9 +108,22 @@
     "non_functional": "destroyed_exo_helmet_vcc_plate"
   },
   {
+    "id": "damaged_exo_helmet_vcc",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_helmet_vcc",
+    "name": { "str": "carbide helmet plate (exosuit)", "str_pl": "carbide helmet plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's helmet, this is a plate of vacuum-cast carbide.",
+    "weight": "1287 g",
+    "material": [ "vacuum_carbide" ],
+    "looks_like": "power_armor_helmet_basic",
+    "material_thickness": 6,
+    "non_functional": "destroyed_exo_helmet_vcc_plate"
+  },
+  {
     "id": "destroyed_exo_helmet_vcc_plate",
     "type": "ARMOR",
-    "copy-from": "exo_helmet_plastic",
+    "copy-from": "exo_helmet_vcc",
     "name": { "str": "shattered carbide helmet plate (exosuit)", "str_pl": "shattered carbide helmet plates (exosuit)" },
     "description": "The remains of a vacuum-cast carbide helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_helmet_vcc",
