@@ -1,0 +1,58 @@
+[
+  {
+    "id": [
+"plastic_fork",
+"plastic_spoon",
+"plastic_spoon_kids",
+"plastic_knife",
+"plastic_straw",
+"bowl_plastic",
+"plastic_bowl_kids",
+"plastic_six_dice",
+"cup_plastic",
+"tumbler_plastic",
+"sippy_cup",
+"soap_holder",
+"toothbrush_plain",
+"toothbrush_dirty",
+"hairbrush",
+"curler_hair",
+"comb_pocket",
+"plunger_futuristic",
+"brush_toilet",
+"toothbrush_electric",
+"bottle_bathroom",
+"dentures",
+"shuttlecock",
+"golf_ball"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_plastic"
+  },
+  {
+        "id": [
+"comb_lice",
+"mess_tray",
+"cheese_grater",
+"fork",
+"spoon",
+"knife_butter",
+"corkscrew",
+"peeler",
+"bottle_opener",
+"spork",
+"foon",
+"pizza_cutter",
+"icecream_scoop",
+"cheese_grater",
+"ladle",
+"whisk",
+"potato_masher",
+"garlic_press",
+"can_opener",
+"carving_fork"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_steel"
+  }
+]

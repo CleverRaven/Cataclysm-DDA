@@ -1,0 +1,12 @@
+[
+  {
+    "result": "generic_steel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  }
+]

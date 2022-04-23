@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "generic_trash",
+    "name": "Generic Trash",
+    "authors": [ "SuddenEyePuncture" ],
+    "maintainers": [ "SuddenEyePuncture" ],
+    "description": "Replaces trash with generic types.",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]
