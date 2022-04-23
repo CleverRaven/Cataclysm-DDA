@@ -15,7 +15,7 @@
     "non_functional": "damaged_exo_helmet_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
         "encumbrance": 20
@@ -32,9 +32,9 @@
     "non_functional": "destroyed_exo_helmet_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "head", "eyes", "mouth" ],
-        "coverage": 100,
+        "coverage": 85,
         "encumbrance": 20
       }
     ]
@@ -64,7 +64,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 15
       }
     ]
   },
@@ -80,8 +80,8 @@
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "head", "eyes", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 20
+        "coverage": 85,
+        "encumbrance": 15
       }
     ]
   },
@@ -111,7 +111,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 25
       }
     ],
   },
@@ -131,8 +131,8 @@
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "head", "eyes", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 20
+        "coverage": 85,
+        "encumbrance": 25
       }
     ],
   {
@@ -156,10 +156,18 @@
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
-    "warmth": 20,
-    "material_thickness": 6,
+    "warmth": 25,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 },
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "exo_torso_plastic",
@@ -171,8 +179,39 @@
     "weight": "3432 g",
     "volume": "8 L",
     "material": [ "plastic" ],
-    "material_thickness": 3,
-    "non_functional": "destroyed_exo_torso_plastic_plate"
+    "non_functional": "damaged_exo_torso_plastic",
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 },
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_torso_plastic",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_torso_steel",
+    "name": { "str": "damaged plastic torso plate (exosuit)", "str_pl": "damaged plastic torso plates (exosuit)" },
+    "description": "The remains of a plastic torso plate after taking a strong impact.  Can be repaired in the field.",
+    "weight": "3432 g",
+    "volume": "8 L",
+    "material": [ "plastic" ],
+    "non_functional": "destroyed_exo_torso_plastic_plate",
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 },
+        ],
+        "covers": [ "torso" ],
+        "coverage": 85,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "destroyed_exo_torso_plastic_plate",
@@ -181,8 +220,7 @@
     "name": { "str": "shattered plastic torso plate (exosuit)", "str_pl": "shattered plastic torso plates (exosuit)" },
     "description": "The remains of a plastic torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
     "looks_like": "exo_torso_plastic",
-    "material_thickness": 3,
-    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "exo_torso_vcc",
@@ -195,7 +233,39 @@
     "volume": "8 L",
     "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
+    "non_functional": "damaged_exo_torso_vcc_plate"
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 6 },
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 35
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_torso_vcc",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_torso_steel",
+    "name": { "str": "damaged carbide torso plate (exosuit)", "str_pl": "damaged carbide torso plates (exosuit)" },
+    "description": "The remains of a carbide torso plate after taking a strong impact.",
+    "weight": "44000 g",
+    "volume": "8 L",
+    "material": [ "vacuum_carbide" ],
     "non_functional": "destroyed_exo_torso_vcc_plate"
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 },
+        ],
+        "covers": [ "torso" ],
+        "coverage": 85,
+        "encumbrance": 35
+      }
+    ]
   },
   {
     "id": "destroyed_exo_torso_vcc_plate",
