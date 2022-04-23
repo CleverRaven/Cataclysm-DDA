@@ -5,6 +5,7 @@
     "om_terrain": [ "station_radio" ],
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "//": "These maps are all facing the wrong direction to be placed with correct facings during mapgen. Plus a few other problems.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
