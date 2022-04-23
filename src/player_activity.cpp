@@ -65,6 +65,8 @@ static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
+static const efftype_id effect_nausea( "nausea" );
+
 static const std::vector<activity_id> consuming {
     ACT_CONSUME,
     ACT_EAT_MENU,
@@ -72,8 +74,6 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_DRINK_MENU,
     ACT_CONSUME_MEDS_MENU,
     ACT_CONSUME_FUEL_MENU };
-
-static const efftype_id effect_nausea( "nausea" );
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
