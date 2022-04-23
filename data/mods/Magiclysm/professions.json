@@ -205,7 +205,12 @@
     "items": {
       "both": {
         "items": [ "jeans", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "leather_belt" ],
-        "entries": [ { "item": "primitive_knife", "container-item": "sheath" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "primitive_knife", "container-item": "sheath" },
+          { "item": "tshirt", "variant": "start_a_cult_tshirt" },
+          { "item": "onyx_silver_bracelet", "variant": "dark_bracelet" },
+          { "item": "onyx_silver_ring", "variant": "dark_ring" }
+        ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
