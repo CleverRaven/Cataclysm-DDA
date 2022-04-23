@@ -12,19 +12,6 @@
     "dynamic_line": "What would you like to discuss?",
     "responses": [
       {
-        "text": "[Contract: Steal a dead man's last words]",
-        "condition": {
-          "and": [
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
-          ]
-        },
-        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_2_OFFER"
-      },
-      {
         "text": "I'm back from the convoy.  [Hand over the hard case.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "robofac_hardcase" } ] },
         "effect": [
@@ -46,6 +33,48 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
+        "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
+        "effect": [
+          { "u_sell_item": "template_photonics", "count": 1 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_3", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE"
+      },
+      {
+        "text": "The weapon worked!  [Hand over the inactive trifacet.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "bot_yrax_trifacet" } ] },
+        "effect": [
+          { "u_sell_item": "bot_yrax_trifacet", "count": 1 },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE"
+      },
+      {
+        "text": "I found the robot, but…  [Hand over the trifacet remains.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "broken_yrax_trifacet" } ] },
+        "effect": [
+          { "u_sell_item": "broken_yrax_trifacet", "count": 1 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": false }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
+      },
+      {
+        
+        "text": "[Contract: Steal a dead man's last words]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_OFFER"
+      },
+      {
         "text": "[Contract: Light retrieval]",
         "condition": {
           "and": [
@@ -57,15 +86,6 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER"
-      },
-      {
-        "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
-        "effect": [
-          { "u_sell_item": "template_photonics", "count": 1 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_3", "success": true }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE"
       },
       {
         "text": "[Contract: Iron Safari]",
@@ -94,25 +114,6 @@
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
-      },
-      {
-        "text": "The weapon worked!  [Hand over the inactive trifacet.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "bot_yrax_trifacet" } ] },
-        "effect": [
-          { "u_sell_item": "bot_yrax_trifacet", "count": 1 },
-          { "u_spawn_item": "RobofacCoin", "count": 2 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": true }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE"
-      },
-      {
-        "text": "I found the robot, but…  [Hand over the trifacet remains.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "broken_yrax_trifacet" } ] },
-        "effect": [
-          { "u_sell_item": "broken_yrax_trifacet", "count": 1 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": false }
-        ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
       },
       {
         "text": "Do you have any more work for me right now?",
