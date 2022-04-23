@@ -159,6 +159,7 @@
     "color": "light_gray",
     "warmth": 25,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
+    "non_functional": "destroyed_exo_torso_steel",
     "armor": [
       {
         "material": [
@@ -169,6 +170,15 @@
         "encumbrance": 25
       }
     ]
+  },
+  {
+    "id": "destroyed_exo_torso_steel_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_torso_steel",
+    "name": { "str": "shattered steel torso plate (exosuit)", "str_pl": "shattered steel torso plates (exosuit)" },
+    "description": "The remains of a steel torso plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_torso_steel",
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "exo_torso_plastic",
@@ -234,7 +244,7 @@
     "volume": "8 L",
     "material": [ "vacuum_carbide" ],
     "material_thickness": 6,
-    "non_functional": "damaged_exo_torso_vcc_plate"
+    "non_functional": "damaged_exo_torso_vcc_plate",
     "armor": [
       {
         "material": [
@@ -256,7 +266,7 @@
     "weight": "44000 g",
     "volume": "8 L",
     "material": [ "vacuum_carbide" ],
-    "non_functional": "destroyed_exo_torso_vcc_plate"
+    "non_functional": "destroyed_exo_torso_vcc_plate",
     "armor": [
       {
         "material": [
