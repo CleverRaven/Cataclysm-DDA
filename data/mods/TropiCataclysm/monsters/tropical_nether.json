@@ -243,7 +243,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
     "name": { "str": "solaspis" },
-    "description": "An alient creature brought by the portal storms.  It resembles a round ocean going fish with a sandy coloration like an acient sun dial."
+    "description": "An alient creature brought by the portal storms.  It resembles a round ocean going fish with a sandy coloration like some ancient sun dial."
   },
   {
     "id": "mon_fish_cosmolaspis",
