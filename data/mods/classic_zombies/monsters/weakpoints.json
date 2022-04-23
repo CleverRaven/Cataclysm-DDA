@@ -111,7 +111,7 @@
       {
         "id": "head",
         "name": "the head",
-        "coverage": 10,
+        "coverage": 12,
         "crit_mult": { "all": 2 },
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 5 },
@@ -169,7 +169,7 @@
       {
         "id": "head",
         "name": "the head",
-        "coverage": 5,
+        "coverage": 6,
         "crit_mult": { "all": 2 },
         "armor_mult": { "physical": 0.75 },
         "difficulty": { "melee": 1, "ranged": 6 },
