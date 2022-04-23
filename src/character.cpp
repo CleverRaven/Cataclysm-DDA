@@ -7712,7 +7712,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -11036,7 +11036,7 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     if( check_best_pkt && pk_type == item_pocket::pocket_type::CONTAINER &&
-        container.get_all_contained_pockets().value().size() > 1 ) {
+        container.get_all_contained_pockets().size() > 1 ) {
         container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1 );
     } else {
         container.put_in( i_rem( &put ), pk_type );

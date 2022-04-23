@@ -798,10 +798,10 @@ class item : public visitable
         bool all_pockets_rigid() const;
 
         // gets all pockets contained in this item
-        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
-        ret_val<std::vector<const item_pocket *>> get_all_standard_pockets() const;
-        ret_val<std::vector<item_pocket *>> get_all_standard_pockets();
+        std::vector<const item_pocket *> get_all_contained_pockets() const;
+        std::vector<item_pocket *> get_all_contained_pockets();
+        std::vector<const item_pocket *> get_all_standard_pockets() const;
+        std::vector<item_pocket *> get_all_standard_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.

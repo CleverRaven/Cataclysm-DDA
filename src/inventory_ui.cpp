@@ -873,7 +873,7 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
 
     bool collapsed = false;
     for( item_location &loc : locations ) {
-        for( item_pocket *pocket : loc->get_all_standard_pockets().value() ) {
+        for( item_pocket *pocket : loc->get_all_standard_pockets() ) {
             pocket->settings.set_collapse( collapse );
             collapsed = true;
         }
