@@ -481,7 +481,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
             }
-        } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE" || !ev.text.empty() ) {
+        } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
+                   || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {
             // paste, input from file, or text input
             // bail out early if already at length limit
             if( _max_length <= 0 || ret.display_width() < static_cast<size_t>( _max_length ) ) {
