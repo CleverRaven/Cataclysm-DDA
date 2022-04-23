@@ -361,7 +361,7 @@
       "both": {
         "items": [ "grim_reaper_robe", "jumpsuit_skeleton_zipped", "gloves_skeleton", "socks", "boots" ],
         "entries": [
-          { "item": "grim_reaper_scythe", "custom-flags": [ "auto_wield" ] },
+          { "item": "grim_reaper_scythe", "ammo-item": "crystallized_mana", "charges": 3, "custom-flags": [ "auto_wield" ] },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
       },
