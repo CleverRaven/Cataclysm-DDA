@@ -26,7 +26,7 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
       "advice": "When I was playin' with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
       "inquire": "How 'bout that black box?",
       "success": "America, fuck yeah!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
-      "success_lie": "What?!  I outta whip your ass.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, I maybe we can find an egg-head to crack the terminal."
     }
   }
