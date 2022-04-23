@@ -4501,9 +4501,9 @@
         ]
       },
       "male": [ "boxer_shorts" ],
-      "female": [ "chestwrap", "panties" ],
-      "traits": [ "LIGHTSTEP" ]
+      "female": [ "chestwrap", "panties" ]
     }
+    "traits": [ "LIGHTSTEP" ],
   },
   {
     "type": "profession",
