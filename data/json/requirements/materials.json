@@ -309,6 +309,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "rock_flaking_any",
+    "type": "requirement",
+    "//": "Rocks that can be used for knapping.",
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ], [ "flint", 1 ] ] ]
+  },
+  {
     "id": "waterproofing",
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",

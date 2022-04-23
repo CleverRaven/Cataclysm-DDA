@@ -162,15 +162,6 @@
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
   },
   {
-    "result": "vac_oven_small_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "15 m",
-    "components": [ [ [ "hi_q_shatter", 420 ] ], [ [ "vac_oven_small", 1 ] ] ]
-  },
-  {
     "result": "ear_spool",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -3468,6 +3459,30 @@
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
+  },
+  {
+    "result": "hc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "mc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "mc_steel_chunk", 4 ] ] ]
+  },
+  {
+    "result": "lc_steel_lump",
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "lc_steel_chunk", 4 ] ] ]
   },
   {
     "result": "pocketwatch",

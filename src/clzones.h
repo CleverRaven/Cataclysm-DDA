@@ -218,6 +218,10 @@ class loot_options : public zone_options, public mark_option
             return mark;
         }
 
+        void set_mark( std::string const &nmark ) {
+            mark = nmark;
+        }
+
         bool has_options() const override {
             return true;
         }
@@ -453,7 +457,8 @@ class zone_manager
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
-        bool custom_loot_has( const tripoint_abs_ms &where, const item *it ) const;
+        bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
+                              const zone_type_id &ztype ) const;
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;
@@ -461,10 +466,11 @@ class zone_manager
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
-                int range = MAX_DISTANCE ) const;
+                int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
-        const zone_data *get_zone_at( const tripoint_abs_ms &where ) const;
+        const zone_data *get_zone_at( const tripoint_abs_ms &where, bool loot_only = false,
+                                      const faction_id &fac = your_fac ) const;
         const zone_data *get_bottom_zone( const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
         cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
