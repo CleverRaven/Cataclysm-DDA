@@ -416,6 +416,7 @@
     "name": "Biojutsu Cleave",
     "messages": [ "You quickly cleave through %s and those nearby", "<npcname> quickly cleaves through %s and those nearby" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "weapon_categories_allowed": "BIONIC_WEAPONRY",
     "melee_allowed": true,
     "weighting": 2,
     "crit_tec": true,
