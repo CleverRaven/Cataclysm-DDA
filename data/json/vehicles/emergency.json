@@ -131,7 +131,10 @@
       { "x": -3, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
-    "items": [ { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] } ]
+    "items": [
+      { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
+    ]
   },
   {
     "id": "fire_engine",
@@ -437,7 +440,8 @@
     "items": [
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "tools_entry" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "cop_gear" ] },
-      { "x": -2, "y": 1, "chance": 3, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] }
+      { "x": -2, "y": 1, "chance": 3, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -486,7 +490,8 @@
       { "x": 0, "y": 1, "chance": 8, "items": [ "dog_whistle" ] },
       { "x": -2, "y": 0, "chance": 6, "item_groups": [ "cop_gear" ] },
       { "x": -2, "y": 1, "chance": 1, "item_groups": [ "cop_gear" ] },
-      { "x": -2, "y": 1, "chance": 2, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] }
+      { "x": -2, "y": 1, "chance": 2, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -543,7 +548,7 @@
       { "x": -2, "y": 1, "chance": 3, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] },
       { "x": -3, "y": 0, "chance": 5, "item_groups": [ "tools_entry" ] },
       { "x": -3, "y": 1, "chance": 4, "items": [ "jumper_cable" ] },
-      { "x": -3, "y": 1, "chance": 7, "items": [ "jack_small", "wheel" ] }
+      { "x": -3, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -602,7 +607,7 @@
       { "x": -2, "y": 1, "chance": 2, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] },
       { "x": -3, "y": 0, "chance": 8, "items": [ "blanket" ] },
       { "x": -3, "y": 1, "chance": 3, "items": [ "jumper_cable" ] },
-      { "x": -3, "y": 1, "chance": 5, "items": [ "jack_small", "wheel" ] }
+      { "x": -3, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -660,7 +665,8 @@
       { "x": -2, "y": 0, "chance": 7, "item_groups": [ "cop_gear" ] },
       { "x": -2, "y": 1, "chance": 7, "item_groups": [ "cop_gear" ] },
       { "x": -3, "y": 0, "chance": 10, "items": [ "blanket" ] },
-      { "x": -3, "y": 1, "chance": 10, "items": [ "blanket" ] }
+      { "x": -3, "y": 1, "chance": 10, "items": [ "blanket" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {

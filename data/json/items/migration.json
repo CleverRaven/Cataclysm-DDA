@@ -1714,6 +1714,11 @@
     "replace": "high_end_folding_stock"
   },
   {
+    "id": "tire_iron",
+    "type": "MIGRATION",
+    "replace": "lug_wrench"
+  },
+  {
     "id": "reptile_sample",
     "type": "MIGRATION",
     "replace": "lizard_sample"
