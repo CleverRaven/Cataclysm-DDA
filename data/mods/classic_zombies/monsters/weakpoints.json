@@ -9,6 +9,7 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 4, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           { "effect": "staggered", "chance": 20, "message": "The %s is knocked off-balance!", "damage_required": [ 1, 3 ] },
           {
@@ -25,6 +26,7 @@
         "name": "the arm",
         "//": "Gives you a higher chance of hitting the arm if the enemy is grabbing you.",
         "crit_mult": { "all": 0.75 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           { "effect": "staggered", "chance": 30, "message": "The %s is knocked off-balance!", "damage_required": [ 1, 3 ] },
           {
@@ -43,6 +45,7 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           { "effect": "downed", "chance": 10, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
           { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 4, 7 ] },
@@ -56,18 +59,19 @@
         "name": "the leg",
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.1 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           {
             "effect": "downed",
             "chance": 40,
             "message": "The %s is knocked down, and doesn't look like it can get back up!",
-            "damage_required": [ 5, 10 ]
+            "damage_required": [ 3, 6 ]
           },
           {
             "effect": "downed",
             "chance": 80,
             "message": "TThe %s is knocked down, and doesn't look like it can get back up!",
-            "damage_required": [ 11, 100 ]
+            "damage_required": [ 7, 100 ]
           }
         ],
         "coverage": 10
@@ -285,7 +289,7 @@
     "id": "wps_humanoid_turnout_gear",
     "weakpoints": [
       {
-        "id": "arm",
+        "id": "tear",
         "name": "a tear in its turnout gear",
         "armor_mult": { "physical": 0.5, "acid": 0.5 },
         "difficulty": { "ranged": 3, "melee": 1 },
@@ -300,19 +304,6 @@
           }
         ],
         "coverage": 5
-      },
-      {
-        "id": "leg",
-        "name": "a tear in its turnout gear",
-        "armor_mult": { "physical": 0.5, "acid": 0.5 },
-        "difficulty": { "ranged": 3, "melee": 1 },
-        "coverage_mult": { "broad": 0.55 },
-        "effects": [
-          { "effect": "downed", "chance": 10, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
-          { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 4, 7 ] },
-          { "effect": "downed", "chance": 40, "message": "The %s is knocked down!", "damage_required": [ 8, 100 ] }
-        ],
-        "coverage": 5
       }
     ]
   },
@@ -321,60 +312,13 @@
     "id": "wps_humanoid_body_armor",
     "weakpoints": [
       {
-        "id": "arm",
-        "name": "the arm",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 4, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [
-          { "effect": "staggered", "chance": 20, "message": "The %s is knocked off-balance!", "damage_required": [ 1, 3 ] },
-          {
-            "effect": "staggered",
-            "chance": 40,
-            "message": "The %s is knocked off-balance!",
-            "damage_required": [ 4, 100 ]
-          }
-        ],
-        "coverage": 8
-      },
-      {
-        "id": "armpit",
-        "name": "the armpit",
-        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
-        "difficulty": { "all": 5 },
-        "coverage_mult": { "ranged": 0.1 },
-        "coverage": 1
-      },
-      {
-        "id": "side_armour",
-        "name": "the weak armor on the side",
-        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
-        "difficulty": { "broad": 4, "point": 1 },
-        "coverage_mult": { "ranged": 0.65 },
-        "coverage": 4
-      },
-      {
         "id": "stomach_armour",
-        "name": "a gap in the stomach armor",
+        "name": "a gap in the armor",
         "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
         "coverage_mult": { "broad": 0.5 },
         "difficulty": { "ranged": 4, "melee": 1 },
+        "damage_mult": { "all": 0.5 },
         "coverage": 4
-      },
-      {
-        "id": "leg",
-        "name": "an unarmored part of the leg",
-        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 3, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [
-          { "effect": "downed", "chance": 10, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
-          { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 4, 7 ] },
-          { "effect": "downed", "chance": 40, "message": "The %s is knocked down!", "damage_required": [ 8, 100 ] }
-        ],
-        "coverage": 8
       }
     ]
   },
@@ -383,51 +327,14 @@
     "id": "wps_humanoid_light_armor",
     "weakpoints": [
       {
-        "id": "arm",
-        "name": "the arm",
-        "armor_mult": { "physical": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 4, "melee": 1 },
-        "coverage_mult": { "point": 0.75 },
-        "effects": [
-          { "effect": "staggered", "chance": 20, "message": "The %s is knocked off-balance!", "damage_required": [ 1, 3 ] },
-          {
-            "effect": "staggered",
-            "chance": 40,
-            "message": "The %s is knocked off-balance!",
-            "damage_required": [ 4, 100 ]
-          }
-        ],
-        "coverage": 8
-      },
-      {
-        "id": "side_armour",
-        "name": "the weak armor on the side",
-        "armor_mult": { "physical": 0.15 },
-        "difficulty": { "broad": 2, "point": 1 },
-        "coverage_mult": { "ranged": 0.65 },
-        "coverage": 4
-      },
       {
         "id": "stomach_armour",
-        "name": "a gap in the stomach armor",
+        "name": "a gap in the armor",
         "armor_mult": { "physical": 0.25 },
         "coverage_mult": { "broad": 0.75 },
         "difficulty": { "ranged": 3, "melee": 1 },
-        "coverage": 4
-      },
-      {
-        "id": "leg",
-        "name": "an unarmored part of the leg",
-        "armor_mult": { "physical": 0.25 },
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 3, "melee": 1 },
-        "effects": [
-          { "effect": "downed", "chance": 10, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
-          { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 4, 7 ] },
-          { "effect": "downed", "chance": 40, "message": "The %s is knocked down!", "damage_required": [ 8, 100 ] }
-        ],
-        "coverage": 12
+        "coverage": 4,
+        "damage_mult": { "all": 0.5 },
       }
     ]
   },
@@ -643,6 +550,7 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 3, "melee": 2 },
         "coverage_mult": { "point": 0.75 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           { "effect": "downed", "chance": 10, "message": "The %s is knocked down!", "damage_required": [ 1, 3 ] },
           { "effect": "downed", "chance": 20, "message": "The %s is knocked down!", "damage_required": [ 4, 7 ] },
@@ -656,6 +564,7 @@
         "crit_mult": { "all": 0.75 },
         "difficulty": { "ranged": 3, "melee": 1 },
         "coverage_mult": { "point": 0.75 },
+        "damage_mult": { "all": 0.5 },
         "effects": [
           { "effect": "staggered", "chance": 20, "message": "The %s is knocked off-balance!", "damage_required": [ 1, 3 ] },
           {
