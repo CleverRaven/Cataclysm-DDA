@@ -51,6 +51,18 @@
         "coverage": 15
       },
       {
+        "id": "leg_mangled",
+        "//": "until we can represent chopping off legs, this is a good way to handle a similar effect.  Can mainly only be done with swinging/slashing weaponry.",
+        "name": "the leg",
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "point": 0.1 },
+        "effects": [
+          { "effect": "downed", "chance": 40, "message": "The %s is knocked down, and doesn't look like it can get back up!", "damage_required": [ 5, 10 ] },
+          { "effect": "downed", "chance": 80, "message": "TThe %s is knocked down, and doesn't look like it can get back up!", "damage_required": [ 11, 100 ] }
+        ],
+        "coverage": 10,
+      },
+      {
         "id": "head",
         "name": "the head",
         "coverage": 8,
