@@ -360,7 +360,10 @@
     "items": {
       "both": {
         "items": [ "grim_reaper_robe", "jumpsuit_skeleton_zipped", "gloves_skeleton", "socks", "boots" ],
-        "entries": [ { "item": "grim_reaper_scythe", "custom-flags": [ "auto_wield" ] }, { "item": "onyx_silver_ring", "variant": "dark_ring" } ]
+        "entries": [
+          { "item": "grim_reaper_scythe", "custom-flags": [ "auto_wield" ] },
+          { "item": "onyx_silver_ring", "variant": "dark_ring" }
+        ]
       },
       "male": [ "undershirt", "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -402,7 +405,12 @@
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "knife_baselard", "container-item": "sheath" },
-          { "item": "bleed_staff_minor", "ammo-item": "crystallized_mana", "charges": 5, "custom-flags": [ "auto_wield" ] },
+          {
+            "item": "bleed_staff_minor",
+            "ammo-item": "crystallized_mana",
+            "charges": 5,
+            "custom-flags": [ "auto_wield" ]
+          },
           { "item": "ruby_silver_ring", "variant": "vampire_ring" }
         ]
       },
