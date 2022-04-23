@@ -59,8 +59,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_2", "shelter_2_vandal" ],
-    "name": "evac shelter C-41",
+    "id": [ "shelter_1b", "shelter_1b_vandal" ],
+    "name": "evac shelter B-19",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -68,8 +68,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_3", "shelter_3_vandal" ],
-    "name": "evac shelter B-19",
+    "id": [ "shelter_2", "shelter_2_vandal" ],
+    "name": "evac shelter C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -93,16 +93,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_2" ],
-    "name": "evac shelter roof C-41",
+    "id": [ "shelter_roof_1b" ],
+    "name": "evac shelter roof B-19",
     "sym": "+",
     "color": "white",
     "see_cost": 2
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof_3" ],
-    "name": "evac shelter roof B-19",
+    "id": [ "shelter_roof_2" ],
+    "name": "evac shelter roof C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2
@@ -127,8 +127,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_2", "shelter_under_2_vandal" ],
-    "name": "evac shelter basement C-41",
+    "id": [ "shelter_under_1b", "shelter_under_1b_vandal" ],
+    "name": "evac shelter basement B-19",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
@@ -136,8 +136,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under_3", "shelter_under_3_vandal" ],
-    "name": "evac shelter basement B-19",
+    "id": [ "shelter_under_2", "shelter_under_2_vandal" ],
+    "name": "evac shelter basement C-41",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
