@@ -163,6 +163,9 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
+  
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
 
 "Mods":
   - data/mods/**/*
