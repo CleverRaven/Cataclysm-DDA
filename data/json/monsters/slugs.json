@@ -71,7 +71,7 @@
     "armor_elec": 3,
     "bleed_rate": 60,
     "vision_day": 30,
-    "harvest": "mutant_meatslug",
+    "harvest": "mollusk",
     "dissect": "dissect_gastropod_sample_small",
     "special_attacks": [ [ "ACID", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
