@@ -3246,7 +3246,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->set_flag( flag_FIT );
-                
+
                 pl.recalc_sight_limits();
                 pl.calc_encumbrance();
             }
