@@ -214,8 +214,6 @@ cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
 
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
-
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> remoteveh( Character *, item *, bool, const tripoint & );
