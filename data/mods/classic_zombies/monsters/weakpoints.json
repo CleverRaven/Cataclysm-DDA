@@ -64,12 +64,14 @@
           {
             "effect": "downed",
             "chance": 40,
+            "permanent": true,
             "message": "The %s is knocked down, and doesn't look like it can get back up!",
             "damage_required": [ 3, 6 ]
           },
           {
             "effect": "downed",
             "chance": 80,
+            "permanent": true,
             "message": "TThe %s is knocked down, and doesn't look like it can get back up!",
             "damage_required": [ 7, 100 ]
           }
