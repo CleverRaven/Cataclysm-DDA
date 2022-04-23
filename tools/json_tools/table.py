@@ -194,11 +194,14 @@ class CSVFormat:
     def __init__(self):
         self.writer = csv.writer(sys.stdout)
 
+    def to_utf8(self, lst):
+        return [str(elem).encode('utf-8') for elem in lst]
+
     def header(self, columns):
         self.row(columns)
 
     def row(self, values):
-        self.writer.writerow(values)
+        self.writer.writerow(self.to_utf8(values))
 
 
 class CDDAValues:

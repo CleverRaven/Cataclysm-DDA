@@ -215,6 +215,13 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "fridgetank",
+    "id": "heattank",
+    "name": { "str": "heated tank" },
+    "description": "A 60L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
+  },
+  {
+    "type": "GENERIC",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",
@@ -234,7 +241,7 @@
     "id": "oil_press_electric",
     "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
     "//": "based on YZS-68C oil press",
-    "description": "A heavy duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.  It needs to be mounted on a vehicle due to its high power draw.",
     "weight": "140 kg",
     "volume": "370 L",
     "longest_side": "88 cm",

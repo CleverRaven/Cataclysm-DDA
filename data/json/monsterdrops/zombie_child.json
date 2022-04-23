@@ -59,7 +59,7 @@
                         ]
                       }
                     ],
-                    "prob": 80
+                    "prob": 70
                   },
                   {
                     "collection": [
@@ -68,10 +68,36 @@
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
                       {
-                        "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                        ]
                       }
                     ],
                     "prob": 20
+                  },
+                  {
+                    "collection": [
+                      { "group": "costume_cheerleader_set_any", "damage": [ 1, 4 ] },
+                      { "item": "pom_poms", "prob": 50, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "collection": [
+                              {
+                                "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                              },
+                              { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                            ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 10
                   }
                 ]
               }

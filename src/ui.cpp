@@ -292,6 +292,42 @@ void uilist::init()
     additional_actions.clear();
 }
 
+input_context uilist::create_main_input_context() const
+{
+    input_context ctxt( input_category, keyboard_mode::keycode );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    if( allow_cancel ) {
+        ctxt.register_action( "QUIT" );
+    }
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    for( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action.first, additional_action.second );
+    }
+    return ctxt;
+}
+
+input_context uilist::create_filter_input_context() const
+{
+    input_context ctxt( input_category, keyboard_mode::keychar );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "ANY_INPUT" );
+    return ctxt;
+}
+
 /**
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
@@ -348,13 +384,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category, keyboard_mode::keychar );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    ctxt.register_action( "ANY_INPUT" );
+    input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
     .ignore_custom_actions( false )
@@ -489,7 +519,7 @@ void uilist::calc_data()
             entries[ i ].text_color = text_color;
         }
     }
-    input_context ctxt( input_category );
+    input_context ctxt = create_main_input_context();
     const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
     input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
     for( auto it = autoassign.begin(); it != autoassign.end() &&
@@ -955,25 +985,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keycode );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "HOME" );
-    ctxt.register_action( "END" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
-    if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
-    }
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    for( const auto &additional_action : additional_actions ) {
-        ctxt.register_action( additional_action.first, additional_action.second );
-    }
+    input_context ctxt = create_main_input_context();
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 

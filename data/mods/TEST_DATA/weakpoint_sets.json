@@ -1,0 +1,119 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "test_humanoid",
+    "weakpoints": [
+      {
+        "id": "test_head",
+        "name": "humanoid head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 1, "ranged": 3 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "test_eye",
+        "name": "humanoid eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 6, "melee": 4 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "test_arm",
+        "name": "humanoid arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 2, "melee": 1 },
+        "armor_mult": { "physical": 0.75 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 100 ] } ],
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "test_special_head",
+    "weakpoints": [
+      {
+        "id": "test_head",
+        "name": "special head",
+        "armor_mult": { "physical": 0 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "coverage_mult": { "ranged": 0.7 },
+        "coverage": 50,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "test_neck",
+        "name": "special neck",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 10
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_humanoid_body",
+    "weakpoints": [
+      {
+        "id": "test_wp1",
+        "name": "test weakpoint 1",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 10
+      },
+      {
+        "id": "test_wp2",
+        "name": "test weakpoint 2",
+        "armor_mult": { "physical": 0 },
+        "difficulty": { "melee": 1, "ranged": 2 },
+        "coverage": 20
+      }
+    ]
+  }
+]

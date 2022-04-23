@@ -138,15 +138,18 @@ void push( monster &z )
     player_character.moves -= 30;
 
     ///\EFFECT_STR increases chance to successfully push your pet
-    if( !one_in( player_character.str_cur ) ) {
-        add_msg( _( "You pushed the %s." ), pet_name );
-    } else {
+    if( one_in( player_character.str_cur ) ) {
         add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
         return;
     }
 
     point delta( z.posx() - player_character.posx(), z.posy() - player_character.posy() );
-    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
+    if( z.move_to( tripoint( z.posx( ) + delta.x, z.posy( ) + delta.y, z.posz( ) ) ) ) {
+        add_msg( _( "You pushed the %s." ), pet_name );
+    } else {
+        add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
+        return;
+    }
 }
 
 void rename_pet( monster &z )
@@ -494,7 +497,7 @@ void remove_battery( monster &z )
 void insert_battery( monster &z )
 {
     if( z.battery_item ) {
-        // already has a battery, shouldn't be called with one, but just incase.
+        // already has a battery, shouldn't be called with one, but just in case.
         return;
     }
     Character &player_character = get_player_character();

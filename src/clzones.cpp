@@ -178,6 +178,11 @@ void zone_type::load_zones( const JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
+void zone_type::reset()
+{
+    zone_type_factory.reset();
+}
+
 void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
@@ -587,6 +592,11 @@ void zone_data::set_enabled( const bool enabled_arg )
     enabled = enabled_arg;
 }
 
+void zone_data::set_temporary_disabled( const bool enabled_arg )
+{
+    temporarily_disabled = enabled_arg;
+}
+
 void zone_data::set_is_vehicle( const bool is_vehicle_arg )
 {
     is_vehicle = is_vehicle_arg;
@@ -645,6 +655,22 @@ void zone_manager::cache_data( bool update_avatar )
     }
 }
 
+void zone_manager::reset_disabled()
+{
+    bool changed = false;
+    for( zone_data &elem : zones ) {
+        if( elem.get_temporarily_disabled() ) {
+            elem.set_enabled( true );
+            elem.set_temporary_disabled( false );
+            changed = true;
+        }
+    }
+
+    if( changed ) {
+        cache_data();
+    }
+}
+
 void zone_manager::cache_avatar_location()
 {
     avatar &player_character = get_avatar();
@@ -661,7 +687,7 @@ void zone_manager::cache_vzones()
 {
     vzone_cache.clear();
     map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
@@ -786,7 +812,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where,
         }
     }
     map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
@@ -1006,7 +1032,7 @@ const zone_data *zone_manager::get_bottom_zone(
         }
     }
     map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
         const zone_data *zone = *it;
         if( zone->get_faction() != fac ) {
@@ -1032,7 +1058,7 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
     map &here = get_map();
-    here.register_vehicle_zone( &vehicle, here.get_abs_sub().z );
+    here.register_vehicle_zone( &vehicle, here.get_abs_sub().z() );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones();
@@ -1177,7 +1203,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
     }
 
     map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
 
     for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
@@ -1200,7 +1226,7 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
     }
 
     map &here = get_map();
-    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z() );
 
     for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
@@ -1398,7 +1424,7 @@ void zone_manager::revert_vzones()
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             vp->vehicle().zones_dirty = false;
-            here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z );
+            here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }
     }

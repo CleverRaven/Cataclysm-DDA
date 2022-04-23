@@ -106,6 +106,7 @@ using trap_function = std::function<bool( const tripoint &, Creature *, item * )
  */
 struct trap {
         trap_str_id id;
+        std::vector<std::pair<trap_str_id, mod_id>> src;
         trap_id loadid;
 
         bool was_loaded = false;
@@ -328,7 +329,7 @@ struct trap {
         static void reset();
         /**
          * Stores the actual @ref loadid of the loaded traps in the global tr_* variables.
-         * It also sets the trap ids of the terrain types that have build-in traps.
+         * It also sets the trap ids of the terrain types that have built-in traps.
          * Must be called after all traps have been loaded.
          */
         static void finalize();

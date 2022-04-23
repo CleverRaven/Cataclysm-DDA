@@ -175,7 +175,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 ```
 
 If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
-value as well--otherwise, the game will not know how to spawn the entire special. If a multitile `om_special` is used it is important to specify the exact `om_terrain` that you would like the target to appear in.  
+value as well--otherwise, the game will not know how to spawn the entire special. If a multitile `om_special` is used it is important to specify the exact `om_terrain` that you would like the target to appear in.
 
 `om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
 
@@ -256,7 +256,7 @@ Add a new line that defines the NPC's starting mission, eg:
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player
 started on their first mission for the NPC, and either:
 
-* Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
+* Add one of their talk_topic IDs to the list of generic mission response IDs in the first
 talk_topic of data/json/npcs/TALK_COMMON_MISSION.json, or
 * Have a similar talk_topic with responses that lead to TALK_MISSION_INQUIRE and
 TALK_MISSION_LIST_ASSIGNED.

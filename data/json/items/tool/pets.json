@@ -49,6 +49,23 @@
     "flags": [ "STAB" ]
   },
   {
+    "id": "forged_shears",
+    "type": "TOOL",
+    "name": { "str_sp": "forged shears" },
+    "description": "This is a set of heavy-duty shears designed to obtain wool from sheep.  Made of 2 steel blades connected by spring leaf.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
     "id": "elec_shears",
     "type": "TOOL",
     "name": { "str_sp": "electric shears" },

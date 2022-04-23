@@ -30,6 +30,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "bird_large",
+    "dissect": "dissect_bird_sample_large",
     "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },
   {
@@ -61,6 +62,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "death_drops": "amigara_drops",
+    "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
   },
   {
@@ -333,6 +335,7 @@
     "symbol": "e",
     "color": "light_blue",
     "morale": 100,
+    "aggression": 100,
     "melee_cut": 0,
     "dodge": 1,
     "armor_bash": 4,
@@ -531,7 +534,7 @@
   {
     "id": "mon_hound_tindalos",
     "type": "MONSTER",
-    "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
+    "name": { "str": "hound of Tindalos", "str_pl": "hounds of Tindalos" },
     "description": "A grotesque dog-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, its twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare step beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
@@ -577,7 +580,7 @@
   {
     "id": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
+    "name": { "str": "hound of Tindalos", "str_pl": "hounds of Tindalos" },
     "description": "A grotesque dog-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, its twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare step beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
@@ -644,6 +647,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "harvest": "demihuman_snail",
+    "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
@@ -747,7 +751,8 @@
     "vision_day": 50,
     "vision_night": 15,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mammal_small_fur_rabbit",
+    "harvest": "mammal_small_fur",
+    "dissect": "dissect_beast_sample_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -971,7 +976,7 @@
     "id": "mon_shifting_mass",
     "type": "MONSTER",
     "name": { "str": "shifting mass", "str_pl": "shifting masses" },
-    "description": "A small, shifting mass floating in midair.  It is not even real enough to have a stable shape.  You can see through it, not as if it were transparent, but as if it isn't quite fully there.",
+    "description": "An animate blotch of conflicting symmetries, erratically hovering through the air.  It's not even real enough to hold a stable shape, and its entire form is constantly in flux.  You can see through it - not as if it were transparent, but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "1000 ml",
@@ -988,7 +993,7 @@
         "type": "spell",
         "spell_data": { "id": "shifting_mass", "min_level": 1 },
         "cooldown": 1,
-        "monster_message": "For a moment the shifting mass passes into you as if it were an illusion and a slight wave of fatigue washes over you."
+        "monster_message": "The shifting mass passes through you as if you were an illusion, and a slight wave of fatigue washes over you."
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
@@ -997,8 +1002,8 @@
   {
     "id": "mon_impossible_shape",
     "type": "MONSTER",
-    "name": { "str": "Impossible shape" },
-    "description": "A twisted shape floating in midair; its angles don't quite seem to add up - it hurts to look at. You can see through it, not as if it were transparent but as if it isn't quite fully there.",
+    "name": { "str": "impossible shape" },
+    "description": "A twisted shape floating in midair; its angles don't seem to quite add up - it hurts to look at.  Is it inanimate?  Alive?  Something else?  You can't make heads or tails of it at all, but you can see through it - not as if it were transparent, but as if it isn't quite fully here.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1024,7 +1029,7 @@
   {
     "id": "mon_absence",
     "type": "MONSTER",
-    "name": { "str": "Absence" },
+    "name": { "str": "absence" },
     "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here that is far from natural or safe.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -1051,8 +1056,8 @@
   {
     "id": "mon_giant_appendage",
     "type": "MONSTER",
-    "name": { "str": "Giant appendage" },
-    "description": "A gigantic appendage reaching through what looks like a portal, as if this is merely a probing piece of something much larger.",
+    "name": { "str": "giant appendage" },
+    "description": "A gigantic, probing appendage blindly feeling the area around it.  All of your senses scream at you that it's the size of a truck, and yet it only takes up about as much space in the world as you do.  It seems to be jutting through a portal, suggesting that it's merely a smaller extension of something much larger.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1074,8 +1079,8 @@
   {
     "id": "mon_memory",
     "type": "MONSTER",
-    "name": { "str": "Memory", "str_pl": "Memories" },
-    "description": "The shade of a human body reaching towards you like it needs help.  Though it has no eyes you feel as though it is staring through you.",
+    "name": { "str": "memory", "str_pl": "memories" },
+    "description": "The silhouette of a human body, reaching towards you like it needs help.  It has no eyes, but you can still feel it staring through you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1093,5 +1098,61 @@
     "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON" ]
+  },
+  {
+    "id": "mon_swarm_structure",
+    "type": "MONSTER",
+    "name": { "str": "swarm structure" },
+    "description": "Your mind can't decide if this is a vast structure, or an endless swarm of tiny flying sharp things.  The only thing you know for sure is that it is far too large to fit in the space it occupies.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 80,
+    "speed": 80,
+    "symbol": "S",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_bullet": 5,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_swarm_structure_attack", "min_level": 1 },
+        "cooldown": 6,
+        "monster_message": "The integrity of spacetime is violated."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
+    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_twisting_blade",
+    "type": "MONSTER",
+    "name": { "str": "twisting blade" },
+    "description": "You are uncertain whether this dwarfs you or you dwarf it.  Its exact shape and number of dimensions is constantly changing, but it is always sharp enough to cut a moment in half.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 30,
+    "speed": 60,
+    "symbol": "B",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "mon_twisting_blade_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "You are cut in ways worse than physical."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   }
 ]

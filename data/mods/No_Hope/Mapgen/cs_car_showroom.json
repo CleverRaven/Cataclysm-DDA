@@ -65,22 +65,22 @@
         "V": "f_vending_c",
         "v": "f_vending_c"
       },
-      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 50 } ],
+      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 20, "status": 1 } ],
       "items": {
-        "c": { "item": "oa_custom_trash", "chance": 70 },
-        "C": { "item": "oa_custom_trash", "chance": 70 },
-        "d": { "item": "oa_ig_cs_desks", "chance": 70 },
-        "L": { "item": "oa_ig_cs_lockers", "chance": 70 },
-        "V": { "item": "vending_food_items", "chance": 70 },
-        "v": { "item": "vending_drink_items", "chance": 70 },
-        "F": { "item": "fridgesnacks", "chance": 70 },
+        "c": { "item": "oa_custom_trash", "chance": 20 },
+        "C": { "item": "oa_custom_trash", "chance": 20 },
+        "d": { "item": "oa_ig_cs_desks", "chance": 20 },
+        "L": { "item": "oa_ig_cs_lockers", "chance": 20 },
+        "V": { "item": "vending_food_items", "chance": 20 },
+        "v": { "item": "vending_drink_items", "chance": 20 },
+        "F": { "item": "fridgesnacks", "chance": 20 },
         "f": { "item": "office_paper", "chance": 70 }
       },
       "place_items": [
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
-        { "item": "vending_food_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
-        { "item": "vending_drink_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
+        { "item": "vending_food_items", "chance": 20, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
+        { "item": "vending_drink_items", "chance": 20, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
         { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
       ],
       "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
@@ -145,67 +145,16 @@
         "f": "f_filing_cabinet"
       },
       "place_vehicles": [
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 50 },
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 50 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 50 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 50 },
-        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 50 }
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 50, "status": 1 },
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 50, "status": 1 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 50, "status": 1 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 50, "status": 1 },
+        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 50, "status": 1 }
       ],
       "items": {
-        "d": { "item": "oa_ig_cs_desks", "chance": 70 },
-        "L": { "item": "oa_ig_cs_lockers", "chance": 70 },
+        "d": { "item": "oa_ig_cs_desks", "chance": 20 },
+        "L": { "item": "oa_ig_cs_lockers", "chance": 20 },
         "f": { "item": "office_paper", "chance": 70 }
-      }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "cs_car_showroom_roof",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "            |222222223  ",
-        "            |........3  ",
-        "            |........3  ",
-        "            |..oooo..3  ",
-        "            |..oooo..3  ",
-        "            |..oooo..3  ",
-        "            |........3  ",
-        "            |..oooo..3  ",
-        "            |..oooo..3  ",
-        "            |..oooo..3  ",
-        "            |........3  ",
-        "            |........3  ",
-        "  |2222222225...AA...3  ",
-        "  |..................3  ",
-        "  |.:................3  ",
-        "  |..................3  ",
-        "  |.X...........=.&..3  ",
-        "  |..................3  ",
-        "  |---...------------3  ",
-        "     |...3              ",
-        "     |---3              "
-      ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "o": "t_glass_roof",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        "5": "t_gutter_drop"
-      },
-      "furniture": {
-        ":": "f_cellphone_booster",
-        "X": "f_small_satelitte_dish",
-        "&": "f_roof_turbine_vent",
-        "=": "f_vent_pipe",
-        "A": "f_air_conditioner"
       }
     }
   }

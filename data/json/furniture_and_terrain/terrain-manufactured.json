@@ -51,12 +51,9 @@
     "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "//": "clone of t_gas_pump, but other color, must be clone every time",
     "looks_like": "t_gas_pump",
+    "copy-from": "t_gas_pump",
     "symbol": "&",
-    "color": "yellow_red",
-    "move_cost": 0,
-    "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
-    "examine_action": "gaspump"
+    "color": "yellow_red"
   },
   {
     "type": "terrain",
@@ -695,6 +692,31 @@
   },
   {
     "type": "terrain",
+    "id": "t_wooden_well",
+    "name": "wooden well",
+    "looks_like": "t_covered_well",
+    "description": "Deep well collecting ground water.  A wooden frame with a rope and bucket allows to draw water from it, with some elbow grease.",
+    "symbol": "#",
+    "color": "c_brown",
+    "move_cost": 6,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": {
+      "ter_set": "t_covered_well",
+      "items": [ { "item": "rope_30", "count": 1 }, { "item": "bucket_wood", "count": 1 }, { "item": "stick", "count": 4 } ]
+    },
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_covered_well",
+      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
+    },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_salt_water_pump",
     "name": "salt water pump",
     "looks_like": "t_water_pump",
@@ -1264,7 +1286,7 @@
   {
     "type": "terrain",
     "id": "t_covered_salt_water_well",
-    "name": "covered salt_water well",
+    "name": "covered salt water well",
     "description": "Deep well collecting water from a surrounding swamp.  Requires a method to draw water from.",
     "symbol": "#",
     "color": "dark_gray",

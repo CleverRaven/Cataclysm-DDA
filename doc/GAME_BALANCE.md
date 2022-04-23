@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster maximum damage scaling:
+Minimum damage: 0 (no damage potential; spore cloud, hallucination)
+
+Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
+
+Average damage: 6 (normal day one threat; zombie, wasp)
+
+High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
+
+Very high damage: 20+ (zombie predator, super soldier ant, mi-go) 
+
+Maximum damage: 50 (highest for balance purposes; melded task force)
+
+
 # Monster HP scaling:
 Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
 
@@ -146,12 +160,12 @@ Relative value should put the weapon into one of those categories:
 
 12-15 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
 
-20-35 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
+20-35 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knives, battle axes, war hammers, maces, morningstars.
 
 35+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
 
 Specific weapon balancing points:
-20 - combat knifes
+20 - combat knives
 22 - short blades
 24 - long blades, short axes, and short flails
 26 - two handed blades, long axes, most spears
@@ -244,7 +258,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
 .223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
 5.56x45mm M855A1   | 62gr copper core FMJBT bullet | 1843      | 43  | 20in     |                              |
-.300BLK supersonic | 125gr OTM                   | 1840      | 43  | 16in     | 
+.300BLK supersonic | 125gr OTM                   | 1840      | 43  | 16in     |
 ,300BLK subsonic   | 220gr OTM                   | 675       | 26  | 16in     |  subsonic
 7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
@@ -284,3 +298,6 @@ To that end, here's a list of containers with non-one volume.  If you have somet
 Diamond weapons should be uniform in their CVD machine requirements.
 Coal requirements are `floor((weapon_volume+1)/2)*25`.
 Hydrogen requirements are `coal_requirements/2.5`.
+
+# MUTATIONS
+Mutations are given completely subjective point values.  The most important factor is that mutations that adversely affect a character are given a negative point value, or positive for beneficial mutations.  The chance of obtaining a positive or negative mutation varies based on Instability (a counter that increases by a default of 100 when a mutation is gained or lost and decays by 1 per in-game day by default).  0 point mutations will always have a 10% chance of appearing.  There is a 90% chance to obtain a good mutation until approximately 800 Instability.  There is an equal chance (45% each) of obtaining a good or bad mutation at approximately 2800 Instability.  There is an approximately 70% chance of obtaining a bad mutation at 10000 Instability, which will be the cap after a current test phase where it is capped at 8000.

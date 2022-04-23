@@ -15,6 +15,7 @@
         ";| ||..",
         ";|+||.."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 3 ], "y": [ 1, 4 ], "density": 0.02, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -36,6 +37,7 @@
         "|||||||.",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 6 ], "y": [ 2, 4 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -57,6 +59,7 @@
         "........",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 1, 6 ], "y": 2, "density": 0.01, "repeat": [ 1, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -78,6 +81,7 @@
         ".......",
         "......."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monster": [
         {
           "monster": [ "mon_zombie_brute", "mon_zombie_screecher", "mon_zombie_hollow", "mon_zombie", "mon_zombie_fungus" ],
@@ -109,6 +113,7 @@
         "||   i.",
         ".|+|||."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 5 ], "density": 0.02, "repeat": [ 1, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -141,6 +146,7 @@
         "..................",
         ".................."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
         "1": { "class": "mi-go_prisoner" },
@@ -174,6 +180,7 @@
         ";|||||||",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 3 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -196,6 +203,7 @@
         "|###|+|.",
         "|| ||..."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 4 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 1, 2 ] },
         { "monster": "GROUP_DOMESTIC", "x": 4, "y": 0, "density": 0.01 },
@@ -225,6 +233,7 @@
         "..|||T V ",
         "....||||+"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 8 ], "y": [ 3, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -248,6 +257,7 @@
         "P&|||....",
         "|||.+...."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 0, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -268,6 +278,7 @@
         "||i  |",
         ";|||+|"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -288,6 +299,7 @@
         ".||||+||",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -311,6 +323,7 @@
         "..........",
         ".........."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 6 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 1 ] } ],
       "palettes": [ "mi-go_palette" ]
     }
@@ -332,6 +345,7 @@
         "||||||..",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -351,6 +365,7 @@
         "|  1||",
         "|||||;"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
@@ -373,6 +388,7 @@
         "........",
         "........"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -391,6 +407,7 @@
         ".....",
         "....."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ]
     }
   },
@@ -410,6 +427,7 @@
         "|  1||",
         "|||||v"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
     }
@@ -442,6 +460,7 @@
         ".vvv..............",
         ".................."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
         "1": { "class": "mi-go_prisoner" },

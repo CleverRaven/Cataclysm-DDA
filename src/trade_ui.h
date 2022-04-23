@@ -37,7 +37,6 @@ class trade_selector : public inventory_drop_selector
         void resize( point const &size, point const &origin );
         shared_ptr_fast<ui_adaptor> get_ui() const;
         input_context const *get_ctxt() const;
-        void categorize_map_items( bool toggle );
 
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";

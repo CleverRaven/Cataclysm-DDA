@@ -490,24 +490,8 @@ std::vector<item_location> Character::find_reloadables()
 
 hint_rating Character::rate_action_reload( const item &it ) const
 {
-    hint_rating res = hint_rating::cant;
-
-    // Guns may contain additional reloadable mods so check these first
-    for( const item *mod : it.gunmods() ) {
-        switch( rate_action_reload( *mod ) ) {
-            case hint_rating::good:
-                return hint_rating::good;
-
-            case hint_rating::cant:
-                continue;
-
-            case hint_rating::iffy:
-                res = hint_rating::iffy;
-        }
-    }
-
     if( !it.is_reloadable() ) {
-        return res;
+        return hint_rating::cant;
     }
 
     return can_reload( it ) ? hint_rating::good : hint_rating::iffy;

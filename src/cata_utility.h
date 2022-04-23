@@ -308,7 +308,7 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
@@ -445,11 +445,19 @@ inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
 }
 
+bool string_empty_or_whitespace( const std::string &s );
+
 /** Used as a default filter in various functions */
 template<typename T>
 bool return_true( const T & )
 {
     return true;
+}
+
+template<typename T>
+bool return_false( const T & )
+{
+    return false;
 }
 
 /**
@@ -477,7 +485,7 @@ std::string &str_append( std::string &root, T &&...a )
 }
 
 /**
- * Concatenates a bunch of strings with append, to minimze unnecessary
+ * Concatenates a bunch of strings with append, to minimize unnecessary
  * allocations
  */
 template<typename T0, typename... T>
@@ -651,5 +659,11 @@ holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false 
  * @return random bucket index
  */
 int bucket_index_from_weight_list( const std::vector<int> &weights );
+
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
 
 #endif // CATA_SRC_CATA_UTILITY_H
