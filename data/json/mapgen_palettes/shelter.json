@@ -178,6 +178,6 @@
   {
     "type": "palette",
     "id": "shelter_zombies",
-    "monsters": { "_": { "monster": "GROUP_ZOMBIE", "density": 0.0005 }, "b": { "monster": "GROUP_ZOMBIE", "density": 0.001 } }
+    "monsters": { "_": { "monster": "GROUP_ZOMBIE", "density": 0.0005 }, "b": { "monster": "GROUP_ZOMBIE", "density": 0.0001 } }
   }
 ]
