@@ -410,21 +410,8 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         REQUIRE( briefcase.all_pockets_rigid() );
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
-               "<color_c_white>L. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>L. Arm Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-               "  Default:  <color_c_yellow>10</color>\n"
-               "--\n"
-               "<color_c_white>R. Arm Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>R. Arm Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-               "  Default:  <color_c_yellow>10</color>\n"
-               "--\n"
-               "<color_c_white>L. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>L. Hand Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-               "  Default:  <color_c_yellow>10</color>\n"
-               "--\n"
-               "<color_c_white>R. Hand Encumbrance</color>:  <color_c_yellow>30</color>\n"
-               "<color_c_white>R. Hand Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-               "  Default:  <color_c_yellow>10</color>\n" );
+               "<color_c_white>Encumbrance</color>:\n"
+               "  <color_c_yellow>30</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>hands</color>.\n" );
     }
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
@@ -467,36 +454,20 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
             // based on the pocket "max_contains_volume" (1 encumbrance per 250 ml).
             CHECK( item_info_str( waterskin, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
-                   "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-                   "  Default:  <color_c_yellow>5</color>\n"
-                   "--\n"
-                   "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>0</color>  "
-                   "When full:  <color_c_yellow>6</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-                   "  Default:  <color_c_yellow>5</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "  <color_c_yellow>0</color>, When full  <color_c_yellow>6</color>: The <color_c_cyan>legs</color>.\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Torso Encumbrance</color>:  <color_c_yellow>2</color>  "
-                   "When full:  <color_c_yellow>15</color>\n"
-                   "<color_c_white>Torso Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-                   "  Default:  <color_c_yellow>30</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "  <color_c_yellow>2</color>, When full  <color_c_yellow>15</color>: The <color_c_cyan>torso</color>.\n" );
 
             // quiver has no volume, only an implicit volume via ammo
             CHECK( item_info_str( quiver, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>L. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
-                   "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>L. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-                   "  Default:  <color_c_yellow>10</color>\n"
-                   "--\n"
-                   "<color_c_white>R. Leg Encumbrance</color>:  <color_c_yellow>3</color>  "
-                   "When full:  <color_c_yellow>11</color>\n"
-                   "<color_c_white>R. Leg Coverage</color>: <color_c_light_blue>Strapped</color>.\n"
-                   "  Default:  <color_c_yellow>10</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "  <color_c_yellow>3</color>, When full  <color_c_yellow>11</color>: The <color_c_cyan>legs</color>.\n" );
         }
     }
 }
@@ -1300,7 +1271,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n"
-               "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow> Median</color>, <color_c_green>4%</color>\n"
+               "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
                "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>13.00</color>\n"
@@ -2398,12 +2369,12 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     CHECK( item_info_str( nostril, {} ) ==
            "--\n"
            "<color_c_white>Encumbrance</color>: "
-           "Mouth <color_c_yellow>10</color>" );
+           "mouth <color_c_yellow>10</color>" );
 
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
            "<color_c_white>Environmental Protection</color>: "
-           "Mouth <color_c_yellow>9</color>" );
+           "mouth <color_c_yellow>9</color>" );
 }
 
 // Functions:
@@ -2684,8 +2655,6 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
     //
     // The "Total capacity" indicates the sum Volume/Weight capacity of all pockets.
     CHECK( item_info_str( test_belt, pockets ) ==
-           "--\n"
-           "<color_c_white>Specifically</color>: The <color_c_cyan>waist</color> (100).\n"
            "--\n"
            "<color_c_white>Total capacity</color>:\n"
            "Volume: <color_c_yellow>6.00</color> L  Weight: <color_c_yellow>4.80</color> kg\n"
