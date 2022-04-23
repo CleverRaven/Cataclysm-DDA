@@ -1022,7 +1022,7 @@
     "type": "TOOL",
     "name": { "str": "grim reaper's scythe" },
     "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and a capable of casting a strong offensive spell.",
-    "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enchance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
+    "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enhance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
     "weight": "2750 g",
     "volume": "3550 ml",
     "longest_side": "150 cm",
