@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "generic_plastic",
     "name": { "str": "plastic trash", "str_pl": "plastic trash" },
     "type": "GENERIC",
