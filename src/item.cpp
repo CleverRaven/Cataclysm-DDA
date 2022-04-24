@@ -9554,10 +9554,13 @@ ret_val<bool> item::is_compatible( const item &it ) const
 }
 
 ret_val<bool> item::can_contain( const item &it, const bool nested,
-                                 const bool ignore_rigidity, const bool ignore_pkt_settings ) const
+                                 const bool ignore_rigidity, const bool ignore_pkt_settings,
+                                 const item_location &parent_it ) const
 {
-    if( this == &it ) {
+    if( this == &it || ( parent_it.where() != item_location::type::invalid &&
+                         this == parent_it.get_item() ) ) {
         // does the set of all sets contain itself?
+        // or does this already contain it?
         return ret_val<bool>::make_failure();
     }
     if( nested && !this->is_container() ) {
@@ -9578,7 +9581,11 @@ ret_val<bool> item::can_contain( const item &it, const bool nested,
             !pkt->settings.accepts_item( it ) ||
             !pkt->get_pocket_data()->get_flag_restrictions().empty();
         for( const item *internal_it : pkt->all_items_top() ) {
-            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings ).success() ) {
+            if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+                continue;
+            }
+            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
+                                          parent_it ).success() ) {
                 return ret_val<bool>::make_success();
             }
         }
