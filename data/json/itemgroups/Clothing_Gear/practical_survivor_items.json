@@ -4,12 +4,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "Assortment of practical pants characters would wear during the apocalpyse.",
-    "items": [
-      { "item": "pants_army" },
-      { "item": "pants_cargo" },
-      { "item": "jeans" },
-      { "item": "motorbike_pants" }
-    ]
+    "items": [ { "item": "pants_army" }, { "item": "pants_cargo" }, { "item": "jeans" }, { "item": "motorbike_pants" } ]
   },
   {
     "id": "practical_skintight_tops",
@@ -59,10 +54,7 @@
     "type": "item_group",
     "//": "assortment of practical socks characters would wear during the apocalypse",
     "subtype": "distribution",
-    "items": [
-      { "item": "socks" },
-      { "item": "socks_wool" }
-    ]
+    "items": [ { "item": "socks" }, { "item": "socks_wool" } ]
   },
   {
     "id": "practical_shoes",
@@ -82,12 +74,7 @@
     "type": "item_group",
     "//": "assortment of simple hand made body armor characters would wear during the apocalypse",
     "subtype": "distribution",
-    "items": [
-      { "item": "armor_lamellar" },
-      { "item": "cuirass_scrap" },
-      { "item": "tireplate" },
-      { "item": "cuirass_tire" }
-    ]
+    "items": [ { "item": "armor_lamellar" }, { "item": "cuirass_scrap" }, { "item": "tireplate" }, { "item": "cuirass_tire" } ]
   },
   {
     "id": "makeshift_limb_armor",
