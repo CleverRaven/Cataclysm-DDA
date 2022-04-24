@@ -51,6 +51,7 @@ static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
