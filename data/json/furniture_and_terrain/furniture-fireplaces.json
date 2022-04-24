@@ -165,7 +165,7 @@
     "id": "f_clay_oven",
     "name": "clay oven",
     "looks_like": "f_fireplace",
-    "description": "Clay oven with a chimney.  The main use is to bake food in the firebrick alcove in the middle, but nothing's stopping you using it as a fireplace as well.",
+    "description": "A simple clay oven with a chimney, with a firebrick alcove in the middle that can be used to cook food or just to contain a fire.",
     "symbol": "U",
     "color": "brown",
     "move_cost_mod": -1,
