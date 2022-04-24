@@ -18,6 +18,7 @@
   {
     "id": "default_zombie_children_clothes",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "default_zombie_children_clothes",
     "extend": { "entries": [ { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false } ] }
   }

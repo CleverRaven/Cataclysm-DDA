@@ -1,0 +1,20 @@
+[
+  {
+    "type": "item_group",
+    "id": "xed_office",
+    "copy-from": "office",
+    "extend": { "entries": [ { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "xed_cubical_office",
+    "copy-from": "cubical_office",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+        { "group": "softdrugs", "prob": 20 }
+      ]
+    }
+  }
+]

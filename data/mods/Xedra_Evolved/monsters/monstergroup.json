@@ -13,5 +13,13 @@
       { "monster": "mon_fetch_child", "weight": 400, "cost_multiplier": 0 },
       { "monster": "mon_fae_wolf", "weight": 250, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_SPIDER",
+    "monsters": [
+      { "monster": "mon_goblin_spider", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fetch_child", "weight": 200, "cost_multiplier": 0 }
+    ]
   }
 ]
