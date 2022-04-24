@@ -392,5 +392,23 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET", "WALL_CLING_FOURTH" ]
+  },
+  {
+    "id": "exo_jetpack",
+    "type": "TOOL",
+    "name": { "str": "exosuit dynamic maneuvering unit" },
+    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across impassible terrain.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "vacuum_carbide", "qt_steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "afs_shydrogen" ],
+    "charges_per_use": 50,
+    "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
+    "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ]
   }
 ]
