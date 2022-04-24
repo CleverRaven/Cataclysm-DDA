@@ -159,7 +159,7 @@ void help::display_help() const
     std::string action;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_help_border, BORDER_COLOR, _( "Help" ), c_black_white );
+        draw_border( w_help_border, BORDER_COLOR, _( "Help" ) );
         wnoutrefresh( w_help_border );
         draw_menu( w_help );
     } );
