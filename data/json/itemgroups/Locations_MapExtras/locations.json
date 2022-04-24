@@ -936,6 +936,7 @@
     "entries": [
       { "item": "rock", "prob": 40 },
       { "item": "rock_flaking", "prob": 15 },
+      { "item": "flint", "prob": 5 },
       { "item": "rock_large", "prob": 10 },
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1 },
@@ -1243,6 +1244,7 @@
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
       { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "flint", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
@@ -1312,6 +1314,7 @@
     "items": [
       [ "rock", 40 ],
       [ "rock_flaking", 10 ],
+      [ "flint", 5 ],
       [ "rock_large", 5 ],
       [ "sharp_rock", 5 ],
       { "group": "newspaper_recent", "prob": 5 },
@@ -1325,6 +1328,7 @@
     "items": [
       [ "rock", 40 ],
       [ "rock_flaking", 5 ],
+      [ "flint", 2 ],
       [ "rock_large", 5 ],
       [ "stick", 95 ],
       [ "pine_bough", 20 ],
@@ -1907,6 +1911,7 @@
       [ "puck", 20 ],
       [ "jersey", 40 ],
       [ "baseball", 20 ],
+      [ "shuttlecock", 5 ],
       [ "manual_mechanics", 35 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],

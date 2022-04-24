@@ -851,6 +851,34 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
     draw_tabs( w, ordered_tab_list, current_tab );
 }
 
+/**
+ * Produces the largest subset of a list of tabs (for draw_tabs or draw_subtab) that can be displayed within max_width
+ *
+ * Set up for display of crafting recipe categories and subcategories.  Provided with
+ * a list of tabs and the translated names, checks to see if they fit within max_width.
+ * If they don't, finds the largest sequential collection of tabs that fit within
+ * max_width and contain current_tab.  Since the function is already handling translated
+ * tab names, the translated strings can be returned instead of the generic identifiers.
+ * @param max_width The maximum width available for display of the tabs.  Currently assumes
+ * that this value includes a border.
+ * @param current_tab The generic identifier for the currently selected tab
+ * @param tab_names A map of translated tab names (generic identifier, translated name)
+ * @param original_tab_list a list of the generic identifiers of all tabs that we want
+ * to display
+ * @param translate Whether or not translated strings should be returned by the function.
+ * False by default.
+ * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
+ * current_tab.
+ * @return Return 2 (optional): The index of the currently selected tab within return 1
+ */
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate = false );
+std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab,
+        const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate = false );
+
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
                      int iContentHeight, int iNumLines, const point &offset = point_zero,

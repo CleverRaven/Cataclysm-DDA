@@ -595,10 +595,10 @@
           "hatchet",
           "balclava",
           "rifle_case_soft",
-          "emer_blanket",
           "mess_tin"
         ],
         "entries": [
+          { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_two_way_radio" },
           {
             "item": "boreal_mosin",

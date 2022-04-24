@@ -135,6 +135,10 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
+        virtual void set_str_bonus( int ) {}
+        virtual void set_dex_bonus( int ) {}
+        virtual void set_int_bonus( int ) {}
+        virtual void set_per_bonus( int ) {}
         virtual int get_str_max() const {
             return 0;
         }
@@ -145,6 +149,18 @@ class talker
             return 0;
         }
         virtual int get_per_max() const {
+            return 0;
+        }
+        virtual int get_str_bonus() const {
+            return 0;
+        }
+        virtual int get_dex_bonus() const {
+            return 0;
+        }
+        virtual int get_int_bonus() const {
+            return 0;
+        }
+        virtual int get_per_bonus() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -312,8 +328,10 @@ class talker
         virtual bool buy_from( int ) {
             return false;
         }
-        virtual void buy_monster( talker &, const mtype_id &, int, int, bool,
-                                  const translation & ) {}
+        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
+                                  const translation & ) {
+            return false;
+        }
 
         // missions
         virtual std::vector<mission *> available_missions() const {
@@ -399,6 +417,13 @@ class talker
         virtual int get_stim() const {
             return 0;
         }
+        virtual int get_addiction_intensity( const addiction_id & ) const {
+            return 0;
+        }
+        virtual int get_addiction_turns( const addiction_id & ) const {
+            return 0;
+        }
+        virtual void set_addiction_turns( const addiction_id &, int ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}

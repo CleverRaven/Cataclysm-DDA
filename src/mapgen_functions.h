@@ -71,6 +71,7 @@ void mapgen_ravine_edge( mapgendata &dat );
 void mremove_trap( map *m, const point &, trap_id type );
 void mtrap_set( map *m, const point &, trap_id type );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
+void mremove_fields( map *m, const point & );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const update_mapgen_id &, const tripoint_abs_omt &omt_pos,

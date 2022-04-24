@@ -3,7 +3,7 @@
     "id": "mon_big_rat",
     "type": "MONSTER",
     "name": { "str": "big rat" },
-    "description": "This cat sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it showing off large teeth.",
+    "description": "This cat-sized rat snuffles along the ground looking for things to eat.  It hisses at anything that comes near it, baring sizable teeth.",
     "default_faction": "ratkin",
     "bodytype": "pig",
     "species": [ "MUTANT" ],
@@ -37,7 +37,8 @@
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
-    "harvest": "mutant_rodent"
+    "harvest": "mutant_mammal_small_fur",
+    "dissect": "dissect_rat_sample_single"
   },
   {
     "id": "mon_zap_rat",
@@ -60,7 +61,7 @@
     "id": "mon_tunnel_rat",
     "type": "MONSTER",
     "name": { "str": "tunnel runner" },
-    "description": "Prior to the Cataclysm someone might have referred to this giant rat erupting from the earth as a 'mass of claws and teeth', however you live in a world where masses of claws and teeth move on their own and attack people so this is only an incredibly violent dog sized rat that viciously attacks.",
+    "description": "Prior to the Cataclysm someone might have referred to this dog-sized rat as a 'mass of claws and teeth,' but that could describe nearly everything you meet these days.  In any case, this particular mass of claws and teeth is eyeing its surroundings hungrily.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
@@ -92,15 +93,16 @@
       }
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
+    "dissect": "dissect_rat_sample_small"
   },
   {
     "id": "mon_teke_mouse",
     "type": "MONSTER",
     "name": { "str": "Mouse of NEMA", "str_pl": "Mice of NEMA" },
-    "description": "This albino mouse has a humanoid form and walks on it's hind legs some of the time.  You can see eddies of wind around it as it moves and debris is caught in it's wake.",
+    "description": "This albino, humanoid mouse walks on its hind legs.  You can see eddies of wind swirl unnaturally around it as it moves, debris caught in its wake.",
     "default_faction": "ratkin",
-    "//": "High winds surrounding it make bash and bullet's less effective.  Cut and stab are almost unaffected.",
+    "//": "High winds surrounding it make bash and bullets less effective.  Cut and stab are almost unaffected.",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
     "weight": "30 kg",
@@ -118,6 +120,7 @@
     "armor_cut": 3,
     "armor_bullet": 26,
     "death_drops": "ratkin_death_drops_teke",
+    "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
     "special_attacks": [ { "id": "teke_push" } ],
@@ -127,7 +130,7 @@
     "id": "mon_mausketeer",
     "type": "MONSTER",
     "name": { "str": "mausketeer" },
-    "description": "This hominid rat is dressed like it's going to a renfaire in an imitation of Ancien Régime light cavalry and armed with a sword.",
+    "description": "This humanoid rat seems to be inexplicably dressed for a renfaire in an imitation of Ancien Régime light cavalry, complete with a sword.",
     "default_faction": "ratkin",
     "copy-from": "mon_big_rat",
     "volume": "20 L",
@@ -149,6 +152,7 @@
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
     "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
+    "dissect": "dissect_rat_sample_small"
   }
 ]

@@ -609,5 +609,94 @@
     "type": "recipe",
     "result": "armor_scavenger",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vac_oven_small_full",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "id_suffix": "using_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "id_suffix": "using_oil_extractor_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using lo_q_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using_tails",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dab_pen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_cart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dragonskin",
+    "obsolete": true
   }
 ]

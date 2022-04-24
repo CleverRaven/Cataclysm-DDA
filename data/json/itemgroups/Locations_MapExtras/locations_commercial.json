@@ -596,6 +596,7 @@
       [ "motorbike_armor", 2 ],
       [ "motorbike_pants", 2 ],
       [ "motorbike_boots", 2 ],
+      [ "dragonskin", 2 ],
       [ "kittel", 1 ],
       [ "kippah", 3 ],
       [ "thawb", 2 ],
@@ -1675,7 +1676,9 @@
       { "group": "toy_makerspace_kit", "prob": 25 },
       { "group": "toy_robot_kit", "prob": 25 },
       { "group": "toy_engine_kit", "prob": 25 },
-      { "item": "vibrator", "prob": 1, "charges": 100 }
+      { "item": "vibrator", "prob": 1, "charges": 100 },
+      { "item": "ar_glasses_basic", "prob": 20, "charges": 150 },
+      { "item": "ar_glasses_advanced", "prob": 10, "charges": 150 }
     ]
   },
   {
