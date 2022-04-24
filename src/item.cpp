@@ -10319,8 +10319,8 @@ bool item::uses_magazine() const
 itype_id item::magazine_default( bool conversion ) const
 {
     // consider modded ammo types
-    if( conversion && !ammo_types().empty() ) {
-        const itype_id ammo = ammo_default();
+    itype_id ammo;
+    if( conversion && ( ammo = ammo_default(), !ammo.is_null() ) ) {
         for( const itype_id &mag : contents.magazine_compatible() ) {
             auto mag_types = mag->magazine->type;
             if( mag_types.find( ammo->ammo->type ) != mag_types.end() ) {
