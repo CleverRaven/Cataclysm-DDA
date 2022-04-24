@@ -208,7 +208,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_B1_Attached",
-    "dynamic_line": "No, I'm not really with them.  We just got stuck together in the same messed up evacuation place. This one guy was really nice, but they wouldn't let us stay. They got there first so they told us we needed to find our own place, but if we got anything they wanted they'd trade some of the stuff they have.  I tried to talk them into helping but they were so cold to me.",
+    "dynamic_line": "No, I'm not really with them.  We just got stuck together in the same messed up evacuation place.  This one guy was really nice, but they wouldn't let us stay.  They got there first so they told us we needed to find our own place, but if we got anything they wanted they'd trade some of the stuff they have.  I tried to talk them into helping but they were so cold to me.",
     "responses": [
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
