@@ -173,7 +173,7 @@
     "symbol": "7",
     "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  Can be placed and plugged into a power source.",
     "color": "black_red",
-    "name": { "str": "hydraulic press" },
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" },
     "material": [ "aluminum" ],
     "//": "Based off Daytona DSP20T Hydraulic Shop Press",
     "longest_side": "1580 mm",
