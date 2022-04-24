@@ -66,7 +66,7 @@ void live_view::show( const tripoint &p )
             int line_out = START_LINE;
             g->pre_print_all_tile_info( mouse_position, win, line_out, getmaxy( win ) - 2, cache );
             draw_border( win );
-            center_print( win, 0, c_white, _( "< <color_green>Mouse View</color> >" ) );
+            center_print( win, 0, c_white, _( "< <color_green>Mouse view</color> >" ) );
             wnoutrefresh( win );
         } );
     }

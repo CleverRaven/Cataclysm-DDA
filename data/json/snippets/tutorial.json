@@ -17,7 +17,7 @@
       },
       {
         "id": "LESSON_LOOK",
-        "text": "You can also use the mouse to see things around you.  The <color_light_cyan>Mouse View</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <keybind:look> to open the <color_light_cyan>Look Around</color> window."
+        "text": "You can also use the mouse to see things around you.  The <color_light_cyan>Mouse view</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <keybind:look> to open the <color_light_cyan>Look Around</color> window."
       },
       {
         "id": "LESSON_OPEN",
