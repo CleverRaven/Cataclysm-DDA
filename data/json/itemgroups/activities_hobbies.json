@@ -67,6 +67,7 @@
       [ "baseball", 35 ],
       [ "football", 35 ],
       [ "frisbee", 10 ],
+      [ "shuttlecock", 10 ],
       [ "disc_golf", 10 ],
       [ "manual_brawl", 30 ],
       [ "manual_bashing", 1 ],
