@@ -759,9 +759,9 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
-            { _( "Effect Types" ), &effect_type::check_consistency },
+            { _( "Effect types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
-            { _( "Addiction Types" ), &add_type::check_add_types },
+            { _( "Addiction types" ), &add_type::check_add_types },
             {
                 _( "Items" ), []()
                 {
@@ -787,7 +787,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
-            { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
