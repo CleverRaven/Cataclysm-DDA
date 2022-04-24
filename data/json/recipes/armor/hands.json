@@ -1069,8 +1069,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "gloves_leather", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {

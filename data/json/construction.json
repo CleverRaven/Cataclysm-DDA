@@ -3496,8 +3496,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "0 s",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "WRENCH", "level": 1 } ],
     "pre_flags": "WIRED_WALL",
     "pre_special": "check_no_wiring",
     "post_special": "done_wiring"
