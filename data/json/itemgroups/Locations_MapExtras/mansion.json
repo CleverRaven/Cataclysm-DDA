@@ -1355,7 +1355,7 @@
       { "group": "swimmer_gloves", "prob": 5 },
       { "group": "swimmer_wetsuit", "prob": 5 },
       { "group": "swimmer_items", "prob": 10 },
-      { "group": "magazines", "prob": 20 },
+      { "group": "magazines", "prob": 20 }
     ]
   },
   {
