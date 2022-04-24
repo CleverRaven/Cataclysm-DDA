@@ -87,7 +87,7 @@
     "id": "mon_seastar_alien",
     "type": "MONSTER",
     "name": { "str_sp": "tripod star" },
-    "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a seastar crawling on three spindly legs.",
+    "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a sea star crawling on three spindly legs.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
     "species": [ "NETHER" ],
