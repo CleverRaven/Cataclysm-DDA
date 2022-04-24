@@ -292,7 +292,8 @@
       "aksemi",
       "fs2000",
       "robofac_gun",
-      "obrez"
+      "obrez",
+      "mk47"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
