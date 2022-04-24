@@ -75,7 +75,7 @@
     "luminance": 0,
     "harvest": "mollusk",
     "dissect": "dissect_gastropod_sample_single",
-    "upgrades": { "half_life": 14, "into": "mon_snail_small" }
+    "upgrades": { "half_life": 14, "into": "mon_snail_small" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
   },
