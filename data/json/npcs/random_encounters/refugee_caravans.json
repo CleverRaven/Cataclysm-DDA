@@ -251,7 +251,7 @@
           ]
         }
       },
-      { "text": "Yes. I'll be on my way then.", "topic": "TALK_DONE" }
+      { "text": "Yes.  I'll be on my way then.", "topic": "TALK_DONE" }
     ]
   },
   {
