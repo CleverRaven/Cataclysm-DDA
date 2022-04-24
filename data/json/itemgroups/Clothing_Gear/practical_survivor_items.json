@@ -34,7 +34,7 @@
     ]
   },
   {
-    "id": "practical_underwear",
+    "id": "practical_bottoms_underwear",
     "type": "item_group",
     "subtype": "distribution",
     "//": "Assortment of practical underwear characters would wear during the apocalpyse.",
@@ -45,7 +45,6 @@
       { "item": "boy_shorts" },
       { "item": "briefs" },
       { "item": "panties" },
-      { "item": "sports_bra" },
       { "item": "under_armor_shorts" }
     ]
   },
