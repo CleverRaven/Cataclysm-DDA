@@ -189,7 +189,6 @@ static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const sub_bodypart_str_id sub_body_part_torso_hanging_back( "torso_hanging_back" );
 static const sub_bodypart_str_id sub_body_part_torso_lower( "torso_lower" );
 static const sub_bodypart_str_id sub_body_part_torso_upper( "torso_upper" );
 
@@ -786,13 +785,6 @@ bool item::is_frozen_liquid() const
 
 bool item::covers( const sub_bodypart_id &bp ) const
 {
-    // first do the logic for guns.
-    if( is_gun() ) {
-        // Currently only used for guns with the should strap mod, other guns might
-        // go on another bodypart.
-        return bp == sub_bodypart_id( "torso_hanging_back" );
-    }
-
     // if the item has no armor data it doesn't cover that part
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -917,12 +909,6 @@ const std::array<bodypart_str_id, 4> &right_side_parts()
 void item::iterate_covered_sub_body_parts_internal( const side s,
         std::function<void( const sub_bodypart_str_id & )> cb ) const
 {
-    if( is_gun() ) {
-        // Currently only used for guns with the should strap mod, other guns might
-        // go on another bodypart.
-        cb( sub_body_part_torso_hanging_back );
-    }
-
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
         return;
@@ -948,12 +934,6 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
 void item::iterate_covered_body_parts_internal( const side s,
         std::function<void( const bodypart_str_id & )> cb ) const
 {
-
-    if( is_gun() ) {
-        // Currently only used for guns with the should strap mod, other guns might
-        // go on another bodypart.
-        cb( body_part_torso );
-    }
 
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -7258,8 +7238,7 @@ int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
-        // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
+        return 0;
     }
 
     int avg_encumber = 0;
@@ -7289,8 +7268,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 {
     const islot_armor *t = find_armor_data();
     if( !t ) {
-        // handle wearable guns (e.g. shoulder strap) as special case
-        return is_gun() ? volume() / 750_ml : 0;
+        return 0;
     }
 
     int encumber = 0;
@@ -7314,6 +7292,10 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
 
     if( const armor_portion_data *portion_data = portion_for_bodypart( bodypart ) ) {
         encumber = portion_data->encumber;
+        if( is_gun() ) {
+            encumber += volume() * portion_data->volume_encumber_modifier /
+                        portion_data->volume_per_encumbrance;
+        }
 
         // encumbrance from added or modified pockets
         int additional_encumbrance = get_contents().get_additional_pocket_encumbrance(
@@ -7371,10 +7353,6 @@ std::vector<layer_level> item::get_layer() const
 {
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
-        // additional test for gun straps
-        if( is_gun() ) {
-            return { layer_level::BELTED };
-        }
         return std::vector<layer_level>();
     }
     return armor->all_layers;
@@ -7384,10 +7362,6 @@ std::vector<layer_level> item::get_layer( bodypart_id bp ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
-        // additional test for gun straps
-        if( is_gun() && bp == body_part_torso ) {
-            return { layer_level::BELTED };
-        }
         return std::vector<layer_level>();
     }
 
@@ -7423,10 +7397,6 @@ std::vector<layer_level> item::get_layer( sub_bodypart_id sbp ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
-        // additional test for gun straps
-        if( is_gun() && sbp == sub_body_part_torso_hanging_back ) {
-            return { layer_level::BELTED };
-        }
         return std::vector<layer_level>();
     }
 
