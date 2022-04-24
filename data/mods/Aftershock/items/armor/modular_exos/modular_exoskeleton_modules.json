@@ -384,14 +384,15 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit climbing assist module", "str_pl": "exosuit climbing assist modules" },
-    "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.  Requires four modules across the suit for full effect.",
+    "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.",
     "weight": "2 kg",
     "volume": "1 L",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
-    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET", "WALL_CLING_FOURTH" ]
+    "armor": [ { "encumbrance": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
+    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET", "WALL_CLING" ]
   },
   {
     "id": "exo_jetpack",
