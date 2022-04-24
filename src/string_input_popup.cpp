@@ -415,11 +415,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         }
 
-        if( !ctxt_ptr && _ignore_custom_actions && action != "ANY_INPUT" ) {
-            _handled = false;
-            continue;
-        }
-
         if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {

@@ -1341,7 +1341,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     size_t display_height = 0;
     size_t legwidth = 0;
     string_input_popup spopup;
-    spopup.ignore_custom_actions( false );
     // ignore hardcoded keys in string input popup
     for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
         spopup.callbacks[v.second] = []() {
