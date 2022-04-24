@@ -14,5 +14,11 @@
       { "group": "clothing_watch", "prob": 5 },
       { "group": "fancyfurs", "damage": [ 1, 4 ] }
     ]
+  },
+  {
+    "id": "default_zombie_children_clothes",
+    "type": "item_group",
+    "copy-from": "default_zombie_children_clothes",
+    "extend": { "entries": [ { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false } ] }
   }
 ]
