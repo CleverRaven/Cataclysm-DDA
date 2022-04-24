@@ -461,7 +461,8 @@ class item : public visitable
         void gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
-                                    bool debug, const bodypart_id &bp = bodypart_id(), bool combine_opposites = false ) const;
+                                    bool debug, const sub_bodypart_id &sbp = sub_bodypart_id() ) const;
+        void pet_armor_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
         void armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                          bool debug ) const;
         void animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -2720,8 +2721,7 @@ class item : public visitable
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
 
         /** Returns true if protection info was printed as well */
-        bool armor_encumbrance_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
-                                     bool header = true, int reduce_encumbrance_by = 0 ) const;
+        bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
     public:
         enum class sizing : int {
