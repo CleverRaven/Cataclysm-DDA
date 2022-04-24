@@ -6,7 +6,7 @@
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 3,
+    "mission": 7,
     "chat": "TALK_CARAVAN_REFUGEE_A1",
     "faction": "caravan_refugees"
   },
