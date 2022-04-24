@@ -79,7 +79,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A_Story",
-    "dynamic_line": "We were at the same little evacuation hut, but it was all messed up, just used condoms and broken bottles and lipstick writing on the walls.  We found another group of refugees like us on the road , but they had all been killed, all ripped up, blood everywhere.  We took their food and made it all the way to the refugee center, but they told us there was no room and we should just go back where we came from and fight the dead.  We're not doing that, so we're going to a FEMA camp.  They should have more room and supplies.  No guarantees, but it's a chance.",
+    "dynamic_line": "We were at the same little evacuation hut, but it was all messed up, just used condoms and broken bottles and lipstick writing on the walls.  We found another group of refugees like us on the road, but they had all been killed, all ripped up, blood everywhere.  We took their food and made it all the way to the refugee center, but they told us there was no room and we should just go back where we came from and fight the dead.  We're not doing that, so we're going to a FEMA camp.  They should have more room and supplies.  No guarantees, but it's a chance.",
     "responses": [
       { "text": "They're right, you should just go back home and let it happen.", "topic": "TALK_DONE" },
       {
@@ -171,7 +171,12 @@
     "dynamic_line": "Nice.  Good to see you again.  What do you want from me?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_CARAVAN_REFUGEE_B1_Job" },
-      { "text": "You should drop these losers and come with me.", "topic": "TALK_CARAVAN_REFUGEE_B1_Join" },
+      {
+        "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "speaking" },
+        "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
+        "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
+      },
       { "text": "Nothing, just saying hi.", "topic": "TALK_DONE" }
     ]
   },
