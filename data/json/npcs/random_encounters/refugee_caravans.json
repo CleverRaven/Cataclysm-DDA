@@ -8,7 +8,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_CARAVAN_REFUGEE_A1",
-    "faction": "caravan_refugees"
+    "faction": "wasteland_scavengers"
   },
   {
     "type": "npc",
@@ -19,7 +19,7 @@
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_CARAVAN_REFUGEE_B1",
-    "faction": "caravan_refugees"
+    "faction": "wasteland_scavengers"
   },
   {
     "type": "npc",
@@ -30,7 +30,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_CARAVAN_REFUGEE_C1",
-    "faction": "caravan_refugees"
+    "faction": "wasteland_scavengers"
   },
   {
     "type": "talk_topic",
