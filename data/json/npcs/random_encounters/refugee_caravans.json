@@ -6,7 +6,7 @@
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_CARAVAN_REFUGEE_A1",
     "faction": "caravan_refugees"
   },
@@ -119,6 +119,30 @@
     ]
   },
   {
+    "id": "MISSION_REACH_FEMA_CA",
+    "type": "mission_definition",
+    "name": { "str": "Reach FEMA Camp" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 2,
+    "value": 60000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "fema", "reveal_radius": 5, "om_special": "FEMA Camp", "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "destination": "fema",
+    "dialogue": {
+      "describe": "Things must be better at the camp…",
+      "offer": "We're all in this together, looking forward to meeting you there.",
+      "accepted": "Everything is going to be all right.",
+      "rejected": "No worries friend, good luck to you.",
+      "advice": "The hard part is getting there.",
+      "inquire": "Any progress on getting to the camp?",
+      "success": "Well, success I guess.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Such a disappointment…"
+    }
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A_CENTER",
     "dynamic_line": "Here, I'll mark it on your map.  I wouldn't bet they'll treat you any differently than us though.  You might try and bring something to trade, they like that.",
@@ -157,7 +181,12 @@
     "dynamic_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
     "responses": [
       { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
-      { "text": "You should drop these losers and come with me.", "topic": "TALK_CARAVAN_REFUGEE_B1_Join" },
+      {
+        "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "speaking" },
+        "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
+        "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
+      },
       {
         "text": "Why, where you before?",
         "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
