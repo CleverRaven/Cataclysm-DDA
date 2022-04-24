@@ -168,8 +168,8 @@
     "warmth": 0,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BLIND" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ] } ]
+    "flags": [ "BLIND", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "ear_plugs",
