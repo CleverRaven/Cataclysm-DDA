@@ -101,6 +101,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "shelter_under_1",
+    "name": "evac shelter",
+    "sym": "+",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lmoe",
     "name": "LMOE shelter",
     "sym": "+",

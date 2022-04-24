@@ -325,7 +325,7 @@
   {
     "id": "mon_fungal_raptor",
     "type": "MONSTER",
-    "name": { "str": "Fungal-raptor" },
+    "name": { "str": "fungal raptor" },
     "description": "Infested by a thick crust of fungal growth, this small, winged predator darts through the air on three spongy wings that look like stretched human hands.  A sheer, jagged spike juts out from the point where the wings meet.  It looks like nothing you've seen on Earth, and yet strangely like it is made of human parts.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],

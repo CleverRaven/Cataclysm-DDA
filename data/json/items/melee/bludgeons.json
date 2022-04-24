@@ -71,7 +71,7 @@
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
     "bashing": 22,
     "price": 16000

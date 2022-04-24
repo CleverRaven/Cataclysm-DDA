@@ -1505,6 +1505,7 @@
     "fire_resist": 0,
     "elec_resist": 2,
     "chip_resist": 0,
+    "soft": true,
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",

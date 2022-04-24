@@ -3436,6 +3436,17 @@
   },
   {
     "type": "construction",
+    "id": "app_autoclave",
+    "group": "place_autoclave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 2 ] ],
+    "time": "6 m",
+    "components": [ [ [ "autoclave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",

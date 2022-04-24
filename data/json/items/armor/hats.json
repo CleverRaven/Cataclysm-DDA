@@ -114,7 +114,7 @@
     "looks_like": "hat_cotton",
     "color": "dark_gray",
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
   },
   {
@@ -560,7 +560,7 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ],
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
     "armor": [ { "coverage": 90, "covers": [ "head" ] } ]
   },
   {
