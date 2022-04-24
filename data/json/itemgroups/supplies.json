@@ -608,6 +608,7 @@
       [ "basketball", 100 ],
       [ "indoor_volleyball", 50 ],
       [ "baseball", 100 ],
+      [ "shuttlecock", 10 ],
       [ "hat_ball", 10 ],
       [ "helmet_ball", 20 ],
       [ "bat", 80 ],
