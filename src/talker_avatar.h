@@ -30,7 +30,7 @@ class talker_avatar: public talker_character
         std::vector<skill_id> skills_offered_to( const talker &student ) const override;
 
         // inventory and such
-        void buy_monster( talker &seller, const mtype_id &mtype, int cost,
+        bool buy_monster( talker &seller, const mtype_id &mtype, int cost,
                           int count, bool pacified, const translation &name ) override;
 };
 #endif // CATA_SRC_TALKER_AVATAR_H

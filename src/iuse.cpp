@@ -2001,10 +2001,10 @@ class exosuit_interact
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "QUIT" );
             ctxt.register_action( "ANY_INPUT" );
-            pocket_count = it->get_all_contained_pockets().value().size();
+            pocket_count = it->get_all_contained_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
-            for( const item_pocket *pkt : it->get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
                 int tmp = utf8_width( get_pocket_name( pkt ) );
                 if( tmp > width_menu ) {
                     width_menu = tmp;
@@ -2055,7 +2055,7 @@ class exosuit_interact
         void draw_menu() {
             werase( w_menu );
             int row = 0;
-            for( const item_pocket *pkt : suit->get_contents().get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
                 mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
                 row++;
@@ -2066,7 +2066,7 @@ class exosuit_interact
         void draw_iteminfo() {
             std::vector<iteminfo> dummy;
             std::vector<iteminfo> suitinfo;
-            item_pocket *pkt = suit->get_contents().get_all_contained_pockets().value()[cur_pocket];
+            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
             item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
@@ -2113,7 +2113,7 @@ class exosuit_interact
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
                     int nmoves = insert_replace_mod(
-                                     suit->get_contents().get_all_contained_pockets().value()[cur_pocket], suit );
+                                     suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
                 } else if( action == "UP" ) {
                     cur_pocket--;
@@ -2230,7 +2230,7 @@ cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tr
     if( !p->is_avatar() ) {
         return cata::nullopt;
     }
-    if( !it->get_contents().get_all_contained_pockets().success() ) {
+    if( it->get_all_contained_pockets().empty() ) {
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return cata::nullopt;
     }
