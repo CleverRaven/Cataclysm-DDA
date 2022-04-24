@@ -460,7 +460,7 @@
     "id": "mauser_m714",
     "copy-from": "mauser_c96",
     "type": "GUN",
-    "name": { "str": "Reproduction Broomhandle pistol" },
+    "name": { "str": "reproduction Broomhandle pistol" },
     "description": " A modern take on the original Mauser design, this variant is chambered for 9x19mm cartridges and, unlike its elder brother, the pre-1900 Mauser Broomhandle, this firearm feeds from detachable box magazines.  Whilst it features surplus Mauser parts in its construction, the frame of the pistol is of relatively modern manufacture.",
     "variant_type": "gun",
     "variants": [
