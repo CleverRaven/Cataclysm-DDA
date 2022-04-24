@@ -1849,7 +1849,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
                 // if it doesn't have sublocations it has 100% covered
                 limb_coverage = 100;
             } else {
-                for( const sub_bodypart_id &sbp : bp->sub_parts ) {
+                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                     if( !clothing.covers( sbp ) ) {
                         continue;
                     }
