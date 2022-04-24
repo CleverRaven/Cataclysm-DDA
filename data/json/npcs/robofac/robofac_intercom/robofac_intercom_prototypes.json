@@ -328,7 +328,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH",
     "//": "getting an HWP",
     "type": "talk_topic",
-    "dynamic_line": "The weapon is complete.  I have been instructed to remind all operatives that they must install a barrel in the HWP for it to work as a gun.  Here are the requested items.  If you require more compact magazines of any caliber we can sell those directly at 1 coin for 2 mags. Several high-capacity magazines are also available for purchase at 3 coins per mag.",
+    "dynamic_line": "The weapon is complete.  I have been instructed to remind all operatives that they must install a barrel in the HWP for it to work as a gun.  Here are the requested items.  If you require more compact magazines of any caliber we can sell those directly at 1 coin for 2 mags.  Several high-capacity magazines are also available for purchase at 3 coins per mag.",
     "responses": [
       {
         "text": "Thanks.",
