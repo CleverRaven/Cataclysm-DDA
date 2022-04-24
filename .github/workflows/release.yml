@@ -96,23 +96,54 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+          - name: Windows Tiles Sounds x32 MSVC
+            artifact: windows-tiles-sounds-x32-msvc
+            arch: x86
+            os: windows-2019
+            mxe: none
+            ext: zip
+            content: application/zip
+            sound: 1
           - name: Windows Tiles x64
             mxe: x86_64
             artifact: windows-tiles-x64
             os: ubuntu-latest
             ext: zip
             content: application/zip
+          - name: Windows Tiles Sounds x64
+            mxe: x86_64
+            artifact: windows-tiles-x64
+            os: ubuntu-latest
+            ext: zip
+            content: application/zip
+            sound: 1
           - name: Windows Tiles x32
             mxe: i686
             artifact: windows-tiles-x32
             os: ubuntu-latest
             ext: zip
             content: application/zip
+          - name: Windows Tiles Sounds x32
+            mxe: i686
+            artifact: windows-tiles-x32
+            os: ubuntu-latest
+            ext: zip
+            content: application/zip
+            sound: 1
           - name: Linux Tiles x64
             os: ubuntu-18.04
             mxe: none
             android: none
             tiles: 1
+            artifact: linux-tiles-x64
+            ext: tar.gz
+            content: application/gzip
+          - name: Linux Tiles Sounds x64
+            os: ubuntu-18.04
+            mxe: none
+            android: none
+            tiles: 1
+            sound: 1
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
@@ -135,6 +166,14 @@ jobs:
             os: macos-10.15
             mxe: none
             tiles: 1
+            artifact: osx-tiles-x64
+            ext: dmg
+            content: application/x-apple-diskimage
+          - name: osx-tiles-sounds-x64
+            os: macos-10.15
+            mxe: none
+            tiles: 1
+            sound: 1
             artifact: osx-tiles-x64
             ext: dmg
             content: application/x-apple-diskimage
