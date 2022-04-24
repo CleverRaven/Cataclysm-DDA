@@ -1445,6 +1445,7 @@
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],
       [ "flip_flops", 35 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 45 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 5 ],
@@ -1733,6 +1734,7 @@
       [ "thigh_high_boots", 40 ],
       [ "boots", 100 ],
       [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 100 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 20 ],
@@ -3713,6 +3715,7 @@
           { "item": "bastsandals", "prob": 20 },
           { "item": "straw_sandals", "prob": 20 },
           { "item": "flip_flops", "prob": 40 },
+          { "item": "flip_flops_exp", "prob": 5 },
           { "item": "leathersandals", "prob": 35 }
         ],
         "prob": 60

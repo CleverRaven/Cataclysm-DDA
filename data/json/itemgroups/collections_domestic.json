@@ -353,6 +353,7 @@
       { "item": "smart_lamp", "prob": 1 },
       { "item": "runner_bag", "prob": 5 },
       { "item": "flip_flops", "prob": 35 },
+      { "item": "flip_flops_exp", "prob": 5 },
       { "item": "lowtops", "prob": 45 },
       { "item": "dress_shoes", "prob": 50 },
       { "item": "dance_shoes", "prob": 5 },

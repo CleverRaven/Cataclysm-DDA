@@ -261,6 +261,7 @@
       [ "fitover_sunglasses", 20 ],
       [ "fancy_sunglasses", 10 ],
       [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
       [ "wetsuit_spring", 10 ],
       [ "fishing_rod_professional", 30 ],
       [ "straw_hat", 80 ],
