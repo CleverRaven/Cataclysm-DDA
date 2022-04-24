@@ -896,7 +896,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "pair of basic AR glasses", "str_pl": "pairs of basic AR glasses" },
-    "description": "A pair of compact augmented reality glasses with some basic functionality.  There is a camera at the rim, and it also has an alarm clock feature.",
+    "description": "A pair of compact augmented reality glasses with some basic functionality.  There is a camera at the rim, and it has an alarm clock feature.",
     "weight": "65 g",
     "volume": "720 ml",
     "price": 50000,
