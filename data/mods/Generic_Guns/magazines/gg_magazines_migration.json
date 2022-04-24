@@ -277,7 +277,9 @@
       "8x40_500_mag",
       "8x40_50_mag",
       "famasmag",
-      "robofac40"
+      "robofac40",
+      "robofac100",
+      "robofac50"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
