@@ -51,6 +51,9 @@ static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
+
+static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
+static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
@@ -73,8 +76,6 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -765,7 +766,7 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) || has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
@@ -774,9 +775,10 @@ void Character::activate_mutation( const trait_id &mut )
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
-            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
-                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) || has_flag( json_flag_CHLOROMORPH ) ) {
+            const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
+                                                 has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
+                                                         30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
         } else {
@@ -1944,4 +1946,3 @@ std::string Character::visible_mutations( const int visibility_cap ) const
     } );
     return trait_str;
 }
-
