@@ -3,7 +3,7 @@ concurrency: release
 on:
   push:
     branches:
-      - master
+      - release_test
     paths:
       - '.github/workflows/release.yml'
       - 'android/**'
@@ -81,6 +81,14 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+          - name: Windows Tiles Sounds x64 MSVC
+            artifact: windows-tiles-sounds-x64-msvc
+            arch: x64
+            os: windows-2019
+            mxe: none
+            ext: zip
+            content: application/zip
+            sound: 1
           - name: Windows Tiles x32 MSVC
             artifact: windows-tiles-x32-msvc
             arch: x86
@@ -157,6 +165,12 @@ jobs:
         ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
+      - name: Get soundpack
+        if: matrix.sound == 1
+        run: |
+        git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks
+        mv '${{ runner.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ runner.workspace }}/data/sound'
+        rmdir -r '${{ runner.workspace }}/CDDA-Soundpacks/'
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.0.2
