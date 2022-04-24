@@ -114,7 +114,7 @@
     "looks_like": "hat_cotton",
     "color": "dark_gray",
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
   },
   {
@@ -293,7 +293,7 @@
     "warmth": 5,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
   },
   {
@@ -314,7 +314,7 @@
     "warmth": 6,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
     "armor": [ { "encumbrance": 13, "coverage": 80, "covers": [ "head" ] } ]
   },
   {
@@ -560,7 +560,7 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID" ],
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
     "armor": [ { "coverage": 90, "covers": [ "head" ] } ]
   },
   {
@@ -643,5 +643,39 @@
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
     "armor": [ { "encumbrance": 10, "coverage": 40, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "wizard_hat_costume",
+    "type": "ARMOR",
+    "name": "wizard hat",
+    "description": "A blue pointed hat with stars stitched into it.  Wearing it makes you feel like a powerful wizard.",
+    "weight": "300 g",
+    "volume": "2 L",
+    "price": 4000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "^",
+    "color": "light_blue",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "pointed_hat",
+    "type": "ARMOR",
+    "name": "pointed hat",
+    "description": "A black pointed hat suitable for a witch.",
+    "weight": "40 g",
+    "volume": "2 L",
+    "price": 3000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "^",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ] } ]
   }
 ]

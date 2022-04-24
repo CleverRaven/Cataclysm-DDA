@@ -4,7 +4,7 @@ include(ExternalProject)
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 
-add_library(CataAnalyzerPlugin MODULE
+set(CataAnalyzerSrc
         AlmostNeverAutoCheck.cpp
         AssertCheck.cpp
         CataTidyModule.cpp
@@ -14,7 +14,7 @@ add_library(CataAnalyzerPlugin MODULE
         JsonTranslationInputCheck.cpp
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
-        NoStaticGettextCheck.cpp
+        NoStaticTranslationCheck.cpp
         OtMatchCheck.cpp
         PointInitializationCheck.cpp
         RedundantParenthesesCheck.cpp
@@ -41,7 +41,17 @@ add_library(CataAnalyzerPlugin MODULE
         Utils.cpp
         XYCheck.cpp)
 
-target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE
+if (CATA_CLANG_TIDY_EXECUTABLE)
+    set(CataAnalyzerName CataAnalyzer)
+    add_executable(${CataAnalyzerName} ${CataAnalyzerSrc})
+    target_link_libraries(${CataAnalyzerName} clangTidyMain)
+    add_definitions(-DCATA_CLANG_TIDY_EXECUTABLE)
+else ()
+    set(CataAnalyzerName CataAnalyzerPlugin)
+    add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
+endif ()
+
+target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE
         ${LLVM_INCLUDE_DIRS} ${CLANG_INCLUDE_DIRS})
 
 if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
@@ -58,13 +68,13 @@ if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
             INSTALL_COMMAND ""
             TEST_COMMAND "")
 
-    add_dependencies(CataAnalyzerPlugin clang-tidy-plugin-support)
-    target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${CTPS_SRC}/include)
+    add_dependencies(${CataAnalyzerName} clang-tidy-plugin-support)
+    target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE ${CTPS_SRC}/include)
 else ()
-    target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
+    target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
 endif ()
 
-target_compile_definitions(CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
+target_compile_definitions(${CataAnalyzerName} PRIVATE ${LLVM_DEFINITIONS})
 
 # We need to turn off exceptions and RTTI to match the LLVM build.
 # I feel there ought to be a way to extract these flags from the
@@ -72,7 +82,7 @@ target_compile_definitions(CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
 # haven't found one.
 if (MSVC)
 else ()
-    target_compile_options(CataAnalyzerPlugin PRIVATE -fno-exceptions -fno-rtti)
+    target_compile_options(${CataAnalyzerName} PRIVATE -fno-exceptions -fno-rtti)
 endif ()
 
 configure_file(test/lit.site.cfg.in test/lit.site.cfg @ONLY)

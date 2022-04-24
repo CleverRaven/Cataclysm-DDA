@@ -32,7 +32,7 @@ Furthermore, there are additional criteria:
 
 *  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
 *  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
-*  Development mods need to have an associated work-in-progress feature that they exist to mitigate. 
+*  Development mods need to have an associated work-in-progress feature that they exist to mitigate.
 
 ## What are the responsibilities of a mod curator?
 
@@ -54,6 +54,6 @@ Furthermore, mods which are shipped with the game but are not working correctly 
 
 ## How can mods be rescued from removal?
 
-If the mod otherwise meets inclusion criteria but lacks a curator (ie. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
+If the mod otherwise meets inclusion criteria but lacks a curator (i.e. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in the CleverRaven repository.

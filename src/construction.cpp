@@ -56,6 +56,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -94,7 +95,6 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
-static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
 static const vproto_id vehicle_prototype_none( "none" );
@@ -915,13 +915,15 @@ bool can_construct( const construction &con, const tripoint &p )
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
-    place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
-        map &m = get_map();
-        furn_id f = m.furn( p );
-        ter_id t = m.ter( p );
-        return f == f_null ? t->has_flag( flag ) : f->has_flag( flag );
-    } );
+    for( const auto &flag : con.pre_flags ) {
+        furn_id f = get_map().furn( p );
+        ter_id t = get_map().ter( p );
+        const bool use_ter = flag.second || f == f_null;
+        if( ( !use_ter && !f->has_flag( flag.first ) ) ||
+            ( use_ter && !t->has_flag( flag.first ) ) ) {
+            place_okay = false;
+        }
+    }
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         map &here = get_map();
@@ -1335,18 +1337,6 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-static vpart_id vpart_appliance_from_item( const itype_id &item_id )
-{
-    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
-            return vp.get_id();
-        }
-    }
-    debugmsg( "item %s used by construction is not base item of any appliance!", item_id.c_str() );
-    return vpart_ap_standing_lamp;
-}
-
 void construct::done_vehicle( const tripoint &p )
 {
     std::string name = string_input_popup()
@@ -1444,52 +1434,20 @@ void construct::done_wiring( const tripoint &p )
 void construct::done_appliance( const tripoint &p )
 {
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
-
-    if( !veh ) {
-        debugmsg( "error constructing vehicle" );
-        return;
-    }
-
-    const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
     partial_con *pc = here.partial_con_at( p );
+    cata::optional<item> base = cata::nullopt;
+    const vpart_id &vpart = vpart_appliance_from_item( get_avatar().lastconsumed );
     if( pc ) {
-        item base;
         for( item &obj : pc->components ) {
             if( obj.typeId() == vpart->base_item ) {
                 base = obj;
             }
         }
-        veh->install_part( point_zero, vpart, std::move( base ) );
     } else {
         debugmsg( "partial construction not found" );
-        veh->install_part( point_zero, vpart );
     }
-    veh->name = vpart->name();
-
     here.partial_con_remove( p );
-
-    veh->add_tag( flag_APPLIANCE );
-
-    // Update the vehicle cache immediately,
-    // or the appliance will be invisible for the first couple of turns.
-    here.add_vehicle_to_cache( veh );
-
-    // Connect to any neighbouring appliances or wires once
-    std::unordered_set<const vehicle *> connected_vehicles;
-    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
-        const optional_vpart_position vp = here.veh_at( trip );
-        if( !vp ) {
-            continue;
-        }
-        const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
-            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
-                connected_vehicles.insert( &veh_target );
-            }
-        }
-    }
+    place_appliance( p, vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint &p )
@@ -1589,7 +1547,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    player_character.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_stored_kcal( 43 + 9 * mine_penalty + 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
@@ -1661,7 +1619,7 @@ void construct::done_mine_upstair( const tripoint &p )
                     player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    player_character.mod_stored_nutr( 20 + no_mut_penalty );
+    player_character.mod_stored_kcal( 174 + 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
     player_character.mod_fatigue( 25 + no_mut_penalty );
 
@@ -1815,7 +1773,24 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.pre_flags = jo.get_tags( "pre_flags" );
+    if( jo.has_member( "pre_flags" ) ) {
+        con.pre_flags.clear();
+        if( jo.has_string( "pre_flags" ) ) {
+            con.pre_flags.emplace( jo.get_string( "pre_flags" ), false );
+        } else if( jo.has_object( "pre_flags" ) ) {
+            JsonObject jflag = jo.get_object( "pre_flags" );
+            con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+        } else if( jo.has_array( "pre_flags" ) ) {
+            for( JsonValue jval : jo.get_array( "pre_flags" ) ) {
+                if( jval.test_string() ) {
+                    con.pre_flags.emplace( jval.get_string(), false );
+                } else if( jval.test_object() ) {
+                    JsonObject jflag = jval.get_object();
+                    con.pre_flags.emplace( jflag.get_string( "flag" ), jflag.get_bool( "force_terrain" ) );
+                }
+            }
+        }
+    }
 
     con.post_flags = jo.get_tags( "post_flags" );
 

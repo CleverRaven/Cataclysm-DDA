@@ -21,7 +21,6 @@
 #include "magic.h"
 #include "options.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
@@ -111,11 +110,11 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
     public:
         addiction get_next( JsonValue &jv ) const {
             JsonObject jo = jv.get_object();
-            return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
+            return addiction( addiction_id( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
         void erase_next( std::string &&type_str, C &container ) const {
-            const add_type type = addiction_type( type_str );
+            const addiction_id type( type_str );
             reader_detail::handler<C>().erase_if( container, [&type]( const addiction & e ) {
                 return e.type == type;
             } );

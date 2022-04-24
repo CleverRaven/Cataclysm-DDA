@@ -17,6 +17,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "npc.h"
+#include "npctrade_utils.h"
 #include "ret_val.h"
 #include "skill.h"
 #include "trade_ui.h"
@@ -273,8 +274,12 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
                                               true );
         npc_trading::transfer_items( trade_result.items_trader, np, player_character, from_map, false );
         // Now move items from escrow to the npc. Keep the weapon wielded.
-        for( const item &i : escrow ) {
-            np.i_add( i, true, nullptr, nullptr, true, false );
+        if( np.mission == NPC_MISSION_SHOPKEEP ) {
+            distribute_items_to_npc_zones( escrow, np );
+        } else {
+            for( const item &i : escrow ) {
+                np.i_add( i, true, nullptr, nullptr, true, false );
+            }
         }
 
         for( item_location *loc_ptr : from_map ) {

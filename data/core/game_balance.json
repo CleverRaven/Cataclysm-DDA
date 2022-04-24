@@ -215,5 +215,117 @@
     "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SELECT_STARTING_CITY",
+    "info": "Allows to select starting city in new character menu.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PREGENERATED_PATH",
+    "info": "Path to pregenerated overmap files.  Should include mod folder name and folder where omap files are stored.",
+    "stype": "string_input",
+    "value": ""
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_POPULATE_OUTSIDE_CONNECTIONS_FROM_NEIGHBORS",
+    "info": "Allows to populate outside connections from neighbors.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RIVERS",
+    "info": "Allows to place procgen rivers during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_LAKES",
+    "info": "Allows to place procgen lakes during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FORESTS",
+    "info": "Allows to place procgen forests during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_SWAMPS",
+    "info": "Allows to place procgen swamps during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_RAVINES",
+    "info": "Allows to place procgen ravines during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_CITIES",
+    "info": "Allows to place cities during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FOREST_TRAILS",
+    "info": "Allows to place procgen forest trails during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_ROADS",
+    "info": "Allows to place procgen roads during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_SPECIALS",
+    "info": "Allows to place overmap specials during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_FOREST_TRAILHEADS",
+    "info": "Allows to place procgen forest trailheads during overmap generation.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERRIDE_VEHICLE_INIT_STATE",
+    "info": "If true, initial status and amount of fuel for all spawned vehicles will be overridden by values of VEHICLE_STATUS_AT_SPAWN and VEHICLE_FUEL_AT_SPAWN options.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "VEHICLE_STATUS_AT_SPAWN",
+    "info": "All vehicles spawn in this status.  -1 is lightly damaged (default), 0 is undamaged, 1 is disabled (destroyed tires or engine).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
+    "stype": "int",
+    "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "VEHICLE_FUEL_AT_SPAWN",
+    "info": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
+    "stype": "int",
+    "value": -1
   }
 ]

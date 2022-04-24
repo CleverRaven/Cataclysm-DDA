@@ -21,7 +21,12 @@
     "bonus_dex": { "rng": [ 0, 6 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
     "bonus_per": { "rng": [ 0, 4 ] },
-    "shopkeeper_item_group": "EXODII_Shop_Tier0",
+    "shopkeeper_item_group": [
+      { "group": "EXODII_basic_trade", "rigid": true },
+      { "group": "EXODII_CBM_Store_Tier2", "rigid": true, "trust": 10 },
+      { "group": "EXODII_CBM_Store_Tier3", "rigid": true, "trust": 20, "strict": true },
+      { "group": "EXODII_CBM_Store_Tier4", "rigid": true, "trust": 40, "strict": true }
+    ],
     "carry_override": "NC_EXODII_TYPE_1_carried",
     "worn_override": "EMPTY_GROUP",
     "skills": [
@@ -41,7 +46,7 @@
   {
     "type": "item_group",
     "id": "NC_EXODII_TYPE_1_carried",
-    "//": "Weapon for rubik.",
+    "//": "Weapon for Rubik.",
     "items": [ { "item": "pamd68rubik", "ammo-item": "123ln", "charges": 10 } ]
   },
   {

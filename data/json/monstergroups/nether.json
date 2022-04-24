@@ -24,11 +24,6 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DOG_THING",
-    "monsters": [ { "monster": "mon_dog_thing" } ]
-  },
-  {
-    "type": "monstergroup",
     "name": "GROUP_NETHER_FATIGUE_FIELD",
     "default": "mon_blank",
     "monsters": [

@@ -3,7 +3,7 @@
     "id": "pain_damage",
     "type": "SPELL",
     "name": { "str": "Pain" },
-    "description": "Increases pain",
+    "description": "Increases pain.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -19,7 +19,7 @@
     "id": "stamina_damage",
     "type": "SPELL",
     "name": { "str": "Tired" },
-    "description": "decreases stamina",
+    "description": "Decreases stamina.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
@@ -95,7 +95,7 @@
     "type": "SPELL",
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
-    "description": "Hurts yourself",
+    "description": "Hurts yourself.",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE" ],
     "min_damage": 10,
     "max_damage": 20,
@@ -107,7 +107,7 @@
   {
     "type": "SPELL",
     "id": "small_raptor_spawn",
-    "name": { "str": "Spawn Raptors" },
+    "name": { "str": "Summon Raptors" },
     "description": "Summons a few zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -124,7 +124,7 @@
   {
     "type": "SPELL",
     "id": "big_raptor_spawn",
-    "name": { "str": "Spawn Raptors" },
+    "name": { "str": "Summon Many Raptors" },
     "description": "Summons many zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -141,7 +141,7 @@
   {
     "type": "SPELL",
     "id": "hive_raptor_spawn",
-    "name": { "str": "Spawn Raptor" },
+    "name": { "str": "Summon Raptor" },
     "description": "Summons a zombie-spawn raptor without killing the zombie.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -157,7 +157,7 @@
   {
     "type": "SPELL",
     "id": "shady_raptor_spawn",
-    "name": { "str": "Spawn Shady Raptors" },
+    "name": { "str": "Summon Shady Raptors" },
     "description": "Summons a few shady zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
     "valid_targets": [ "ground", "self" ],
@@ -170,6 +170,23 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor_shady"
+  },
+  {
+    "type": "SPELL",
+    "id": "small_fungal_raptor_spawn",
+    "name": { "str": "Summon Fungal Raptors" },
+    "description": "Summons a few fungal raptors.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 500,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
   },
   {
     "type": "SPELL",
@@ -243,7 +260,7 @@
   {
     "type": "SPELL",
     "id": "spur_shrill",
-    "name": { "str": "spur shrill" },
+    "name": { "str": "Spur Shrill" },
     "description": "Heals nearby scrap swarms.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "targeted_monster_ids": [ "mon_shrapnel_swarm" ],
@@ -285,7 +302,7 @@
   {
     "type": "SPELL",
     "id": "mutant_frenzy",
-    "name": { "str": "Mutant frenzy" },
+    "name": { "str": "Mutant Frenzy" },
     "description": "Speeds up allied mutants in a radius.",
     "valid_targets": [ "ally" ],
     "targeted_monster_ids": [
@@ -486,7 +503,7 @@
     "id": "boomer_claymore_initial",
     "type": "SPELL",
     "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",
-    "name": { "str": "Initial boomer claymore attack" },
+    "name": { "str": "Initial Boomer Claymore Attack" },
     "description": "Nothing to see here.",
     "valid_targets": [ "hostile" ],
     "effect": "attack",
@@ -500,7 +517,7 @@
   {
     "id": "boomer_claymore",
     "type": "SPELL",
-    "name": { "str": "Boomer claymore attack" },
+    "name": { "str": "Boomer Claymore Attack" },
     "description": "Nothing to see here.",
     "valid_targets": [ "hostile", "ally", "ground" ],
     "effect": "attack",
@@ -517,7 +534,7 @@
   {
     "id": "boomer_claymore_suicide",
     "type": "SPELL",
-    "name": { "str": "Boomer suicide spell" },
+    "name": { "str": "Boomer Suicide Spell" },
     "description": "Nothing to see here.",
     "valid_targets": [ "hostile", "ally", "self" ],
     "effect": "attack",

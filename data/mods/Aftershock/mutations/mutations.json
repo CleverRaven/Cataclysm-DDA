@@ -211,7 +211,7 @@
     "flags": [ "PRED1" ],
     "description": "When were you ever like these creatures, helpless before the changes ravaging this world.",
     "purifiable": false,
-    "changes_to": [ "PRED2" ],
+    "changes_to": [ "ELDRITCH" ],
     "prereqs": [ "THRESH_YUGGOTH" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "cancels": [ "PACIFIST" ],
@@ -225,9 +225,8 @@
     "description": "You have a sinister aspect to your demeanor, no longer part of this world.  You feel no sorrow at the deaths of humans and your brain now processes combat skills more efficiently as you mentally dissect your opponents.",
     "social_modifiers": { "intimidate": 3, "persuade": -10, "lie": -12 },
     "purifiable": false,
-    "flags": [ "PRED1" ],
-    "prereqs": [ "THRESH_YUGGOTH" ],
-    "prereqs2": [ "DETACHMENT" ],
+    "flags": [ "PRED3" ],
+    "prereqs": [ "DETACHMENT" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "cancels": [ "PACIFIST" ],
     "category": [ "MIGO" ]
@@ -382,7 +381,7 @@
     "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
     "types": [ "SKIN" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MASTODON" ]
+    "category": [ "MASTODON", "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -572,6 +571,18 @@
   },
   {
     "type": "mutation",
+    "id": "SKIN_ROUGH",
+    "copy-from": "SKIN_ROUGH",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SLEEPY",
+    "copy-from": "SLEEPY",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
     "extend": { "category": [ "MASTODON" ] }
@@ -623,7 +634,6 @@
     "points": -1,
     "mixed_effect": true,
     "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will be very hard.",
-    "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
     "social_modifiers": { "lie": -30, "intimidate": 10 }
   },

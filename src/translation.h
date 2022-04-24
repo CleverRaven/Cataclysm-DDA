@@ -83,6 +83,13 @@ class translation
         std::string untranslated() const = delete;
 
         /**
+         * Similar to `untranslated`, serialization should not be defined
+         * because the saved string will not translate correctly when the
+         * source changes.
+         **/
+        void serialize( JsonOut &jsout ) const = delete;
+
+        /**
          * Whether the underlying string is empty, not matter what the context
          * is or whether translation is needed.
          **/
@@ -93,16 +100,33 @@ class translation
          *
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
+         *
+         * When updating the comparison functions, please also update
+         * `tools/clang-tidy-plugin/NoStaticTranslationCheck.cpp` and
+         * `tools/clang-tidy-plugin/test/no-static-translation.cpp`.
          **/
-        bool translated_lt( const translation &that ) const;
-        bool translated_eq( const translation &that ) const;
-        bool translated_ne( const translation &that ) const;
+        bool translated_lt( const translation &that ) const; // <
+        bool translated_gt( const translation &that ) const; // >
+        bool translated_le( const translation &that ) const; // <=
+        bool translated_ge( const translation &that ) const; // >=
+        bool translated_eq( const translation &that ) const; // ==
+        bool translated_ne( const translation &that ) const; // !=
 
         /**
-         * Compare translations by their context, raw strings (singular / plural), and no-translation flag
+         * Compare translations by their context, raw strings (singular / plural),
+         * and no-translation flag. Use `translated_(eq|ne)` if you want to do
+         * localized comparison.
          */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
+        /**
+         * Not defined for now. Use `translated_(lt|gt|le|ge)` if you want
+         * to do localized comparison.
+         */
+        bool operator<( const translation &that ) const = delete;
+        bool operator>( const translation &that ) const = delete;
+        bool operator<=( const translation &that ) const = delete;
+        bool operator>=( const translation &that ) const = delete;
 
         /**
          * Only used for migrating old snippet hashes into snippet ids.
@@ -129,6 +153,52 @@ class translation
 };
 
 /**
+ * Function objects for comparing translations by their translated strings
+ * (singular form). Useful as the template parameter of sets and maps when
+ * doing localized sorting. Do be careful when using these to sort translations,
+ * as the translated result will change when switching the language.
+ *
+ * When updating the comparison function objects, please also update
+ * `tools/clang-tidy-plugin/NoStaticTranslationCheck.cpp` and
+ * `tools/clang-tidy-plugin/test/no-static-translation.cpp`.
+ **/
+class translated_less
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+class translated_greater
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+class translated_less_equal
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+class translated_greater_equal
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+class translated_equal_to
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+class translated_not_equal_to
+{
+    public:
+        bool operator()( const translation &lhs, const translation &rhs ) const;
+};
+
+/**
  * Shorthands for translation::to_translation
  **/
 translation to_translation( const std::string &raw );
@@ -151,5 +221,6 @@ std::ostream &operator<<( std::ostream &out, const translation &t );
 std::string operator+( const translation &lhs, const std::string &rhs );
 std::string operator+( const std::string &lhs, const translation &rhs );
 std::string operator+( const translation &lhs, const translation &rhs );
+bool operator<( const translation &lhs, const translation &rhs );
 
 #endif // CATA_SRC_TRANSLATION_H

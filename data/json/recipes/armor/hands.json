@@ -923,33 +923,6 @@
     "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
-    "result": "chainmail_hands",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HANDS",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "2 h",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
-  },
-  {
-    "result": "xs_chainmail_hands",
-    "type": "recipe",
-    "copy-from": "chainmail_hands",
-    "time": "2 h",
-    "using": [ [ "armor_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
-  },
-  {
-    "result": "xl_chainmail_hands",
-    "type": "recipe",
-    "copy-from": "chainmail_hands",
-    "time": "2 h 15 m",
-    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
-  },
-  {
     "result": "lc_chainmail_hands",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

@@ -92,6 +92,7 @@
       "You need to ignite something.",
       "You daydream of crackling fire…",
       "You shiver.  A fire would be great right now.",
+      "You think about how nice fires are.",
       "You think of randomly lighting a fire, but decide against it."
     ]
   },
@@ -289,15 +290,15 @@
     "text": [
       {
         "text": {
-          "//~": "Usual enthusiastic slimespring small voices! :D",
+          "//~": "Usual enthusiastic slime microbian small voices! :D",
           "str": "\"wow!  you look just like me!  we should look out for each other!\""
         }
       },
       {
-        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"come on, big me, let's go!\"" }
+        "text": { "//~": "Usual enthusiastic slime microbian small voices! :D", "str": "\"come on, big me, let's go!\"" }
       },
       {
-        "text": { "//~": "Usual enthusiastic slimespring small voices! :D", "str": "\"we're a team, we've got this!\"" }
+        "text": { "//~": "Usual enthusiastic slime microbian small voices! :D", "str": "\"we're a team, we've got this!\"" }
       }
     ]
   },
@@ -325,6 +326,26 @@
         "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a sledgehammer with a moving center.  There is a references doc for a powder actuated nail gun stapled to the sheets.  There are two distinct sets of handwriting making notes."
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "comest_stimulant",
+    "text": [
+      "The shadows are getting ever closer.",
+      "You have a bad feeling about this.",
+      "A powerful sense of dread comes over you.",
+      "Your skin starts crawling.",
+      "They're coming to get you.",
+      "This might've been a bad idea…",
+      "You've really done it this time, haven't you?",
+      "You have to stay vigilant.  They're always watching…",
+      "mistake mistake mistake mistake mistake",
+      "Just gotta stay calm, and you'll make it through this.",
+      "You're starting to feel very jumpy.",
+      "Something is twitching at the edge of your vision.",
+      "They know what you've done…",
+      "You're feeling even more paranoid than usual."
     ]
   }
 ]

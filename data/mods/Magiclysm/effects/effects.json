@@ -196,6 +196,7 @@
     "apply_message": "You feel very seen!",
     "remove_message": "You no longer feel like somebody's watching you.",
     "rating": "good",
+    "max_duration": "60 m",
     "removes_effects": [ "invisibility" ]
   },
   {
@@ -254,7 +255,7 @@
     "type": "effect_type",
     "id": "debug_feather_fall",
     "name": [ "Debug Feather Fall" ],
-    "desc": [ "You  are light as a feather and fall like one." ],
+    "desc": [ "You are light as a feather and fall like one." ],
     "apply_message": "Your body feels light as a feather.",
     "remove_message": "The earth pulls you down hard.",
     "rating": "good",
@@ -360,6 +361,17 @@
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -25 ] },
     "scaling_mods": { "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "mind_reading",
+    "//": "slowdown for shaman attunement",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 1,
+    "int_add_val": 1,
+    "max_duration": "6 s",
+    "base_mods": { "speed_mod": [ -25 ] }
   },
   {
     "type": "effect_type",

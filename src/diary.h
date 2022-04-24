@@ -14,6 +14,7 @@
 #include "ui.h"
 #include "units.h"
 
+enum class time_accuracy;
 
 /// <summary>
 /// diary page, to save current character progression
@@ -27,6 +28,9 @@ struct diary_page {
     std::vector<std::string> diff_to_previous_page;
     /*turn the page was created*/
     time_point turn;
+    /*accuracy of time recorded in journal entry:
+    2 = player has a watch; 1 = player is able to see the sky; 0 = no idea what time is it now*/
+    time_accuracy time_acc;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;
@@ -58,7 +62,7 @@ struct diary_page {
 };
 
 /// <summary>
-/// diary is connectet to the player avatar.
+/// diary is connected to the player avatar.
 /// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
 /// The player is also able to add a Text in every page.
 /// </summary>
@@ -75,15 +79,15 @@ class diary
         int opened_page = 0; // NOLINT(cata-serialize)
         /*list of changes from opened page to previous page*/
         std::vector<std::string> change_list; // NOLINT(cata-serialize)
-        /*maps discription to position in change list*/
+        /*maps description to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
 
-        //methoden
+        //methods
     public:
         diary();
         virtual ~diary() = default;
-        /*static methode to open a diary ui*/
+        /*static method to open a diary ui*/
         static void show_diary_ui( diary *c_diary );
         /*last entry in the diary, will be called after character death */
         void death_entry();
@@ -97,11 +101,8 @@ class diary
         void serialize( JsonOut &jsout );
 
     private:
-        /*uses string_popup_window to edit the text on a page. Is not optimal,
-        because its just one line*/
-        void edit_page_ui();
         /*Uses editor window class to edit the text.*/
-        void edit_page_ui( catacurses::window &win );
+        void edit_page_ui( const std::function<catacurses::window()> &create_window );
         /*set page to be be shown in ui*/
         int set_opened_page( int pagenum );
         /*create a new page and adds current character progression*/
@@ -138,7 +139,7 @@ class diary
 
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
         void export_to_txt( bool lastexport = false );
-        /*method for adding changes to the changelist. with the possibility to connect a desciption*/
+        /*method for adding changes to the changelist. with the possibility to connect a description*/
         void add_to_change_list( std::string entry, std::string desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

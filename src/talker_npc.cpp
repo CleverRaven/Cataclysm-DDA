@@ -524,8 +524,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     if( ( &given == &player_character.get_wielded_item() &&
           given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
-          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
-        // Bionic weapon or shackles
+          ( given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ||
+            given.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) ) ) {
+        // Integrated item or shackles
         return _( "How?" );
     }
 
@@ -804,6 +805,10 @@ std::string talker_npc::get_job_description() const
 
 std::string talker_npc::evaluation_by( const talker &alpha ) const
 {
+    if( !alpha.can_see() ) {
+        return _( "&You're blind and can't make anything out." );
+    }
+
     ///\EFFECT_PER affects whether player can size up NPCs
 
     ///\EFFECT_INT slightly affects whether player can size up NPCs
@@ -925,4 +930,44 @@ void talker_npc::set_first_topic( const std::string &chat_topic )
 bool talker_npc::is_safe() const
 {
     return me_npc->is_safe();
+}
+
+void talker_npc::set_npc_trust( const int trust )
+{
+    me_npc->op_of_u.trust = trust;
+}
+
+int talker_npc::get_npc_trust() const
+{
+    return me_npc->op_of_u.trust;
+}
+
+void talker_npc::set_npc_fear( const int fear )
+{
+    me_npc->op_of_u.fear = fear;
+}
+
+int talker_npc::get_npc_fear() const
+{
+    return me_npc->op_of_u.fear;
+}
+
+void talker_npc::set_npc_value( const int value )
+{
+    me_npc->op_of_u.value = value;
+}
+
+int talker_npc::get_npc_value() const
+{
+    return me_npc->op_of_u.value;
+}
+
+void talker_npc::set_npc_anger( const int anger )
+{
+    me_npc->op_of_u.anger = anger;
+}
+
+int talker_npc::get_npc_anger() const
+{
+    return me_npc->op_of_u.anger;
 }
