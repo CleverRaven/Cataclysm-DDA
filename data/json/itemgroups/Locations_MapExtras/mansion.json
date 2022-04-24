@@ -1674,13 +1674,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "camera_pro", "prob": 90, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 50, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "container-item": "camera_bag", "prob": 40, "charges": [ 0, 150 ] },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "binoculars", 20 ]
     ]

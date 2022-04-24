@@ -2118,7 +2118,7 @@
       [ "small_scuba_tank", 5 ],
       [ "scuba_tank", 5 ],
       [ "whistle", 3 ],
-      { "item": "camera", "container-item": "camera_bag", "prob": 2 },
+      { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
       [ "camera_bag", 5 ]
     ]
   },
@@ -3481,6 +3481,7 @@
         "distribution": [
           { "item": "case_violin", "prob": 5 },
           { "item": "bookstrap", "prob": 5 },
+          { "item": "camera_bag", "prob": 20 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
