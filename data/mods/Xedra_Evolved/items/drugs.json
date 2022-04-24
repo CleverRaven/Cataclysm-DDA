@@ -42,7 +42,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the purple lotus blossom.",
-      "effects": [ { "id": "visuals", "duration": 900 }, { "id": "hallu", "duration": 900 }, { "id": "pkill3", "duration": 180 }, { "id": "pkill2", "duration": 600 } ]
+      "effects": [ { "id": "visuals", "duration": 900 }, { "id": "hallu", "duration": 9000 }, { "id": "pkill3", "duration": 180 }, { "id": "pkill2", "duration": 600 } ]
     }
   },
   {
