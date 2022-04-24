@@ -57,7 +57,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "snail" },
     "description": "A tiny mollusk of undescribed species that inhabits humid environemnts.  Safe to eat for the most part compared to aquatic ones.",
-    "default_faction": "fish",
+    "default_faction": "slug",
     "categories": [ "WILDLIFE" ],
     "species": [ "MOLLUSK" ],
     "volume": "300 ml",
