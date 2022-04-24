@@ -738,6 +738,7 @@
     "type": "sub_body_part",
     "max_coverage": 30,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "lips"
   },
@@ -746,6 +747,7 @@
     "type": "sub_body_part",
     "max_coverage": 30,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "nose"
   },
@@ -754,6 +756,7 @@
     "type": "sub_body_part",
     "max_coverage": 40,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "cheeks"
   },
@@ -842,6 +845,7 @@
     "type": "sub_body_part",
     "max_coverage": 15,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "forehead"
   },
@@ -850,6 +854,7 @@
     "type": "sub_body_part",
     "max_coverage": 25,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "crown"
   },
@@ -858,6 +863,7 @@
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "nape"
   },
@@ -866,6 +872,7 @@
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "throat"
   },
@@ -874,15 +881,19 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "head",
+    "opposite": "head_ear_l",
     "side": 2,
-    "name": "right ear"
+    "name": "right ear",
+    "name_multiple": "ears"
   },
   {
     "id": "head_ear_l",
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "head",
+    "opposite": "head_ear_r",
     "side": 1,
-    "name": "left ear"
+    "name": "left ear",
+    "name_multiple": "ears"
   }
 ]
