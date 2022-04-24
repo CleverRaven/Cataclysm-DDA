@@ -167,7 +167,7 @@
   {
     "id": "mon_jellyfish_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "aer jelly" , "str_pl": "aer jellies" },
+    "name": { "str_sp": "aer jelly", "str_pl": "aer jellies" },
     "description": "A tiny flying alien creature brought by the portal storms.  It vaguely resembles a jellyfish with balloon-like body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -194,7 +194,7 @@
   {
     "id": "mon_jellyfish_box",
     "type": "MONSTER",
-    "name": { "str_sp": "cube jelly" , "str_pl": "cube jellies" },
+    "name": { "str_sp": "cube jelly", "str_pl": "cube jellies" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a box jellyfish with a translucent body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -274,7 +274,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "SEES", "SMELLS", "ANIMAL", "ARTHROPOD_BLOOD" ]
   },
-   {
+  {
     "id": "mon_conch_alien",
     "type": "MONSTER",
     "name": { "str_sp": "hyolith conch" },
@@ -362,7 +362,7 @@
   {
     "id": "mon_orthoceras_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "ballistoceras" , "str_pl": "ballistocerae" },
+    "name": { "str_sp": "ballistoceras", "str_pl": "ballistocerae" },
     "description": "A large alien flying creature brought by the portal storms.  It vaguely resembles a prehistoric cephalopod with a long straight shell.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -609,41 +609,41 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_large",
     "name": { "str": "aeroctinus", "str_pl": "aeroctinae" },
-    "description": "An alient creature brought by the portal storms.  It resembles a sleek and lightweight predatory fish."
+    "description": "An alien creature brought by the portal storms.  It resembles a sleek and lightweight predatory fish."
   },
   {
     "id": "mon_fish_boreasbanner",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_large",
     "name": { "str": "boreas banner" },
-    "description": "An alient creature brought by the portal storms.  It resembles a fast ocean going fish with a large bluish dorsal fin."
+    "description": "An alien creature brought by the portal storms.  It resembles a fast ocean going fish with a large bluish dorsal fin."
   },
   {
     "id": "mon_fish_macawfin",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_large",
     "name": { "str": "macaw fin" },
-    "description": "An alient creature brought by the portal storms.  It resembles a bulky beaked fish with colored scales and fins like a parrot or macaw."
+    "description": "An alien creature brought by the portal storms.  It resembles a bulky beaked fish with colored scales and fins like a parrot or macaw."
   },
   {
     "id": "mon_fish_astroaspis",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
     "name": { "str": "astrolaspis", "str_pl": "astrolaspises" },
-    "description": "An alient creature brought by the portal storms.  It resembles a round ocean going fish with a sandy coloration like some ancient sun dial."
+    "description": "An alien creature brought by the portal storms.  It resembles a round ocean going fish with a sandy coloration like some ancient sun dial."
   },
   {
     "id": "mon_fish_eolocanth",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
     "name": { "str": "eolocanth" },
-    "description": "An alient creature brought by the portal storms.  It resembles a prehistoric fish with pearl scales as if made of porcelain."
+    "description": "An alien creature brought by the portal storms.  It resembles a prehistoric fish with pearl scales as if made of porcelain."
   },
   {
     "id": "mon_fish_cosmoserpent",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
     "name": { "str": "cosmo serpent" },
-    "description": "An alient creature brought by the portal storms.  It resembles a long eel or moray with dark skin and luminous spots."
+    "description": "An alien creature brought by the portal storms.  It resembles a long eel or moray with dark skin and luminous spots."
   }
 ]
