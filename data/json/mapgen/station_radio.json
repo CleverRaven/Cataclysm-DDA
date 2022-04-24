@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "station_radio" ],
     "weight": 500,
-    "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -44,11 +44,13 @@
         "W": "t_window",
         ".": "t_floor",
         "_": "t_pavement",
+        "R": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
         "F": "t_chainfence",
         "f": "t_chainfence",
         "G": "t_chaingate_l",
+        "#": "t_brick_wall",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
@@ -62,6 +64,8 @@
         "c": "f_counter",
         "S": "f_sink",
         "e": "f_fridge",
+        "R": "f_dumpster",
+        "P": "f_rack"
         "r": "f_trashcan",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "7": "f_filing_cabinet"
@@ -73,16 +77,19 @@
           "security": 2,
           "options": [
             { "name": "ERROR:  SIGNAL DISCONNECT", "action": "tower_unresponsive" },
-            { "name": "Install Repeater Mod", "action": "repeater_mod" },
-            { "name": "Browse Audio Archive", "action": "radio_archive" }
+            { "name": "Browse Audio Archive", "action": "radio_archive" },
+            { "name": "Install Repeater Mod", "action": "repeater_mod" }
           ]
         }
       },
       "items": {
         "o": { "item": "novels", "chance": 70 },
         "r": { "item": "trash", "chance": 70 },
+        "R": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
+        "P": { "item": "electronics", "chance": 70 },
+        "l": { "item": "cleaning", "chance": 70 }
         "7": { "item": "office_paper", "chance": 30 }
       },
       "place_loot": [
@@ -148,7 +155,7 @@
     "method": "json",
     "om_terrain": [ "station_radio_1" ],
     "weight": 500,
-    "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -210,6 +217,9 @@
         "e": "f_fridge",
         "R": "f_dumpster",
         "P": "f_rack"
+        "r": "f_trashcan",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "7": "f_filing_cabinet"
       },
       "toilets": { "t": {  } },
       "computers": {
@@ -218,19 +228,26 @@
           "security": 2,
           "options": [
             { "name": "ERROR:  SIGNAL DISCONNECT", "action": "tower_unresponsive" },
+            { "name": "Browse Audio Archive", "action": "radio_archive" },
             { "name": "Install Repeater Mod", "action": "repeater_mod" }
           ]
         }
       },
       "items": {
         "o": { "item": "novels", "chance": 70 },
+        "r": { "item": "trash", "chance": 70 },
         "R": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70 },
         "l": { "item": "cleaning", "chance": 70 }
+        "7": { "item": "office_paper", "chance": 30 }
       },
-      "place_loot": [ { "group": "record_weather", "x": 19, "y": 13 } ]
+      "place_loot": [
+        { "group": "record_weather", "x": 19, "y": 13 },
+        { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
+        { "group": "electronics", "x": [ 6, 7 ], "y": 5, "chance": 80 }
+      ],
     }
   },
   {
