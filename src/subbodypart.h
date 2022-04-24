@@ -17,8 +17,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-extern const sub_bodypart_str_id sub_body_part_sub_limb_debug;
-
 class JsonObject;
 class JsonOut;
 class JsonValue;

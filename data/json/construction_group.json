@@ -1261,6 +1261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_autoclave",
+    "name": "Place Autoclave"
+  },
+  {
+    "type": "construction_group",
     "id": "place_standing_floodlight",
     "name": "Place Standing Floodlight"
   },
@@ -1528,5 +1533,10 @@
     "type": "construction_group",
     "id": "build_training_dummy_heavy",
     "name": "Install Armored Training Dummy"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_oven",
+    "name": "Build Clay Oven"
   }
 ]

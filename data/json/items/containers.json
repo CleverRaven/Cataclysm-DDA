@@ -2020,7 +2020,7 @@
         "moves": 100,
         "watertight": true,
         "rigid": true,
-        "item_restriction": [ "smart_phone" ]
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
       }
     ]
   },

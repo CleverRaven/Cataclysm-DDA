@@ -518,7 +518,8 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->can_contain( item_copy ).success() ) {
+    item_location parent = contained.has_parent() ? contained.parent_item() : item_location();
+    if( !holster->can_contain( item_copy, false, false, true, parent ).success() ) {
         return false;
     }
 
@@ -873,7 +874,7 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
 
     bool collapsed = false;
     for( item_location &loc : locations ) {
-        for( item_pocket *pocket : loc->get_all_standard_pockets().value() ) {
+        for( item_pocket *pocket : loc->get_all_standard_pockets() ) {
             pocket->settings.set_collapse( collapse );
             collapsed = true;
         }

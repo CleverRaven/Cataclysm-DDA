@@ -252,7 +252,7 @@
     "type": "martial_art",
     "id": "style_mma_pokken",
     "name": { "str": "Pokken" },
-    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokémon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various pokemon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
+    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokémon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various Pokémon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
     "initiate": [ "You get ready to battle.", "%s is about to challenge someone to a battle." ],
     "learn_difficulty": 10,
     "primary_skill": "bashing",
@@ -564,7 +564,7 @@
       {
         "id": "mma_buff_tiger_claw_onkill",
         "name": "Prey on the Weak",
-        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times",
+        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,

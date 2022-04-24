@@ -1911,6 +1911,7 @@
       [ "puck", 20 ],
       [ "jersey", 40 ],
       [ "baseball", 20 ],
+      [ "shuttlecock", 5 ],
       [ "manual_mechanics", 35 ],
       [ "manual_speech", 50 ],
       [ "manual_business", 40 ],

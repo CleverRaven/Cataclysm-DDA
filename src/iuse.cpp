@@ -333,8 +333,6 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
-static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -2003,10 +2001,10 @@ class exosuit_interact
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "QUIT" );
             ctxt.register_action( "ANY_INPUT" );
-            pocket_count = it->get_all_contained_pockets().value().size();
+            pocket_count = it->get_all_contained_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
-            for( const item_pocket *pkt : it->get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
                 int tmp = utf8_width( get_pocket_name( pkt ) );
                 if( tmp > width_menu ) {
                     width_menu = tmp;
@@ -2057,7 +2055,7 @@ class exosuit_interact
         void draw_menu() {
             werase( w_menu );
             int row = 0;
-            for( const item_pocket *pkt : suit->get_contents().get_all_contained_pockets().value() ) {
+            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
                 mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
                 row++;
@@ -2068,7 +2066,7 @@ class exosuit_interact
         void draw_iteminfo() {
             std::vector<iteminfo> dummy;
             std::vector<iteminfo> suitinfo;
-            item_pocket *pkt = suit->get_contents().get_all_contained_pockets().value()[cur_pocket];
+            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
             pkt->general_info( suitinfo, cur_pocket, true );
             pkt->contents_info( suitinfo, cur_pocket, true );
             item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
@@ -2115,7 +2113,7 @@ class exosuit_interact
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
                     int nmoves = insert_replace_mod(
-                                     suit->get_contents().get_all_contained_pockets().value()[cur_pocket], suit );
+                                     suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
                 } else if( action == "UP" ) {
                     cur_pocket--;
@@ -2232,7 +2230,7 @@ cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tr
     if( !p->is_avatar() ) {
         return cata::nullopt;
     }
-    if( !it->get_contents().get_all_contained_pockets().success() ) {
+    if( it->get_all_contained_pockets().empty() ) {
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return cata::nullopt;
     }
@@ -8342,101 +8340,6 @@ static bool multicooker_hallu( Character &p )
             return false;
     }
 
-}
-
-cata::optional<int> iuse::autoclave( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) {
-        if( !it->ammo_sufficient( p ) ) {
-            add_msg( m_bad, _( "The autoclave ran out of charge and stopped before completing its cycle." ) );
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            return 0;
-        }
-
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        Cycle_time -= 1;
-        if( Cycle_time <= 0 ) {
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->get_item_with( []( const item & it ) {
-                return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
-            } );
-            cbm->unset_flag( flag_NO_STERILE );
-        } else {
-            it->set_var( "CYCLETIME", Cycle_time );
-        }
-    } else if( !it->active ) {
-        if( p->is_underwater() ) {
-            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return cata::nullopt;
-        }
-
-        bool empty = true;
-        item *clean_cbm = it->get_item_with(
-        []( const item & it ) {
-            return it.is_bionic();
-        } );
-
-        if( clean_cbm ) {
-            empty = false;
-            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
-                get_map().add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
-                    return 0;
-                }
-                empty = true;
-            }
-        }
-
-        //Using power_draw seem to consume random amount of battery so +100 to be safe
-        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
-                                        ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining( p ) ) {
-            popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                   power_need );
-            return cata::nullopt;
-        }
-
-        item_location to_sterile;
-        if( empty ) {
-            to_sterile = game_menus::inv::sterilize_cbm( *p );
-            if( !to_sterile ) {
-                return cata::nullopt;
-            }
-        }
-
-        if( query_yn( _( "Start the autoclave?" ) ) ) {
-            requirement_data reqs = *requirement_data_autoclave_item;
-            for( const auto &e : reqs.get_components() ) {
-                p->consume_items( e, 1, is_crafting_component );
-            }
-            for( const auto &e : reqs.get_tools() ) {
-                p->consume_tools( e );
-            }
-            p->invalidate_crafting_inventory();
-
-            if( empty ) {
-                const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm, item_pocket::pocket_type::CONTAINER );
-                to_sterile.remove_item();
-            }
-
-            it->activate();
-            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
-            it->set_flag( flag_NO_UNLOAD );
-            return it->type->charges_to_use();
-        }
-    } else {
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        add_msg( _( "The cycle will be completed in %s." ),
-                 to_string( time_duration::from_seconds( Cycle_time ) ) );
-    }
-
-    return 0;
 }
 
 cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tripoint &pos )
