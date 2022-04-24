@@ -20,7 +20,7 @@
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 5 }
     ],
     "warmth": 10,
-    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
   },
   {
     "id": "modular_exosuit",

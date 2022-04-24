@@ -392,7 +392,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "armor": [ { "encumbrance": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
-    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET", "WALL_CLING" ]
+    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET" ]
   },
   {
     "id": "exo_jetpack",
@@ -408,7 +408,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "afs_shydrogen" ],
-    "charges_per_use": 50,
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ]
   }
