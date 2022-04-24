@@ -922,12 +922,13 @@
     "id": "f_air_compressor",
     "name": "air compressor",
     "looks_like": "f_standing_tank",
-    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible, if supplied with power from UPS.",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.  Can be disassembled and plugged into a power source.",
     "symbol": "8",
     "color": "black_yellow",
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "air_compressor" },
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -958,8 +959,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ]
-    },
-    "crafting_pseudo_item": "fake_air_compressor"
+    }
   },
   {
     "type": "furniture",

@@ -154,6 +154,20 @@
     "weight": "300 kg"
   },
   {
+    "type": "GENERIC",
+    "id": "air_compressor",
+    "looks_like": "f_standing_tank",
+    "symbol": "7",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.  Can be placed and plugged into a power source.",
+    "color": "black_yellow",
+    "name": { "str": "air compressor" },
+    "material": [ "aluminum" ],
+    "//": "Based off Renegade Industrial 2.2HP 210LPM Air Compressor",
+    "longest_side": "110 cm",
+    "volume": "400 L",
+    "weight": "80 kg"
+  },
+  {
     "id": "autoclave",
     "type": "TOOL",
     "name": { "str": "autoclave" },

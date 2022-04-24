@@ -212,12 +212,6 @@
     "name": { "str": "power lathe" }
   },
   {
-    "id": "fake_air_compressor",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "air compressor" }
-  },
-  {
     "id": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
@@ -275,6 +269,14 @@
     "type": "TOOL",
     "name": { "str": "jointer" },
     "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "air_compressor_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "air compressor" },
+    "charges_per_use": 50,
+    "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
   },
   {
     "id": "fake_oven",

@@ -3289,6 +3289,17 @@
   },
   {
     "type": "construction",
+    "id": "app_air_compressor",
+    "group": "place_air_compressor",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "air_compressor", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_solar",
     "group": "place_solar_panel",
     "category": "APPLIANCE",
