@@ -200,18 +200,6 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_hydraulic_press",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
-  },
-  {
-    "id": "fake_heavy_lathe",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "power lathe" }
-  },
-  {
     "id": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
@@ -269,6 +257,18 @@
     "type": "TOOL",
     "name": { "str": "jointer" },
     "copy-from": "fake_appliance_tool"
+  },
+  {
+    "id": "hydraulic_press_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "heavy_lathe_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "power lathe" }
   },
   {
     "id": "air_compressor_tool",

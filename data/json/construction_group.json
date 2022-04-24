@@ -1191,6 +1191,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_hydraulic_press",
+    "name": "Place Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_air_compressor",
     "name": "Place Air Compressor"
   },

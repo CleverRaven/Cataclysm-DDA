@@ -155,6 +155,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "hydraulic_press",
+    "looks_like": "f_hydraulic_press",
+    "symbol": "7",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  Can be placed and plugged into a power source.",
+    "color": "black_red",
+    "name": { "str": "hydraulic press" },
+    "material": [ "aluminum" ],
+    "//": "Based off Daytona DSP20T Hydraulic Shop Press",
+    "longest_side": "1580 mm",
+    "volume": "500 L",
+    "weight": "76 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "air_compressor",
     "looks_like": "f_standing_tank",
     "symbol": "7",

@@ -4830,6 +4830,23 @@
     ]
   },
   {
+    "result": "hydraulic_press",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "120 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 6 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "steel_plate", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
     "result": "bundle_rag",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
