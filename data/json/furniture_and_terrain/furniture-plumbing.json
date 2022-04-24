@@ -135,7 +135,7 @@
     "id": "f_water_purifier",
     "looks_like": "f_water_heater",
     "name": "water purifier",
-    "description": "This device effectively sterilizes water, though without power source, like UPS, it's only good for parts.",
+    "description": "This device effectively sterilizes water, examine to turn into an appliance.",
     "symbol": "W",
     "bgcolor": "blue",
     "move_cost_mod": -1,

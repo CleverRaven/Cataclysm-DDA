@@ -91,7 +91,7 @@
     "id": "ap_oven",
     "name": { "str": "oven" },
     "categories": [ "utility" ],
-    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.",
+    "description": "This device effectively sterilizes water.",
     "symbol": "#",
     "color": "dark_gray",
     "location": "structure",
