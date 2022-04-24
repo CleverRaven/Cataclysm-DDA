@@ -837,7 +837,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+        draw_border( w_border, BORDER_COLOR, _( "Active world mods" ) );
         wnoutrefresh( w_border );
 
         draw_mod_list( w_mods, start, static_cast<size_t>( cursor ), world_mods,

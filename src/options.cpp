@@ -2667,7 +2667,7 @@ static void draw_borders_external(
     const bool world_options_only )
 {
     if( !world_options_only ) {
-        draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+        draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-

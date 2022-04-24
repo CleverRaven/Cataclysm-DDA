@@ -356,7 +356,7 @@ void auto_note_manager_gui::show()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // == Draw border
-        draw_border( w_border, BORDER_COLOR, _( " AUTO NOTES MANAGER " ) );
+        draw_border( w_border, BORDER_COLOR, _( "Auto notes manager" ) );
         mvwputch( w_border, point( 0, iHeaderHeight - 1 ), c_light_gray, LINE_XXXO );
         mvwputch( w_border, point( 79, iHeaderHeight - 1 ), c_light_gray, LINE_XOXX );
         mvwputch( w_border, point( 52, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );

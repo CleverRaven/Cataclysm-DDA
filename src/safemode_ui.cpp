@@ -35,7 +35,7 @@ safemode &get_safemode()
 
 void safemode::show()
 {
-    show( _( " SAFE MODE MANAGER " ), true );
+    show( _( "Safe mode manager" ), true );
 }
 
 std::string safemode::npc_type_name()
@@ -182,7 +182,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                         ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
 
         locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe Mode enabled:" ) );
+        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe mode enabled:" ) );
         locx += shortcut_print( w_header, point( locx, 1 ),
                                 ( get_option<bool>( "SAFEMODE" ) ? c_light_green : c_light_red ), c_white,
                                 ( get_option<bool>( "SAFEMODE" ) ? _( "True" ) : _( "False" ) ) );
@@ -209,7 +209,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             character_rules.clear();
             mvwprintz( w, point( 15, 8 ), c_white, _( "Please load a character first to use this page!" ) );
         } else if( empty() ) {
-            mvwprintz( w, point( 15, 8 ), c_white, _( "Safe Mode manager currently inactive." ) );
+            mvwprintz( w, point( 15, 8 ), c_white, _( "Safe mode manager is currently inactive." ) );
             mvwprintz( w, point( 15, 9 ), c_white, _( "Default rules are used.  Add a rule to activate." ) );
             mvwprintz( w, point( 15, 10 ), c_white, _( "Press ~ to add a default ruleset to get started." ) );
         }
@@ -664,7 +664,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     create_rules();
 
     if( !get_option<bool>( "SAFEMODE" ) &&
-        query_yn( _( "Safe Mode is not enabled in the options.  Enable it now?" ) ) ) {
+        query_yn( _( "Safe mode is not enabled in the options.  Enable it now?" ) ) ) {
         get_options().get_option( "SAFEMODE" ).setNext();
         get_options().save();
     }
@@ -854,7 +854,7 @@ bool safemode::save( const bool is_character_in )
         if( !is_character ) {
             create_rules();
         }
-    }, _( "safemode configuration" ) );
+    }, _( "safe mode configuration" ) );
 }
 
 void safemode::load_character()

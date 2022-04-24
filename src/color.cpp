@@ -787,7 +787,7 @@ void color_manager::show_gui()
     }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
+        draw_border( w_colors_border, BORDER_COLOR, _( "Color manager" ) );
         mvwputch( w_colors_border, point( 0, 3 ), BORDER_COLOR, LINE_XXXO ); // |-
         mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
                   LINE_XOXX ); // -|
