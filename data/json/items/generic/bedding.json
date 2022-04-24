@@ -238,7 +238,7 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "SOFT" ],
     "armor": [
       {
         "encumbrance": 80,
