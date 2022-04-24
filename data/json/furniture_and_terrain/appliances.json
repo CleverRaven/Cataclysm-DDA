@@ -117,7 +117,6 @@
     "size": 200,
     "type": "vehicle_part"
   },
-  
   {
     "id": "ap_water_purifier",
     "name": { "str": "stationary water purifier" },

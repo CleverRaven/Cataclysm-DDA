@@ -3301,7 +3301,7 @@
   {
     "type": "construction",
     "id": "app_hydraulic_press",
-    "group": "place_air_compressor",
+    "group": "place_hydraulic_press",
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
