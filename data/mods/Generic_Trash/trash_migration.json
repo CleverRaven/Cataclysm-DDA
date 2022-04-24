@@ -24,7 +24,10 @@
       "bottle_bathroom",
       "dentures",
       "shuttlecock",
-      "golf_ball"
+      "golf_ball",
+      "rubber_band",
+      "disc_golf",
+      "frisbee"
     ],
     "type": "MIGRATION",
     "replace": "generic_plastic"
@@ -54,5 +57,66 @@
     ],
     "type": "MIGRATION",
     "replace": "generic_steel"
+  },
+  {
+    "id": [
+      "ceramic_plate",
+      "ceramic_bowl",
+      "ceramic_cup",
+      "ceramic_mug"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_ceramic"
+  },
+  {
+    "id": [
+      "coin_penny",
+      "coin_nickel",
+      "coin_dime",
+      "coin_quarter",
+      "coin_half_dollar",
+      "coin_dollar"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_coin"
+  },
+  {
+    "id": [
+      "money_one",
+      "money_two",
+      "money_five",
+      "money_ten",
+      "money_twenty",
+      "money_fifty",
+      "money_hundred"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_money"
+  },
+  {
+    "id": [
+      "money_strap_one",
+      "money_strap_two",
+      "money_strap_five",
+      "money_strap_ten",
+      "money_strap_twenty",
+      "money_strap_fifty",
+      "money_strap_hundred"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_money_strap"
+  },
+  {
+    "id": [
+      "money_bundle_one",
+      "money_bundle_two",
+      "money_bundle_five",
+      "money_bundle_ten",
+      "money_bundle_twenty",
+      "money_bundle_fifty",
+      "money_bundle_hundred"
+    ],
+    "type": "MIGRATION",
+    "replace": "generic_money_bundle"
   }
 ]

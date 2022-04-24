@@ -8,5 +8,20 @@
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "generic_ceramic",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 s",
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "generic_coin",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 3 ] ] ]
   }
 ]
