@@ -90,6 +90,17 @@
     ]
   },
   {
+    "id": "makeshift_limb_armor",
+    "type": "item_group",
+    "//": "assortment of simple hand made limb armor characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "collection": [ { "item": "armguard_metal" }, { "item": "legguard_metal" } ] },
+      { "collection": [ { "item": "armguard_scrap" }, { "item": "legguard_scrap" } ] },
+      { "collection": [ { "item": "armguard_tire" }, { "item": "legguard_tire" } ] }
+    ]
+  },
+  {
     "id": "civilian_body_armor",
     "type": "item_group",
     "//": "assortment of the sort of civilian body armor characters would wear during the apocalypse",
@@ -121,5 +132,45 @@
       { "item": "leather_police_jacket" }
     ]
   },
-
+  {
+    "id": "civilian_limb_armor",
+    "type": "item_group",
+    "//": "assortment of the sort of civilian limb armor characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "collection": [ { "item": "knee_pads" }, { "item": "elbow_pads" } ] },
+      { "collection": [ { "item": "armguard_hard" }, { "item": "legguard_hard" } ] }
+    ]
+  },
+  {
+    "id": "practical_hats",
+    "type": "item_group",
+    "//": "assortment of the sort of civilian hats characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "hat_boonie" },
+      { "item": "hat_ball" },
+      { "item": "hat_cotton" },
+      { "item": "hat_hunting" },
+      { "item": "hat_knit" },
+      { "item": "straw_hat" },
+      { "item": "hat_golf" },
+      { "item": "beret" },
+      { "item": "cowboy_hat" }
+    ]
+  },
+  {
+    "id": "civilian_helmets",
+    "type": "item_group",
+    "//": "assortment of the sort of civilian head armor characters would wear during the apocalypse",
+    "subtype": "distribution",
+    "items": [
+      { "item": "headgear" },
+      { "item": "firehelmet" },
+      { "item": "helmet_ball" },
+      { "item": "helmet_bike" },
+      { "item": "helmet_football" },
+      { "item": "helmet_motor" }
+    ]
+  }
 ]
