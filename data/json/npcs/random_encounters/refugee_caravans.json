@@ -173,7 +173,7 @@
       { "text": "What are you doing here?", "topic": "TALK_CARAVAN_REFUGEE_B1_Job" },
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
@@ -188,7 +188,7 @@
       { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
@@ -212,7 +212,7 @@
     "responses": [
       {
         "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
-        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "speaking" },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
         "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
