@@ -294,6 +294,7 @@ bool is_equal( const mission_id &first, const mission_id &second )
 {
     return first.id == second.id &&
            first.parameters == second.parameters &&
+           first.mapgen_args == second.mapgen_args &&
            first.dir == second.dir;
 }
 
@@ -320,7 +321,7 @@ std::string string_of( mission_id miss_id )
 
 mission_id mission_id_of( const std::string &str )
 {
-    mission_id result = { No_Mission, "", cata::nullopt };
+    mission_id result = { No_Mission, "", {}, cata::nullopt };
     size_t id_size = str.length();
 
     if( id_size == 0 ) {
@@ -328,8 +329,7 @@ mission_id mission_id_of( const std::string &str )
     }
 
     for( const auto &direction : base_camps::all_directions ) {
-        if( str.length() > direction.second.id.length() &&
-            str.substr( str.length() - direction.second.id.length() ) == direction.second.id ) {
+        if( string_ends_with( str, direction.second.id ) ) {
             result.dir = direction.first;
             id_size = str.length() - direction.second.id.length();
             break;
@@ -370,9 +370,7 @@ mission_id mission_id_of( const std::string &str )
     }
     //  The farm field actions do not result in npc missions
 
-    else if( str.length() >= camp_upgrade_npc_string.length() &&
-             str.substr( str.length() - camp_upgrade_npc_string.length() ) ==
-             camp_upgrade_npc_string ) {  //  blueprint + id
+    else if( string_ends_with( str, camp_upgrade_npc_string ) ) {  //  blueprint + id
         result.id = Camp_Upgrade;
         result.parameters = str.substr( 0, str.length() - camp_upgrade_npc_string.length() );
         result.dir = base_camps::base_dir;
@@ -538,7 +536,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
                            "and isolated buildings presents the opportunity to build survival "
                            "skills while engaging in relatively safe combat against isolated "
                            "creatures." );
-    const mission_id miss_id = { Scavenging_Patrol_Job, "", cata::nullopt };
+    const mission_id miss_id = { Scavenging_Patrol_Job, "", {}, cata::nullopt };
     mission_key.add_start( miss_id, _( "Assign Scavenging Patrol" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
@@ -571,7 +569,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
            "Combat is to be expected and assistance from the rest of the party "
            "can't be guaranteed.  The rewards are greater and there is a chance "
            "of the companion bringing back items." );
-    const mission_id miss_id = {Scavenging_Raid_Job, "", cata::nullopt};
+    const mission_id miss_id = {Scavenging_Raid_Job, "", {}, cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Scavenging Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
@@ -598,7 +596,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::hospital_raid( mission_data &mission_key, npc &p )
 {
-    const mission_id miss_id = {Hospital_Raid_Job, "", cata::nullopt};
+    const mission_id miss_id = {Hospital_Raid_Job, "", {}, cata::nullopt};
     if( get_player_character().get_value( var_SCAVENGER_HOSPITAL_RAID_STARTED ) != "yes" ) {
         const std::string entry_assign =
             _( "Profit: hospital equipment, some items\nDanger: High\nTime: 20 hour mission\n\n"
@@ -638,7 +636,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
                            "Assigning one of your allies to menial labor is a safe way to teach "
                            "them basic skills and build reputation with the outpost.  Don't expect "
                            "much of a reward though." );
-    const mission_id miss_id = {Menial_Job, "", cata::nullopt};
+    const mission_id miss_id = {Menial_Job, "", {}, cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Ally to Menial Labor" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
@@ -665,7 +663,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
                            "Carpentry work requires more skill than menial labor while offering "
                            "modestly improved pay.  It is unlikely that your companions will face "
                            "combat, but there are hazards working on makeshift buildings." );
-    const mission_id miss_id = {Carpentry_Job, "", cata::nullopt};
+    const mission_id miss_id = {Carpentry_Job, "", {}, cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Ally to Carpentry Work" ), entry );
     std::vector<npc_ptr>  npc_list = companion_list( p, miss_id );
     if( !npc_list.empty() ) {
@@ -693,7 +691,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
                            "encounters with wild animals are to be expected.  The low pay is "
                            "supplemented with the odd item as a reward for particularly large "
                            "hauls." );
-    const mission_id miss_id = {Forage_Job, "", cata::nullopt};
+    const mission_id miss_id = {Forage_Job, "", {}, cata::nullopt};
     mission_key.add_start( miss_id, _( "Assign Ally to Forage for Food" ),
                            entry );
     std::vector<npc_ptr> npc_list = companion_list( p, miss_id );
@@ -722,7 +720,9 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                            "important for the factions that profit.\n\n"
                            "The commune is sending food to the Free Merchants in the Refugee "
                            "Center as part of a tax and in exchange for skilled labor." );
-    mission_id miss_id = { Caravan_Commune_Center_Job, caravan_commune_center_job_assign_parameter, cata::nullopt };
+    mission_id miss_id = {
+        Caravan_Commune_Center_Job, caravan_commune_center_job_assign_parameter, {}, cata::nullopt
+    };
     mission_key.add_start( miss_id, _( "Caravan Commune-Refugee Center" ),
                            entry );
 
@@ -1060,7 +1060,7 @@ bool talk_function::display_and_choose_opts(
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
             mission_entry dud;
-            dud.id = { {No_Mission, "", cata::nullopt}, false};
+            dud.id = { {No_Mission, "", {}, cata::nullopt}, false};
             dud.name_display = "NONE";
             mission_key.cur_key = dud;
             break;
@@ -1687,7 +1687,7 @@ static int scavenging_combat_skill( npc &p, int bonus, bool guns )
 
 bool talk_function::scavenging_patrol_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Scavenging_Patrol_Job, "", cata::nullopt},
+    npc_ptr comp = companion_choose_return( p, { Scavenging_Patrol_Job, "", {}, cata::nullopt},
                                             calendar::turn - 10_hours );
     if( comp == nullptr ) {
         return false;
@@ -1738,7 +1738,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
 
 bool talk_function::scavenging_raid_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Scavenging_Raid_Job, "", cata::nullopt},
+    npc_ptr comp = companion_choose_return( p, { Scavenging_Raid_Job, "", {}, cata::nullopt},
                                             calendar::turn - 10_hours );
     if( comp == nullptr ) {
         return false;
@@ -1843,7 +1843,7 @@ bool talk_function::scavenging_raid_return( npc &p )
 
 bool talk_function::hospital_raid_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Hospital_Raid_Job, "", cata::nullopt},
+    npc_ptr comp = companion_choose_return( p, { Hospital_Raid_Job, "", {}, cata::nullopt},
                                             calendar::turn - 20_hours );
     if( comp == nullptr ) {
         return false;
@@ -1944,7 +1944,7 @@ bool talk_function::hospital_raid_return( npc &p )
 
 bool talk_function::labor_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Menial_Job, "", cata::nullopt}, calendar::turn -
+    npc_ptr comp = companion_choose_return( p, { Menial_Job, "", {}, cata::nullopt}, calendar::turn -
                                             1_hours );
     if( comp == nullptr ) {
         return false;
@@ -1972,7 +1972,7 @@ bool talk_function::labor_return( npc &p )
 
 bool talk_function::carpenter_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Carpentry_Job, "", cata::nullopt},
+    npc_ptr comp = companion_choose_return( p, { Carpentry_Job, "", {}, cata::nullopt},
                                             calendar::turn - 1_hours );
     if( comp == nullptr ) {
         return false;
@@ -2027,7 +2027,7 @@ bool talk_function::carpenter_return( npc &p )
 
 bool talk_function::forage_return( npc &p )
 {
-    npc_ptr comp = companion_choose_return( p, { Forage_Job, "", cata::nullopt}, calendar::turn -
+    npc_ptr comp = companion_choose_return( p, { Forage_Job, "", {}, cata::nullopt}, calendar::turn -
                                             4_hours );
     if( comp == nullptr ) {
         return false;

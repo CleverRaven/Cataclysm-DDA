@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
@@ -92,6 +93,7 @@ std::string action_of( mission_kind kind );
 struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
+    mapgen_arguments mapgen_args;
     cata::optional<point> dir;
 };
 
