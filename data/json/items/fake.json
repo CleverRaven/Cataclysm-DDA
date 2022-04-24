@@ -286,9 +286,9 @@
     "qualities": [ [ "OVEN", 2 ] ]
   },
   {
-    "id": "fake_water_purifier",
+    "id": "water_purifier_tool",
     "type": "TOOL",
-    "copy-from": "fake_power_tool",
+    "copy-from": "fake_appliance_tool",
     "name": { "str": "stationary water purifier" }
   },
   {

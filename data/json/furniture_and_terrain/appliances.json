@@ -117,6 +117,35 @@
     "size": 200,
     "type": "vehicle_part"
   },
+  
+  {
+    "id": "ap_water_purifier",
+    "name": { "str": "stationary water purifier" },
+    "categories": [ "utility" ],
+    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.",
+    "symbol": "W",
+    "color": "white",
+    "location": "structure",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 60,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "water_purifier_tool" } ],
+    "epower": 0,
+    "item": "stationary_water_purifier",
+    "looks_like": "f_water_purifier",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 7 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "sheet_metal", "count": [ 2, 6 ] },
+      { "item": "cable", "charges": [ 1, 15 ] },
+      { "item": "hose", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 1, 4 ] },
+      { "item": "scrap_copper", "count": [ 0, 2 ] },
+      { "item": "water_faucet", "count": [ 0, 1 ] }
+    ],
+    "type": "vehicle_part"
+  },
   {
     "id": "ap_arcade_machine",
     "name": { "str": "arcade machine" },

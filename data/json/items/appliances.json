@@ -44,6 +44,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "stationary_water_purifier",
+    "looks_like": "f_water_purifier",
+    "symbol": "W",
+    "description": "This device effectively sterilizes water, can be plugged into the wall and used.",
+    "color": "dark_gray_white",
+    "name": { "str": "large water purifier" },
+    "material": [ "budget_steel" ],
+    "longest_side": "50 cm",
+    "volume": "50 L",
+    "weight": "20 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "symbol": "6",

@@ -4692,6 +4692,25 @@
     ]
   },
   {
+    "result": "stationary_water_purifier",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "cable", 10] ],
+      [ [ "hose", 4 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "solder_wire", 10 ] ],
+      [ [ "cu_pipe", 4 ] ]
+    ]
+  },
+  {
     "result": "drill_press",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
