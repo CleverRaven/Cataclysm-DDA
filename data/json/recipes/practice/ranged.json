@@ -59,7 +59,7 @@
       ]
     ],
     "components": [ [ [ "arrow_fire_hardened_fletched", 10 ] ] ],
-    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 4 ] } ]
+    "byproduct_group": [ { "item": "arrow_fire_hardened_fletched", "charges": [ 0, 2 ] } ]
   },
   {
     "id": "prac_archery_int",
