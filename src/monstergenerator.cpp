@@ -336,6 +336,8 @@ void monster_adjustment::apply( mtype &mon )
             mon.speed *= stat_adjust;
         } else if( stat == "hp" ) {
             mon.hp *= stat_adjust;
+        } else if( stat == "bleed_rate" ) {
+            mon.bleed_rate *= stat_adjust;
         }
     }
     if( !flag.empty() ) {
@@ -449,6 +451,14 @@ void MonsterGenerator::finalize_mtypes()
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
+
+        mon.weakpoints.clear();
+        for( const weakpoints_id &wpset : mon.weakpoints_deferred ) {
+            mon.weakpoints.add_from_set( wpset, true );
+        }
+        if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
+            mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
+        }
     }
 
     for( const auto &mon : mon_templates->get_all() ) {
@@ -732,7 +742,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_elec", armor_elec, strict, 0 );
 
     if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
-        weakpoints.clear();
+        weakpoints_deferred.clear();
+        weakpoints_deferred_inline.clear();
     }
 
     // Load each set of weakpoints.
@@ -740,8 +751,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     // matching weakpoints from the previous set.
     if( jo.has_array( "weakpoint_sets" ) ) {
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
-            weakpoints_id set_id( jval.get_string() );
-            weakpoints.add_from_set( set_id, true );
+            weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
         }
     } else {
         if( jo.has_object( "extend" ) ) {
@@ -749,8 +759,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             tmp.allow_omitted_members();
             if( tmp.has_array( "weakpoint_sets" ) ) {
                 for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_id set_id( jval.get_string() );
-                    weakpoints.add_from_set( set_id, true );
+                    weakpoints_deferred.emplace_back( jval.get_string() );
                 }
             }
         }
@@ -760,7 +769,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoint_sets" ) ) {
                 for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
                     weakpoints_id set_id( jval.get_string() );
-                    weakpoints.del_from_set( set_id );
+                    auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
+                    if( iter != weakpoints_deferred.end() ) {
+                        weakpoints_deferred.erase( iter );
+                    }
                 }
             }
         }
@@ -771,7 +783,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "weakpoints" ) ) {
         ::weakpoints tmp_wp;
         tmp_wp.load( jo.get_array( "weakpoints" ) );
-        weakpoints.add_from_set( tmp_wp, true );
+        weakpoints_deferred_inline.add_from_set( tmp_wp, true );
     } else {
         if( jo.has_object( "extend" ) ) {
             JsonObject tmp = jo.get_object( "extend" );
@@ -779,7 +791,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoints" ) ) {
                 ::weakpoints tmp_wp;
                 tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints.add_from_set( tmp_wp, true );
+                weakpoints_deferred_inline.add_from_set( tmp_wp, true );
             }
         }
         if( jo.has_object( "delete" ) ) {
@@ -788,7 +800,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             if( tmp.has_array( "weakpoints" ) ) {
                 ::weakpoints tmp_wp;
                 tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints.del_from_set( tmp_wp );
+                weakpoints_deferred_inline.del_from_set( tmp_wp );
             }
         }
     }
@@ -906,6 +918,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "harvest", harvest );
+
+    optional( jo, was_loaded, "dissect", dissect );
 
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
@@ -1376,6 +1390,10 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( !mon.dissect.is_empty() && !mon.dissect.is_valid() ) {
+            debugmsg( "monster %s has invalid dissection harvest_entry: %s", mon.id.c_str(),
+                      mon.dissect.c_str() );
         }
         if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
             debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );

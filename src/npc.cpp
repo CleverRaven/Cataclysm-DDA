@@ -54,6 +54,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctrade_utils.h"
 #include "npctalk.h"
 #include "options.h"
 #include "output.h"
@@ -1875,8 +1876,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
-    if( player_character.is_deaf() ) {
+    if( player_character.is_deaf() && !player_character.is_blind() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ),
                                 get_name() );
     }
@@ -1889,6 +1889,9 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         add_msg( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
         return;
     }
+
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
+
     // Sound happens even if we can't hear it
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
@@ -2011,7 +2014,9 @@ int npc::max_willing_to_owe() const
 void npc::shop_restock()
 {
     // NPCs refresh every week, since the last time you checked in
-    if( ( restock != calendar::turn_zero ) && ( ( calendar::turn - restock ) < 0_days ) ) {
+    time_duration const elapsed =
+        restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
+    if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
         return;
     }
 
@@ -2036,10 +2041,8 @@ void npc::shop_restock()
         return;
     }
 
-    units::volume total_space = volume_capacity();
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        total_space = units::from_liter( 5000 );
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
 
     std::list<item> ret;
     int shop_value = 75000;
@@ -2078,13 +2081,12 @@ void npc::shop_restock()
     if( !value_groups.empty() ) {
         int count = 0;
         bool last_item = false;
-        while( shop_value > 0 && total_space > 0_ml && !last_item ) {
+        while( shop_value > 0 && !last_item ) {
             item tmpit = item_group::item_from( random_entry( value_groups ), calendar::turn );
-            if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
+            if( !tmpit.is_null() ) {
                 tmpit.set_owner( *this );
                 ret.push_back( tmpit );
                 shop_value -= tmpit.price( true );
-                total_space -= tmpit.volume();
                 count += 1;
                 last_item = count > 10 && one_in( 100 );
             }
@@ -2099,9 +2101,15 @@ void npc::shop_restock()
         }
     }
 
-    has_new_items = true;
-    inv->clear();
-    inv->push_back( ret );
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        distribute_items_to_npc_zones( ret, *this );
+    } else {
+        for( const item &i : ret ) {
+            i_add( i, true, nullptr, nullptr, true, false );
+        }
+        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                << "shop_restock() called on NPC who is not a shopkeeper " << name;
+    }
 }
 
 int npc::minimum_item_value() const
@@ -2526,6 +2534,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_ATTACK:
             return Attitude::HOSTILE;
         case MATT_NULL:
+        case MATT_UNKNOWN:
         case NUM_MONSTER_ATTITUDES:
             break;
     }

@@ -78,7 +78,6 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -105,7 +104,6 @@
 
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
@@ -1357,7 +1355,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
-    you.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
+    you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
     you.activity.placement = examp;
 }
 
@@ -2072,7 +2070,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {
-            you.add_addiction( add_type::PKILLER, 1 );
+            you.add_addiction( STATIC( addiction_id( "opiate" ) ), 1 );
         }
     }
     if( !query_yn( _( "Pick %s?" ), here.furnname( examp ) ) ) {
@@ -2579,12 +2577,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
-        const int max_harvest_count = 12;
-        if( plant_count >= max_harvest_count ) {
-            plant_count = max_harvest_count;
-        } else if( plant_count <= 0 ) {
-            plant_count = 1;
-        }
+        plant_count = std::min( std::max( plant_count, 1 ), 12 );
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
         for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             if( from_activity ) {
@@ -4705,6 +4698,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
                            you.posy() + 2 * sgn( examp.y - you.posy() ),
                            you.posz() );
@@ -4727,6 +4726,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 2: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;
@@ -4834,6 +4839,12 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 3: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+
             if( !here.valid_move( you.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;

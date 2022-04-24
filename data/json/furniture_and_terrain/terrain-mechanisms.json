@@ -718,6 +718,104 @@
   },
   {
     "type": "terrain",
+    "id": "t_elevator_control_robofac_up",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_UP",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_up" }, "z_adjust": 1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_up" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_robofac_down",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_DOWN",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_down" }, "z_adjust": -1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_down" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_elevator_control_off",
     "name": "powerless controls",
     "description": "This is the control face for an elevator.  It's currently unpowered.",

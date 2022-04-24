@@ -148,7 +148,6 @@
       { "group": "surgery", "prob": 80 },
       { "group": "drugs_emergency", "prob": 40 },
       { "group": "softdrugs", "prob": 20 },
-      { "group": "bionics_common", "prob": 5 },
       { "group": "harddrugs", "prob": 5 }
     ]
   },
@@ -717,6 +716,7 @@
     "items": [
       [ "teleumbrella", 15 ],
       [ "cane", 30 ],
+      [ "wizard_cane", 1 ],
       [ "toaster", 30 ],
       [ "stethoscope", 2 ],
       { "item": "spray_can", "prob": 45, "charges-min": 1, "charges-max": 3 },
@@ -936,6 +936,7 @@
     "entries": [
       { "item": "rock", "prob": 40 },
       { "item": "rock_flaking", "prob": 15 },
+      { "item": "flint", "prob": 5 },
       { "item": "rock_large", "prob": 10 },
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1 },
@@ -1243,6 +1244,7 @@
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
       { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "flint", "prob": 5, "count": [ 1, 10 ] },
       { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
       { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
@@ -1312,6 +1314,7 @@
     "items": [
       [ "rock", 40 ],
       [ "rock_flaking", 10 ],
+      [ "flint", 5 ],
       [ "rock_large", 5 ],
       [ "sharp_rock", 5 ],
       { "group": "newspaper_recent", "prob": 5 },
@@ -1325,6 +1328,7 @@
     "items": [
       [ "rock", 40 ],
       [ "rock_flaking", 5 ],
+      [ "flint", 2 ],
       [ "rock_large", 5 ],
       [ "stick", 95 ],
       [ "pine_bough", 20 ],
@@ -1670,6 +1674,11 @@
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 30 },
       { "item": "cane", "prob": 10 },
+      { "item": "wizard_cane_cheap", "prob": 1 },
+      { "item": "wizard_cane", "prob": 1 },
+      { "item": "sinister_cane", "prob": 1 },
+      { "group": "costume_jewelry_dark", "prob": 1 },
+      { "group": "costume_jewelry_vampire", "prob": 1 },
       { "item": "candlestick", "prob": 80 },
       { "item": "umbrella", "prob": 50 },
       { "item": "teleumbrella", "prob": 20 },
@@ -1937,6 +1946,11 @@
       [ "teleumbrella", 2 ],
       [ "frisbee", 10 ],
       [ "disc_golf", 10 ],
+      [ "pom_poms", 10 ],
+      [ "cheerleader_top", 5 ],
+      [ "cheerleader_top_short", 1 ],
+      [ "cheerleader_skirt", 5 ],
+      [ "cheerleader_skirt_short", 1 ],
       [ "football_armor", 5 ],
       [ "helmet_football", 5 ],
       [ "mouthpiece", 5 ],

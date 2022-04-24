@@ -18,7 +18,7 @@
       {
         "id": "mutant_kid_boss_4",
         "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labelled with a large \"T\".",
-        "//": "TODO: when descriptions allow nesting snippets replace with a random monogramm."
+        "//": "TODO: when descriptions allow nesting snippets replace with a random monogram."
       },
       {
         "id": "mutant_kid_boss_5",
@@ -62,24 +62,24 @@
     "type": "snippet",
     "category": "lab_postit_blob",
     "text": [
-      { "name": "grey postit 1", "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
-      { "name": "grey postit 2", "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
-      { "name": "grey postit 3", "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
-      { "name": "grey postit 4", "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
-      { "name": "grey postit 5", "id": "lab_postit_blob_5", "text": "Reinforce doors" },
-      { "name": "grey postit 6", "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
+      { "name": "gray postit 1", "id": "lab_postit_blob_1", "text": "Dismember within 15 minutes" },
+      { "name": "gray postit 2", "id": "lab_postit_blob_2", "text": "No weight difference - superpositional?" },
+      { "name": "gray postit 3", "id": "lab_postit_blob_3", "text": "TODO: terminate subject within a week" },
+      { "name": "gray postit 4", "id": "lab_postit_blob_4", "text": "Need more bodies - Mass General?" },
+      { "name": "gray postit 5", "id": "lab_postit_blob_5", "text": "Reinforce doors" },
+      { "name": "gray postit 6", "id": "lab_postit_blob_6", "text": "Where does the energy come from?" },
       {
-        "name": "grey postit 7",
+        "name": "gray postit 7",
         "id": "lab_postit_blob_7",
         "text": "Anaerobic conditions without change in activity <-> temperature?!"
       },
-      { "name": "grey postit 8", "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
+      { "name": "gray postit 8", "id": "lab_postit_blob_8", "text": "Ashes still contaminated" },
       {
-        "name": "grey postit 9",
+        "name": "gray postit 9",
         "id": "lab_postit_blob_9",
         "text": "Removed parts fuse preferentially to original host"
       },
-      { "name": "grey postit 10", "id": "lab_postit_blob_10", "text": "Never dead" }
+      { "name": "gray postit 10", "id": "lab_postit_blob_10", "text": "Never dead" }
     ]
   },
   {
@@ -266,7 +266,7 @@
       },
       {
         "id": "dream_3",
-        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of grey vines\" he writes, unable to imagine the transcendence of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
+        "text": "I keep dreaming the same dream ever since Dr. Yin's final session.  The same one she described with that vivid enthusiasm, like she could see it in the waking world as well.  I didn't understand the beauty of it back then, so I just took my notes as usual when one of them vents about the horrible things we encourage them to feel good about -- it is what I'm getting paid for, after all.  Looking at the transcript now, its dryness feels blasphemous: \"connected branches of gray vines\" he writes, unable to imagine the transcendence of the Whole stretching across infinity, connecting large and small, familiar and unknowable; \"moldy fuzz in a positive connotation - rural childhood?\" like an armchair psychotherapist grasping at straws, as if the eternal fractal was anything less than divine.  I am grateful for her allowing me to dream the same dream on for her, I only wish it came to me before I hastily reported the session to the bloodhounds at Security.  I remember being terrified of something, but the feeling melted in the radiance of my first night's sleep.  I will need to seek out others of a similar mind, to connect with them, to show them what we can become with time, but I need to be more careful than she was."
       }
     ]
   },

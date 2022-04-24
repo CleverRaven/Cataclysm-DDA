@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "category": "veh_parts",
     "name": { "str": "car battery", "str_pl": "car batteries" },
-    "description": "A 12V lead-acid battery used to power car electrical systems.",
+    "description": "A 12V lead-acid battery used to power car electrical systems.  Can also be plugged in a static power grid.",
     "weight": "18000 g",
     "volume": "6250 ml",
     "price": 4000,

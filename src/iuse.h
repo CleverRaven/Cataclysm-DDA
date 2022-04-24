@@ -67,7 +67,6 @@ cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 // TOOLS
 cata::optional<int> acidbomb_act( Character *, item *, bool, const tripoint & );
 cata::optional<int> adrenaline_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> arrow_flammable( Character *, item *, bool, const tripoint & );
 cata::optional<int> bell( Character *, item *, bool, const tripoint & );
 cata::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
 cata::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
@@ -214,8 +213,6 @@ cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const t
 cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
-
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 

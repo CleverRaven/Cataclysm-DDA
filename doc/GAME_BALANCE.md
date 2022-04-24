@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster maximum damage scaling:
+Minimum damage: 0 (no damage potential; spore cloud, hallucination)
+
+Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
+
+Average damage: 6 (normal day one threat; zombie, wasp)
+
+High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
+
+Very high damage: 20+ (zombie predator, super soldier ant, mi-go) 
+
+Maximum damage: 50 (highest for balance purposes; melded task force)
+
+
 # Monster HP scaling:
 Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
 
@@ -87,7 +101,7 @@ Length allows more surface area for potential contact, and reduces the need to c
 
 +1 - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand. A normal American 12inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
 
-+2 - An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
++2 - An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaves, poles, and a lot of other stuff.
 
 ### Striking Surface
 Some weapons need to strike in a certain way to be effective. Others are more difficult to use "incorrectly".

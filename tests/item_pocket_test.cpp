@@ -966,10 +966,10 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item can( "test_can_drink" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> can_pockets = can.get_all_contained_pockets();
-        REQUIRE( can_pockets.success() );
-        REQUIRE( can_pockets.value().size() == 1 );
-        item_pocket &pocket = *can_pockets.value().front();
+        std::vector<item_pocket *> can_pockets = can.get_all_contained_pockets();
+        REQUIRE( !can_pockets.empty() );
+        REQUIRE( can_pockets.size() == 1 );
+        item_pocket &pocket = *can_pockets.front();
         // Must be sealable, but not sealed initially
         REQUIRE( pocket.sealable() );
         REQUIRE_FALSE( pocket.sealed() );
@@ -1016,10 +1016,10 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item jug( "test_jug_plastic" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<item_pocket *>> jug_pockets = jug.get_all_contained_pockets();
-        REQUIRE( jug_pockets.success() );
-        REQUIRE( jug_pockets.value().size() == 1 );
-        item_pocket &pocket = *jug_pockets.value().front();
+        std::vector<item_pocket *>jug_pockets = jug.get_all_contained_pockets();
+        REQUIRE( !jug_pockets.empty() );
+        REQUIRE( jug_pockets.size() == 1 );
+        item_pocket &pocket = *jug_pockets.front();
         // Must NOT be sealable
         REQUIRE_FALSE( pocket.sealable() );
         REQUIRE_FALSE( pocket.sealed() );
@@ -1112,9 +1112,9 @@ static bool has_best_pocket( item &container, const item &thing )
 /** Returns the only pocket for an item. */
 static item_pocket *get_only_pocket( item &container )
 {
-    ret_val<std::vector<item_pocket *>> pockets = container.get_all_contained_pockets();
-    REQUIRE( pockets.value().size() == 1 );
-    return pockets.value()[0];
+    std::vector<item_pocket *> pockets = container.get_all_contained_pockets();
+    REQUIRE( pockets.size() == 1 );
+    return pockets[0];
 }
 
 TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
@@ -1862,7 +1862,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     WHEN( "no nested, backpack autoinsert disabled" ) {
         WHEN( "space available in backpack" ) {
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1871,7 +1871,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, 60, false, false, true );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1903,10 +1903,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "all autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1916,10 +1916,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1931,7 +1931,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "top container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested filled" ) {
@@ -1941,7 +1941,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
@@ -1957,7 +1957,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested empty" ) {
@@ -1967,7 +1967,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1979,7 +1979,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 1 item" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -1991,7 +1991,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -2009,7 +2009,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 2 items" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2022,7 +2022,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2076,7 +2076,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( "test_pine_nuts" );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+        for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
             pkts->settings.blacklist_item( stack.typeId() );
             REQUIRE( pkts->settings.get_item_blacklist().count( stack.typeId() ) == 1 );
         }
@@ -2107,7 +2107,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( "test_pine_nuts" );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( auto &pkts : c->get_contents().get_all_contained_pockets().value() ) {
+        for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
             pkts->settings.whitelist_item( obj2->typeId() );
             REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
             REQUIRE( pkts->settings.get_item_whitelist().count( stack.typeId() ) == 0 );
@@ -2407,7 +2407,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
             THEN( "flashlight stored in smallest available holster" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P4", "P5", "P6" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2426,7 +2426,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 1" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P1" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2440,7 +2440,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 1" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P1" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2459,7 +2459,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 2" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P2" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2473,7 +2473,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 2" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P2" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2492,7 +2492,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
         }
 
         WHEN( "attaching flashlight to tool belt, whitelisted pocket 5" ) {
-            for( item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+            for( item_pocket *pkt : tb->get_all_contained_pockets() ) {
                 if( pkt->get_pocket_data()->pocket_name.translated() == "P5" ) {
                     pkt->settings.whitelist_item( flashlight.typeId() );
                 }
@@ -2506,7 +2506,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
             THEN( "flashlight stored in pocket 5" ) {
                 bool found = false;
                 const std::list<std::string> valid_pkts = { "P5" };
-                for( const item_pocket *pkt : tb->get_all_contained_pockets().value() ) {
+                for( const item_pocket *pkt : tb->get_all_contained_pockets() ) {
                     if( !pkt->empty() && pkt->front().typeId() == flashlight.typeId() ) {
                         CAPTURE( pkt->get_pocket_data()->pocket_name.translated() );
                         CHECK( !found ); // we shouldn't find this item in multiple pockets
@@ -2524,4 +2524,53 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
             }
         }
     }
+}
+
+TEST_CASE( "item cannot contain contents it already has", "[item][pocket]" )
+{
+    item backpack( "test_backpack" );
+    item bottle( "bottle_plastic" );
+    item water( "water" );
+
+    water.charges = 1;
+    bottle.fill_with( water, 1 );
+    REQUIRE( !bottle.is_container_empty() );
+    REQUIRE( bottle.only_item().typeId() == water.typeId() );
+    backpack.put_in( bottle, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( !backpack.is_container_empty() );
+    REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
+
+    const tripoint ipos = get_player_character().pos();
+    map &m = get_map();
+    clear_map();
+
+    item_location backpack_loc( map_cursor( ipos ), &m.add_item( ipos, backpack ) );
+    item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
+    item_location water_loc( bottle_loc, &bottle_loc->only_item() );
+
+    REQUIRE( water_loc->count() == 1 );
+
+    const item &water_item = *water_loc;
+
+    // Check bottle containing water
+    bool in_top = false;
+    for( const item *contained : bottle_loc->all_items_top() ) {
+        if( contained == water_loc.get_item() ) {
+            in_top = true;
+        }
+    }
+    CHECK( in_top );
+    CHECK( bottle_loc->can_contain( water_item ).success() );
+    CHECK( !bottle_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+
+    // Check backpack containing bottle containing water
+    in_top = false;
+    for( const item *contained : backpack_loc->all_items_top() ) {
+        if( contained == water_loc.get_item() ) {
+            in_top = true;
+        }
+    }
+    CHECK( !in_top );
+    CHECK( backpack_loc->can_contain( water_item ).success() );
+    CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
 }

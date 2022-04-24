@@ -38,6 +38,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ { "id": "impale" } ],
+    "fungalize_into": "mon_scorpion_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
   },
   {
@@ -254,6 +255,7 @@
     "upgrades": { "age_grow": 15, "into_group": "GROUP_TERMITE" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
+    "fungalize_into": "mon_termite_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {

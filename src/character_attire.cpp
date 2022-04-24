@@ -49,6 +49,9 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_success();
+    }
     if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
@@ -370,6 +373,11 @@ ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res
                                             _( "<npcname> is not wearing that item." ) );
     }
 
+    if( it.has_flag( flag_INTEGRATED ) ) {
+        return ret_val<bool>::make_failure( !is_npc() ?
+                                            _( "You can't remove a part of your body." ) :
+                                            _( "<npcname> can't remove a part of their body." ) );
+    }
     if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
         return ret_val<bool>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
@@ -1432,7 +1440,7 @@ units::volume outfit::free_space() const
     units::volume volume_capacity = 0_ml;
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -1500,7 +1508,7 @@ units::volume outfit::small_pocket_volume( const units::volume &threshold )  con
     units::volume small_spaces = 0_ml;
     for( const item &w : worn ) {
         if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
                 if( pocket->volume_capacity() <= threshold ) {
                     small_spaces += pocket->volume_capacity();
                 }
@@ -1644,11 +1652,15 @@ bool outfit::in_climate_control() const
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
-    // lower layer.
+    // lower layer. Integrated armor goes under normal armor.
     return std::find_if(
                worn.rbegin(), worn.rend(),
     [&]( const item & w ) {
-        return w.get_layer() <= new_item.get_layer();
+        if( w.has_flag( flag_INTEGRATED ) == new_item.has_flag( flag_INTEGRATED ) ) {
+            return w.get_layer() <= new_item.get_layer();
+        } else {
+            return w.has_flag( flag_INTEGRATED );
+        }
     }
            ).base();
 }
@@ -2178,7 +2190,7 @@ int outfit::clatter_sound() const
     for( const item &i : worn ) {
         // if the item has noise making pockets we should check if they have clatered
         if( i.has_noisy_pockets() ) {
-            for( const item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
                 int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
                 int volume = pocket->get_pocket_data()->activity_noise.volume;
                 if( noise_chance > 0 && !pocket->empty() ) {
@@ -2220,7 +2232,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     for( item &i : worn ) {
         // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }
