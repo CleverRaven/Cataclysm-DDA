@@ -59,37 +59,17 @@
     "replace": "generic_steel"
   },
   {
-    "id": [
-      "ceramic_plate",
-      "ceramic_bowl",
-      "ceramic_cup",
-      "ceramic_mug"
-    ],
+    "id": [ "ceramic_plate", "ceramic_bowl", "ceramic_cup", "ceramic_mug" ],
     "type": "MIGRATION",
     "replace": "generic_ceramic"
   },
   {
-    "id": [
-      "coin_penny",
-      "coin_nickel",
-      "coin_dime",
-      "coin_quarter",
-      "coin_half_dollar",
-      "coin_dollar"
-    ],
+    "id": [ "coin_penny", "coin_nickel", "coin_dime", "coin_quarter", "coin_half_dollar", "coin_dollar" ],
     "type": "MIGRATION",
     "replace": "generic_coin"
   },
   {
-    "id": [
-      "money_one",
-      "money_two",
-      "money_five",
-      "money_ten",
-      "money_twenty",
-      "money_fifty",
-      "money_hundred"
-    ],
+    "id": [ "money_one", "money_two", "money_five", "money_ten", "money_twenty", "money_fifty", "money_hundred" ],
     "type": "MIGRATION",
     "replace": "generic_money"
   },
