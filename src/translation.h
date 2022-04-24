@@ -221,6 +221,5 @@ std::ostream &operator<<( std::ostream &out, const translation &t );
 std::string operator+( const translation &lhs, const std::string &rhs );
 std::string operator+( const std::string &lhs, const translation &rhs );
 std::string operator+( const translation &lhs, const translation &rhs );
-bool operator<( const translation &lhs, const translation &rhs );
 
 #endif // CATA_SRC_TRANSLATION_H
