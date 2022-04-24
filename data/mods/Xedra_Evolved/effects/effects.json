@@ -91,6 +91,16 @@
   },
   {
     "type": "effect_type",
+    "id": "visuals",
+    "name": [ "Hallucinating" ],
+    "desc": [ "You can't trust everything that you see." ],
+    "rating": "bad",
+    "resist_effects": [ "relative_physics" ],
+    "base_mods": { "int_mod": [ -2 ], "dex_mod": [ -1 ], "per_mod": [ -4 ] },
+    "blood_analysis_description": "Hallucinations"
+  },
+  {
+    "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
     "resist_effects": [ "relative_physics" ],
