@@ -5543,6 +5543,17 @@ void vehicle::place_spawn_items()
     }
 }
 
+void vehicle::place_zones( map &pmap ) const
+{
+    if( !type.is_valid() || !has_owner() ) {
+        return;
+    }
+    for( vehicle_prototype::zone_def const &d : type->zone_defs ) {
+        tripoint const pt = pmap.getabs( tripoint( pos + d.pt, pmap.get_abs_sub().z() ) );
+        mapgen_place_zone( pt, pt, d.zone_type, get_owner(), d.name, d.filter, &pmap );
+    }
+}
+
 void vehicle::gain_moves()
 {
     fuel_used_last_turn.clear();
