@@ -36,16 +36,17 @@
     "proficiencies": [ "prof_metalworking", "prof_carving", "prof_carpentry_basic", "prof_spotting", "prof_food_prep" ],
     "skills": [
       { "skill": "computer", "bonus": 8 },
+      { "skill": "cooking", "bonus": 2 },
       { "skill": "dodge", "bonus": 3 },
-      { "skill": "electronics", "bonus": 2 },
-      { "skill": "fabrication", "bonus": 3 },
-      { "skill": "firstaid", "bonus": 3 },
+      { "skill": "electronics", "bonus": 4 },
+      { "skill": "fabrication", "bonus": 5 },
+      { "skill": "firstaid", "bonus": 4 },
       { "skill": "mechanics", "bonus": 4 },
       { "skill": "melee", "bonus": 6 },
       { "skill": "rifle", "bonus": 1 },
-      { "skill": "speech", "bonus": 3 },
+      { "skill": "speech", "bonus": 5 },
       { "skill": "stabbing", "bonus": 4 },
-      { "skill": "survival", "bonus": 3 },
+      { "skill": "survival", "bonus": 6 },
       { "skill": "swimming", "bonus": 3 }
     ]
   },
@@ -116,7 +117,15 @@
       "yes": "*looks up at you, taking a moment to place your face, then grins broadly.  He looks about the same as when you last saw him, perhaps a little more fit.  \"So, you're still playing on the 'living' team, huh?  Glad to see you're still kicking around.  Always good to run into a familiar face nowadays.\"",
       "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair greying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
     },
-    "speaker_effect": { "effect": [ { "u_add_var": "u_met_John_Bailey", "value": "yes" }, { "npc_first_topic": "TALK_RC_John_Bailey_1a" } ] },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_John_Bailey", "value": "yes" },
+        { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
+        {
+          "arithmetic": [ { "npc_val": "zkc_john" }, "=", { "rand": 10 }, "+", { "const": 15 }, "*", { "time_since_cataclysm": "weeks" } ]
+        }
+      ]
+    },
     "responses": [
       { "text": "Hi John.  What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Hi John, I'm afraid I can't stay to talk.", "topic": "TALK_DONE" }
@@ -210,31 +219,6 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_RC_John_Bailey_Work",
-    "dynamic_line": "\"I do odd jobs if people need help.  Not on a volunteer basis you understand, but I try not to be unfair about it either.  Lots of people need a bit of help these days, often just with little things a scavenger like me can find for them.  It's easy for folks like you and me to underestimate how scared a lot of people are to go back out in that place.  The situation's bad enough as it is, but these kind of people took refuge back when it was true chaos out there.  Lots of trauma to unpack there.  Anyway, if there's little things I can do for them, I try to help where I can, so long as it doesn't put me in too much danger.\"",
-    "responses": [
-      {
-        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
-        "topic": "TALK_RC_John_Bailey_ZKC"
-      },
-      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
-      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
-      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
-      {
-        "text": "You've got that right.  People like you and I are made of stronger stuff.",
-        "topic": "TALK_RC_John_Bailey_Exceptional"
-      },
-      {
-        "text": "People should learn to fend for themselves, not just get you to hand everything to them.",
-        "topic": "TALK_RC_John_Bailey_ToughLove"
-      },
-      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Faction2",
     "dynamic_line": "\"I'll be straight with you, I don't want to tell you too much about my people, okay?  You seem all right, don't get me wrong, but I've seen some scary fuckin' people out there, who come on all normal and then try to bite your face off when they get you alone.  Everyone's reaction to the world's end is a bit different.  Things are stable with my people now, but we don't really welcome new faces anymore.  I wish it weren't that way.  Maybe if you and I get to know each other better some day, I'll change my mind.\"",
     "responses": [
@@ -285,4 +269,154 @@
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
     ]
   },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Work",
+    "dynamic_line": "\"I do odd jobs if people need help.  Not on a volunteer basis you understand, but I try not to be unfair about it either.  Lots of people need a bit of help these days, often just with little things a scavenger like me can find for them.  It's easy for folks like you and me to underestimate how scared a lot of people are to go back out in that place.  The situation's bad enough as it is, but these kind of people took refuge back when it was true chaos out there.  Lots of trauma to unpack there.  Anyway, if there's little things I can do for them, I try to help where I can, so long as it doesn't put me in too much danger.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      {
+        "text": "You've got that right.  People like you and I are made of stronger stuff.",
+        "topic": "TALK_RC_John_Bailey_Exceptional"
+      },
+      {
+        "text": "People should learn to fend for themselves, not just get you to hand everything to them.",
+        "topic": "TALK_RC_John_Bailey_ToughLove"
+      },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_ZKC",
+    "dynamic_line": "*laughs a bit sheepishly.  \"Seems distasteful to keep track of that stuff, doesn't it?\"  He touches a series of notches on his <mywp>.  \"I'm human though. I'm up to <npc_val:zkc_john> so far.  Seems like a lot to me, especially since I try to avoid actually engaging the enemy if I can help it.\"",
+    "responses": [
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Join",
+    "dynamic_line": "*sizes you up and down, and shakes his head sadly.  \"Darius and I have a good thing going, and a third person would be hard to justify, especially these days.  Trust comes hard.  I'm sorry.  I hope you've got someone to watch your back, but it can't be me.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      {
+        "text": "That's a shame.  We'd be a good team.  People like you and I are made of stronger stuff.",
+        "topic": "TALK_RC_John_Bailey_Exceptional"
+      },
+      {
+        "text": "Damn straight.  People should learn to fend for themselves.",
+        "topic": "TALK_RC_John_Bailey_ToughLove"
+      },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Trauma",
+    "dynamic_line": "\"Yeah, I, uh… I know a bit about that stuff.  Hard not to empathize, especially when I know I'm not quite as hard as others, by sheer luck.  Besides, there are so few of us left now.  What's the point in wasting time judging other people for how hard they took the end of the world?\"",
+    "responses": [
+      {
+        "text": "It sounds like you have some past there.  You want to talk about it?",
+        "topic": "TALK_RC_John_Bailey_Trauma2"
+      },
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Trauma2",
+    "dynamic_line": "\"Not really, no.  It's old stuff, and there's enough going on.  Let's just say I'm no stranger to loss, either my own or others'.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Exceptional",
+    "dynamic_line": "*raises an eyebrow.  \"I don't know about that.  You should be careful about thinking people who don't make the same choices as you are inferior.  Sure, not everyone's suited to scavenge, but a scavenger's got to have a safe home, too.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "Fuck that.  People should learn to fend for themselves.", "topic": "TALK_RC_John_Bailey_ToughLove" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_ToughLove",
+    "dynamic_line": "*rubs his stubble, looking thoughtful.  \"I agree it's important to be independent, but don't forget, working together is what makes us better than the undead.  It's how we got out of the trees and fields, and into civilization.  Anyway, I don't want to talk philosophy at you.  If you're doing well on your own, more power to you!\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      {
+        "text": "That's for the weaklings.  People like you and I are made of stronger stuff.",
+        "topic": "TALK_RC_John_Bailey_Exceptional"
+      },
+      {
+        "text": "I don't know, the zombies sure seem to work together to me.",
+        "topic": "TALK_RC_John_Bailey_ToughLove2"
+      },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_ToughLove2",
+    "dynamic_line": "*chuckles.  \"If you can call it that, sure.  So maybe we should do our best to be better at that than the zombies.  Seems pretty reasonable to me, and it's a pretty low bar to clear.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  }
 ]
