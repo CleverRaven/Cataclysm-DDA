@@ -32,12 +32,14 @@
         "     ..............     "
       ],
       "terrain": {
-        " ": [ [ "t_region_groundcover_urban", 4 ], "t_grass", "t_dirt" ],
-        ".": [ [ [ "t_sand", 10 ], "t_dirt", [ "t_mud", 10 ], [ "t_clay", 5 ] ],
-        ",": [ [ "t_region_groundcover_urban", 3 ], "t_mud" , "t_dirt" ],
-        "_": [ [ "t_sand", 25 ], "t_dirt", [ "t_mud", 25 ], [ "t_clay", 5 ] ],
-        "&": "t_dirtmound"
-      }
+        " ": [ [ "t_region_groundcover_urban", 4 ], "t_root_floor", "t_grass", "t_mega_fern" ],
+        ".": [ [ "t_region_groundcover_urban", 2 ], "t_underbrush" ],
+        ",": [ [ "t_region_groundcover_urban", 3 ], [ "t_underbrush", 7 ], "t_root_floor" ],
+        "_": [ [ "t_root_floor", 25 ], "t_mega_fern", [ "t_tree", 3 ], [ "t_tree_young", 2 ] ],
+        "&": "t_dirtmound",
+        "X": "t_dirtmound",
+        "Y": "t_dirtmound"
+      },
       "furniture": {
         " ": [
           [ "f_null", 18 ],
