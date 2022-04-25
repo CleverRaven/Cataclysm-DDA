@@ -30,7 +30,7 @@
   {
     "id": "mon_mussel_river",
     "type": "MONSTER",
-    "name": { "str_sp": "freshwater mussell" },
+    "name": { "str_sp": "freshwater mussel" },
     "description": "A tiny bivalve that inhabits rivers and lakes.  Dangerous to eat raw but properly cooked and cleaned it may serve as a fine dish.",
     "//": "this creature should be harvestable using crap pots or fish traps but requires extra work to convert from monster to item",
     "default_faction": "fish",
