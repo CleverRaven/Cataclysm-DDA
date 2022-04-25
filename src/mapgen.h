@@ -102,6 +102,7 @@ enum class mapgen_phase {
     nested_mapgen,
     transform,
     faction_ownership,
+    zones,
     last
 };
 

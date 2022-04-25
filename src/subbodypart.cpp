@@ -13,8 +13,6 @@
 #include "json.h"
 #include "type_id.h"
 
-const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
-
 namespace
 {
 
@@ -83,47 +81,6 @@ void sub_body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "side", part_side );
     optional( jo, was_loaded, "name_multiple", name_multiple );
     optional( jo, was_loaded, "opposite", opposite );
-}
-
-std::vector<translation> sub_body_part_type::consolidate( std::vector<sub_bodypart_id> &covered )
-{
-    std::vector<translation> to_return;
-    for( size_t i = 0; i < covered.size(); i++ ) {
-        const sub_bodypart_id &sbp = covered[i];
-        if( sbp == sub_body_part_sub_limb_debug ) {
-            // if we have already covered this value as a pair continue
-            continue;
-        }
-        sub_bodypart_id temp;
-        // if our sub part has an opposite
-        if( sbp->opposite != sub_body_part_sub_limb_debug ) {
-            temp = sbp->opposite;
-        } else {
-            // if it doesn't have an opposite add it to the return vector alone and continue
-            to_return.push_back( sbp->name );
-            continue;
-        }
-
-        bool found = false;
-        for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
-             ++sbp_it ) {
-            // go through each body part and test if its partner is there as well
-            if( temp == *sbp_it ) {
-                // add the multiple name not the single
-                to_return.push_back( sbp->name_multiple );
-                found = true;
-                // set the found part to a null value
-                *sbp_it = sub_body_part_sub_limb_debug;
-                break;
-            }
-        }
-        // if we didn't find its pair print it normally
-        if( !found ) {
-            to_return.push_back( sbp->name );
-        }
-    }
-
-    return to_return;
 }
 
 void sub_body_part_type::reset()

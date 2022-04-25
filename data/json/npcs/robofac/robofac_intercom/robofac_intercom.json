@@ -466,12 +466,20 @@
     "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
     "speaker_effect": {
       "effect": [
-        { "u_add_faction_trust": 2 },
-        { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
-        { "u_add_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-        { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-        { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "u_sell_item": "template_armor", "count": 1 }
+        {
+          "u_sell_item": "template_armor",
+          "count": 1,
+          "true_eocs": {
+            "id": "EOC_nano_ask",
+            "effect": [
+              { "u_add_faction_trust": 2 },
+              { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
+              { "u_add_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+              { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+              { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" }
+            ]
+          }
+        }
       ],
       "sentinel": "gave_armor_template"
     },
@@ -479,6 +487,11 @@
       { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll see you then.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_fema_data",
+    "effect": { "u_add_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
   },
   {
     "//": "These are all dialogues related to the breadcrumb quest from the refugee center to deliver a hard drive.",
@@ -504,15 +517,7 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [
-          { "u_sell_item": "fema_data", "count": 1 },
-          {
-            "u_add_var": "completed_free_merchants_hub_delivery_1",
-            "type": "dialogue",
-            "context": "intercom",
-            "value": "yes"
-          }
-        ],
+        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_END"
       },
       {
@@ -548,15 +553,7 @@
       {
         "text": "[Hand over the FEMA data.]",
         "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
-        "effect": [
-          { "u_sell_item": "fema_data", "count": 1 },
-          {
-            "u_add_var": "completed_free_merchants_hub_delivery_1",
-            "type": "dialogue",
-            "context": "intercom",
-            "value": "yes"
-          }
-        ],
+        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
       },
       {
