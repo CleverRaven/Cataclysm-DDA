@@ -398,7 +398,7 @@
     "id": "exo_jetpack",
     "type": "TOOL",
     "name": { "str": "exosuit dynamic maneuvering unit" },
-    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across impassible terrain.",
+    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across impassible terrain. The thrust is insufficent for flight in a gravity well, but can still launch you forward at extreme speed.",
     "weight": "500 g",
     "volume": "250 ml",
     "price": "10 kUSD",
