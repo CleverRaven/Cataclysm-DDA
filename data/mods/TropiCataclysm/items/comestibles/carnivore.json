@@ -11,7 +11,7 @@
     "price": 500,
     "price_postapoc": 50,
     "spoils_in": "12 hours",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 4.4 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 4 ], [ "iron", 1 ] ],
     "calories": 83
   },
   {
@@ -26,7 +26,7 @@
     "price": 500,
     "price_postapoc": 50,
     "spoils_in": "12 hours",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 3.4 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 3 ] ],
     "calories": 54
   }
 ]
