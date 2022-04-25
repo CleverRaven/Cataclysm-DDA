@@ -135,13 +135,13 @@
         { "chance": 45, "item": "toy_store", "x": 8, "y": 14 }
       ],
       "place_monsters": [
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 15 },
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 57, "y": 15 },
-        { "chance": 15, "density": 0.0, "monster": "GROUP_ZOMBIE", "x": 69, "y": 11 },
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 34 },
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 60, "y": 34 },
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 58 },
-        { "chance": 15, "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 60, "y": 58 }
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 15 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 57, "y": 15 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 69, "y": 11 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 34 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 60, "y": 34 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 12, "y": 58 },
+        { "density": 0.25, "monster": "GROUP_ZOMBIE", "x": 60, "y": 58 }
       ],
       "place_item": [
         { "item": "ketchup", "repeat": 1, "x": 65, "y": 16 },
