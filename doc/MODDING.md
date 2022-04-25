@@ -50,7 +50,7 @@ The `dependencies` attribute is used to tell Cataclysm that your mod is dependen
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
 
 ### File structure
-It's a good idea to put different categories of additions into different json files. Any json files that are present in the mod folder or its subfolders will be detected and read by Cataclysm, but otherwise, there are no restrictions on what you can put where. 
+It's a good idea to put different categories of additions into different json files. Any json files that are present in the mod folder or its subfolders will be detected and read by Cataclysm, but otherwise, there are no restrictions on what you can put where.
 
 ### JSON_INFO.md
 It's worth reading [JSON_INFO.md](JSON_INFO.md) to get a comprehensive list of everything you can do with these mods. The rest of this document will have a few examples to copy and paste, but it is by no means comprehensive. The base game's data is also defined in the same way as any mod you write, so taking a look through the game's json files (in `data/json`) can also teach you a lot. If the game finds any issues in your JSON syntax when you try to load a game world, it will spit out an error message, and you won't be able to load that game until the issue is fixed.
