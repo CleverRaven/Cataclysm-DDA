@@ -40,7 +40,7 @@
     "weight": "100 g",
     "hp": 3,
     "material": [ "flesh" ],
-    "symbol": "s",
+    "symbol": "o",
     "color": "brown",
     "aggression": -50,
     "morale": 5,
