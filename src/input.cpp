@@ -509,6 +509,8 @@ void input_manager::init_keycode_mapping()
     add_keyboard_char_keycode_pair( KEY_BREAK,     translate_marker_context( "key name", "BREAK" ) );
     add_keyboard_char_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
     add_keyboard_char_keycode_pair( '\n',          translate_marker_context( "key name", "RETURN" ) );
+    add_keyboard_char_keycode_pair( KEY_ENTER,
+                                    translate_marker_context( "key name", "KEYPAD_ENTER" ) );
 
     for( int c = 0; IS_CTRL_CHAR( c ); c++ ) {
         // Some codes fall into this range but have more common names we'd prefer to use.
