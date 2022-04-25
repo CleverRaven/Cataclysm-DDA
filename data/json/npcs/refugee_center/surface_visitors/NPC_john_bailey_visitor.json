@@ -4,10 +4,125 @@
     "id": "RC_John_Bailey_visiting",
     "//": "A survivor who sometimes visits the refugee center.",
     "name_suffix": "Survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_John_Bailey",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_RC_SURVIVOR_1",
+    "chat": "TALK_RC_John_Bailey_1",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_John_Bailey",
+    "name": { "str": "Survivor" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "A wandering survivor, a pretty tough and capable dude.  Represents an NPC version of a person much like the player.",
+    "bonus_str": 1,
+    "bonus_dex": 2,
+    "bonus_int": 1,
+    "bonus_per": 2,
+    "worn_override": "John_Bailey_worn",
+    "carry_override": "John_Bailey_carried",
+    "weapon_override": "John_Bailey_wield",
+    "traits": [
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "eye_brown" },
+      { "trait": "hair_brown_short" },
+      { "trait": "DEFT" },
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "TOUGH" }
+    ],
+    "proficiencies": [ "prof_metalworking", "prof_carving", "prof_carpentry_basic", "prof_spotting", "prof_food_prep" ],
+    "skills": [
+      { "skill": "computer", "bonus": 8 },
+      { "skill": "dodge", "bonus": 3 },
+      { "skill": "electronics", "bonus": 2 },
+      { "skill": "fabrication", "bonus": 3 },
+      { "skill": "firstaid", "bonus": 3 },
+      { "skill": "mechanics", "bonus": 4 },
+      { "skill": "melee", "bonus": 6 },
+      { "skill": "rifle", "bonus": 1 },
+      { "skill": "speech", "bonus": 3 },
+      { "skill": "stabbing", "bonus": 4 },
+      { "skill": "survival", "bonus": 3 },
+      { "skill": "swimming", "bonus": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "John_Bailey_worn",
+    "subtype": "collection",
+    "//": "Needs some editing, this is a quick version.  Should be equipped to last to mid-game at least, but feel mostly scavenged.",
+    "entries": [
+      { "item": "boots_combat" },
+      { "item": "socks" },
+      { "item": "armor_riot" },
+      { "item": "boxer_shorts" },
+      { "item": "police_belt" },
+      { "item": "pants_army" },
+      { "item": "leg_guards" },
+      { "item": "technician_shirt_gray" },
+      { "item": "jacket_army_modern" },
+      { "item": "spearsling" },
+      { "item": "tac_helmet" },
+      { "item": "molle_pack" },
+      { "item": "wristwatch" },
+      {
+        "item": "m4_carbine",
+        "variant": "m4a1",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": "shoulder_strap"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "John_Bailey_carried",
+    "subtype": "collection",
+    "//": "Needs some editing, and randomization.  Should carry a first aid kit, food and a bit of prep, and some random loot he's gathered from his travels.  We could pare down what he has on his person and move a bit more to his bike.",
+    "entries": [
+      { "group": "candy_chocolate" },
+      { "group": "snacks" },
+      { "group": "beer" },
+      { "group": "foodintincan" },
+      { "group": "charged_two_way_radio" },
+      { "group": "soup_packet" },
+      { "item": "dogfood_dry" },
+      { "item": "lighter", "charges": 100 },
+      { "item": "water_clean" },
+      { "item": "aspirin" },
+      { "item": "bandage" },
+      { "item": "pot" },
+      { "item": "merch", "count": 10 },
+      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
+      { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "John_Bailey_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "spear_pipe" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_John_Bailey",
+      "value": "yes",
+      "yes": "*looks up at you, taking a moment to place your face, then grins broadly.  He looks about the same as when you last saw him, perhaps a little more fit.  \"So, you're still playing on the 'living' team, huh?  Glad to see you're still kicking around.  Always good to run into a familiar face nowadays.\"",
+      "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair greying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
+    },
+    "speaker_effect": { "effect": [ { "u_add_var": "u_met_John_Bailey", "value": "yes" }, { "npc_first_topic": "TALK_RC_John_Bailey_1a" } ] },
+    "responses": [
+      {
+        "text": "Hi John.  What are you doing here?",
+        "topic": "TALK_RC_John_Bailey_2"
+      },
+      { "text": "Hi John, I'm afraid I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
   },
 ]
