@@ -4,12 +4,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },
       { "item": "young_leaves", "prob": 50, "count-min": 1, "count-max": 4 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "snail_garden", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "slug_garden", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "wild_garlic", "prob": 5, "count-min": 2, "count-max": 7 },
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },

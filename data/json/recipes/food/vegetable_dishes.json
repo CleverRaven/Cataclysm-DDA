@@ -24,7 +24,7 @@
         [ "veggy_wild_cooked", 2 ],
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
-        [ "young_leaves", 2 ],
+        [ "young_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
         [ "irradiated_cabbage", 2 ],
@@ -58,6 +58,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "wild_garlic", 2 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
       ]

@@ -1011,6 +1011,7 @@
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
+        [ "wild_garlic", 2 ],
         [ "veggy_wild_cooked", 2 ],
         [ "veggy_cooked", 2 ]
       ],
@@ -3887,7 +3888,7 @@
         [ "bacon", 2 ],
         [ "eggs_any_shape", 2, "LIST" ]
       ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
+      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "pepper", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3914,7 +3915,7 @@
         [ "morel_cooked", 1 ],
         [ "mushroom_cooked", 1 ]
       ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
+      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "wild_garlic", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -4753,6 +4754,7 @@
         [ "curry_powder", 20 ],
         [ "mustard_powder", 20 ],
         [ "garlic_clove", 6 ],
+        [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
         [ "corn_kernels", 1 ],
@@ -5097,7 +5099,7 @@
     "components": [
       [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ],
       [ [ "pine_nuts", 1 ] ],
-      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
+      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ], [ "wild_garlic", 2 ] ],
       [ [ "salt", 5 ], [ "seasoning_salt", 5 ] ]
     ]
   },
@@ -6694,6 +6696,7 @@
         [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
         [ "irradiated_onion", 2 ],
+        [ "wild_garlic", 4 ],
         [ "garlic_clove", 12 ],
         [ "irradiated_carrot", 4 ],
         [ "carrot", 4 ]
@@ -6987,6 +6990,7 @@
         [ "veggy_wild_cooked", 2 ],
         [ "fiddlehead_boiled", 2 ],
         [ "fiddlehead_sauteed", 2 ],
+        [ "young_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
         [ "irradiated_cabbage", 2 ],
@@ -7019,6 +7023,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "wild_garlic", 2 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
       ]
@@ -8626,6 +8631,7 @@
         [ "irradiated_corn", 12 ],
         [ "onion", 12 ],
         [ "irradiated_onion", 12 ],
+        [ "wild_garlic", 24 ],
         [ "garlic_clove", 72 ],
         [ "irradiated_carrot", 24 ],
         [ "carrot", 24 ]
@@ -9172,6 +9178,7 @@
         [ "seasoning_italian", 2 ],
         [ "wild_herbs", 2 ],
         [ "seasoning_salt", 2 ],
+        [ "wild_garlic", 1 ],
         [ "pepper", 2 ]
       ]
     ]

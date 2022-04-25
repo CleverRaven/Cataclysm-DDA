@@ -770,6 +770,7 @@
         [ "seasoning_italian", 1 ],
         [ "wild_herbs", 1 ],
         [ "soysauce", 1 ],
+        [ "wild_garlic", 1 ],
         [ "garlic_clove", 1 ]
       ]
     ]
@@ -984,6 +985,7 @@
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
         [ "carrot_wild", 1 ],
+        [ "wild_garlic", 2 ],
         [ "spinach", 1 ]
       ]
     ]
