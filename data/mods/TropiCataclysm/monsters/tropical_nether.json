@@ -194,8 +194,8 @@
   {
     "id": "mon_jellyfish_box",
     "type": "MONSTER",
-    "name": { "str": "cube jelly", "str_pl": "cube jellies" },
-    "description": "An alien creature brought by the portal storms.  It vaguely resembles a box jellyfish with a translucent body.",
+    "name": { "str_sp": "sea papalotl" },
+    "description": "An alien creature brought by the portal storms.  It vaguely resembles a floating box jellyfish with a translucent body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
     "species": [ "NETHER" ],
