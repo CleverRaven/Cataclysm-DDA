@@ -52,7 +52,7 @@
     "dissect": "dissect_gastropod_sample_single",
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "ARTHROPOD_BLOOD", "INMOVILE" ]
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_snail_forest",
