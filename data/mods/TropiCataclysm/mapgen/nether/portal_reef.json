@@ -35,7 +35,7 @@
         " ": [ [ "t_region_groundcover_urban", 4 ], "t_sand", "t_grass", "t_dirt" ],
         ".": [ [ "t_region_groundcover_urban", 2 ], "t_underbrush" ],
         ",": [ [ "t_region_groundcover_urban", 3 ], [ "t_underbrush", 7 ], "t_sand" ],
-        "_": [ [ "t_sand", 25 ], "t_mud", [ "t_alien_anemone", 3 ], [ "t_alient_chrinoid", 2 ] ],
+        "_": [ [ "t_sand", 25 ], "t_mud", [ "t_alien_anemone", 3 ], [ "t_alien_chrinoid", 2 ] ],
         "&": "t_dirtmound"
       },
       "furniture": {
