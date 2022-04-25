@@ -626,7 +626,7 @@
     "description": "An alien creature brought by the portal storms.  It resembles a bulky beaked fish with colored scales and fins like a parrot or macaw."
   },
   {
-    "id": "mon_fish_astroaspis",
+    "id": "mon_fish_astrolaspis",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_huge",
     "name": { "str": "astrolaspis", "str_pl": "astrolaspises" },
