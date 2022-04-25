@@ -1173,7 +1173,7 @@ bool item::combine( const item &rhs )
 
     }
     charges += rhs.charges;
-    if( !rhs.has_flag( flag_NO_PARASITES ) ){
+    if( !rhs.has_flag( flag_NO_PARASITES ) ) {
         unset_flag( flag_NO_PARASITES );
     }
     return true;
