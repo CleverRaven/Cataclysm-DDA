@@ -77,7 +77,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_aline_polyp",
+    "id": "t_alien_anemone",
     "name": "alien polyp",
     "description": "This is an alien creature resembling some kind of cnidarian like a hydra or anemone.  Probably not a good idea to touch or step on it.",
     "symbol": "*",
@@ -96,7 +96,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_aline_chrinoid",
+    "id": "t_alien_chrinoid",
     "name": "alien lily",
     "description": "This is an alien creature resembling some kind of sea lily.  Its feathery arms spread open like palm tree to catch the aero plankton in the area.",
     "symbol": "*",
