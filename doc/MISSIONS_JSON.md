@@ -20,13 +20,13 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
-      "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
-      "accepted": "Fuck ya, America!",
+      "offer": "Thanks to your searching we've got the black box but now we need to have a look inside her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside 'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
+      "accepted": "Fuck yeah, America!",
       "rejected": "Do you have any better ideas?",
-      "advice": "When I was play'n with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
+      "advice": "When I was playin' with the terminal for the one I ran into it kept asking for an ID card.  Finding one would be the first order of business.",
       "inquire": "How 'bout that black box?",
-      "success": "America, fuck ya!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
-      "success_lie": "What?!  I out'ta whip you're ass.",
+      "success": "America, fuck yeah!  I was in the guard a few years back so I'm confident I can make heads-or-tails of these transmissions.",
+      "success_lie": "What?!  I oughta whip your ass.",
       "failure": "Damn, I maybe we can find an egg-head to crack the terminal."
     }
   }

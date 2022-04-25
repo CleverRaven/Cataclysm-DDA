@@ -4811,8 +4811,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 break;
             }
         }
-        if( autoclave_finished ) {
+        if( autoclave_finished && !cur_veh.part_flag( part, VPFLAG_APPLIANCE ) ) {
             add_msg( _( "The autoclave in the %s has finished its cycle." ), cur_veh.name );
+        } else if( autoclave_finished ) {
+            add_msg( _( "The autoclave has finished its cycle." ) );
         }
     }
 

@@ -280,6 +280,25 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
   },
   {
+    "id": "folding_poncho",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "yellow",
+    "name": { "str": "rain poncho" },
+    "description": "A lightweight plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "280 g",
+    "volume": "250 ml",
+    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT" ],
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [ { "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+  },
+  {
     "id": "coat_straw",
     "type": "ARMOR",
     "name": { "str": "straw cape" },

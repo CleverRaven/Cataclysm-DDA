@@ -667,7 +667,14 @@
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
-    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "testflames",

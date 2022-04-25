@@ -62,7 +62,18 @@
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
-    "professions": [ "svictim", "tweaker" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "unemployed",
+      "homeless",
+      "hitchhiker",
+      "clown",
+      "lost_sub",
+      "spouse",
+      "musician",
+      "true_foodperson"
+    ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "LONE_START" ]
   },

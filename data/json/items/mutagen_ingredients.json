@@ -82,7 +82,7 @@
     "id": "elfa_sample",
     "copy-from": "mutagen_sample",
     "color": "light_green",
-    "name": { "str": "elf-a sample" },
+    "name": { "str": "Elf-A sample" },
     "description": "A slurry of responsibility.",
     "material": [ "veggy", "hblood" ]
   },

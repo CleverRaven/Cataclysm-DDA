@@ -3436,6 +3436,17 @@
   },
   {
     "type": "construction",
+    "id": "app_autoclave",
+    "group": "place_autoclave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 2 ] ],
+    "time": "6 m",
+    "components": [ [ [ "autoclave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_standing_lamp",
     "group": "place_standing_lamp",
     "category": "APPLIANCE",
@@ -5312,5 +5323,17 @@
     "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
     "pre_special": "check_down_OK",
     "post_terrain": "f_training_dummy_heavy"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clayoven",
+    "group": "build_clay_oven",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+    "time": "3 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_clay_oven"
   }
 ]

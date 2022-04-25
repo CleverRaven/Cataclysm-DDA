@@ -2194,8 +2194,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         if( !pos_inv.empty() ) {
@@ -2225,7 +2224,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                 om_set_hide_site( *comp, forest, losing_equipment );
             }
         } else {
-            popup( _( "You need equipment to setup a hide site…" ) );
+            popup( _( "You have nothing in your inventory to send to a hide site…" ) );
         }
     }
 }
@@ -2238,8 +2237,7 @@ void basecamp::start_relay_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         std::vector<item *> losing_equipment;

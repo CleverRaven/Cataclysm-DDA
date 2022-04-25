@@ -570,7 +570,7 @@ TEST_CASE( "check mutagen addiction effects", "[addiction]" )
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
         CHECK( totals.pain == 0 );
-        CHECK( max_iters * 100 - totals.focus == Approx( 1000 ).margin( 500 ) );
+        CHECK( max_iters * 100 - totals.focus == Approx( 1000 ).margin( 800 ) );
         CHECK( totals.str_bonus == max_iters * 8 );
         CHECK( totals.dex_bonus == max_iters * 8 );
         CHECK( totals.per_bonus == max_iters * 8 );

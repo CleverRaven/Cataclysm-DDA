@@ -12,5 +12,22 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "makeshift_vacuum_mold", 4 ], [ "vac_mold", 2 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "id": "tailoring_cotton",
+    "type": "requirement",
+    "//": "Crafting cotton items, per 101 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 22 ], [ "sheet_fibercloth", 22 ] ], [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "tailoring_cotton_patchwork",
+    "type": "requirement",
+    "//": "Crafting possibly-patchwork cotton items, per 101 g of cotton; 10 g + excessive weight of material is wasted, producing rags and cotton scraps as byproducts.  Time needed is usually 90 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet)",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "sheet_cotton", 22 ], [ "sheet_cotton_patchwork", 1 ], [ "sheet_fibercloth", 22 ] ],
+      [ [ "filament", 1, "LIST" ] ]
+    ]
   }
 ]

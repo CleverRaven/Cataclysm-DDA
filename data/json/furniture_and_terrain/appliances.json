@@ -577,6 +577,20 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_autoclave",
+    "name": { "str": "small autoclave" },
+    "looks_like": "f_autoclave",
+    "symbol": "D",
+    "location": "structure",
+    "color": "light_blue",
+    "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
+    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
+    "size": 200,
+    "copy-from": "autoclave",
+    "item": "autoclave"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_foot_locker_recharge_station",
     "name": { "str": "foot locker recharging station" },
     "symbol": "o",

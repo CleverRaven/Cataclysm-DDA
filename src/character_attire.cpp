@@ -1440,7 +1440,7 @@ units::volume outfit::free_space() const
     units::volume volume_capacity = 0_ml;
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -1508,7 +1508,7 @@ units::volume outfit::small_pocket_volume( const units::volume &threshold )  con
     units::volume small_spaces = 0_ml;
     for( const item &w : worn ) {
         if( !w.is_holster() ) {
-            for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
                 if( pocket->volume_capacity() <= threshold ) {
                     small_spaces += pocket->volume_capacity();
                 }
@@ -1829,6 +1829,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     std::map<bodypart_id, int> total_warmth;
     for( const bodypart_id &bp : guy.get_all_body_parts() ) {
         double warmth_val = 0.0;
+        float limb_coverage = 0.0f;
         const float wetness_pct = guy.get_part_wetness_percentage( bp );
         for( const item &clothing : worn ) {
             if( !clothing.covers( bp ) ) {
@@ -1840,7 +1841,24 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
             if( !clothing.made_of( material_wool ) ) {
                 warmth_val *= 1.0 - 0.66 * wetness_pct;
             }
-            total_warmth[bp] += std::round( warmth_val );
+            // calculate how much of the limb the armor ideally covers
+            // idea being that an item that covers the shoulders and torso shouldn't
+            // heat the whole arm like it covers it
+            // TODO: fully configure this per armor entry
+            if( !clothing.has_sublocations() ) {
+                // if it doesn't have sublocations it has 100% covered
+                limb_coverage = 100;
+            } else {
+                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                    if( !clothing.covers( sbp ) ) {
+                        continue;
+                    }
+
+                    // TODO: handle non 100% sub body part coverages
+                    limb_coverage += sbp->max_coverage;
+                }
+            }
+            total_warmth[bp] += std::round( warmth_val * limb_coverage / 100.0f );
         }
         total_warmth[bp] += guy.get_effect_int( effect_heating_bionic, bp );
     }
@@ -2190,7 +2208,7 @@ int outfit::clatter_sound() const
     for( const item &i : worn ) {
         // if the item has noise making pockets we should check if they have clatered
         if( i.has_noisy_pockets() ) {
-            for( const item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
                 int noise_chance = pocket->get_pocket_data()->activity_noise.chance;
                 int volume = pocket->get_pocket_data()->activity_noise.volume;
                 if( noise_chance > 0 && !pocket->empty() ) {
@@ -2232,7 +2250,7 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
     for( item &i : worn ) {
         // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
         if( i.has_ripoff_pockets() ) {
-            for( item_pocket *pocket : i.get_all_contained_pockets().value() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
                     pd.push_back( pocket );
                 }
