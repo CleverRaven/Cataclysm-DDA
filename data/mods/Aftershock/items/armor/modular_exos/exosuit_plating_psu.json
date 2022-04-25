@@ -15,7 +15,7 @@
     "non_functional": "damaged_exo_psu_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "torso" ],
         "coverage": 50,
         "encumbrance": 15
@@ -31,7 +31,7 @@
     "non_functional": "destroyed_exo_psu_steel",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso" ],
         "coverage": 40,
         "encumbrance": 15
@@ -60,7 +60,7 @@
     "non_functional": "destroyed_exo_psu_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "torso" ],
         "coverage": 50,
         "encumbrance": 15
@@ -76,7 +76,7 @@
     "non_functional": "destroyed_exo_psu_plastic",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "torso" ],
         "coverage": 40,
         "encumbrance": 15
