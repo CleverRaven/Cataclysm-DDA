@@ -170,6 +170,12 @@
     "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
   },
   {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "ink_standard", 1, "LIST" ], [ "pencil", 1 ], [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
     "id": "power_saw_long",
     "type": "requirement",
     "//": "Power tools able to make long, straight cuts",

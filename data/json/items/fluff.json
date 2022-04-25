@@ -32,6 +32,13 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "deck_of_cards_makeshift",
+    "type": "GENERIC",
+    "copy-from": "deck_of_cards",
+    "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
+    "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple design drawn on them."
+  },
+  {
     "id": "family_photo",
     "type": "GENERIC",
     "//": "Unique mission item for the CITY_COP.",
