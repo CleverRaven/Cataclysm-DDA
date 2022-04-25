@@ -232,5 +232,57 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
     ]
-  }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Faction2",
+    "dynamic_line": "\"I'll be straight with you, I don't want to tell you too much about my people, okay?  You seem all right, don't get me wrong, but I've seen some scary fuckin' people out there, who come on all normal and then try to bite your face off when they get you alone.  Everyone's reaction to the world's end is a bit different.  Things are stable with my people now, but we don't really welcome new faces anymore.  I wish it weren't that way.  Maybe if you and I get to know each other better some day, I'll change my mind.\"",
+    "responses": [
+      { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
+      { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
+      { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Darius",
+    "dynamic_line": "\"Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anwyay.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.\"",
+    "responses": [
+      { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
+      { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
+      { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Intuition",
+    "dynamic_line": "\"Sometimes, I kinda wonder why other people *didn't* know things were going to go wrong.  Hindsight is twenty-twenty, I guess.  I'll be honest though, as much as I'd like to pat myself on the back, it wasn't me that figured it out.  When the really early riots started out, even though they were way up in the Midwest, my wife just had a bad feeling.  We'd been thinking of a getaway anyway, and I had some time off, so we took it as an excuse to get out to the cabin and wait for everything to blow over.  Here we are.  It wasn't so much knowing how things were going to go, more just straight luck that we trusted our - *her* - gut at the right time and lucked out.\"",
+    "responses": [
+      { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
+      { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
+      { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Doubt",
+    "dynamic_line": "*chuckles.  \"Lucky for me then it doesn't matter if you believe me.  I do gotta say though, it's funny you and I, a pair of actual real-live zombie hunters, are talking face to face and you think my *survival story* is the unlikely thing.\"",
+    "responses": [
+      { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
+      { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
+      { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
 ]
