@@ -167,7 +167,7 @@
   {
     "id": "mon_jellyfish_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "aer jelly", "str_pl": "aer jellies" },
+    "name": { "str": "aer jelly", "str_pl": "aer jellies" },
     "description": "A tiny flying alien creature brought by the portal storms.  It vaguely resembles a jellyfish with balloon-like body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -194,7 +194,7 @@
   {
     "id": "mon_jellyfish_box",
     "type": "MONSTER",
-    "name": { "str_sp": "cube jelly", "str_pl": "cube jellies" },
+    "name": { "str": "cube jelly", "str_pl": "cube jellies" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a box jellyfish with a translucent body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -232,7 +232,7 @@
     "speed": 50,
     "material": [ "flesh" ],
     "symbol": "J",
-    "color": "white_blue",
+    "color": "light_blue",
     "aggression": -50,
     "morale": 5,
     "melee_dice": 1,
@@ -362,7 +362,7 @@
   {
     "id": "mon_orthoceras_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "ballistoceras", "str_pl": "ballistocerae" },
+    "name": { "str": "ballistoceras", "str_pl": "ballistocerae" },
     "description": "A large alien flying creature brought by the portal storms.  It vaguely resembles a prehistoric cephalopod with a long straight shell.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -559,7 +559,7 @@
     "id": "mon_fish_cloudscale",
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_tiny",
-    "name": { "str": "cloudscale" },
+    "name": { "str": "cloud scale" },
     "description": "An alien creature brought by the portal storms.  It resembles a tiny tropical fish, its scales shifting color with the sky."
   },
   {
