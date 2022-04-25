@@ -102,27 +102,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Fatima_al_Jadir",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
-      "no": "Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share."
+    "dynamic_line": "*is a fit young woman dressed in smudged coveralls.  She looks at you with interest and concern.  \"Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Fatima_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "Nice to meet you too, Fatima.  I'm just passing through.",
-        "condition": { "not": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Fatima_1_firstmeet"
-      },
-      {
-        "text": "Hi, Fatima.  How are things?",
-        "condition": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Fatima_2"
-      },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Nice to meet you too, Fatima.  I'm just passing through.", "topic": "TALK_REFUGEE_Fatima_1_firstmeet" },
+      { "text": "Nice to meet you too, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_1a",
+    "dynamic_line": {
+      "and": [
+        "*futilely dusts a bit of grime on her coveralls, then looks at you.  \"",
+        [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Fatima.  How are things?", "topic": "TALK_REFUGEE_Fatima_2" },
+      { "text": "Hi, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
   {

@@ -87,33 +87,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_finale",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cave",
     "name": "cave",
     "sym": "C",

@@ -194,7 +194,9 @@
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 17, "charges-min": 0 },
       { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
     ]
   },
   {
@@ -223,6 +225,7 @@
       [ "unitard", 5 ],
       [ "hat_ball", 100 ],
       [ "helmet_ball", 80 ],
+      [ "shuttlecock", 10 ],
       [ "baseball", 100 ],
       [ "football", 100 ],
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },

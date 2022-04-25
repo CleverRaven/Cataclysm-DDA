@@ -2163,7 +2163,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
-            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem ) ) {
+            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem, zone_type_LOOT_CUSTOM ) ) {
                 continue;
             }
 
