@@ -33,12 +33,21 @@
       { "trait": "GOODCARDIO" },
       { "trait": "TOUGH" }
     ],
-    "proficiencies": [ "prof_metalworking", "prof_carving", "prof_carpentry_basic", "prof_spotting", "prof_food_prep" ],
+    "proficiencies": [
+      "prof_metalworking",
+      "prof_carpentry_basic",
+      "prof_spotting",
+      "prof_food_prep",
+      "prof_elec_soldering",
+      "prof_elec_circuits",
+      "prof_elec_semiconductors",
+      "prof_electromagnetics"
+    ],
     "skills": [
       { "skill": "computer", "bonus": 8 },
       { "skill": "cooking", "bonus": 2 },
       { "skill": "dodge", "bonus": 3 },
-      { "skill": "electronics", "bonus": 4 },
+      { "skill": "electronics", "bonus": 6 },
       { "skill": "fabrication", "bonus": 5 },
       { "skill": "firstaid", "bonus": 4 },
       { "skill": "mechanics", "bonus": 4 },
@@ -163,6 +172,11 @@
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
       { "text": "\"On your way\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
+      {
+        "text": "Got time to teach me anything?",
+        "topic": "TALK_RC_John_Bailey_Teach",
+        "condition": { "u_has_var": "John_Bailey_teach", "value": "yes" }
+      },
       { "text": "Sounds about the same as me, yep.  I'd better get back to it.", "topic": "TALK_DONE" }
     ]
   },
@@ -212,6 +226,8 @@
       { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
       { "text": "That seems like a pretty unlikely story.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -225,6 +241,8 @@
       { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
       { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -238,6 +256,8 @@
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
       { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -251,6 +271,8 @@
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
       { "text": "Your whole story seems a bit unlikely.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -264,6 +286,8 @@
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -288,6 +312,8 @@
         "text": "People should learn to fend for themselves, not just get you to hand everything to them.",
         "topic": "TALK_RC_John_Bailey_ToughLove"
       },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -300,6 +326,8 @@
     "responses": [
       { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
       { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -323,6 +351,8 @@
         "text": "Damn straight.  People should learn to fend for themselves.",
         "topic": "TALK_RC_John_Bailey_ToughLove"
       },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -342,6 +372,8 @@
         "topic": "TALK_RC_John_Bailey_ZKC"
       },
       { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -357,6 +389,8 @@
         "topic": "TALK_RC_John_Bailey_ZKC"
       },
       { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -374,6 +408,8 @@
       { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
       { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
       { "text": "Fuck that.  People should learn to fend for themselves.", "topic": "TALK_RC_John_Bailey_ToughLove" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -398,6 +434,8 @@
         "text": "I don't know, the zombies sure seem to work together to me.",
         "topic": "TALK_RC_John_Bailey_ToughLove2"
       },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -414,9 +452,69 @@
       },
       { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
       { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "Can you give me any advice?", "topic": "TALK_RC_John_Bailey_Advice" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
       { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Advice",
+    "dynamic_line": "\"Sure, I guess.  I don't know if I know anything you don't, you seem like you can handle yourself.  I've made it this far by not engaging whenever possible.  I'm never going to kill all the zombies out there.  Darius and I try not to fight if we can avoid it, and if we can't, we try to always have the advantage.  Numbers, weaponry, terrain.  Zombies are clumsy and stupid so we lead them across bushes and things to trip and stumble.  We take high ground and let them plough into ladders like idiots while we stick 'em with spears from above.  Mostly, though, we try not to be seen.  We use bikes instead of cars because they don't make noise and don't need gas, plus we can take forest trails and things and avoid traffic jams.  Those things are suicide.  We try to avoid the cities, and when we do go close, we stick to the outskirts and raid the outlying houses. In those, we keep crouched and try to get deep into the building fast, or down into the basement, so that little noises don't carry much and nothing from outside can see us.  Also, zombies being idiots, closing the blinds is a great move.  I always keep a crowbar for opening doors and windows, but I try not to use it if I can avoid it.  Darius can pick locks, which is slower but doesn't make noise.  We get a lot more mileage from raiding gas stations and other rural sites, where if there are a few zombies, we can usually lead them away.\"",
+    "responses": [
+      { "text": "What about things other than zombies?", "topic": "TALK_RC_John_Bailey_Advice2" },
+      { "text": "What did you used to do before?", "topic": "TALK_RC_John_Bailey_Background" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Advice2",
+    "dynamic_line": "\"Oh, jeez, yeah.  The world really went to shit, didn't it?  Well, I've seen some weird alien things.  Our rule is 'scared is better than dead'.  If we don't know what something is and how to kill it, we steer wide and clear.  One time I saw this flaming eyeball a long way off, I was scouting from a cell phone tower.  It made eye contact with me and I just started hallucinating shit.  Darius stopped me from falling right off the tower.  Stuff like that is why I think you have to be a bit off your rocker to travel these days unless you have no choice.  Anything we don't know, we turn around and pedal hard.  So far, we haven't met anything our bikes can't outrun.\"",
+    "responses": [
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Background",
+    "dynamic_line": "\"That's a tougher question than you might think.  I've had quite the life.  My dad was a mechanic, and when I was young I used to help around the shop quite a bit.  I started out thinking I was going to get into that line of work, but then I got sidetracked and wound up getting into computers and electrical work for a long time.  Did part of an electrical engineering degree, then decided it wasn't for me and quit that.  Spent a bit of time doing freelance electrical and programming work, then got recruited by a startup that was designing and programming medical equipment.  I was supposed to be a general technician, but through a weird series of events I wound up in sales, then management.  I hated management, and I'd made a big nest egg from my share stock, so I cashed out and tried to retire young.  That was a dumb move, I was bored as hell, so I finished off my degree and started doing on-call teaching work for shop, computers, math, and things like that at a college and high school level.  Just part time, and I spent the rest of my time outdoors, hiking and whatnot.\"",
+    "responses": [
+      {
+        "text": "That is one hell of a life.  You must have some useful skills to teach.",
+        "topic": "TALK_RC_John_Bailey_Teach"
+      },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Teach",
+    "dynamic_line": {
+      "npc_has_var": "John_Bailey_taught",
+      "value": "yes",
+      "yes": "\"Sorry, but that's all I have time for at the moment.  Darius is waiting outside.\"",
+      "no": "\"I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with.\""
+    },
+    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_teach", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Sure, let's talk trade.",
+        "topic": "TALK_TRAIN",
+        "condition": { "not": { "npc_has_var": "John_Bailey_taught", "value": "yes" } },
+        "effect": { "npc_add_var": "John_Bailey_taught", "value": "yes" }
+      },
+      { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "Thanks, I'll think about it.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I might take you up on that, but for now I've gotta go.", "topic": "TALK_DONE" }
     ]
   }
 ]
