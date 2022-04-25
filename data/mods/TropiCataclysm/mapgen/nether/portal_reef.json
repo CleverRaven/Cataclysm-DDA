@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "alien_reef" ],
+    "om_terrain": [ "portal_reef" ],
     "weight": 100,
     "object": {
       "rows": [
