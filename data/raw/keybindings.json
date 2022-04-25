@@ -836,7 +836,11 @@
   {
     "type": "keybinding",
     "id": "CONFIRM",
+<<<<<<< HEAD
     "name": "Confirm choice",
+=======
+    "name": "Confirm Choice",
+>>>>>>> fbc3587eb4 (Merge pull request #57139 from Qrox/keybindings)
     "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
   },
   {
