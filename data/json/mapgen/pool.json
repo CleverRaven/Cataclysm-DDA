@@ -2,7 +2,7 @@
   {
     "name": "GROUP_MAPGEN_POOL",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_zombie_swimmer", "weight": 4 } ]
+    "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_zombie_swimmer_base", "weight": 4 } ]
   },
   {
     "method": "json",
