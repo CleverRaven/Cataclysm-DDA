@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "monstergroup",
     "name": "GROUP_ALIEN_REEF",
     "default": "mon_shrimp_flying",
