@@ -35,6 +35,7 @@
         { "chance": 5, "item": "sex_lair", "x": 13, "y": 11 }
       ],
       "place_toilets": [ { "x": 19, "y": 2 }, { "x": 21, "y": 2 }, { "x": 21, "y": 8 } ],
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
       "rows": [
         "________________________",
         "S||||||||||||||||||||||_",
@@ -171,7 +172,7 @@
         { "chance": 10, "item": "harddrugs", "x": 3, "y": 14 },
         { "chance": 65, "item": "alcohol", "x": 21, "y": 3 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 19, "y": 10 } ],
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
       "place_toilets": [ { "x": 4, "y": 20 } ],
       "fill_ter": "t_floor",
       "rows": [
@@ -317,7 +318,7 @@
         { "chance": 75, "item": "bar_alcohol", "x": 12, "y": 20 },
         { "chance": 15, "item": "magazines", "x": 6, "y": 3 }
       ],
-      "place_monsters": [ { "chance": 10, "density": 0.0, "monster": "GROUP_RESORT_DANCERS", "x": 16, "y": 14 } ],
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
       "place_toilets": [ { "x": 2, "y": 17 }, { "x": 4, "y": 17 } ],
       "fill_ter": "t_floor",
       "rows": [
