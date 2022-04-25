@@ -48,6 +48,8 @@
 #include "weather.h"
 #include "weather_type.h"
 
+static const std::list<tripoint> aiming_circle = { tripoint( 0, 15, 0 ), tripoint( 1, 15, 0 ), tripoint( 2, 15, 0 ), tripoint( 3, 15, 0 ), tripoint( 4, 14, 0 ), tripoint( 5, 14, 0 ), tripoint( 6, 14, 0 ), tripoint( 7, 13, 0 ), tripoint( 8, 13, 0 ), tripoint( 9, 12, 0 ), tripoint( 10, 11, 0 ), tripoint( 11, 10, 0 ), tripoint( 12, 9, 0 ), tripoint( 13, 8, 0 ), tripoint( 13, 7, 0 ), tripoint( 14, 6, 0 ), tripoint( 14, 5, 0 ), tripoint( 14, 4, 0 ), tripoint( 15, 3, 0 ), tripoint( 15, 2, 0 ), tripoint( 15, 1, 0 ), tripoint( 15, 0, 0 ) };
+
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -1029,6 +1031,16 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         if( origin.z == target_z ) {
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
+
+        // reduce view if aiming
+        if( get_avatar().activity.id() == activity_id( "ACT_AIM" ) ) {
+            for( const tripoint &loc : aiming_circle ) {
+                // If we're crouching or prone behind an obstacle, we can't see past it.
+                //if( ( loc.x < p.x - 2 || loc.x > p.x + 2 ) || loc.y - p.y > 0 ) {
+                get_cache( target_z ).seen_cache[loc.x + origin.x][loc.y + origin.y] = LIGHT_TRANSPARENCY_SOLID;
+                //}
+            }
+        }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
             directions_to_cast );
@@ -1111,6 +1123,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
+
+
 }
 
 //Schraudolph's algorithm with John's constants

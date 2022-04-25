@@ -2095,6 +2095,11 @@ class map
             const tripoint &from, const tripoint &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+
+        // returns all the tripoints that lie on a circle
+        std::vector<tripoint> points_on_circle( const tripoint &center, size_t radius,
+                                                size_t radiusz = 0 ) const;
+
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).
