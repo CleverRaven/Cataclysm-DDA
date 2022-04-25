@@ -3,3 +3,6 @@ The logic behind the Xedra Evolved: Imagine if the time from blob contamination 
 Then eventually the cataclysm occurs and Kaiju appear with natural disasters and the dead rise instantly and everything still collapses. But now the Exodii and interdimensional scavengers are here so if you start with CBMs they may recognize that you were part of an organization that hunted them.
 # I want to believe
 Classes and scenarios specific to this mod will likely revolve around either investigating Xedra or working for Xedra or another alphabet soup agency.  Each section of this mod will expand on various monster of the week ideas.   The first set of monsters I'm exploring are what if our world became contaminated by a Nether realm that is the origin of the Kindly Ones, the good people under the hill, the fae.  Future sections will revolve around whatever mythos has caught my attention that week and that I can create reasonable content for.   
+
+## Chapter 1 Hail Arcadia
+The first bit of content for Xedra Evolved revolves around a dimension that's relatively nearby in Nether terms, even pre-portal technology mankind had records of encounters with beings matching the descriptions of these creatures across multiple cultures and times.  Future additions will explore other avenues.
