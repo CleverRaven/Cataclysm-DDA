@@ -613,7 +613,7 @@
     "responses": [
       { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
       {
-        "text": "[INT 10] The armor pieces seemed warped.  Whatever you're using to reinforce the core of the material isn't strong enough.",
+        "text": "[INT 10] The pieces seemed warped.  Whatever you're using to reinforce the armor isn't strong enough.",
         "condition": { "u_has_intelligence": 10 },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
       }
