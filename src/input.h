@@ -44,7 +44,7 @@ static constexpr int KEY_HOME       =
     0x106;    /* home key */
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
 static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
