@@ -879,6 +879,25 @@ std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
         const std::map<std::string, std::string> &tab_names,
         const std::vector<std::string> &original_tab_list, bool translate = false );
 
+struct best_fit {
+    int start;
+    int length;
+};
+/**
+ * Algorith for finding the largest subset of varied-length items that fit in allowed_size
+ *
+ * @param size_of_items_to_fit: how much space the entries take up.  In a vertical list, height.  In a horizontal list, width.
+ * @param selected: the index of the currently selected item.  This index will be included in the 'best-fitting' subset
+ * @param allowed_size: the total height/width in which the entries need to fit
+ * @param spacer_size: the size, if any, of the spacers between entries.  In a tabbed list, tab_step or equivalent.
+ * @param continuation_marker_size: If a continuation marker will be added to the beginning or end
+ * (e.g. "<" or ">" in a horizontal list, the length of that marker.
+ * @return best_fit.start: start index in size_of_items_to_fit for the 'best-fitting' subset
+ * @return best_fit.length: number of entries in size_of_items_to_fit in the 'best-fitting' subset
+ */
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size = 0, const int &continuation_marker_size = 0 );
+
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
                      int iContentHeight, int iNumLines, const point &offset = point_zero,
