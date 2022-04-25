@@ -86,7 +86,7 @@
   {
     "id": "mon_seastar_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "tripod star" },
+    "name": { "str_sp": "triglav star" },
     "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a sea star crawling on three spindly legs.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -140,7 +140,7 @@
   {
     "id": "mon_cucumber_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "thorn zuccini" },
+    "name": { "str_sp": "thornothurian" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a sea cucumber with a set of thorns running on its body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
