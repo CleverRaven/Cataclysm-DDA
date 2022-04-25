@@ -35,7 +35,7 @@
         " ": [ [ "t_region_groundcover_urban", 4 ], "t_sand", "t_grass", "t_dirt" ],
         ".": [ [ "t_region_groundcover_urban", 2 ], "t_underbrush" ],
         ",": [ [ "t_region_groundcover_urban", 3 ], [ "t_underbrush", 7 ], "t_sand" ],
-        "_": [ [ "t_grass", 25 ], "t_dirt", [ "t_mud", 3 ], [ "t_sand", 2 ] ],
+        "_": [ [ "t_sand", 25 ], "t_mud", [ "t_alien_anemone", 3 ], [ "t_alient_chrinoid", 2 ] ],
         "&": "t_dirtmound"
       },
       "furniture": {
@@ -48,8 +48,8 @@
           "f_brambles"
         ],
         ".": [ [ "f_null", 18 ], [ "f_boulder_small", 4 ], [ "f_boulder_medium", 3 ] ],
-        ",": [ [ "f_null", 12 ], [ "f_alien_anemone", 2 ], "f_alien_chrinoid" ],
-        "_": [ [ "f_null", 10 ], [ "f_alien_chrinoid", 2 ], "f_alien_anemone" ],
+        ",": [ [ "f_null", 12 ], [ "f_alien_sponge", 2 ], "f_alien_coral_a" ],
+        "_": [ [ "f_null", 10 ], [ "f_alien_coral_b", 2 ], "f_alien_sponge" ],
         "&": [ [ "f_alien_coral_a", 33 ], [ "f_alien_coral_b", 33 ], [ "f_alien_coral_c", 33 ], "f_alien_sponge" ]
       }
     }
