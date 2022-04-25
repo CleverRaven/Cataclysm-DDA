@@ -44,7 +44,6 @@
       { "item": "leggings" },
       { "item": "boy_shorts" },
       { "item": "briefs" },
-      { "item": "panties" },
       { "item": "under_armor_shorts" }
     ]
   },
@@ -53,7 +52,7 @@
     "type": "item_group",
     "//": "assortment of practical socks characters would wear during the apocalypse",
     "subtype": "distribution",
-    "items": [ { "item": "socks" }, { "item": "socks_wool" } ]
+    "items": [ { "item": "socks" }, { "item": "socks_wool" }, { "item": "socks_ankle" } ]
   },
   {
     "id": "practical_shoes",
