@@ -1214,6 +1214,7 @@
       [ [ "duct_tape", 100 ] ]
     ],
     "proficiencies": [
+      { "proficiency": "prof_furriery" },
       { "proficiency": "prof_millinery" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_plasticworking" },
