@@ -3831,6 +3831,13 @@
   },
   {
     "type": "keybinding",
+    "category": "PLAYER_INFO",
+    "id": "VIEW_BODYSTAT",
+    "name": "View character's body status",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",

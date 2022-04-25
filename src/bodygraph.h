@@ -7,9 +7,6 @@
 #include "color.h"
 #include "type_id.h"
 
-#define BPGRAPH_MAXROWS 20
-#define BPGRAPH_MAXCOLS 60
-
 class JsonObject;
 
 struct bodygraph_part {
@@ -43,5 +40,7 @@ struct bodygraph {
     void finalize();
     void check() const;
 };
+
+void display_bodygraph( const bodygraph_id &id = bodygraph_id::NULL_ID() );
 
 #endif // CATA_SRC_BODYGRAPH_H
