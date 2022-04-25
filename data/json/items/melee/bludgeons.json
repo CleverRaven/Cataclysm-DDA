@@ -1084,7 +1084,7 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
-    "bashing": 10,
+    "bashing": 26,
     "cutting": 3,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "flags": [ "STAB" ],
