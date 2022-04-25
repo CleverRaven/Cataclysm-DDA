@@ -11,6 +11,8 @@
 #include "trade_ui.h"
 #include "units_fwd.h"
 
+constexpr char const *VAR_TRADE_IGNORE = "trade_ignore";
+
 class Character;
 class item;
 class npc;
@@ -44,6 +46,7 @@ namespace npc_trading
 {
 bool pay_npc( npc &np, int cost );
 
+int bionic_install_price( Character &installer, Character &patient, item_location const &bionic );
 int adjusted_price( item const *it, int amount, Character const &buyer, Character const &seller );
 int trading_price( Character const &buyer, Character const &seller,
                    trade_selector::entry_t const &it );
