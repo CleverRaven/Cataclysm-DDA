@@ -149,6 +149,15 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     return std::max( adjust, 1.0 );
 }
 
+int npc_trading::bionic_install_price( Character &installer, Character &patient,
+                                       item_location const &bionic )
+{
+    return bionic->price( true ) * 2 +
+           ( bionic->is_owned_by( patient )
+             ? 0
+             : npc_trading::trading_price( patient, installer, { bionic, 1 } ) );
+}
+
 int npc_trading::adjusted_price( item const *it, int amount, Character const &buyer,
                                  Character const &seller )
 {
