@@ -118,11 +118,119 @@
     },
     "speaker_effect": { "effect": [ { "u_add_var": "u_met_John_Bailey", "value": "yes" }, { "npc_first_topic": "TALK_RC_John_Bailey_1a" } ] },
     "responses": [
-      {
-        "text": "Hi John.  What are you doing here?",
-        "topic": "TALK_RC_John_Bailey_2"
-      },
+      { "text": "Hi John.  What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Hi John, I'm afraid I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_1a",
+    "dynamic_line": "*nods as you approach, then smiles and stretches casually.  \"Anything I can do for you, friend?\"",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
+      { "text": "You looking for any kind of work?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "Not at the moment, thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_2",
+    "dynamic_line": {
+      "and": [
+        {
+          "u_has_var": "John_Bailey_Convo",
+          "context": "RC_John_Bailey_2",
+          "value": "seen",
+          "yes": "\"Like I said,\" John shrugs.  \"I'm just checking\u00A0",
+          "no": "\"Same as you, I imagine,\" John shrugs.  \"Checking\u00A0"
+        },
+        "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right.\""
+      ]
+    },
+    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_Convo", "context": "RC_John_Bailey_2", "value": "seen" } },
+    "responses": [
+      { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
+      { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
+      { "text": "\"On your way\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "Sounds about the same as me, yep.  I'd better get back to it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Shopping",
+    "dynamic_line": "\"I don't really know.  Food stocks aren't too bad for me and mine, I found a stock of canned goods early on that will last us for a while yet.  I don't use a gun if I can avoid it, too noisy.  I notice these guys seem to keep a lot of building supplies though, and trying to get a vehicle downtown to loot a hardware store or a lumberyard is suicide, so I think that's where they're going to get my money.  I wonder if they deliver.\"",
+    "responses": [
+      { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
+      { "text": "Where are you headed next?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "Who is \"you and yours\"?", "topic": "TALK_RC_John_Bailey_Faction" },
+      { "text": "Are you looking for work?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sounds about the same as me, yep.  I'd better get back to it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_RefCenter",
+    "dynamic_line": "\"You'd do better to talk to the people here about it.  Seems like a bunch of them gathered here in the early days of <the_cataclysm> and managed to make it through.  It's the biggest bunch of survivors I've found yet, but most of them hunker up in the basement.  I can understand the urge.  We've all been through way too much.  They say they don't have room for more people though, so I'm just here to do some shopping, see if there's work to be done, then move on.\"",
+    "responses": [
+      { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
+      { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_OnMyWay",
+    "dynamic_line": "\"Who can say, really?  I don't really have a strong plan.  Depends on how this trip goes.  Once my vehicle is full up, I'll have to head back to my hideout and check on everyone there.  I don't like being gone too long.\"",
+    "responses": [
+      { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
+      { "text": "Who is \"everyone\"?", "topic": "TALK_RC_John_Bailey_Faction" },
+      { "text": "Are you looking for work?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Faction",
+    "dynamic_line": "\"Huh, well, the short story is, I got my wife and kids out of town in the really, really early days.  She's got great intuition for stuff and when she told me to get ready to leave town, I figured at worst we'd have an unnecessary early spring vacation in my dad's old cabin, you know?  Obviously, turns out trusting her gut saved us all and then some.  Things were still tough, but from what I've heard, I might be the only person left on the Eastern Seaboard who still has his whole nuclear family.  Still got a lot of survivor's guilt for that… still lost everyone else.  Anyway, one thing led to another and we gathered a few other people that we watch out for.  My man Darius, he joined up early on and he and I do the scouting and scavenging and watch each others' backs.\"",
+    "responses": [
+      { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
+      { "text": "Tell me about Darius.", "topic": "TALK_RC_John_Bailey_Darius" },
+      { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
+      { "text": "That seems like a pretty unlikely story.", "topic": "TALK_RC_John_Bailey_Doubt" },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_Work",
+    "dynamic_line": "\"I do odd jobs if people need help.  Not on a volunteer basis you understand, but I try not to be unfair about it either.  Lots of people need a bit of help these days, often just with little things a scavenger like me can find for them.  It's easy for folks like you and me to underestimate how scared a lot of people are to go back out in that place.  The situation's bad enough as it is, but these kind of people took refuge back when it was true chaos out there.  Lots of trauma to unpack there.  Anyway, if there's little things I can do for them, I try to help where I can, so long as it doesn't put me in too much danger.\"",
+    "responses": [
+      {
+        "text": "You look like you can handle yourself in a fight.  What's your zombie kill count?",
+        "topic": "TALK_RC_John_Bailey_ZKC"
+      },
+      { "text": "I could use someone like you.  Want to travel with me?", "topic": "TALK_RC_John_Bailey_Join" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      { "text": "You seem to know a lot about how people feel.", "topic": "TALK_RC_John_Bailey_Trauma" },
+      {
+        "text": "You've got that right.  People like you and I are made of stronger stuff.",
+        "topic": "TALK_RC_John_Bailey_Exceptional"
+      },
+      {
+        "text": "People should learn to fend for themselves, not just get you to hand everything to them.",
+        "topic": "TALK_RC_John_Bailey_ToughLove"
+      },
+      { "text": "Let's change the subject.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  }
 ]
