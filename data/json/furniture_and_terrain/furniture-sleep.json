@@ -60,6 +60,41 @@
   },
   {
     "type": "furniture",
+    "id": "f_triple_bunkbed",
+    "name": "triple bunk bed",
+    "symbol": "#",
+    "looks_like": "f_bed",
+    "description": ".",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "mattress", "count": 3 },
+        { "item": "pipe", "count": 28 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "sheet_metal_small", "count": 12 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 8, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "rag", "count": [ 120, 160 ] },
+        { "item": "scrap", "count": [ 60, 100 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_bed_frame",
     "name": "bed frame",
     "symbol": "#",

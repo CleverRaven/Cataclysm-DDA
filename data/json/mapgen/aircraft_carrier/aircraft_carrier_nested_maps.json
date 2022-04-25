@@ -1,0 +1,20 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crates_supplies_mechanics",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "Ж" ], "palettes": [ "aircraft_carrier_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crates_armament_milspec",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "ж" ], "palettes": [ "aircraft_carrier_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crates_random_supply",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "Ω" ], "palettes": [ "aircraft_carrier_palette" ] }
+  }
+]
