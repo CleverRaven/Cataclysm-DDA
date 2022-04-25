@@ -37,7 +37,7 @@
         ",": [ [ "t_region_groundcover_urban", 3 ], "t_mud" , "t_dirt" ],
         "_": [ [ "t_sand", 25 ], "t_dirt", [ "t_mud", 25 ], [ "t_clay", 5 ] ],
         "&": "t_dirtmound"
-      },
+      }
       "furniture": {
         " ": [
           [ "f_null", 18 ],
@@ -54,5 +54,4 @@
       }
     }
   }
-}
 ]
