@@ -749,7 +749,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
     const tripoint part1_pos = veh.global_part_pos3( c.part );
-    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    const tripoint part2_pos = veh2.global_part_pos3( c.target_part );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
