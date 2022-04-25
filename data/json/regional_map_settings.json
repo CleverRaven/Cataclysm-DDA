@@ -47,8 +47,7 @@
           "t_shrub_rose": 2,
           "t_shrub_hydrangea": 2,
           "t_shrub_lilac": 2,
-          "t_shrub_grape": 1,
-          "t_shrub_peanut": 1
+          "t_shrub_grape": 1
         },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
