@@ -3,7 +3,7 @@ concurrency: release
 on:
   push:
     branches:
-      - release_test
+      - master
     paths:
       - '.github/workflows/release.yml'
       - 'android/**'
