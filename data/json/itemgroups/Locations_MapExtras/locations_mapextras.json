@@ -193,7 +193,9 @@
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 17, "charges-min": 0 },
-      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 5, "charges": [ 0, 150 ] },
+      [ "camera_bag", 10 ],
       [ "chem_hexamine", 5 ],
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
       { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
@@ -262,6 +264,7 @@
       [ "fitover_sunglasses", 20 ],
       [ "fancy_sunglasses", 10 ],
       [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
       [ "wetsuit_spring", 10 ],
       [ "fishing_rod_professional", 30 ],
       [ "straw_hat", 80 ],

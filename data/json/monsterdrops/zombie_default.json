@@ -158,8 +158,10 @@
       },
       {
         "distribution": [
-          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
-          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
+          { "item": "camera", "prob": 40, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera", "container-item": "camera_bag", "prob": 30, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 10, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "container-item": "camera_bag", "prob": 20, "charges-min": 0, "charges-max": 50 }
         ],
         "prob": 10
       }
