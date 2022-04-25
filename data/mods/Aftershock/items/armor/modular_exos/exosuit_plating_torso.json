@@ -20,16 +20,23 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
   {
     "id": "damaged_exo_torso_steel_plate",
     "type": "ARMOR",
-    "copy-from": "exo_helmet_steel",
+    "copy-from": "exo_torso_steel",
     "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
-    "description": "The remains of a steel torso	plate after taking a strong impact.  Can be repaired in the field.",
-    "looks_like": "exo_helmet_steel",
+    "description": "The remains of a steel torso plate after taking a strong impact.  Can be repaired in the field.",
+    "looks_like": "exo_torso_steel",
     "non_functional": "destroyed_exo_helmet_steel_plate",
     "armor": [
       {
@@ -37,6 +44,13 @@
         "covers": [ "torso" ],
         "coverage": 85,
         "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 85,
+        "encumbrance": 10
       }
     ]
   },
@@ -65,27 +79,38 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 10
       }
     ]
   },
   {
-    "id": "damaged_exo_torso_plastic",
+    "id": "damaged_exo_torso_plastic_plate",
     "type": "ARMOR",
-    "category": "exosuit",
-    "copy-from": "exo_torso_steel",
-    "name": { "str": "damaged plastic torso plate (exosuit)", "str_pl": "damaged plastic torso plates (exosuit)" },
+    "copy-from": "exo_torso_plastic",
+    "name": { "str": "damaged plastic helmet plate (exosuit)", "str_pl": "damaged plastic helmet plates (exosuit)" },
     "description": "The remains of a plastic torso plate after taking a strong impact.  Can be repaired in the field.",
-    "weight": "3432 g",
-    "volume": "8 L",
-    "material": [ "plastic" ],
-    "non_functional": "destroyed_exo_torso_plastic_plate",
+    "looks_like": "exo_torso_plastic",
+    "non_functional": "destroyed_exo_helmet_plastic_plate",
     "armor": [
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "torso" ],
         "coverage": 85,
-        "encumbrance": 15
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 85,
+        "encumbrance": 10
       }
     ]
   },
@@ -108,14 +133,20 @@
     "weight": "44000 g",
     "volume": "8 L",
     "material": [ "vacuum_carbide" ],
-    "material_thickness": 6,
     "non_functional": "damaged_exo_torso_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 35
+      },
+      {
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 15
       }
     ]
   },
@@ -123,7 +154,7 @@
     "id": "damaged_exo_torso_vcc",
     "type": "ARMOR",
     "category": "exosuit",
-    "copy-from": "exo_torso_steel",
+    "copy-from": "exo_torso_vcc",
     "name": { "str": "damaged carbide torso plate (exosuit)", "str_pl": "damaged carbide torso plates (exosuit)" },
     "description": "The remains of a carbide torso plate after taking a strong impact.",
     "weight": "44000 g",
@@ -132,10 +163,17 @@
     "non_functional": "destroyed_exo_torso_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 85,
         "encumbrance": 35
+      },
+      {
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
+        "coverage": 85,
+        "encumbrance": 15
       }
     ]
   },
