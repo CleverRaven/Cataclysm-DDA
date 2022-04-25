@@ -505,6 +505,7 @@ void input_manager::init_keycode_mapping()
     add_keyboard_char_keycode_pair( KEY_ESCAPE,    translate_marker_context( "key name", "ESC" ) );
     add_keyboard_char_keycode_pair( KEY_BACKSPACE,
                                     translate_marker_context( "key name", "BACKSPACE" ) );
+    add_keyboard_char_keycode_pair( KEY_DC,        translate_marker_context( "key name", "DELETE" ) );
     add_keyboard_char_keycode_pair( KEY_HOME,      translate_marker_context( "key name", "HOME" ) );
     add_keyboard_char_keycode_pair( KEY_BREAK,     translate_marker_context( "key name", "BREAK" ) );
     add_keyboard_char_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
