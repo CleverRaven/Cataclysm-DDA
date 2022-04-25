@@ -13,12 +13,29 @@
     "color": "light_gray",
     "warmth": 25,
     "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_TORSO_PLATE" ],
-    "non_functional": "destroyed_exo_torso_steel",
+    "non_functional": "damaged_exo_torso_steel_plate",
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "torso" ],
         "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_torso_steel_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
+    "description": "The remains of a steel torso	plate after taking a strong impact.  Can be repaired in the field.",
+    "looks_like": "exo_helmet_steel",
+    "non_functional": "destroyed_exo_helmet_steel_plate",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso" ],
+        "coverage": 85,
         "encumbrance": 25
       }
     ]
