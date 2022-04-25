@@ -212,7 +212,6 @@
     "looks_like": "microwave",
     "weight": "40860 g",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "volume": "27 L",
     "price": 100000,
     "to_hit": -10,
@@ -221,100 +220,6 @@
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [ "large_storage_battery", "storage_battery" ]
-      }
-    ]
-  },
-  {
-    "id": "vac_oven_small_full",
-    "type": "TOOL",
-    "name": { "str": "filled small vacuum oven" },
-    "description": "A small vacuum oven filled with extract ready to be purged of residual solvents.",
-    "looks_like": "microwave",
-    "weight": "40860 g",
-    "volume": "27 L",
-    "price": 100000,
-    "to_hit": -10,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "symbol": "E",
-    "color": "dark_gray",
-    "use_action": {
-      "target": "vac_oven_small_on",
-      "msg": "You turn on the vacuum oven and pump.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The vacuum oven's batteries need more charge.",
-      "type": "transform"
-    },
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [ "large_storage_battery", "storage_battery" ]
-      }
-    ]
-  },
-  {
-    "id": "vac_oven_small_on",
-    "type": "TOOL",
-    "name": { "str": "small vacuum oven (on)", "str_pl": "small vacuum ovens (on)" },
-    "description": "A small vacuum oven filled with extract currently purging out all residual solvents.  This process takes about 72hrs.",
-    "looks_like": "microwave",
-    "weight": "40952 g",
-    "volume": "27 L",
-    "price": 100000,
-    "to_hit": -10,
-    "bashing": 10,
-    "ammo": [ "battery" ],
-    "power_draw": 120000,
-    "revert_to": "vac_oven_small_full",
-    "charges_per_use": 1,
-    "material": [ "steel" ],
-    "symbol": "E",
-    "color": "dark_gray",
-    "use_action": {
-      "target": "vac_oven_small_done",
-      "msg": "The vacuum oven is done purging.  Your shatter is ready!",
-      "active": false,
-      "moves": 0,
-      "type": "delayed_transform",
-      "transform_age": 259200,
-      "not_ready_msg": "The vacuum oven is still purging."
-    },
-    "flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [ "large_storage_battery", "storage_battery" ]
-      }
-    ]
-  },
-  {
-    "id": "vac_oven_small_done",
-    "type": "TOOL",
-    "name": { "str": "finished small vacuum oven" },
-    "description": "A small vacuum oven filled with extract ready to package up for consumption.  WooHoo!",
-    "looks_like": "microwave",
-    "weight": "40944 g",
-    "volume": "27 L",
-    "price": 100000,
-    "to_hit": -10,
-    "bashing": 10,
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "material": [ "steel" ],
-    "symbol": "E",
-    "color": "dark_gray",
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -339,66 +244,6 @@
     "material": [ "steel" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
-    "power_draw": 1500000,
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "closed_loop_extractor_small_on",
-      "msg": "You turn on the small closed loop extractor.",
-      "menu_text": "turn on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
-    "qualities": [ [ "EXTRACT", 2 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "closed_loop_extractor_small_on",
-    "type": "TOOL",
-    "name": { "str": "small closed loop extractor (on)", "str_pl": "small closed loop extractors (on)" },
-    "description": "The small closed loop extractor is running, it just needs some material to pack the tube with and an organic solvent like butane and it's good to go.",
-    "symbol": "E",
-    "color": "dark_gray",
-    "looks_like": "still",
-    "weight": "36000 g",
-    "volume": "60 L",
-    "price": 500000,
-    "to_hit": -10,
-    "bashing": 40,
-    "material": [ "steel" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-    "ammo": [ "battery" ],
-    "power_draw": 1500000,
-    "revert_to": "closed_loop_extractor_small",
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "closed_loop_extractor_small",
-      "msg": "You turn off the small closed loop extractor.",
-      "menu_text": "turn off",
-      "need_charges": 0,
-      "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
     "qualities": [ [ "EXTRACT", 2 ] ],
     "pocket_data": [
       {
@@ -437,65 +282,6 @@
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "closed_loop_extractor_large_on",
-      "msg": "You turn on the large closed loop extractor.",
-      "menu_text": "turn on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
-    "qualities": [ [ "EXTRACT", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "5 L",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "closed_loop_extractor_large_on",
-    "type": "TOOL",
-    "name": { "str": "large closed loop extractor (on)", "str_pl": "large closed loop extractors (on)" },
-    "description": "The large closed loop extractor is running, it just needs some material to pack the tube with and an organic solvent like butane and it's good to go.",
-    "looks_like": "still",
-    "weight": "181600 g",
-    "volume": "240 L",
-    "price": 2000000,
-    "to_hit": -10,
-    "bashing": 40,
-    "material": [ "steel" ],
-    "symbol": "E",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-    "ammo": [ "battery" ],
-    "power_draw": 1500000,
-    "revert_to": "closed_loop_extractor_large",
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "closed_loop_extractor_large",
-      "msg": "You turn off the large closed loop extractor.",
-      "menu_text": "turn off",
-      "need_charges": 0,
-      "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
-    },
     "qualities": [ [ "EXTRACT", 1 ] ],
     "pocket_data": [
       {
@@ -538,33 +324,43 @@
     "id": "filter_paper_qualitative",
     "type": "TOOL",
     "name": { "str_sp": "qualitative filter paper" },
-    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 2 microns, separating more solids out than quantitative filter paper but the process takes longer.",
+    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 2 microns, separating more solids out than quantitative filter paper but the process takes longer.  It's intended to be disposable, but you could probably use it for some time before it's unusable.",
     "symbol": "E",
     "color": "dark_gray",
     "looks_like": "paper",
     "weight": "20 g",
     "volume": "25 ml",
     "price": 100,
-    "to_hit": -1,
-    "cutting": 1,
+    "initial_charges": 200,
+    "max_charges": 200,
     "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
   },
   {
     "id": "filter_paper_quantitative",
+    "copy-from": "filter_paper_qualitative",
     "type": "TOOL",
     "name": { "str_sp": "quantitative filter paper" },
-    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 20 microns, separating less solids out than qualitative filter paper but the process is much faster.",
-    "symbol": "E",
-    "color": "dark_gray",
-    "looks_like": "paper",
-    "weight": "20 g",
-    "volume": "25 ml",
-    "price": 100,
-    "to_hit": -1,
-    "cutting": 1,
-    "material": [ "paper" ],
+    "description": "Filter paper for separating solids from liquids.  This filter paper has a rating of 20 microns, separating less solids out than qualitative filter paper but the process is much faster.  It's intended to be disposable, but you could probably use it for some time before it's unusable.",
     "qualities": [ [ "FILTER", 1 ] ]
+  },
+  {
+    "type": "TOOL",
+    "id": "gasket_plastic_set",
+    "name": { "str": "plastic gasket set" },
+    "description": "A set of three plastic gaskets.  They're intended to be single-use, but you could probably use it for some time before they're too worn out to use.",
+    "symbol": "(",
+    "color": "dark_gray",
+    "looks_like": "plastic_chunk",
+    "weight": "15 g",
+    "volume": "90 ml",
+    "price": 450,
+    "price_postapoc": 150,
+    "initial_charges": 200,
+    "max_charges": 200,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
+    "bashing": 1,
+    "material": [ "plastic" ]
   },
   {
     "id": "vac_pump",
@@ -582,65 +378,6 @@
     "material": [ "iron" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "use_action": {
-      "target": "vac_pump_on",
-      "msg": "You turn on the vacuum pump.",
-      "menu_text": "turn on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The vacuum pump's batteries need more charge.",
-      "type": "transform"
-    },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "500 ml",
-        "item_restriction": [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
-        ]
-      }
-    ]
-  },
-  {
-    "id": "vac_pump_on",
-    "type": "TOOL",
-    "name": { "str": "vacuum pump (on)", "str_pl": "vacuum pumps (on)" },
-    "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns).",
-    "symbol": "E",
-    "color": "dark_gray",
-    "looks_like": "motor",
-    "weight": "22700 g",
-    "volume": "6 L",
-    "price": 200000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "iron" ],
-    "ammo": [ "battery" ],
-    "power_draw": 600000,
-    "charges_per_use": 1,
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
-    "revert_to": "vac_pump",
-    "use_action": {
-      "target": "vac_pump",
-      "msg": "You turn off the vacuum pump.",
-      "menu_text": "turn off",
-      "active": false,
-      "need_charges": 1,
-      "need_charges_msg": "The vacuum pump's batteries need more charge.",
-      "type": "transform"
-    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1435,7 +1172,7 @@
       "description": "Touch the opening.",
       "effect_on_conditions": [
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_SLIGHT",
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
             { "u_message": "You have a slight feeling of being watched." },
@@ -1443,7 +1180,7 @@
           ]
         },
         {
-          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "id": "EOC_MIGO_BIO_TECH_INTEREST_INTENSE",
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
             { "u_message": "You have an intense feeling of being watched." },

@@ -15,6 +15,17 @@
     "color": "green",
     "location": "sling",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
-    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "covers": [ "torso" ],
+          "coverage": 5,
+          "encumbrance": 0,
+          "volume_encumber_modifier": 0.33,
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    }
   }
 ]

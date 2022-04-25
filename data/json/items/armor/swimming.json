@@ -4,6 +4,21 @@
     "type": "ARMOR",
     "name": { "str": "bikini bottom" },
     "description": "A simple bikini bottom.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_bikini_bottom",
+        "name": { "str": "bikini bottom" },
+        "description": "A simple bikini bottom.",
+        "weight": 90
+      },
+      {
+        "id": "flag_bikini_bottom",
+        "name": { "str": "flag bikini bottom" },
+        "description": "A simple bikini bottom embroidered with the pattern of an American flag",
+        "weight": 10
+      }
+    ],
     "weight": "32 g",
     "volume": "250 ml",
     "price": 1000,
@@ -12,10 +27,30 @@
     "symbol": "[",
     "looks_like": "panties",
     "color": "light_red",
-    "warmth": 5,
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 15, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+  },
+  {
+    "id": "flag_swimsuit",
+    "repairs_like": "leotard",
+    "type": "ARMOR",
+    "name": { "str": "flag swimsuit" },
+    "description": "A simple swimsuit embroidered with the pattern of an American flag.",
+    "weight": "136 g",
+    "volume": "750 ml",
+    "price": 1150,
+    "price_postapoc": 60,
+    "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
+    "symbol": "[",
+    "looks_like": "wetsuit_spring",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 60 },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+    ],
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
     "id": "trunks",
@@ -46,14 +81,16 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene" ],
     "symbol": "[",
-    "looks_like": "wetsuit_spring",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 14 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 11, 13 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+      {
+        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 11, 11 ]
+      }
     ],
     "pocket_data": [
       {
@@ -71,9 +108,8 @@
         "moves": 130
       }
     ],
-    "warmth": 50,
-    "material_thickness": 3,
-    "environmental_protection": 2,
+    "warmth": 30,
+    "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
@@ -85,7 +121,7 @@
     "volume": "1 L",
     "price": 4500,
     "price_postapoc": 250,
-    "material": [ "neoprene", "cotton" ],
+    "material": [ "neoprene" ],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "dark_gray",
@@ -202,8 +238,8 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "SWIM_GOGGLES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
+    "flags": [ "WATER_FRIENDLY", "SWIM_GOGGLES", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "wetsuit_gloves",
@@ -222,7 +258,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "SOFT" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   }
 ]

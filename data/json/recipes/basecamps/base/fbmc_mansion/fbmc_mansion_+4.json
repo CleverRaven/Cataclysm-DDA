@@ -19,7 +19,7 @@
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "tool_storage" },
-      { "id": "bed", "amount": 8 }
+      { "id": "bed", "amount": 16 }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",

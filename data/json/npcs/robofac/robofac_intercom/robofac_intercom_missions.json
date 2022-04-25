@@ -1,0 +1,316 @@
+[
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1",
+    "type": "mission_definition",
+    "name": { "str": "Return Field Data" },
+    "//": "This mission is assigned and completed using conditions in dialogue with the intercom. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_NULL",
+    "description": "Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 2, "random": true, "search_range": 10 },
+      "update_mapgen": {
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "          M             ",
+          "            b b         ",
+          "         b b b@bb       ",
+          "             b b        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
+        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
+        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "monster": { "M": { "monster": "mon_robofac_prototype" } }
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_OFFER",
+    "type": "talk_topic",
+    "dynamic_line": "One of our scientists recently left the building to perform a field test of a prototype robot, but failed to return.  We have not been able to contact them.  Your job would be to investigate the testing site, and return with her and the prototype.  Failing that, return with the data recorder that was attached to our prototype.",
+    "responses": [
+      { "text": "That seems trivial.  Is there a catch?", "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE" },
+      { "text": "Not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "There is.  If the robot is operational, it's very likely to be hostile and extremely dangerous.  If you try to fight it yourself, it WILL kill you.  Dr. Prado left the building with a handful of EMP grenades.  If you can locate those grenades, use them to disable the prototype instead.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where is the test site?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      { "text": "I'll pass on getting killed today, thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Very close by.\"  The voice lists off some relative coordinates.  \"Good luck.",
+    "responses": [ { "text": "I'll be back soon.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_INQUIRE",
+    "type": "talk_topic",
+    "dynamic_line": "You're back.  Do you have anything to report?",
+    "responses": [
+      {
+        "text": "Your scientist was dead, but I disabled the prototype.  Is this what you were looking for?  [Hand over the prototype I/O recorder.]",
+        "condition": { "u_has_item": "robofac_test_data" },
+        "effect": { "u_sell_item": "robofac_test_data" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE"
+      },
+      { "text": "Not yet.  I'll get back to it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_1_COMPLETE", "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent for a few seconds while the tray slides back in.  \"Yes it is.  It's unfortunate that only the data was salvageable, but you have our thanks for returning it nonetheless.\"",
+    "responses": [
+      { "text": "Alright, I've done my part.  What now?", "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_3" },
+      {
+        "text": "Is \"unfortunate\" how you usually describe someone being eviscerated by a robot?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2",
+    "type": "talk_topic",
+    "dynamic_line": "Dr. Prado knew the risks, and she chose to follow through with the test anyway.  Her death is cause for sadness, and it will affect us, but you didn't even know her.  At least now, something of her work will remain."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_3",
+    "type": "talk_topic",
+    "dynamic_line": "&The voice hesitates.  \"About that.  Give me a moment.\"  After a pause, you hear muffled back-and-forth conversation.  You can't make out what's being said, but you can make out at least two other distinct voices.",
+    "responses": [ { "text": "[Wait.]", "topic": "TALK_ROBOFAC_INTERCOM_1_JOBS" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2",
+    "type": "mission_definition",
+    "name": { "str": "Steal a dead man's mind" },
+    "description": "Find the corpse of a Hub 01's AI researcher and use the mind splicer kit to recover the memories stored inside their memory implant.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "item": "mind_scan_robofac",
+    "value": 1000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
+      "effect": [
+        { "u_spawn_item": "mind_splicer" },
+        { "u_spawn_item": "data_card" },
+        { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" }
+      ]
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_parking",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ]
+        },
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 6, "y": 7 } ]
+        }
+      ],
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_ROBOFAC_INTERCOM_3",
+    "dialogue": {
+      "describe": "…",
+      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.\n\nthe intercom: We offer the standard hazard pay of 4 HGC for this contract.",
+      "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
+      "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
+      "advice": "You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully…",
+      "inquire": "Do you have the scan?",
+      "success": "You have our thanks and payment.",
+      "success_lie": "What good does this do us?",
+      "failure": "Simply useless…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3",
+    "type": "mission_definition",
+    "name": { "str": "Light retrieval" },
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "item": "template_photonics",
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "office_tower_collapse_b_a0",
+        "om_special": "office_tower_collapsed",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 180,
+        "z": -1
+      },
+      "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
+    },
+    "end": { "effect": [ { "u_spawn_item": "RobofacCoin", "count": 8 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.\n\nthe intercom: Completion of this contract awards 8 HGC, the standard heightened-hazard rate.",
+      "accepted": "We expect your success, mercenary.",
+      "rejected": "Return if you change your mind.",
+      "advice": "The scout drone also revealed extensive heat signatures and high concentrations of toxic compounds within the ruins, plan accordingly.  We are willing to sell you some protective gear at a discount, if you require it.",
+      "inquire": "Have you retrieved the blueprints?",
+      "success": "You have our thanks and payment.",
+      "success_lie": "What good does this do us?",
+      "failure": "Simply useless…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Iron Safari" },
+    "description": "Disable and retrieve the alien robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 5,
+    "goal_condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
+    "value": 1000,
+    "start": {
+      "effect": [
+        { "u_spawn_item": "UPS_off", "count": 1 },
+        { "u_spawn_item": "heavy_battery_cell", "count": 1 },
+        { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
+        { "u_spawn_item": "hm12", "count": 1 }
+      ],
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 70 },
+      "update_mapgen": {
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "              M         ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": { "M": "t_dirt" },
+        "monster": { "M": { "monster": "mon_yrax_trifacet" } }
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_sell_item": "bot_yrax_trifacet", "count": 1 },
+        { "u_spawn_item": "RobofacCoin", "count": 2 },
+        {
+          "u_add_var": "completed_robofac_intercom_robot_sm_1",
+          "type": "dialogue",
+          "context": "intercom",
+          "value": "yes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "One of our scout drones spotted a partially malfunctioning 'unconventional' robot while tracking an anomalous radioactivity spike close by.  We project that much knowledge could be gained from a close examination of this subject, and you would be tasked to perform this retrieval operation for us.  We will equip you with a prototype gun and the knowledge fit for this purpose, if you accept.\n\nthe intercom: Completion of this contract awards 2 HGC, to compensate for the cost of the provided gear.",
+      "accepted": "Remember, the retrieved robot must remain operational, battered salvage is of no use to us.",
+      "rejected": "Regrettable, but understandable.  We will find someone else.",
+      "advice": "The hm12 will only stun the robot if you manage to hit its main sensory array.  After a stunning shot, you might proceed to the deactivation attempts by examining the robot from up close.  To safely perform this task, please review the provided documentation and pay special attention to the procedures detailed in subsections IV and VII.",
+      "inquire": "Have you found the robot?",
+      "success": "We expected nothing less.  We hope you found our prototype's performance to be satisfactory.",
+      "success_lie": "What good does this do us?",
+      "failure": "Simply useless…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Hazard Meteorology" },
+    "//": "This mission is completed when you first sell any piece of portal storm data.",
+    "goal": "MGOAL_CONDITION",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "difficulty": 5,
+    "value": 0,
+    "goal_condition": {
+      "u_has_var": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+      "type": "mission_goal",
+      "context": "intercom",
+      "value": "success"
+    },
+    "start": { "effect": [ { "u_spawn_item": "nre_recorder", "count": 1 }, { "u_spawn_item": "light_battery_cell", "count": 1 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "As we mentioned before, our research into the portal storm phenomena requires we obtain some additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for the completion of this contract.",
+      "accepted": "Excellent.  Please remember to exercise caution, the effects of the storms on human physiology remain poorly understood.",
+      "rejected": "That seems reasonable… all things considered.  Perhaps it'd be best to defer this contract until we can offer some better protection to our agents, I'll submit that as a suggestion.",
+      "advice": "Once the storm starts, it should be enough to walk outside while carrying the NRE as the recording requires no particular actions from your part.  Research insist on the fact that you must personally hold the NRE to take accurate measurements, so leaving it outside while you take shelter wont work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself…  Oh, you might want to obtain a high caliber firearm before attempting to take the measurements, just in case things start leaking into uhm… prime.",
+      "inquire": "Have you obtained the portal storm data?",
+      "success": "Excellent, we expected nothing less.",
+      "success_lie": "…",
+      "failure": "Simply useless…"
+    }
+  }
+]

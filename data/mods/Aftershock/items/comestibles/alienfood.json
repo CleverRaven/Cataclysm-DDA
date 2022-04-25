@@ -16,7 +16,7 @@
     "volume": "80 ml",
     "charges": 3,
     "fun": -8,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -35,7 +35,7 @@
     "volume": "75 ml",
     "charges": 3,
     "fun": -3,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitA", 20 ], [ "vitC", 56 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitC", 56 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -53,7 +53,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "meat_smoked"
   },
@@ -74,7 +74,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": "frostbitten human stomach",
-    "description": "A shriveled grey stomach, it hasn't seen use in a very long time.",
+    "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],
@@ -137,7 +137,7 @@
     "healthy": -5,
     "price_postapoc": 250,
     "calories": 1923,
-    "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing",
+    "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing.",
     "price": 500,
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ] ],
@@ -191,7 +191,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
@@ -208,7 +208,7 @@
     "price_postapoc": 100,
     "parasites": 0,
     "calories": 402,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -220,7 +220,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ], [ "mutant_toxin", 5 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "mutant_toxin", 5 ] ]
   },
   {
     "id": "alien_meat_scrap_cooked",
@@ -276,7 +276,7 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "mutant_toxin", 25 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -299,7 +299,7 @@
     "price_postapoc": 25,
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "id": "alien_liver_cooked",
@@ -328,7 +328,7 @@
     "fun": -20,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "id": "alien_brain_cooked",
@@ -355,7 +355,7 @@
     "price_postapoc": 25,
     "quench": -5,
     "calories": 54,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 155 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "id": "alien_kidney_cooked",
@@ -383,7 +383,7 @@
     "price_postapoc": 25,
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 20 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "id": "alien_sweetbread_cooked",

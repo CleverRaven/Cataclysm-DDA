@@ -18,6 +18,34 @@
     "color": "white"
   },
   {
+    "type": "GENERIC",
+    "id": "hammock",
+    "name": { "str": "hammock" },
+    "category": "tools",
+    "description": "A large sheet of cloth with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1664 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "2 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hammock_net",
+    "name": { "str": "net hammock" },
+    "category": "tools",
+    "description": "A large net with ropes on two sides.  Could be tied to something and then used as a sleeping place that is comfortable, but lacks warmth.",
+    "weight": "1584 g",
+    "price": 5000,
+    "price_postapoc": 250,
+    "color": "white",
+    "symbol": "=",
+    "material": [ "cotton" ],
+    "volume": "1500 ml"
+  },
+  {
     "id": "sheet",
     "type": "ARMOR",
     "name": { "str": "sheet" },
@@ -163,12 +191,38 @@
     ]
   },
   {
+    "id": "emer_blanket",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "light_gray",
+    "name": { "str": "emergency blanket" },
+    "description": "A blanket made of space-age material that covers your most important body parts.  It folds into a very compact form when not in use.",
+    "price": 425,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "weight": "622 g",
+    "volume": "500 ml",
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
+    "warmth": 50,
+    "environmental_protection": 1,
+    "material_thickness": 0.1,
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 90,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "sleeping_bag",
     "type": "ARMOR",
     "name": { "str": "sleeping bag" },
-    "description": "A large sleeping bag that covers you head to toe.  This one is medium weight.",
+    "description": "A large sleeping bag that covers you head to toe, with a strap for carrying it on back when not in use.  This one is medium weight.  It is currently used for warmth; activate it to carry it on back.",
     "weight": "1600 g",
-    "volume": "14 L",
+    "volume": "1 L",
     "price": 20500,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -210,7 +264,7 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER", "SOFT" ],
     "armor": [
       {
         "encumbrance": 80,

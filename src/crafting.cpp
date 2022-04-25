@@ -471,16 +471,21 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     return ret;
 }
 
+void outfit::get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const
+{
+    for( const auto &it : worn ) {
+        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
+        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
+    }
+}
+
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
     const item &weapon = get_wielded_item();
     conts = get_eligible_containers_recursive( weapon, true );
 
-    for( const auto &it : worn ) {
-        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
-        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
-    }
+    worn.get_eligible_containers_for_crafting( conts );
 
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
@@ -794,7 +799,7 @@ static item_location place_craft_or_disassembly(
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
-                // This almost certianly shouldn't happen
+                // This almost certainly shouldn't happen
                 put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
             }
         } else {
@@ -1844,14 +1849,14 @@ static void empty_buckets( Character &p )
 }
 
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter )
+        const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
+    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE, select_ind );
 }
 
 std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter,
-        const tripoint &origin, int radius )
+        const std::function<bool( const item & )> &filter, const tripoint &origin, int radius,
+        bool select_ind )
 {
     std::list<item> ret;
 
@@ -1872,7 +1877,8 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             std::list<item> tmp = m.use_charges( loc, radius, selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_amount( loc, radius, selected_comp.type, real_count, filter,
+                                                select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1882,7 +1888,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
@@ -1908,12 +1914,13 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
 std::list<item> Character::consume_items( const std::vector<item_comp> &components, int batch,
-        const std::function<bool( const item & )> &filter )
+        const std::function<bool( const item & )> &filter,
+        const std::function<bool( const itype_id & )> &select_ind )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    return consume_items( select_item_component( components, batch, map_inv, false, filter ), batch,
-                          filter );
+    comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, false, filter );
+    return consume_items( sel, batch, filter, select_ind( sel.comp.type ) );
 }
 
 bool Character::consume_software_container( const itype_id &software_id )

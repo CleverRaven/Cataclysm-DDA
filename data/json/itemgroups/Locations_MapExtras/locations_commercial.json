@@ -23,6 +23,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 95, 100 ] },
       { "item": "ref_lighter", "prob": 5, "charges": [ 40, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 19, 20 ] },
+      { "item": "ref_matches", "prob": 50, "charges": [ 31, 32 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
@@ -226,6 +227,10 @@
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
       [ "sword_cane", 5 ],
       [ "hollow_cane", 5 ],
+      [ "sinister_cane", 2 ],
+      [ "wizard_cane_cheap", 2 ],
+      [ "wizard_cane", 1 ],
+      { "group": "costume_jewelry", "prob": 1 },
       [ "advanced_ecig", 5 ],
       [ "television", 10 ],
       [ "microwave", 5 ],
@@ -423,6 +428,8 @@
       [ "cot", 40 ],
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
+      [ "hammock", 2 ],
+      [ "hammock_net", 1 ],
       [ "large_tent_kit", 17 ],
       [ "bat_metal", 60 ],
       [ "lawnmower", 25 ],
@@ -492,8 +499,8 @@
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
-      [ "oxygen_tank", 10 ],
-      [ "smoxygen_tank", 5 ],
+      { "item": "oxygen_tank", "prob": 10, "charges": 24 },
+      { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
       [ "clogs", 1 ],
       [ "speargun", 8 ],
       [ "minispeargun", 6 ],
@@ -579,16 +586,17 @@
       [ "straw_hat", 5 ],
       [ "straw_fedora", 5 ],
       [ "shark_suit", 1 ],
-      [ "chainmail_suit", 1 ],
-      [ "chainmail_hood", 2 ],
-      [ "chainmail_vest", 2 ],
-      [ "chainmail_arms", 2 ],
-      [ "chainmail_legs", 2 ],
-      [ "chainmail_feet", 2 ],
-      [ "chainmail_hands", 2 ],
+      [ "chainmail_junk_suit", 1 ],
+      [ "chainmail_junk_hood", 2 ],
+      [ "chainmail_junk_vest", 2 ],
+      [ "chainmail_junk_arms", 2 ],
+      [ "chainmail_junk_legs", 2 ],
+      [ "chainmail_junk_feet", 2 ],
+      [ "chainmail_junk_hands", 2 ],
       [ "motorbike_armor", 2 ],
       [ "motorbike_pants", 2 ],
       [ "motorbike_boots", 2 ],
+      [ "dragonskin", 2 ],
       [ "kittel", 1 ],
       [ "kippah", 3 ],
       [ "thawb", 2 ],
@@ -612,7 +620,8 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] }
+      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "costume_all_clothing", "prob": 10 }
     ]
   },
   {
@@ -794,6 +803,7 @@
       [ "cig", 39 ],
       [ "rolling_paper", 15 ],
       [ "wrapper", 25 ],
+      [ "wrapper_foil", 2 ],
       [ "mag_news", 40 ],
       [ "news_regional", 35 ],
       [ "coffee", 55 ],
@@ -808,6 +818,7 @@
     "entries": [
       { "item": "paper", "prob": 150, "count": [ 10, 30 ] },
       { "item": "wrapper", "prob": 25 },
+      { "item": "wrapper_foil", "prob": 1 },
       { "item": "bubblewrap", "prob": 25 },
       { "item": "scissors", "prob": 25 },
       { "item": "roadmap", "prob": 10 },
@@ -960,6 +971,7 @@
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
       { "item": "oj", "prob": 40 },
+      { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
@@ -975,6 +987,7 @@
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
       { "item": "oj", "prob": 40 },
+      { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
       { "item": "cranberry_juice", "prob": 35 },
       { "group": "softdrinks_canned", "prob": 95 },
@@ -985,7 +998,7 @@
       { "item": "mayonnaise", "prob": 3 },
       { "group": "ketchup_sealed_rng", "prob": 3 },
       { "group": "mustard_sealed_rng", "prob": 3 },
-      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 5, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "cheeseburger", "prob": 10 },
       { "item": "hamburger", "prob": 8 },
       { "item": "sloppyjoe", "prob": 6 },
@@ -999,11 +1012,13 @@
     "entries": [
       { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
       { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 45, "charges": [ 1, 32 ] },
       { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 },
@@ -1034,6 +1049,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "item": "bottle_glass", "prob": 50 },
       { "item": "bottle_plastic", "prob": 70 },
       { "item": "can_drink", "prob": 60 },
@@ -1654,12 +1670,15 @@
       { "item": "portable_game", "prob": 65, "charges": 100 },
       { "item": "cell_phone", "prob": 11, "charges": 150 },
       { "item": "smart_phone", "prob": 85, "charges": 120 },
+      { "item": "waterproof_smart_phone_case", "prob": 40 },
       { "item": "mp3", "prob": 65, "charges": 100 },
       { "group": "toy_radio_car", "prob": 35 },
       { "group": "toy_makerspace_kit", "prob": 25 },
       { "group": "toy_robot_kit", "prob": 25 },
       { "group": "toy_engine_kit", "prob": 25 },
-      { "item": "vibrator", "prob": 1, "charges": 100 }
+      { "item": "vibrator", "prob": 1, "charges": 100 },
+      { "item": "ar_glasses_basic", "prob": 20, "charges": 150 },
+      { "item": "ar_glasses_advanced", "prob": 10, "charges": 150 }
     ]
   },
   {
@@ -1987,6 +2006,10 @@
   {
     "type": "item_group",
     "id": "gunshop_accessories",
-    "items": [ { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] }, [ "ear_plugs", 80 ] ]
+    "items": [
+      { "item": "powered_earmuffs", "prob": 50, "charges": [ 0, 50 ] },
+      [ "ear_plugs", 80 ],
+      { "item": "powered_earplugs", "prob": 50, "charges": [ 0, 75 ] }
+    ]
   }
 ]

@@ -29,7 +29,7 @@
     "type": "GENERIC",
     "id": "chickenbot_chassis",
     "name": { "str_sp": "Pathfinder chassis" },
-    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the pathfinder.",
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Pathfinder.",
     "symbol": "c",
     "color": "light_gray",
     "weight": "60000 g",
@@ -99,8 +99,8 @@
   {
     "type": "GENERIC",
     "id": "medibot_chassis",
-    "name": { "str_sp": "Surgical Droid chassis" },
-    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Surgical Droid.",
+    "name": { "str_sp": "surgical droid chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the surgical droid.",
     "copy-from": "utilibot_chassis",
     "color": "white"
   },

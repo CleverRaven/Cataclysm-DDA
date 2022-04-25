@@ -1,9 +1,12 @@
 #include "game.h"
 #include "handle_liquid.h"
+#include "inventory.h"
 #include "itype.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
+#include "skill.h"
 #include "string_input_popup.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -19,10 +22,73 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const quality_id qual_HOSE( "HOSE" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
+
+static const vproto_id vehicle_prototype_none( "none" );
+
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_WIRING( "WIRING" );
+
+
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.
 static const int win_width = 60;
+
+vpart_id vpart_appliance_from_item( const itype_id &item_id )
+{
+    for( const std::pair<const vpart_id, vpart_info> &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_APPLIANCE ) ) {
+            return vp.get_id();
+        }
+    }
+    debugmsg( "item %s is not base item of any appliance!", item_id.c_str() );
+    return vpart_ap_standing_lamp;
+}
+
+void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::optional<item> &base )
+{
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+
+    if( base ) {
+        item copied = *base;
+        veh->install_part( point_zero, vpart, std::move( copied ) );
+    } else {
+        veh->install_part( point_zero, vpart );
+    }
+    veh->name = vpart->name();
+
+    veh->add_tag( flag_APPLIANCE );
+
+    // Update the vehicle cache immediately,
+    // or the appliance will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+
+    // Connect to any neighbouring appliances or wires once
+    std::unordered_set<const vehicle *> connected_vehicles;
+    for( const tripoint &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                veh->connect( p, trip );
+                connected_vehicles.insert( &veh_target );
+            }
+        }
+    }
+}
 
 // uilist_callback whose sole responsibility is to draw the
 // connecting borders between the uilist and the info window.
@@ -53,6 +119,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "REFILL" );
     ctxt.register_action( "SIPHON" );
     ctxt.register_action( "RENAME" );
+    ctxt.register_action( "REMOVE" );
 }
 
 void veh_app_interact::init_ui_windows()
@@ -349,6 +416,48 @@ void veh_app_interact::rename()
     }
 }
 
+void veh_app_interact::remove()
+{
+    int const part = veh->part_at( a_point );
+    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+    const vpart_info &vpinfo = vp.info();
+    const requirement_data reqs = vpinfo.removal_requirements();
+    Character &you = get_player_character();
+    const inventory &inv = you.crafting_inventory();
+    std::string msg;
+    bool can_remove = reqs.can_make_with_inventory( inv, is_crafting_component );
+    if( !can_remove ) {
+        msg += _( "Insufficient components/tools!\n" );
+        msg += reqs.list_missing();
+    }
+
+    int time = vpinfo.removal_time( you );
+    if( you.has_trait( trait_DEBUG_HS ) ) {
+        can_remove = true;
+        time = 1;
+    }
+
+    if( !can_remove ) {
+        popup( msg );
+        //~ Prompt the player if they want to remove the appliance. %s = appliance name.
+    } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
+        act = player_activity( ACT_VEHICLE, time, static_cast<int>( 'O' ) );
+        act.str_values.push_back( vpinfo.get_id().str() );
+        const point q = veh->coord_translate( vp.mount );
+        map &here = get_map();
+        for( const tripoint &p : veh->get_points( true ) ) {
+            act.coord_set.insert( here.getabs( p ) );
+        }
+        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
+        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+        act.values.push_back( a_point.x );
+        act.values.push_back( a_point.y );
+        act.values.push_back( -a_point.x );
+        act.values.push_back( -a_point.y );
+        act.values.push_back( veh->index_of_part( &vp ) );
+    }
+}
+
 void veh_app_interact::populate_app_actions()
 {
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
@@ -374,13 +483,19 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "RENAME" ).front(),
                     ctxt.get_action_name( "RENAME" ) );
+    // Remove
+    app_actions.emplace_back( [this]() {
+        remove();
+    } );
+    imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
+                    ctxt.get_action_name( "REMOVE" ) );
 
     /*************** Get part-specific actions ***************/
     std::vector<uilist_entry> tmp_opts;
     std::vector<std::function<void()>> tmp_acts;
     veh->set_electronics_menu_options( tmp_opts, tmp_acts );
     for( size_t i = 0; i < tmp_opts.size() && i < ctxt_letters.size(); i++ ) {
-        imenu.addentry( -1, true, ctxt_letters[i], tmp_opts[i].txt );
+        imenu.addentry( -1, tmp_opts[i].enabled, ctxt_letters[i], tmp_opts[i].txt );
         app_actions.emplace_back( tmp_acts[i] );
     }
     imenu.setup();

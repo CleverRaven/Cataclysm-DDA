@@ -570,8 +570,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( source.get_wielded_item() ) ) {
-        if( !source.wield( source.get_wielded_item() ) ) {
+    if( !source.is_wielding( thrown_item ) ) {
+        if( !source.wield( thrown_item ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -602,11 +602,20 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
 bool npc_attack_throw::can_use( const npc &source ) const
 {
+    // Don't throw anything if we're hallucination
+    // TODO: make an analogue of pretend_fire function
+    if( source.is_hallucination() ) {
+        return false;
+    }
+
+    if( !source.is_wielding( thrown_item ) && !source.can_wield( thrown_item ).success() ) {
+        return false;
+    }
+
     item single_item( thrown_item );
     if( single_item.count_by_charges() ) {
         single_item.charges = 1;
     }
-
 
     // Always allow throwing items that are flagged as throw now to
     // get rid of dangerous items ASAP, even if ranged attacks aren't allowed

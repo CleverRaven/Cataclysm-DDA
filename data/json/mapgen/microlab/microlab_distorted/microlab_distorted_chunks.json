@@ -13,7 +13,7 @@
       "R": {  },
       ">": {  },
       "<": {  },
-      "&": {  }
+      ";": {  }
     },
     "terrain": {
       ".": "t_strconc_floor",
@@ -34,7 +34,7 @@
       "<": "t_stairs_up"
     },
     "furniture": { "?": "f_null" },
-    "toilets": { "&": {  } }
+    "toilets": { ";": {  } }
   },
   {
     "type": "mapgen",

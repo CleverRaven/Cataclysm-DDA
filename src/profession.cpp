@@ -21,7 +21,6 @@
 #include "magic.h"
 #include "options.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
@@ -111,11 +110,11 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
     public:
         addiction get_next( JsonValue &jv ) const {
             JsonObject jo = jv.get_object();
-            return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
+            return addiction( addiction_id( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
         void erase_next( std::string &&type_str, C &container ) const {
-            const add_type type = addiction_type( type_str );
+            const addiction_id type( type_str );
             reader_detail::handler<C>().erase_if( container, [&type]( const addiction & e ) {
                 return e.type == type;
             } );
@@ -166,11 +165,31 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     if( !was_loaded || jo.has_member( "description" ) ) {
         std::string desc;
-        mandatory( jo, false, "description", desc, text_style_check_reader() );
+        std::string desc_male;
+        std::string desc_female;
+
+        bool use_default_description = true;
+        if( jo.has_object( "description" ) ) {
+            JsonObject desc_obj = jo.get_object( "description" );
+            desc_obj.allow_omitted_members();
+
+            if( desc_obj.has_member( "male" ) && desc_obj.has_member( "female" ) ) {
+                use_default_description = false;
+                mandatory( desc_obj, false, "male", desc_male, text_style_check_reader() );
+                mandatory( desc_obj, false, "female", desc_female, text_style_check_reader() );
+            }
+        }
+
+        if( use_default_description ) {
+            mandatory( jo, false, "description", desc, text_style_check_reader() );
+            desc_male = desc;
+            desc_female = desc;
+        }
         // These also may differ depending on the language settings!
-        _description_male = to_translation( "prof_desc_male", desc );
-        _description_female = to_translation( "prof_desc_female", desc );
+        _description_male = to_translation( "prof_desc_male", desc_male );
+        _description_female = to_translation( "prof_desc_female", desc_female );
     }
+
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }

@@ -403,11 +403,26 @@
     "use_action": { "type": "learn_spell", "spells": [ "taze", "laze", "technomancer_knifeshot" ] }
   },
   {
+    "id": "animist_spirits",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "2 animist and 1 classless spells",
+    "name": { "str": "Liminal Pathways", "str_pl": "copies of Liminal Pathways" },
+    "description": "A famous animist grimoire from early modernity.  Its cryptic passages describe and map connections between the spiritual world and ours.",
+    "weight": "920 g",
+    "volume": "750 ml",
+    "price": 30000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_red",
+    "use_action": { "type": "learn_spell", "spells": [ "wrathful_spirits", "spirit_walk", "ethereal_grasp" ] }
+  },
+  {
     "id": "animist_shadows",
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Runic Tablet shard" },
-    "//": "1 classless spell",
+    "//": "2 animist spells",
     "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
     "weight": "4000 g",
     "volume": "2500 ml",
@@ -415,7 +430,7 @@
     "material": [ "stone" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "soulrend" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "soulrend", "wrathful_spirits" ] }
   },
   {
     "id": "translocate_spellbook",
@@ -436,15 +451,15 @@
     "id": "forbidden_tome",
     "type": "BOOK",
     "name": { "str": "Forbidden Tome" },
-    "//": "1 Magus spell, 1 Druid spell, 1 Animist spell",
-    "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existance, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
+    "//": "1 Magus spell, 1 Druid spell, 2 Animist spells",
+    "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existence, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
     "weight": "2400 g",
     "volume": "5000 ml",
     "price": 7500,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "cause_rot" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot" ] }
   },
   {
     "id": "stat_up_spellbook",

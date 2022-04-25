@@ -102,6 +102,7 @@ enum class mapgen_phase {
     nested_mapgen,
     transform,
     faction_ownership,
+    zones,
     last
 };
 
@@ -122,6 +123,8 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_TRAP,
     JMAPGEN_SETMAP_RADIATION,
     JMAPGEN_SETMAP_TRAP_REMOVE,
+    JMAPGEN_SETMAP_ITEM_REMOVE,
+    JMAPGEN_SETMAP_FIELD_REMOVE,
     JMAPGEN_SETMAP_BASH,
     JMAPGEN_SETMAP_VARIABLE,
     JMAPGEN_SETMAP_OPTYPE_LINE = 100,
@@ -130,12 +133,16 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_LINE_TRAP,
     JMAPGEN_SETMAP_LINE_RADIATION,
     JMAPGEN_SETMAP_LINE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_LINE_ITEM_REMOVE,
+    JMAPGEN_SETMAP_LINE_FIELD_REMOVE,
     JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
     JMAPGEN_SETMAP_SQUARE_TER,
     JMAPGEN_SETMAP_SQUARE_FURN,
     JMAPGEN_SETMAP_SQUARE_TRAP,
     JMAPGEN_SETMAP_SQUARE_RADIATION,
-    JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE
+    JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE,
+    JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE
 };
 
 struct jmapgen_setmap {
@@ -563,11 +570,11 @@ std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
 void load_mapgen( const JsonObject &jo );
 void reset_mapgens();
 /**
- * Attempts to register the build-in function @p key as mapgen for the overmap terrain @p key.
+ * Attempts to register the built-in function @p key as mapgen for the overmap terrain @p key.
  * If there is no matching function, it does nothing (no error message) and returns -1.
  * Otherwise it returns the index of the added entry in the vector of @ref oter_mapgen.
  */
-// @TODO this should go away. It is only used for old build-in mapgen. Mapgen should be done via JSON.
+// @TODO this should go away. It is only used for old built-in mapgen. Mapgen should be done via JSON.
 int register_mapgen_function( const std::string &key );
 /**
  * Check that @p key is present in @ref oter_mapgen.

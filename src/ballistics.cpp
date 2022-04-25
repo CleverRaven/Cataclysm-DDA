@@ -24,6 +24,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "point.h"
@@ -433,6 +434,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             critter->deal_projectile_attack( null_source ? nullptr : origin, attack, print_messages,
                                              wp_attack );
+
+            if( critter->is_npc() ) {
+                critter->as_npc()->on_attacked( *origin );
+            }
+
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {

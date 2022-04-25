@@ -31,7 +31,7 @@
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "Are you some kind of robot?", "topic": "TALK_EXODII_MERCHANT_Robot" },
       {
-        "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
+        "text": "[INT 9] You're called Exodii?  Does that mean you were driven out of your home?",
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Exodus"
       },
@@ -42,7 +42,7 @@
       },
       { "text": "What kind of place is this?", "topic": "TALK_EXODII_MERCHANT_Base" },
       {
-        "text": "[per 6] Some of this tech looks… weird.",
+        "text": "[PER 6] Some of this tech looks… weird.",
         "topic": "TALK_EXODII_MERCHANT_Tech",
         "condition": {
           "and": [ { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }, { "u_has_perception": 6 } ]
@@ -147,71 +147,6 @@
         "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
       },
       {
-        "//": "Every week, add some stuff to the shop based on your current trust.",
-        "condition": {
-          "and": [
-            { "u_has_faction_trust": 1 },
-            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
-            { "u_has_trait": "CBM_Interface" }
-          ]
-        },
-        "effect": [ { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } ]
-      },
-      {
-        "//": "Every week, add some stuff to the shop based on your current trust.",
-        "condition": {
-          "and": [
-            { "u_has_faction_trust": 10 },
-            {
-              "u_compare_time_since_var": "u_met_Rubik",
-              "type": "timer",
-              "context": "first_meeting",
-              "op": ">=",
-              "time": "14 d"
-            },
-            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
-            { "u_has_trait": "CBM_Interface" }
-          ]
-        },
-        "effect": [ { "mapgen_update": "tier2_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } ]
-      },
-      {
-        "//": "Every week, add some stuff to the shop based on your current trust.",
-        "condition": {
-          "and": [
-            { "u_has_faction_trust": 20 },
-            {
-              "u_compare_time_since_var": "u_met_Rubik",
-              "type": "timer",
-              "context": "first_meeting",
-              "op": ">=",
-              "time": "21 d"
-            },
-            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
-            { "u_has_trait": "CBM_Interface" }
-          ]
-        },
-        "effect": [ { "mapgen_update": "tier3_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } ]
-      },
-      {
-        "//": "Every week, add some stuff to the shop based on your current trust.",
-        "condition": {
-          "and": [
-            { "u_has_faction_trust": 40 },
-            {
-              "u_compare_time_since_var": "u_met_Rubik",
-              "type": "timer",
-              "context": "first_meeting",
-              "op": ">=",
-              "time": "56 d"
-            },
-            { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
-            { "u_has_trait": "CBM_Interface" }
-          ]
-        },
-        "effect": [ { "mapgen_update": "tier4_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } ]
-      },
-      {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
         "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
         "effect": [ { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "7 days" }, { "u_add_faction_trust": 1 } ]
@@ -225,9 +160,9 @@
         "effect": { "u_add_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
-        "text": "I've brought those anaesthetic kits for you.  Can you help me out?",
-        "condition": { "and": [ { "u_has_items": { "item": "anesthetic_kit", "count": 2 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
-        "effect": [ { "u_sell_item": "anesthetic_kit", "count": 2 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
+        "text": "I've brought the anesthetic for you.  Can you help me out?",
+        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
       {
@@ -283,18 +218,18 @@
   {
     "type": "effect_type",
     "id": "u_exodii_interaction_timer_short",
-    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly, and tells Rubik to use a different greeting because he saw you very recently."
+    "//": "This prevents you from building trust with the Exodii too quickly by just talking to them constantly, and tells Rubik to use a different greeting because he saw you very recently."
   },
   {
     "type": "effect_type",
     "id": "u_exodii_interaction_timer_long",
-    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
+    "//": "This prevents you from building trust with the Exodii too quickly by just talking to them constantly."
   },
   {
     "id": "TALK_EXODII_MERCHANT_New",
     "type": "talk_topic",
-    "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
-    "//~": "We call ourselves the exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
+    "dynamic_line": "Us call us the Exodii, eh?  An' other things, but that'n's good.  This're our home, such as it.  This'n's monicked as Rubik, and tassed with a trade an'.  You lookin' to trade?  Us'n's alay for the scrap, metal an' more as it be.",
+    "//~": "We call ourselves the Exodii, eh?  And other things, but that's good.  This is our home, such as it is.  I'm called Rubik, and I've been assigned to trade with you.  Are you looking to trade?  We're always looking for scrap, metal and more.",
     "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
@@ -435,7 +370,7 @@
     "responses": [
       { "text": "I'm not following that at all.", "topic": "TALK_EXODII_MERCHANT_Talk_Intro3a" },
       {
-        "text": "[int 9] So you mean, we have a nice, freshly dead world for you to visit?",
+        "text": "[INT 9] So you mean, we have a nice, freshly dead world for you to visit?",
         "condition": { "u_has_intelligence": 9 },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro4b"
       },
@@ -499,7 +434,7 @@
     "//~": "Oh, yeah.  Lots of places have different words for those.  A fusilly is a weapon that fires a bullet at high speeds using propellant.  A mobbing is a big metal box that's moved around by an internal explosion.  Do you get it?",
     "responses": [
       {
-        "text": "[int 7] Sounds like you mean a fusilly is a gun, and a mobbing is a car?",
+        "text": "[INT 7] Sounds like you mean a fusilly is a gun, and a mobbing is a car?",
         "condition": { "u_has_intelligence": 7 },
         "effect": { "u_add_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro6"
@@ -583,8 +518,8 @@
   {
     "id": "TALK_EXODII_MERCHANT_Aliens2",
     "type": "talk_topic",
-    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown.",
-    "//~": "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different earth. You shouldn't be asking what the exodii are doing in earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town.",
+    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the Exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the Exodii is doin' razzin up your green and brown.",
+    "//~": "Yeah, that's a big question. Otherworlds are how you got those ugly bug-creatures around here, you know? Walking plants, talking mushroom, stuff like that. Otherlands are closer related. I'm from Earth, just a different Earth. You shouldn't be asking what the Exodii are doing in Earth, because some of us are feeling pretty at home here, I think. You should be asking what we're doing hanging out in your part of town.",
     "responses": [
       { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" },
       { "text": "Tell me about your own world.", "topic": "TALK_EXODII_MERCHANT_Home" },
@@ -595,7 +530,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Home",
     "type": "talk_topic",
-    "dynamic_line": "*becomes distant for a moment.  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
+    "dynamic_line": "*becomes distant for a moment.*  \"Ah.  Home.  It were a long time gone, kennit.  Your'n be not too far.  I… don't think I want to talk 'bout it.  Too much metal atwixt now an' then.",
     "//~": "Ah.  Home.  That's a long time gone, you know?  Yours isn't too different.  I… don't think I want to talk about it.  I've changed too much between then and now.",
     "responses": [
       { "text": "That's rough, maybe we should talk about something else.", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -638,7 +573,7 @@
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_is_cyborg", "value": "yes" } },
     "responses": [
       {
-        "text": "[int 9] So you're a cyborg of some kind?  That's awesome.  How do I become a cyborg?",
+        "text": "[INT 9] So you're a cyborg of some kind?  That's awesome.  How do I become a cyborg?",
         "topic": "TALK_EXODII_MERCHANT_Exodize",
         "condition": {
           "and": [
@@ -710,7 +645,7 @@
     "//~": "Sure you can, at least a bit.  I'll do my best to speak your Anglic, but seeing as we're from otherlands and all, it's not that simple.",
     "responses": [
       {
-        "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
+        "text": "[INT or PER 7] How come you speak English, or uh, 'anglic' like that?",
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
       },
@@ -792,7 +727,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk_CataclysmCause2",
     "type": "talk_topic",
-    "dynamic_line": "No!  Bluster an' clouds, no!*  Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
+    "dynamic_line": "No!  Bluster an' clouds, no!  *Rubik's voice comes haltingly, as if they are picking their words with unusual care for clarity.*  We done a few things what Rubik don't like to pickle an'… to think about, but never that!  We came after the fall, long after.  Always.",
     "responses": [
       {
         "condition": { "not": { "u_has_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
@@ -864,8 +799,8 @@
       {
         "text": "That's pretty hopeless talk.  I've killed a lot of zombies, I can beat this 'enemy' too.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimelineTough",
-        "//": "While many people face the possibility of destruction with planning and hope, and the exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
-        "effect": [ { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "exodii", "adjustment": 2 } ]
+        "//": "While many people face the possibility of destruction with planning and hope, and the Exodii don't consider that unusual, it is a bit of a warning sign to be this overconfident.  That said, as an individual data point it doesn't mean much.",
+        "effect": [ { "u_adjust_var": "exodii_psychosis_judgment", "type": "counter", "context": "Exodii", "adjustment": 2 } ]
       },
       {
         "text": "So what do you do, then?  How do you get out, and how do I do that?",
@@ -936,7 +871,7 @@
     "responses": [
       { "text": "…what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
       {
-        "text": "[int or per 9] Where did you come from then?  Are you aliens or something?",
+        "text": "[INT or PER 9] Where did you come from then?  Are you aliens or something?",
         "condition": { "or": [ { "u_has_intelligence": 9 }, { "u_has_perception": 9 } ] },
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },
@@ -952,7 +887,7 @@
     "//~": "English: We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet.",
     "responses": [
       {
-        "text": "[int or per 7] Otherland?  Are you aliens or something?",
+        "text": "[INT or PER 7] Otherland?  Are you aliens or something?",
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },
@@ -964,7 +899,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
-    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
+    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
     "//~": "English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
     "responses": [
       {
@@ -983,7 +918,7 @@
     "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
       {
-        "text": "[int 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "text": "[INT 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
         "condition": { "u_has_intelligence": 8 },
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
@@ -1069,7 +1004,7 @@
     "//~": "Not to me it doesn't.  We didn't get it from around here though.  I bet it looks pretty nice to you.",
     "responses": [
       {
-        "text": "[int or per 7] Not from around here?  Are you aliens or something?",
+        "text": "[INT or PER 7] Not from around here?  Are you aliens or something?",
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Aliens"
       },

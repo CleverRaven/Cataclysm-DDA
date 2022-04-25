@@ -95,6 +95,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ENGINE", VPFLAG_ENGINE },
     { "FRIDGE", VPFLAG_FRIDGE },
     { "FREEZER", VPFLAG_FREEZER },
+    { "ARCADE", VPFLAG_ARCADE },
     { "LIGHT", VPFLAG_LIGHT },
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
@@ -103,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "HEATED_TANK", VPFLAG_HEATED_TANK, },
     { "COOLER", VPFLAG_COOLER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
@@ -837,7 +839,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             return;
         }
         if( !long_descrip.empty() ) {
-            long_descrip += "  ";
+            long_descrip += _( "  " );
         }
         long_descrip += text;
     };
@@ -1190,6 +1192,21 @@ void vehicle_prototype::load( const JsonObject &jo )
             next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
+    }
+
+    for( JsonObject jzi : jo.get_array( "zones" ) ) {
+        zone_type_id zone_type( jzi.get_member( "type" ).get_string() );
+        std::string name;
+        std::string filter;
+        point pt( jzi.get_member( "x" ).get_int(), jzi.get_member( "y" ).get_int() );
+
+        if( jzi.has_string( "name" ) ) {
+            name = jzi.get_string( "name" );
+        }
+        if( jzi.has_string( "filter" ) ) {
+            filter = jzi.get_string( "filter" );
+        }
+        vproto.zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
     }
 }
 

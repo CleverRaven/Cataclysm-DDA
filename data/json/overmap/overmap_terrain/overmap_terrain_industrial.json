@@ -21,7 +21,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SW_roof", "public_works_SE_roof" ],
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
     "name": "public works roof",
     "sym": "w",
     "color": "light_gray",
@@ -269,7 +269,6 @@
       "steel_mill_4_2_3",
       "steel_mill_4_3",
       "steel_mill_4_3_2",
-      "steel_mill_4_3_3",
       "steel_mill_4_3_3"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
@@ -289,7 +288,7 @@
     ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "steel mill depot",
-    "sym": "|",
+    "sym": "│",
     "color": "dark_gray"
   },
   {
@@ -432,6 +431,23 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_tunnel",
+    "name": "mine tunnels",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MINERS", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "name": "mine",
+    "sym": "M",
+    "color": "brown",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

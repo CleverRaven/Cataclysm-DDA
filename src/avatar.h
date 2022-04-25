@@ -143,6 +143,8 @@ class avatar : public Character
 
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -346,7 +348,7 @@ class avatar : public Character
 
         int movecounter = 0;
 
-        // ammount of turns since last check for pocket noise
+        // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
         vproto_id starting_vehicle;

@@ -5,7 +5,7 @@
 ##### Tileset
 A package of images for the game.
 
-##### Sprite 
+##### Sprite
 A single image that represents either an individual game entity or a common background
 
 ##### Root name
@@ -177,10 +177,10 @@ An optional file called layering.json can be provided. this file defines layerin
 
 ```c++
 {
-"item_variants": [
+"variants": [
   {
     "context": "f_desk",
-    "variants": [
+    "item_variants": [
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
@@ -190,6 +190,12 @@ An optional file called layering.json can be provided. this file defines layerin
         "item": "pen",
         "sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}],
         "layer": 100
+      }
+    ],
+    "field_variants": [
+      {
+        "field": "fd_fire",
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
       }
     ]
   }
@@ -201,13 +207,25 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"context": "f_desk"` the furniture or terrain that this should apply to.
 
-`"variants":` the definitions for what will have a variant sprite.
+##### Items
 
-`"item": "laptop"` the item id.
+`"item_variants":` the definitions for what items will have a variant sprite.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For variation multiple sprites can be provided with specific weights.
+`"item": "laptop"` the item id. (only supported in item_variants)
 
-`"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top)
+`"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
+
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
+
+##### Fields
+
+`"field_variants":` the definitions for what fields will have a variant sprite.
+
+`"field": "fd_fire"` the field id. (only supported in field_variants)
+
+`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
+
+
 
 ## `compose.py`
 
