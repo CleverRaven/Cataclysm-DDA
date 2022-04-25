@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "station_radio" ],
     "weight": 500,
-    "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -27,10 +27,10 @@
         "  F__________|rcSce|    ",
         "  F__&&&&____|--w--|4   ",
         "  F__&&&&____G          ",
-        "  F__&&&&____|----|     ",
-        "  F__&&&&____|lPhx|     ",
-        "  F__________=....|     ",
-        "  Fffffffffff|----|     ",
+        "  F__&&&&____#######    ",
+        "  F__&&&&____#lPxxx#    ",
+        "  F__________=...h.w    ",
+        "  Fffffffffff#######    ",
         "                        "
       ],
       "terrain": {
@@ -94,9 +94,9 @@
       "place_loot": [
         { "group": "record_weather", "x": 5, "y": 10 },
         { "group": "cleaning", "x": 21, "y": 6, "chance": 70 },
-        { "group": "electronics", "x": [ 14, 15 ], "y": 20, "chance": 80 }
+        { "group": "electronics", "x": 14, "y": 20, "chance": 70 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 4, "y": 13 } ]
+      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 19, "y": 10 } ]
     }
   },
   {
@@ -113,40 +113,37 @@
         "  52222222|...........3 ",
         "  |...................3 ",
         "  |...................3 ",
-        "  |...................3 ",
+        "  |..........A.&......3 ",
         "  |...................3 ",
         "  |...N.:.............3 ",
         "  |...................3 ",
         "  |...................3 ",
-        "  |---###----|.....&..3 ",
+        "  |---###----|........3 ",
         "      #>#    |.......=3 ",
         "             |........3 ",
-        "             |.....3--3 ",
+        "             |.sHЯ.3--3 ",
         "             |.....3    ",
         "             |-----5    ",
         "                        ",
-        "             ******     ",
-        "             ****X*     ",
-        "             ******     ",
-        "             ******     ",
+        "             *******    ",
+        "             ****X**    ",
+        "             **s****    ",
+        "             *******    ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
-      "furniture": { "N": "f_TV_antenna" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
-          ],
-          "x": [ 4, 17 ],
-          "y": [ 13, 15 ]
-        }
-      ]
+      "terrain": { "*": "t_tar_flat_roof", "X": "t_tar_flat_roof", "s": "t_tar_flat_roof", ">": "t_ladder_down" },
+      "furniture": {
+        "N": "f_TV_antenna",
+        ":": "f_cellphone_booster",
+        "X": "f_small_satelitte_dish",
+        "&": "f_roof_turbine_vent",
+        "=": "f_vent_pipe",
+        "H": "f_water_heater",
+        "Я": "f_standing_tank",
+        "A": "f_air_conditioner",
+        "s": "f_solar_unit"
+      }
     }
   },
   {
@@ -154,7 +151,7 @@
     "method": "json",
     "om_terrain": [ "station_radio_1" ],
     "weight": 500,
-    "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
+    "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -179,7 +176,7 @@
         "    #dd.W.c.#_____#..x# ",
         "    w.a.#...#<____w.hxw ",
         "    #ooo#ooo#_____#..x# ",
-        "    #########fffff#PPP# ",
+        "    #########fffff#hlP# ",
         "                  ##### ",
         "                        "
       ],
@@ -242,10 +239,11 @@
         "7": { "item": "office_paper", "chance": 30 }
       },
       "place_loot": [
-        { "group": "record_weather", "x": 19, "y": 13 },
-        { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
-        { "group": "electronics", "x": [ 6, 7 ], "y": 5, "chance": 80 }
-      ]
+        { "group": "record_weather", "x": 10, "y": 18 },
+        { "group": "cleaning", "x": 17, "y": 2, "chance": 70 },
+        { "group": "electronics", "x": 20, "y": 21, "chance": 70 }
+      ],
+      "place_nested": [ { "chunks": [ [ "NPC_meteorologist_spawn", 20 ], [ "null", 80 ] ], "x": 19, "y": 10 } ]
     }
   },
   {
@@ -257,16 +255,16 @@
       "rows": [
         "                        ",
         " |22222222222222223     ",
-        " |................3     ",
-        " |............=...523   ",
+        " |............=...3     ",
+        " |................523   ",
         " |..................3   ",
-        " |..................3   ",
-        " |.......&..........3   ",
+        " |...............s..3   ",
+        " |.......&.......HЯ.3   ",
         " |..................3   ",
         " |.............3----3   ",
         " |.............3        ",
         " |..........3--3        ",
-        " |..........3           ",
+        " |....A.....3           ",
         " |..........3           ",
         " |--5.......3           ",
         "    |.......3           ",
@@ -275,27 +273,24 @@
         "    |...:...3     ***** ",
         "    |.......##    ***** ",
         "    |.......#>    **X** ",
-        "    |.......##    ***** ",
+        "    |.......##    **s** ",
         "    |-------3     ***** ",
         "                  ***** ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
-      "furniture": { "N": "f_TV_antenna" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
-          ],
-          "x": [ 4, 17 ],
-          "y": [ 14, 16 ]
-        }
-      ]
+      "terrain": { "*": "t_tar_flat_roof", "X": "t_tar_flat_roof", "s": "t_tar_flat_roof", ">": "t_ladder_down" },
+      "furniture": {
+        "N": "f_TV_antenna",
+        ":": "f_cellphone_booster",
+        "X": "f_small_satelitte_dish",
+        "&": "f_roof_turbine_vent",
+        "=": "f_vent_pipe",
+        "H": "f_water_heater",
+        "Я": "f_standing_tank",
+        "A": "f_air_conditioner",
+        "s": "f_solar_unit"
+      }
     }
   }
 ]
