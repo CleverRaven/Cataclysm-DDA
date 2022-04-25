@@ -1589,6 +1589,7 @@
       { "item": "syringe", "prob": 10 },
       { "item": "blanket", "prob": 20 },
       { "item": "candle", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "bodypillow", "prob": 10 },
       { "item": "pillow", "prob": 20 }
     ]
   },
