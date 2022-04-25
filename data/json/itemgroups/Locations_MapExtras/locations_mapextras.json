@@ -196,7 +196,9 @@
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 5, "charges": [ 0, 150 ] },
       [ "camera_bag", 10 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
     ]
   },
   {
@@ -225,6 +227,7 @@
       [ "unitard", 5 ],
       [ "hat_ball", 100 ],
       [ "helmet_ball", 80 ],
+      [ "shuttlecock", 10 ],
       [ "baseball", 100 ],
       [ "football", 100 ],
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },

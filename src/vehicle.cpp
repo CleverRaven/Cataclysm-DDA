@@ -352,6 +352,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     // More realistically it should be -5 days old
     last_update = calendar::turn_zero;
 
+    if( get_option<bool>( "OVERRIDE_VEHICLE_INIT_STATE" ) ) {
+        init_veh_status = get_option<int>( "VEHICLE_STATUS_AT_SPAWN" );
+        init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
+    }
+
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
     int veh_fuel_mult = init_veh_fuel;
@@ -381,7 +386,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             veh_fuel_mult += rng( 0, 7 );   // add 0-7% more fuel if controls are destroyed
         } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
             destroyTank = true;
-        } else if( rand <= 29 ) {  // engine are destroyed 6%
+        } else if( rand <= 29 ) {  // engine is destroyed 6%
             destroyEngine = true;
             veh_fuel_mult += rng( 3, 12 );  // add 3-12% more fuel if engine is destroyed
         } else if( rand <= 66 ) {  // tires are destroyed 37%
@@ -5535,6 +5540,17 @@ void vehicle::place_spawn_items()
                 add_item( part, e );
             }
         }
+    }
+}
+
+void vehicle::place_zones( map &pmap ) const
+{
+    if( !type.is_valid() || !has_owner() ) {
+        return;
+    }
+    for( vehicle_prototype::zone_def const &d : type->zone_defs ) {
+        tripoint const pt = pmap.getabs( tripoint( pos + d.pt, pmap.get_abs_sub().z() ) );
+        mapgen_place_zone( pt, pt, d.zone_type, get_owner(), d.name, d.filter, &pmap );
     }
 }
 

@@ -1,0 +1,10 @@
+version: v1
+
+labels:
+  - label: "(S1 - Need Confirmation)"
+    matcher:
+      body: "(\\s|^)### Describe the bug\\s*(\n|$)"
+
+  - label: "<Suggestion / Discussion>"
+    matcher:
+      body: "(\\s|^)### Is your feature request related to a problem.*\\s*(\n|$)"
