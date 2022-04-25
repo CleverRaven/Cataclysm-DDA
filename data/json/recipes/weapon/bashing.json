@@ -200,7 +200,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "nail", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 6 ] ] ]
   },
   {
     "type": "recipe",
