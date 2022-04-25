@@ -4484,13 +4484,14 @@
     "type": "profession",
     "id": "ninja",
     "name": "Ninja",
+    "name": { "male": "Ninja", "female": "Kunoichi" },
     "description": "You always dreamed with being a ninja, so you practiced your movements, dressed all in black and carried some common ninja weapons with you.  Now, after much practice, you can finally call yourself a real ninja.",
     "points": 5,
     "skills": [
-      { "level": 2, "name": "melee" },
       { "level": 2, "name": "cutting" },
       { "level": 3, "name": "dodge" },
-      { "level": 1, "name": "swimming" }
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "throw" }
     ],
     "items": {
       "both": {
