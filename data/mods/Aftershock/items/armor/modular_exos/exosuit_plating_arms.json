@@ -1,0 +1,71 @@
+[
+  {
+    "id": "exo_arm_steel",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "name": { "str": "steel arm plate (exosuit)", "str_pl": "steel arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
+    "weight": "30 g",
+    "volume": "6500 ml",
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "material_thickness": 6,
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],
+    "armor": [
+      {
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "encumbrance": 16,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 95,
+        "cover_vitals": 90
+      }
+    ]
+  },
+  {
+    "id": "exo_arm_plastic",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "plastic arm plate (exosuit)", "str_pl": "plastic arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are plates of plastic.",
+    "weight": "3000 g",
+    "volume": "1500 ml",
+    "material": [ "plastic" ],
+    "material_thickness": 3,
+    "non_functional": "destroyed_exo_arm_plastic_plate"
+  },
+  {
+    "id": "destroyed_exo_arm_plastic_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_plastic",
+    "name": { "str": "shattered plastic arm plate (exosuit)", "str_pl": "shattered plastic arm plates (exosuit)" },
+    "description": "The remains of a plastic arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_arm_plastic",
+    "material_thickness": 3
+  },
+  {
+    "id": "exo_arm_vcc",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "carbide arm plate (exosuit)", "str_pl": "carbide arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are sturdy plates of vacuum-cast carbide.",
+    "weight": "38000 g",
+    "volume": "1500 ml",
+    "material": [ "vacuum_carbide" ],
+    "material_thickness": 6,
+    "non_functional": "destroyed_exo_arm_vcc_plate"
+  },
+  {
+    "id": "destroyed_exo_arm_vcc_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_vcc",
+    "name": { "str": "shattered carbide arm plate (exosuit)", "str_pl": "shattered carbide arm plates (exosuit)" },
+    "description": "The remains of a vacuum-cast carbide arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_arm_vcc"
+  }
+]

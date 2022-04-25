@@ -1,0 +1,63 @@
+[
+  {
+    "id": "exo_psu_steel",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "name": { "str": "steel PSU plate (exosuit)", "str_pl": "steel PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a sturdy plate of steel.",
+    "weight": "42933 g",
+    "volume": "10 L",
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "backpack_tactical_large",
+    "color": "light_gray",
+    "warmth": 0,
+    "material_thickness": 6,
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_PSU_PLATE" ],
+    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "exo_psu_plastic",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "plastic PSU plate (exosuit)", "str_pl": "plastic PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a plate of plastic.",
+    "weight": "4290 g",
+    "volume": "10 L",
+    "material": [ "plastic" ],
+    "material_thickness": 3,
+    "non_functional": "destroyed_exo_psu_plastic_plate"
+  },
+  {
+    "id": "destroyed_exo_psu_plastic_plate",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_plastic",
+    "name": { "str": "shattered plastic PSU plate (exosuit)", "str_pl": "shattered plastic PSU plates (exosuit)" },
+    "description": "The remains of a plastic PSU plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_psu_plastic",
+    "material_thickness": 3
+  },
+  {
+    "id": "exo_psu_vcc",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "copy-from": "exo_psu_steel",
+    "name": { "str": "carbide PSU plate (exosuit)", "str_pl": "carbide PSU plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's power supply unit, this is a sturdy plate of vacuum-cast carbide.",
+    "weight": "55000 g",
+    "volume": "10 L",
+    "material": [ "vacuum_carbide" ],
+    "material_thickness": 6,
+    "non_functional": "destroyed_exo_psu_milcomp_plate"
+  },
+  {
+    "id": "destroyed_exo_psu_vcc",
+    "type": "ARMOR",
+    "copy-from": "exo_psu_vcc",
+    "name": { "str": "shattered carbide PSU plate (exosuit)", "str_pl": "shattered carbide PSU plates (exosuit)" },
+    "description": "The remains of a vacuum-cast carbide PSU plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_psu_vcc",
+    "armor": [ { "encumbrance": 20, "coverage": 0, "covers": [ "torso" ] } ]
+  }
+]
