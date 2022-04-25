@@ -34,5 +34,5 @@
       { "monster": "mon_fish_eolocanth", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fish_cosmoserpent", "weight": 50, "cost_multiplier": 0 }
     ]
-  },
+  }
 ]
