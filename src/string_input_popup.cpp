@@ -412,7 +412,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             _position = -1;
             _canceled = true;
             return _text;
-        } else if( ch == '\n' || ch == KEY_ENTER ) {
+        } else if( ch == '\n' ) {
             add_to_history( ret.str() );
             _confirmed = true;
             _text = ret.str();
