@@ -208,7 +208,7 @@
       "rejected": "Ugh.",
       "advice": "Kiernan is probably still at the old field office.  It should be fine as long as the emergency power is still working.  You may have to do some kind of stupid task before Kiernan talks.  Try not to get violent.  If Kiernan is dead try and find some notes or books.",
       "inquire": "Do you have the information yet?",
-      "success": "Let's get started.  Oh, I'll make you a copy just in case.  Oh, and here are some spare chemicals.  You can sniff them or whatever.",
+      "success": "Let's get started.  Oh, I'll make you a copy just in case.",
       "success_lie": "Very convincing.  I do need the information to work though.",
       "failure": "It's fine, I'll make something work."
     }
