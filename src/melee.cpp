@@ -863,6 +863,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 martial_arts_data->ma_oncrit_effects( *this );
             }
 
+            if( !t.is_hallucination() ) {
+                handle_melee_wear( *cur_weapon );
+            }
+
         }
 
         t.check_dead_state();
@@ -871,10 +875,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // trigger martial arts on-kill effects
             martial_arts_data->ma_onkill_effects( *this );
         }
-    }
-
-    if( !t.is_hallucination() ) {
-        handle_melee_wear( *cur_weapon );
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
