@@ -228,7 +228,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
-    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way  but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
