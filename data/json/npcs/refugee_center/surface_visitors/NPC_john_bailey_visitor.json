@@ -34,25 +34,30 @@
       { "trait": "TOUGH" }
     ],
     "proficiencies": [
-      "prof_metalworking",
+      "prof_bow_basic",
+      "prof_bow_expert",
       "prof_carpentry_basic",
-      "prof_spotting",
-      "prof_food_prep",
       "prof_elec_soldering",
       "prof_elec_circuits",
       "prof_elec_semiconductors",
-      "prof_electromagnetics"
+      "prof_electromagnetics",
+      "prof_fletching",
+      "prof_food_prep",
+      "prof_metalworking",
+      "prof_spotting"
     ],
     "skills": [
+      { "skill": "archery", "bonus": 6 },
       { "skill": "computer", "bonus": 8 },
       { "skill": "cooking", "bonus": 2 },
       { "skill": "dodge", "bonus": 3 },
       { "skill": "electronics", "bonus": 6 },
       { "skill": "fabrication", "bonus": 5 },
       { "skill": "firstaid", "bonus": 4 },
+      { "skill": "gun", "bonus": 6 },
       { "skill": "mechanics", "bonus": 4 },
       { "skill": "melee", "bonus": 6 },
-      { "skill": "rifle", "bonus": 1 },
+      { "skill": "pistol", "bonus": 1 },
       { "skill": "speech", "bonus": 5 },
       { "skill": "stabbing", "bonus": 4 },
       { "skill": "survival", "bonus": 6 },
@@ -143,7 +148,15 @@
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
         {
-          "arithmetic": [ { "npc_val": "zkc_john" }, "=", { "rand": 10 }, "+", { "const": 15 }, "*", { "time_since_cataclysm": "weeks" } ]
+          "arithmetic": [
+            { "npc_val": "var", "var_name": "zkc_john" },
+            "=",
+            { "rand": 10 },
+            "+",
+            { "const": 15 },
+            "*",
+            { "time_since_cataclysm": "weeks" }
+          ]
         }
       ]
     },
