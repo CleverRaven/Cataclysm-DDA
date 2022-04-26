@@ -623,7 +623,7 @@
     "weight": "300 g",
     "volume": "1 L",
     "longest_side": "110 cm",
-    "bashing": 14,
+    "bashing": 11,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "flags": [ "SHEATH_GOLF" ]
   },
