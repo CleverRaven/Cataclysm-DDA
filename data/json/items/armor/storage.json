@@ -691,7 +691,7 @@
     "type": "ARMOR",
     "//": "based on the condor deployment bag and it's derivatives, holds 6.4L and has dimensions 6in H x 5.5in D x 12in W, max item lengths determined by approximating a little less based on dimensions",
     "name": { "str": "deployment bag" },
-    "description": "A durable nylon bag marketed towards military personelle.  Has clips on the top and back making it easy to attach a strap and wear comfortably as a fanny pack.  MOLLE webbing can be used to affix it to body armor or a backpack.",
+    "description": "A durable nylon bag marketed towards military personnel.  Has clips on the top and back making it easy to attach a strap and wear comfortably as a fanny pack.  MOLLE webbing on the back lets you affix it to body armor or a backpack.",
     "weight": "480 g",
     "volume": "300 ml",
     "price": 3500,
