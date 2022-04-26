@@ -101,7 +101,7 @@
     "id": "gastropod_purged",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
-    "name": { "str": "purged gastropod },
+    "name": { "str": "purged gastropod" },
     "description": "A gastropod that has been prepared for cooking by boiling it and then washing it in water and repeating it again to remove its mucus and pathogens.",
     "//": "Nutrition information roughly based on a serving of 6 snails. if you know more pls expand",
     "weight": "15 g",
@@ -115,7 +115,7 @@
   },
   {
     "id": "gastropod_cooked",
-    "copy-from": "mollusk",
+    "copy-from": "gastropod_purged",
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked gastropod" },
     "description": "Freshly cooked gastropod.  A bit low on calories but high in protein.",
