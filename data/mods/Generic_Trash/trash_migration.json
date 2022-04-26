@@ -21,7 +21,6 @@
       "plunger_futuristic",
       "brush_toilet",
       "toothbrush_electric",
-      "bottle_bathroom",
       "dentures",
       "shuttlecock",
       "golf_ball",
@@ -98,5 +97,31 @@
     ],
     "type": "MIGRATION",
     "replace": "generic_money_bundle"
+  },
+  {
+    "id": [
+      "bottle_bathroom",
+      "condiment_bottle_sealed"
+    ],
+    "type": "MIGRATION",
+    "replace": "bottle_plastic"
+  },
+  {
+    "id": [
+      "bottle_plastic_pill_painkiller",
+      "bottle_plastic_pill_supplement",
+      "bottle_plastic_pill_prescription"
+    ],
+    "type": "MIGRATION",
+    "replace": "bottle_plastic_small"
+  },
+  {
+    "id": [
+      "dish_towel",
+      "brush",
+      "sponge"
+    ],
+    "type": "MIGRATION",
+    "replace": "rag"
   }
 ]
