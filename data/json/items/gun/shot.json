@@ -193,7 +193,7 @@
     "copy-from": "shotgun_pump_3gun",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "Mossberg 12 gauge shotgun" },
+    "name": { "str": "12 gauge shotgun" },
     "description": "The fateful friend of law-enforcement officers, civilian shooters, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether you’re simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
     "variant_type": "gun",
     "variants": [
