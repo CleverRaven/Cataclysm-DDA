@@ -195,7 +195,7 @@
     },
     "end": {
       "effect": [
-        { "u_spawn_item": [ "kiernans_notes", "mutagen", "mutagen_raptor" ] },
+        { "u_spawn_item": "kiernans_notes" },
         { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
       ]
     },
@@ -227,7 +227,7 @@
     },
     "end": {
       "effect": [
-        { "u_spawn_item": [ "scalpel", "mutagen", "mutagen_stego" ] },
+        { "u_spawn_item": "mutagen_raptor" },
         { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
       ]
     },
@@ -239,7 +239,7 @@
       "rejected": "Ugh.",
       "advice": "You're good at this kind of brutality I assume.  Bring a weapon of some kind.  I don't know how dangerous it will be but I would assume the worst.  I always do.",
       "inquire": "Are you back from your relaxing trip?",
-      "success": "Wonderful.  I trust you weren't hurt by those animals.  I made some more chemicals for you to enjoy, this one gives the spine a pleasant tingle.  Also, here is something sharp in case you need it.  Oh, I suppose it's too late now.  Well I'm glad it worked out.",
+      "success": "Wonderful.  I trust you weren't hurt by those animals.  I have some spare chemicals you might enjoy.",
       "success_lie": "Wonderful, now I'm off to inspect your work.",
       "failure": "It's fine, I'll make something work."
     }
