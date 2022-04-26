@@ -4,7 +4,6 @@
     "id": "tr_portal_dormant",
     "name": "inactive portal",
     "color": "blue",
-    "looks_like": "tr_portal",
     "symbol": "%",
     "visibility": 0,
     "avoidance": 99,
