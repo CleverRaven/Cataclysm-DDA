@@ -62,13 +62,19 @@
       {
         "text": "[Deposit an NRE printout.]",
         "condition": { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
-        "effect": [ { "u_consume_item": "medium_printout_portal_storm_data", "count": 1 }, { "u_spawn_item": "RobofacCoin", "count": 5 } ],
+        "effect": [
+          { "u_consume_item": "medium_printout_portal_storm_data", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium"
       },
       {
         "text": "[Deposit a short NRE printout.]",
         "condition": { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
-        "effect": [ { "u_consume_item": "small_printout_portal_storm_data", "count": 1 }, { "u_spawn_item": "RobofacCoin", "count": 4 } ],
+        "effect": [
+          { "u_consume_item": "small_printout_portal_storm_data", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 4 }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small"
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
