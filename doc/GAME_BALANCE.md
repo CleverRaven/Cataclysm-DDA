@@ -82,13 +82,14 @@ Even a world class dodger should not be able to dodge continuously when attacked
 # MELEE WEAPONS:
 
 ## To-Hit Value
-The "to_hit" value of an object represents the base likelihood that it will impact an enemy during an attack. This can then be modified martial arts, skills, proficiences, ect to get your final chance to hit.
+The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, ect to get your final chance to hit.
 
-For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. For these items start at '-2' and go through the following categories and add up the values based on the object's physical properties.
+For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start at '-2' and if you wish, you may go through the categories and manually calculate the to-hit value based on the object's physical properties, then enter the number directly in the format "to_hit": -2, (or whatever number you have decided on).
 
-For proper weapons such as those in the data\json\items\melee file and common makeshift weapons like crowbars, axes, hammers we use a slightly different system. Instead of a single number we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding the numbers below up with '-2' you simply select the correct word for each category.
-The format for this is;
-"to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "uneven" }
+For proper weapons, such as those in the data\json\items\melee file, and common makeshift weapons like crowbars, etc... we use a slightly different system. Instead of a declared number we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding the numbers below up with '-2' you simply select the correct word for each category and it will be calculated in-game instead.
+
+The format for this is:
+"to_hit": { "grip": "(parameter)", "length": "(parameter)", "surface": "(parameter)", "balance": "(parameter)" }
 
 ### Grip
 Grip is a measure of how well you can control the weapon to quickly respond to situational changes.
