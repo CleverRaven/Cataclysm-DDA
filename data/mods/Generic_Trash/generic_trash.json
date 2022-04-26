@@ -103,5 +103,20 @@
     "symbol": "$",
     "price": 2000000,
     "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "generic_wood",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "wooden hardware" },
+    "description": "Some kind of wooden tool or appliance. Whatever it is, you can break it into splinters.",
+    "material": [ "wood" ],
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "weight": "1500 g",
+    "volume": "2500 ml",
+    "longest_side": "80 cm",
+    "bashing": 8,
+    "to_hit": -2
   }
 ]

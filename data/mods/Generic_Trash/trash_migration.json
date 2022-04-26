@@ -26,7 +26,9 @@
       "golf_ball",
       "rubber_band",
       "disc_golf",
-      "frisbee"
+      "frisbee",
+      "bath_toy",
+      "puck"
     ],
     "type": "MIGRATION",
     "replace": "generic_plastic"
@@ -52,7 +54,8 @@
       "potato_masher",
       "garlic_press",
       "can_opener",
-      "carving_fork"
+      "carving_fork",
+      "office_holepunch"
     ],
     "type": "MIGRATION",
     "replace": "generic_steel"
@@ -99,29 +102,28 @@
     "replace": "generic_money_bundle"
   },
   {
-    "id": [
-      "bottle_bathroom",
-      "condiment_bottle_sealed"
-    ],
+    "id": [ "bottle_bathroom", "condiment_bottle_sealed" ],
     "type": "MIGRATION",
     "replace": "bottle_plastic"
   },
   {
-    "id": [
-      "bottle_plastic_pill_painkiller",
-      "bottle_plastic_pill_supplement",
-      "bottle_plastic_pill_prescription"
-    ],
+    "id": [ "bottle_plastic_pill_painkiller", "bottle_plastic_pill_supplement", "bottle_plastic_pill_prescription" ],
     "type": "MIGRATION",
     "replace": "bottle_plastic_small"
   },
   {
-    "id": [
-      "dish_towel",
-      "brush",
-      "sponge"
-    ],
+    "id": [ "dish_towel", "brush", "sponge" ],
     "type": "MIGRATION",
     "replace": "rag"
+  },
+  {
+    "id": [ "plunger_toilet", "chopsticks", "cutting_board", "rolling_pin", "golf_tee", "rake", "rake_plastic" ],
+    "type": "MIGRATION",
+    "replace": "generic_wood"
+  },
+  {
+    "id": [ "file", "character_sheet", "flyer", "napkin", "toilet_paper", "scorecard" ],
+    "type": "MIGRATION",
+    "replace": "paper"
   }
 ]
