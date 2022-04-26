@@ -37,6 +37,7 @@ class tinymap;
 
 struct expansion_data {
     std::string type;
+    std::vector<itype_id> available_pseudo_items;
     std::map<std::string, int> provides;
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
@@ -175,6 +176,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void abandon_camp();
+        void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );

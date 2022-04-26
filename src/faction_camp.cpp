@@ -78,7 +78,9 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vehicle.h"
 #include "visitable.h"
+#include "vpart_position.h"
 #include "weather.h"
 #include "weighted_list.h"
 
@@ -1830,6 +1832,58 @@ void basecamp::abandon_camp()
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
     here.remove_submap_camp( here.getlocal( ms_pos ) );
     add_msg( m_info, _( "You abandon %s." ), name );
+}
+
+void basecamp::scan_pseudo_items()
+{
+    for( auto &expansion : expansions ) {
+        expansion.second.available_pseudo_items.clear();
+        tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + expansion.first.x,
+                                omt_pos.y() + expansion.first.y, omt_pos.z() );
+        tinymap expansion_map;
+        expansion_map.load( project_to<coords::sm>( tile ), false );
+
+        tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
+        tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
+        map &here = get_map();
+        for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
+            if( here.furn( pos ) != f_null &&
+                here.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
+                here.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                bool found = false;
+                for( itype_id &element : expansion.second.available_pseudo_items ) {
+                    if( element == here.furn( pos ).obj().crafting_pseudo_item ) {
+                        found = true;
+                        break;
+                    }
+                }
+                if( !found ) {
+                    expansion.second.available_pseudo_items.push_back( here.furn( pos ).obj().crafting_pseudo_item );
+                }
+            }
+
+            if( here.veh_at( pos ).has_value() && here.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+                const std::vector<std::pair<itype_id, int>> tools =
+                            here.veh_at( pos )->part_displayed().value().get_tools();
+
+                for( auto &tool : tools ) {
+                    if( tool.first.obj().has_flag( flag_PSEUDO ) &&
+                        tool.first.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                        bool found = false;
+                        for( itype_id &element : expansion.second.available_pseudo_items ) {
+                            if( element == tool.first ) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if( !found ) {
+                            expansion.second.available_pseudo_items.push_back( tool.first );
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void basecamp::worker_assignment_ui()

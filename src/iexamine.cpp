@@ -1805,6 +1805,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->validate_bb_pos( here.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
+        temp_camp->scan_pseudo_items();
 
         const std::string title = "Base Missions";
         mission_data mission_key;
