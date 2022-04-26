@@ -90,8 +90,6 @@ For proper weapons such as those in the data\json\items\melee file and common ma
 The format for this is;
 "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "uneven" }
 
-To-hit values start at '-2'.
-
 ### Grip
 Grip is a measure of how well you can control the weapon to quickly respond to situational changes.
 
