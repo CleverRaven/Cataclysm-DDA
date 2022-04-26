@@ -554,7 +554,7 @@ The `failure` object is used if the trial fails, the `success` object is used ot
 "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
 "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
 "trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
-"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_id": "swimming" }
+"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
 ```
 
 `topic` can also be a single topic object (the `type` member is not required here):

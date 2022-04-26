@@ -1334,7 +1334,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
             entry = string_format( _( "Notes:\n"
                                       "Your base has become large enough to support an expansion.  "
                                       "Expansions open up new opportunities but can be expensive and "
-                                      "time consuming.  Pick them carefully, at most 8 can be built "
+                                      "time-consuming.  Pick them carefully, at most 8 can be built "
                                       "at each camp.\n\n"
                                       "Skill used: N/A\n"
                                       "Effects:\n"
@@ -1372,7 +1372,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         {
             const mission_id miss_id = { Camp_Distribute_Food, "", base_dir };
             entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill you larders.  "
+                                      "Distribute food to your follower and fill your larders.  "
                                       "Place the food you wish to distribute in the camp food zone.  "
                                       "You must have a camp food zone, and a camp storage zone, "
                                       "or you will be prompted to create them using the zone manager.\n"
@@ -4784,7 +4784,7 @@ std::string basecamp::recruit_description( int npc_count )
     std::string desc = string_format( _( "Notes:\n"
                                          "Recruiting additional followers is very dangerous and "
                                          "expensive.  The outcome is heavily dependent on the "
-                                         "skill of the  companion you send and the appeal of "
+                                         "skill of the companion you send and the appeal of "
                                          "your base.\n\n"
                                          "Skill used: social\n"
                                          "Difficulty: 2\n"

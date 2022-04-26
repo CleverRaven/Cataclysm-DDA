@@ -78,7 +78,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_small_printout_portal_storm_data",
     "type": "talk_topic",
-    "dynamic_line": "Excellent, this should be enough to work with.  Heres the agreed reward.",
+    "dynamic_line": "Excellent, this should be enough to work with.  Here's the agreed reward.",
     "responses": [
       {
         "text": "Great.",
@@ -90,7 +90,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_medium_printout_portal_storm_data",
     "type": "talk_topic",
-    "dynamic_line": "Great this looks like a very high quality recording.  Heres the agreed payment, and a small bonus.",
+    "dynamic_line": "Great, this looks like a very high quality recording.  Here's the agreed payment, and a small bonus.",
     "responses": [
       {
         "text": "Great.",
