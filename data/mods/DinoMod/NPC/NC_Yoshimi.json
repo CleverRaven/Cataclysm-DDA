@@ -17,7 +17,7 @@
     "name": "DinoLab survivor",
     "job_description": "Need to learn what happened…",
     "common": false,
-    "worn_override": "NC_SCIENTIST_coat",
+    "worn_override": "lab_torso",
     "carry_override": "NC_DOCTOR_misc",
     "weapon_override": "EMPTY_GROUP",
     "traits": [
