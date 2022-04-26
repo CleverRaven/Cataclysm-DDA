@@ -71,7 +71,11 @@
         { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
       ],
       "place_monsters": [ { "monster": "GROUP_GOBLIN_SPIDER", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.15 } ],
-      "place_fields": [ { "field": "fd_web", "x": [ 5, 23 ], "y": [ 4, 16 ], "repeat": 60 }, { "field": "fd_web", "x": [ 26, 40 ], "y": [ 4, 16 ], "repeat": 60 }, { "field": "fd_web", "x": [ 26, 40 ], "y": [ 26, 34 ], "repeat": 60 } ],
+      "place_fields": [
+        { "field": "fd_web", "x": [ 5, 23 ], "y": [ 4, 16 ], "repeat": 60 },
+        { "field": "fd_web", "x": [ 26, 40 ], "y": [ 4, 16 ], "repeat": 60 },
+        { "field": "fd_web", "x": [ 26, 40 ], "y": [ 26, 34 ], "repeat": 60 }
+      ],
       "palettes": [ "field_office_palette" ]
     }
   },
@@ -134,7 +138,11 @@
       ],
       "palettes": [ "field_office_palette" ],
       "place_nested": [
-        { "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ], "x": [ 31, 31 ], "y": [ 33, 33 ] },
+        {
+          "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
+          "x": [ 31, 31 ],
+          "y": [ 33, 33 ]
+        },
         {
           "chunks": [ [ "xed_4x4_cr1_r", 20 ], [ "xed_4x4_cr2_r", 20 ], [ "xed_4x4_cr3_r", 20 ] ],
           "x": [ 35, 35 ],
@@ -199,7 +207,12 @@
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "xed_5x5_register_ol", 20 ], [ "xed_5x5_office1_ol", 10 ], [ "xed_5x5_office2_ol", 10 ], [ "xed_5x5_sofas_ol", 20 ] ],
+          "chunks": [
+            [ "xed_5x5_register_ol", 20 ],
+            [ "xed_5x5_office1_ol", 10 ],
+            [ "xed_5x5_office2_ol", 10 ],
+            [ "xed_5x5_sofas_ol", 20 ]
+          ],
           "x": [ 4, 4 ],
           "y": [ 14, 14 ]
         },
@@ -290,7 +303,11 @@
         "////////////////////////////////////////////////"
       ],
       "place_nested": [
-        { "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ], "x": [ 20, 20 ], "y": [ 12, 12 ] },
+        {
+          "chunks": [ [ "xed_4x4_cr1_l", 20 ], [ "xed_4x4_cr2_l", 20 ], [ "xed_4x4_cr3_l", 20 ] ],
+          "x": [ 20, 20 ],
+          "y": [ 12, 12 ]
+        },
         {
           "chunks": [ [ "xed_4x4_cr1_r", 20 ], [ "xed_4x4_cr2_r", 20 ], [ "xed_4x4_cr3_r", 20 ] ],
           "x": [ 24, 24 ],
@@ -309,7 +326,13 @@
           "y": [ 24, 24 ]
         },
         {
-          "chunks": [ [ "xed_office_slide_dl", 20 ], [ "xed_glass_dl", 20 ], [ "xed_private_dl", 20 ], [ "xed_crowded_dl", 20 ], [ "xed_generic_dl", 20 ] ],
+          "chunks": [
+            [ "xed_office_slide_dl", 20 ],
+            [ "xed_glass_dl", 20 ],
+            [ "xed_private_dl", 20 ],
+            [ "xed_crowded_dl", 20 ],
+            [ "xed_generic_dl", 20 ]
+          ],
           "x": [ 2, 2 ],
           "y": [ 31, 31 ]
         },
@@ -369,7 +392,12 @@
           "y": [ 1, 1 ]
         },
         {
-          "chunks": [ [ "xed_5x5_register_ol", 20 ], [ "xed_5x5_office1_ol", 10 ], [ "xed_5x5_office2_ol", 10 ], [ "xed_5x5_sofas_ol", 20 ] ],
+          "chunks": [
+            [ "xed_5x5_register_ol", 20 ],
+            [ "xed_5x5_office1_ol", 10 ],
+            [ "xed_5x5_office2_ol", 10 ],
+            [ "xed_5x5_sofas_ol", 20 ]
+          ],
           "x": [ 4, 4 ],
           "y": [ 14, 14 ]
         },
