@@ -67,24 +67,20 @@
     "entries": [
       { "item": "boots_combat" },
       { "item": "socks" },
-      { "item": "armor_riot" },
+      { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "some_steel_front_plates" },
       { "item": "boxer_shorts" },
-      { "item": "police_belt" },
       { "item": "pants_army" },
-      { "item": "leg_guards" },
-      { "item": "technician_shirt_gray" },
-      { "item": "jacket_army_modern" },
+      { "item": "legguard_hard" },
+      { "item": "tshirt" },
+      { "item": "sweatshirt" },
       { "item": "spearsling" },
       { "item": "tac_helmet" },
-      { "item": "molle_pack" },
+      { "item": "backpack_hiking" },
       { "item": "wristwatch" },
-      {
-        "item": "m4_carbine",
-        "variant": "m4a1",
-        "ammo-item": "556",
-        "charges": 30,
-        "contents-item": "shoulder_strap"
-      }
+      { "item": "bandolier_pistol", "contents-group": "john_bailey_bandolier" },
+      { "item": "holster", "contents-group": "john_bailey_pistol" },
+      { "item": "bow_sling", "contents-item": "compbow_low" },
+      { "item": "quiver", "contents-group": "john_bailey_quiver" }
     ]
   },
   {
@@ -101,14 +97,12 @@
       { "group": "soup_packet" },
       { "item": "dogfood_dry" },
       { "item": "lighter", "charges": 100 },
-      { "item": "water_clean" },
       { "item": "aspirin" },
-      { "item": "bandage" },
+      { "item": "bandages" },
       { "item": "pot" },
-      { "item": "merch", "count": 10 },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "556", "charges": 30 }
+      { "item": "FMCNote", "count": 10 },
+      { "item": "357mag_fmj", "count": 2 },
+      { "item": "water_clean", "container-item": "camelbak" }
     ]
   },
   {
@@ -116,6 +110,24 @@
     "id": "John_Bailey_wield",
     "subtype": "collection",
     "entries": [ { "item": "spear_pipe" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "john_bailey_pistol",
+    "subtype": "collection",
+    "entries": [ { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "john_bailey_bandolier",
+    "subtype": "collection",
+    "entries": [ { "item": "357mag_fmj", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "john_bailey_quiver",
+    "subtype": "collection",
+    "entries": [ { "item": "arrow_cf", "charges": 20 } ]
   },
   {
     "type": "talk_topic",
