@@ -82,7 +82,7 @@ Even a world class dodger should not be able to dodge continuously when attacked
 # MELEE WEAPONS:
 
 ## To-Hit Value
-The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, ect to get your final chance to hit.
+The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, ect... to get your final chance to-hit.
 
 For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start at '-2' and if you wish, you may go through the categories and manually calculate the to-hit value based on the object's physical properties, then enter the number directly in the format "to_hit": -2, (or whatever number you have decided on).
 
