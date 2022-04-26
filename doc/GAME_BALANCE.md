@@ -80,50 +80,59 @@ Even a world class dodger should not be able to dodge continuously when attacked
 
 
 # MELEE WEAPONS:
-## To-Hit Bonuses
-To-hit bonuses start at '-2' and are modified as follows for weapons that have the following properties:
+
+## To-Hit Value
+The "to_hit" value of an object represents the base likelihood that it will impact an enemy during an attack. This can then be modified martial arts, skills, proficiences, ect to get your final chance to hit.
+
+For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. For these items start at '-2' and go through the following categories and add up the values based on the object's physical properties.
+
+For proper weapons such as those in the data\json\items\melee file and common makeshift weapons like crowbars, axes, hammers we use a slightly different system. Instead of a single number we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding the numbers below up with '-2' you simply select the correct word for each category.
+The format for this is;
+"to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "uneven" }
+
+To-hit values start at '-2'.
 
 ### Grip
 Grip is a measure of how well you can control the weapon to quickly respond to situational changes.
 
--1 - Particularly hard to grip items, (especially those that are innately slipper or very rounded with no obvious gripping edge) such as basketballs and barrels, or which are dangerous to hold because of very sharp edges, like scrap metal and broken glass.
+-1 - "bad" - Particularly hard to grip items, (especially those that are innately slipper or very rounded with no obvious gripping edge) such as basketballs and barrels, or which are dangerous to hold because of very sharp edges, like scrap metal and broken glass.
 
-+0 - Any object that doesn't fall into one of the categories below. Examples include 2x4s, computer monitors, wires, stingers and clothing. Basically, anything that has a grippable component, but which is too thick, too thin, or too flimsy to grab comfortably in a way that can reliably control the object.
++0 - "none" - Any object that doesn't fall into one of the categories below. Examples include 2x4s, computer monitors, wires, stingers and clothing. Basically, anything that has a grippable component, but which is too thick, too thin, or too flimsy to grab comfortably in a way that can reliably control the object.
 
-+1 - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, or pool cue.
++1 - "solid" - A weapon with a fairly solid grip, like a pipe, a rock, guitar neck, or pool cue.
 
-+2 - A weapon with a dedicated grip shaped to the hand, like a sword, axe, knife, or police baton, or that is strapped to the body (or is a piece of the body). Fists would get a +2 bonus here, bringing them to "0" total, since none of the others would apply.
++2 - "weapon" - A weapon with a dedicated grip shaped to the hand, like a sword, axe, knife, or police baton, or that is strapped to the body (or is a piece of the body). Fists would get a +2 bonus here, bringing them to "0" total, since none of the others would apply.
 
 ### Length
 Length allows more surface area for potential contact, and reduces the need to control the positioning of the body to guarantee a hit. It also allows the player to strike from a safer distance, allowing them to worry more about trying to hit without being hit in return, and allows for swings with larger arcs, making dodging such a strike more difficult.
 
-+0 - Any object without a length bonus.
++0 - "hand" - Any object without a length bonus.
 
-+1 - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand. A normal American 12inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
++1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand. A normal American 12inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
 
-+2 - An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaves, poles, and a lot of other stuff.
++2 - "long" An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
 
 ### Striking Surface
 Some weapons need to strike in a certain way to be effective. Others are more difficult to use "incorrectly".
 
--2 - Single-Point weapons - Picks, spears, syringes. Any weapon that has a single point that must contact the enemy in a specific way in order to deal a decent amount of damage. Also, weapons with difficult attack angles, like scythes, where the damaging part of the weapon is faced away from the enemy.
+-2 - "point" - Single-Point weapons - Picks, spears, syringes. Any weapon that has a single point that must contact the enemy in a specific way in order to deal a decent amount of damage. Also, weapons with difficult attack angles, like scythes, where the damaging part of the weapon is faced away from the enemy.
 
--1 - Line of damage weapons - Swords, knives, and other weapons that require a solid strike along a particular piece of the weapon, where the weapon can be said to have an attack angle, fall here. Weapons that have point attacks but are still effective without any solid hit, such as a nailboard, would also fall here.
+-1 - "line" - Line of damage weapons - Swords, knives, and other weapons that require a solid strike along a particular piece of the weapon, where the weapon can be said to have an attack angle, fall here. Weapons that have point attacks but are still effective without any solid hit, such as a nailboard, would also fall here.
 
-+0 - attack-anywhere weapons - Clubs, pipes, maces, etc, where the weapon will be dealing full damage with a solid blow no matter how it is angled, because every surface is a striking surface.
++0 - "any" - attack-anywhere weapons - Clubs, pipes, maces, etc, where the weapon will be dealing full damage with a solid blow no matter how it is angled, because every surface is a striking surface.
 
-+1 - Weapons that can still do significant damage even with glancing blows would fall here. Jagged tearing weapons and electric weapons like a stun baton would fall here.
++1 - "every" - Weapons that can still do significant damage even with glancing blows would fall here. Jagged tearing weapons and electric weapons like a stun baton would fall here.
 
 ### Balance
 A measure of how well-suited the item is for being swung/thrust/etc. This factors in overall balance of the weapon, weight is accounted for separately.
 
--2 - Very clumsy or lopsided items ill-suited for swinging or thrusting.  Characterized by requiring effort just to hold steady.  frying pan or pot, chainsaw, chair, vacuum cleaner.
+-2 - "clumsy" - Very clumsy or lopsided items ill-suited for swinging or thrusting. Characterized by requiring effort just to hold steady. frying pan or pot, chainsaw, chair, vacuum cleaner.
 
--1 - Balance of the object is uneven, but in a way that at least doesn't interfere with swinging. axes, sledgehammer, rifle, scythe, most polearms.
+-1 - "uneven" - Balance of the object is uneven, but in a way that at least doesn't interfere with swinging. axes, sledgehammer, rifle, scythe, most polearms.
 
-+0 - Neutral balance, neither well nor poorly weighted for the typical use. Heavy stick, rock, pool stick, kitchen knives, claw hammer, metal pipe, crowbar, handguns.
++0 - "neutral" - Neutral balance, neither well nor poorly weighted for the typical use. Heavy stick, rock, pool stick, kitchen knives, claw hammer, metal pipe, crowbar, handguns.
 
-+1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
++1 - "good" - Well-balanced for swinging or stabbing. Baseball bat, golf club, swords, quarterstaff, knives.
 
 ## Damage
 Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
