@@ -157,7 +157,7 @@
     "dialogue": {
       "describe": "I think I might know where a decent chemistry set is…",
       "offer": "I need a full chemistry set to do my work properly.  I could use some help.",
-      "accepted": "So much to do.",
+      "accepted": "Fine.  I've marked one I know about on your map but any set will work.",
       "rejected": "Fine, you'll probably be dead soon anyway.",
       "advice": "It might be too dangerous now, any working full chemistry set is fine.  There is a good chance something got out.",
       "inquire": "Do you have the set yet?",
@@ -204,7 +204,7 @@
     "dialogue": {
       "describe": "I need some expert advice…",
       "offer": "I don't have access to my old lab's procedural documents here.  Find Dr. Kiernan and get some notes on the basics.  I can work from there.",
-      "accepted": "So much to do.",
+      "accepted": "Right.  I've marked his last location on your map.",
       "rejected": "Ugh.",
       "advice": "Kiernan is probably still at the old field office.  It should be fine as long as the emergency power is still working.  You may have to do some kind of stupid task before Kiernan talks.  Try not to get violent.  If Kiernan is dead try and find some notes or books.",
       "inquire": "Do you have the information yet?",
@@ -235,7 +235,7 @@
     "dialogue": {
       "describe": "Time for a nice relaxing trip…",
       "offer": "We have been working so hard.  We deserve a break.  Here is what I want you to do.  There is a special zoo with very special animals in it. I need you to go there and kill anything dangerous and smash the corpses bloody so they don't rise and try to kill me.  For science.  Then I'm going to go there and study what is there to get ready for the next step.",
-      "accepted": "So much to do.",
+      "accepted": "Clean up if you can, I don't like mess.",
       "rejected": "Ugh.",
       "advice": "You're good at this kind of brutality I assume.  Bring a weapon of some kind.  I don't know how dangerous it will be but I would assume the worst.  I always do.",
       "inquire": "Are you back from your relaxing trip?",
