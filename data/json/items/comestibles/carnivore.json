@@ -98,6 +98,34 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "gastropod_purged",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "purged gastropod },
+    "description": "A gastropod that has been prepared for cooking by boiling it and then washing it in water and repeating it again to remove its mucus and pathogens.",
+    "//": "Nutrition information roughly based on a serving of 6 snails. if you know more pls expand",
+    "weight": "15 g",
+    "volume": "15 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "calories": 15
+  },
+  {
+    "id": "gastropod_cooked",
+    "copy-from": "mollusk",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked gastropod" },
+    "description": "Freshly cooked gastropod.  A bit low on calories but high in protein.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "hstomach",
     "copy-from": "stomach",
     "type": "COMESTIBLE",
