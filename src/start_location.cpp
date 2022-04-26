@@ -20,6 +20,7 @@
 #include "map_extras.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -69,13 +70,32 @@ std::pair<std::string, ot_match_type> start_location::random_target() const
     return random_entry( _omt_types );
 }
 
+bool start_location::requires_city() const
+{
+    return constraints_.city_size.min > 0 ||
+           constraints_.city_distance.max < std::max( OMAPX, OMAPY );
+}
+
+bool start_location::can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const
+{
+    if( !requires_city() ) {
+        return true;
+    }
+    if( !cit || !constraints_.city_size.contains( cit.size ) ) {
+        return false;
+    }
+    return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
+}
+
 const std::set<std::string> &start_location::flags() const
 {
     return _flags;
 }
 
-void start_location::load( const JsonObject &jo, const std::string & )
+void start_location::load( const JsonObject &jo, const std::string &src )
 {
+    const bool strict = src == "dda";
+
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
@@ -88,6 +108,15 @@ void start_location::load( const JsonObject &jo, const std::string & )
             ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
         }
         _omt_types.emplace_back( ter, ter_match_type );
+    }
+    if( jo.has_array( "city_sizes" ) ) {
+        assign( jo, "city_sizes", constraints_.city_size, strict );
+    }
+    if( jo.has_array( "city_distance" ) ) {
+        assign( jo, "city_distance", constraints_.city_distance, strict );
+    }
+    if( jo.has_array( "allowed_z_levels" ) ) {
+        assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
     }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
@@ -200,12 +229,12 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint_abs_omt start_location::find_player_initial_location() const
+tripoint_abs_omt start_location::find_player_initial_location( const point_abs_om &origin ) const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
-    for( const point_abs_om &omp : closest_points_first( point_abs_om(), radius ) ) {
+    for( const point_abs_om &omp : closest_points_first( origin, radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
         const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
         if( omtstart.raw() != tripoint_min ) {
@@ -215,6 +244,33 @@ tripoint_abs_omt start_location::find_player_initial_location() const
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
            name(), id.str(), radius );
+    return overmap::invalid_tripoint;
+}
+
+tripoint_abs_omt start_location::find_player_initial_location( const city &origin ) const
+{
+    overmap &omap = overmap_buffer.get( origin.pos_om );
+    std::vector<tripoint_om_omt> valid;
+    for( const point_om_omt &omp : closest_points_first( origin.pos, origin.size ) ) {
+        for( int k = constraints_.allowed_z_levels.min; k <= constraints_.allowed_z_levels.max; k++ ) {
+            tripoint_om_omt p( omp, k );
+            if( !can_belong_to_city( p, origin ) ) {
+                continue;
+            }
+            for( const auto &target : _omt_types ) {
+                if( is_ot_match( target.first, omap.ter( p ), target.second ) ) {
+                    valid.push_back( p );
+                }
+            }
+        }
+    }
+    const tripoint_om_omt omtstart = random_entry( valid, tripoint_om_omt( tripoint_min ) );
+    if( omtstart.raw() != tripoint_min ) {
+        return project_combine( origin.pos_om, omtstart );
+    }
+    // Should never happen, if it does we messed up.
+    popup( _( "Unable to generate a valid starting location %s [%s] in a city [%s], please report this failure." ),
+           name(), id.str(), origin.name );
     return overmap::invalid_tripoint;
 }
 

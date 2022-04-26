@@ -102,53 +102,52 @@ std::string enum_to_string<description_affix>( description_affix data )
 
 } // namespace io
 
-namespace
+generic_factory<field_type> &get_all_field_types()
 {
-
-generic_factory<field_type> all_field_types( "field types" );
-
-} // namespace
+    static generic_factory<field_type> all_field_types( "field types" );
+    return all_field_types;
+}
 
 /** @relates int_id */
 template<>
 bool int_id<field_type>::is_valid() const
 {
-    return all_field_types.is_valid( *this );
+    return get_all_field_types().is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
 const field_type &int_id<field_type>::obj() const
 {
-    return all_field_types.obj( *this );
+    return get_all_field_types().obj( *this );
 }
 
 /** @relates int_id */
 template<>
 const string_id<field_type> &int_id<field_type>::id() const
 {
-    return all_field_types.convert( *this );
+    return get_all_field_types().convert( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<field_type>::is_valid() const
 {
-    return all_field_types.is_valid( *this );
+    return get_all_field_types().is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
 const field_type &string_id<field_type>::obj() const
 {
-    return all_field_types.obj( *this );
+    return get_all_field_types().obj( *this );
 }
 
 template<>
 int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallback ) const
 {
-    if( all_field_types.initialized ) {
-        return all_field_types.convert( *this, fallback, false );
+    if( get_all_field_types().initialized ) {
+        return get_all_field_types().convert( *this, fallback, false );
     }
     return fallback;
 }
@@ -157,7 +156,7 @@ int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallb
 template<>
 int_id<field_type> string_id<field_type>::id() const
 {
-    return all_field_types.convert( *this, fd_null.id_or( int_id<field_type>() ) );
+    return get_all_field_types().convert( *this, fd_null.id_or( int_id<field_type>() ) );
 }
 
 /** @relates int_id */
@@ -356,40 +355,40 @@ void field_type::check() const
 
 size_t field_type::count()
 {
-    return all_field_types.size();
+    return get_all_field_types().size();
 }
 
 void field_types::load( const JsonObject &jo, const std::string &src )
 {
-    all_field_types.load( jo, src );
+    get_all_field_types().load( jo, src );
 }
 
 void field_types::finalize_all()
 {
-    all_field_types.finalize();
-    for( const field_type &fd : all_field_types.get_all() ) {
+    get_all_field_types().finalize();
+    for( const field_type &fd : get_all_field_types().get_all() ) {
         const_cast<field_type &>( fd ).finalize();
     }
 }
 
 void field_types::check_consistency()
 {
-    all_field_types.check();
+    get_all_field_types().check();
 }
 
 void field_types::reset()
 {
-    all_field_types.reset();
+    get_all_field_types().reset();
 }
 
 const std::vector<field_type> &field_types::get_all()
 {
-    return all_field_types.get_all();
+    return get_all_field_types().get_all();
 }
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
 {
-    for( const auto &ft : all_field_types.get_all() ) {
+    for( const auto &ft : get_all_field_types().get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {
             return ft;
         }

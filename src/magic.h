@@ -45,6 +45,7 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -333,7 +334,7 @@ class spell_type
 
         std::set<mtype_id> targeted_monster_ids;
 
-        // lits of bodyparts this spell applies its effect to
+        // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
@@ -639,7 +640,7 @@ class known_magic
         }
         // how much mana is available to use to cast spells
         int available_mana() const;
-        // max mana vailable
+        // max mana available
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );

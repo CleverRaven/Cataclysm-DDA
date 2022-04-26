@@ -145,7 +145,7 @@
     "id": "bio_forcefield_ballistic_heavy",
     "type": "bionic",
     "name": { "str": "Kinetic annulment system CBM" },
-    "description": "A kinetic attenuation system salvaged from a pre-discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
     "occupied_bodyparts": [ [ "torso", 14 ] ],
     "upgraded_bionic": "bio_forcefield_ballistic_medium",
     "act_cost": "10 kJ",
@@ -305,7 +305,7 @@
   {
     "id": "bio_armor_head",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - head" },
+    "name": { "str": "Intradermal Alloy - Head" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
@@ -415,7 +415,7 @@
   {
     "id": "bio_armor_torso",
     "type": "bionic",
-    "name": { "str": "Intradermal Alloy - torso" },
+    "name": { "str": "Intradermal Alloy - Torso" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],

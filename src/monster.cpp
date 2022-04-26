@@ -148,6 +148,7 @@ static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
 static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PHEROMONE_AMPHIBIAN( "PHEROMONE_AMPHIBIAN" );
@@ -178,6 +179,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
     {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_light_gray}},
     {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_UNKNOWN, {translate_marker( "Unknown" ), def_c_yellow}}, //Should only be used for UI.
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
@@ -698,15 +700,26 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     oss << "<color_h_white>" << get_effect_status() << "</color>";
     vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
+    Character &pc = get_player_character();
+    bool sees_player = sees( pc );
+    const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
+
     // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, vStart++ ), att.second, att.first );
+    if( player_knows ) {
+        mvwprintz( w, point( column, vStart++ ), att.second, att.first );
+    } else {
+        mvwprintz( w, point( column, vStart++ ), all_colors.get( attitude_names.at( MATT_UNKNOWN ).second ),
+                   attitude_names.at( MATT_UNKNOWN ).first );
+    }
 
     // Awareness indicator in the third line.
-    bool sees_player = sees( get_player_character() );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+    senses_str = !player_knows ? _( "You have no idea what is it doing" ) :
+                 senses_str;
+    vStart += fold_and_print( w, point( column, vStart ), max_width, player_knows &&
+                              sees_player ? c_red : c_green,
                               senses_str );
 
     const std::string speed_desc = speed_description(
@@ -1196,6 +1209,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             case MATT_ATTACK:
                 return Attitude::HOSTILE;
             case MATT_NULL:
+            case MATT_UNKNOWN:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
@@ -2564,7 +2578,7 @@ void monster::die( Creature *nkiller )
             }
         }
         if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
                 pocket->set_usability( false );
             }
         }
@@ -2753,7 +2767,7 @@ void monster::process_effects()
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
     int regeneration_amount = type->regenerates;
-    //Apply effect-triggered regeneartion modifers
+    //Apply effect-triggered regeneartion modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
             regeneration_amount += regeneration_modifier.second;
@@ -2834,7 +2848,7 @@ bool monster::make_fungus()
         return true;
     }
     if( type->has_flag( MF_NO_FUNG_DMG ) ) {
-        return true; // Retrun true when monster is immune to fungal damage.
+        return true; // Return true when monster is immune to fungal damage.
     }
     if( type->fungalize_into.is_empty() ) {
         return false;

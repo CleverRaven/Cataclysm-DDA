@@ -26,7 +26,7 @@
     "id": "xl_helmet_nomad",
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
-    "name": { "str": "nomad cowl XL" },
+    "name": { "str": "XL nomad cowl" },
     "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusual and enormous anatomy.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -36,7 +36,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_nomad",
     "looks_like": "helmet_nomad",
-    "name": { "str": "nomad cowl XS" },
+    "name": { "str": "XS nomad cowl" },
     "description": "A cowl with protection for the eyes from rain and sun, designed for long travels.  You have customized the recipe to fit unusually small anatomy.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -219,7 +219,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT", "SOFT" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
   },
   {

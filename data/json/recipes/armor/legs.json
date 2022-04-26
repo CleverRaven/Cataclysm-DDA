@@ -230,7 +230,7 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
+    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "skirt",
@@ -418,8 +418,9 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "tailor",
-    "difficulty": 5,
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
@@ -449,7 +450,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 4,
+    "skills_required": [ "tailor", 4 ],
     "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
@@ -619,6 +621,25 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
+  },
+  {
+    "result": "armor_mercenary_bottom",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 90 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ],
+    "components": [ [ [ "pants_army", 1 ], [ "pants_cargo", 1 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   },
   {
     "result": "lsurvivor_pants",
@@ -947,7 +968,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "reversible": true,
-    "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1017,33 +1038,6 @@
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "using": [ [ "tailoring_lycra", 3 ] ]
-  },
-  {
-    "result": "chainmail_legs",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "time": "4 h",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
-  },
-  {
-    "result": "xs_chainmail_legs",
-    "type": "recipe",
-    "copy-from": "chainmail_legs",
-    "time": "4 h",
-    "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 3 ], [ "clasps", 3 ] ]
-  },
-  {
-    "result": "xl_chainmail_legs",
-    "type": "recipe",
-    "copy-from": "chainmail_legs",
-    "time": "4 h 30 m",
-    "using": [ [ "armor_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
   },
   {
     "result": "lc_chainmail_legs",

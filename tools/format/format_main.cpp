@@ -61,7 +61,7 @@ int main( int argc, char *argv[] )
     }
 
     if( in.str().empty() ) {
-        std::cout << "Error, input empty." << std::endl;
+        std::cout << "Error, " << ( filename.empty() ? "input" : filename ) << " is empty." << std::endl;
         exit( EXIT_FAILURE );
     }
     JsonOut jsout( out, true );

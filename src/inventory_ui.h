@@ -22,6 +22,7 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -31,6 +32,7 @@
 
 class Character;
 class item;
+class item_stack;
 class string_input_popup;
 class ui_adaptor;
 struct point;
@@ -158,6 +160,7 @@ class inventory_entry
         // topmost visible parent, used for visibility checks
         item *topmost_parent = nullptr;
         size_t generation = 0;
+        bool chevron = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -206,6 +209,10 @@ class inventory_selector_preset
             return check_components;
         }
 
+        item_pocket::pocket_type get_pocket_type() const {
+            return _pk_type;
+        }
+
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
 
@@ -232,6 +239,8 @@ class inventory_selector_preset
 
         // whether to indent contained entries in the menu
         bool _indent_entries = true;
+
+        item_pocket::pocket_type _pk_type = item_pocket::pocket_type::CONTAINER;
 
     private:
         class cell_t
@@ -335,7 +344,7 @@ class inventory_column
         void draw( const catacurses::window &win, const point &p,
                    std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
-        void add_entry( const inventory_entry &entry );
+        inventory_entry *add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
@@ -552,8 +561,8 @@ class inventory_selector
                                      const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
-        void add_contained_items( item_location &container );
-        void add_contained_items( item_location &container, inventory_column &column,
+        bool add_contained_items( item_location &container );
+        bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item *topmost_parent = nullptr );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
@@ -606,6 +615,8 @@ class inventory_selector
             return this->use_invlet;
         }
 
+        void categorize_map_items( bool toggle );
+
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 3>;
@@ -622,20 +633,15 @@ class inventory_selector
         const item_category *naturalize_category( const item_category &category,
                 const tripoint &pos );
 
-        void add_entry( inventory_column &target_column,
-                        std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr,
-                        size_t chosen_count = 0, item *topmost_parent = nullptr );
+        inventory_entry *add_entry( inventory_column &target_column,
+                                    std::vector<item_location> &&locations,
+                                    const item_category *custom_category = nullptr,
+                                    size_t chosen_count = 0, item *topmost_parent = nullptr );
 
-        void add_item( inventory_column &target_column,
-                       item_location &&location,
-                       const item_category *custom_category = nullptr,
-                       item *topmost_parent = nullptr );
-
-        void add_items( inventory_column &target_column,
-                        const std::function<item_location( item * )> &locator,
-                        const std::vector<std::list<item *>> &stacks,
-                        const item_category *custom_category = nullptr );
+        bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
+                            item_location &loc, item_category const *entry_category = nullptr,
+                            item_category const *children_category = nullptr,
+                            item *topmost_parent = nullptr );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
@@ -728,6 +734,8 @@ class inventory_selector
         void draw_footer( const catacurses::window &w ) const;
         void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
+        void _add_map_items( tripoint const &target, item_category const &cat, item_stack &items,
+                             std::function<item_location( item & )> const &floc );
 
     public:
         /**

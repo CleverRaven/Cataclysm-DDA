@@ -106,9 +106,9 @@
   {
     "id": "TALK_SCAVENGER_MERC_HIRE",
     "type": "talk_topic",
-    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 750 Merch will cover my expenses if I get a small cut of the loot.",
+    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 750 merch will cover my expenses if I get a small cut of the loot.",
     "responses": [
-      { "text": "What the heck is a Merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
+      { "text": "What the heck is a merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
       { "text": "I might be back.", "topic": "TALK_SCAVENGER_MERC" },
       {
         "text": "[750 merch] You have a deal.",
@@ -121,10 +121,10 @@
   {
     "id": "TALK_SCAVENGER_MERC_MERCH",
     "type": "talk_topic",
-    "dynamic_line": "Merchs are what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need Merch.",
+    "dynamic_line": "Merch is what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need merch.",
     "responses": [
       { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
-      { "text": "Okay, how much Merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
+      { "text": "Okay, how much merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
       { "text": "Well, thanks for the info.  Bye!", "topic": "TALK_DONE" }
     ]
   },

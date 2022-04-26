@@ -73,8 +73,14 @@
     "passive_mods": { "str_mod": -2 },
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
-    "category": [ "MANATOUCHED", "MOUSE", "RAT", "BIRD", "SLIME" ],
-    "cancels": [ "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+    "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME" ],
+    "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+  },
+  {
+    "id": "STR_UP",
+    "type": "mutation",
+    "copy-from": "STR_UP",
+    "extend": { "cancels": [ "WEAK" ] }
   },
   {
     "id": "STR_UP_2",
@@ -95,9 +101,9 @@
     "extend": { "cancels": [ "WEAK" ] }
   },
   {
-    "id": "STR_UP_ALPHA",
+    "id": "STR_ALPHA",
     "type": "mutation",
-    "copy-from": "STR_UP_ALPHA",
+    "copy-from": "STR_ALPHA",
     "extend": { "cancels": [ "WEAK" ] }
   },
   {
@@ -112,6 +118,12 @@
   },
   {
     "type": "mutation",
+    "id": "PALE",
+    "copy-from": "PALE",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -120,6 +132,12 @@
     "type": "mutation",
     "id": "BIOLUM0",
     "copy-from": "BIOLUM0",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ROT1",
+    "copy-from": "ROT1",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
@@ -233,12 +251,6 @@
   },
   {
     "type": "mutation",
-    "id": "WEAKSTOMACH",
-    "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "MANATOUCHED" ] }
-  },
-  {
-    "type": "mutation",
     "id": "BADBACK",
     "copy-from": "BADBACK",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -251,14 +263,56 @@
   },
   {
     "type": "mutation",
-    "id": "INT_UP_3",
-    "copy-from": "INT_UP_3",
+    "id": "LIGHT_BONES",
+    "copy-from": "LIGHT_BONES",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
     "type": "mutation",
-    "id": "LIGHT_BONES",
-    "copy-from": "LIGHT_BONES",
+    "id": "THINSKIN",
+    "copy-from": "THINSKIN",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTREADER",
+    "copy-from": "FASTREADER",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODMEMORY",
+    "copy-from": "GOODMEMORY",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LOVES_BOOKS",
+    "copy-from": "LOVES_BOOKS",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SAVANT",
+    "copy-from": "SAVANT",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RADIOGENIC",
+    "copy-from": "RADIOGENIC",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MORE_PAIN",
+    "copy-from": "MORE_PAIN",
+    "valid": true,
     "extend": { "category": [ "MANATOUCHED" ] }
   }
 ]

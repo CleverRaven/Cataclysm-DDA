@@ -25,6 +25,7 @@ struct learning_proficiency;
 template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
+class Character;
 
 enum class proficiency_bonus_type : int {
     strength,
@@ -46,12 +47,25 @@ struct proficiency_bonus {
     void deserialize( const JsonObject &jo );
 };
 
+struct proficiency_category {
+    proficiency_category_id id;
+    translation _name;
+    translation _description;
+    bool was_loaded = false;
+
+    static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
+    static void reset();
+    void load( const JsonObject &jo, const std::string &src );
+    static const std::vector<proficiency_category> &get_all();
+};
+
 class proficiency
 {
         friend class generic_factory<proficiency>;
         friend struct mod_tracker;
 
         proficiency_id id;
+        proficiency_category_id _category;
         std::vector<std::pair<proficiency_id, mod_id>> src;
         bool was_loaded = false;
 
@@ -82,6 +96,7 @@ class proficiency
         bool can_learn() const;
         bool ignore_focus() const;
         proficiency_id prof_id() const;
+        proficiency_category_id prof_category() const;
         std::string name() const;
         std::string description() const;
 
@@ -202,5 +217,7 @@ class book_proficiency_bonuses
         // (no mitigation) to 1 (full mitigation)
         float time_factor( const proficiency_id &id ) const;
 };
+
+void show_proficiencies_window( const Character &u );
 
 #endif // CATA_SRC_PROFICIENCY_H

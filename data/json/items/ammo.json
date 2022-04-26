@@ -147,7 +147,8 @@
     "description": "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
     "material": [ "aluminum" ],
     "volume": "10 ml",
-    "weight": "4 g",
+    "weight": "135 mg",
+    "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
     "count": 200
   },
@@ -929,7 +930,8 @@
     "material": [ "coal" ],
     "phase": "solid",
     "volume": "250 ml",
-    "weight": "44 g",
+    "weight": "1500 mg",
+    "//": "Density somewhere around 1.5 g/cm3 (solid anthracite)",
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10
@@ -1192,7 +1194,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 150
+    "count": 750
   },
   {
     "type": "AMMO",
@@ -1354,7 +1356,7 @@
     "id": "graphite",
     "name": { "str_sp": "graphite" },
     "symbol": "!",
-    "description": "Graphite powder mixed with a clay binder.  Produces grey or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
+    "description": "Graphite powder mixed with a clay binder.  Produces gray or black marks that are easily erased, but otherwise resistant to moisture, most chemicals, ultraviolet radiation and natural aging.",
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "dark_gray",

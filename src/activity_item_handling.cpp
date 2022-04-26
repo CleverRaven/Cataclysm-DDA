@@ -39,6 +39,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -2162,7 +2163,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 continue;
             }
 
-            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem ) ) {
+            if( id == zone_type_LOOT_CUSTOM && mgr.custom_loot_has( src, &thisitem, zone_type_LOOT_CUSTOM ) ) {
                 continue;
             }
 
@@ -2172,8 +2173,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
-            if( mgr.has_near( zone_type_zone_unload_all, abspos, 0 ) ||
-                ( mgr.has_near( zone_type_zone_strip, abspos, 0 ) && it->first->is_corpse() ) ) {
+            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1 ) ||
+                ( mgr.has_near( zone_type_zone_strip, abspos, 1 ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
@@ -3026,9 +3027,8 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
         if( you.backlog.empty() || src_set.empty() ) {
             check_npc_revert( you );
-            // tidy up leftover moved parts and tools left lying near the work spots.
             if( player_activity( activity_to_restore ).is_multi_type() ) {
-                you.assign_activity( ACT_TIDY_UP );
+                you.assign_activity( activity_id::NULL_ID() );
             }
         }
         you.activity_vehicle_part_index = -1;
@@ -3190,7 +3190,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == add_type::ALCOHOL && !you.has_addiction( add_type::ALCOHOL ) ) {
+            if( comest.get_comestible()->add == STATIC( addiction_id( "alcohol" ) ) &&
+                !you.has_addiction( comest.get_comestible()->add ) ) {
                 continue;
             }
 

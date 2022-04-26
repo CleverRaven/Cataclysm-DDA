@@ -176,16 +176,16 @@
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A HEFTY plastic bag.  Literally trash.",
-    "weight": "30 g",
-    "volume": "50 ml",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "weight": "21 g",
+    "volume": "23 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray"
+    "color": "black"
   },
   {
     "id": "bag_paper_powder",
@@ -523,10 +523,62 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "bowl_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden bowl" },
+    "looks_like": "bowl_plastic",
+    "description": "A crude-looking wooden bowl which can hold some liquid.",
+    "weight": "48 g",
+    "volume": "300 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "bowl_skull",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "skull bowl" },
+    "looks_like": "bowl_plastic",
+    "description": "A macabre-looking bowl made from the upper part of a skull.",
+    "weight": "112 g",
+    "volume": "520 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "open_container": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "box_cigarette",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "pack" },
+    "name": { "str": "cigarette pack" },
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
@@ -561,15 +613,15 @@
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
-    "weight": "151 g",
-    "volume": "2100 ml",
-    "longest_side": "22 cm",
+    "weight": "50 g",
+    "volume": "2250 ml",
+    "longest_side": "21 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "4 kg",
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "8 kg",
         "max_item_length": "20 cm"
       }
     ],
@@ -581,39 +633,15 @@
     "color": "brown"
   },
   {
-    "id": "box_small_wood",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
-    "description": "A small wooden box a few inches on each side, just about right for holding a few small items.",
-    "weight": "400 g",
-    "volume": "2010 ml",
-    "longest_side": "181 mm",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "1350 ml",
-        "max_contains_weight": "4536 g",
-        "max_item_length": "167 mm"
-      }
-    ],
-    "price": 2000,
-    "price_postapoc": 5,
-    "material": [ "wood" ],
-    "symbol": "[",
-    "color": "brown"
-  },
-  {
     "id": "box_medium",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
-    "weight": "850 g",
-    "volume": "50100 ml",
-    "longest_side": "50 cm",
+    "weight": "400 g",
+    "volume": "51000 ml",
+    "longest_side": "51 cm",
     "//": "(25x40x50)",
     "price": 0,
     "price_postapoc": 0,
@@ -623,7 +651,7 @@
         "rigid": true,
         "max_contains_volume": "50000 ml",
         "max_contains_weight": "20 kg",
-        "max_item_length": "60 cm"
+        "max_item_length": "50 cm"
       }
     ],
     "material": [ "cardboard" ],
@@ -637,10 +665,10 @@
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
-    "weight": "1250 g",
-    "volume": "325000 ml",
-    "longest_side": "90 cm",
-    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "weight": "2 kg",
+    "volume": "329000 ml",
+    "longest_side": "91 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -652,7 +680,7 @@
         "rigid": true,
         "max_contains_volume": "324000 ml",
         "max_contains_weight": "50 kg",
-        "max_item_length": "100 cm"
+        "max_item_length": "90 cm"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
@@ -664,10 +692,10 @@
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
     "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
-    "weight": "2610 g",
-    "volume": "330000 ml",
-    "longest_side": "90 cm",
-    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x90x60)",
+    "weight": "4 kg",
+    "volume": "334000 ml",
+    "longest_side": "91 cm",
+    "//": "A box that children could hide in should be big enough to cram a (un)dead child or uncomfortable adult in (90x60x60)",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
@@ -679,10 +707,242 @@
         "rigid": true,
         "max_contains_volume": "324000 ml",
         "max_contains_weight": "100 kg",
-        "max_item_length": "100 cm"
+        "max_item_length": "90 cm"
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box_large_reinforced" }
+  },
+  {
+    "id": "box_oversize",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
+    "weight": "2000 g",
+    "volume": "205000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": 0,
+    "price_postapoc": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small wooden box", "str_pl": "small wooden boxes" },
+    "description": "A small wooden box.  Beautifully made, perhaps it could hold something precious.",
+    "weight": "650 g",
+    "volume": "3200 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "//": "~7x20x15 or ~4x22x22",
+    "price": 2000,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "symbol": "[",
+    "color": "brown"
+  },
+  {
+    "id": "box_medium_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden box", "str_pl": "wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "A hefty wooden box.  Great for storing items.",
+    "weight": "5200 g",
+    "volume": "58800 ml",
+    "longest_side": "52 cm",
+    "//": "(25x40x50)",
+    "price": 2000,
+    "price_postapoc": 20,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "50 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_large_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large wooden box", "str_pl": "large wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "A small wooden crate.  Sturdy, but still light enough to be moved.",
+    "weight": "41600 g",
+    "volume": "394400 ml",
+    "longest_side": "92 cm",
+    "//": "(60x60x90)",
+    "price": 5000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "90 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_oversize_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize wooden box", "str_pl": "oversize wooden boxes" },
+    "looks_like": "box_small_wood",
+    "description": "An oversize wooden box, big enough to fit some longer items.  Great for storage.",
+    "weight": "34400 g",
+    "volume": "255600 ml",
+    "longest_side": "202 cm",
+    "//": "(200x50x20)",
+    "price": 5000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "250 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
+    "id": "box_small_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small metal box", "str_pl": "small metal boxes" },
+    "description": "A small metal box.  It could hold even the densest of items.",
+    "weight": "750 g",
+    "volume": "2196 ml",
+    "longest_side": "21 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "//": "~7x20x15 or ~4x22x22",
+    "price": 3000,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_medium_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "metal box", "str_pl": "metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "A strong metal box.  Great for packing your heaviest items.",
+    "weight": "6000 g",
+    "volume": "50750 ml",
+    "longest_side": "51 cm",
+    "//": "(25x40x50)",
+    "price": 8000,
+    "price_postapoc": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50000 ml",
+        "max_contains_weight": "200 kg",
+        "max_item_length": "50 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_large_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large metal box", "str_pl": "large metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "A small metal crate.  The slim profile makes storage that little bit easier.",
+    "weight": "48 kg",
+    "volume": "330000 ml",
+    "longest_side": "91 cm",
+    "//": "(60x60x90)",
+    "price": 16000,
+    "price_postapoc": 80,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "324000 ml",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "90 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
+    "id": "box_oversize_metal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize metal box", "str_pl": "oversize metal boxes" },
+    "looks_like": "box_small_metal",
+    "description": "An oversize metal box, big enough to fit some longer items.  The slim profile makes storage that little bit easier.",
+    "weight": "48 kg",
+    "volume": "206000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": 16000,
+    "price_postapoc": 80,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "steel" ],
+    "symbol": ")",
+    "color": "light_gray"
   },
   {
     "id": "bucket",
@@ -711,14 +971,40 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "bucket_wood",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wooden bucket" },
+    "description": "A wooden bucket.  Carefully chiseled out of hardwood log section, almost like a dugout canoe.  Holds 5 liters of water and has wooden handle for carry.",
+    "ascii_picture": "bucket_wood",
+    "weight": "1250 g",
+    "volume": "7500 ml",
+    "price": 300,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": ")",
+    "color": "c_brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "camelbak",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "hydration pack" },
     "looks_like": "runner_bag",
-    "description": "A slim and lightweight insulated plastic bladder worn on the back.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
+    "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
     "weight": "286 g",
-    "volume": "2503 ml",
+    "volume": "3001 ml",
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -1,
@@ -731,7 +1017,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "max_contains_volume": "2500 ml",
+        "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }
@@ -1102,6 +1388,31 @@
         "max_contains_weight": "1 kg"
       }
     ]
+  },
+  {
+    "id": "cup_foil",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "foil cup" },
+    "description": "An improvised foldable cup made from aluminum foil.  It can contain liquid and is usable for boiling water.",
+    "weight": "24 g",
+    "volume": "5 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "aluminum" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "300 g"
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SOFT" ]
   },
   {
     "id": "flask_glass",
@@ -1660,44 +1971,44 @@
     "variants": [
       {
         "id": "tardis_case",
-        "name": { "str_sp": "Police Call Box Case" },
-        "description": "This waterproof phone case has a drawing on it that makes it look like an old English police call box.",
+        "name": { "str": "police call box waterproof smartphone case" },
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
         "weight": 1
       },
       {
         "id": "black_smart_phone_case",
-        "name": { "str_sp": "black waterproof smartphone case" },
+        "name": { "str": "black waterproof smartphone case" },
         "description": "A black waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "pink_smart_phone_case",
-        "name": { "str_sp": "pink waterproof smartphone case" },
+        "name": { "str": "pink waterproof smartphone case" },
         "description": "A pink waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "red_smart_phone_case",
-        "name": { "str_sp": "red waterproof smartphone case" },
+        "name": { "str": "red waterproof smartphone case" },
         "description": "A red waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 10
       },
       {
         "id": "bejewelled_smart_phone_case",
-        "name": { "str_sp": "bejewelled waterproof smartphone case" },
+        "name": { "str": "bejewelled waterproof smartphone case" },
         "description": "A gold waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
         "weight": 5
       },
       {
         "id": "hello_kitty_case",
-        "name": { "str_sp": "Hello Kitty Case" },
-        "description": "This waterproof phone case has numerous versions of Hello Kitty posing on it.",
+        "name": { "str": "Hello Kitty waterproof smartphone case" },
+        "description": "This waterproof smartphone case has numerous versions of Hello Kitty posing on it.",
         "weight": 5
       },
       {
         "id": "zombie_case",
-        "name": { "str_sp": "Zombie Case" },
-        "description": "This waterproof phone case has a green zombie on its rear side.  Would using this be in poor taste now?",
+        "name": { "str": "zombie waterproof smartphone case" },
+        "description": "This waterproof smartphone case has a green zombie on its rear side.  Would using this be in poor taste now?",
         "weight": 1
       }
     ],
@@ -1709,7 +2020,7 @@
         "moves": 100,
         "watertight": true,
         "rigid": true,
-        "item_restriction": [ "smart_phone" ]
+        "item_restriction": [ "smart_phone", "smart_phone_flashlight", "smartphone_music" ]
       }
     ]
   },
@@ -1867,6 +2178,23 @@
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ]
+  },
+  {
+    "id": "wrapper_foil",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "foil wrapper" },
+    "description": "A piece of aluminum foil, large enough to wrap around something.  You could also cook food in it.",
+    "weight": "24 g",
+    "volume": "5 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "aluminum" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SOFT" ]
   },
   {
     "id": "wrapper_pr",
@@ -2124,7 +2452,7 @@
     "id": "stirling_kit_box",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "stem kit box", "str_pl": "stem kit boxes" },
+    "name": { "str": "STEM kit box", "str_pl": "STEM kit boxes" },
     "description": "A small box with an image of a children building things.",
     "weight": "400 g",
     "volume": "3200 ml",

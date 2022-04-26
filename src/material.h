@@ -86,7 +86,7 @@ class material_type
         float _fire_resist = 0.0f;
         float _bullet_resist = 0.0f;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
-        int _density = 1;                             // relative to "powder", which is 1
+        float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
         breathability_rating _breathability = breathability_rating::IMPERMEABLE;
         // How resistant this material is to wind as a percentage - 0 to 100
@@ -147,12 +147,13 @@ class material_type
         float specific_heat_solid() const;
         float latent_heat() const;
         float freeze_point() const;
-        int density() const;
+        float density() const;
 
         bool is_valid_thickness( float thickness ) const;
         float thickness_multiple() const;
 
         // converts from the breathability enum to a fixed integer value from 0-100
+        static int breathability_to_rating( breathability_rating breathability );
         int breathability() const;
         cata::optional<int> wind_resist() const;
         bool edible() const;

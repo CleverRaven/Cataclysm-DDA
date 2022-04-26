@@ -95,26 +95,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Uyen_Tran",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
-      "no": "Hi there.  You look new, nice to meet you.  My name's Uyen."
+    "dynamic_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Uyen_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "Nice to meet you too, Uyen.",
-        "condition": { "not": { "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Uyen_1_firstmeet"
-      },
-      {
-        "text": "Hi, Uyen.  Got a minute?",
-        "condition": { "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Uyen_2"
-      },
+      { "text": "Nice to meet you too, Uyen.", "topic": "TALK_REFUGEE_Uyen_1_firstmeet" },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_1a",
+    "dynamic_line": {
+      "and": [
+        [
+          "*smiles and brushes her hair out of her eyes.  \"",
+          "*looks you up and down with a faint smile.  \"",
+          "*suppresses a yawn, then sees you approaching and nods with recognition.  \""
+        ],
+        [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Uyen.  Got a minute?", "topic": "TALK_REFUGEE_Uyen_2" },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
@@ -135,7 +143,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Background",
-    "dynamic_line": "I was a paramedic.  I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.",
+    "dynamic_line": "\"I was a paramedic.\"  She idly touches her forehead to brush aside a bit of hair, then notices it's already tucked back.  \"I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all.\"",
     "responses": [ { "text": "Could you teach me a bit about first aid?", "topic": "TALK_REFUGEE_Uyen_Teach" } ]
   },
   {
@@ -152,13 +160,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Situation",
-    "dynamic_line": "We've got it okay, I guess, as long as this doesn't last too long.  The situation is pretty tight, though.  If we're stuck here for too long people are going to start getting a bit stir crazy."
+    "dynamic_line": {
+      "and": [
+        "\"We've got it okay, I guess",
+        {
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 6,
+          "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
+          "no": ", as long as this doesn't last too long."
+        },
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.\"",
+          "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy.\""
+        }
+      ]
+    }
   },
   {
     "id": "MISSION_REFUGEE_Uyen_1",
     "type": "mission_definition",
     "name": { "str": "Find 50 doses of antiseptic" },
-    "description": "Find 50 doses of antiseptic for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
+    "description": "Find 50 doses of antiseptic for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -189,7 +218,7 @@
     "id": "MISSION_REFUGEE_Uyen_2",
     "type": "mission_definition",
     "name": { "str": "Find 30 bandages" },
-    "description": "Find 30 bandages for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
+    "description": "Find 30 bandages for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -220,7 +249,7 @@
     "id": "MISSION_REFUGEE_Uyen_3",
     "type": "mission_definition",
     "name": { "str": "Find 6 bottles of antidepressant" },
-    "description": "Find 6 bottles of antidepressant for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
+    "description": "Find 6 bottles of antidepressant for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

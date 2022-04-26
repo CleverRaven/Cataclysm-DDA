@@ -499,7 +499,7 @@
     "id": "mon_licorice_snake",
     "type": "MONSTER",
     "name": { "str": "licorice snake" },
-    "description": "A Snake whose body is made out of Licorice, at least it's the red type.",
+    "description": "A Snake whose body is made out of licorice, at least it's the red type.",
     "default_faction": "licorice_snakes",
     "bodytype": "snake",
     "species": [ "LICORICE" ],
@@ -524,8 +524,8 @@
   {
     "id": "mon_licorice_snake_hatchling",
     "type": "MONSTER",
-    "name": { "str": "Licorice Snake Hatchling" },
-    "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
+    "name": { "str": "licorice snake hatchling" },
+    "description": "A baby snake made entirely out of licorice, possibly the children of the larger licorice snakes.",
     "copy-from": "mon_licorice_snake",
     "harvest": "licorice_snake",
     "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }

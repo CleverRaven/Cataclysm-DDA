@@ -42,48 +42,6 @@
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "chainmail_hands",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
-    "description": "Customized chainmail gloves that fully enclose the hand.",
-    "weight": "2006 g",
-    "volume": "500 ml",
-    "price": 5012,
-    "price_postapoc": 2500,
-    "to_hit": -1,
-    "material": [ "steel", "iron" ],
-    "symbol": "[",
-    "color": "light_red",
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "xl_chainmail_hands",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
-    "copy-from": "chainmail_hands",
-    "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_chainmail_hands",
-    "type": "ARMOR",
-    "copy-from": "chainmail_hands",
-    "looks_like": "chainmail_hands",
-    "name": { "str": "pair of XS chainmail gloves", "str_pl": "pairs of XS chainmail gloves" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
     "id": "chainmail_junk_hands",
     "type": "ARMOR",
     "category": "armor",
@@ -94,14 +52,14 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
     "material_thickness": 2,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -370,6 +328,26 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "gloves_claws",
+    "repairs_like": "gloves_light",
+    "type": "ARMOR",
+    "name": { "str": "pair of claw gloves", "str_pl": "pairs of claw gloves" },
+    "description": "A pair of well made black stretch vinyl gloves, with black steel claws connected to the fingers.  Commonly used in BDSM performances or as part of a costume.",
+    "weight": "160 g",
+    "volume": "270 ml",
+    "price": 6000,
+    "price_postapoc": 140,
+    "cutting": 1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "gloves_medical",
+    "color": "dark_gray",
+    "material_thickness": 0.5,
+    "environmental_protection": 4,
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
     "id": "gauntlet_fencing",
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
@@ -429,7 +407,20 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 4, "coverage": 60, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "xl_gauntlets_larmor",
@@ -463,7 +454,7 @@
     "looks_like": "gloves_wraps",
     "color": "light_blue",
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS" ],
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS", "SOFT" ],
     "armor": [ { "encumbrance": 7, "coverage": 70, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -483,7 +474,18 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "coverage": 95,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "gloves_fingerless_mod",
@@ -503,7 +505,20 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "encumbrance": 3, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "gloves_fur",
@@ -686,8 +701,28 @@
     "color": "white",
     "material_thickness": 0.1,
     "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT" ],
     "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "gloves_black",
+    "type": "ARMOR",
+    "repairs_like": "gloves_light",
+    "name": { "str": "pair of black gloves", "str_pl": "pairs of black gloves" },
+    "description": "A pair of black cotton gloves.",
+    "weight": "118 g",
+    "volume": "250 ml",
+    "price": 1100,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "gloves_light",
+    "color": "dark_gray",
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_plate",
@@ -746,7 +781,7 @@
     "warmth": 10,
     "material_thickness": 0.35,
     "environmental_protection": 8,
-    "flags": [ "WATERPROOF" ],
+    "flags": [ "WATERPROOF", "SOFT" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -1064,8 +1099,8 @@
     "id": "nomex_sockmitts",
     "type": "ARMOR",
     "copy-from": "sockmitts",
-    "name": { "str": "pair of nomex sock mitts", "str_pl": "pairs of nomex sock mitts" },
-    "description": "A pair of improvised gloves made from nomex socks with holes poked through them.",
+    "name": { "str": "pair of Nomex sock mitts", "str_pl": "pairs of Nomex sock mitts" },
+    "description": "A pair of improvised gloves made from Nomex socks with holes poked through them.",
     "weight": "200 g",
     "volume": "750 ml",
     "material": [ "nomex" ],
@@ -1125,6 +1160,20 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "gloves_skeleton",
+    "type": "ARMOR",
+    "repairs_like": "gloves_light",
+    "name": { "str": "pair of skeleton gloves", "str_pl": "pairs of skeleton gloves" },
+    "description": "A pair of black costume gloves with a skeletal hand pattern printed on them.",
+    "copy-from": "gloves_liner",
+    "weight": "23 g",
+    "color": "white",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "warmth": 5,
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+  },
+  {
     "id": "gloves_golf",
     "repairs_like": "gloves_light",
     "type": "ARMOR",
@@ -1166,7 +1215,7 @@
     "id": "lc_demi_gaunt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "mild steel demi-gauntlet" },
+    "name": { "str": "pair of mild steel demi-gauntlets", "str_pl": "pairs of mild steel demi-gauntlets" },
     "description": "A leather glove with chainmail protecting the fingers and palm, then plating over the back of the hand and wrist.",
     "weight": "750 g",
     "volume": "750 ml",
@@ -1198,7 +1247,7 @@
     "id": "xl_lc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "name": { "str_sp": "XL mild steel demi-gauntlet" },
+    "name": { "str": "pair of XL mild steel demi-gauntlets", "str_pl": "pairs of XL mild steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1207,7 +1256,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
-    "name": { "str_sp": "medium steel demi-gauntlet" },
+    "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1225,7 +1274,7 @@
     "id": "xl_mc_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "mc_demi_gaunt",
-    "name": { "str_sp": "XL medium steel demi-gauntlet" },
+    "name": { "str": "pair of XL medium steel demi-gauntlets", "str_pl": "pairs of XL medium steel demi-gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1234,7 +1283,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "name": { "str_sp": "high steel demi-gauntlet" },
+    "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1251,7 +1300,7 @@
   {
     "id": "xl_hc_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL high steel demi-gauntlet" },
+    "name": { "str": "pair of XL high steel demi-gauntlets", "str_pl": "pairs of XL high steel demi-gauntlets" },
     "copy-from": "hc_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1261,7 +1310,7 @@
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str_sp": "hardened steel demi-gauntlet" },
+    "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1278,7 +1327,7 @@
   {
     "id": "xl_ch_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL hardened steel demi-gauntlet" },
+    "name": { "str": "pair of XL hardened steel demi-gauntlets", "str_pl": "pairs of XL hardened steel demi-gauntlets" },
     "copy-from": "ch_demi_gaunt",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
@@ -1288,7 +1337,7 @@
     "id": "qt_demi_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_demi_gaunt",
-    "name": { "str_sp": "tempered steel demi-gauntlet" },
+    "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
     "armor": [
       {
         "material": [
@@ -1305,7 +1354,7 @@
   {
     "id": "xl_qt_demi_gaunt",
     "type": "ARMOR",
-    "name": { "str_sp": "XL tempered steel demi-gauntlet" },
+    "name": { "str": "pair of XL tempered steel demi-gauntlets", "str_pl": "pairs of XL tempered steel demi-gauntlets" },
     "copy-from": "qt_demi_gaunt",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -1314,7 +1363,7 @@
     "id": "lc_mitten_gaunt",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "mild steel mitten gauntlet" },
+    "name": { "str": "pair of mild steel mitten gauntlets", "str_pl": "pairs of mild steel mitten gauntlets" },
     "description": "A leather glove with chainmail protecting the fingers and palm, then steel plating over the hand, fingers, and wrist for additional protection.",
     "weight": "1250 g",
     "volume": "1250 ml",
@@ -1346,7 +1395,7 @@
     "id": "xl_lc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
-    "name": { "str_sp": "XL mild steel mitten gauntlet" },
+    "name": { "str": "pair of XL mild steel mitten gauntlets", "str_pl": "pairs of XL mild steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1355,7 +1404,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "mc_steel", "mc_steel_chain" ],
-    "name": { "str_sp": "medium steel mitten gauntlet" },
+    "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1373,7 +1422,7 @@
     "id": "xl_mc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "mc_mitten_gaunt",
-    "name": { "str_sp": "XL medium steel mitten gauntlet" },
+    "name": { "str": "pair of XL medium steel mitten gauntlets", "str_pl": "pairs of XL medium steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1382,7 +1431,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "hc_steel", "hc_steel_chain" ],
-    "name": { "str_sp": "high steel mitten gauntlet" },
+    "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1400,7 +1449,7 @@
     "id": "xl_hc_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "hc_mitten_gaunt",
-    "name": { "str_sp": "XL high steel mitten gauntlet" },
+    "name": { "str": "pair of XL high steel mitten gauntlets", "str_pl": "pairs of XL high steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1409,7 +1458,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str_sp": "hardened mitten gauntlet" },
+    "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1427,7 +1476,7 @@
     "id": "xl_ch_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "ch_mitten_gaunt",
-    "name": { "str_sp": "XL hardened steel mitten gauntlet" },
+    "name": { "str": "pair of XL hardened steel mitten gauntlets", "str_pl": "pairs of XL hardened steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -1436,7 +1485,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mitten_gaunt",
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str_sp": "tempered steel mitten gauntlet" },
+    "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
     "armor": [
       {
         "material": [
@@ -1454,7 +1503,7 @@
     "id": "xl_qt_mitten_gaunt",
     "type": "ARMOR",
     "copy-from": "qt_mitten_gaunt",
-    "name": { "str_sp": "XL tempered steel mitten gauntlet" },
+    "name": { "str": "pair of XL tempered steel mitten gauntlets", "str_pl": "pairs of XL tempered steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   }

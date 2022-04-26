@@ -1366,7 +1366,7 @@
     "id": "Evac Shelter 1",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_1_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -1411,7 +1411,7 @@
     "id": "Evac Shelter Vandalized 2",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_1_vandal_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "shelter_under_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "shelter_roof_1_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -4099,7 +4099,8 @@
     "locations": [ "land" ],
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 0, 5 ],
+    "occurrences": [ 0, 0 ],
+    "//": "Obsoleted by dumpsite_mutable",
     "flags": [ "CLASSIC" ]
   },
   {
@@ -4320,7 +4321,8 @@
     "locations": [ "land" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 8, -1 ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 0 ],
+    "//": "Obsoleted by homeless_camp_mutable",
     "flags": [ "CLASSIC", "URBAN" ]
   },
   {
@@ -4464,10 +4466,22 @@
     "type": "overmap_special",
     "id": "hub_01",
     "overmaps": [
+      { "point": [ 0, -2, 1 ], "overmap": "robofachq_meteorology_roof0_north" },
+      { "point": [ 1, -2, 1 ], "overmap": "robofachq_meteorology_roof1_north" },
+      { "point": [ 2, -2, 1 ], "overmap": "robofachq_meteorology_roof2_north" },
+      { "point": [ 3, -2, 1 ], "overmap": "robofachq_meteorology_roof3_north" },
       { "point": [ 0, 0, 1 ], "overmap": "robofachq_roof_a0_north" },
       { "point": [ 1, 0, 1 ], "overmap": "robofachq_roof_a1_north" },
       { "point": [ 2, 0, 1 ], "overmap": "robofachq_roof_a2_north" },
       { "point": [ 3, 0, 1 ], "overmap": "robofachq_roof_a3_north" },
+      { "point": [ 0, -2, 0 ], "overmap": "robofachq_meteorology0_north" },
+      { "point": [ 1, -2, 0 ], "overmap": "robofachq_meteorology1_north" },
+      { "point": [ 2, -2, 0 ], "overmap": "robofachq_meteorology2_north" },
+      { "point": [ 3, -2, 0 ], "overmap": "robofachq_meteorology3_north" },
+      { "point": [ 0, -1, 0 ], "overmap": "robofachq_surface_road0_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "robofachq_surface_road1_north" },
+      { "point": [ 2, -1, 0 ], "overmap": "robofachq_surface_road2_north" },
+      { "point": [ 3, -1, 0 ], "overmap": "robofachq_surface_road3_north" },
       { "point": [ 0, 0, 0 ], "overmap": "robofachq_surface_parking_north" },
       { "point": [ 1, 0, 0 ], "overmap": "robofachq_surface_entrance_north" },
       { "point": [ 2, 0, 0 ], "overmap": "robofachq_surface_car_entrance_north" },
@@ -4476,7 +4490,19 @@
       { "point": [ 1, 1, 0 ], "overmap": "robofachq_surface_b1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "robofachq_surface_b2_north" },
       { "point": [ 3, 1, 0 ], "overmap": "robofachq_surface_b3_north" },
-      { "point": [ 1, -2, -2 ], "overmap": "microlab_sub_connector_north" },
+      { "point": [ 0, -2, -1 ], "overmap": "robofachq_subcc_a0_north" },
+      { "point": [ 1, -2, -1 ], "overmap": "robofachq_subcc_a1_north" },
+      { "point": [ 2, -2, -1 ], "overmap": "robofachq_subcc_a2_north" },
+      { "point": [ 3, -2, -1 ], "overmap": "robofachq_subcc_a3_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "robofachq_foyer1_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "robofachq_foyer2_north" },
+      { "point": [ 2, 1, -1 ], "overmap": "robofachq_foyer4_north" },
+      { "point": [ -1, -2, -2 ], "overmap": "microlab_sub_connector_west" },
+      { "point": [ 0, -2, -2 ], "overmap": "robofachq_subline_a0_north" },
+      { "point": [ 1, -2, -2 ], "overmap": "robofachq_subline_a1_north" },
+      { "point": [ 2, -2, -2 ], "overmap": "robofachq_subline_a2_north" },
+      { "point": [ 3, -2, -2 ], "overmap": "robofachq_subline_a3_north" },
+      { "point": [ 4, -2, -2 ], "overmap": "microlab_sub_connector_east" },
       { "point": [ 0, -1, -2 ], "overmap": "robofachq_sub_a0_north" },
       { "point": [ 1, -1, -2 ], "overmap": "robofachq_sub_a1_north" },
       { "point": [ 2, -1, -2 ], "overmap": "robofachq_sub_a2_north" },
@@ -4532,12 +4558,18 @@
       { "point": [ 10, 2, 3 ], "overmap": "radio_tower_odd_north" },
       { "point": [ 10, 2, 4 ], "overmap": "radio_tower_even_north" },
       { "point": [ 10, 2, 5 ], "overmap": "radio_tower_odd_north" },
-      { "point": [ 10, 2, 6 ], "overmap": "radio_tower_top_north" }
+      { "point": [ 10, 2, 6 ], "overmap": "radio_tower_top_north" },
+      { "point": [ 10, 7, 1 ], "overmap": "lab_subway_vent_shaft_roof" },
+      { "point": [ 10, 7, 0 ], "overmap": "lab_subway_vent_shaft_surface" },
+      { "point": [ 10, 7, -1 ], "overmap": "lab_subway_vent_shaft-1" },
+      { "point": [ 10, 7, -2 ], "overmap": "lab_subway_vent_shaft-4" },
+      { "point": [ 11, 7, -2 ], "overmap": "subway_ns" },
+      { "point": [ 11, 8, -2 ], "overmap": "microlab_sub_connector_south" },
+      { "point": [ 11, -6, -2 ], "overmap": "microlab_sub_connector_north" }
     ],
     "connections": [
       { "point": [ 10, 1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 10, 2, 0 ] },
-      { "point": [ 2, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 2, 0, 0 ] },
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] }
+      { "point": [ 4, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 3, -1, 0 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],

@@ -260,8 +260,8 @@
     "trigger_weight": "200 g",
     "name": "crossbow trap",
     "color": "green",
-    "memorial_male": { "ctxt": "memorial_male", "str": "Trigged a crossbow trap." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "Trigged a crossbow trap." },
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a crossbow trap." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a crossbow trap." },
     "symbol": "^",
     "visibility": 5,
     "avoidance": 4,
@@ -675,7 +675,7 @@
   {
     "id": "summon_trapspider",
     "type": "SPELL",
-    "name": "summon trapdoor spider",
+    "name": "Summon Trapdoor Spider",
     "description": "This spell summons hostile trapdoor spiders from the earth.",
     "effect": "summon",
     "effect_str": "mon_spider_trapdoor_giant",
@@ -1028,7 +1028,7 @@
   {
     "type": "SPELL",
     "id": "swirling_vortex",
-    "name": { "str": "swirling vortex" },
+    "name": { "str": "Swirling Vortex" },
     "description": "Sends the victim to the entrance.",
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,

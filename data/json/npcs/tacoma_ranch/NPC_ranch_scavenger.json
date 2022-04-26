@@ -63,6 +63,33 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_48",
+          "set": [
+            { "square": "terrain", "id": "t_chainfence", "x": 15, "y": 13, "x2": 15, "y2": 22 },
+            { "square": "terrain", "id": "t_chainfence", "x": 16, "y": 13, "x2": 23, "y2": 13 },
+            { "square": "terrain", "id": "t_chainfence", "x": 16, "y": 22, "x2": 17, "y2": 22 },
+            { "square": "terrain", "id": "t_chainfence", "x": 22, "y": 22, "x2": 23, "y2": 22 },
+            { "square": "terrain", "id": "t_dirt", "x": 18, "y": 19, "x2": 21, "y2": 22 }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_49",
+          "set": [
+            { "square": "terrain", "id": "t_chainfence", "x": 0, "y": 22, "x2": 1, "y2": 22 },
+            { "square": "terrain", "id": "t_dirt", "x": 2, "y": 22, "x2": 3, "y2": 22 },
+            { "square": "terrain", "id": "t_chainfence", "x": 4, "y": 22, "x2": 6, "y2": 22 }
+          ],
+          "place_items": [
+            { "chance": 100, "item": "mechanics", "x": [ 8, 9 ], "y": [ 13, 16 ], "repeat": [ 3, 6 ] },
+            { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
+          ],
+          "place_item": [ { "item": "30gal_drum", "x": 8, "y": 19, "faction": "tacoma_commune" } ]
+        }
+      ]
     }
   },
   {
@@ -74,7 +101,6 @@
     "value": 50000,
     "item": "wearable_light",
     "count": 5,
-    "start": "ranch_scavenger_1",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_3",
     "dialogue": {
@@ -87,6 +113,24 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_48",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_shed_1" ], "x": 18, "y": 19 } ],
+          "place_vehicles": [ { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 20, "y": 15, "faction": "tacoma_commune" } ]
+        },
+        {
+          "om_terrain": "ranch_camp_49",
+          "set": [ { "square": "terrain", "id": "t_chaingate_c", "x": 2, "y": 22, "x2": 3, "y2": 22 } ],
+          "place_items": [
+            { "chance": 100, "item": "mischw", "x": [ 11, 12 ], "y": [ 13, 16 ], "repeat": [ 3, 6 ] },
+            { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
+          ],
+          "place_item": [ { "item": "30gal_drum", "x": 8, "y": 20, "faction": "tacoma_commune" } ]
+        }
+      ]
     }
   },
   {
@@ -98,7 +142,6 @@
     "value": 50000,
     "item": "armor_larmor",
     "count": 3,
-    "start": "ranch_scavenger_2",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_4",
     "dialogue": {
@@ -111,6 +154,62 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_48",
+          "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_shed_2" ], "x": 18, "y": 19 } ],
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 23, "y": 16, "x2": 23, "y2": 17 },
+            { "point": "terrain", "id": "t_machinery_light", "x": 23, "y": 16 },
+            { "point": "furniture", "id": "f_arcade_machine", "x": 23, "y": 17 }
+          ],
+          "place_item": [
+            { "item": "wheel_wide", "x": 16, "y": 21, "faction": "tacoma_commune" },
+            { "item": "wheel_wide", "x": 17, "y": 21, "faction": "tacoma_commune" },
+            { "item": "v8_combustion", "x": 23, "y": 18, "faction": "tacoma_commune" }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_49",
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 1, "y": 15, "x2": 3, "y2": 15 },
+            { "point": "furniture", "id": "f_fridge", "x": 1, "y": 15 },
+            { "point": "furniture", "id": "f_washer", "x": 3, "y": 15 }
+          ],
+          "place_items": [
+            { "chance": 100, "item": "mischw", "x": [ 1, 4 ], "y": 10, "repeat": [ 3, 4 ], "faction": "tacoma_commune" },
+            {
+              "chance": 100,
+              "item": "allsporting",
+              "x": [ 1, 4 ],
+              "y": 10,
+              "repeat": [ 2, 4 ],
+              "faction": "tacoma_commune"
+            },
+            {
+              "chance": 100,
+              "item": "mischw",
+              "x": [ 1, 4 ],
+              "y": 13,
+              "repeat": [ 3, 4 ],
+              "faction": "tacoma_commune"
+            },
+            {
+              "chance": 100,
+              "item": "allsporting",
+              "x": [ 1, 4 ],
+              "y": 13,
+              "repeat": [ 2, 4 ],
+              "faction": "tacoma_commune"
+            },
+            { "chance": 100, "item": "home_hw", "x": 14, "y": [ 11, 17 ], "repeat": [ 2, 3 ] },
+            { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
+          ],
+          "place_item": [ { "item": "hdframe", "x": 2, "y": 15, "faction": "tacoma_commune" } ]
+        }
+      ]
     }
   },
   {
@@ -122,9 +221,8 @@
     "value": 50000,
     "item": "molotov",
     "count": 12,
-    "start": "ranch_scavenger_3",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_SCAVENGER_4",
+    "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",
       "offer": "When outnumbered or forced to pull back, my scavengers have been taught to throw Molotov cocktails to keep monsters from chasing them.  We go through one or two on every mission, so we can always use a few more.  Would you be willing to make us a dozen?  I'm willing to pay you what I can for your assistance.",
@@ -135,6 +233,59 @@
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "ranch_camp_48",
+          "set": [
+            { "square": "terrain", "id": "t_dirt", "x": 22, "y": 21, "x2": 23, "y2": 21 },
+            { "point": "furniture", "id": "f_pinball_machine", "x": 23, "y": 21 }
+          ],
+          "place_item": [
+            { "item": "wheel_motorbike_or", "x": 16, "y": 20, "faction": "tacoma_commune" },
+            { "item": "wheel_motorbike_or", "x": 17, "y": 20, "faction": "tacoma_commune" },
+            { "item": "v6_diesel", "x": 22, "y": 21, "faction": "tacoma_commune" }
+          ]
+        },
+        {
+          "om_terrain": "ranch_camp_49",
+          "set": [
+            { "point": "terrain", "id": "t_dirt", "x": 0, "y": 21 },
+            { "point": "furniture", "id": "f_glass_fridge", "x": 0, "y": 21 }
+          ],
+          "place_items": [
+            { "chance": 100, "item": "mischw", "x": [ 1, 4 ], "y": 10, "repeat": [ 3, 4 ], "faction": "tacoma_commune" },
+            {
+              "chance": 100,
+              "item": "allsporting",
+              "x": [ 1, 4 ],
+              "y": 10,
+              "repeat": [ 2, 4 ],
+              "faction": "tacoma_commune"
+            },
+            {
+              "chance": 100,
+              "item": "mischw",
+              "x": [ 1, 4 ],
+              "y": 13,
+              "repeat": [ 3, 4 ],
+              "faction": "tacoma_commune"
+            },
+            {
+              "chance": 100,
+              "item": "allsporting",
+              "x": [ 1, 4 ],
+              "y": 13,
+              "repeat": [ 2, 4 ],
+              "faction": "tacoma_commune"
+            },
+            { "chance": 100, "item": "home_hw", "x": 14, "y": [ 11, 17 ], "repeat": [ 2, 3 ] },
+            { "chance": 100, "item": "allsporting", "x": 14, "y": [ 11, 17 ], "repeat": [ 1, 2 ] }
+          ],
+          "place_item": [ { "item": "frame", "x": 4, "y": 15, "faction": "tacoma_commune" } ]
+        }
+      ]
     }
   }
 ]

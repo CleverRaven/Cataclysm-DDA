@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "npctrade.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -74,7 +75,6 @@ static const itype_id itype_fitness_band( "fitness_band" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
-static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -474,7 +474,9 @@ class pickup_inventory_preset : public inventory_selector_preset
     public:
         explicit pickup_inventory_preset( const Character &you,
                                           bool skip_wield_check = false ) : you( you ),
-            skip_wield_check( skip_wield_check ) {}
+            skip_wield_check( skip_wield_check ) {
+            _pk_type = item_pocket::pocket_type::LAST;
+        }
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
@@ -592,7 +594,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
 
                 int max_joy = you.fun_for( *loc, true ).first;
-                // max_joy should be 3 wide for aligment of '/'
+                // max_joy should be 3 wide for alignment of '/'
                 if( max_joy == 0 ) {
                     // this will not be an empty string when food's joy can go below 0 by consumption (very rare)
                     return joy_str;
@@ -1838,8 +1840,7 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_PALS_SMALL ) || loc->has_flag( flag_PALS_MEDIUM ) ||
-                   loc->has_flag( flag_PALS_LARGE );
+            return loc->can_attach_as_pocket();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2289,6 +2290,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
+        inv_s.add_character_items( patient );
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {
@@ -2303,7 +2305,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
     } while( true );
 }
 
-// Menu used by autodoc when installing a bionic
+// Menu used by Autodoc when installing a bionic
 class bionic_install_preset: public inventory_selector_preset
 {
     public:
@@ -2411,7 +2413,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_bionic();
+            return ( loc->is_owned_by( you ) or loc->is_owned_by( pa ) ) and loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -2448,7 +2450,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_money_amount( const item_location &loc ) {
-            return format_money( loc.get_item()->price( true ) * 2 );
+            return format_money( npc_trading::bionic_install_price( you, pa, loc ) );
         }
 };
 
@@ -2460,76 +2462,4 @@ item_location game_menus::inv::install_bionic( Character &you, Character &patien
         return autodoc_internal( you, patient, bionic_install_preset( you, patient ), 5 );
     }
 
-}
-
-// Menu used by autoclave when sterilizing a bionic
-class bionic_sterilize_preset : public inventory_selector_preset
-{
-    public:
-        explicit bionic_sterilize_preset( Character &you ) :
-            you( you ) {
-
-            append_cell( []( const item_location & ) {
-                return to_string( 90_minutes );
-            }, _( "CYCLE DURATION" ) );
-
-            append_cell( []( const item_location & ) {
-                return pgettext( "volume of water", "2 L" );
-            }, _( "WATER REQUIRED" ) );
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_NO_STERILE ) && loc->is_bionic();
-        }
-
-        std::string get_denial( const item_location &loc ) const override {
-            requirement_data reqs = *requirement_data_autoclave_item;
-            if( loc.get_item()->has_flag( flag_FILTHY ) ) {
-                return  _( "CBM is filthy.  Wash it first." );
-            }
-            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
-            if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
-                return _( "You need at least 2L of water." );
-            }
-
-            return std::string();
-        }
-
-    protected:
-        Character &you;
-};
-
-static item_location autoclave_internal( Character &you,
-        const inventory_selector_preset &preset,
-        int radius )
-{
-    inventory_pick_selector inv_s( you, preset );
-    inv_s.set_title( _( "Sterilization" ) );
-    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
-    inv_s.set_display_stats( false );
-
-    do {
-        you.inv->restack( you );
-
-        inv_s.clear_items();
-        inv_s.add_character_items( you );
-        inv_s.add_nearby_items( radius );
-
-        if( inv_s.empty() ) {
-            popup( _( "You don't have any CBM to sterilize." ), PF_GET_KEY );
-            return item_location();
-        }
-
-        item_location location = inv_s.execute();
-
-        return location;
-
-    } while( true );
-
-}
-item_location game_menus::inv::sterilize_cbm( Character &you )
-{
-    return autoclave_internal( you, bionic_sterilize_preset( you ), 6 );
 }

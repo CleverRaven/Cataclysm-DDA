@@ -185,23 +185,23 @@ void monfactions::finalize()
 void monfaction::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "base_faction", base_faction, mfaction_str_id() );
+    optional( jo, was_loaded, "by_mood", _att_by_mood, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "neutral", _att_neutral, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "friendly", _att_friendly, string_id_reader<monfaction>() );
+    optional( jo, was_loaded, "hate", _att_hate, string_id_reader<monfaction>() );
 
-    static const std::array<std::pair<std::string, mf_attitude>, 4> fields_by_attitude {
-        {
-            {"by_mood", MFA_BY_MOOD},
-            {"neutral", MFA_NEUTRAL},
-            {"friendly", MFA_FRIENDLY},
-            {"hate", MFA_HATE}
-        }
-    };
-
-    for( const auto &field_att_pair : fields_by_attitude ) {
-        const std::string &json_field_name = field_att_pair.first;
-        const mf_attitude attitude = field_att_pair.second;
-
-        for( const auto &f : jo.get_tags<mfaction_str_id>( json_field_name ) ) {
-            attitude_map[f] = attitude;
-        }
+    attitude_map.clear();
+    for( const mfaction_str_id &mfac : _att_by_mood ) {
+        attitude_map[mfac] = MFA_BY_MOOD;
+    }
+    for( const mfaction_str_id &mfac : _att_neutral ) {
+        attitude_map[mfac] = MFA_NEUTRAL;
+    }
+    for( const mfaction_str_id &mfac : _att_friendly ) {
+        attitude_map[mfac] = MFA_FRIENDLY;
+    }
+    for( const mfaction_str_id &mfac : _att_hate ) {
+        attitude_map[mfac] = MFA_HATE;
     }
 
     // by default faction is friendly to itself (don't overwrite if explicitly specified)

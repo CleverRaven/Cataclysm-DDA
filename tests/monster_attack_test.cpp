@@ -33,16 +33,20 @@ static void reset_caches( int a_zlev, int t_zlev )
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
+    here.build_lightmap( a_zlev, you.pos() );
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
+    here.build_lightmap( a_zlev, you.pos() );
     if( a_zlev != t_zlev ) {
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );
+        here.build_lightmap( t_zlev, you.pos() );
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );
+        here.build_lightmap( t_zlev, you.pos() );
     }
     you.recalc_sight_limits();
 }

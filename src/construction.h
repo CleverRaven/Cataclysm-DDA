@@ -56,8 +56,9 @@ struct construction {
         // Item group of byproducts created by the construction on success.
         cata::optional<item_group_id> byproduct_item_group;
 
-        // Flags beginning terrain must have
-        std::set<std::string> pre_flags;
+        // Flags beginning furniture/terrain must have
+        // Second element forces flags to be evaluated on terrain
+        std::map<std::string, bool> pre_flags;
 
         // Post construction flags
         std::set<std::string> post_flags;

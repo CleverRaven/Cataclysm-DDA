@@ -119,6 +119,7 @@
       { "item": "elbow_pads", "prob": 20 },
       { "item": "holster", "prob": 45 },
       { "item": "sholster", "prob": 20 },
+      { "item": "shoulder_holster", "prob": 5 },
       { "item": "boots_combat", "prob": 10 },
       { "item": "helmet_liner", "prob": 30 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },

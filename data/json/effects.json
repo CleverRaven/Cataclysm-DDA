@@ -991,7 +991,7 @@
     "id": "mutagen_elfa",
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
-      "You consumed elf-a mutagen.",
+      "You consumed Elf-A mutagen.",
       "You must look after this world, if noone else will.",
       "You see stars.  You see so many stars."
     ],
@@ -1996,11 +1996,11 @@
       "Heavy Arterial Bleeding"
     ],
     "desc": [
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
@@ -2026,19 +2026,20 @@
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain."
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!"
     ],
     "main_parts_only": true,
     "apply_message": "You're bleeding!",
+    "remove_message": "The bleeding stops!",
     "rating": "bad",
     "max_intensity": 40,
     "int_dur_factor": 60,
@@ -2092,6 +2093,15 @@
     "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
     "max_intensity": 3,
     "part_descs": true
+  },
+  {
+    "type": "effect_type",
+    "id": "chafing",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help" ],
+    "max_intensity": 1,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -2931,7 +2941,7 @@
   {
     "type": "effect_type",
     "id": "hypovolemia",
-    "name": [ "Mild Hypovolemic shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
+    "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
@@ -3198,7 +3208,7 @@
   {
     "type": "effect_type",
     "id": "pd_str_bad",
-    "name": [ "Muscle Vanishment", "Muscle Dissapearance" ],
+    "name": [ "Muscle Vanishment", "Muscle Disappearance" ],
     "desc": [ "You feel as if your muscles are not quite there.", "You feel as if your muscles are not in your body." ],
     "max_intensity": 2,
     "rating": "bad",

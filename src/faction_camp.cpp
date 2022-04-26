@@ -191,8 +191,8 @@ struct mass_volume {
 
 namespace base_camps
 {
-static const std::string recover_ally_string = "Recover Ally, ";
-static const std::string expansion_string = " Expansion";
+static const translation recover_ally_string = to_translation( "Recover Ally, " );
+static const translation expansion_string = to_translation( " Expansion" );
 
 
 recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
@@ -426,10 +426,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Carpentry_Job:
         case Forage_Job:
         case Caravan_Commune_Center_Job:
-        case Purchase_East_Field:
-        case Upgrade_East_Field:
-        case Plant_East_Field:
-        case Harvest_East_Field:
         case Camp_Emergency_Recall:
         default:
             return "";
@@ -783,8 +779,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( !npc_list.empty() ) {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id, _( base_camps::recover_ally_string )
-                                    + dir_abbr + _( base_camps::expansion_string ),
+            mission_key.add_return( miss_id, base_camps::recover_ally_string.translated()
+                                    + dir_abbr + base_camps::expansion_string.translated(),
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
@@ -807,7 +803,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id,
-                                        _( base_camps::recover_ally_string ) + dir_abbr +
+                                        base_camps::recover_ally_string.translated() + dir_abbr +
                                         " " + upgrade.name, entry, avail );
             }
         }
@@ -1334,7 +1330,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
             entry = string_format( _( "Notes:\n"
                                       "Your base has become large enough to support an expansion.  "
                                       "Expansions open up new opportunities but can be expensive and "
-                                      "time consuming.  Pick them carefully, at most 8 can be built "
+                                      "time-consuming.  Pick them carefully, at most 8 can be built "
                                       "at each camp.\n\n"
                                       "Skill used: N/A\n"
                                       "Effects:\n"
@@ -1372,7 +1368,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         {
             const mission_id miss_id = { Camp_Distribute_Food, "", base_dir };
             entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill you larders.  "
+                                      "Distribute food to your follower and fill your larders.  "
                                       "Place the food you wish to distribute in the camp food zone.  "
                                       "You must have a camp food zone, and a camp storage zone, "
                                       "or you will be prompted to create them using the zone manager.\n"
@@ -1686,6 +1682,14 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         if( must_feed ) {
             camp_food_supply( duration );
         }
+
+        map *target_map = &get_map();
+        for( item *i : equipment ) {
+            int count = i->count();
+            target_map->use_charges( target_map->getlocal( get_dumping_spot() ), basecamp::inv_range,
+                                     i->typeId(), count );
+        }
+        target_map->save();
     }
     return comp;
 }
@@ -2190,8 +2194,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         if( !pos_inv.empty() ) {
@@ -2221,7 +2224,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                 om_set_hide_site( *comp, forest, losing_equipment );
             }
         } else {
-            popup( _( "You need equipment to setup a hide site…" ) );
+            popup( _( "You have nothing in your inventory to send to a hide site…" ) );
         }
     }
 }
@@ -2234,8 +2237,7 @@ void basecamp::start_relay_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         std::vector<item *> losing_equipment;
@@ -2980,10 +2982,11 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-                            int plant_cnt = rng( skillLevel / 2, skillLevel );
-                            plant_cnt = std::min( std::max( plant_cnt, 1 ), 9 );
-                            int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
+                            int plant_count = rng( skillLevel / 2, skillLevel );
+                            plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
+                            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                            int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
                             }
@@ -3056,13 +3059,18 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_i
                                               _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
-                seed_cnt += seeds->count();
+                size_t num_seeds = seeds->count();
+                if( seed_cnt + num_seeds > plots_cnt ) {
+                    num_seeds = plots_cnt - seed_cnt;
+                    seeds->charges = num_seeds;
+                }
+                seed_cnt += num_seeds;
             }
-            size_t plots_seeded = std::min( seed_cnt, plots_cnt );
+
             if( !seed_cnt ) {
                 return;
             }
-            work += 1_minutes * plots_seeded;
+            work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
                            _( "begins planting the field…" ), false, plant_these,
                            skill_survival, 1 );
@@ -4629,7 +4637,7 @@ std::string basecamp::recruit_description( int npc_count )
     std::string desc = string_format( _( "Notes:\n"
                                          "Recruiting additional followers is very dangerous and "
                                          "expensive.  The outcome is heavily dependent on the "
-                                         "skill of the  companion you send and the appeal of "
+                                         "skill of the companion you send and the appeal of "
                                          "your base.\n\n"
                                          "Skill used: social\n"
                                          "Difficulty: 2\n"

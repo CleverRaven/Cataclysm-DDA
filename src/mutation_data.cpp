@@ -24,6 +24,8 @@
 #include "trait_group.h"
 #include "translations.h"
 
+static const mutation_category_id mutation_category_ANY( "ANY" );
+
 static const trait_group::Trait_group_tag Trait_group_EMPTY_GROUP( "EMPTY_GROUP" );
 
 using TraitGroupMap =
@@ -271,7 +273,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
-    optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
     optional( jo, was_loaded, "valid", valid, true );
@@ -417,6 +419,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
 
+    for( JsonArray pair : jo.get_array( "moncams" ) ) {
+        moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );
+    }
+
     for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
@@ -513,6 +519,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
+        integrated_armor.emplace_back( itype_id( jv ) );
+    }
+
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
         bionic_slot_bonuses[bodypart_str_id( member.name() )] = member.get_int();
     }
@@ -596,6 +606,24 @@ void mutation_branch::check_consistency()
         }
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
+        }
+        for( const trait_id &replacement : mdata.replacements ) {
+            const mutation_branch &rdata = replacement.obj();
+            for( const mutation_category_id &cat : rdata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
+                              cat.c_str(), replacement.c_str() );
+                }
+            }
+        }
+        for( const trait_id &addition : mdata.additions ) {
+            const mutation_branch &adata = addition.obj();
+            for( const mutation_category_id &cat : adata.category ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
+                              addition.c_str() );
+                }
+            }
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
@@ -699,6 +727,7 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
+        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
     }
     finalize_trait_blacklist();
 }

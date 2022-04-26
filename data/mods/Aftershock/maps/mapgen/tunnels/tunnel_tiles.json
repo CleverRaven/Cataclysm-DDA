@@ -38,7 +38,8 @@
         { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
-        { "chunks": [ "afs_tunnel_curved_tile" ], "x": 0, "y": 0 }
+        { "chunks": [ "afs_tunnel_curved_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 95 ], [ "afs_tunnel_curved_alien_ruin", 5 ] ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -52,6 +53,7 @@
         { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "tunnel_alienciv_ruin", 10 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
         { "chunks": [ "afs_tunnel_tee_tile" ], "x": 0, "y": 0 }
       ]
     }
@@ -66,7 +68,8 @@
         { "chunks": [ "afs_tunnel_base" ], "x": 0, "y": 0 },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature", 25 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] },
         { "chunks": [ [ "null", 75 ], [ "tunnel_natural_feature_large", 25 ] ], "x": 0, "y": 0 },
-        { "chunks": [ "afs_tunnel_four_way_tile" ], "x": 0, "y": 0 }
+        { "chunks": [ "afs_tunnel_four_way_tile" ], "x": 0, "y": 0 },
+        { "chunks": [ [ "null", 90 ], [ "tunnel_alienciv_ruin", 10 ] ], "x": [ 0, 12 ], "y": [ 0, 12 ] }
       ]
     }
   },

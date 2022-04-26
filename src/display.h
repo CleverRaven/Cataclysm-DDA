@@ -33,7 +33,7 @@ struct disp_overmap_cache {
             _om_wgt_str = om_wgt_str;
         }
 
-        // Retreive the cached widget string
+        // Retrieve the cached widget string
         const std::string &get_val() const {
             return _om_wgt_str;
         }

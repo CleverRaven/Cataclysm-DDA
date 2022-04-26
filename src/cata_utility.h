@@ -308,7 +308,7 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
@@ -485,7 +485,7 @@ std::string &str_append( std::string &root, T &&...a )
 }
 
 /**
- * Concatenates a bunch of strings with append, to minimze unnecessary
+ * Concatenates a bunch of strings with append, to minimize unnecessary
  * allocations
  */
 template<typename T0, typename... T>

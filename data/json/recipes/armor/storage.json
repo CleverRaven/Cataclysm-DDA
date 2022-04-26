@@ -1326,7 +1326,13 @@
     ],
     "components": [
       [ [ "rag", 14 ] ],
-      [ [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "molle_pack", 1 ], [ "rucksack", 1 ] ],
+      [
+        [ "backpack", 1 ],
+        [ "backpack_leather", 1 ],
+        [ "molle_medium_rucksack", 1 ],
+        [ "molle_large_rucksack", 1 ],
+        [ "rucksack", 1 ]
+      ],
       [ [ "plastic_sheet", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -1744,5 +1750,20 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "suspenders_holster",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 3 ] ],
+    "components": [ [ [ "holster", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]

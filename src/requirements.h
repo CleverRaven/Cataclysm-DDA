@@ -278,7 +278,8 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void load_requirement( const JsonObject &jsobj,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      const bool check_extend = false );
 
         /**
          * Store requirement data for future lookup
@@ -286,7 +287,8 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void save_requirement( const requirement_data &req,
-                                      const requirement_id &id = requirement_id::NULL_ID() );
+                                      const requirement_id &id = requirement_id::NULL_ID(),
+                                      const requirement_data *extend = nullptr );
         static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
@@ -335,7 +337,7 @@ struct requirement_data {
         alter_item_comp_vector &get_components();
 
         /**
-         * Returns true if the requirements are fufilled by the filtered inventory
+         * Returns true if the requirements are fulfilled by the filtered inventory
          * @param filter should be recipe::get_component_filter() if used with a recipe
          * or is_crafting_component otherwise.
          */

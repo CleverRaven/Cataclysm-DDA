@@ -15,10 +15,31 @@
     "material_thickness": 1,
     "armor": [
       {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 75, "thickness": 0.5 }
+        ],
         "encumbrance": 5,
         "coverage": 100,
         "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "steel", "covered_by_mat": 75, "thickness": 0.5 }
+        ],
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      },
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 2,
+        "coverage": 60,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
     ]
   },
@@ -147,7 +168,7 @@
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 12,
+    "bashing": 5,
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",

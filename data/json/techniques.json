@@ -172,11 +172,12 @@
     "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
     "stun_dur": 2,
-    "description": "Stun 2 turns, crit only",
+    "description": "Stun 2 turns, crit only, min 3 melee",
     "attack_vectors": [ "WEAPON" ]
   },
   {
@@ -380,8 +381,8 @@
     "name": "Impaling Estocada",
     "messages": [ "You thrust your weapon through %s", "<npcname> thrusts their weapon through %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
-    "weapon_damage_requirements": [ { "type": "cut", "min": 8 } ],
     "melee_allowed": true,
+    "weapon_categories_allowed": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
     "aoe": "impale",
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.1 },
@@ -1057,6 +1058,7 @@
     "messages": [ "You strike %s with your staff", "<npcname> strikes %s with your staff" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
+    "weapon_categories_allowed": "QUARTERSTAVES",
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
     "attack_vectors": [ "WEAPON" ]
   },
@@ -1067,6 +1069,7 @@
     "messages": [ "You swing your staff hard at %s", "<npcname> swings their staff hard at %s" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
+    "weapon_categories_allowed": "QUARTERSTAVES",
     "crit_tec": true,
     "down_dur": 1,
     "mult_bonuses": [
@@ -2032,6 +2035,27 @@
     ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_eoc_demo",
+    "name": "Extreme Offensive Chop!",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "skill_requirements": [ { "name": "speech", "level": 10 } ],
+    "weighting": 100,
+    "messages": [ "You strike %s with an Extreme Offensive Chop", "<npcname> strikes %s with an Extreme Offensive Chop" ],
+    "eocs": [
+      {
+        "id": "EOC_TECH_DEBGU_EOC_DEMO",
+        "effect": [
+          { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
+          "follow",
+          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+        ]
+      }
+    ],
     "attack_vectors": [ "WEAPON", "HAND" ]
   }
 ]

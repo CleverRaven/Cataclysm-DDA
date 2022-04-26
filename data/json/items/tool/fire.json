@@ -40,7 +40,7 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "fire_drill_large",
@@ -58,19 +58,19 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "flint_steel",
     "type": "TOOL",
     "name": { "str": "flint and steel", "str_pl": "sets of flint and steel" },
-    "description": "This is a magnesium bar and a carbon steel striker.  Use it to spark a flame.",
+    "description": "This is a flint and a hardened high carbon steel striker.  Use it to spark a flame.",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 300,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "stone", "steel" ],
+    "material": [ "stone", "hc_steel" ],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 2000,
@@ -83,7 +83,7 @@
     "id": "lighter",
     "type": "TOOL",
     "name": { "str": "lighter" },
-    "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "description": "This is a disposable plastic lighter.  A lighter may be carried to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "14 g",
     "volume": "14 ml",
     "price": 10,
@@ -124,7 +124,7 @@
     "id": "matches",
     "type": "TOOL",
     "name": { "str": "matchbook" },
-    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches must be carried to use various drugs like cigarettes, or to light things like Molotov cocktails.  You can also use matches to light nearby items on fire.",
+    "description": "This is a small book of matches with a coarse strike surface on the outside flap.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "10 g",
     "volume": "10 ml",
     "price": 10,
@@ -138,10 +138,27 @@
     "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD", "WATER_BREAK" ]
   },
   {
+    "id": "ref_matches",
+    "type": "TOOL",
+    "name": { "str": "matchbox", "str_pl": "matchboxes" },
+    "description": "This is a small box of matches with a coarse strike surface on the side.  Matches may be carried to use various drugs like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
+    "weight": "10 g",
+    "volume": "25 ml",
+    "price_postapoc": 50,
+    "price": 10,
+    "material": [ "cardboard" ],
+    "symbol": ",",
+    "color": "blue",
+    "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 32 } } ],
+    "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
+    "flags": [ "FIRESTARTER", "WATER_BREAK" ]
+  },
+  {
     "id": "ref_lighter",
     "type": "TOOL",
     "name": { "str": "refillable lighter" },
-    "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "description": "This is a lighter featuring a flip top cover and refuelable tank.  A lighter may be carried to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "20 g",
     "volume": "31 ml",
     "price": 3000,

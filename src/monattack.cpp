@@ -833,9 +833,20 @@ bool mattack::shockstorm( monster *z )
     Character &player_character = get_player_character();
     bool seen = player_character.sees( *z );
     map &here = get_map();
+
+    bool can_attack = z->sees( *target );
+    std::vector<tripoint> path = here.find_clear_path( z->pos(), target->pos() );
+    for( const tripoint &point : path ) {
+        if( here.impassable( point ) &&
+            !( here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, point ) ||
+               here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, point ) ) ) {
+            can_attack = false;
+            break;
+        }
+    }
+
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) ||
-        !here.clear_path( z->pos(), target->pos(), 12, 1, 100 ) ) {
+    if( !can_attack ) {
         return false;
     }
 
@@ -1840,7 +1851,7 @@ bool mattack::fungus( monster *z )
 bool mattack::fungus_corporate( monster *z )
 {
     if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
+        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
         if( get_player_view().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
             get_map().add_item( z->pos(), item( "sporeos" ) );
@@ -2946,8 +2957,8 @@ bool mattack::grab_drag( monster *z )
 
     if( target->has_effect( effect_under_operation ) ) {
         target->add_msg_player_or_npc( m_good,
-                                       _( "The %s tries to drag you, but you're securely fastened in the autodoc." ),
-                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the autodoc." ), z->name() );
+                                       _( "The %s tries to drag you, but you're securely fastened in the Autodoc." ),
+                                       _( "The %s tries to drag <npcname>, but they're securely fastened in the Autodoc." ), z->name() );
         return false;
     }
 
@@ -4774,7 +4785,7 @@ bool mattack::darkman( monster *z )
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
     }
-    // Wont do the combat stuff unless it can see you
+    // Won't do the combat stuff unless it can see you
     if( !z->sees( player_character ) ) {
         return true;
     }
@@ -4824,7 +4835,7 @@ bool mattack::slimespring( monster *z )
             player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
             add_msg( _( "\"let me help!\"" ) );
-            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            // Yes, your slime microbian(s) handle/don't all Bad Damage at the same time.
             for( const bodypart_id &bp_healed :
                  player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 if( player_character.has_effect( effect_bite, bp_healed.id() ) ) {

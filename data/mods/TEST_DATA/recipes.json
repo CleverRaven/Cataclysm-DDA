@@ -34,5 +34,59 @@
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "//": "Basic test requirement extension for components",
+    "type": "requirement",
+    "id": "eggs_bird",
+    "extend": { "components": [ [ [ "test_eggs", 1, "LIST" ] ] ] }
+  },
+  {
+    "type": "requirement",
+    "id": "test_eggs",
+    "components": [ [ [ "test_egg", 2 ] ] ]
+  },
+  {
+    "//": "multigroup requirement extension for tools",
+    "id": "explosives_casting_standard",
+    "type": "requirement",
+    "extend": {
+      "tools": [
+        [ [ "metal_tank_test", -1 ] ],
+        [ [ "test_pipe", -1 ], [ "test_glass_pipe_mostly_steel", -1 ], [ "test_glass_pipe_mostly_glass", -1 ] ]
+      ]
+    }
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow",
+    "byproducts": [ [ "test_cracklins" ], [ "test_gum" ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
+  },
+  {
+    "//": "Simplified on purpose. For testing byproducts.",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "test_tallow2",
+    "byproduct_group": [ { "item": "test_cracklins", "charges": [ 2, 3 ] }, { "item": "test_gum", "count": [ 2, 3 ] } ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 3,
+    "autolearn": false,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fat", 2 ] ] ]
   }
 ]

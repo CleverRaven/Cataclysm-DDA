@@ -85,6 +85,10 @@ static const trait_id trait_SHELL2( "SHELL2" );
 
 static bool check_water_affect_items( avatar &you )
 {
+    if( you.has_effect( effect_stunned ) ) {
+        return true;
+    }
+
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
     std::vector<item_location> wet;

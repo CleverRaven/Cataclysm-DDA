@@ -346,6 +346,12 @@ struct mtype {
         ::weakpoints weakpoints;
         weakpoint_families families;
 
+    private:
+        std::vector<weakpoints_id> weakpoints_deferred;
+        ::weakpoints weakpoints_deferred_inline;
+
+    public:
+
         // Pet food category this monster is in
         pet_food_data petfood;
 
@@ -379,6 +385,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        harvest_id dissect;
         shearing_data shearing;
         speed_description_id speed_desc;
 
@@ -484,6 +491,7 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
+        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );

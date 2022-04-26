@@ -36,16 +36,51 @@
         { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 }
       ],
-      "place_loot": [
-        { "group": "ammo_rifle_common", "x": 2, "y": 7, "chance": 100 },
-        { "group": "guns_rifle_milspec", "x": 2, "y": 7, "chance": 100 },
-        { "group": "gunsmith_basic_ammo", "x": 3, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 5, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 6, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_basic_ammo", "x": 7, "y": 10, "chance": 100, "repeat": [ 1, 4 ] },
-        { "group": "gunsmith_repack_ammo", "x": 3, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 12, "chance": 100, "repeat": [ 3, 6 ] },
-        { "group": "gunsmith_repack_ammo", "x": 9, "y": 11, "chance": 100, "repeat": [ 3, 6 ] }
+      "place_zones": [
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 2, 2 ],
+          "y": [ 7, 7 ],
+          "filter": "ammo_rifle_common"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 2, 2 ],
+          "y": [ 7, 7 ],
+          "filter": "guns_rifle_milspec"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 3, 3 ],
+          "y": [ 10, 10 ],
+          "filter": "gunsmith_basic_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 5, 7 ],
+          "y": [ 10, 10 ],
+          "filter": "gunsmith_basic_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 3, 3 ],
+          "y": [ 12, 12 ],
+          "filter": "gunsmith_repack_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 9, 9 ],
+          "y": [ 11, 12 ],
+          "filter": "gunsmith_repack_ammo"
+        },
+        { "type": "LOOT_AMMO", "faction": "isolated_artisans", "x": [ 5, 7 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_UNSORTED", "faction": "isolated_artisans", "x": [ 9, 9 ], "y": [ 11, 12 ] }
       ],
       "place_npcs": [ { "class": "jay_ruckers", "x": 6, "y": 13 } ],
       "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
@@ -85,11 +120,13 @@
       ],
       "palettes": [ "artisans" ],
       "place_monster": [ { "monster": "mon_turret_artisans", "x": 17, "y": 10, "chance": 100 } ],
-      "place_loot": [
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 8 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 9 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 10 },
-        { "group": "CODY_MILLER_trade", "chance": 100, "x": 12, "y": 11 }
+      "place_zones": [
+        { "type": "LOOT_ARMOR", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 8 ] },
+        { "type": "LOOT_CLOTHING", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 9, 9 ] },
+        { "type": "LOOT_WEAPONS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_GUNS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 11, 11 ] },
+        { "type": "LOOT_MANUALS", "faction": "isolated_artisans", "x": [ 17, 17 ], "y": [ 7, 7 ] },
+        { "type": "LOOT_UNSORTED", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 11 ] }
       ],
       "place_item": [ { "item": "blacksmith_prototypes", "chance": 100, "x": 17, "y": 7 } ],
       "place_npcs": [ { "class": "cody_miller", "x": 16, "y": 7 } ],

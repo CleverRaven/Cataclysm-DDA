@@ -100,7 +100,7 @@ class outfit
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
         /** Applies encumbrance from items only
-         * If new_item is not null, then calculate under the asumption that it
+         * If new_item is not null, then calculate under the assumption that it
          * is added to existing work items.
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
@@ -142,6 +142,10 @@ class outfit
         ret_val<bool> only_one_conflicts( const item &clothing ) const;
         bool one_per_layer_change_side( item &it, const Character &guy ) const;
         void one_per_layer_sidedness( item &clothing ) const;
+        ret_val<bool> check_rigid_conflicts( const item &clothing, side s ) const;
+        ret_val<bool> check_rigid_conflicts( const item &clothing ) const;
+        bool check_rigid_change_side( item &it, const Character &guy ) const;
+        void check_rigid_sidedness( item &clothing ) const;
         int amount_worn( const itype_id &clothing ) const;
         int worn_guns() const;
         int clatter_sound() const;
@@ -169,6 +173,8 @@ class outfit
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
+        /** Calculate and return any bodyparts that are currently uncomfortable. */
+        std::unordered_set<bodypart_id> where_discomfort() const;
         // used in game::wield
         void insert_item_at_index( item clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );

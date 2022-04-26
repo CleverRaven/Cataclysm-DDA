@@ -183,6 +183,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
+        case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -353,12 +354,16 @@ static int vehicle_uilist()
 
 static int teleport_uilist()
 {
-    const std::vector<uilist_entry> uilist_initializer = {
+    std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
+
+    const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
+    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
@@ -1159,6 +1164,23 @@ static void teleport_overmap( bool specific_coordinates = false )
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
+static void teleport_city()
+{
+    std::vector<city> cities( city::get_all() );
+    const auto cities_cmp_population = []( const city & a, const city & b ) {
+        return std::tie( a.population, a.name ) > std::tie( b.population, b.name );
+    };
+    std::sort( cities.begin(), cities.end(), cities_cmp_population );
+    uilist cities_menu;
+    ui::omap::setup_cities_menu( cities_menu, cities );
+    cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+    if( c.has_value() ) {
+        const tripoint_abs_omt where = tripoint_abs_omt(
+                                           project_to<coords::omt>( c->pos_om ) + c->pos.raw(), 0 );
+        g->place_player_overmap( where );
+    }
+}
+
 static void spawn_nested_mapgen()
 {
     uilist nest_menu;
@@ -1769,9 +1791,47 @@ static void character_edit_menu()
         case D_NEEDS:
             character_edit_needs_menu( you );
             break;
-        case D_MUTATE:
-            wishmutate( &you );
+        case D_MUTATE: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'm', _( "Mutate" ) );
+            smenu.addentry( 1, true, 'c', _( "Mutate category" ) );
+            smenu.addentry( 2, true, 'r', _( "Reset mutations" ) );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0:
+                    wishmutate( &you );
+                    break;
+                case 1: {
+                    uilist ssmenu;
+                    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+                    mutation_categories_list.reserve( mutations_category.size() );
+                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+                    }
+                    ssmenu.text = _( "Choose mutation category:" );
+                    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+                    int menu_ind = 0;
+                    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+                        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+                        ++menu_ind;
+                    }
+                    ssmenu.query();
+                    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast<int>( mutation_categories_list.size() ) ) {
+                        you.give_all_mutations( mutation_category_trait::get_category(
+                                                    mutation_categories_list[ssmenu.ret].second ), query_yn( _( "Include post-threshold traits?" ) ) );
+                    }
+                    break;
+                }
+                case 2:
+                    if( query_yn( _( "Remove all mutations?" ) ) ) {
+                        you.unset_all_mutations();
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
+        }
         case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );
@@ -2814,6 +2874,9 @@ void debug()
             break;
         case debug_menu_index::OM_TELEPORT_COORDINATES:
             debug_menu::teleport_overmap( true );
+            break;
+        case debug_menu_index::OM_TELEPORT_CITY:
+            debug_menu::teleport_city();
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

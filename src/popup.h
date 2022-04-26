@@ -164,6 +164,7 @@ class query_popup
         query_popup &on_top( bool top );
         /**
          * Whether to show the popup in `FULL_SCREEN_HEIGHT` and `FULL_SCREEN_WIDTH`.
+         * The name is a misnomer from legacy code, the popup is not actually full-screen.
          **/
         query_popup &full_screen( bool full );
         /**
@@ -176,7 +177,7 @@ class query_popup
         query_popup &default_color( const nc_color &d_color );
         /**
          * Specify the desired keyboard mode. Used in keybindings menu to assign
-         * actions to input events of the approriate type of the parent UI.
+         * actions to input events of the appropriate type of the parent UI.
          */
         query_popup &preferred_keyboard_mode( keyboard_mode mode );
 

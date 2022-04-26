@@ -45,7 +45,8 @@ static void test_reachability( std::vector<std::string> setup, bool up )
 
     here.invalidate_map_cache( 0 );
     here.set_transparency_cache_dirty( 0 );
-    here.build_map_cache( 0, true );
+    here.build_map_cache( 0 );
+    here.build_lightmap( 0, t.anchor_map_pos );
 
     tripoint dst_shift = up ? tripoint_above : tripoint_zero;
     int rejected_cnt = 0;

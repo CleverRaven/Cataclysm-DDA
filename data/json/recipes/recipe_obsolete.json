@@ -484,5 +484,219 @@
     "type": "recipe",
     "result": "xl_fsurvivor_suit",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_vest",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_feet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hands",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xs_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_hauberk_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit_xs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_suit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_scavenger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vac_oven_small_full",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil",
+    "id_suffix": "using_pipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol",
+    "id_suffix": "using_oil_extractor_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_ethanol_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lo_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_crude_oil_filtered",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using lo_q_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_heads",
+    "id_suffix": "using_tails",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dab_pen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hi_q_distillate_cart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dragonskin",
+    "obsolete": true
   }
 ]

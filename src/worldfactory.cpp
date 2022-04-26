@@ -376,13 +376,14 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt )
+WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for( std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end(); ) {
-        if( *it == "TUTORIAL" || *it == "DEFENSE" ) {
+        if( *it == "TUTORIAL" || *it == "DEFENSE" ||
+            ( empty_only && !get_world( *it )->world_saves.empty() ) ) {
             it = world_names.erase( it );
         } else {
             ++it;

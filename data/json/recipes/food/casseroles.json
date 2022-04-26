@@ -52,7 +52,7 @@
       [ [ "corn", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ],
       [ [ "broth", 2 ] ],
       [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ] ],
-      [ [ "milk_standard_raw", 4, "LIST" ] ],
+      [ [ "milk_standard_raw", 4, "LIST" ], [ "lf_milk_standard", 4, "LIST" ] ],
       [
         [ "seasoning_italian", 7 ],
         [ "wild_herbs", 7 ],
@@ -83,8 +83,8 @@
       [ [ "crackers", 2 ], [ "oyster_crackers", 2 ] ],
       [ [ "flour", 2 ] ],
       [ [ "sherry", 2 ] ],
-      [ [ "milk_standard_raw", 2, "LIST" ] ],
-      [ [ "cheese", 1 ] ],
+      [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ] ],
       [
         [ "seasoning_italian", 7 ],
         [ "wild_herbs", 7 ],

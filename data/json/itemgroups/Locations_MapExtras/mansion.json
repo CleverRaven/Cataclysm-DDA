@@ -198,6 +198,8 @@
       { "group": "stash_drugs", "prob": 5 },
       [ "file", 70 ],
       { "group": "jewelry_front", "prob": 40 },
+      { "group": "costume_jewelry_vampire", "prob": 5 },
+      { "group": "costume_jewelry_dark", "prob": 5 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -559,7 +561,8 @@
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
       [ "morningstar_fake", 5 ],
-      [ "shillelagh_fake", 5 ]
+      [ "shillelagh_fake", 5 ],
+      [ "scythe_toy", 1 ]
     ]
   },
   {
@@ -686,6 +689,8 @@
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
+      [ "pom_poms", 30 ],
+      [ "shuttlecock", 5 ],
       [ "baseball", 30 ],
       [ "football", 20 ],
       [ "frisbee", 40 ],
@@ -704,7 +709,11 @@
       [ "bat", 10 ],
       { "item": "creepy_doll", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
-      [ "whistle", 3 ]
+      [ "whistle", 3 ],
+      { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "wizard_cane", "prob": 10, "charges": [ 50, 100 ] },
+      [ "sinister_cane", 10 ],
+      [ "scythe_toy", 10 ]
     ]
   },
   {
@@ -723,9 +732,23 @@
       [ "spike", 30 ],
       { "item": "blood", "prob": 10, "container-item": "jar_3l_glass_sealed", "sealed": false },
       [ "bone_human", 10 ],
+      [ "bowl_skull", 5 ],
       [ "bondage_mask", 10 ],
       [ "zentai", 5 ],
-      [ "bondage_suit", 5 ]
+      [ "bondage_suit", 5 ],
+      [ "vampire_fangs", 5 ],
+      [ "cloak_vampire", 5 ],
+      [ "cloak_black", 5 ],
+      { "group": "costume_jewelry_dark", "prob": 20 },
+      { "group": "costume_jewelry_vampire", "prob": 20 },
+      [ "sinister_cane", 5 ],
+      [ "wizard_cane", 4 ],
+      [ "robe_wizard", 4 ],
+      [ "grim_reaper_robe", 4 ],
+      [ "scythe_toy", 4 ],
+      [ "witch_dress_long", 2 ],
+      [ "sinister_gown", 2 ],
+      [ "sinister_dress", 2 ]
     ]
   },
   {
@@ -761,7 +784,31 @@
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
       [ "rope_30", 5 ],
-      { "item": "fog_machine", "prob": 5, "charges": [ 0, 500 ] }
+      { "item": "fog_machine", "prob": 5, "charges": [ 0, 500 ] },
+      { "group": "costume_undergarments_women", "prob": 20 },
+      { "group": "costume_suits", "prob": 20 },
+      { "group": "costume_skirts", "prob": 10 },
+      { "group": "costume_pants", "prob": 2 },
+      { "group": "costume_masks", "prob": 15 },
+      { "group": "costume_jewelry", "prob": 5 },
+      { "group": "costume_hats_hoods", "prob": 2 },
+      { "group": "costume_gloves", "prob": 2 },
+      { "group": "costume_dresses", "prob": 10 },
+      { "group": "costume_cloacks", "prob": 1 },
+      [ "cheerleader_top", 10 ],
+      [ "cheerleader_top_short", 15 ],
+      [ "leotard", 5 ],
+      [ "cheerleader_skirt", 10 ],
+      [ "cheerleader_skirt_short", 15 ],
+      [ "santa_dress", 10 ],
+      [ "santa_dress_short", 15 ],
+      [ "cheerleader_dress", 5 ],
+      [ "ninja_dress_sleeveless", 2 ],
+      [ "sinister_dress_short", 5 ],
+      [ "witch_dress_short", 5 ],
+      [ "maid_dress_short", 25 ],
+      [ "apron_leather", 25 ],
+      [ "sinister_cane", 1 ]
     ]
   },
   {
@@ -772,7 +819,13 @@
       [ "bat", 60 ],
       [ "bat_metal", 60 ],
       [ "boxing_gloves", 40 ],
+      [ "shuttlecock", 10 ],
       [ "baseball", 60 ],
+      [ "pom_poms", 30 ],
+      [ "cheerleader_top", 15 ],
+      [ "cheerleader_top_short", 15 ],
+      [ "cheerleader_skirt", 15 ],
+      [ "cheerleader_skirt_short", 15 ],
       [ "football_armor", 30 ],
       [ "helmet_football", 10 ],
       [ "football", 60 ],
@@ -829,6 +882,7 @@
       [ "glass", 20 ],
       [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
+      [ "bowl_wood", 5 ],
       [ "ceramic_plate", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ],
@@ -883,6 +937,7 @@
       [ "cig_butt", 50 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
+      [ "wrapper_foil", 5 ],
       [ "shot_hull", 40 ],
       [ "splinter", 40 ],
       [ "sinew", 40 ],
@@ -914,6 +969,7 @@
     "items": [
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
+      [ "wrapper_foil", 5 ],
       { "item": "paper", "prob": 50, "count": [ 20, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
@@ -963,6 +1019,7 @@
       [ "hairpin", 20 ],
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 20, "charges": [ 1, 32 ] },
       [ "jersey", 20 ],
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
@@ -990,6 +1047,7 @@
       [ "bathroom_scale", 10 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
+      [ "wrapper_foil", 5 ],
       { "item": "paper", "prob": 50, "count": [ 20, 50 ] },
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
@@ -1016,6 +1074,7 @@
       [ "stick", 50 ],
       [ "rock", 50 ],
       [ "rock_flaking", 5 ],
+      [ "flint", 1 ],
       [ "rock_large", 5 ],
       [ "plastic_shopping_bag", 40 ],
       [ "sinew", 40 ],
@@ -1032,6 +1091,7 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       [ "wrapper", 20 ],
+      [ "wrapper_foil", 2 ],
       [ "bottle_glass", 10 ],
       [ "flyer", 10 ],
       [ "bone_tainted", 5 ],
@@ -1072,6 +1132,7 @@
       [ "sinew", 40 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "wrapper", 30 ],
+      [ "wrapper_foil", 3 ],
       [ "dance_shoes", 20 ],
       [ "dress_shoes", 20 ],
       { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
@@ -1142,7 +1203,13 @@
       { "item": "aspirin", "prob": 10, "charges": [ 1, 10 ] },
       [ "karate_gi", 10 ],
       [ "judo_gi", 5 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
+      [ "cheerleader_dress", 5 ],
+      [ "cheerleader_skirt", 5 ],
+      [ "cheerleader_skirt_short", 5 ],
+      [ "cheerleader_top", 5 ],
+      [ "cheerleader_top_short", 5 ],
+      [ "pom_poms", 6 ]
     ]
   },
   {
@@ -1281,11 +1348,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
+      { "group": "swimmer_accessories", "prob": 10 },
+      { "group": "swimmer_glasses", "prob": 25 },
       { "group": "swimmer_torso", "prob": 20 },
       { "group": "swimmer_pants", "prob": 20 },
       { "group": "swimmer_head", "prob": 20 },
-      { "group": "magazines", "prob": 20 },
-      [ "flip_flops", 30 ]
+      { "group": "swimmer_shoes", "prob": 30 },
+      { "group": "swimmer_gloves", "prob": 5 },
+      { "group": "swimmer_wetsuit", "prob": 5 },
+      { "group": "swimmer_items", "prob": 10 },
+      { "group": "magazines", "prob": 20 }
     ]
   },
   {
@@ -1335,7 +1407,9 @@
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
       [ "curling_iron", 15 ],
-      [ "brush_toilet", 15 ]
+      [ "brush_toilet", 15 ],
+      { "group": "costume_jewelry_dark", "prob": 2 },
+      { "group": "costume_jewelry_vampire", "prob": 2 }
     ]
   },
   {
@@ -1380,7 +1454,8 @@
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
       [ "linuxtshirt", 20 ],
-      [ "kilt", 3 ]
+      [ "kilt", 3 ],
+      [ "gloves_white", 10 ]
     ]
   },
   {
@@ -1425,7 +1500,10 @@
       [ "corset", 10 ],
       [ "corset_waist", 10 ],
       [ "halter_top", 50 ],
-      [ "nanoskirt", 10 ]
+      [ "santa_dress_long", 1 ],
+      [ "sinister_dress", 1 ],
+      [ "sinister_gown", 1 ],
+      [ "witch_dress_long", 1 ]
     ]
   },
   {
@@ -1522,7 +1600,11 @@
       [ "coat_faux_fur", 4 ],
       [ "coat_fur", 4 ],
       [ "gloves_fur", 4 ],
-      [ "boots_fur", 4 ]
+      [ "boots_fur", 4 ],
+      [ "santa_dress_long", 3 ],
+      [ "sinister_dress", 3 ],
+      [ "sinister_gown", 4 ],
+      [ "witch_dress_long", 2 ]
     ]
   },
   {
@@ -1570,6 +1652,7 @@
       { "group": "softdrugs", "prob": 30 },
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 20, "charges": [ 1, 32 ] },
       [ "pocket_survival", 5 ]
     ]
   },
@@ -1593,13 +1676,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "camera_pro", "prob": 90, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 50, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "container-item": "camera_bag", "prob": 40, "charges": [ 0, 150 ] },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "binoculars", 20 ]
     ]
@@ -1613,6 +1698,7 @@
       [ "gloves_work", 70 ],
       [ "boots_rubber", 50 ],
       [ "hoe", 50 ],
+      [ "scythe", 1 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
       [ "shovel", 40 ],
@@ -1654,6 +1740,9 @@
     "items": [
       [ "knife_butcher", 35 ],
       [ "cane", 25 ],
+      [ "sinister_cane", 2 ],
+      [ "wizard_cane", 1 ],
+      [ "wizard_cane_cheap", 1 ],
       [ "umbrella", 20 ],
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       [ "candlestick", 5 ]
