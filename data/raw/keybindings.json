@@ -3296,6 +3296,13 @@
   },
   {
     "type": "keybinding",
+    "id": "AUTO_BALANCE",
+    "category": "INVENTORY",
+    "name": "Autobalance trade using highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DECREASE_COUNT",
     "category": "INVENTORY",
     "name": "Decrease selected amount for the highlighted item",
