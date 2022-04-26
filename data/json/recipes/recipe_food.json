@@ -3888,7 +3888,14 @@
         [ "bacon", 2 ],
         [ "eggs_any_shape", 2, "LIST" ]
       ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "pepper", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "pepper", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3915,7 +3922,14 @@
         [ "morel_cooked", 1 ],
         [ "mushroom_cooked", 1 ]
       ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ], [ "wild_garlic", 1 ], [ "garlic_clove", 1 ], [ "pepper", 1 ] ],
+      [
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "wild_garlic", 1 ],
+        [ "garlic_clove", 1 ],
+        [ "pepper", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
