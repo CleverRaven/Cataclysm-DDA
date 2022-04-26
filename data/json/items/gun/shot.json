@@ -102,7 +102,7 @@
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "12 gauge Kel-Tec bullpup shotgun" },
+    "name": { "str": "12 gauge bullpup shotgun" },
     "description": "This unique pump-action shotgun uses a system of 2 tube magazines to carry 14 total rounds of 12 gauge shotshells.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  In addition, as the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a comparatively high capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
