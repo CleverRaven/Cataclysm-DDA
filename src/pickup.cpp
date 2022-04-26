@@ -248,9 +248,9 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    item &weapon = player_character.get_wielded_item();
-                    if( weapon.can_contain_partial( newit ) ) {
-                        int used_charges = weapon.fill_with( newit, remaining_charges, false, false, false );
+                    item &carried_item = player_character.get_wielded_item();
+                    if( !carried_item.is_gun() && carried_item.can_contain_partial( newit ) ) {
+                        int used_charges = carried_item.fill_with( newit, remaining_charges, false, false, false );
                         remaining_charges -= used_charges;
                     }
                     player_character.worn.pickup_stash( newit, remaining_charges, false );
