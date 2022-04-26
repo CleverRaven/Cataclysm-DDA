@@ -15,7 +15,7 @@
         "text": "I'm back from the convoy.  [Hand over the hard case.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "robofac_hardcase" } ] },
         "effect": [
-          { "u_consume_item": "robofac_hardcase", "count": 1 },
+          { "u_consume_item": "robofac_hardcase", "count": 1, "popup": true },
           { "u_spawn_item": "RobofacCoin", "count": 4 },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
         ],
@@ -26,7 +26,7 @@
         "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
         "effect": [
-          { "u_consume_item": "data_card", "count": 1 },
+          { "u_consume_item": "data_card", "count": 1, "popup": true },
           { "u_spawn_item": "RobofacCoin", "count": 4 },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
         ],
@@ -36,7 +36,7 @@
         "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
         "effect": [
-          { "u_consume_item": "template_photonics", "count": 1 },
+          { "u_consume_item": "template_photonics", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_3", "success": true }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE"
@@ -45,7 +45,7 @@
         "text": "The weapon worked!  [Hand over the inactive trifacet.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "bot_yrax_trifacet" } ] },
         "effect": [
-          { "u_consume_item": "bot_yrax_trifacet", "count": 1 },
+          { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
           { "u_spawn_item": "RobofacCoin", "count": 2 },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": true }
         ],
@@ -55,7 +55,7 @@
         "text": "I found the robot, but…  [Hand over the trifacet remains.]",
         "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "broken_yrax_trifacet" } ] },
         "effect": [
-          { "u_consume_item": "broken_yrax_trifacet", "count": 1 },
+          { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
           { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": false }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
@@ -247,7 +247,7 @@
       {
         "text": "Your scientist was dead, but I disabled the prototype.  Is this what you were looking for?  [Hand over the prototype I/O recorder.]",
         "condition": { "u_has_item": "robofac_test_data" },
-        "effect": { "u_consume_item": "robofac_test_data" },
+        "effect": { "u_consume_item": "robofac_test_data", "popup": true },
         "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE"
       },
       { "text": "Not yet.  I'll get back to it.", "topic": "TALK_DONE" }
