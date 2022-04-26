@@ -193,8 +193,9 @@
     "copy-from": "shotgun_pump_3gun",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "12 gauge shotgun" },
-    "description": "The fateful friend of law-enforcement officers, civilian shooters, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether you’re simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
+    "name": { "str": "12 gauge combat shotgun" },
+    "//": "Not exactly a combat shotgun, but I was hard-pressed to think of a name which wasn’t just, “12 gauge shotgun.” in its proper descriptions its referenced as often being used by militaries, there for I’m calling this a combat shotgun.",
+    "description": "The fateful friend of law-enforcement officers, military personnel, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether you’re simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
     "variant_type": "gun",
     "variants": [
       {
@@ -274,7 +275,7 @@
       },
       {
         "id": "m1014",
-        "name": { "str": "M1014 shotgun" },
+        "name": { "str": "M1014" },
         "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available."
       }
     ],
@@ -461,8 +462,8 @@
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "self-defence pump-action shotgun" },
-    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or laws-enforcement purposes.  featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
+    "name": { "str": "pump-action défense shotgun" },
+    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
       {
@@ -523,7 +524,7 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "Saiga tactical shotgun" },
+    "name": { "str": "imported Russian shotgun" },
     "description": "Built in the same style as the venerable AK series of rifles, this Russian exported firearm feeds from detachable magazines rather than making use of a standard tubular design like most commercial shotguns.  With 10 and 30-round magazines available, reloading is rendered a much quicker procedure than can ever be accomplished with conventional bottom-feeding firearms.",
     "variant_type": "gun",
     "variants": [
