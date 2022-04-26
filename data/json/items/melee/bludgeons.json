@@ -624,7 +624,7 @@
     "volume": "1 L",
     "longest_side": "110 cm",
     "bashing": 14,
-    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "flags": [ "SHEATH_GOLF" ]
   },
   {
@@ -703,7 +703,7 @@
     "volume": "1700 ml",
     "longest_side": "100 cm",
     "bashing": 80,
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "price": 24000,
     "price_postapoc": 750,
     "qualities": [ [ "HAMMER", 1 ] ]
