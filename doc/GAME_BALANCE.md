@@ -82,9 +82,9 @@ Even a world class dodger should not be able to dodge continuously when attacked
 # MELEE WEAPONS:
 
 ## To-Hit Value
-The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, ect... to get your final chance to-hit.
+The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, etc... to get your final chance to-hit.
 
-For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start at '-2' and if you wish, you may go through the categories and manually calculate the to-hit value based on the object's physical properties, then enter the number directly in the format "to_hit": -2, (or whatever number you have decided on).
+For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start at '-2' and if you wish, you may go through the categories and manually calculate the to-hit value based on the object's physical properties, then enter the number directly in the format "to_hit": X, (where X is the positive or negative integer you have decided on).
 
 For proper weapons, such as those in the data\json\items\melee file, and common makeshift weapons like crowbars, etc... we use a slightly different system. Instead of a declared number we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding the numbers below up with '-2' you simply select the correct word for each category and it will be calculated in-game instead.
 
@@ -94,7 +94,7 @@ The format for this is:
 ### Grip
 Grip is a measure of how well you can control the weapon to quickly respond to situational changes.
 
--1 - "bad" - Particularly hard to grip items, (especially those that are innately slipper or very rounded with no obvious gripping edge) such as basketballs and barrels, or which are dangerous to hold because of very sharp edges, like scrap metal and broken glass.
+-1 - "bad" - Particularly hard to grip items, (especially those that are innately slippery or very rounded with no obvious gripping edge) such as basketballs and barrels, or which are dangerous to hold because of very sharp edges, like scrap metal and broken glass.
 
 +0 - "none" - Any object that doesn't fall into one of the categories below. Examples include 2x4s, computer monitors, wires, stingers and clothing. Basically, anything that has a grippable component, but which is too thick, too thin, or too flimsy to grab comfortably in a way that can reliably control the object.
 
@@ -107,7 +107,7 @@ Length allows more surface area for potential contact, and reduces the need to c
 
 +0 - "hand" - Any object without a length bonus.
 
-+1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand. A normal American 12inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
++1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand, but less than about 3 feet. A normal American 12-inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
 
 +2 - "long" An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
 
@@ -118,7 +118,7 @@ Some weapons need to strike in a certain way to be effective. Others are more di
 
 -1 - "line" - Line of damage weapons - Swords, knives, and other weapons that require a solid strike along a particular piece of the weapon, where the weapon can be said to have an attack angle, fall here. Weapons that have point attacks but are still effective without any solid hit, such as a nailboard, would also fall here.
 
-+0 - "any" - attack-anywhere weapons - Clubs, pipes, maces, etc, where the weapon will be dealing full damage with a solid blow no matter how it is angled, because every surface is a striking surface.
++0 - "any" - attack-anywhere weapons - Clubs, pipes, maces, etc, where the weapon will be dealing good damage with a solid blow no matter how it is angled, because every surface is effectively a striking surface.
 
 +1 - "every" - Weapons that can still do significant damage even with glancing blows would fall here. Jagged tearing weapons and electric weapons like a stun baton would fall here.
 
