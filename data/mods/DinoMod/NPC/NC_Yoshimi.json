@@ -185,10 +185,9 @@
       "update_mapgen": [
         {
           "om_terrain": "dinoexhibit",
-          "place_item": [ { "item": "kiernans_notes", "x": 20, "y": 9 }, { "item": "portal", "x": 20, "y": 9 } ],
+          "place_item": [ { "item": "kiernans_notes", "x": 20, "y": 9 } ],
           "place_monster": [
-            { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 20, "y": 9 },
-            { "monster": "mon_zeinonychus_bio_op", "x": 21, "y": 9 }
+            { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 20, "y": 9 }
           ]
         }
       ]
