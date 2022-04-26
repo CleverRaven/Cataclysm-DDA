@@ -8,7 +8,7 @@
       "and": [
         { "u_near_om_location": "roadstop_a", "range": 2 },
         "is_day",
-        { "one_in_chance": 2 },
+        { "one_in_chance": 10 },
         { "days_since_cataclysm": 7 },
         {
           "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
