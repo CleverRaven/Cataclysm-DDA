@@ -101,7 +101,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "fake_oven" } ],
+    "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": 0,
     "item": "oven",
@@ -184,7 +184,8 @@
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_forge",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
   {
     "type": "vehicle_part",
@@ -193,7 +194,8 @@
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "item": "kiln",
-    "copy-from": "veh_kiln"
+    "copy-from": "veh_kiln",
+    "pseudo_tools": [ { "id": "pseudo_app_kiln" } ]
   },
   {
     "type": "vehicle_part",

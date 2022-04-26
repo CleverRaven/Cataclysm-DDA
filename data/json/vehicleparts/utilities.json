@@ -17,7 +17,7 @@
     "description": "A small but complete kitchen unit, powered from the vehicle's batteries.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
-    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_kitchen_hotplate", "hotkey": "h" }, { "id": "pot" }, { "id": "pan" }, { "id": "water_faucet" } ],
     "item": "kitchen_unit",
     "location": "center",
     "looks_like": "f_oven",
@@ -93,10 +93,10 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
     "pseudo_tools": [
-      { "id": "vac_sealer" },
-      { "id": "dehydrator" },
-      { "id": "water_purifier", "hotkey": "p" },
-      { "id": "food_processor" },
+      { "id": "pseudo_veh_foodco_vac_sealer" },
+      { "id": "pseudo_veh_foodco_dehydrator" },
+      { "id": "pseudo_veh_foodco_water_purifier", "hotkey": "p" },
+      { "id": "pseudo_veh_foodco_food_processor" },
       { "id": "press" },
       { "id": "puller" }
     ],
@@ -137,9 +137,9 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
     "pseudo_tools": [
-      { "id": "chemistry_set" },
-      { "id": "electrolysis_kit" },
-      { "id": "hotplate", "hotkey": "h" },
+      { "id": "pseudo_veh_chemlab_chemset" },
+      { "id": "pseudo_veh_chemlab_electrolysis_kit" },
+      { "id": "pseudo_veh_chemlab_hotplate", "hotkey": "h" },
       { "id": "water_faucet" }
     ],
     "item": "chemlab",
@@ -175,7 +175,7 @@
     "description": "A electric forge for metalworking, powered by the vehicle's batteries.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE" ],
-    "pseudo_tools": [ { "id": "forge" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_forge" } ],
     "item": "forgerig",
     "location": "center",
     "looks_like": "f_forge_rock",
@@ -209,7 +209,7 @@
     "description": "A electric kiln for baking brick or clay, powered by the vehicle's batteries.  You could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE" ],
-    "pseudo_tools": [ { "id": "kiln" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_kiln" } ],
     "item": "kilnrig",
     "location": "center",
     "looks_like": "f_kiln_empty",
@@ -288,7 +288,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "pseudo_tools": [ { "id": "oil_press_mounted" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_oil_press" } ],
     "size": 20,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },

@@ -595,7 +595,7 @@
     "//": "capacity: 50kg/hour * 40% efficiency = 20 L/hour -> 45s / 250 mL",
     "time": "45 s",
     "//2": "45 s * 5.5kW = 250 kJ",
-    "tools": [ [ [ "oil_press_mounted", 250 ] ] ],
+    "tools": [ [ [ "pseudo_veh_oil_press", 250 ] ] ],
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],

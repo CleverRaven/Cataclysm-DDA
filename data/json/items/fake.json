@@ -207,14 +207,7 @@
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_battery_cell"
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "drill_press_tool",
@@ -279,13 +272,6 @@
     "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
   },
   {
-    "id": "fake_oven",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "oven" },
-    "qualities": [ [ "OVEN", 2 ] ]
-  },
-  {
     "id": "water_purifier_tool",
     "type": "TOOL",
     "copy-from": "fake_appliance_tool",
@@ -329,12 +315,6 @@
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
   {
-    "id": "oil_press_mounted",
-    "copy-from": "fake_power_tool",
-    "type": "TOOL",
-    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
-  },
-  {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
@@ -369,5 +349,140 @@
     "symbol": "@",
     "color": "yellow",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_battery",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "pseudo battery", "str_pl": "pseudo batteries" },
+    "description": "Pseudo battery for pseudo items such as vehicle tools.  If you see this, then something went wrong",
+    "ammo_type": [ "battery" ],
+    "capacity": 1000000,
+    "//": "TODO: Determine appropriate arbitrary capacity for vehicle batteries",
+    "flags": [ "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000000 } } ],
+    "symbol": "@",
+    "color": "red"
+  },
+  {
+    "id": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "fake power tool with battery", "str_pl": "fake power tool with batteries" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+  },
+  {
+    "id": "pseudo_veh_oil_press",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
+  },
+  {
+    "id": "pseudo_veh_forge",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "mounted electric forge" },
+    "sub": "forge"
+  },
+  {
+    "id": "pseudo_veh_kiln",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "mounted electric kiln" },
+    "sub": "kiln"
+  },
+  {
+    "id": "pseudo_veh_chemlab_chemset",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "onboard chemistry lab" },
+    "sub": "chemistry_set"
+  },
+  {
+    "id": "pseudo_veh_chemlab_electrolysis_kit",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "onboard chemistry lab" },
+    "sub": "electrolysis_kit"
+  },
+  {
+    "id": "pseudo_veh_chemlab_hotplate",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "onboard chemistry lab" },
+    "sub": "hotplate"
+  },
+  {
+    "id": "pseudo_veh_foodco_vac_sealer",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
+    "sub": "vac_sealer"
+  },
+  {
+    "id": "pseudo_veh_foodco_dehydrator",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
+    "sub": "dehydrator"
+  },
+  {
+    "id": "pseudo_veh_foodco_water_purifier",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
+    "sub": "water_purifier"
+  },
+  {
+    "id": "pseudo_veh_foodco_food_processor",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
+    "sub": "food_processor"
+  },
+  {
+    "id": "pseudo_veh_kitchen_hotplate",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "kitchen unit" },
+    "sub": "hotplate"
+  },
+  {
+    "id": "pseudo_veh_water_purifier",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "mounted water purifier" },
+    "sub": "water_purifier"
+  },
+  {
+    "id": "pseudo_app_oven_hotplate",
+    "copy-from": "fake_appliance_tool",
+    "type": "TOOL",
+    "name": { "str": "oven" },
+    "sub": "hotplate",
+    "qualities": [ [ "OVEN", 2 ] ]
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "oven" },
+    "qualities": [ [ "OVEN", 2 ] ]
+  },
+  {
+    "id": "pseudo_app_forge",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "electric forge appliance" },
+    "sub": "forge"
+  },
+  {
+    "id": "pseudo_app_kiln",
+    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "type": "TOOL",
+    "name": { "str": "electric kiln appliance" },
+    "sub": "kiln"
   }
 ]
