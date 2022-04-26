@@ -3289,6 +3289,20 @@
   },
   {
     "type": "keybinding",
+    "id": "INCREASE_COUNT",
+    "category": "INVENTORY",
+    "name": "Increase selected amount for the highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "+" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DECREASE_COUNT",
+    "category": "INVENTORY",
+    "name": "Decrease selected amount for the highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "NEXT_COLUMN",
     "category": "INVENTORY",
     "name": "Next column",
