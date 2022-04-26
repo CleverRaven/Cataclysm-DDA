@@ -327,7 +327,7 @@
       "msg": "You activate your %s.",
       "target": "exo_bio_oxygen_on",
       "active": true,
-      "need_charges_msg": "The %s's tank is ehxausted."
+      "need_charges_msg": "The %s's tank is exhausted."
     },
     "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
   },
@@ -374,7 +374,6 @@
     "material": [ "plastic", "qt_steel" ],
     "symbol": "(",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 50,
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
     "flags": [ "USE_UPS", "CANT_WEAR", "EXO_HELMET_GADGET" ]
@@ -398,7 +397,7 @@
     "id": "exo_jetpack",
     "type": "TOOL",
     "name": { "str": "exosuit dynamic maneuvering unit" },
-    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across impassible terrain. The thrust is insufficent for flight in a gravity well, but can still launch you forward at extreme speed.",
+    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps. The thrust is not sufficent for flight in a gravity well, but can still launch you forward at extreme speed.",
     "weight": "500 g",
     "volume": "250 ml",
     "price": "10 kUSD",
@@ -415,7 +414,7 @@
     "id": "exo_forcefield",
     "type": "TOOL",
     "name": { "str": "exosuit forcefield generator" },
-    "description": "A set of powerful field generators intended for UICA marines in boarding actions.  The first setting provides excellent protection against melee attacks, while the second protects against ballistic projectiles.  Due to power draw and heat dissipation issues the unit cannot operate both fields simultaniously, forcing users to make rapid decisions as combat unfolds.",
+    "description": "A set of powerful field generators intended for UICA marines in boarding actions.  The first setting provides excellent protection against melee attacks, while the second protects against ballistic projectiles.  Due to power draw and heat dissipation issues the unit cannot operate both fields simultaneously, forcing users to make rapid decisions as combat unfolds.",
     "weight": "5 kg",
     "volume": "2500 ml",
     "price": "10 kUSD",
