@@ -625,7 +625,7 @@
     "longest_side": "110 cm",
     "bashing": 11,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "SHEATH_GOLF" ]
+    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE" ]
   },
   {
     "type": "GENERIC",
