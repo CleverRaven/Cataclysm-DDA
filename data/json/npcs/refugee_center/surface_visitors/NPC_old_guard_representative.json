@@ -330,7 +330,7 @@
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies… it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us. Make no mistake, the world is better off without them. Thank you once again marshal.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
