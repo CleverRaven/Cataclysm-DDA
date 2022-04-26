@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Necropolismod",
+    "name": "Necropolis",
+    "maintainers": [ "Perset" ],
+    "description": "Incorporates the Fallout-inspired Necropolis structure into the game",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]
