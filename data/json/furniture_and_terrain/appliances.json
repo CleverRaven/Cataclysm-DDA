@@ -485,6 +485,7 @@
     "epower": -20,
     "bonus": 200,
     "damage_modifier": 10,
+	"looks_like": "f_floor_lamp",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
