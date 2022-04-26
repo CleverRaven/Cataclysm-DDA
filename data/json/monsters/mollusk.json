@@ -25,7 +25,7 @@
     "dissect": "dissect_gastropod_sample_single",
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_mussel_river",
@@ -52,18 +52,18 @@
     "dissect": "dissect_gastropod_sample_single",
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "mon_snail_forest",
     "type": "MONSTER",
-    "name": { "str_sp": "snail" },
-    "description": "A shelled gastropod either of native or introduced stock.  Looks larger than usual.",
+    "name": { "str_sp": "big snail" },
+    "description": "A shelled gastropod either of native or introduced stock.  This one looks larger than usual.",
     "default_faction": "slug",
     "categories": [ "WILDLIFE" ],
     "species": [ "MOLLUSK" ],
-    "volume": "300 ml",
-    "weight": "100 g",
+    "volume": "1 L",
+    "weight": "680 g",
     "hp": 3,
     "speed": 10,
     "material": [ "flesh" ],
@@ -84,7 +84,7 @@
   {
     "id": "mon_snail_small",
     "type": "MONSTER",
-    "name": { "str": "large snail" },
+    "name": { "str": "giant snail" },
     "description": "A snail grown to human size.  its mouth and underside dripping acid.",
     "copy-from": "mon_snail_giant",
     "volume": "62500 ml",
@@ -97,8 +97,8 @@
   {
     "id": "mon_snail_giant",
     "type": "MONSTER",
-    "name": { "str": "giant snail" },
-    "description": "A huge snail with a massive shell on its back.  It slowly crawls over the ground while leaking acid on its path.",
+    "name": { "str": "colossal snail" },
+    "description": "An enormous gastropod with a massive shell on its back.  It slowly crawls over the ground while leaving acid on its path.",
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],
     "diff": 5,
@@ -130,13 +130,13 @@
   {
     "id": "mon_slug_forest",
     "type": "MONSTER",
-    "name": { "str_sp": "slug" },
-    "description": "A gastropod either of native or introduced stock.  Looks larger than usual.",
+    "name": { "str_sp": "big slug" },
+    "description": "A gastropod either of native or introduced stock.  This one Looks larger than usual.",
     "default_faction": "slug",
     "categories": [ "WILDLIFE" ],
     "species": [ "MOLLUSK" ],
-    "volume": "300 ml",
-    "weight": "100 g",
+    "volume": "1 L",
+    "weight": "680 g",
     "hp": 3,
     "speed": 10,
     "material": [ "flesh" ],
@@ -157,7 +157,7 @@
   {
     "id": "mon_slug_small",
     "type": "MONSTER",
-    "name": { "str": "large slug" },
+    "name": { "str": "giant slug" },
     "description": "A disturbingly large mutated slug as large as a human.  Venom drips from what must be its mouth, and it is covered with sticky mucus.",
     "copy-from": "mon_slug_giant",
     "volume": "62500 ml",
@@ -170,7 +170,7 @@
   {
     "id": "mon_slug_giant",
     "type": "MONSTER",
-    "name": { "str": "giant slug" },
+    "name": { "str": "colossal slug" },
     "description": "A mutated leopard slug, as wide as a golf cart.  Venom dripping from its fanged maw, it slithers around slowly, leaving a trail of glistening slime.",
     "default_faction": "slug",
     "species": [ "MOLLUSK" ],
