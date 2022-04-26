@@ -317,7 +317,7 @@
     "color": "light_gray",
     "ammo": [ "oxygen" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
-    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_LARGE_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_MEDIUM_GADGET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 60 } }
     ],
@@ -346,7 +346,7 @@
     "ammo": [ "oxygen" ],
     "environmental_protection": 15,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
-    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_LARGE_GADGET" ],
+    "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_MEDIUM_GADGET" ],
     "turns_per_charge": 30,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 60 } }
@@ -384,22 +384,22 @@
     "category": "exosuit",
     "name": { "str": "exosuit climbing assist module", "str_pl": "exosuit climbing assist modules" },
     "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.",
-    "weight": "2 kg",
-    "volume": "1 L",
+    "weight": "5 kg",
+    "volume": "2.5 L",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
     "armor": [ { "encumbrance": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ] } ],
-    "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET" ]
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ]
   },
   {
     "id": "exo_jetpack",
     "type": "TOOL",
     "name": { "str": "exosuit dynamic maneuvering unit" },
     "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps. The thrust is not sufficent for flight in a gravity well, but can still launch you forward at extreme speed.",
-    "weight": "500 g",
-    "volume": "250 ml",
+    "weight": "10 kg",
+    "volume": "5 L",
     "price": "10 kUSD",
     "to_hit": -2,
     "bashing": 6,
@@ -424,7 +424,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET", "USE_UPS" ],
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the forcefield on to protect against bash and cut attacks.",
@@ -449,7 +449,7 @@
     "color": "light_gray",
     "power_draw": 5000,
     "revert_to": "exo_forcefield",
-    "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_LARGE_GADGET", "USE_UPS" ],
+    "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -482,7 +482,7 @@
     "color": "light_gray",
     "power_draw": 5000,
     "revert_to": "exo_forcefield",
-    "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_LARGE_GADGET", "USE_UPS" ],
+    "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
       "passive_effects": [
         {
