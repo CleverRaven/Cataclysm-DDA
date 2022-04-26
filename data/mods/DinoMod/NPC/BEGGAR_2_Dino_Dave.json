@@ -42,7 +42,7 @@
     ]
   },
   {
-    "id": "MISSION_REACH_FEMA_CA",
+    "id": "MISSION_REACH_FAKE_DAVE",
     "type": "mission_definition",
     "name": { "str": "Find fake Dino Dave" },
     "goal": "MGOAL_GO_TO_TYPE",
