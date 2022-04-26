@@ -53,7 +53,7 @@
         "_": [ [ "f_null", 10 ], [ "f_alien_coral_b", 2 ], "f_alien_sponge" ],
         "&": [ [ "f_alien_coral_a", 33 ], [ "f_alien_coral_b", 33 ], [ "f_alien_coral_c", 33 ], "f_alien_sponge" ]
       },
-      "trap": { "X": { "trap": "tr_portal_dormant" } }
+      "traps": { "X": { "trap": "tr_portal_dormant" } }
     }
   }
 ]
