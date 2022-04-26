@@ -129,10 +129,8 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "swampshack_palette" ],
       "place_loot": [ { "item": "net", "x": 11, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 11, "y": 16, "chance": 50 } ],
-      "terrain": { "V": "t_region_soil", "x": "t_region_soil", "X": "t_region_soil" }
+      "terrain": { "V": "t_region_soil", "x": "t_region_soil", "X": "t_region_soil" },
+      "place_nested": [ { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 9 ] } ]
     }
-  },
-  {
-    "place_nested": [ { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 9 ] } ]
   }
 ]
