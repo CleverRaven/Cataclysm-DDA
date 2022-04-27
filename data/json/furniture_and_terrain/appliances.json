@@ -118,6 +118,34 @@
     "type": "vehicle_part"
   },
   {
+    "id": "ap_water_purifier",
+    "name": { "str": "stationary water purifier" },
+    "categories": [ "utility" ],
+    "description": "This device effectively sterilizes water.",
+    "symbol": "W",
+    "color": "white",
+    "location": "structure",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 60,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "water_purifier_tool" } ],
+    "epower": 0,
+    "item": "stationary_water_purifier",
+    "looks_like": "f_water_purifier",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 7 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "sheet_metal", "count": [ 2, 6 ] },
+      { "item": "cable", "charges": [ 1, 15 ] },
+      { "item": "hose", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 1, 4 ] },
+      { "item": "scrap_copper", "count": [ 0, 2 ] },
+      { "item": "water_faucet", "count": [ 0, 1 ] }
+    ],
+    "type": "vehicle_part"
+  },
+  {
     "id": "ap_arcade_machine",
     "name": { "str": "arcade machine" },
     "categories": [ "utility" ],
@@ -357,6 +385,56 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_hydraulic_press",
+    "name": { "str": "hydraulic press" },
+    "looks_like": "f_hydraulic_press",
+    "symbol": "7",
+    "color": "black_red",
+    "categories": [ "utility" ],
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  Ready to be plugged in.",
+    "location": "structure",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "hydraulic_press_tool" } ],
+    "epower": 0,
+    "item": "hydraulic_press",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_plate", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_air_compressor",
+    "name": { "str": "air compressor" },
+    "looks_like": "f_standing_tank",
+    "symbol": "7",
+    "color": "black_yellow",
+    "categories": [ "utility" ],
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.  Ready to be plugged in.",
+    "location": "structure",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "air_compressor_tool" } ],
+    "epower": 0,
+    "item": "air_compressor",
+    "breaks_into": [
+      { "item": "cable", "charges": [ 0, 4 ] },
+      { "item": "scrap", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "plastic_chunk", "count": [ 4, 10 ] },
+      { "item": "steel_plate", "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_heater_large",
     "name": { "str": "large heater" },
     "location": "structure",
@@ -574,6 +652,20 @@
     "size": 480,
     "copy-from": "dishwasher",
     "item": "household_dishwasher"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_autoclave",
+    "name": { "str": "small autoclave" },
+    "looks_like": "f_autoclave",
+    "symbol": "D",
+    "location": "structure",
+    "color": "light_blue",
+    "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "FLUIDTANK", "ENABLED_DRAINS_EPOWER" ],
+    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
+    "size": 200,
+    "copy-from": "autoclave",
+    "item": "autoclave"
   },
   {
     "type": "vehicle_part",

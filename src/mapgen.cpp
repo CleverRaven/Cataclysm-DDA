@@ -95,11 +95,9 @@ static const item_group_id Item_spawn_data_dresser( "dresser" );
 static const item_group_id Item_spawn_data_goo( "goo" );
 static const item_group_id Item_spawn_data_guns_rare( "guns_rare" );
 static const item_group_id Item_spawn_data_lab_dorm( "lab_dorm" );
-static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id Item_spawn_data_mut_lab( "mut_lab" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_teleport( "teleport" );
-static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
 static const itype_id itype_avgas( "avgas" );
 static const itype_id itype_diesel( "diesel" );
@@ -108,7 +106,6 @@ static const itype_id itype_jp8( "jp8" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
@@ -145,9 +142,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_mine( "mine" );
-static const oter_str_id oter_mine_down( "mine_down" );
-static const oter_str_id oter_mine_finale( "mine_finale" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_es( "sewer_es" );
 static const oter_str_id oter_sewer_esw( "sewer_esw" );
@@ -174,7 +168,6 @@ static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
 
 static const relic_procgen_id relic_procgen_data_cult( "cult" );
-static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
@@ -2952,21 +2945,27 @@ class jmapgen_zone : public jmapgen_piece
         mapgen_value<zone_type_id> zone_type;
         mapgen_value<faction_id> faction;
         std::string name;
+        std::string filter;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ )
             : zone_type( jsi.get_member( "type" ) )
             , faction( jsi.get_member( "faction" ) ) {
             if( jsi.has_string( "name" ) ) {
                 name = jsi.get_string( "name" );
             }
+            if( jsi.has_string( "filter" ) ) {
+                filter = jsi.get_string( "filter" );
+            }
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::zones;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
-            zone_manager &mgr = zone_manager::get_manager();
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
-            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end );
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
+            mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -4663,8 +4662,6 @@ void map::draw_map( mapgendata &dat )
             draw_slimepit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
-        } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
-            draw_mine( dat );
         } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( dat );
         } else {
@@ -5951,265 +5948,6 @@ void map::draw_temple( const mapgendata &dat )
     }
 }
 
-void map::draw_mine( mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_mine || terrain_type == oter_mine_down ) {
-        if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
-            dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.n_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.east(), ot_match_type::prefix ) ) {
-            dat.e_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.e_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.south(), ot_match_type::prefix ) ) {
-            dat.s_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.s_fac = 4;
-        }
-        if( is_ot_match( "mine", dat.west(), ot_match_type::prefix ) ) {
-            dat.w_fac = ( one_in( 10 ) ? 0 : -2 );
-        } else {
-            dat.w_fac = 4;
-        }
-
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i >= dat.w_fac + rng( 0, 2 ) && i <= EAST_EDGE - dat.e_fac - rng( 0, 2 ) &&
-                    j >= dat.n_fac + rng( 0, 2 ) && j <= SOUTH_EDGE - dat.s_fac - rng( 0, 2 ) &&
-                    i + j >= 4 && ( SEEX * 2 - i ) + ( SEEY * 2 - j ) >= 6 ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-
-        // Not an entrance; maybe some hazards!
-        switch( rng( 0, 4 ) ) {
-            case 0:
-                break; // Nothing!  Lucky!
-
-            case 1: { // Toxic gas
-                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
-                ter_set( point( gas_vent_location ), t_rock );
-                add_field( { gas_vent_location, abs_sub.z() }, fd_gas_vent, 2 );
-            }
-            break;
-
-            case 2: { // Lava
-                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
-                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
-                const int num = rng( 2, 4 );
-                for( int i = 0; i < num; i++ ) {
-                    int lx1 = start_location.x + rng( -1, 1 );
-                    int lx2 = end_location.x + rng( -1, 1 );
-                    int ly1 = start_location.y + rng( -1, 1 );
-                    int ly2 = end_location.y + rng( -1, 1 );
-                    line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
-                }
-            }
-            break;
-
-            case 3: { // Wrecked equipment
-                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
-                for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
-                    for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
-                        if( !one_in( 4 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z() ), f_wreckage, true );
-                        }
-                    }
-                }
-                place_items( Item_spawn_data_wreckage, 70, wreck_location + point( -3, -3 ),
-                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
-            }
-            break;
-
-            case 4: { // Dead miners
-                const int num_bodies = rng( 4, 8 );
-                for( int i = 0; i < num_bodies; i++ ) {
-                    if( const auto body = random_point( *this, [this]( const tripoint & p ) {
-                    return move_cost( p ) == 2;
-                    } ) ) {
-                        add_item( *body, item::make_corpse() );
-                        place_items( Item_spawn_data_mine_equipment, 60, *body, *body,
-                                     false, calendar::start_of_cataclysm );
-                    }
-                }
-            }
-            break;
-
-        }
-
-        if( terrain_type == oter_mine_down ) { // Don't forget to build a slope down!
-            std::vector<direction> open;
-            if( dat.n_fac == 4 ) {
-                open.push_back( direction::NORTH );
-            }
-            if( dat.e_fac == 4 ) {
-                open.push_back( direction::EAST );
-            }
-            if( dat.s_fac == 4 ) {
-                open.push_back( direction::SOUTH );
-            }
-            if( dat.w_fac == 4 ) {
-                open.push_back( direction::WEST );
-            }
-
-            if( open.empty() ) { // We'll have to build it in the center
-                int tries = 0;
-                point p;
-                bool okay = true;
-                do {
-                    p.x = rng( SEEX - 6, SEEX + 1 );
-                    p.y = rng( SEEY - 6, SEEY + 1 );
-                    okay = true;
-                    for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
-                        for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
-                                okay = false;
-                            }
-                        }
-                    }
-                    if( !okay ) {
-                        tries++;
-                    }
-                } while( !okay && tries < 10 );
-                if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
-                }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                square( this, t_slope_down, p + point( 1, 1 ), p + point( 2, 2 ) );
-            } else { // We can build against a wall
-                switch( random_entry( open ) ) {
-                    case direction::NORTH:
-                        square( this, t_rock_floor, point( SEEX - 3, 6 ), point( SEEX + 2, SEEY ) );
-                        line( this, t_slope_down, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
-                        break;
-                    case direction::EAST:
-                        square( this, t_rock_floor, point( SEEX + 1, SEEY - 3 ), point( SEEX * 2 - 7, SEEY + 2 ) );
-                        line( this, t_slope_down, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_rock_floor, point( SEEX - 3, SEEY + 1 ), point( SEEX + 2, SEEY * 2 - 7 ) );
-                        line( this, t_slope_down, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
-                        break;
-                    case direction::WEST:
-                        square( this, t_rock_floor, point( 6, SEEY - 3 ), point( SEEX, SEEY + 2 ) );
-                        line( this, t_slope_down, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } // Done building a slope down
-
-        if( dat.above() == oter_mine_down ) { // Don't forget to build a slope up!
-            std::vector<direction> open;
-            if( dat.n_fac == 6 && ter( point( SEEX, 6 ) ) != t_slope_down ) {
-                open.push_back( direction::NORTH );
-            }
-            if( dat.e_fac == 6 && ter( point( SEEX * 2 - 7, SEEY ) ) != t_slope_down ) {
-                open.push_back( direction::EAST );
-            }
-            if( dat.s_fac == 6 && ter( point( SEEX, SEEY * 2 - 7 ) ) != t_slope_down ) {
-                open.push_back( direction::SOUTH );
-            }
-            if( dat.w_fac == 6 && ter( point( 6, SEEY ) ) != t_slope_down ) {
-                open.push_back( direction::WEST );
-            }
-
-            if( open.empty() ) { // We'll have to build it in the center
-                int tries = 0;
-                point p;
-                bool okay = true;
-                do {
-                    p.x = rng( SEEX - 6, SEEX + 1 );
-                    p.y = rng( SEEY - 6, SEEY + 1 );
-                    okay = true;
-                    for( int i = p.x; ( i <= p.x + 5 ) && okay; i++ ) {
-                        for( int j = p.y; ( j <= p.y + 5 ) && okay; j++ ) {
-                            if( ter( point( i, j ) ) != t_rock_floor ) {
-                                okay = false;
-                            }
-                        }
-                    }
-                    if( !okay ) {
-                        tries++;
-                    }
-                } while( !okay && tries < 10 );
-                if( tries == 10 ) { // Clear the area around the slope down
-                    square( this, t_rock_floor, p, p + point( 5, 5 ) );
-                }
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                square( this, t_slope_up, p + point( 1, 1 ), p + point( 2, 2 ) );
-
-            } else { // We can build against a wall
-                switch( random_entry( open ) ) {
-                    case direction::NORTH:
-                        line( this, t_slope_up, point( SEEX - 2, 6 ), point( SEEX + 1, 6 ) );
-                        break;
-                    case direction::EAST:
-                        line( this, t_slope_up, point( SEEX * 2 - 7, SEEY - 2 ), point( SEEX * 2 - 7, SEEY + 1 ) );
-                        break;
-                    case direction::SOUTH:
-                        line( this, t_slope_up, point( SEEX - 2, SEEY * 2 - 7 ), point( SEEX + 1, SEEY * 2 - 7 ) );
-                        break;
-                    case direction::WEST:
-                        line( this, t_slope_up, point( 6, SEEY - 2 ), point( 6, SEEY + 1 ) );
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } // Done building a slope up
-    } else if( terrain_type == oter_mine_finale ) {
-        // Set up the basic chamber
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( i > rng( 1, 3 ) && i < SEEX * 2 - rng( 2, 4 ) &&
-                    j > rng( 1, 3 ) && j < SEEY * 2 - rng( 2, 4 ) ) {
-                    ter_set( point( i, j ), t_rock_floor );
-                } else {
-                    ter_set( point( i, j ), t_rock );
-                }
-            }
-        }
-
-        // Now draw the entrance(s)
-        if( dat.north() == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
-        }
-
-        if( dat.east()  == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
-        }
-
-        if( dat.south() == oter_mine ) {
-            square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
-        }
-
-        if( dat.west()  == oter_mine ) {
-            square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
-        }
-
-        // The Thing dog
-        const int num_bodies = rng( 4, 8 );
-        for( int i = 0; i < num_bodies; i++ ) {
-            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
-            add_item( p3, item::make_corpse() );
-            place_items( Item_spawn_data_mine_equipment, 60, p3,
-                         p3, false, calendar::start_of_cataclysm );
-        }
-        place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z() ),
-                        relic_procgen_data_netherum_tunnels );
-    }
-}
-
 void map::draw_slimepit( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6698,6 +6436,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         add_vehicle_to_cache( placed_vehicle );
 
         rebuild_vehicle_level_caches();
+        placed_vehicle->place_zones( *this );
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;

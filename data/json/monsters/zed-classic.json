@@ -396,7 +396,6 @@
     "description": "A once-dead human corpse.  Its discolored, swollen flesh is riddled with festering wounds and open sores.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",

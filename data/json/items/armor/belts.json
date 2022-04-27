@@ -337,5 +337,53 @@
         "volume_encumber_modifier": 0.35
       }
     ]
+  },
+  {
+    "id": "suspenders_cloth",
+    "type": "ARMOR",
+    "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
+    "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "weight": "250g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 25,
+    "material": [ "cotton", "steel" ],
+    "symbol": "#",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "suspenders_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
+    "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "material": [ "leather", "steel" ],
+    "color": "brown",
+    "copy-from": "suspenders_cloth"
+  },
+  {
+    "id": "suspenders_holster",
+    "type": "ARMOR",
+    "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
+    "description": "A pair of leather suspenders with a holster placed near the stomach.",
+    "copy-from": "suspenders_leather",
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

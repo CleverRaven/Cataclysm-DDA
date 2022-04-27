@@ -328,8 +328,10 @@ class talker
         virtual bool buy_from( int ) {
             return false;
         }
-        virtual void buy_monster( talker &, const mtype_id &, int, int, bool,
-                                  const translation & ) {}
+        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
+                                  const translation & ) {
+            return false;
+        }
 
         // missions
         virtual std::vector<mission *> available_missions() const {

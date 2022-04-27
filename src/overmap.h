@@ -492,7 +492,6 @@ class overmap
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
-        void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
 
         // Connection laying

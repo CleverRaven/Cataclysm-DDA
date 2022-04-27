@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "npc.h"
 #include "npctrade.h"
+#include "npctrade_utils.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -48,8 +50,8 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 
 bool trade_preset::is_shown( item_location const &loc ) const
 {
-    return inventory_selector_preset::is_shown( loc ) and loc->is_owned_by( _u ) and
-           loc->made_of( phase_id::SOLID ) and
+    return !loc->has_var( VAR_TRADE_IGNORE ) and inventory_selector_preset::is_shown( loc ) and
+           loc->is_owned_by( _u ) and loc->made_of( phase_id::SOLID ) and
            ( !_u.is_wielding( *loc ) or !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 
@@ -101,7 +103,27 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_trader]->add_character_items( trader );
     if( trader.mission == NPC_MISSION_SHOPKEEP ) {
         _panes[_trader]->categorize_map_items( true );
-        _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+
+        add_fallback_zone( trader );
+
+        zone_manager &zmgr = zone_manager::get_manager();
+
+        // FIXME: migration for traders in old saves - remove after 0.G
+        zone_data const *const fallback =
+            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
+        bool const legacy = fallback != nullptr and fallback->get_name() == fallback_name;
+
+        if( legacy ) {
+            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+        } else {
+            std::unordered_set<tripoint> const src =
+                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
+
+            for( tripoint const &pt : src ) {
+                _panes[_trader]->add_map_items( pt );
+                _panes[_trader]->add_vehicle_items( pt );
+            }
+        }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
     }

@@ -146,7 +146,6 @@ cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
 cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
-cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
 cata::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
 cata::optional<int> mop( Character *, item *, bool, const tripoint & );
@@ -213,8 +212,6 @@ cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const t
 cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
-
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 

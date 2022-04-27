@@ -466,6 +466,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "repaired_with": "chitin_piece",
     "salvaged_into": "chitin_piece",
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
@@ -1504,6 +1505,7 @@
     "fire_resist": 0,
     "elec_resist": 2,
     "chip_resist": 0,
+    "soft": true,
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",

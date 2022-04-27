@@ -71,6 +71,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -748,7 +749,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
     const tripoint part1_pos = veh.global_part_pos3( c.part );
-    const tripoint part2_pos = veh.global_part_pos3( c.target_part );
+    const tripoint part2_pos = veh2.global_part_pos3( c.target_part );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
@@ -4810,8 +4811,10 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 break;
             }
         }
-        if( autoclave_finished ) {
+        if( autoclave_finished && !cur_veh.part_flag( part, VPFLAG_APPLIANCE ) ) {
             add_msg( _( "The autoclave in the %s has finished its cycle." ), cur_veh.name );
+        } else if( autoclave_finished ) {
+            add_msg( _( "The autoclave has finished its cycle." ) );
         }
     }
 
@@ -7569,6 +7572,13 @@ void map::actualize( const tripoint &grid )
             rad_scorch( pnt, time_since_last_actualize );
 
             decay_cosmetic_fields( pnt, time_since_last_actualize );
+        }
+    }
+
+    tripoint_abs_sm const sm = abs_sub + grid;
+    for( auto const &guy : overmap_buffer.get_npcs_near( sm, 0 ) ) {
+        if( guy->get_location().z() == sm.z() ) {
+            guy->shop_restock();
         }
     }
 

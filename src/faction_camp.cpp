@@ -1330,7 +1330,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
             entry = string_format( _( "Notes:\n"
                                       "Your base has become large enough to support an expansion.  "
                                       "Expansions open up new opportunities but can be expensive and "
-                                      "time consuming.  Pick them carefully, at most 8 can be built "
+                                      "time-consuming.  Pick them carefully, at most 8 can be built "
                                       "at each camp.\n\n"
                                       "Skill used: N/A\n"
                                       "Effects:\n"
@@ -1368,7 +1368,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         {
             const mission_id miss_id = { Camp_Distribute_Food, "", base_dir };
             entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill you larders.  "
+                                      "Distribute food to your follower and fill your larders.  "
                                       "Place the food you wish to distribute in the camp food zone.  "
                                       "You must have a camp food zone, and a camp storage zone, "
                                       "or you will be prompted to create them using the zone manager.\n"
@@ -2194,8 +2194,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         if( !pos_inv.empty() ) {
@@ -2225,7 +2224,7 @@ void basecamp::start_setup_hide_site( const mission_id miss_id )
                 om_set_hide_site( *comp, forest, losing_equipment );
             }
         } else {
-            popup( _( "You need equipment to setup a hide site…" ) );
+            popup( _( "You have nothing in your inventory to send to a hide site…" ) );
         }
     }
 }
@@ -2238,8 +2237,7 @@ void basecamp::start_relay_hide_site( const mission_id miss_id )
                               true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = *get_player_character().inv;
-        std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
+        std::vector<item *> pos_inv = get_player_character().items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
         std::vector<item *> losing_equipment;
@@ -4639,7 +4637,7 @@ std::string basecamp::recruit_description( int npc_count )
     std::string desc = string_format( _( "Notes:\n"
                                          "Recruiting additional followers is very dangerous and "
                                          "expensive.  The outcome is heavily dependent on the "
-                                         "skill of the  companion you send and the appeal of "
+                                         "skill of the companion you send and the appeal of "
                                          "your base.\n\n"
                                          "Skill used: social\n"
                                          "Difficulty: 2\n"

@@ -2415,7 +2415,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
         }
         case EXAMINE: {
             if( is_appliance ) {
-                g->exam_appliance( *this );
+                g->exam_appliance( *this, vp.mount() );
             } else {
                 g->exam_vehicle( *this );
             }
