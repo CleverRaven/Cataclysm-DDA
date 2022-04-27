@@ -160,11 +160,11 @@
     "type": "item_group",
     "//": "Hats for zombie children.",
     "items": [
-      { "group": "helmet_football", "prob": 30 },
-      { "group": "helmet_ball", "prob": 30 },
-      { "group": "hat_ball", "prob": 10 },
-      { "group": "hat_golf", "prob": 5 },
-      { "group": "helmet_bike", "prob": 80 }
+      { "item": "helmet_football", "prob": 30 },
+      { "item": "helmet_ball", "prob": 30 },
+      { "item": "hat_ball", "prob": 10 },
+      { "item": "hat_golf", "prob": 5 },
+      { "item": "helmet_bike", "prob": 80 }
     ]
   },
   {
@@ -172,23 +172,23 @@
     "type": "item_group",
     "//": "Shoes for zombie children.",
     "items": [
-      { "group": "roller_shoes_off", "prob": 30 },
-      { "group": "roller_shoes_on", "prob": 25 },
-      { "group": "rollerskates", "prob": 40 },
-      { "group": "roller_blades", "prob": 35 },
-      { "group": "sneakers", "prob": 50 },
-      { "group": "lowtops", "prob": 40 },
-      { "group": "dance_shoes", "prob": 25 },
-      { "group": "slippers", "prob": 30 },
-      { "group": "flip_flops", "prob": 35 },
-      { "group": "flip_flops_exp", "prob": 5 },
-      { "group": "leathersandals", "prob": 40 },
-      { "group": "straw_sandals", "prob": 20 },
-      { "group": "bastsandals", "prob": 20 },
-      { "group": "sneakers_steel", "prob": 20 },
-      { "group": "knee_high_boots", "prob": 20 },
-      { "group": "thigh_high_boots", "prob": 15 },
-      { "group": "boots", "prob": 25 }
+      { "item": "roller_shoes_off", "prob": 30 },
+      { "item": "roller_shoes_on", "prob": 25 },
+      { "item": "rollerskates", "prob": 40 },
+      { "item": "roller_blades", "prob": 35 },
+      { "item": "sneakers", "prob": 50 },
+      { "item": "lowtops", "prob": 40 },
+      { "item": "dance_shoes", "prob": 25 },
+      { "item": "slippers", "prob": 30 },
+      { "item": "flip_flops", "prob": 35 },
+      { "item": "flip_flops_exp", "prob": 5 },
+      { "item": "leathersandals", "prob": 40 },
+      { "item": "straw_sandals", "prob": 20 },
+      { "item": "bastsandals", "prob": 20 },
+      { "item": "sneakers_steel", "prob": 20 },
+      { "item": "knee_high_boots", "prob": 20 },
+      { "item": "thigh_high_boots", "prob": 15 },
+      { "item": "boots", "prob": 25 }
     ]
   },
   {
