@@ -28,7 +28,7 @@
     ],
     "parts": {
       "1": { "body_parts": [ "head" ], "select_color": "red", "nested_graph": "head" },
-      "2": { "body_parts": [ "torso" ], "select_color": "red" },
+      "2": { "body_parts": [ "torso" ], "select_color": "red", "nested_graph": "torso" },
       "3": { "body_parts": [ "arm_r" ], "select_color": "red" },
       "4": { "body_parts": [ "hand_r" ], "select_color": "red" },
       "5": { "body_parts": [ "arm_l" ], "select_color": "red" },
