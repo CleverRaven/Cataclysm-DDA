@@ -8763,19 +8763,11 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
-        for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OBSTACLE ) ) {
-            const tripoint part_pos = vp.pos();
-            if( local_bounds.contains( part_pos.xy() ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
-            }
-        }
-
-        // Doors, but only the closed ones
-        for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OPENABLE ) ) {
-            if( vp.part().open ) {
+        for( const vpart_reference &vp : veh.get_all_parts_with_fakes() ) {
+            if( !vp.has_feature( VPFLAG_OBSTACLE ) &&
+                ( !vp.has_feature( VPFLAG_OPENABLE ) || !vp.part().open ) ) {
                 continue;
             }
-
             const tripoint part_pos = vp.pos();
             if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x][part_pos.y] = true;
