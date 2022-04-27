@@ -8353,7 +8353,7 @@ void map::do_vehicle_caching( int z )
         return;
     }
     for( vehicle *v : ch->vehicle_list ) {
-        for( const vpart_reference &vp : v->get_all_parts() ) {
+        for( const vpart_reference &vp : v->get_all_parts_with_fakes() ) {
             const tripoint part_pos = v->global_part_pos3( vp.part() );
             if( !inbounds( part_pos.xy() ) ) {
                 continue;
