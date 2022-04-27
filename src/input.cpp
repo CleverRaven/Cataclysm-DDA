@@ -355,7 +355,11 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                 }
             }
 
-            events.insert( events.end(), new_events.begin(), new_events.end() );
+            for( const input_event &evt : new_events ) {
+                if( std::find( events.begin(), events.end(), evt ) == events.end() ) {
+                    events.emplace_back( evt );
+                }
+            }
 
             if( is_user_preferences && version <= 1 ) {
                 // Add keypad enter to old keybindings with return key
