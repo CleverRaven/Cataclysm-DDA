@@ -361,7 +361,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_consume_item": "phase_immersion_suit", "count": 1 },
+          { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -412,7 +412,7 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
-          { "u_consume_item": "dimensional_anchor", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -460,8 +460,8 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_consume_item": "dimensional_anchor", "count": 1 },
-          { "u_consume_item": "robofac_armor_rig", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
+          { "u_consume_item": "robofac_armor_rig", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -507,9 +507,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "pamd68", "count": 1 },
-          { "u_consume_item": "exodiiBRmag", "count": 1 },
-          { "u_consume_item": "123ln", "count": 5 },
+          { "u_consume_item": "pamd68", "count": 1, "popup": true },
+          { "u_consume_item": "exodiiBRmag", "count": 1, "popup": true },
+          { "u_consume_item": "123ln", "count": 5, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },

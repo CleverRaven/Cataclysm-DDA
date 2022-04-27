@@ -2099,6 +2099,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "5 m",
+    "book_learn": [ [ "textbook_armwest", 1 ], [ "textbook_fabrication", 1 ], [ "recipe_melee", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ], [ [ "cu_pipe", -1 ] ] ],
     "components": [ [ [ "wire", 1 ] ] ]

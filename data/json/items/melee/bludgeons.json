@@ -623,9 +623,9 @@
     "weight": "300 g",
     "volume": "1 L",
     "longest_side": "110 cm",
-    "bashing": 14,
-    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "SHEATH_GOLF" ]
+    "bashing": 11,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
+    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE" ]
   },
   {
     "type": "GENERIC",
@@ -703,7 +703,7 @@
     "volume": "1700 ml",
     "longest_side": "100 cm",
     "bashing": 80,
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "price": 24000,
     "price_postapoc": 750,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -718,8 +718,9 @@
     "price": 11000,
     "price_postapoc": 50,
     "material": [ "wood", "plastic" ],
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1", "SWEEP", "WIDE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "flags": [ "SHEATH_SPEAR", "SPEAR", "NONCONDUCTIVE" ],
     "weight": "420 g",
     "volume": "1750 ml",
     "longest_side": "150 cm",

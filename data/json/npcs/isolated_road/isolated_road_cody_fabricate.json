@@ -296,8 +296,8 @@
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_consume_item": "exodii_ac_kit", "count": 1 },
-          { "u_consume_item": "exodii_wire_kit", "count": 1 }
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
         ],
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
       },
@@ -320,8 +320,8 @@
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_consume_item": "exodii_ac_kit", "count": 1 },
-          { "u_consume_item": "exodii_wire_kit", "count": 1 }
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
         ],
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
       },
