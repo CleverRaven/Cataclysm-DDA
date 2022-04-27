@@ -566,8 +566,12 @@
     "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_baking", "prof_baking_desserts_1", "prof_frying" ],
     "items": {
       "both": {
-        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes", "apron_leather" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "item": "knife_butcher", "container-item": "sheath" } ]
+        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "apron_cotton", "variant": "generic_apron_cotton" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2520,7 +2524,7 @@
     "proficiencies": [ "prof_metalworking", "prof_blacksmithing" ],
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer" ],
+        "items": [ "jeans", "socks", "boots", "tank_top", "apron_cut_resistant", "fire_gauntlets", "wristwatch", "hammer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs" ],
