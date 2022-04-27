@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "portal_reef",
-    "name": "reef portal",
+    "name": "alien reef",
     "sym": "O",
     "color": "light_blue",
     "see_cost": 3,
