@@ -169,7 +169,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, true );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
