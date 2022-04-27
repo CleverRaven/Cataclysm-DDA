@@ -52,8 +52,7 @@
         ",": [ [ "f_null", 12 ], [ "f_alien_sponge", 2 ], "f_alien_coral_a" ],
         "_": [ [ "f_null", 10 ], [ "f_alien_coral_b", 2 ], "f_alien_sponge" ],
         "&": [ [ "f_alien_coral_a", 33 ], [ "f_alien_coral_b", 33 ], [ "f_alien_coral_c", 33 ], "f_alien_sponge" ]
-      },
-      "traps": { "X": { "trap": "tr_portal_reef" } }
+      }
     }
   }
 ]
