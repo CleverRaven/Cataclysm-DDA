@@ -114,7 +114,7 @@
         "text": "[750 merch] You have a deal.",
         "topic": "TALK_SCAVENGER_MERC_HIRE_SUCCESS",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 750 } },
-        "effect": { "u_consume_item": "FMCNote", "count": 750 }
+        "effect": { "u_consume_item": "FMCNote", "count": 750, "popup": true }
       }
     ]
   },

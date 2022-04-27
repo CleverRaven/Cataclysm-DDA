@@ -173,9 +173,6 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
-static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
-static const zone_type_id zone_type_LOOT_ITEM_GROUP( "LOOT_ITEM_GROUP" );
-
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 static constexpr int MON_RADIUS = 3;
@@ -2959,19 +2956,16 @@ class jmapgen_zone : public jmapgen_piece
                 filter = jsi.get_string( "filter" );
             }
         }
+        mapgen_phase phase() const override {
+            return mapgen_phase::zones;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             zone_type_id chosen_zone_type = zone_type.get( dat );
             faction_id chosen_faction = faction.get( dat );
-            zone_manager &mgr = zone_manager::get_manager();
             const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) );
             const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.m.get_abs_sub().z() ) );
-            auto options = zone_options::create( chosen_zone_type );
-            if( chosen_zone_type == zone_type_LOOT_CUSTOM or
-                chosen_zone_type == zone_type_LOOT_ITEM_GROUP ) {
-                dynamic_cast<loot_options *>( &*options )->set_mark( filter );
-            }
-            mgr.add( name, chosen_zone_type, chosen_faction, false, true, start, end, options );
+            mapgen_place_zone( start, end, chosen_zone_type, chosen_faction, name, filter, &dat.m );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -6442,6 +6436,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         add_vehicle_to_cache( placed_vehicle );
 
         rebuild_vehicle_level_caches();
+        placed_vehicle->place_zones( *this );
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }
     return placed_vehicle;

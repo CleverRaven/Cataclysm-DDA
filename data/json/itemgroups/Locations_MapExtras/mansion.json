@@ -807,7 +807,9 @@
       [ "sinister_dress_short", 5 ],
       [ "witch_dress_short", 5 ],
       [ "maid_dress_short", 25 ],
-      [ "apron_leather", 25 ],
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 25 },
+      [ "apron_leather", 20 ],
+      { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
       [ "sinister_cane", 1 ]
     ]
   },
@@ -873,6 +875,7 @@
       [ "aluminum_foil", 25 ],
       [ "toaster", 20 ],
       [ "microwave", 20 ],
+      [ "apron_cotton", 10 ],
       [ "hat_chef", 2 ],
       [ "pastaextruder", 10 ],
       [ "knife_butter", 90 ],
@@ -1348,11 +1351,16 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
+      { "group": "swimmer_accessories", "prob": 10 },
+      { "group": "swimmer_glasses", "prob": 25 },
       { "group": "swimmer_torso", "prob": 20 },
       { "group": "swimmer_pants", "prob": 20 },
       { "group": "swimmer_head", "prob": 20 },
-      { "group": "magazines", "prob": 20 },
-      [ "flip_flops", 30 ]
+      { "group": "swimmer_shoes", "prob": 30 },
+      { "group": "swimmer_gloves", "prob": 5 },
+      { "group": "swimmer_wetsuit", "prob": 5 },
+      { "group": "swimmer_items", "prob": 10 },
+      { "group": "magazines", "prob": 20 }
     ]
   },
   {
@@ -1616,6 +1624,7 @@
       [ "pants_checkered", 50 ],
       [ "hat_chef", 50 ],
       [ "jacket_chef", 50 ],
+      [ "apron_cotton", 50 ],
       [ "shorts", 20 ],
       [ "shorts_denim", 20 ],
       [ "pants", 20 ],
@@ -1671,13 +1680,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "camera_pro", "prob": 90, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 50, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "container-item": "camera_bag", "prob": 40, "charges": [ 0, 150 ] },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 10, "charges": [ 0, 150 ] },
       { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "binoculars", 20 ]
     ]
