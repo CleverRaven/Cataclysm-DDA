@@ -163,6 +163,8 @@
       [ "ccpmag", 4 ],
       [ "ccpmag_9rd", 1 ],
       [ "xd_10_mag", 1 ],
+      [ "ruger_57mag", 10 ],
+      [ "ruger_57_10_round_mag", 10 ],
       [ "wp22mag", 7 ]
     ]
   },
@@ -205,6 +207,7 @@
       [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
+      { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
       [ "ppkmag", 15 ],
       [ "usp9mag_10rd", 5 ],
       [ "usp9mag_18rd", 5 ],
@@ -348,6 +351,7 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
+      [ "fnp90mag", 15 ],
       [ "falmag", 100 ],
       [ "falbigmag", 50 ],
       [ "g3mag", 80 ],

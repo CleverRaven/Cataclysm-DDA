@@ -1719,7 +1719,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1729,7 +1729,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -2135,7 +2135,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets().value() ) {
+                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
@@ -3287,16 +3287,21 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
     const cata::optional<tripoint> &zone_start,
     const cata::optional<tripoint> &zone_end,
     const bool &zone_blink,
-    const bool &zone_cursor
+    const bool &zone_cursor,
+    const bool &is_moving_zone = false
 )
 {
     return make_shared_fast<game::draw_callback_t>(
     [&]() {
         if( zone_cursor ) {
-            if( zone_end ) {
-                g->draw_cursor( zone_end.value() );
-            } else if( zone_start ) {
-                g->draw_cursor( zone_start.value() );
+            if( is_moving_zone ) {
+                g->draw_cursor( ( zone_start.value() + zone_end.value() ) / 2 );
+            } else {
+                if( zone_end ) {
+                    g->draw_cursor( zone_end.value() );
+                } else if( zone_start ) {
+                    g->draw_cursor( zone_start.value() );
+                }
             }
         }
         if( zone_blink && zone_start && zone_end ) {
@@ -3576,7 +3581,6 @@ void game::draw_minimap()
             tripoint_abs_omt omp( om, levz );
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
 
                 const std::string &note_text = overmap_buffer.note( omp );
@@ -3668,9 +3672,9 @@ void game::draw_minimap()
             } else if( !seen ) {
                 ter_sym = " ";
                 ter_color = c_black;
-            } else if( vehicle_here ) {
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
                 ter_sym = cur_ter->get_symbol();
@@ -6565,6 +6569,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
                                            zone.get_type() == zone_type_LOOT_CUSTOM ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
+                as_m.entries.emplace_back( 5, !zone.get_is_vehicle(), '5', _( "Move position" ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
@@ -6591,6 +6596,46 @@ void game::zones_manager()
                         if( pos && ( pos->first != zone.get_start_point().raw() ||
                                      pos->second != zone.get_end_point().raw() ) ) {
                             zone.set_position( *pos );
+                            stuff_changed = true;
+                        }
+                        break;
+                    }
+                    case 5: {
+                        on_out_of_scope invalidate_current_ui( [&]() {
+                            ui.mark_resize();
+                        } );
+                        restore_on_out_of_scope<bool> show_prev( show );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_start_prev( zone_start );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_end_prev( zone_end );
+                        show = false;
+                        zone_start = cata::nullopt;
+                        zone_end = cata::nullopt;
+                        ui.mark_resize();
+                        static_popup message_pop;
+                        message_pop.on_top( true );
+                        message_pop.message( "%s", _( "Moving zone." ) );
+                        const tripoint zone_local_start_point = m.getlocal( zone.get_start_point() );
+                        const tripoint zone_local_end_point = m.getlocal( zone.get_end_point() );
+                        // local position of the zone center, used to calculate the u.view_offset,
+                        // could center the screen to the position it represents
+                        tripoint view_center = m.getlocal( zone.get_center_point() );
+                        const look_around_result result_local = look_around( false, view_center,
+                                                                zone_local_start_point, false, false,
+                                                                false, true, zone_local_end_point );
+                        if( result_local.position ) {
+                            const tripoint_abs_ms new_start_point = m.getglobal( *result_local.position );
+                            const tripoint_abs_ms new_end_point = zone.get_end_point() - zone.get_start_point() +
+                                                                  new_start_point;
+                            if( new_start_point == zone.get_start_point() ) {
+                                break; // Nothing changed, don't save
+                            }
+                            if( zone.get_is_personal() ) {
+                                const tripoint_rel_ms new_start_point_rl = new_start_point - u.get_location();
+                                const tripoint_rel_ms new_end_point_rl = new_end_point - u.get_location();
+                                zone.set_position( std::make_pair( new_start_point_rl.raw(), new_end_point_rl.raw() ) );
+                            } else {
+                                zone.set_position( std::make_pair( new_start_point.raw(), new_end_point.raw() ) );
+                            }
                             stuff_changed = true;
                         }
                     }
@@ -6732,7 +6777,8 @@ cata::optional<tripoint> game::look_around()
 //look_around_result game::look_around( const bool show_window, tripoint &center,
 //                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 look_around_result game::look_around( const bool show_window, tripoint &center,
-                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
+                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                      bool is_moving_zone, const tripoint &end_point )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
@@ -6740,7 +6786,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
     temp_exit_fullscreen();
 
-    tripoint lp = start_point; // cursor
+    tripoint lp = is_moving_zone ? ( start_point + end_point ) / 2 : start_point; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -6878,11 +6924,19 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     bool zone_blink = false;
     bool zone_cursor = true;
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
-            zone_cursor );
+            zone_cursor, is_moving_zone );
     add_draw_callback( zone_cb );
 
     is_looking = true;
     const tripoint prev_offset = u.view_offset;
+#if defined(TILES)
+    const int prev_tileset_zoom = tileset_zoom;
+    while( is_moving_zone && square_dist( start_point, end_point ) > 256 / get_zoom() &&
+           get_zoom() != 4 ) {
+        zoom_out();
+    }
+    mark_main_ui_adaptor_resize();
+#endif
     do {
         u.view_offset = center - u.pos();
         if( select_zone ) {
@@ -6898,10 +6952,19 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+
+        if( is_moving_zone ) {
+            zone_start = lp - ( start_point + end_point ) / 2 + start_point;
+            zone_end = lp - ( start_point + end_point ) / 2 + end_point;
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+            zone_blink = blink;
+        }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
-        if( select_zone && has_first_point ) {
+        if( ( select_zone && has_first_point ) || is_moving_zone ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
@@ -6915,6 +6978,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             action = ctxt.handle_input( scroll_timeout );
         } else {
             action = ctxt.handle_input();
+        }
+        if( ( action == "LEVEL_UP" || action == "LEVEL_DOWN" || action == "MOUSE_MOVE" ||
+              ctxt.get_direction( action ) ) && ( ( select_zone && has_first_point ) || is_moving_zone ) ) {
+            blink = true; // Always draw blink symbols when moving cursor
+        } else if( action == "TIMEOUT" ) {
+            blink = !blink;
         }
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
@@ -6939,9 +7008,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            if( select_zone && has_first_point ) { // is blinking
-                blink = true; // Always draw blink symbols when moving cursor
-            }
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7005,25 +7071,13 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             // other things for us to do here.
 
             if( edge_scrolling ) {
-                if( action == "MOUSE_MOVE" ) {
-                    center += edge_scroll * 2;
-                } else {
-                    center += edge_scroll;
-                }
-                if( select_zone && has_first_point ) { // is blinking
-                    blink = true; // Always draw blink symbols when moving cursor
-                }
+                center += action == "MOUSE_MOVE" ? edge_scroll * 2 : edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
                 const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                if( select_zone && has_first_point ) { // is blinking
-                    blink = true; // Always draw blink symbols when moving cursor
-                }
-            } else if( action == "TIMEOUT" ) {
-                blink = !blink;
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
@@ -7035,9 +7089,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             ly = ly + vec->y;
             center.x = center.x + vec->x;
             center.y = center.y + vec->y;
-            if( select_zone && has_first_point ) { // is blinking
-                blink = true; // Always draw blink symbols when moving cursor
-            }
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
@@ -7069,8 +7120,16 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     bVMonsterLookFire = true;
 
     if( action == "CONFIRM" || action == "SELECT" ) {
-        result.position = lp;
+        result.position = is_moving_zone ? zone_start : lp;
     }
+
+#if defined(TILES)
+    if( is_moving_zone && get_zoom() != prev_tileset_zoom ) {
+        // Reset the tileset zoom to the previous value
+        set_zoom( prev_tileset_zoom );
+        mark_main_ui_adaptor_resize();
+    }
+#endif
 
     return result;
 }

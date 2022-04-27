@@ -78,8 +78,8 @@
     "items": [
       { "x": 0, "y": 0, "chance": 1, "items": [ "roadmap" ] },
       { "x": 0, "y": 0, "chance": 2, "items": [ "beer", "beer", "beer", "beer", "beer", "beer" ] },
-      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 7, "items": [ "jack", "wheel_wide" ] },
+      { "x": -2, "y": 0, "chance": 5, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_wide_wheel" ] },
       { "x": -2, "y": 0, "chance": 2, "item_groups": [ "hardware" ] }
     ]
   },
@@ -138,8 +138,8 @@
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "farming_tools" ] },
-      { "x": -2, "y": 1, "chance": 12, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 12, "items": [ "jack", "wheel" ] },
+      { "x": -2, "y": 1, "chance": 8, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit" ] },
       { "x": -3, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
       { "x": -3, "y": 0, "chance": 8, "item_groups": [ "fuel_gasoline" ] },
       { "x": -2, "y": 1, "chance": 3, "items": [ "ax" ] }
@@ -228,9 +228,9 @@
       { "x": 0, "y": 0, "chance": 10, "items": [ "cig" ] },
       { "x": 0, "y": 0, "chance": 5, "items": [ "choco_coffee_beans" ] },
       { "x": 0, "y": 1, "chance": 5, "items": [ "colamdew" ] },
-      { "x": -4, "y": 0, "chance": 12, "item_groups": [ "car_kit" ] },
+      { "x": -4, "y": 0, "chance": 8, "item_groups": [ "car_kit" ] },
       { "x": -4, "y": 0, "chance": 5, "item_groups": [ "fuel_diesel" ] },
-      { "x": -4, "y": 2, "chance": 10, "item_groups": [ "car_kit" ] }
+      { "x": -4, "y": 2, "chance": 6, "item_groups": [ "car_kit" ] }
     ]
   },
   {
@@ -316,9 +316,9 @@
       { "x": 0, "y": 0, "chance": 5, "items": [ "choco_coffee_beans" ] },
       { "x": 0, "y": 1, "chance": 5, "items": [ "colamdew" ] },
       { "x": 0, "y": 1, "chance": 100, "items": [ "id_science_transport_1" ] },
-      { "x": -4, "y": 0, "chance": 12, "item_groups": [ "car_kit" ] },
+      { "x": -4, "y": 0, "chance": 8, "item_groups": [ "car_kit" ] },
       { "x": -4, "y": 0, "chance": 5, "item_groups": [ "fuel_diesel" ] },
-      { "x": -4, "y": 2, "chance": 10, "item_groups": [ "car_kit" ] }
+      { "x": -4, "y": 2, "chance": 6, "item_groups": [ "car_kit" ] }
     ]
   },
   {

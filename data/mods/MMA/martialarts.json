@@ -15,7 +15,7 @@
       {
         "id": "mma_buff_desert_wind_ondodge",
         "name": "Zephyr Dance",
-        "description": "Your graceful and fluid movements allow you to avoid attacks with ease.\n\n+1.0 Dodging skill, +1 Dodge attempt\nLasts 1 turn.",
+        "description": "Your graceful and fluid movements allow you to avoid attacks with ease.\n\n+1.0 Dodging skill, +1 dodge attempt.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -27,7 +27,7 @@
       {
         "id": "mma_buff_desert_wind_onmove",
         "name": "Wind Stride",
-        "description": "Your movement is hastened as if a strong wind is always at your back.\n\n+1.0 Dodging skill.\nLasts 1 turn.",
+        "description": "Your movement is hastened as if a strong wind is always at your back.\n\n+1.0 Dodging skill.\nLasts 1 turn.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -57,7 +57,7 @@
       {
         "id": "mma_buff_diamond_mind_static",
         "name": "Stance of Alacrity",
-        "description": "Your mind is clearer than normal.  This clarity allows you to move slightly faster in combat.\n\n-10% move cost",
+        "description": "Your mind is clearer than normal.  This clarity allows you to move slightly faster in combat.\n\n-15% move cost.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
@@ -67,7 +67,7 @@
       {
         "id": "mma_buff_diamond_mind_ondodge",
         "name": "Pearl of Black Doubt",
-        "description": "Each attack that misses you casts doubt on your opponents' skill.  It becomes more obvious with each failed attack how untouchable you are.\n\n+1 Dodge attempt\nLasts 1 turn.  Stacks 2 times",
+        "description": "Each attack that misses you casts doubt on your opponents' skill.  It becomes more obvious with each failed attack how untouchable you are.\n\n+1 dodge attempt.\nLasts 1 turn.  Stacks 2 times.",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 2,
@@ -78,7 +78,7 @@
       {
         "id": "mma_buff_diamond_mind_ongethit",
         "name": "Mind over Body",
-        "description": "Your well trained mind allows you to briefly shrug off the effects of pain while in combat.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 2 times",
+        "description": "Your well trained mind allows you to briefly shrug off the effects of pain while in combat.\n\n+1 accuracy.\nLasts 1 turn.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -90,7 +90,7 @@
       {
         "id": "mma_buff_diamond_mind_onpause",
         "name": "Quicksilver Motion",
-        "description": "Taking a moment to concentrate, you surge forward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
+        "description": "Taking a moment to concentrate, you surge forward with incredible speed and act in the blink of an eye.\n\n+50 speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -98,20 +98,7 @@
       }
     ],
     "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
-    "weapons": [
-      "fencing_foil",
-      "fencing_epee",
-      "fencing_foil_sharpened",
-      "fencing_epee_sharpened",
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "pointy_stick",
-      "rapier",
-      "rapier_fake",
-      "shock_foil",
-      "shock_epee"
-    ]
+    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -126,7 +113,7 @@
       {
         "id": "mma_buff_hylian_static1",
         "name": "Combat Acrobat",
-        "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1.0 Dodging skill.",
+        "description": "Always stay light on your feet.  It is better to evade than be hit.\n\n+1 accuracy.",
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       },
@@ -178,7 +165,7 @@
       {
         "id": "mma_buff_hylian_onpause",
         "name": "Charge Up",
-        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage, enables \"Spin Attack\" technique.\nLasts 1 turn.",
+        "description": "By taking a moment to prepare, you can unleash a strong, spinning slash!\n\n+20% damage.\nEnables \"Spin Attack\" technique.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -225,7 +212,7 @@
       {
         "id": "mma_buff_panzer_static1",
         "name": "Schatten Folgen",
-        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attempts, Dodging Skill increased by 15%% of Perception.",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 dodge attempt, Dodging skill increased by 15% of Perception.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
@@ -234,7 +221,7 @@
       {
         "id": "mma_buff_panzer_static2",
         "name": "Seinerweisen",
-        "description": "\"Personal Wisdom\"\nThrough your mastery of Panzer Kunst, you have earned the ability to manipulate deadly plasma into all of your attacks!\n\nGain bonus Electric damage equal to 50% of Perception.",
+        "description": "\"Personal Wisdom\"\nThrough your mastery of Panzer Kunst, you have earned the ability to manipulate deadly plasma into all of your attacks!\n\nElectric damage equal to 50% of Perception.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -245,7 +232,7 @@
       {
         "id": "mma_buff_panzer_ondodge",
         "name": "Einzug Rüstungen",
-        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n+1 Accuracy, gain Armor Penetration equal to 50% of Perception.\nLasts 3 turns.",
+        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n\n+1 accuracy, armor penetration increased by 50% of Perception.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -265,7 +252,7 @@
     "type": "martial_art",
     "id": "style_mma_pokken",
     "name": { "str": "Pokken" },
-    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokemon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various pokemon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
+    "description": "Pokken or \"Pocket Fist\" is a strange martial art developed from the famous Pokémon video game series.  Somehow, a group of dedicated fans managed to combine the moves used by various Pokémon with multiple existing martial arts such as boxing and karate.  Amazingly, it actually works.  Some might even say it's a super effective way to fight.",
     "initiate": [ "You get ready to battle.", "%s is about to challenge someone to a battle." ],
     "learn_difficulty": 10,
     "primary_skill": "bashing",
@@ -288,7 +275,7 @@
       {
         "id": "mma_buff_pokken_ongethit",
         "name": "Stamina",
-        "description": "Boosts your defense after you get hit.\n\nGain bash, cut, stab armor equal to 50% of Strength.\nLasts 3 turns.",
+        "description": "Boosts your defense after you get hit.\n\nBash, cut, and stab armor increased by 50% of Strength.\nLasts 3 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
@@ -346,7 +333,7 @@
       {
         "id": "mma_buff_setting_sun_ondodge",
         "name": "Feigned Opening",
-        "description": "By faking an opening, you able to throw your opponent off balance and act quicker for a short time.\n\n+20 Speed.\nLasts 1 turn.",
+        "description": "By faking an opening, you able to throw your opponent off balance and act quicker for a short time.\n\n+20 speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -358,7 +345,7 @@
       {
         "id": "mma_buff_setting_sun_onpause",
         "name": "Baffling Defense",
-        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
+        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging skill increased by 20% of Intelligence.\nEnables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -385,14 +372,14 @@
       {
         "id": "mma_buff_shii_cho_static1",
         "name": "Determination",
-        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and protecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 Accuracy.",
+        "description": "You are a determined warrior.  Your inner calm aids you in landing your strikes and protecting yourself.\n\nBlocked damage reduced by 100% of Strength, +1 accuracy.",
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ]
       },
       {
         "id": "mma_buff_shii_cho_static2",
         "name": "Apprentice Training",
-        "description": "Your training in Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "description": "Your training in Shii-Cho teaches you how to combat multiple opponents.\n\n+1 block attempt, +1 blocking effectiveness.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "bonus_blocks": 1,
@@ -401,7 +388,7 @@
       {
         "id": "mma_buff_shii_cho_static3",
         "name": "Knight Training",
-        "description": "Further training in Shii-Cho improves your ability to combat multiple opponents.\n\n+1 block attempts, +1 block effectiveness.",
+        "description": "Further training in Shii-Cho improves your ability to combat multiple opponents.\n\n+1 block attempt, +1 blocking effectiveness.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "bonus_blocks": 1,
@@ -410,7 +397,7 @@
       {
         "id": "mma_buff_shii_cho_static4",
         "name": "Master Training",
-        "description": "As a master of Shii-Cho, your ability to fight against groups is second to none.\n\n+1 block attempts, +1 block effectiveness.",
+        "description": "As a master of Shii-Cho, your ability to fight against groups is second to none.\n\n+1 block attempt, +1 blocking effectiveness.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "bonus_blocks": 1,
@@ -478,7 +465,7 @@
       {
         "id": "mma_buff_stone_dragon_onhit",
         "name": "Stone Bones",
-        "description": "Each attack against your opponents slowly steels your defenses.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn.  Stacks 5 times.",
+        "description": "Each attack against your opponents slowly steels your defenses.\n\n+1 bash, cut, and stab armor.\nLasts 3 turns.  Stacks 5 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -502,8 +489,8 @@
       },
       {
         "id": "mma_buff_stone_dragon_onmove2",
-        "name": "Stattered Stone",
-        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 4 turn.",
+        "name": "Shattered Stone",
+        "description": "You are unable to maintain your Surefoot Stance and must stop moving for a short time to regain its benefits.\n\n-10% damage, -2 bash, cut, and stab armor.\nLasts 1 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "required_buffs_all": [ "mma_buff_stone_dragon_onmove1" ],
@@ -547,7 +534,7 @@
       {
         "id": "mma_buff_tiger_claw_oncrit",
         "name": "Blood In The Water",
-        "description": "The scent of blood is near.  You want more.  NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
+        "description": "The scent of blood is near.  You want more.  NOW!\n\n+1 accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -577,7 +564,7 @@
       {
         "id": "mma_buff_tiger_claw_onkill",
         "name": "Prey on the Weak",
-        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 Speed.\nLasts 2 turns.  Stacks 2 times",
+        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 speed.\nLasts 2 turns.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -590,7 +577,7 @@
       {
         "id": "mma_buff_tiger_claw_onmove",
         "name": "Pounching Charge",
-        "description": "You recklessly throw yourself into battle to overpower your prey.  Strike first and strike hard.\n\n+2 Accuracy, +10% damage.\nLasts 1 turn.",
+        "description": "You recklessly throw yourself into battle to overpower your prey.  Strike first and strike hard.\n\n+2 accuracy, +10% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,

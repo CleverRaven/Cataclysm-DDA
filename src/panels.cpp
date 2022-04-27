@@ -236,7 +236,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
-            const bool vehicle_here = overmap_buffer.has_vehicle( omp );
             if( overmap_buffer.has_note( omp ) ) {
                 const std::string &note_text = overmap_buffer.note( omp );
                 std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
@@ -246,10 +245,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 // Always gray # for unseen
                 ter_sym = "#";
                 ter_color = c_dark_gray;
-            } else if( vehicle_here ) {
-                // Always cyan c for vehicle
+            } else if( overmap_buffer.has_vehicle( omp ) ) {
                 ter_color = c_cyan;
-                ter_sym = "c";
+                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );

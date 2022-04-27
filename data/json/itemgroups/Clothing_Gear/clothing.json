@@ -1445,6 +1445,7 @@
       [ "thigh_high_boots", 20 ],
       [ "boots", 70 ],
       [ "flip_flops", 35 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 45 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 5 ],
@@ -1733,6 +1734,7 @@
       [ "thigh_high_boots", 40 ],
       [ "boots", 100 ],
       [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
       [ "lowtops", 100 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 20 ],
@@ -2096,34 +2098,58 @@
     "//": "clothing sets for swimming",
     "subtype": "distribution",
     "entries": [
+      { "group": "swimmer_accessories", "prob": 20 },
+      { "group": "swimmer_glasses", "prob": 15 },
       { "group": "swimmer_head", "prob": 25 },
       { "group": "swimmer_torso", "prob": 50 },
-      { "group": "swimmer_pants", "prob": 50 },
+      { "group": "swimmer_pants", "prob": 75 },
+      { "group": "swimmer_gloves", "prob": 5 },
       { "group": "swimmer_shoes", "prob": 25 },
       { "group": "swimmer_wetsuit", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
-    "id": "swimmer_head",
+    "id": "swimmer_accessories",
     "items": [
-      [ "goggles_swim", 90 ],
-      [ "wetsuit_hood", 30 ],
-      [ "fancy_sunglasses", 1 ],
-      [ "rebreather", 1 ],
-      [ "fitover_sunglasses", 5 ],
-      [ "sunglasses", 10 ]
+      [ "dive_bag", 35 ],
+      [ "wicker_backpack", 10 ],
+      [ "flotation_vest", 30 ],
+      [ "diving_watch", 5 ],
+      [ "wristwatch", 5 ],
+      [ "small_scuba_tank", 5 ],
+      [ "scuba_tank", 5 ],
+      [ "whistle", 3 ],
+      { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
+      [ "camera_bag", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_glasses",
+    "items": [ [ "goggles_swim", 80 ], [ "fancy_sunglasses", 5 ], [ "fitover_sunglasses", 5 ], [ "sunglasses", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_head",
+    "items": [ [ "wetsuit_hood", 40 ], [ "rebreather", 5 ], [ "straw_hat", 45 ], [ "hat_sombrero", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "swimmer_torso",
     "items": [
-      [ "bikini_top", 50 ],
+      [ "bikini_top", 75 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 10 },
-      [ "dive_bag", 5 ],
-      [ "flotation_vest", 10 ],
-      [ "scuba_tank", 2 ],
+      [ "sports_bra", 10 ],
+      [ "thermal_shirt", 20 ],
+      [ "under_armor", 15 ],
+      [ "army_top", 6 ],
+      [ "tank_top", 6 ],
+      [ "halter_top", 6 ],
+      [ "tshirt", 6 ],
+      [ "tshirt_text", 6 ],
+      [ "flag_shirt", 5 ],
+      { "item": "flag_shirt", "prob": 40, "event": "independence_day" },
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 50, "event": "independence_day" }
     ]
   },
@@ -2132,16 +2158,33 @@
     "id": "swimmer_pants",
     "items": [
       [ "trunks", 80 ],
-      [ "bikini_bottom", 35 ],
+      [ "bikini_bottom", 65 ],
       [ "hot_pants", 30 ],
+      [ "under_armor_shorts", 15 ],
+      [ "skirt", 10 ],
+      [ "skirt_grass", 15 ],
+      [ "nanoskirt", 5 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
     ]
   },
   {
     "type": "item_group",
+    "id": "swimmer_gloves",
+    "items": [ [ "wetsuit_gloves", 95 ], [ "gloves_fingerless", 3 ], [ "gloves_light", 2 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "swimmer_shoes",
-    "items": [ [ "flip_flops", 80 ], [ "swim_fins", 20 ] ]
+    "items": [
+      [ "flip_flops", 50 ],
+      [ "flip_flops_exp", 5 ],
+      [ "swim_fins", 15 ],
+      [ "wetsuit_booties", 15 ],
+      [ "bastsandals", 5 ],
+      [ "straw_sandals", 5 ],
+      [ "leathersandals", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -2151,6 +2194,27 @@
       [ "wetsuit_spring", 10 ],
       [ "flag_swimsuit", 5 ],
       { "item": "flag_swimsuit", "prob": 60, "event": "independence_day" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_items",
+    "//": "Not really clothing, but connected to the swimmer sets of clothing.",
+    "items": [
+      [ "towel", 60 ],
+      [ "beach_volleyball", 40 ],
+      [ "mag_swimming", 30 ],
+      [ "manual_swimming", 10 ],
+      [ "mag_porn", 5 ],
+      [ "mag_tv", 5 ],
+      [ "mag_glam", 5 ],
+      [ "mag_dude", 5 ],
+      { "group": "SUS_book_nonf_soft_sports", "prob": 5 },
+      [ "diveknife", 5 ],
+      [ "sports_drink", 5 ],
+      [ "water_clean", 5 ],
+      [ "fish_sandwich", 2 ],
+      [ "mango", 1 ]
     ]
   },
   {
@@ -3076,7 +3140,9 @@
       [ "tieclip", 15 ],
       [ "hairpin", 15 ],
       [ "santa_beard", 5 ],
-      [ "santa_hat", 4 ]
+      [ "santa_hat", 4 ],
+      [ "vampire_fangs", 5 ],
+      [ "mask_skull", 4 ]
     ]
   },
   {
@@ -3417,6 +3483,7 @@
         "distribution": [
           { "item": "case_violin", "prob": 5 },
           { "item": "bookstrap", "prob": 5 },
+          { "item": "camera_bag", "prob": 20 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
@@ -3648,6 +3715,7 @@
           { "item": "bastsandals", "prob": 20 },
           { "item": "straw_sandals", "prob": 20 },
           { "item": "flip_flops", "prob": 40 },
+          { "item": "flip_flops_exp", "prob": 5 },
           { "item": "leathersandals", "prob": 35 }
         ],
         "prob": 60

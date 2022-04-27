@@ -54,6 +54,6 @@ Furthermore, mods which are shipped with the game but are not working correctly 
 
 ## How can mods be rescued from removal?
 
-If the mod otherwise meets inclusion criteria but lacks a curator (ie. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
+If the mod otherwise meets inclusion criteria but lacks a curator (i.e. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in the CleverRaven repository.

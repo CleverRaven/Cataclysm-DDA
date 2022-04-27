@@ -79,6 +79,7 @@
     "items": [
       [ "rock", 80 ],
       [ "rock_flaking", 80 ],
+      [ "flint", 20 ],
       [ "stick", 80 ],
       [ "acorns", 80 ],
       [ "pinecone", 80 ],
