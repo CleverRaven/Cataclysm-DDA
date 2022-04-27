@@ -220,7 +220,7 @@
     "monster_type": "DINOSAUR",
     "monster_kill_goal": 5,
     "start": {
-      "assign_mission_target": { "om_special": "dinozoo", "om_terrain": "DinoZoo", "reveal_radius": 1, "random": true, "search_range": 120 }
+      "assign_mission_target": { "om_special": "DinoZoo", "om_terrain": "dinozoo", "reveal_radius": 1, "random": true, "search_range": 220 }
     },
     "end": {
       "effect": [
