@@ -84,9 +84,9 @@ Even a world class dodger should not be able to dodge continuously when attacked
 ## To-Hit Value
 The "to_hit" value of an object represents the base likelihood that it will solidly strike an enemy during an attack. This can then be modified by martial arts, skills, proficiences, etc... to get your final chance to-hit.
 
-For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start with a base of -2 and, if you wish, you may go through the categories and manually add to the to-hit value based on the object's characteristics, then enter the final result number directly in the format "to_hit": X, (where X is the positive or negative integer you have decided on).
+For basic objects it isn't important to get a perfect value since it's highly unlikely for players to use that item as a weapon. These items start with a base of -2 and, if you wish, you may go through the categories and manually add to the to-hit value the listed numbers based on the object's characteristics, then enter the final result number directly in the format "to_hit": X, (where X is the positive or negative integer you have decided on).
 
-For proper weapons, such as those in the data\json\items\melee file, and common makeshift weapons like crowbars, etc... we use a slightly different system. Instead of a declared number, we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding up the numbers below, you simply select the correct word for each category and it will be automatically calculated from the base to-hit number in-game instead.
+For proper weapons, such as those in the data\json\items\melee file, and common makeshift weapons like crowbars, etc... we use a slightly different system. Instead of a declared number, we instead use a group of more descriptive words so that we can easily audit and make sure these values are as close to reality as possible. Instead of adding up the numbers below, you simply select the correct word for each category and it will be automatically calculated from the base -2 to-hit number in-game instead.
 
 The format for this is:
 "to_hit": { "grip": "(parameter)", "length": "(parameter)", "surface": "(parameter)", "balance": "(parameter)" }
