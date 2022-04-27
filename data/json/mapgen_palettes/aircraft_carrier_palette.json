@@ -73,6 +73,7 @@
       "N": "f_air_filter",
       "o": "f_air_conditioner",
       "O": "f_standing_tank",
+      "#": "f_standing_tank",
       "S": "f_shower",
       "s": "f_sofa",
       "V": "f_water_heater",
@@ -242,7 +243,7 @@
         { "item": "ammo_casings_milspec", "chance": 55, "repeat": [ 1, 5 ] }
       ],
       "Ж": [
-        { "item": "supplies_mechanics", "chance": 50, "repeat": [ 1, 6 ] },
+        { "item": "supplies_mechanics_milspec", "chance": 50, "repeat": [ 1, 6 ] },
         { "item": "supplies_spares_vehicle", "chance": 50, "repeat": [ 1, 4 ] },
         { "item": "supplies_metal", "chance": 30, "repeat": [ 0, 3 ] }
       ],
@@ -282,20 +283,20 @@
         { "item": "tools_robotics", "chance": 50, "repeat": [ 1, 1 ] }
       ],
       "R": [
-        { "item": "book_military", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "book_survival", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "literature", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "novels", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "hardware_books", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "dojo_manuals", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "exotic_books", "chance": 10, "repeat": [ 0, 1 ] },
-        { "item": "carpentrybooks", "chance": 20, "repeat": [ 0, 1 ] },
+        { "item": "book_military", "chance": 5 },
+        { "item": "book_survival", "chance": 5 },
+        { "item": "literature", "chance": 5 },
+        { "item": "novels", "chance": 5 },
+        { "item": "hardware_books", "chance": 5 },
+        { "item": "dojo_manuals", "chance": 5 },
+        { "item": "exotic_books", "chance": 2 },
+        { "item": "carpentrybooks", "chance": 5 },
         { "item": "religious_books", "chance": 75, "repeat": [ 0, 3 ] },
-        { "item": "manuals", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "textbooks", "chance": 60, "repeat": [ 0, 20 ] },
-        { "item": "lab_bookshelves", "chance": 5, "repeat": [ 0, 1 ] },
-        { "item": "tailorbooks", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "magazines", "chance": 30, "repeat": [ 0, 2 ] }
+        { "item": "manuals", "chance": 5 },
+        { "item": "textbooks", "chance": 60, "repeat": [ 2, 20 ] },
+        { "item": "lab_bookshelves", "chance": 5 },
+        { "item": "tailorbooks", "chance": 5 },
+        { "item": "magazines", "chance": 10 }
       ],
       "Л": [ { "item": "clothing_work_set", "chance": 70, "repeat": [ 0, 15 ] } ],
       "β": [
