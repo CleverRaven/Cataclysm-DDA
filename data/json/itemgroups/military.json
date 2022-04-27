@@ -203,7 +203,11 @@
       {
         "collection": [
           { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
-          { "item": "heavy_load_bearing_vest_breacher", "contents-group": "custom_light_lbv" }
+          {
+            "item": "heavy_load_bearing_vest_breacher",
+            "contents-group": "custom_light_lbv",
+            "contents-item": "remington_870_breacher"
+          }
         ],
         "prob": 1
       }
