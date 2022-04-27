@@ -207,7 +207,7 @@
     "id": "exo_lense_module",
     "type": "TOOL",
     "name": { "str": "exosuit multi lense zoom module" },
-    "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses move things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
+    "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
     "volume": "250 ml",
     "price": "10 kUSD",
