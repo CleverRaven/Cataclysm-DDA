@@ -1173,6 +1173,9 @@ bool item::combine( const item &rhs )
 
     }
     charges += rhs.charges;
+    if( !rhs.has_flag( flag_NO_PARASITES ) ) {
+        unset_flag( flag_NO_PARASITES );
+    }
     return true;
 }
 
@@ -1236,9 +1239,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
 
-        //we can combine liquids of same type and different temperatures
+        // we can combine liquids of same type and different temperatures
         if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
-        { flag_COLD, flag_FROZEN, flag_HOT } ) ) {
+        { flag_COLD, flag_FROZEN, flag_HOT, flag_NO_PARASITES } ) ) {
             return false;
         }
     } else if( item_tags != rhs.item_tags ) {

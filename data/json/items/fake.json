@@ -200,24 +200,6 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_hydraulic_press",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
-  },
-  {
-    "id": "fake_heavy_lathe",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "power lathe" }
-  },
-  {
-    "id": "fake_air_compressor",
-    "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "air compressor" }
-  },
-  {
     "id": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
@@ -277,6 +259,26 @@
     "copy-from": "fake_appliance_tool"
   },
   {
+    "id": "hydraulic_press_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "heavy_lathe_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "air_compressor_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "air compressor" },
+    "charges_per_use": 50,
+    "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
+  },
+  {
     "id": "fake_oven",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
@@ -284,9 +286,9 @@
     "qualities": [ [ "OVEN", 2 ] ]
   },
   {
-    "id": "fake_water_purifier",
+    "id": "water_purifier_tool",
     "type": "TOOL",
-    "copy-from": "fake_power_tool",
+    "copy-from": "fake_appliance_tool",
     "name": { "str": "stationary water purifier" }
   },
   {

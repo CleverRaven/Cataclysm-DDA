@@ -126,7 +126,6 @@ static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
@@ -253,7 +252,6 @@ static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
-static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
@@ -290,7 +288,6 @@ static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -4972,46 +4969,6 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
     p->mod_moves( -to_moves<int>( 5_seconds ) );
     return it->type->charges_to_use();
-}
-
-//This is just used for robofac_intercom_mission_2
-cata::optional<int> iuse::mind_splicer( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it.typeId() == itype_rmi2_corpse &&
-            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
-                      map_it.color_in_inventory() ) ) ) {
-
-            auto filter = []( const item & it ) {
-                return it.typeId() == itype_data_card;
-            };
-            avatar *you = p->as_avatar();
-            item_location loc;
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
-            }
-            if( !loc ) {
-                add_msg( m_info, _( "Nevermind." ) );
-                return cata::nullopt;
-            }
-            item &data_card = *loc;
-            ///\EFFECT_DEX makes using the mind splicer faster
-            ///\EFFECT_FIRSTAID makes using the mind splicer faster
-            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
-                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
-
-            player_activity act( ACT_MIND_SPLICER, to_moves<int>( time ) );
-            act.targets.emplace_back( *p, &data_card );
-            p->assign_activity( act );
-            return it->type->charges_to_use();
-        }
-    }
-    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
-    return cata::nullopt;
 }
 
 void iuse::cut_log_into_planks( Character &p )

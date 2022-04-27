@@ -1,0 +1,11 @@
+[
+  {
+    "type": "recipe_group",
+    "id": "fbml_2_shed_recipes_1",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "yarn_spinningwheel", "description": " Craft: Yarn" },
+      { "id": "grass_yarn_spinningwheel", "description": " Craft: Grass yarn" }
+    ]
+  }
+]

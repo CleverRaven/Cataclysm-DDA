@@ -11,6 +11,7 @@ env:
 
 jobs:
   confirm-bug:
+    if: ${{ !github.event.issue.pull_request }}
     name: Confirm bug - Comment command
     runs-on: ubuntu-latest
     steps:

@@ -76,7 +76,7 @@
     "tools": [
       [
         [ "water_purifier", 1 ],
-        [ "fake_water_purifier", 1 ],
+        [ "water_purifier_tool", 1 ],
         [ "pur_tablets", 1 ],
         [ "char_purifier", 1 ],
         [ "char_purifier_clay", 1 ]
