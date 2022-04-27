@@ -285,10 +285,6 @@ static time_duration companion_travel_time_calc( const tripoint_abs_omt &pos,
 static time_duration companion_travel_time_calc(
     const std::vector<tripoint_abs_omt> &journey, time_duration work, int trips = 1,
     int haulage = 0 );
-/// Determines how many round trips a given NPC @ref comp will take to move all of the
-/// items @ref itms
-static int om_carry_weight_to_trips( const std::vector<item *> &itms,
-                                     const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
 static int om_carry_weight_to_trips( const units::mass &total_mass,
@@ -4412,7 +4408,6 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
         }
     }
 
-    Character &player_character = get_player_character();
     for( drop_location it : itms ) {
         item *i = it.first.get_item();
         item split_item;
@@ -4491,22 +4486,6 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );
-}
-
-int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp )
-{
-    units::mass total_m = 0_gram;
-    units::volume total_v = 0_ml;
-    for( const auto &i : itms ) {
-        total_m += i->weight( true );
-        total_v += i->volume( true );
-    }
-    units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
-    //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_makeshift_sling ).get_total_capacity();
-    units::volume max_v = comp ? comp->free_space() : sack_v;
-    max_v += sack_v;
-    return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );
 }
 
 std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, int range_start,
