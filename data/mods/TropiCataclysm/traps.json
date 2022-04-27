@@ -1,14 +1,14 @@
 [
   {
     "type": "trap",
-    "id": "tr_portal_dormant",
-    "name": "inactive portal",
+    "id": "tr_portal_reef",
+    "name": "portal",
     "color": "blue",
     "symbol": "%",
     "visibility": 0,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "none",
-    "benign": true
+    "action": "spell",
+    "spell_data": { "id": "summon_alien" }
   }
 ]
