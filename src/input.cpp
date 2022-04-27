@@ -258,7 +258,7 @@ void input_manager::init()
     }
 }
 
-static constexpr int current_keybinding_version = 1;
+static constexpr int current_keybinding_version = 2;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
@@ -356,6 +356,27 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             events.insert( events.end(), new_events.begin(), new_events.end() );
+
+            if( is_user_preferences && version <= 1 ) {
+                // Add keypad enter to old keybindings with return key
+                for( const input_event &evt : new_events ) {
+                    input_event new_evt = evt;
+                    bool has_return = false;
+                    // As of version 2 the key sequence actually only supports
+                    // one key, so we just replace all return with enter
+                    if( new_evt.type == input_event_t::keyboard_char ) {
+                        for( int &key : new_evt.sequence ) {
+                            if( key == '\n' ) {
+                                key = KEY_ENTER;
+                                has_return = true;
+                            }
+                        }
+                    }
+                    if( has_return && std::find( events.begin(), events.end(), new_evt ) == events.end() ) {
+                        events.emplace_back( new_evt );
+                    }
+                }
+            }
         }
 
         // In case this is the second file containing user preferences,
