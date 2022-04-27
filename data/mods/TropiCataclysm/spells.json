@@ -59,5 +59,23 @@
     "field_chance": 2,
     "min_field_intensity": 2,
     "max_field_intensity": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "summon_alien",
+    "name": "Summon Alien",
+    "description": "Summons an alien creature from the other side of the portal.",
+    "flags": [ "PERMANENT", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 5,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 300,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": { "group": "GROUP_ALIEN_REEF" }
   }
 ]
