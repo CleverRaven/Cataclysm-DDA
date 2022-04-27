@@ -385,7 +385,7 @@
     "name": { "str": "exosuit climbing assist module", "str_pl": "exosuit climbing assist modules" },
     "description": "This module uses a combination of spikes, hooks, and magnets to aid the wearer in climbing.",
     "weight": "5 kg",
-    "volume": "2.5 L",
+    "volume": "2500 ml",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
     "looks_like": "storage_battery",
@@ -499,5 +499,21 @@
       "msg": "You deactivate the forcefield module.",
       "target": "exo_forcefield"
     }
+  },
+  {
+    "id": "exosuit_med_injector",
+    "type": "TOOL",
+    "name": { "str": "exosuit medical injector" },
+    "description": "A combination medical monitor and drug injection system, this module is intended to keep the pilot in the field longer.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "ceramic", "qt_steel" ],
+    "symbol": "!",
+    "color": "white",
+    "ammo": [ "ampoule" ],
+    "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_SMALL_GADGET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 4 } } ],
+    "charges_per_use": 1,
+    "use_action": [ "JET_INJECTOR" ]
   }
 ]
