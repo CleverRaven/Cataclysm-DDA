@@ -34,9 +34,9 @@
       "5": { "body_parts": [ "arm_l" ], "select_color": "red", "nested_graph": "arm_l" },
       "6": { "body_parts": [ "hand_l" ], "select_color": "red", "nested_graph": "hand_l" },
       "7": { "body_parts": [ "leg_r" ], "select_color": "red", "nested_graph": "leg_r" },
-      "8": { "body_parts": [ "foot_r" ], "select_color": "red" },
+      "8": { "body_parts": [ "foot_r" ], "select_color": "red", "nested_graph": "foot_r" },
       "9": { "body_parts": [ "leg_l" ], "select_color": "red", "nested_graph": "leg_l" },
-      "0": { "body_parts": [ "foot_l" ], "select_color": "red" }
+      "0": { "body_parts": [ "foot_l" ], "select_color": "red", "nested_graph": "foot_l" }
     }
   }
 ]
