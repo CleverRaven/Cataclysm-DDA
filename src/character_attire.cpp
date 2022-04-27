@@ -2090,6 +2090,78 @@ item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cu
     return cur_weapon;
 }
 
+void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
+                                   const std::vector<sub_bodypart_id> &sub_parts, const Character &person ) const
+{
+    std::map<sub_bodypart_id, resistances> best_cases;
+    std::map<sub_bodypart_id, resistances> median_cases;
+    std::map<sub_bodypart_id, resistances> worst_cases;
+
+    // go through every item and see how it handles every part of the character
+    for( const item &armor : worn ) {
+        // check if it covers the part
+        if( ( sub_parts.size() > 1 && !armor.covers( bp ) ) || ( sub_parts.size() == 1 &&
+                !armor.covers( sub_parts[0] ) ) ) {
+            continue;
+        }
+
+        info.worn_names.push_back( armor.tname() );
+
+        info.total_encumbrance += armor.get_encumber( person, bp );
+
+        // need to average the coverage on each sub part based on size
+        int temp_coverage = 0;
+        if( sub_parts.size() == 1 ) {
+            temp_coverage = armor.get_coverage( sub_parts[0] );
+        } else {
+            // bp armor already has averaged coverage
+            temp_coverage = armor.get_coverage( bp );
+        }
+        info.avg_coverage += temp_coverage;
+
+
+        // need to do each sub part seperately and then average them if need be
+        for( const sub_bodypart_id &sbp : sub_parts ) {
+            int coverage = armor.get_coverage( sbp );
+
+            // get worst case armor protection
+            // if it doesn't 100% cover it may not protect you
+            if( coverage == 100 ) {
+                worst_cases[sbp] += resistances( armor, false, 99, sbp );
+            }
+
+            // get median case armor protection
+            // if it doesn't at least 50% cover it may not protect you
+            if( coverage >= 50 ) {
+                median_cases[sbp] += resistances( armor, false, 50, sbp );
+            }
+
+            // get best case armor protection
+            best_cases[sbp] += resistances( armor, false, 0, sbp );
+        }
+
+    }
+
+    // need to average the protection values on each sublimb for full limbs
+    if( sub_parts.size() == 1 ) {
+        info.worst_case += worst_cases[sub_parts[0]];
+        info.median_case += median_cases[sub_parts[0]];
+        info.best_case += best_cases[sub_parts[0]];
+    } else {
+        for( const sub_bodypart_id &sbp : sub_parts ) {
+            float scale_factor = static_cast<float>( sbp->max_coverage ) / 100.0f;
+            info.worst_case += worst_cases[sbp] * scale_factor;
+            info.median_case += median_cases[sbp] * scale_factor;
+            info.best_case += best_cases[sbp] * scale_factor;
+        }
+    }
+
+    // finally average the at this point cumulative average coverage by the number of articles
+    if( info.worn_names.size() > 0 ) {
+        info.avg_coverage = info.avg_coverage / info.worn_names.size();
+    }
+}
+
 void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
                                 const std::vector<bodypart_id> &all_body_parts ) const
 {

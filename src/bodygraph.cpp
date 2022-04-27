@@ -1,6 +1,8 @@
+#include "avatar.h"
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "ui_manager.h"
@@ -182,6 +184,16 @@ void bodygraph::check() const
 
 #define BPGRAPH_HEIGHT 24
 
+bodygraph_info::bodygraph_info()
+{
+    std::vector<std::string> worn_names = {};
+    avg_coverage = 0;
+    total_encumbrance = 0;
+    worst_case = resistances();
+    median_case = resistances();
+    best_case = resistances();
+}
+
 struct bodygraph_display {
     bodygraph_id id;
     input_context ctxt;
@@ -191,6 +203,7 @@ struct bodygraph_display {
     catacurses::window w_graph;
     catacurses::window w_info;
     std::vector<std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *>> partlist;
+    bodygraph_info info;
     int partlist_width = 0;
     int info_width = 0;
     int sel_part = 0;
@@ -203,6 +216,7 @@ struct bodygraph_display {
 
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void prepare_partlist();
+    void prepare_infolist();
     void init_ui_windows();
     void draw_borders();
     void draw_partlist();
@@ -377,6 +391,34 @@ void bodygraph_display::prepare_partlist()
     } );
 }
 
+void bodygraph_display::prepare_infolist()
+{
+    // reset info for a new read
+    info = bodygraph_info();
+
+    const bodypart_id &bp = std::get<0>( partlist[sel_part] );
+
+    // sbps will either be a group for a body part and we'll need to do averages OR a single sub part
+    std::vector<sub_bodypart_id> sub_parts;
+
+    // should maybe be not just the avater I'm not sure how you are getting character passed in
+    const avatar &p = get_avatar();
+
+    // this might be null need to test for nullbp as this all continues
+    if( std::get<1>( partlist[sel_part] ) != nullptr ) {
+        sub_parts.push_back( std::get<1>( partlist[sel_part] )->id );
+    } else {
+        for( const sub_bodypart_id &sbp : bp->sub_parts ) {
+            // don't worry about secondary sub parts would just make things confusing
+            if( !sbp->secondary ) {
+                sub_parts.push_back( sbp );
+            }
+        }
+    }
+
+    p.worn.prepare_bodymap_info( info, bp, sub_parts, p );
+}
+
 shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -400,6 +442,7 @@ shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
 void bodygraph_display::display()
 {
     prepare_partlist();
+    prepare_infolist();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     bool done = false;
@@ -413,6 +456,7 @@ void bodygraph_display::display()
                 bodygraph_id nextgraph = std::get<2>( partlist[sel_part] )->nested_graph;
                 if( !nextgraph.is_null() ) {
                     display_bodygraph( nextgraph );
+                    prepare_infolist();
                 }
             }
         } else if( action == "UP" ) {
@@ -420,11 +464,13 @@ void bodygraph_display::display()
             if( sel_part < 0 ) {
                 sel_part = partlist.size() - 1;
             }
+            prepare_infolist();
         } else if( action == "DOWN" ) {
             sel_part++;
             if( sel_part >= static_cast<int>( partlist.size() ) ) {
                 sel_part = 0;
             }
+            prepare_infolist();
         }
         if( sel_part < top_part ) {
             top_part = sel_part;

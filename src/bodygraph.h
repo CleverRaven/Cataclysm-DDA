@@ -6,6 +6,7 @@
 
 #include "color.h"
 #include "type_id.h"
+#include "damage.h"
 
 class JsonObject;
 
@@ -20,6 +21,18 @@ struct bodygraph_part {
     nc_color sel_color;
     // What symbol to use for fragments that belong to this section
     std::string sym;
+};
+
+// info that needs to be passed around
+struct bodygraph_info {
+    std::vector<std::string> worn_names;
+    int avg_coverage;
+    int total_encumbrance;
+    resistances worst_case;
+    resistances median_case;
+    resistances best_case;
+
+    bodygraph_info();
 };
 
 struct bodygraph {
