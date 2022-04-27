@@ -6878,7 +6878,7 @@ bool item::has_flag( const flag_id &f ) const
     }
 
     // check flags from items in inherit pockets
-    for( const item_pocket *pocket : contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : contents.get_all_contained_pockets() ) {
         // if the pocket inherits flags
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
