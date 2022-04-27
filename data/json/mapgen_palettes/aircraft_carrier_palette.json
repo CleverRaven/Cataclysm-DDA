@@ -206,11 +206,24 @@
       "F": [ { "item": "office_paper", "chance": 45, "repeat": [ 0, 8 ] } ],
       "Y": [ { "item": "clothing_work_set", "chance": 45, "repeat": [ 2, 11 ] } ],
       "r": [
-        { "item": "clothing_work_set", "chance": 25, "repeat": [ 0, 1 ] },
-        { "item": "clothing_military", "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "clothing_military_pilot", "chance": 15, "repeat": [ 0, 1 ] },
-        { "item": "gi", "chance": 10, "repeat": [ 0, 1 ] },
-        { "item": "allclothes", "chance": 10, "repeat": [ 0, 1 ] }
+        { "item": "clothing_work_set", "chance": 25, "repeat": [ 0, 2 ] },
+        { "item": "clothing_military", "chance": 20, "repeat": [ 0, 2 ] },
+        { "item": "clothing_military_pilot", "chance": 15, "repeat": [ 0, 2 ] },
+        { "item": "gi", "chance": 10, "repeat": [ 0, 2 ] },
+        { "item": "allclothes", "chance": 10, "repeat": [ 0, 2 ] }
+      ],
+      "Z": [
+        { "item": "clothing_work_set", "chance": 25 },
+        { "item": "clothing_military", "chance": 20 },
+        { "item": "clothing_military_pilot", "chance": 15 },
+        { "item": "gi", "chance": 10 },
+        { "item": "allclothes", "chance": 10 }
+      ],
+       "W": [
+        { "item": "clothing_military", "chance": 30, "custom-flags": [ "FILTHY" ] },
+        { "item": "clothing_military_pilot", "chance": 20, "custom-flags": [ "FILTHY" ] },
+        { "item": "gi", "chance": 5, "custom-flags": [ "FILTHY" ] },
+        { "item": "allclothes", "chance": 15, "custom-flags": [ "FILTHY" ] }
       ],
       "п": [ { "item": "inactive_bots_milspec", "chance": 20, "repeat": [ 0, 3 ] } ],
       "q": [
