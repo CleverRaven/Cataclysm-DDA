@@ -132,7 +132,7 @@
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
-    "weight": "1950 g",
+    "weight": "576 g",
     "price": 3800,
     "material": [ "kevlar" ],
     "color": "dark_gray",
