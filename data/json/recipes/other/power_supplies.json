@@ -496,12 +496,7 @@
       { "proficiency": "prof_elec_circuits" },
       { "proficiency": "prof_elec_semiconductors" }
     ],
-    "components": [
-      [ [ "medium_storage_battery", 5 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "components": [ [ [ "medium_storage_battery", 5 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
