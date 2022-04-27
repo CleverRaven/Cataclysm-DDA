@@ -686,6 +686,67 @@
     ]
   },
   {
+    "id": "deployment_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "//": "based on the condor deployment bag and it's derivatives, holds 6.4L and has dimensions 6in H x 5.5in D x 12in W, max item lengths determined by approximating a little less based on dimensions",
+    "name": { "str": "deployment bag" },
+    "description": "A durable nylon bag marketed towards military personnel.  Has clips on the top and back making it easy to attach a strap and wear comfortably as a fanny pack.  MOLLE webbing on the back lets you affix it to body armor or a backpack.",
+    "weight": "480 g",
+    "volume": "300 ml",
+    "price": 3500,
+    "price_postapoc": 500,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fanny",
+    "color": "green",
+    "pocket_data": [
+      {
+        "description": "Center pocket.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3400 ml",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "25 cm",
+        "moves": 100
+      },
+      {
+        "description": "Front pocket.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1800 ml",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "22 cm",
+        "moves": 100
+      },
+      {
+        "description": "Side pocket.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      },
+      {
+        "description": "Side pocket.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "600 ml",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "15 cm",
+        "moves": 100
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
+  },
+  {
     "id": "dive_bag",
     "repairs_like": "backpack",
     "type": "ARMOR",
