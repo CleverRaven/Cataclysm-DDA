@@ -56,7 +56,10 @@
       {
         "text": "[Deposit a long NRE printout.]",
         "condition": { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
-        "effect": [ { "u_consume_item": "large_printout_portal_storm_data", "count": 1 }, { "u_spawn_item": "RobofacCoin", "count": 12 } ],
+        "effect": [
+          { "u_consume_item": "large_printout_portal_storm_data", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 12 }
+        ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
       },
       {
