@@ -401,7 +401,9 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       [ "boots_rubber", 20 ],
       { "group": "tools_toolbox", "prob": 5 },
-      [ "apron_leather", 10 ]
+      [ "apron_cotton", 5 ],
+      [ "apron_leather", 3 ],
+      [ "apron_plastic", 20 ]
     ]
   },
   {
@@ -502,6 +504,7 @@
       [ "sinister_dress_short", 1 ],
       [ "witch_dress_short", 1 ],
       [ "maid_dress_short", 5 ],
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 5 },
       [ "apron_leather", 5 ]
     ]
   },
@@ -988,7 +991,8 @@
       { "item": "30gal_drum", "prob": 15 },
       { "item": "grapnel", "prob": 1 },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "apron_leather", "prob": 5 }
+      { "item": "apron_leather", "prob": 2 },
+      { "item": "apron_cut_resistant", "prob": 3 }
     ]
   },
   {
@@ -1251,7 +1255,8 @@
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "grapnel", 1 ],
       { "group": "tools_toolbox", "prob": 5 },
-      [ "apron_leather", 10 ],
+      [ "apron_plastic", 20 ],
+      [ "apron_leather", 2 ],
       [ "chem_aluminium_sulphate", 20 ],
       [ "plunger_toilet", 10 ],
       [ "plunger_futuristic", 5 ]
@@ -1343,7 +1348,8 @@
       [ "bucket", 10 ],
       [ "grapnel", 1 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "apron_leather", 10 ],
+      [ "apron_leather", 5 ],
+      [ "apron_cut_resistant", 10 ],
       [ "tool_anfo_charge", 1 ],
       { "item": "remotevehcontrol", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -1597,6 +1603,7 @@
       { "item": "gloves_rubber", "prob": 100 },
       { "item": "boots_rubber", "prob": 100 },
       { "item": "glasses_safety", "prob": 50 },
+      { "item": "apron_plastic", "prob": 25 },
       { "item": "file", "prob": 25 }
     ]
   },
@@ -1779,7 +1786,10 @@
       { "item": "diazepam", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "group": "tools_toolbox", "prob": 2 },
-      [ "apron_leather", 10 ],
+      [ "apron_cotton", 5 ],
+      [ "apron_leather", 5 ],
+      [ "apron_plastic", 15 ],
+      [ "apron_cut_resistant", 5 ],
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
@@ -2067,7 +2077,9 @@
       { "item": "funnel", "prob": 50 },
       { "item": "jar_glass_sealed", "prob": 20 },
       { "item": "jar_3l_glass_sealed", "prob": 15 },
-      { "item": "apron_leather", "prob": 6 },
+      { "item": "apron_plastic", "prob": 25 },
+      { "item": "apron_cotton", "prob": 8 },
+      { "item": "apron_leather", "prob": 2 },
       { "item": "pur_tablets", "prob": 15, "charges": [ 1, 15 ] },
       { "item": "lye_powder", "prob": 10, "charges": [ 1, 200 ] },
       { "item": "oxy_powder", "prob": 12, "charges": [ 1, 200 ] },
@@ -2462,6 +2474,8 @@
       [ "umbrella", 7 ],
       [ "teleumbrella", 3 ],
       [ "apron_leather", 5 ],
+      [ "apron_plastic", 5 ],
+      [ "apron_cut_resistant", 2 ],
       [ "pocketwatch", 5 ],
       [ "e_tool", 2 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },

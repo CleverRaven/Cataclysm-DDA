@@ -1,10 +1,81 @@
 [
   {
+    "id": "apron_cotton",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "cotton apron" },
+    "description": "An apron made of cotton.",
+    "copy-from": "apron_leather",
+    "volume": "1750 ml",
+    "weight": "357 g",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "color": "white",
+    "material_thickness": 1.5,
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_apron_cotton",
+        "name": { "str": "cotton apron" },
+        "description": "A white apron made of cotton, commonly used by chefs, professional or otherwise.",
+        "weight": 50
+      },
+      {
+        "id": "black_apron_cotton",
+        "name": { "str": "black cotton apron" },
+        "description": "A black apron made of cotton, commonly used by chefs working on the night or who just want to look cool.",
+        "weight": 25
+      },
+      {
+        "id": "blue_apron_cotton",
+        "name": { "str": "blue cotton apron" },
+        "description": "A royal blue apron made of cotton, commonly used by supermarket workers around the world.",
+        "weight": 15
+      },
+      {
+        "id": "pink_apron_cotton",
+        "name": { "str": "pink cotton apron" },
+        "description": "A neon pink apron made of cotton, commonly used by women or men who do not fear weird looks.",
+        "weight": 3
+      },
+      {
+        "id": "floral_apron_cotton",
+        "name": { "str": "floral cotton apron" },
+        "description": "A floral and colorful yellow apron made of cotton, perfect for cooking outdoors.",
+        "weight": 2
+      },
+      {
+        "id": "camo_apron_cotton",
+        "name": { "str": "camo cotton apron" },
+        "description": "A cotton apron with camouflage dye, perfect for those chefs that want to hide in the wild.",
+        "weight": 2
+      },
+      {
+        "id": "skull_apron",
+        "name": { "str": "skull apron" },
+        "description": "A black cotton apron with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
+        "weight": 1
+      },
+      {
+        "id": "maid_apron",
+        "name": { "str": "maid apron" },
+        "description": "A white cotton apron with black frilly decorations, commonly used with a maid dress or alone for night time activities.",
+        "weight": 1
+      },
+      {
+        "id": "gothic_apron",
+        "name": { "str": "gothic apron" },
+        "description": "A jet black apron made of cotton with dark red decorations, perfect for cosplay or an adventurous gourmet.",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
     "description": "An apron made of leather.",
-    "weight": "1950 g",
+    "weight": "680 g",
     "volume": "2250 ml",
     "price": 1500,
     "price_postapoc": 50,
@@ -14,7 +85,7 @@
     "looks_like": "vest_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 70,
@@ -38,10 +109,21 @@
         "moves": 80
       }
     ],
-    "warmth": 15,
+    "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "apron_plastic",
+    "repairs_like": "apron_leather",
+    "type": "ARMOR",
+    "name": { "str": "plastic apron" },
+    "description": "An apron made of plastic, gives a good protection against chemicals splatter.",
+    "copy-from": "apron_leather",
+    "weight": "391 g",
+    "material": [ "plastic" ],
+    "color": "light_cyan"
   },
   {
     "id": "apron_cut_resistant",
@@ -50,8 +132,11 @@
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of Kevlar fabric.",
     "copy-from": "apron_leather",
+    "weight": "1950 g",
     "price": 3800,
-    "material": [ "kevlar" ]
+    "material": [ "kevlar" ],
+    "color": "dark_gray",
+    "material_thickness": 2.5
   },
   {
     "id": "bee_dress",
