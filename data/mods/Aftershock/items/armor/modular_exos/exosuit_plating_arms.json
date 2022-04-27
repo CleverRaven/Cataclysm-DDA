@@ -59,10 +59,10 @@
     "weight": "3000 g",
     "volume": "1500 ml",
     "material": [ "plastic" ],
-    "non_functional": "destroyed_exo_arm_plastic_plate",
+    "non_functional": "damaged_exo_arm_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -79,7 +79,7 @@
     "non_functional": "destroyed_exo_arm_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
         "coverage": 85,
         "encumbrance": 10
