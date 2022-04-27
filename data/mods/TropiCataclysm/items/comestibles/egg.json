@@ -337,7 +337,6 @@
     "id": "egg_fish_alien",
     "name": "alien roe",
     "copy-from": "egg_fish",
-    "description": "Common roe from an unknown alien creature",
-    "rot_spawn": "GROUP_EGG_ALIEN"
+    "description": "Common roe from an unknown alien creature"
   }
 ]
