@@ -13,6 +13,7 @@
 
 #include "coordinates.h"
 #include "craft_command.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
@@ -321,6 +322,13 @@ class basecamp
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        drop_locations give_equipment( Character *pc, const inventory_filter_preset preset,
+                                       const std::string &msg, const std::string title, units::volume &total_volume,
+                                       units::mass &total_mass );
+        drop_locations get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
+                                      const inventory_filter_preset preset,
+                                      const std::string &msg, const std::string title, units::volume &total_volume,
+                                      units::mass &total_mass );
 
         // mission return functions
         /// called to select a companion to return to the base
