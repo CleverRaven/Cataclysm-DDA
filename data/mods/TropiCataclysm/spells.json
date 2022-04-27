@@ -65,7 +65,7 @@
     "id": "summon_alien",
     "name": "Summon Alien",
     "description": "Summons an alien creature from the other side of the portal.",
-    "flags": [ "PERMANENT", "NO_PROJECTILE", "SPAWN_GROUP" ],
+    "flags": [ "PERMANENT", "NO_PROJECTILE", "SPAWN_GROUP", "SPAWN_WITH_DEATH_DROPS" ],
     "valid_targets": [ "ground" ],
     "min_damage": 1,
     "max_damage": 1,
