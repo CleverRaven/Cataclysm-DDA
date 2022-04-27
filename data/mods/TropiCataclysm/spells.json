@@ -65,7 +65,7 @@
     "id": "summon_alien",
     "name": "Summon Alien",
     "description": "Summons an alien creature from the other side of the portal.",
-    "flags": [ "PERMANENT", "NO_PROJECTILE" ],
+    "flags": [ "PERMANENT", "NO_PROJECTILE", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -76,6 +76,6 @@
     "base_casting_time": 300,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": { "group": "GROUP_ALIEN_REEF" }
+    "effect_str": "GROUP_ALIEN_REEF"
   }
 ]
