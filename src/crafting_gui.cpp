@@ -533,6 +533,30 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
                            "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
                            ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
     }
+    if( dummy_item.has_flag( flag_VARSIZE ) &&
+        dummy_item.has_flag( flag_FIT ) ) {
+        /* Resulting item can be (poor fit).  Check if it can actually be crafted as poor fit
+         * Currently, that means: can it have poorly-fitted components?*/
+        std::vector<std::vector<item_comp> > item_component_reqs =
+            last_recipe->simple_requirements().get_components();
+        bool has_varsize_components = false;
+        for( const std::vector<item_comp> &component_options : item_component_reqs ) {
+            for( const item_comp &component : component_options ) {
+                const itype *type = item::find_type( component.type );
+                if( type->has_flag( flag_VARSIZE ) ) {
+                    has_varsize_components = true;
+                    break;
+                }
+            }
+            if( has_varsize_components ) {
+                break;
+            }
+        }
+        if( has_varsize_components ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "<bold>Note:</bold> if crafted from poorly-fitting components, the resulting item may also be poorly-fitted." ) );
+        }
+    }
 }
 
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
