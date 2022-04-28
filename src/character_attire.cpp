@@ -2107,11 +2107,10 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         if( sub_parts.empty() || sub_parts.size() > 1 ) {
             covered = armor.covers( bp );
         } else {
+            info.specific_sublimb = true;
             const std::vector<sub_bodypart_id> splist = armor.get_covered_sub_body_parts();
-            for( const sub_bodypart_id &sid : splist ) {
-                if( std::find( sub_parts.begin(), sub_parts.end(), sid ) != sub_parts.end() ) {
-                    covered = true;
-                }
+            if( std::find( splist.begin(), splist.end(), *sub_parts.begin() ) != splist.end() ) {
+                covered = true;
             }
         }
         if( !covered ) {
@@ -2170,7 +2169,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
     }
 
     // finally average the at this point cumulative average coverage by the number of articles
-    if( info.worn_names.size() > 0 ) {
+    if( !info.worn_names.empty() ) {
         info.avg_coverage = info.avg_coverage / info.worn_names.size();
     }
 }

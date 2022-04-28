@@ -26,13 +26,12 @@ struct bodygraph_part {
 // info that needs to be passed around
 struct bodygraph_info {
     std::vector<std::string> worn_names;
-    int avg_coverage;
-    int total_encumbrance;
+    int avg_coverage = 0;
+    int total_encumbrance = 0;
     resistances worst_case;
     resistances median_case;
     resistances best_case;
-
-    bodygraph_info();
+    bool specific_sublimb = false;
 };
 
 struct bodygraph {
@@ -42,7 +41,7 @@ struct bodygraph {
     std::map<std::string, bodygraph_part> parts;
     std::string fill_sym;
     nc_color fill_color = c_white;
-    bool was_loaded;
+    bool was_loaded = false;
 
     static void load_bodygraphs( const JsonObject &jo, const std::string &src );
     static void finalize_all();

@@ -72,12 +72,7 @@ void bodygraph::load( const JsonObject &jo, const std::string & )
             if( !jval.test_string() ) {
                 jval.throw_error( "\"rows\" array must contain string values." );
             } else {
-                std::wstring wrow = utf8_to_wstr( jval.get_string() );
-                std::vector<std::string> row;
-                for( const wchar_t wc : wrow ) {
-                    row.emplace_back( wstr_to_utf8( std::wstring( 1, wc ) ) );
-                }
-                rows.emplace_back( row );
+                rows.emplace_back( utf8_display_split( jval.get_string() ) );
             }
         }
     }
@@ -85,7 +80,7 @@ void bodygraph::load( const JsonObject &jo, const std::string & )
     if( !was_loaded || jo.has_object( "parts" ) ) {
         parts.clear();
         for( const JsonMember memb : jo.get_object( "parts" ) ) {
-            const std::string sym = memb.name();
+            const std::string &sym = memb.name();
             JsonObject mobj = memb.get_object();
             bodygraph_part bpg;
             optional( mobj, false, "body_parts", bpg.bodyparts );
@@ -123,27 +118,19 @@ void bodygraph::finalize()
                       BPGRAPH_MAXCOLS );
             w_warned = true;
         }
-        for( int i = ( BPGRAPH_MAXCOLS - w ) / 2; i > 0; i-- ) {
-            r.insert( r.begin(), " " );
-        }
-        for( int i = r.size(); i <= BPGRAPH_MAXCOLS; i++ ) {
-            r.emplace_back( " " );
-        }
+        r.insert( r.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
+        r.insert( r.end(), BPGRAPH_MAXCOLS - r.size(), " " );
     }
 
     for( int i = ( BPGRAPH_MAXROWS - rows.size() ) / 2; i > 0; i-- ) {
         std::vector<std::string> r;
-        for( int j = 0; j < BPGRAPH_MAXCOLS; j++ ) {
-            r.emplace_back( " " );
-        }
+        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
         rows.insert( rows.begin(), r );
     }
 
     for( int i = rows.size(); i <= BPGRAPH_MAXROWS; i++ ) {
         std::vector<std::string> r;
-        for( int j = 0; j < BPGRAPH_MAXCOLS; j++ ) {
-            r.emplace_back( " " );
-        }
+        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
         rows.emplace_back( r );
     }
 }
@@ -183,16 +170,6 @@ void bodygraph::check() const
 */
 
 #define BPGRAPH_HEIGHT 24
-
-bodygraph_info::bodygraph_info()
-{
-    std::vector<std::string> worn_names = {};
-    avg_coverage = 0;
-    total_encumbrance = 0;
-    worst_case = resistances();
-    median_case = resistances();
-    best_case = resistances();
-}
 
 struct bodygraph_display {
     bodygraph_id id;
@@ -435,10 +412,10 @@ void bodygraph_display::prepare_infolist()
     if( std::get<1>( partlist[sel_part] ) != nullptr ) {
         sub_parts.emplace( std::get<1>( partlist[sel_part] )->id );
     } else {
-        for( const sub_bodypart_id &sbp : bp->sub_parts ) {
+        for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
             // don't worry about secondary sub parts would just make things confusing
             if( !sbp->secondary ) {
-                sub_parts.emplace( sbp );
+                sub_parts.emplace( sbp.id() );
             }
         }
     }
@@ -460,7 +437,8 @@ void bodygraph_display::prepare_infotext()
     }
     info_txt.emplace_back( "--" );
     // coverage
-    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Coverage" ), c_magenta ),
+    info_txt.emplace_back( string_format( "%s: %d%%",
+                                          colorize( info.specific_sublimb ? _( "Coverage" ) : _( "Coverage (Avg.)" ), c_magenta ),
                                           info.avg_coverage ) );
     info_txt.emplace_back( "--" );
     // encumbrance
@@ -468,7 +446,8 @@ void bodygraph_display::prepare_infotext()
                                           info.total_encumbrance ) );
     info_txt.emplace_back( "--" );
     // protection
-    info_txt.emplace_back( string_format( "%s:", colorize( _( "Protection" ), c_magenta ) ) );
+    info_txt.emplace_back( string_format( "%s:",
+                                          colorize( info.specific_sublimb ? _( "Protection" ) : _( "Protection (Avg.)" ), c_magenta ) ) );
     std::string prot_legend = string_format( "%s %s %s", colorize( _( "worst" ), c_red ),
                               colorize( _( "median" ), c_yellow ), colorize( _( "best" ), c_light_green ) );
     int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
