@@ -5102,7 +5102,6 @@ std::string basecamp::name_display_of( const mission_id miss_id )
             const std::map<recipe_id, translation> &recipes = recipe_deck( miss_id.dir.value() );
             const auto it = recipes.find( recipe_id( miss_id.parameters ) );
             if( it != recipes.end() ) {
-                const recipe &making = it->first.obj();
                 return dir_abbr + it->second;
             } else {
                 return dir_abbr + _( " <Unsupported recipe>" );
