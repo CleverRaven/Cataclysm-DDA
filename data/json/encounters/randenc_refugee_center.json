@@ -7,14 +7,9 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_near_om_location": "evac_center_13", "range": 2 },
         "is_day",
         { "one_in_chance": 10 },
-        { "days_since_cataclysm": 12 },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": "<", "time": "1 d" }
-        },
-        { "not": { "u_at_om_location": "evac_center_13" } }
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
     "effect": [
@@ -39,18 +34,13 @@
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_RC_JohnBailey_add",
     "//": "Specific travelling NPC John Bailey stops in at the refugee center.  Regardless of where you meet him, you can't meet John more than once per 3 days.",
-    "recurrence": 6000,
+    "recurrence": 6200,
     "global": true,
     "condition": {
       "and": [
-        { "u_near_om_location": "evac_center_13", "range": 2 },
         "is_day",
         { "one_in_chance": 15 },
-        { "days_since_cataclysm": 14 },
-        {
-          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": "<", "time": "3 d" }
-        },
-        { "not": { "u_at_om_location": "evac_center_13" } }
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
     "effect": [
@@ -76,13 +66,13 @@
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_Shoppers_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
-    "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 68, "y": 23 } ] }
+    "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 20, "y": 23 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_RC_JohnBailey_add",
     "//": "Adds a random NPC to the refugee center, placed somewhere it won't intersect with beggars or other random NPCs.",
-    "object": { "place_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 67, "y": 21 } ] }
+    "object": { "place_npcs": [ { "class": "RC_John_Bailey_visiting", "x": 19, "y": 21 } ] }
   }
 ]
