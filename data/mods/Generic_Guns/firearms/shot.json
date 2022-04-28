@@ -27,6 +27,16 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 }, "rigid": true } ]
   },
   {
+    "id": "shot_short_pump",
+    "copy-from": "remington_870_breacher",
+    "type": "GUN",
+    "name": "short shotgun",
+    "ammo": [ "ammo_shot" ],
+    "description": "A simple, shotgun without a stock used by law enforcement and occasionally militaries.  Its internal magazine is small, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
+    "clip_size": 4,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
+  },
+  {
     "id": "shot_tactical",
     "copy-from": "saiga_12",
     "type": "GUN",

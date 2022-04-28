@@ -23,6 +23,7 @@
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "map.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -569,6 +570,7 @@ class inventory_selector
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
+        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
         /** Remove all items */
         void clear_items();
         /** Assigns a title that will be shown on top of the menu. */

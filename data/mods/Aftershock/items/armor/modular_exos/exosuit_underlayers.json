@@ -1,0 +1,196 @@
+[
+  {
+    "id": "afs_exo_standard_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit undersuit" },
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, offers nearly no protection and damages easily.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "plastic" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+  },
+  {
+    "id": "afs_exo_combat_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit combat undersuit" },
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "kevlar" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+  },
+  {
+    "id": "afs_exo_eva_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit EVA undersuit" },
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "nanoprinted_alloy" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+  },
+  {
+    "id": "afs_exo_utility_undersuit",
+    "repairs_like": "thermal_suit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit utility undersuit" },
+    "description": "A form-fitting suit meant to be worn beneath power armor.  Although not a requirement for the operation of power armor, it features climate control and haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor, it has no pockets, but does offer some protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "kevlar_rigid" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE" ]
+  }
+]

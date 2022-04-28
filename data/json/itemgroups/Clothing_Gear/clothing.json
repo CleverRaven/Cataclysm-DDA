@@ -594,7 +594,8 @@
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
       [ "jumpsuit", 20 ],
-      [ "apron_leather", 20 ],
+      [ "apron_plastic", 30 ],
+      [ "apron_leather", 10 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
       [ "hat_hard", 50 ],
       { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ] }
@@ -1539,7 +1540,9 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
+      [ "apron_cotton", 5 ],
       [ "apron_leather", 1 ],
+      [ "apron_plastic", 1 ],
       { "group": "costume_jackets", "prob": 1 },
       { "group": "costume_jackets", "prob": 50, "event": "halloween" },
       { "group": "christmas_jackets", "prob": 50, "event": "christmas" }
@@ -1967,7 +1970,9 @@
       { "item": "wetsuit_hood", "prob": 5 },
       { "item": "dive_bag", "prob": 5 },
       { "item": "jedi_cloak", "prob": 1 },
-      { "item": "apron_leather", "prob": 1 },
+      { "item": "apron_cotton", "prob": 30 },
+      { "item": "apron_leather", "prob": 5 },
+      { "item": "apron_plastic", "prob": 5 },
       { "item": "clown_suit", "prob": 1 },
       { "item": "clownshoes", "prob": 1 },
       { "item": "clown_wig", "prob": 1 },
@@ -2487,6 +2492,8 @@
       [ "tac_helmet", 5 ],
       [ "tac_fullhelmet", 2 ],
       [ "apron_leather", 2 ],
+      [ "apron_cut_resistant", 2 ],
+      [ "apron_plastic", 1 ],
       [ "tool_belt", 5 ],
       [ "bootsheath", 8 ],
       [ "sheath", 5 ]
@@ -2515,7 +2522,8 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "boots_rubber", "prob": 20 },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "apron_leather", "prob": 10 }
+      { "item": "apron_leather", "prob": 10 },
+      { "item": "apron_cut_resistant", "prob": 10 }
     ]
   },
   {

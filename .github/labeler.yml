@@ -75,6 +75,11 @@
 
 "Items: Containers":
   - "**/**containers**"
+  - "**/**storage**"
+  - "**/**sheath**"
+  - "**/**holster**"
+  - "**/**ammo_pouch**"
+  - "**/**bandolier**"
 
 "Appliance/Power Grid":
   - "**/appliance**"
