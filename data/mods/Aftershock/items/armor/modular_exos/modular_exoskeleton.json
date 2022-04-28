@@ -7,7 +7,6 @@
     "weight": "43 kg",
     "volume": "135 L",
     "material": [ "titanium" ],
-    "material_thickness": 2,
     "power_armor": true,
     "symbol": "T",
     "looks_like": "power_armor_basic",
@@ -167,13 +166,6 @@
         "moves": 60
       }
     ],
-    "armor": [
-      {
-        "encumbrance": 20,
-        "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
@@ -187,6 +179,14 @@
         "type": "transform"
       },
       "MANAGE_EXOSUIT"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
     ]
   },
   {
@@ -201,7 +201,15 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 7123,
     "revert_to": "modular_exosuit",
-    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ]
+    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
+    "armor": [
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
   },
   {
     "id": "exosuit_helmet",
