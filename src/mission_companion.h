@@ -46,6 +46,8 @@ enum mission_kind : int {
 
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
+    Camp_Hide_Mission,     //  Direct action, not serialized
+    Camp_Unhide_Mission,   //  Direct action, not serialized
     Camp_Assign_Jobs,
     Camp_Assign_Workers,
     Camp_Abandon,

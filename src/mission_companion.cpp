@@ -161,6 +161,14 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         no_translation( "" )
     },
     {
+        "Hide_Mission",
+        no_translation( "" )
+    },
+    {
+        "Unhide_Mission",
+        no_translation( "" )
+    },
+    {
         "Camp_Assign_Jobs",
         no_translation( "" )
     },
@@ -974,7 +982,7 @@ bool talk_function::display_and_choose_opts(
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key.entries[tab_mode + 1];
+                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == role_id_faction_camp ) {
@@ -991,7 +999,7 @@ bool talk_function::display_and_choose_opts(
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key.entries[tab_mode + 1];
+                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -1070,6 +1078,8 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             return false;
 
         case Camp_Distribute_Food:
+        case Camp_Hide_Mission:
+        case Camp_Unhide_Mission:
         case Camp_Assign_Jobs:
         case Camp_Assign_Workers:
         case Camp_Abandon:
@@ -1224,7 +1234,7 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     int experience = rng( 10, time / 300 );
 
     const int rand_bandit_size = rng( 1, 3 );
-    bandit_party.reserve( rand_bandit_size * 2 );
+    bandit_party.reserve( size_t( rand_bandit_size * 2 ) );
     for( int i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( npc_template_bandit ) );
         bandit_party.push_back( temp_npc( npc_template_thug ) );
@@ -2602,6 +2612,13 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
                         const std::string &text,
                         bool priority, bool possible )
 {
+    Character &player_character = get_player_character();
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp(
+                                         player_character.global_omt_location().xy() );
+    if( bcp.has_value() && bcp.value()->is_hidden( id ) ) {
+        return;
+    }
+
     mission_entry miss;
     miss.id = id;
     if( name_display.empty() ) {  //  Poorly designed if this is the case. Do it properly...
@@ -2621,5 +2638,5 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     }
     const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
-    entries[tab_order + 1].emplace_back( miss );
+    entries[size_t( tab_order + 1 )].emplace_back( miss );
 }
