@@ -23,6 +23,7 @@
 #include "item_category.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "map.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -569,6 +570,7 @@ class inventory_selector
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
+        void add_remote_map_items( tinymap *remote_map, const tripoint &target );
         /** Remove all items */
         void clear_items();
         /** Assigns a title that will be shown on top of the menu. */
@@ -858,6 +860,7 @@ class inventory_multiselector : public inventory_selector
                                           const GetStats & = {},
                                           bool allow_select_contained = false );
         drop_locations execute();
+        void toggle_entry( inventory_entry &entry, size_t count );
     protected:
         void rearrange_columns( size_t client_width ) override;
         size_t max_chosen_count;

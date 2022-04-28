@@ -336,6 +336,8 @@ void monster_adjustment::apply( mtype &mon )
             mon.speed *= stat_adjust;
         } else if( stat == "hp" ) {
             mon.hp *= stat_adjust;
+        } else if( stat == "bleed_rate" ) {
+            mon.bleed_rate *= stat_adjust;
         }
     }
     if( !flag.empty() ) {

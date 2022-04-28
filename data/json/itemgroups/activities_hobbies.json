@@ -67,6 +67,7 @@
       [ "baseball", 35 ],
       [ "football", 35 ],
       [ "frisbee", 10 ],
+      [ "shuttlecock", 10 ],
       [ "disc_golf", 10 ],
       [ "manual_brawl", 30 ],
       [ "manual_bashing", 1 ],
@@ -352,7 +353,9 @@
       [ "bottle_folding", 10 ],
       { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
-      { "group": "premium_contents", "prob": 3 }
+      { "group": "premium_contents", "prob": 3 },
+      { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
     ]
   },
   {

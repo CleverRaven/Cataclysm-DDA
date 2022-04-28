@@ -70,6 +70,15 @@
     ]
   },
   {
+    "id": "EOC_blacksmith_crafting_armor",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+      { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+      { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+    ]
+  },
+  {
     "id": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS",
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
@@ -100,12 +109,7 @@
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
           ]
         },
-        "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 100 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
-        ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 100, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       },
       {
@@ -116,12 +120,7 @@
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
           ]
         },
-        "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 200 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
-        ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 200, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       },
       {
@@ -132,12 +131,7 @@
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
           ]
         },
-        "effect": [
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_sell_item": "FMCNote", "count": 300 },
-          { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
-          { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
-        ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 300, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -302,8 +296,8 @@
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_consume_item": "exodii_ac_kit", "count": 1 },
-          { "u_consume_item": "exodii_wire_kit", "count": 1 }
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
         ],
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
       },
@@ -326,8 +320,8 @@
         "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
         "effect": [
           { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_consume_item": "exodii_ac_kit", "count": 1 },
-          { "u_consume_item": "exodii_wire_kit", "count": 1 }
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
         ],
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
       },
