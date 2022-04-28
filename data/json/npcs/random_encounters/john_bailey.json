@@ -518,8 +518,9 @@
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Teach",
     "dynamic_line": {
-      "npc_has_var": "John_Bailey_taught",
-      "value": "yes",
+      "npc_compare_var": "John_Bailey_taught",
+      "op": "<=",
+      "value": 4,
       "yes": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
       "no": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
@@ -528,8 +529,8 @@
       {
         "text": "Sure, let's talk trade.",
         "topic": "TALK_TRAIN",
-        "condition": { "not": { "npc_has_var": "John_Bailey_taught", "value": "yes" } },
-        "effect": { "npc_add_var": "John_Bailey_taught", "value": "yes" }
+        "condition": { "npc_compare_var": "John_Bailey_taught", "op": "<=", "value": 4 },
+        "effect": { "npc_adjust_var": "John_Bailey_taught", "adjustment": { "rand": 3 } }
       },
       { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Thanks, I'll think about it.  What were you saying before?", "topic": "TALK_NONE" },
