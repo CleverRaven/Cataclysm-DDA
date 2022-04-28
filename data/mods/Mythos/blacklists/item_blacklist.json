@@ -1,9 +1,9 @@
 [
   {
-    "//": "blacklists sci-fi items native to cata's default setting, as they don't fit C:DSA's lore at the moment",
+    "//": "blacklists all items not related to the 1920s setting, arranged by json item group",
     "type": "ITEM_BLACKLIST",
     "whitelist": false,
-    "items": [
+    "items": [	  
       "12mm",
       "20x66_10_mag",
       "20x66_20_mag",
