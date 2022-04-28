@@ -3982,7 +3982,9 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            if( !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) {
+                here.add_field( pt, fd_fire, intensity );
+            }
         }
         return 1;
     } else if( it->charges > 0 ) {
