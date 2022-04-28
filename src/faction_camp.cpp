@@ -351,8 +351,8 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Hide_Mission:
             return _( "Hide Mission" );
 
-        case Camp_Unhide_Mission:
-            return _( "Unhide Mission" );
+        case Camp_Reveal_Mission:
+            return _( "Reveal Hidden Mission" );
 
         case Camp_Assign_Jobs:
             return _( "Assign Jobs" );
@@ -1251,7 +1251,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
               !hidden_missions[size_t( base_camps::all_directions.at( dir ).tab_order )].empty() ) ) {
             {
                 const mission_id miss_id = { Camp_Hide_Mission, "", dir };
-                entry = string_format( _( "Hide a mission to declutter the UI." ) );
+                entry = string_format( _( "Hide a mission to unclutter the UI." ) );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                                  entry );
             }
@@ -1261,8 +1261,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                     count = hidden_missions[base_camps::all_directions.at( dir ).tab_order].size();
                 }
 
-                const mission_id miss_id = { Camp_Unhide_Mission, "", dir };
-                entry = string_format( _( "Unhide a mission previously hidden.\n"
+                const mission_id miss_id = { Camp_Reveal_Mission, "", dir };
+                entry = string_format( _( "Reveal a mission previously hidden.\n"
                                           "Current number of hidden missions: %d" ),
                                        count );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
@@ -1484,7 +1484,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 
         //  mission_key offsets its entries by 1, reserving 0 for high prio entries.
         for( auto &entry : mission_key.entries[size_t( tab_num ) + 1] ) {
-            if( !entry.id.ret && entry.id.id.id != Camp_Unhide_Mission ) {
+            if( !entry.id.ret && entry.id.id.id != Camp_Reveal_Mission ) {
                 temp_ui_mission_keys[tab_num].push_back( entry.id );
             }
         }
@@ -1511,7 +1511,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             handle_hide_mission( miss_id.id.dir.value() );
             break;
 
-        case Camp_Unhide_Mission:
+        case Camp_Reveal_Mission:
             handle_unhide_mission( miss_id.id.dir.value() );
             break;
 
@@ -5058,7 +5058,7 @@ std::string basecamp::name_display_of( const mission_id miss_id )
         //  Faction camp tasks
         case Camp_Distribute_Food:
         case Camp_Hide_Mission:
-        case Camp_Unhide_Mission:
+        case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
         case Camp_Assign_Workers:
         case Camp_Abandon:
@@ -5149,7 +5149,7 @@ void basecamp::handle_hide_mission( const point &dir )
 
     for( ui_mission_id &miss_id : temp_ui_mission_keys[size_t( base_data.tab_order )] ) {
         if( !miss_id.ret &&
-            miss_id.id.id != Camp_Unhide_Mission ) {
+            miss_id.id.id != Camp_Reveal_Mission ) {
             pos_names.push_back( name_display_of( miss_id.id ) );
             reference.push_back( miss_id );
         }

@@ -165,7 +165,7 @@ static const miss_data miss_info[Camp_Harvest + 1] = {
         no_translation( "" )
     },
     {
-        "Unhide_Mission",
+        "Reveal_Mission",
         no_translation( "" )
     },
     {
@@ -1079,7 +1079,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
         case Camp_Distribute_Food:
         case Camp_Hide_Mission:
-        case Camp_Unhide_Mission:
+        case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
         case Camp_Assign_Workers:
         case Camp_Abandon:
