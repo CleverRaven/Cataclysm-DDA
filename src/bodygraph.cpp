@@ -66,7 +66,10 @@ void bodygraph::load( const JsonObject &jo, const std::string & )
         fill_color = color_from_string( jo.get_string( "fill_color" ) );
     }
 
-    if( !was_loaded || jo.has_array( "rows" ) ) {
+    if( jo.has_string( "mirror" ) ) {
+        mirror.reset();
+        mandatory( jo, false, "mirror", mirror );
+    } else if( !was_loaded || jo.has_array( "rows" ) ) {
         rows.clear();
         for( const JsonValue jval : jo.get_array( "rows" ) ) {
             if( !jval.test_string() ) {
@@ -317,6 +320,14 @@ void bodygraph_display::draw_partlist()
     wnoutrefresh( w_partlist );
 }
 
+static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
+{
+    if( !!bgid->mirror ) {
+        return get_bg_rows( bgid->mirror.value() );
+    }
+    return bgid;
+}
+
 void bodygraph_display::draw_graph()
 {
     werase( w_graph );
@@ -329,21 +340,24 @@ void bodygraph_display::draw_graph()
             }
         }
     }
-    for( unsigned i = 0; i < id->rows.size() && i < BPGRAPH_MAXROWS; i++ ) {
-        for( unsigned j = 0; j < id->rows[i].size() && j < BPGRAPH_MAXCOLS; j++ ) {
-            std::string sym = id->fill_sym;
+    const bool hflip = !!id->mirror;
+    const bodygraph_id &rid = get_bg_rows( id );
+    for( unsigned i = 0; i < rid->rows.size() && i < BPGRAPH_MAXROWS; i++ ) {
+        int j = hflip ? rid->rows[i].size() - 1 : 0;
+        for( int x = 0 ; x < BPGRAPH_MAXCOLS && j < BPGRAPH_MAXCOLS && j >= 0; hflip ? j-- : j++, x++ ) {
+            std::string sym = id->fill_sym.empty() ? rid->rows[i][j] : id->fill_sym;
             nc_color col = id->fill_color;
-            auto iter = id->parts.find( id->rows[i][j] );
+            auto iter = id->parts.find( rid->rows[i][j] );
             if( iter != id->parts.end() ) {
                 sym = iter->second.sym;
             }
-            if( id->rows[i][j] == " " ) {
+            if( rid->rows[i][j] == " " ) {
                 col = c_unset;
                 sym = " ";
-            } else if( id->rows[i][j] == selected_sym ) {
+            } else if( rid->rows[i][j] == selected_sym ) {
                 col = id->parts.at( selected_sym ).sel_color;
             }
-            mvwputch( w_graph, point( j, i ), col, sym );
+            mvwputch( w_graph, point( x, i ), col, sym );
         }
     }
     wnoutrefresh( w_graph );

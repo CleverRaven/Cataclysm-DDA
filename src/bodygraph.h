@@ -37,6 +37,7 @@ struct bodygraph_info {
 struct bodygraph {
     bodygraph_id id;
     cata::optional<bodypart_id> parent_bp;
+    cata::optional<bodygraph_id> mirror;
     std::vector<std::vector<std::string>> rows;
     std::map<std::string, bodygraph_part> parts;
     std::string fill_sym;
