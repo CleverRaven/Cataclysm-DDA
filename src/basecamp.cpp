@@ -554,7 +554,7 @@ void basecamp::hide_mission( ui_mission_id id )
     hidden_missions[size_t( base_data.tab_order )].push_back( id );
 }
 
-void basecamp::unhide_mission( ui_mission_id id )
+void basecamp::reveal_mission( ui_mission_id id )
 {
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
@@ -564,7 +564,7 @@ void basecamp::unhide_mission( ui_mission_id id )
             return;
         }
     }
-    debugmsg( "Trying to unhide unhidden mission. Has no effect." );
+    debugmsg( "Trying to reveal revealed mission.  Has no effect." );
 }
 
 bool basecamp::is_hidden( ui_mission_id id )

@@ -185,8 +185,6 @@ static const std::string cook_recipe_group_string = "COOK";
 static const std::string farm_recipe_group_string = "FARM";
 static const std::string smith_recipe_group_string = "SMITH";
 
-static const std::string emergency_recall_string = _( "Emergency Recall" );
-
 struct mass_volume {
     units::mass wgt = 0_gram;
     units::volume vol = 0_ml;
@@ -1470,7 +1468,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                   "Companions must be on missions for at least 24 hours before "
                                   "emergency recall becomes available." ) );
         bool avail = update_emergency_recall( entry, camp_workers, 24_hours );
-        mission_key.add_return( miss_id, emergency_recall_string,
+        mission_key.add_return( miss_id, _( "Emergency Recall" ),
                                 entry, avail );
     }
 
