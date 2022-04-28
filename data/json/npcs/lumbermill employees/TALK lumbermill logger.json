@@ -1,0 +1,58 @@
+[
+{
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER",
+    "dynamic_line":
+    {
+      "npc_has_var": "talked_to_logger",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you <name_g>.",
+      "no": "Who are you?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      { 
+        "text": "Nice to meet you.", 
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO", 
+        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hands up <name_b>!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }, 
+        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      { 
+        "text": "Pleasure to see you again.", 
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO", 
+        "condition": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+{
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
+    "dynamic_line": "Do you need something?",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_STORY" },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+{
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_STORY",
+    "dynamic_line": "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job, and had to hole up here with my coworkers.  Good news is we all came out fine, so the boss decided to keep the mill running.  I don't know how much longer we can last, though; till' we get some customers.",
+    "responses": [
+      { "text": "Hope it goes well.", "topic": "TALK_NONE" }
+    ]
+  }
+]
