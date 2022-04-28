@@ -94,7 +94,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wild_garlic",
-    "name": { "str": "wild garlic" },
+    "name": { "str_sp": "wild garlic" },
     "weight": "30 g",
     "price": 100,
     "price_postapoc": 50,

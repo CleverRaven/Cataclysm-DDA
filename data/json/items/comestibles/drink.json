@@ -96,7 +96,6 @@
     "fatigue_mod": 5,
     "quench": 30,
     "healthy": 1,
-    "calories": 4,
     "description": "Some wild sarsaparilla root steeped in boiling water.  Energizing.",
     "price": 100,
     "price_postapoc": 25,
