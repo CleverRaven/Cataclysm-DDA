@@ -1251,7 +1251,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
               !hidden_missions[size_t( base_camps::all_directions.at( dir ).tab_order )].empty() ) ) {
             {
                 const mission_id miss_id = { Camp_Hide_Mission, "", dir };
-                entry = string_format( _( "Hide a mission to unclutter the UI." ) );
+                entry = string_format( _( "Hide a mission to clean up the UI." ) );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                                  entry );
             }
@@ -1512,7 +1512,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             break;
 
         case Camp_Reveal_Mission:
-            handle_unhide_mission( miss_id.id.dir.value() );
+            handle_reveal_mission( miss_id.id.dir.value() );
             break;
 
         case Camp_Assign_Jobs:
@@ -5113,7 +5113,7 @@ std::string basecamp::name_display_of( const mission_id miss_id )
     }
 }
 
-void basecamp::handle_unhide_mission( const point &dir )
+void basecamp::handle_reveal_mission( const point &dir )
 {
     if( hidden_missions.empty() ) { //  Should never happen
         return;
@@ -5127,7 +5127,7 @@ void basecamp::handle_unhide_mission( const point &dir )
         pos_names.push_back( name_display_of( id.id ) );
     }
 
-    choice = uilist( _( "Select mission to unhide" ), pos_names );
+    choice = uilist( _( "Select mission to reveal" ), pos_names );
 
     if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
         popup( _( "You choose to wait…" ) );

@@ -217,7 +217,7 @@ class basecamp
         bool distribute_food();
         std::string name_display_of( const mission_id miss_id );
         void handle_hide_mission( const point &dir );
-        void handle_unhide_mission( const point &dir );
+        void handle_reveal_mission( const point &dir );
         bool has_water();
 
         // recipes, gathering, and craft support functions
