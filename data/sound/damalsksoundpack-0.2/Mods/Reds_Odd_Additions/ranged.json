@@ -1,0 +1,33 @@
+[
+   {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hel_staff",
+        "files" : [
+            "Mods/Reds_Odd_Additions/hel_staff.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hel_staff",
+        "files" : [
+            "Mods/Reds_Odd_Additions/hel_staff.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "hel_staff",
+        "files" : [
+            "Mods/Reds_Odd_Additions/essence_1.ogg",
+			"Mods/Reds_Odd_Additions/essence_2.ogg",
+			"Mods/Reds_Odd_Additions/essence_3.ogg",
+			"Mods/Reds_Odd_Additions/essence_4.ogg",
+			"Mods/Reds_Odd_Additions/essence_5.ogg"
+        ]
+    }
+]

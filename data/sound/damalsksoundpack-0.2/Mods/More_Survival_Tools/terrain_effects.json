@@ -1,0 +1,218 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_leanto",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/hit_wooden_1.ogg",
+			"terrain/wood/hit_wooden_2.ogg",
+			"terrain/wood/hit_wooden_3.ogg",
+			"terrain/wood/hit_wooden_4.ogg",
+			"terrain/wood/hit_wooden_5.ogg",
+			"terrain/wood/hit_wooden_6.ogg",
+			"terrain/wood/hit_wooden_7.ogg",
+			"terrain/wood/hit_wooden_8.ogg",
+			"terrain/wood/hit_wooden_9.ogg",
+			"terrain/wood/hit_wooden_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_leanto",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/smash_wooden_1.ogg",
+			"terrain/wood/smash_wooden_2.ogg",
+			"terrain/wood/smash_wooden_3.ogg",
+			"terrain/wood/smash_wooden_4.ogg",
+			"terrain/wood/smash_wooden_5.ogg",
+			"terrain/wood/smash_wooden_6.ogg",
+			"terrain/wood/smash_wooden_7.ogg",
+			"terrain/wood/smash_wooden_8.ogg",
+			"terrain/wood/smash_wooden_9.ogg",
+			"terrain/wood/smash_wooden_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_tarptent",
+        "volume" : 100,
+        "files" : [
+            "terrain/plastic/hit_plastic_1.ogg",
+			"terrain/plastic/hit_plastic_2.ogg",
+			"terrain/plastic/hit_plastic_3.ogg",
+			"terrain/plastic/hit_plastic_4.ogg",
+			"terrain/plastic/hit_plastic_5.ogg",
+			"terrain/plastic/hit_plastic_6.ogg",
+			"terrain/plastic/hit_plastic_7.ogg",
+			"terrain/plastic/hit_plastic_8.ogg",
+			"terrain/plastic/hit_plastic_9.ogg",
+			"terrain/plastic/hit_plastic_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_tarptent",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/crash_wooden_1.ogg",
+			"terrain/wood/crash_wooden_2.ogg",
+			"terrain/wood/crash_wooden_3.ogg",
+			"terrain/wood/crash_wooden_4.ogg",
+			"terrain/wood/crash_wooden_5.ogg",
+			"terrain/wood/crash_wooden_6.ogg",
+			"terrain/wood/crash_wooden_7.ogg",
+			"terrain/wood/crash_wooden_8.ogg",
+			"terrain/wood/crash_wooden_9.ogg",
+			"terrain/wood/crash_wooden_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_wall_wattle_half",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/hit_wooden_1.ogg",
+			"terrain/wood/hit_wooden_2.ogg",
+			"terrain/wood/hit_wooden_3.ogg",
+			"terrain/wood/hit_wooden_4.ogg",
+			"terrain/wood/hit_wooden_5.ogg",
+			"terrain/wood/hit_wooden_6.ogg",
+			"terrain/wood/hit_wooden_7.ogg",
+			"terrain/wood/hit_wooden_8.ogg",
+			"terrain/wood/hit_wooden_9.ogg",
+			"terrain/wood/hit_wooden_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_wall_wattle_half",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/crash_wooden_1.ogg",
+			"terrain/wood/crash_wooden_2.ogg",
+			"terrain/wood/crash_wooden_3.ogg",
+			"terrain/wood/crash_wooden_4.ogg",
+			"terrain/wood/crash_wooden_5.ogg",
+			"terrain/wood/crash_wooden_6.ogg",
+			"terrain/wood/crash_wooden_7.ogg",
+			"terrain/wood/crash_wooden_8.ogg",
+			"terrain/wood/crash_wooden_9.ogg",
+			"terrain/wood/crash_wooden_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_wall_wattle",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/hit_wooden_1.ogg",
+			"terrain/wood/hit_wooden_2.ogg",
+			"terrain/wood/hit_wooden_3.ogg",
+			"terrain/wood/hit_wooden_4.ogg",
+			"terrain/wood/hit_wooden_5.ogg",
+			"terrain/wood/hit_wooden_6.ogg",
+			"terrain/wood/hit_wooden_7.ogg",
+			"terrain/wood/hit_wooden_8.ogg",
+			"terrain/wood/hit_wooden_9.ogg",
+			"terrain/wood/hit_wooden_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_wall_wattle",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/crash_wooden_1.ogg",
+			"terrain/wood/crash_wooden_2.ogg",
+			"terrain/wood/crash_wooden_3.ogg",
+			"terrain/wood/crash_wooden_4.ogg",
+			"terrain/wood/crash_wooden_5.ogg",
+			"terrain/wood/crash_wooden_6.ogg",
+			"terrain/wood/crash_wooden_7.ogg",
+			"terrain/wood/crash_wooden_8.ogg",
+			"terrain/wood/crash_wooden_9.ogg",
+			"terrain/wood/crash_wooden_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_wall_wattle_broken",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/hit_wooden_1.ogg",
+			"terrain/wood/hit_wooden_2.ogg",
+			"terrain/wood/hit_wooden_3.ogg",
+			"terrain/wood/hit_wooden_4.ogg",
+			"terrain/wood/hit_wooden_5.ogg",
+			"terrain/wood/hit_wooden_6.ogg",
+			"terrain/wood/hit_wooden_7.ogg",
+			"terrain/wood/hit_wooden_8.ogg",
+			"terrain/wood/hit_wooden_9.ogg",
+			"terrain/wood/hit_wooden_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_wall_wattle_broken",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/smash_wooden_1.ogg",
+			"terrain/wood/smash_wooden_2.ogg",
+			"terrain/wood/smash_wooden_3.ogg",
+			"terrain/wood/smash_wooden_4.ogg",
+			"terrain/wood/smash_wooden_5.ogg",
+			"terrain/wood/smash_wooden_6.ogg",
+			"terrain/wood/smash_wooden_7.ogg",
+			"terrain/wood/smash_wooden_8.ogg",
+			"terrain/wood/smash_wooden_9.ogg",
+			"terrain/wood/smash_wooden_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_raincatcher",
+        "volume" : 100,
+        "files" : [
+            "terrain/plastic/hit_plastic_1.ogg",
+			"terrain/plastic/hit_plastic_2.ogg",
+			"terrain/plastic/hit_plastic_3.ogg",
+			"terrain/plastic/hit_plastic_4.ogg",
+			"terrain/plastic/hit_plastic_5.ogg",
+			"terrain/plastic/hit_plastic_6.ogg",
+			"terrain/plastic/hit_plastic_7.ogg",
+			"terrain/plastic/hit_plastic_8.ogg",
+			"terrain/plastic/hit_plastic_9.ogg",
+			"terrain/plastic/hit_plastic_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_raincatcher",
+        "volume" : 100,
+        "files" : [
+            "terrain/wood/crash_wooden_1.ogg",
+			"terrain/wood/crash_wooden_2.ogg",
+			"terrain/wood/crash_wooden_3.ogg",
+			"terrain/wood/crash_wooden_4.ogg",
+			"terrain/wood/crash_wooden_5.ogg",
+			"terrain/wood/crash_wooden_6.ogg",
+			"terrain/wood/crash_wooden_7.ogg",
+			"terrain/wood/crash_wooden_8.ogg",
+			"terrain/wood/crash_wooden_9.ogg",
+			"terrain/wood/crash_wooden_10.ogg"
+        ]
+    }
+]

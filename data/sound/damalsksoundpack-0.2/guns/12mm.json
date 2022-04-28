@@ -1,0 +1,29 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hk_g80",
+        "files" : [
+            "guns/12mm/12mm.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "hk_g80",
+        "files" : [
+            "guns/12mm/12mm.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "hk_g80",
+        "files" : [
+             "guns/reload/eweapons/12mm.ogg"
+        ]
+    }
+]

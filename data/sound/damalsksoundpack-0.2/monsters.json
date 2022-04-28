@@ -1,0 +1,66 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "mon_death",
+        "variant" : "zombie_death",
+        "volume" : 50,
+        "files" : [
+            "monster/zombie_death_1.ogg",
+            "monster/zombie_death_2.ogg",
+            "monster/zombie_death_3.ogg",
+            "monster/zombie_death_4.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "mon_bite",
+        "variant" : "bite_miss",
+        "volume" : 50,
+        "files" : [
+            "monster/bite_miss_1.ogg",
+            "monster/bite_miss_2.ogg",
+            "monster/bite_miss_3.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "mon_bite",
+        "variant" : "bite_hit",
+        "volume" : 60,
+        "files" : [
+            "monster/bite_hit_1.ogg",
+            "monster/bite_hit_2.ogg",
+            "monster/bite_hit_3.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "mon_death",
+        "variant" : "zombie_gibbed",
+        "volume" : 80,
+        "files" : [
+            "monster/gibbed_1.ogg",
+			"monster/gibbed_2.ogg",
+			"monster/gibbed_3.ogg",
+			"monster/gibbed_4.ogg",
+			"monster/gibbed_5.ogg",
+			"monster/gibbed_6.ogg",
+			"monster/gibbed_7.ogg",
+			"monster/gibbed_8.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "melee_attack",
+        "variant" : "monster_melee_hit",
+        "volume" : 70,
+        "files" : [
+            "monster/hit_1.ogg",
+			"monster/hit_2.ogg",
+			"monster/hit_3.ogg",
+			"monster/hit_4.ogg",
+			"monster/hit_5.ogg",
+			"monster/hit_6.ogg"
+        ]
+    }
+]

@@ -1,0 +1,257 @@
+[
+   {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "30mm_autocannon",
+        "files" : [
+           "mods/Tanks/30mm_1.ogg",
+		   "mods/Tanks/30mm_2.ogg",
+		   "mods/Tanks/30mm_3.ogg",
+		   "mods/Tanks/30mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "30mm_autocannon",
+        "files" : [
+           "mods/Tanks/30mm_1.ogg",
+		   "mods/Tanks/30mm_2.ogg",
+		   "mods/Tanks/30mm_3.ogg",
+		   "mods/Tanks/30mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "30mm_autocannon",
+        "files" : [
+            "guns/reload/mg/mgk_1.ogg",
+			"guns/reload/mg/mgk_2.ogg",
+			"guns/reload/mg/mgk_3.ogg",
+			"guns/reload/mg/mgk_4.ogg",
+			"guns/reload/mg/mgk_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "tank_gun_manual",
+        "files" : [
+           "guns/others/120mm_1.ogg",
+		   "guns/others/120mm_2.ogg",
+		   "guns/others/120mm_3.ogg",
+		   "guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "tank_gun_manual",
+        "files" : [
+            "guns/others/120mm_1.ogg",
+			"guns/others/120mm_2.ogg",
+			"guns/others/120mm_3.ogg",
+			"guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "tank_gun_manual",
+        "files" : [
+            "guns/reload/mg/mgk_1.ogg",
+			"guns/reload/mg/mgk_2.ogg",
+			"guns/reload/mg/mgk_3.ogg",
+			"guns/reload/mg/mgk_4.ogg",
+			"guns/reload/mg/mgk_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "tank_gun_auto",
+        "files" : [
+            "guns/others/120mm_1.ogg",
+			"guns/others/120mm_2.ogg",
+			"guns/others/120mm_3.ogg",
+			"guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "tank_gun_auto",
+        "files" : [
+            "guns/others/120mm_1.ogg",
+			"guns/others/120mm_2.ogg",
+			"guns/others/120mm_3.ogg",
+			"guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "tank_gun_auto",
+        "files" : [
+            "guns/reload/mg/mgk_1.ogg",
+			"guns/reload/mg/mgk_2.ogg",
+			"guns/reload/mg/mgk_3.ogg",
+			"guns/reload/mg/mgk_4.ogg",
+			"guns/reload/mg/mgk_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "tank_gun_rws",
+        "files" : [
+            "guns/others/120mm_1.ogg",
+			"guns/others/120mm_2.ogg",
+			"guns/others/120mm_3.ogg",
+			"guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "tank_gun_rws",
+        "files" : [
+            "guns/others/120mm_1.ogg",
+			"guns/others/120mm_2.ogg",
+			"guns/others/120mm_3.ogg",
+			"guns/others/120mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "tank_gun_rws",
+        "files" : [
+            "guns/reload/mg/mgk_1.ogg",
+			"guns/reload/mg/mgk_2.ogg",
+			"guns/reload/mg/mgk_3.ogg",
+			"guns/reload/mg/mgk_4.ogg",
+			"guns/reload/mg/mgk_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "howitzer_gun",
+        "files" : [
+           "mods/Tanks/155mm_1.ogg",
+		   "mods/Tanks/155mm_2.ogg",
+		   "mods/Tanks/155mm_3.ogg",
+		   "mods/Tanks/155mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "howitzer_gun",
+        "files" : [
+           "mods/Tanks/155mm_1.ogg",
+		   "mods/Tanks/155mm_2.ogg",
+		   "mods/Tanks/155mm_3.ogg",
+		   "mods/Tanks/155mm_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "howitzer_gun",
+        "files" : [
+            "guns/reload/mg/mgk_1.ogg",
+			"guns/reload/mg/mgk_2.ogg",
+			"guns/reload/mg/mgk_3.ogg",
+			"guns/reload/mg/mgk_4.ogg",
+			"guns/reload/mg/mgk_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "atgm_launcher",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "atgm_launcher",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "atgm_launcher",
+        "files" : [
+            "guns/reload/launcher/rocket.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "atgm_turret",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "atgm_turret",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "atgm_turret",
+        "files" : [
+            "guns/reload/launcher/rocket.ogg"
+        ]
+    }
+]

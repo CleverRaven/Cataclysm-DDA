@@ -1,0 +1,68 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "heavy_rail_rifle",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "heavy_rail_rifle",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "heavy_rail_rifle",
+        "files" : [
+            "guns/reload/rail/rail_1.ogg",
+			"guns/reload/rail/rail_2.ogg",
+			"guns/reload/rail/rail_3.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "rebar_rifle",
+        "files" : [
+            "guns/eweapons/rebar_rifle_1.ogg",
+			"guns/eweapons/rebar_rifle_2.ogg",
+			"guns/eweapons/rebar_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "rebar_rifle",
+        "files" : [
+            "guns/eweapons/rebar_rifle_1.ogg",
+			"guns/eweapons/rebar_rifle_2.ogg",
+			"guns/eweapons/rebar_rifle_3.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "rebar_rifle",
+        "files" : [
+            "guns/reload/rail/rail_1.ogg",
+			"guns/reload/rail/rail_2.ogg",
+			"guns/reload/rail/rail_3.ogg"
+        ]
+    }
+]

@@ -1,0 +1,37 @@
+[
+   {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "trex_gun",
+        "files" : [
+            "guns/700nx/700nx_1.ogg",
+			"guns/700nx/700nx_1.ogg",
+			"guns/700nx/700nx_1.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "trex_gun",
+        "files" : [
+            "guns/700nx/700nx_1.ogg",
+			"guns/700nx/700nx_1.ogg",
+			"guns/700nx/700nx_1.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "trex_gun",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    }
+]

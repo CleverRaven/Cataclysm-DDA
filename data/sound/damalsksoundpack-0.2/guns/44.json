@@ -1,0 +1,187 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "deagle_44",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "deagle_44",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "deagle_44",
+        "files" : [
+            "guns/reload/pistol_h/pistol_1.ogg",
+			"guns/reload/pistol_h/pistol_2.ogg",
+			"guns/reload/pistol_h/pistol_3.ogg",
+			"guns/reload/pistol_h/pistol_4.ogg",
+			"guns/reload/pistol_h/pistol_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "henry_big_boy",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "henry_big_boy",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "henry_big_boy",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "lemat_revolver",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "lemat_revolver",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "lemat_revolver",
+        "files" : [
+            "guns/reload/revolver/revolver_1.ogg",
+			"guns/reload/revolver/revolver_2.ogg",
+			"guns/reload/revolver/revolver_3.ogg",
+			"guns/reload/revolver/revolver_4.ogg",
+			"guns/reload/revolver/revolver_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ruger_redhawk",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "ruger_redhawk",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ruger_redhawk",
+        "files" : [
+            "guns/reload/revolver/revolver_1.ogg",
+			"guns/reload/revolver/revolver_2.ogg",
+			"guns/reload/revolver/revolver_3.ogg",
+			"guns/reload/revolver/revolver_4.ogg",
+			"guns/reload/revolver/revolver_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "sw629",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "sw629",
+        "files" : [
+            "guns/44/44_1.ogg",
+			"guns/44/44_2.ogg",
+			"guns/44/44_3.ogg",
+			"guns/44/44_4.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "sw629",
+        "files" : [
+            "guns/reload/revolver/revolver_1.ogg",
+			"guns/reload/revolver/revolver_2.ogg",
+			"guns/reload/revolver/revolver_3.ogg",
+			"guns/reload/revolver/revolver_4.ogg",
+			"guns/reload/revolver/revolver_5.ogg"
+        ]
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "ichaival_replica",
+        "files" : [
+            "guns/archery/archery_1.ogg",
+			"guns/archery/archery_2.ogg",
+			"guns/archery/archery_3.ogg",
+			"guns/archery/archery_4.ogg",
+			"guns/archery/archery_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 90,
+        "variant" : "ichaival_replica",
+        "files" : [
+            "guns/archery/archery_1.ogg",
+			"guns/archery/archery_2.ogg",
+			"guns/archery/archery_3.ogg",
+			"guns/archery/archery_4.ogg",
+			"guns/archery/archery_5.ogg"
+        ]
+    }
+]

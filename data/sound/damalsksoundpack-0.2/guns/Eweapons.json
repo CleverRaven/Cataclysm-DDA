@@ -1,0 +1,94 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "unbio_chain_lightning",
+        "files" : [
+            "guns/eweapons/bio_lightning_1.ogg",
+			"guns/eweapons/bio_lightning_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 90,
+        "variant" : "unbio_chain_lightning",
+        "files" : [
+            "guns/eweapons/bio_lightning_1.ogg",
+			"guns/eweapons/bio_lightning_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "plasma_rifle",
+        "files" : [
+             "guns/eweapons/plasma_rifle.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 90,
+        "variant" : "plasma_rifle",
+        "files" : [
+             "guns/eweapons/plasma_rifle.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "plasma_rifle",
+        "files" : [
+            "guns/reload/eweapons/plasma_rifle.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "ftk93",
+        "files" : [
+             "guns/eweapons/ftk93.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 90,
+        "variant" : "ftk93",
+        "files" : [
+             "guns/eweapons/ftk93.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ftk93",
+        "files" : [
+            "guns/reload/eweapons/ftk93.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "cerberus_laser",
+        "files" : [
+            "guns/eweapons/laser_cannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 90,
+        "variant" : "cerberus_laser",
+        "files" : [
+            "guns/eweapons/laser_cannon.ogg"
+        ]
+    }
+]

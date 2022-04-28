@@ -1,0 +1,18 @@
+[
+	{
+        "type": "sound_effect",
+        "id" : "menu_move",
+        "volume" : 100,
+        "files" : [
+            "menu/menu_move.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "menu_error",
+        "volume" : 100,
+        "files" : [
+            "menu/menu_error.wav"
+        ]
+    }
+]

@@ -1,0 +1,158 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "carbine_flintlock",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "carbine_flintlock",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "carbine_flintlock",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "carbine_flintlock_double",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "carbine_flintlock_double",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "carbine_flintlock_double",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "pistol_flintlock",
+        "files" : [
+            "guns/flintlock/pistol_1.ogg",
+			"guns/flintlock/pistol_2.ogg",
+			"guns/flintlock/pistol_3.ogg",
+			"guns/flintlock/pistol_4.ogg",
+			"guns/flintlock/pistol_5.ogg"
+        ]
+    },
+	 {
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "pistol_flintlock",
+        "files" : [
+            "guns/flintlock/pistol_1.ogg",
+			"guns/flintlock/pistol_2.ogg",
+			"guns/flintlock/pistol_3.ogg",
+			"guns/flintlock/pistol_4.ogg",
+			"guns/flintlock/pistol_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "pistol_flintlock",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "rifle_flintlock",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "rifle_flintlock",
+        "files" : [
+            "guns/flintlock/flintlock_1.ogg",
+			"guns/flintlock/flintlock_2.ogg",
+			"guns/flintlock/flintlock_3.ogg",
+			"guns/flintlock/flintlock_4.ogg",
+			"guns/flintlock/flintlock_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "rifle_flintlock",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    }
+]

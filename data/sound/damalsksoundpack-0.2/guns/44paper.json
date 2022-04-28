@@ -1,0 +1,41 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "colt_army",
+        "files" : [
+            "guns/44paper/44paper_1.ogg",
+			"guns/44paper/44paper_2.ogg",
+			"guns/44paper/44paper_3.ogg",
+			"guns/44paper/44paper_4.ogg",
+			"guns/44paper/44paper_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "colt_army",
+        "files" : [
+            "guns/44paper/44paper_1.ogg",
+			"guns/44paper/44paper_2.ogg",
+			"guns/44paper/44paper_3.ogg",
+			"guns/44paper/44paper_4.ogg",
+			"guns/44paper/44paper_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "colt_army",
+        "files" : [
+            "guns/reload/revolver/revolver_1.ogg",
+			"guns/reload/revolver/revolver_2.ogg",
+			"guns/reload/revolver/revolver_3.ogg",
+			"guns/reload/revolver/revolver_4.ogg",
+			"guns/reload/revolver/revolver_5.ogg"
+        ]
+    }
+]

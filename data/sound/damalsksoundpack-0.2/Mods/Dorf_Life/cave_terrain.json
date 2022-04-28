@@ -1,0 +1,398 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_cave_moss",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_cave_moss",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_helmet_plump",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_helmet_plump",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_helmet_plump_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_helmet_plump_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_pod_sweet",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_pod_sweet",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_pod_sweet_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_pod_sweet_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_wheat_cave",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_wheat_cave",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_wheat_cave_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_wheat_cave_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_tails_pig",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_tails_pig",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_tails_pig_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_tails_pig_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_bush_quarry",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_bush_quarry",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "t_shrub_bush_quarry_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "t_shrub_bush_quarry_harvested",
+        "volume" : 100,
+        "files" : [
+            "terrain/tree/hit_grass_1.ogg",
+			"terrain/tree/hit_grass_2.ogg",
+			"terrain/tree/hit_grass_3.ogg",
+			"terrain/tree/hit_grass_4.ogg",
+			"terrain/tree/hit_grass_5.ogg",
+			"terrain/tree/hit_grass_6.ogg",
+			"terrain/tree/hit_grass_7.ogg",
+			"terrain/tree/hit_grass_8.ogg",
+			"terrain/tree/hit_grass_9.ogg",
+			"terrain/tree/hit_grass_10.ogg"
+        ]
+    }
+]

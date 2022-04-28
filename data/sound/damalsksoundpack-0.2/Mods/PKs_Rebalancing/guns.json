@@ -1,0 +1,623 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_laser_napalm",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_laser_napalm",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_laser_gun_queen",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_laser_gun_queen",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_laser_gun",
+        "files" : [
+            "guns/eweapons/laser_cannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_laser_gun",
+        "files" : [
+            "guns/eweapons/laser_cannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_launcher",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_launcher",
+        "files" : [
+            "guns/others/Rocket_1.ogg",
+			"guns/others/Rocket_2.ogg",
+			"guns/others/Rocket_3.ogg",
+			"guns/others/Rocket_4.ogg",
+			"guns/others/Rocket_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_plasma",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/hell_plasma.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_plasma",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/hell_plasma.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hell_ball",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/hell_ball_1.ogg",
+			"Mods/PKs_Rebalancing/guns/hell_ball_2.ogg",
+			"Mods/PKs_Rebalancing/guns/hell_ball_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hell_ball",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/hell_ball_1.ogg",
+			"Mods/PKs_Rebalancing/guns/hell_ball_2.ogg",
+			"Mods/PKs_Rebalancing/guns/hell_ball_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_chickenbot",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_chickenbot",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_single",
+        "files" : [
+            "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_single",
+        "files" : [
+            "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_launcher_single",
+        "files" : [
+		    "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+            
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_double",
+        "files" : [
+		    "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+            
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_double",
+        "files" : [
+		    "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+            
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_launcher_double",
+        "files" : [
+            "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_rotary",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_rotary",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_rotary_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_launcher_rotary",
+        "files" : [
+            "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_dualshot",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_dualshot",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_launcher_dualshot",
+        "files" : [
+            "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_launcher_brute",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_launcher_brute",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_1.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_2.ogg",
+			"Mods/PKs_Rebalancing/guns/bomblet_launcher_brute_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_launcher_brute",
+        "files" : [
+            "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bomblet_undermod",
+        "files" : [
+            "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bomblet_undermod",
+        "files" : [
+            "guns/40mm/40mm_1.ogg",
+			"guns/40mm/40mm_2.ogg",
+			"guns/40mm/40mm_3.ogg",
+			"guns/40mm/40mm_4.ogg",
+			"guns/40mm/40mm_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bomblet_undermod",
+        "files" : [
+            "guns/reload/launcher/launcher_1.ogg",
+			"guns/reload/launcher/launcher_2.ogg",
+			"guns/reload/launcher/launcher_3.ogg",
+			"guns/reload/launcher/launcher_4.ogg",
+			"guns/reload/launcher/launcher_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "shockcannon",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "shockcannon",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "shockcannon",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon_reload.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "shockcannon_ups",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "shockcannon_ups",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "shockcannon_plut",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "shockcannon_plut",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "shockcannon_plut",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/shockcannon_reload.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "410_lever",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/410_1.ogg",
+			"Mods/PKs_Rebalancing/guns/410_2.ogg",
+			"Mods/PKs_Rebalancing/guns/410_3.ogg",
+			"Mods/PKs_Rebalancing/guns/410_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "410_lever",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/410_1.ogg",
+			"Mods/PKs_Rebalancing/guns/410_2.ogg",
+			"Mods/PKs_Rebalancing/guns/410_3.ogg",
+			"Mods/PKs_Rebalancing/guns/410_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "410_lever",
+        "files" : [
+            "guns/reload/shotgun/pumpreload1.ogg",
+			"guns/reload/shotgun/pumpreload2.ogg",
+			"guns/reload/shotgun/pumpreload3.ogg",
+			"guns/reload/shotgun/pumpreload4.ogg",
+			"guns/reload/shotgun/pumpreload5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "410_revolver",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/410_1.ogg",
+			"Mods/PKs_Rebalancing/guns/410_2.ogg",
+			"Mods/PKs_Rebalancing/guns/410_3.ogg",
+			"Mods/PKs_Rebalancing/guns/410_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "410_revolver",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/410_1.ogg",
+			"Mods/PKs_Rebalancing/guns/410_2.ogg",
+			"Mods/PKs_Rebalancing/guns/410_3.ogg",
+			"Mods/PKs_Rebalancing/guns/410_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "410_revolver",
+        "files" : [
+            "guns/reload/shotgun/pumpreload1.ogg",
+			"guns/reload/shotgun/pumpreload2.ogg",
+			"guns/reload/shotgun/pumpreload3.ogg",
+			"guns/reload/shotgun/pumpreload4.ogg",
+			"guns/reload/shotgun/pumpreload5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ithaca_doom",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/ithaca_doom_1.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_2.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_3.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "ithaca_doom",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/ithaca_doom_1.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_2.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_3.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_4.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ithaca_doom",
+        "files" : [
+            "guns/reload/shotgun/pumpreload1.ogg",
+			"guns/reload/shotgun/pumpreload2.ogg",
+			"guns/reload/shotgun/pumpreload3.ogg",
+			"guns/reload/shotgun/pumpreload4.ogg",
+			"guns/reload/shotgun/pumpreload5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ithaca_doom_dual",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/ithaca_doom_dual_1.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_dual_2.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_dual_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "ithaca_doom_dual",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/ithaca_doom_dual_1.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_dual_2.ogg",
+			"Mods/PKs_Rebalancing/guns/ithaca_doom_dual_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ithaca_doom_dual",
+        "files" : [
+            "guns/reload/shotgun/pumpreload1.ogg",
+			"guns/reload/shotgun/pumpreload2.ogg",
+			"guns/reload/shotgun/pumpreload3.ogg",
+			"guns/reload/shotgun/pumpreload4.ogg",
+			"guns/reload/shotgun/pumpreload5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "BFG",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/BFG.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "BFG",
+        "files" : [
+            "Mods/PKs_Rebalancing/guns/BFG.ogg"
+        ]
+    },
+	{
+
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "BFG",
+        "files" : [
+            "guns/reload/eweapons/ftk93.ogg"
+        ]
+    }
+]

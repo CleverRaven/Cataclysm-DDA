@@ -1,0 +1,228 @@
+[ 
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "vortexrifle",
+        "files" : [
+           "guns/others/tihar_1.ogg",
+		   "guns/others/tihar_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "vortexrifle",
+        "files" : [
+            "guns/others/tihar_1.ogg",
+			"guns/others/tihar_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "vortexrifle",
+        "files" : [
+            "guns/crossbows/hellsing_reload.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "vortexcannon",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "vortexcannon",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "vortexcannon",
+        "files" : [
+            "guns/reload/rail/rail_1.ogg",
+			"guns/reload/rail/rail_2.ogg",
+			"guns/reload/rail/rail_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "vortexbolter",
+        "files" : [
+            "guns/crossbows/hellsing_1.ogg",
+			"guns/crossbows/hellsing_2.ogg",
+			"guns/crossbows/hellsing_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "vortexbolter",
+        "files" : [
+            "guns/crossbows/hellsing_1.ogg",
+			"guns/crossbows/hellsing_2.ogg",
+			"guns/crossbows/hellsing_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "vortexbolter",
+        "files" : [
+            "guns/crossbows/hellsing_reload.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "vortexaccelerator",
+        "files" : [
+           "guns/others/tihar_1.ogg",
+		   "guns/others/tihar_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "vortexaccelerator",
+        "files" : [
+           "guns/others/tihar_1.ogg",
+		   "guns/others/tihar_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "vortexaccelerator",
+        "files" : [
+            "guns/crossbows/hellsing_reload.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "diamondnova",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "diamondnova",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "diamondnova",
+        "files" : [
+            "guns/crossbows/hellsing_reload.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "diamondlance",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "diamondlance",
+        "files" : [
+            "guns/eweapons/heavy_rail_rifle_1.ogg",
+			"guns/eweapons/heavy_rail_rifle_2.ogg",
+			"guns/eweapons/heavy_rail_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "diamondlance",
+        "files" : [
+            "guns/crossbows/hellsing_reload.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "dprism",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "dprism",
+        "files" : [
+           "guns/eweapons/bio_lightning_1.ogg",
+		   "guns/eweapons/bio_lightning_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "dobelisk",
+        "files" : [
+            "guns/eweapons/laser_rifle_1.ogg",
+			"guns/eweapons/laser_rifle_2.ogg",
+			"guns/eweapons/laser_rifle_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "dobelisk",
+        "files" : [
+           "guns/eweapons/bio_lightning_1.ogg",
+		   "guns/eweapons/bio_lightning_2.ogg"
+        ]
+    }
+]

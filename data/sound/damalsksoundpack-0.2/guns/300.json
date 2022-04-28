@@ -1,0 +1,119 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "m2010",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "m2010",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "m2010",
+        "files" : [
+            "guns/reload/rifle_h/rifle_1.ogg",
+			"guns/reload/rifle_h/rifle_2.ogg",
+			"guns/reload/rifle_h/rifle_3.ogg",
+			"guns/reload/rifle_h/rifle_4.ogg",
+			"guns/reload/rifle_h/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "weatherby_5",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "weatherby_5",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "weatherby_5",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "win70",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "win70",
+        "files" : [
+            "guns/300/300_1.ogg",
+			"guns/300/300_2.ogg",
+			"guns/300/300_3.ogg",
+			"guns/300/300_4.ogg",
+			"guns/300/300_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "win70",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    }
+]

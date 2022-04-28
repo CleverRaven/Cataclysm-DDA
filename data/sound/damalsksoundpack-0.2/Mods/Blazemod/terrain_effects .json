@@ -1,0 +1,54 @@
+[
+  {
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "blob_pit",
+        "volume" : 100,
+        "files" : [
+            "terrain/other/smash_flesh_1.ogg",
+			"terrain/other/smash_flesh_2.ogg",
+			"terrain/other/smash_flesh_3.ogg",
+			"terrain/other/smash_flesh_4.ogg",
+			"terrain/other/smash_flesh_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" :  "blob_pit",
+        "volume" : 100,
+        "files" : [
+            "terrain/other/hit_flesh_1.ogg",
+			"terrain/other/hit_flesh_2.ogg",
+			"terrain/other/hit_flesh_3.ogg",
+			"terrain/other/hit_flesh_4.ogg",
+			"terrain/other/hit_flesh_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "smash_success",
+        "variant" : "blob_pit_slime",
+        "volume" : 100,
+        "files" : [
+            "terrain/other/smash_flesh_1.ogg",
+			"terrain/other/smash_flesh_2.ogg",
+			"terrain/other/smash_flesh_3.ogg",
+			"terrain/other/smash_flesh_4.ogg",
+			"terrain/other/smash_flesh_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "smash_fail",
+        "variant" : "blob_pit_slime",
+        "volume" : 100,
+        "files" : [
+            "terrain/other/hit_flesh_1.ogg",
+			"terrain/other/hit_flesh_2.ogg",
+			"terrain/other/hit_flesh_3.ogg",
+			"terrain/other/hit_flesh_4.ogg",
+			"terrain/other/hit_flesh_5.ogg"
+        ]
+    }
+]

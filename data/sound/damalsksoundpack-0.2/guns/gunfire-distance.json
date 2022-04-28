@@ -1,0 +1,16 @@
+
+[
+   {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 20,
+        "variant" : "weapon_fire_suppressed",
+        "files" : [
+            "guns/gunfire-distance/weapon_fire_suppressed_1.ogg",
+			"guns/gunfire-distance/weapon_fire_suppressed_2.ogg",
+			"guns/gunfire-distance/weapon_fire_suppressed_3.ogg",
+			"guns/gunfire-distance/weapon_fire_suppressed_4.ogg",
+			"guns/gunfire-distance/weapon_fire_suppressed_5.ogg"
+        ]
+    }
+]

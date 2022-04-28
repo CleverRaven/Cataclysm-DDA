@@ -1,0 +1,119 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ak47",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "ak47",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ak47",
+        "files" : [
+            "guns/reload/ak/ak_reload_1.ogg",
+			"guns/reload/ak/ak_reload_2.ogg",
+			"guns/reload/ak/ak_reload_3.ogg",
+			"guns/reload/ak/ak_reload_4.ogg",
+			"guns/reload/ak/ak_reload_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "arx160",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "arx160",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "arx160",
+        "files" : [
+            "guns/reload/rifle/rifle_1.ogg",
+			"guns/reload/rifle/rifle_2.ogg",
+			"guns/reload/rifle/rifle_3.ogg",
+			"guns/reload/rifle/rifle_4.ogg",
+			"guns/reload/rifle/rifle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "sks",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "sks",
+        "files" : [
+            "guns/762/762_1.ogg",
+			"guns/762/762_2.ogg",
+			"guns/762/762_3.ogg",
+			"guns/762/762_4.ogg",
+			"guns/762/762_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "sks",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    }
+]

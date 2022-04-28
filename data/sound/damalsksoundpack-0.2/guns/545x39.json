@@ -1,0 +1,80 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "an94",
+        "files" : [
+            "guns/545x39/545x39_1.ogg",
+			"guns/545x39/545x39_2.ogg",
+			"guns/545x39/545x39_3.ogg",
+			"guns/545x39/545x39_4.ogg",
+			"guns/545x39/545x39_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "an94",
+        "files" : [
+            "guns/545x39/545x39_1.ogg",
+			"guns/545x39/545x39_2.ogg",
+			"guns/545x39/545x39_3.ogg",
+			"guns/545x39/545x39_4.ogg",
+			"guns/545x39/545x39_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "an94",
+        "files" : [
+            "guns/reload/ak/ak_reload_1.ogg",
+			"guns/reload/ak/ak_reload_2.ogg",
+			"guns/reload/ak/ak_reload_3.ogg",
+			"guns/reload/ak/ak_reload_4.ogg",
+			"guns/reload/ak/ak_reload_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ak74",
+        "files" : [
+            "guns/545x39/545x39_1.ogg",
+			"guns/545x39/545x39_2.ogg",
+			"guns/545x39/545x39_3.ogg",
+			"guns/545x39/545x39_4.ogg",
+			"guns/545x39/545x39_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "ak74",
+        "files" : [
+            "guns/545x39/545x39_1.ogg",
+			"guns/545x39/545x39_2.ogg",
+			"guns/545x39/545x39_3.ogg",
+			"guns/545x39/545x39_4.ogg",
+			"guns/545x39/545x39_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ak74",
+        "files" : [
+            "guns/reload/ak/ak_reload_1.ogg",
+			"guns/reload/ak/ak_reload_2.ogg",
+			"guns/reload/ak/ak_reload_3.ogg",
+			"guns/reload/ak/ak_reload_4.ogg",
+			"guns/reload/ak/ak_reload_5.ogg"
+        ]
+    }
+]

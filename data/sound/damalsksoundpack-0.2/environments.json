@@ -1,0 +1,164 @@
+[
+	{
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "thunder_far",
+        "volume" : 75,
+        "files" : [
+            "env/ambience_and_weather/thunder_far_1.ogg",
+			"env/ambience_and_weather/thunder_far_2.ogg",
+			"env/ambience_and_weather/thunder_far_3.ogg",
+			"env/ambience_and_weather/thunder_far_4.ogg",
+			"env/ambience_and_weather/thunder_far_5.ogg",
+			"env/ambience_and_weather/thunder_far_6.ogg",
+			"env/ambience_and_weather/thunder_far_7.ogg",
+			"env/ambience_and_weather/thunder_far_8.ogg",
+			"env/ambience_and_weather/thunder_far_9.ogg",
+			"env/ambience_and_weather/thunder_far_10.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "thunder_near",
+        "volume" : 95,
+        "files" : [
+            "env/ambience_and_weather/thunder_near_1.ogg",
+			"env/ambience_and_weather/thunder_near_2.ogg",
+			"env/ambience_and_weather/thunder_near_3.ogg",
+			"env/ambience_and_weather/thunder_near_4.ogg",
+			"env/ambience_and_weather/thunder_near_5.ogg",
+			"env/ambience_and_weather/thunder_near_6.ogg",
+			"env/ambience_and_weather/thunder_near_7.ogg",
+			"env/ambience_and_weather/thunder_near_8.ogg",
+			"env/ambience_and_weather/thunder_near_9.ogg",
+			"env/ambience_and_weather/thunder_near_10.ogg"
+			
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "WEATHER_FLURRIES",
+        "volume" : 70,
+        "files" : [
+            "env/ambience_and_weather/flurries_1.ogg",
+			"env/ambience_and_weather/flurries_2.ogg",
+			"env/ambience_and_weather/flurries_3.ogg",
+			"env/ambience_and_weather/flurries_4.ogg",
+			"env/ambience_and_weather/flurries_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "WEATHER_RAINY",
+        "volume" : 50,
+        "files" : [
+            "env/ambience_and_weather/rain_1.ogg",
+			"env/ambience_and_weather/rain_2.ogg",
+			"env/ambience_and_weather/rain_3.ogg",
+			"env/ambience_and_weather/rain_4.ogg",
+			"env/ambience_and_weather/rain_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "indoors_rain",
+        "volume" : 70,
+        "files" : [
+            "env/ambience_and_weather/indoors_rain_1.ogg",
+			"env/ambience_and_weather/indoors_rain_2.ogg",
+			"env/ambience_and_weather/indoors_rain_3.ogg",
+			"env/ambience_and_weather/indoors_rain_4.ogg",
+			"env/ambience_and_weather/indoors_rain_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "WEATHER_SNOW",
+        "volume" : 70,
+        "files" : [
+            "env/ambience_and_weather/snow_1.ogg",
+			"env/ambience_and_weather/snow_2.ogg",
+			"env/ambience_and_weather/snow_3.ogg",
+			"env/ambience_and_weather/snow_4.ogg",
+			"env/ambience_and_weather/snow_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "WEATHER_THUNDER",
+        "volume" : 50,
+        "files" : [
+            "env/ambience_and_weather/thunderstorm_1.ogg",
+			"env/ambience_and_weather/thunderstorm_2.ogg",
+			"env/ambience_and_weather/thunderstorm_3.ogg",
+			"env/ambience_and_weather/thunderstorm_4.ogg",
+			"env/ambience_and_weather/thunderstorm_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "WEATHER_DRIZZLE",
+        "volume" : 50,
+        "files" : [
+            "env/ambience_and_weather/drizzle_1.ogg",
+			"env/ambience_and_weather/drizzle_2.ogg",
+			"env/ambience_and_weather/drizzle_3.ogg",
+			"env/ambience_and_weather/drizzle_4.ogg",
+			"env/ambience_and_weather/drizzle_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "daytime",
+        "volume" : 85,
+        "files" : [
+            "env/ambience_and_weather/daytime_1.ogg",
+			"env/ambience_and_weather/daytime_2.ogg",
+		    "env/ambience_and_weather/daytime_2.mp3"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "nighttime",
+        "volume" : 85,
+        "files" : [
+            "env/ambience_and_weather/nighttime_1.ogg",
+			"env/ambience_and_weather/nighttime_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "indoors",
+        "volume" : 100,
+        "files" : [
+            "env/ambience_and_weather/indoors_1.ogg",
+			"env/ambience_and_weather/indoors_2.ogg",
+			"env/ambience_and_weather/indoors_3.ogg",
+			"env/ambience_and_weather/indoors_4.ogg",
+			"env/ambience_and_weather/indoors_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "environment",
+        "variant" : "underground",
+        "volume" : 100,
+        "files" : [
+            "env/ambience_and_weather/underground_1.ogg",
+			"env/ambience_and_weather/underground_2.ogg",
+			"env/ambience_and_weather/underground_3.ogg",
+			"env/ambience_and_weather/underground_4.ogg",
+			"env/ambience_and_weather/underground_5.ogg"
+        ]
+    }
+]

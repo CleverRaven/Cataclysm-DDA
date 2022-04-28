@@ -1,0 +1,152 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "flamethrower",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "flamethrower",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "flamethrower",
+        "files" : [
+            "guns/reload/flammable/flammable_1.ogg",
+			"guns/reload/flammable/flammable_2.ogg"
+        ]
+    }, 
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "aux_flamer",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "aux_flamer",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "aux_flamer",
+        "files" : [
+            "guns/reload/flammable/flammable_1.ogg",
+			"guns/reload/flammable/flammable_2.ogg"
+        ]
+    }, 
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "flamethrower_crude",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "flamethrower_crude",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "flamethrower_crude",
+        "files" : [
+            "guns/reload/flammable/flammable_1.ogg",
+			"guns/reload/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "flamethrower_simple",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "flamethrower_simple",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "flamethrower_simple",
+        "files" : [
+            "guns/reload/flammable/flammable_1.ogg",
+			"guns/reload/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "rm451_flamethrower",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "rm451_flamethrower",
+        "files" : [
+            "guns/flammable/flammable_1.ogg",
+			"guns/flammable/flammable_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "rm451_flamethrower",
+        "files" : [
+            "guns/reload/flammable/flammable_1.ogg",
+			"guns/reload/flammable/flammable_2.ogg"
+        ]
+    }
+]

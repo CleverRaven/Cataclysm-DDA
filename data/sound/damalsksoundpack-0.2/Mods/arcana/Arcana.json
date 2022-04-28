@@ -1,0 +1,163 @@
+[ 
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "thunder_sigil",
+        "files" : [
+            "Mods/arcana/thunder_sigil_1.ogg",
+			"Mods/arcana/thunder_sigil_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "thunder_sigil",
+        "files" : [
+            "Mods/arcana/thunder_sigil_1.ogg",
+			"Mods/arcana/thunder_sigil_2.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "thunder_sigil",
+        "files" : [
+            "Mods/arcana/essence_1.ogg",
+			"Mods/arcana/essence_2.ogg",
+			"Mods/arcana/essence_3.ogg",
+			"Mods/arcana/essence_4.ogg",
+			"Mods/arcana/essence_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "bloodscourge",
+        "files" : [
+            "Mods/arcana/bloodscourge.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "bloodscourge",
+        "files" : [
+            "Mods/arcana/bloodscourge.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "bloodscourge",
+        "files" : [
+            "Mods/arcana/essence_1.ogg",
+			"Mods/arcana/essence_2.ogg",
+			"Mods/arcana/essence_3.ogg",
+			"Mods/arcana/essence_4.ogg",
+			"Mods/arcana/essence_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "ethereal_crossbow",
+        "files" : [
+            "Mods/arcana/ethereal_crossbow_1.ogg",
+			"Mods/arcana/ethereal_crossbow_2.ogg",
+			"Mods/arcana/ethereal_crossbow_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "ethereal_crossbow",
+        "files" : [
+            "Mods/arcana/ethereal_crossbow_1.ogg",
+			"Mods/arcana/ethereal_crossbow_2.ogg",
+			"Mods/arcana/ethereal_crossbow_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "ethereal_crossbow",
+        "files" : [
+            "Mods/arcana/essence_1.ogg",
+			"Mods/arcana/essence_2.ogg",
+			"Mods/arcana/essence_3.ogg",
+			"Mods/arcana/essence_4.ogg",
+			"Mods/arcana/essence_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "hand_of_armok",
+        "files" : [
+            "Mods/arcana/hand_of_armok.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "hand_of_armok",
+        "files" : [
+            "Mods/arcana/hand_of_armok.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "hand_of_armok",
+        "files" : [
+            "Mods/arcana/essence_1.ogg",
+			"Mods/arcana/essence_2.ogg",
+			"Mods/arcana/essence_3.ogg",
+			"Mods/arcana/essence_4.ogg",
+			"Mods/arcana/essence_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "scourge_staff",
+        "files" : [
+            "Mods/arcana/scourge_staff.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "scourge_staff",
+        "files" : [
+            "Mods/arcana/scourge_staff.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "scourge_staff",
+        "files" : [
+            "Mods/arcana/essence_1.ogg",
+			"Mods/arcana/essence_2.ogg",
+			"Mods/arcana/essence_3.ogg",
+			"Mods/arcana/essence_4.ogg",
+			"Mods/arcana/essence_5.ogg"
+        ]
+    }
+]

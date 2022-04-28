@@ -1,0 +1,285 @@
+[
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_selfbow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_selfbow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_custombow_v1",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_custombow_v1",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_custombow_v2",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_custombow_v2",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_custombow_v3",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_custombow_v3",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_shieldbow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_shieldbow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_shelia_on",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_shelia_on",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_leila",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_leila",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_daikyu",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_daikyu",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_glass_bow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_glass_bow",
+     "files" : [
+         "guns/archery/archery_1.ogg",
+		 "guns/archery/archery_2.ogg",
+		 "guns/archery/archery_3.ogg",
+		 "guns/archery/archery_4.ogg",
+		 "guns/archery/archery_5.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun",
+     "volume" : 100,
+     "variant" : "kawaii_amts_eve",
+     "files" : [
+         "guns/308/308_1.ogg",
+		 "guns/308/308_2.ogg",
+		 "guns/308/308_3.ogg",
+		 "guns/308/308_4.ogg",
+		 "guns/308/308_5.ogg",
+		 "guns/308/308_6.ogg",
+		 "guns/308/308_7.ogg",
+		 "guns/308/308_8.ogg",
+		 "guns/308/308_9.ogg",
+		 "guns/308/308_10.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "fire_gun_distant",
+     "volume" : 40,
+     "variant" : "kawaii_amts_eve",
+     "files" : [
+         "guns/308/308_1.ogg",
+		 "guns/308/308_2.ogg",
+		 "guns/308/308_3.ogg",
+		 "guns/308/308_4.ogg",
+		 "guns/308/308_5.ogg",
+		 "guns/308/308_6.ogg",
+		 "guns/308/308_7.ogg",
+		 "guns/308/308_8.ogg",
+		 "guns/308/308_9.ogg",
+		 "guns/308/308_10.ogg"
+     ]
+ },
+ {
+     "type": "sound_effect",
+     "id" : "reload",
+     "volume" : 90,
+     "variant" : "kawaii_amts_eve",
+     "files" : [
+         "guns/reload/rifle/rifle_1.ogg",
+		 "guns/reload/rifle/rifle_2.ogg",
+		 "guns/reload/rifle/rifle_3.ogg",
+		 "guns/reload/rifle/rifle_4.ogg",
+		 "guns/reload/rifle/rifle_5.ogg"
+     ]
+ }
+]

@@ -1,0 +1,33 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "grey_handgun",
+        "files" : [
+            "Mods/Whaleys Weird World/grey_handgun_1.ogg",
+			"Mods/Whaleys Weird World/grey_handgun_2.ogg",
+			"Mods/Whaleys Weird World/grey_handgun_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "grey_handgun",
+        "files" : [
+            "Mods/Whaleys Weird World/grey_handgun_1.ogg",
+			"Mods/Whaleys Weird World/grey_handgun_2.ogg",
+			"Mods/Whaleys Weird World/grey_handgun_3.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "grey_handgun",
+        "files" : [
+            "Mods/Whaleys Weird World/grey_handgun_reload.ogg"
+        ]
+    }
+]

@@ -1,0 +1,253 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_cord",
+        "variant" : "chainsaw_on",
+        "volume" : 95,
+        "files" : [
+            "melee/big_misc/saw_pull_1.ogg",
+            "melee/big_misc/saw_pull_2.ogg",
+            "melee/big_misc/saw_pull_3.ogg",
+            "melee/big_misc/saw_pull_4.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_start",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_start_1.ogg",
+            "melee/big_misc/saw_start_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_stop",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_stop_1.ogg",
+            "melee/big_misc/saw_stop_2.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_idle",
+        "variant" : "chainsaw_on",
+        "volume" : 45,
+        "files" : [
+            "melee/big_misc/saw_idle_loop_1.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "default",
+        "volume" : 85,
+        "files" :  [
+            "melee/fists/fist_1.ogg",
+            "melee/fists/fist_2.ogg",
+            "melee/fists/fist_3.ogg",
+			"melee/fists/fist_4.ogg",
+			"melee/fists/fist_5.ogg",
+			"melee/fists/fist_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "default",
+        "volume" : 85,
+        "files" : [
+            "melee/fists/hit_1.ogg",
+            "melee/fists/hit_2.ogg",
+            "melee/fists/hit_3.ogg",
+			"melee/fists/hit_4.ogg",
+			"melee/fists/hit_5.ogg",
+			"melee/fists/hit_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "default",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/hit_metal_1.ogg",
+            "melee/small_bash/hit_metal_2.ogg",
+            "melee/small_bash/hit_metal_3.ogg",
+            "melee/small_bash/hit_metal_4.ogg",
+            "melee/small_bash/hit_metal_5.ogg",
+            "melee/small_bash/hit_metal_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "small_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/swing_1.ogg",
+            "melee/small_bash/swing_2.ogg",
+            "melee/small_bash/swing_3.ogg",
+			"melee/small_bash/swing_4.ogg",
+            "melee/small_bash/swing_5.ogg",
+            "melee/small_bash/swing_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "small_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/hit_flesh_1.ogg",
+            "melee/small_bash/hit_flesh_2.ogg",
+            "melee/small_bash/hit_flesh_3.ogg",
+			"melee/small_bash/hit_flesh_4.ogg",
+            "melee/small_bash/hit_flesh_5.ogg",
+            "melee/small_bash/hit_flesh_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "small_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/hit_metal_1.ogg",
+            "melee/small_bash/hit_metal_2.ogg",
+            "melee/small_bash/hit_metal_3.ogg",
+            "melee/small_bash/hit_metal_4.ogg",
+            "melee/small_bash/hit_metal_5.ogg",
+            "melee/small_bash/hit_metal_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "big_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/swing_1.ogg",
+            "melee/big_cutting/swing_2.ogg",
+            "melee/big_cutting/swing_3.ogg",
+            "melee/big_cutting/swing_4.ogg",
+			"melee/big_cutting/swing_5.ogg",
+            "melee/big_cutting/swing_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "big_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.ogg",
+            "melee/big_cutting/hit_flesh_2.ogg",
+            "melee/big_cutting/hit_flesh_3.ogg",
+            "melee/big_cutting/hit_flesh_4.ogg",
+            "melee/big_cutting/hit_flesh_5.ogg",
+            "melee/big_cutting/hit_flesh_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "big_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.ogg",
+            "melee/big_cutting/hit_metal_2.ogg",
+            "melee/big_cutting/hit_metal_3.ogg",
+            "melee/big_cutting/hit_metal_4.ogg",
+			"melee/big_cutting/hit_metal_5.ogg",
+            "melee/big_cutting/hit_metal_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "small_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/swing_1.ogg",
+            "melee/small_cutting/swing_2.ogg",
+            "melee/small_cutting/swing_3.ogg",
+            "melee/small_cutting/swing_4.ogg",
+			"melee/small_cutting/swing_5.ogg",
+            "melee/small_cutting/swing_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "small_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.ogg",
+            "melee/small_cutting/hit_flesh_2.ogg",
+            "melee/small_cutting/hit_flesh_3.ogg",
+            "melee/small_cutting/hit_flesh_4.ogg",
+			"melee/small_cutting/hit_flesh_5.ogg",
+            "melee/small_cutting/hit_flesh_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "small_cutting",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.ogg",
+            "melee/small_cutting/hit_metal_2.ogg",
+            "melee/small_cutting/hit_metal_3.ogg",
+            "melee/small_cutting/hit_metal_4.ogg",
+			"melee/small_cutting/hit_metal_5.ogg",
+            "melee/small_cutting/hit_metal_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "big_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/swing_1.ogg",
+            "melee/big_bash/swing_2.ogg",
+            "melee/big_bash/swing_3.ogg",
+			"melee/big_bash/swing_4.ogg",
+            "melee/big_bash/swing_5.ogg",
+			"melee/big_bash/swing_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "big_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.ogg",
+            "melee/big_bash/hit_flesh_2.ogg",
+            "melee/big_bash/hit_flesh_3.ogg",
+			"melee/big_bash/hit_flesh_4.ogg",
+            "melee/big_bash/hit_flesh_5.ogg",
+            "melee/big_bash/hit_flesh_6.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "big_bash",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.ogg",
+            "melee/big_bash/hit_metal_2.ogg",
+            "melee/big_bash/hit_metal_3.ogg",
+            "melee/big_bash/hit_metal_4.ogg",
+            "melee/big_bash/hit_metal_5.ogg",
+            "melee/big_bash/hit_metal_6.ogg"
+        ]
+    }
+]

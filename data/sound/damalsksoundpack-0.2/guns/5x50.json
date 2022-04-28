@@ -1,0 +1,82 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "needlegun",
+        "files" : [
+            "guns/5x50/5x50_1.ogg",
+			"guns/5x50/5x50_2.ogg",
+			"guns/5x50/5x50_3.ogg",
+			"guns/5x50/5x50_4.ogg",
+			"guns/5x50/5x50_5.ogg"
+			
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "needlegun",
+        "files" : [
+            "guns/5x50/5x50_1.ogg",
+			"guns/5x50/5x50_2.ogg",
+			"guns/5x50/5x50_3.ogg",
+			"guns/5x50/5x50_4.ogg",
+			"guns/5x50/5x50_5.ogg"
+			
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "needlegun",
+        "files" : [
+            "guns/reload/smg/smg_1.ogg",
+			"guns/reload/smg/smg_2.ogg",
+			"guns/reload/smg/smg_3.ogg",
+			"guns/reload/smg/smg_4.ogg",
+			"guns/reload/smg/smg_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "needlepistol",
+        "files" : [
+            "guns/5x50/5x50_1.ogg",
+			"guns/5x50/5x50_2.ogg",
+			"guns/5x50/5x50_3.ogg",
+			"guns/5x50/5x50_4.ogg",
+			"guns/5x50/5x50_5.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 60,
+        "variant" : "needlepistol",
+        "files" : [
+            "guns/5x50/5x50_1.ogg",
+			"guns/5x50/5x50_2.ogg",
+			"guns/5x50/5x50_3.ogg",
+			"guns/5x50/5x50_4.ogg",
+			"guns/5x50/5x50_5.ogg"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "needlepistol",
+        "files" : [
+            "guns/reload/pistol_l/pistol_1.ogg",
+			"guns/reload/pistol_l/pistol_2.ogg",
+			"guns/reload/pistol_l/pistol_3.ogg",
+			"guns/reload/pistol_l/pistol_4.ogg",
+			"guns/reload/pistol_l/pistol_5.ogg"
+        ]
+    }
+]

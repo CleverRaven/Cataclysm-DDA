@@ -1,0 +1,43 @@
+[
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 100,
+        "variant" : "fire_lance",
+        "files" : [
+            "Mods/Medieval_Stuff/hit_1.ogg",
+			"Mods/Medieval_Stuff/hit_2.ogg",
+			"Mods/Medieval_Stuff/hit_3.ogg",
+			"Mods/Medieval_Stuff/hit_4.ogg",
+			"Mods/Medieval_Stuff/hit_5.ogg",
+			"Mods/Medieval_Stuff/hit_6.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "fire_gun_distant",
+        "volume" : 40,
+        "variant" : "fire_lance",
+        "files" : [
+            "Mods/Medieval_Stuff/hit_1.ogg",
+			"Mods/Medieval_Stuff/hit_2.ogg",
+			"Mods/Medieval_Stuff/hit_3.ogg",
+			"Mods/Medieval_Stuff/hit_4.ogg",
+			"Mods/Medieval_Stuff/hit_5.ogg",
+			"Mods/Medieval_Stuff/hit_6.ogg"
+        ]
+    },
+	{
+        "type": "sound_effect",
+        "id" : "reload",
+        "volume" : 90,
+        "variant" : "fire_lance",
+        "files" : [
+            "guns/reload/rifle_s/rifle_1.ogg",
+			"guns/reload/rifle_s/rifle_2.ogg",
+			"guns/reload/rifle_s/rifle_3.ogg",
+			"guns/reload/rifle_s/rifle_4.ogg",
+			"guns/reload/rifle_s/rifle_5.ogg"
+        ]
+    }
+]
