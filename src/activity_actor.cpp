@@ -188,6 +188,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_HACKSAW("SAW_M");
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
@@ -1100,6 +1101,7 @@ std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonVal
 void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     const map &here = get_map();
+    int moves_before_quality;
 
     if( here.has_furn( target ) ) {
         const furn_id furn_type = here.furn( target );
@@ -1111,7 +1113,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             return;
         }
 
-        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+        moves_before_quality = to_moves<int>( furn_type->hacksaw->duration() );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->hacksaw->valid() ) {
@@ -1121,7 +1123,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+        moves_before_quality = to_moves<int>( ter_type->hacksaw->duration() );
     } else {
         if( !testing ) {
             debugmsg( "hacksaw activity called on invalid terrain" );
@@ -1130,6 +1132,20 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
+    int qual = tool->get_quality(qual_HACKSAW);
+    if (qual < 2) {
+        if (!testing) {
+            debugmsg("Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
+                tool->typeId().c_str());
+        }
+        act.set_to_null();
+        return;
+    }
+
+    //Speed of hacksaw action is the SAW_M quality over 2, 2 being the hacksaw level.
+    //3 makes the speed one-and-a-half times, and the total moves 66% of hacksaw. 4 is twice the speed, 50% the moves, etc, 5 is 2.5 times the speed, 40% the original time
+    //done because it's easy to code, and diminising returns on cutting speed make sense as the limiting factor becomes aligning the tool and controlling it instead of the actual cutting
+    act.moves_total = moves_before_quality / (qual / 2);
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
