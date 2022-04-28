@@ -88,10 +88,13 @@ class inventory_entry
                                   const item_category *custom_category = nullptr,
                                   bool enabled = true,
                                   const size_t chosen_count = 0,
-                                  size_t generation_number = 0 ) :
+                                  size_t generation_number = 0,
+                                  item *topmost_parent = nullptr, bool chevron = false ) :
             locations( locations ),
             chosen_count( chosen_count ),
+            topmost_parent( topmost_parent ),
             generation( generation_number ),
+            chevron( chevron ),
             custom_category( custom_category ),
             enabled( enabled ) {
             update_cache();
@@ -638,8 +641,8 @@ class inventory_selector
         inventory_entry *add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
                                     const item_category *custom_category = nullptr,
-                                    size_t chosen_count = 0, item *topmost_parent = nullptr );
-
+                                    size_t chosen_count = 0, item *topmost_parent = nullptr,
+                                    bool chevron = false );
         bool add_entry_rec( inventory_column &entry_column, inventory_column &children_column,
                             item_location &loc, item_category const *entry_category = nullptr,
                             item_category const *children_category = nullptr,
@@ -832,6 +835,13 @@ class inventory_selector
         size_t entry_generation_number = 0;
 
         static bool skip_unselectable;
+        enum class uimode {
+            categories = 0,
+            hierarchy,
+            last,
+        };
+
+        uimode _mode = uimode::categories;
 
     public:
         std::string action_bound_to_key( char key ) const;
