@@ -3820,6 +3820,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
     "components": [ [ [ "oats", 2 ] ] ]
   },
@@ -7885,6 +7886,7 @@
     "difficulty": 2,
     "time": "11 m 15 s",
     "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "oats", 2 ] ] ]
   },
