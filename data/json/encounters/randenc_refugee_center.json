@@ -9,7 +9,10 @@
       "and": [
         "is_day",
         { "one_in_chance": 10 },
-        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "RC_Shoppers", "op": "<", "time": "1 d" }
+        }
       ]
     },
     "effect": [
@@ -40,7 +43,10 @@
       "and": [
         "is_day",
         { "one_in_chance": 15 },
-        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "JohnBailey", "op": "<", "time": "3 d" }
+        }
       ]
     },
     "effect": [
