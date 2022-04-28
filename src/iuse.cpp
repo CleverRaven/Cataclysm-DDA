@@ -3962,7 +3962,9 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                here.add_field( flame, fd_fire, rng( 0, 2 ) );
+                if( !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, flame ) ) {
+                    here.add_field( flame, fd_fire, rng( 0, 2 ) );
+                }
             }
         }
         explosion_handler::explosion( pos, 8, 0.8, true );
