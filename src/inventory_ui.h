@@ -860,6 +860,7 @@ class inventory_multiselector : public inventory_selector
                                           const GetStats & = {},
                                           bool allow_select_contained = false );
         drop_locations execute();
+        void toggle_entry( inventory_entry &entry, size_t count );
     protected:
         void rearrange_columns( size_t client_width ) override;
         size_t max_chosen_count;
