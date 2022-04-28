@@ -3962,9 +3962,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                if( !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, flame ) ) {
-                    here.add_field( flame, fd_fire, rng( 0, 2 ) );
-                }
+                here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
         explosion_handler::explosion( pos, 8, 0.8, true );
@@ -3984,9 +3982,7 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            if( !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, pt ) ) {
-                here.add_field( pt, fd_fire, intensity );
-            }
+            here.add_field( pt, fd_fire, intensity );
         }
         return 1;
     } else if( it->charges > 0 ) {
