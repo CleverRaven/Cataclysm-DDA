@@ -1445,7 +1445,6 @@ const item_category *inventory_selector::naturalize_category( const item_categor
     return &categories.back();
 }
 
-//Test commit
 inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
         std::vector<item_location> &&locations,
         const item_category *custom_category,
