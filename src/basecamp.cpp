@@ -23,6 +23,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -661,6 +662,16 @@ void basecamp::form_crafting_inventory( map &target_map )
             }
         }
         _inv.add_item( camp_item );
+    }
+
+    //  We're potentially adding the same item multiple times if present in multiple expansions,
+    //  but we're already that with the resources above. The resources are stored in expansions
+    //  rather than in a common pool to allow them to apply only to their respective expansion
+    //  in the future.
+    for( auto &expansion : expansions ) {
+        for( itype_id &it : expansion.second.available_pseudo_items ) {
+            _inv.add_item( item( it ) );
+        }
     }
 }
 

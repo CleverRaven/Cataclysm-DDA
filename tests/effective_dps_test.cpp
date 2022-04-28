@@ -421,8 +421,8 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "claw_bar" ) == 11.0 );
         CHECK( calc_expected_dps( "shovel" ) == 10.25 );
         CHECK( calc_expected_dps( "e_tool" ) == 11.0 );
-        CHECK( calc_expected_dps( "sword_nail" ) == 11.0 );
-        CHECK( calc_expected_dps( "sword_wood" ) == 10.5 );
+        CHECK( calc_expected_dps( "sword_nail" ) == 10.25 );
+        CHECK( calc_expected_dps( "sword_wood" ) == 8.5 );
         CHECK( calc_expected_dps( "cane" ) == 10.5 );
         CHECK( calc_expected_dps( "cudgel" ) == 10.5 );
         CHECK( calc_expected_dps( "primitive_hammer" ) == 10.0 );
@@ -498,7 +498,7 @@ static void check_shortswords( const std::function<Approx( const std::string & )
         CHECK( calc_expected_dps( "sword_cane" ) == 17.5 );
         CHECK( calc_expected_dps( "cutlass_inferior" ) == 17.5 );
         CHECK( calc_expected_dps( "scimitar_inferior" ) == 14.5 );
-        CHECK( calc_expected_dps( "sword_crude" ) == 14.0 );
+        CHECK( calc_expected_dps( "sword_crude" ) == 9.5 );
         CHECK( calc_expected_dps( "wakizashi_inferior" ) == 15.0 );
         CHECK( calc_expected_dps( "makeshift_machete" ) == 11.0 );
         CHECK( calc_expected_dps( "cavalry_sabre_fake" ) == 7.5 );
@@ -528,10 +528,10 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
         CHECK( calc_expected_dps( "kirpan_cheap" ) == 10.5 );
         CHECK( calc_expected_dps( "switchblade" ) == 10.5 );
-        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 8.5 );
+        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 14.5 );
         CHECK( calc_expected_dps( "diveknife" ) == 8.0 );
         CHECK( calc_expected_dps( "copper_knife" ) == 8.0 );
-        CHECK( calc_expected_dps( "knife_butcher" ) == 7.5 );
+        CHECK( calc_expected_dps( "knife_butcher" ) == 10 );
         CHECK( calc_expected_dps( "throwing_knife" ) == 7.0 );
         CHECK( calc_expected_dps( "tanto_fake" ) == 7.5 );
         CHECK( calc_expected_dps( "pockknife" ) == 4.5 );
