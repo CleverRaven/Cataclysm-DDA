@@ -255,7 +255,8 @@
     "price": 9000,
     "price_postapoc": 5000,
     "symbol": "L",
-    "color": "white"
+    "color": "white",
+    "looks_like": "f_floor_lamp"
   },
   {
     "type": "GENERIC",
