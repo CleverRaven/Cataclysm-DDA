@@ -97,6 +97,7 @@ static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
 static const activity_id ACT_GUNMOD_REMOVE( "ACT_GUNMOD_REMOVE" );
@@ -6084,6 +6085,7 @@ deserialize_functions = {
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
+    { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },
     { ACT_FURNITURE_MOVE, &move_furniture_activity_actor::deserialize },
     { ACT_GUNMOD_REMOVE, &gunmod_remove_activity_actor::deserialize },

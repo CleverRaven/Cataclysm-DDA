@@ -3781,7 +3781,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
-    "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
     "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
     "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
     "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.
