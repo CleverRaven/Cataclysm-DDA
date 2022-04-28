@@ -1800,5 +1800,27 @@
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 3000, "effects": [ { "id": "pkill1", "duration": 720 } ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lean",
+    "name": {"str": "lean"},
+    "weight": "256 g",
+    "color": "magenta",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "healthy": -1,
+    "calories": 140,
+    "description": "Lean, Purple Drank or Sizzurp is a recreational drug beverage that contains cough syrup and commercial soda.",
+    "price": 440,
+    "price_postapoc": 400,
+    "volume": "250 ml",
+    "stim": -2,
+    "flags": [ "EATEN_COLD" ],
+    "addiction_potential": 10,
+    "addiction_type": "sleeping pill",
+    "use_action": [ "FLUSLEEP" ],
+    "fun": 2
   }
 ]
