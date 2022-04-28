@@ -559,7 +559,7 @@ void basecamp::unhide_mission( ui_mission_id id )
     const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
     for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
          it != hidden_missions[size_t( base_data.tab_order )].end(); it++ ) {
-        if( is_equal( *it._Ptr, id ) ) {
+        if( is_equal( id.id, it->id ) ) {
             hidden_missions[size_t( base_data.tab_order )].erase( it );
             return;
         }
