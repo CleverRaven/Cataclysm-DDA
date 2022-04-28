@@ -204,10 +204,12 @@ struct bodygraph_display {
     catacurses::window w_info;
     std::vector<std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *>> partlist;
     bodygraph_info info;
+    std::vector<std::string> info_txt;
     int partlist_width = 0;
     int info_width = 0;
     int sel_part = 0;
     int top_part = 0;
+    int top_info = 0;
 
     bodygraph_display() = delete;
     bodygraph_display( const bodygraph_display & ) = delete;
@@ -217,6 +219,7 @@ struct bodygraph_display {
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void prepare_partlist();
     void prepare_infolist();
+    void prepare_infotext();
     void init_ui_windows();
     void draw_borders();
     void draw_partlist();
@@ -234,6 +237,8 @@ bodygraph_display::bodygraph_display( const bodygraph_id &id ) : id( id ), ctxt(
     ctxt.register_directions();
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
 }
@@ -299,7 +304,16 @@ void bodygraph_display::draw_borders()
     .offset_x( 0 )
     .offset_y( 1 )
     .content_size( partlist.size() )
-    .viewport_pos( sel_part )
+    .viewport_pos( top_part )
+    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .apply( w_border );
+
+    scrollbar()
+    .border_color( c_white )
+    .offset_x( 3 + partlist_width + BPGRAPH_MAXCOLS + info_width )
+    .offset_y( 1 )
+    .content_size( info_txt.size() )
+    .viewport_pos( top_info )
     .viewport_size( BPGRAPH_HEIGHT - 2 )
     .apply( w_border );
 
@@ -360,7 +374,18 @@ void bodygraph_display::draw_graph()
 
 void bodygraph_display::draw_info()
 {
-    //TODO
+    werase( w_info );
+    int y = 0;
+    for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+        if( info_txt[i] == "--" ) {
+            for( int x = 1; x < info_width - 2; x++ ) {
+                mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
+            }
+        } else {
+            trim_and_print( w_info, point( 1, y ), info_width - 2, c_white, info_txt[i] );
+        }
+    }
+    wnoutrefresh( w_info );
 }
 
 void bodygraph_display::prepare_partlist()
@@ -399,24 +424,79 @@ void bodygraph_display::prepare_infolist()
     const bodypart_id &bp = std::get<0>( partlist[sel_part] );
 
     // sbps will either be a group for a body part and we'll need to do averages OR a single sub part
-    std::vector<sub_bodypart_id> sub_parts;
+    std::set<sub_bodypart_id> sub_parts;
 
     // should maybe be not just the avater I'm not sure how you are getting character passed in
+    // FIXME: pass Character to display_bodygraph() and then to bodygraph constructor,
+    // and access with this->id->character_var
     const avatar &p = get_avatar();
 
     // this might be null need to test for nullbp as this all continues
     if( std::get<1>( partlist[sel_part] ) != nullptr ) {
-        sub_parts.push_back( std::get<1>( partlist[sel_part] )->id );
+        sub_parts.emplace( std::get<1>( partlist[sel_part] )->id );
     } else {
         for( const sub_bodypart_id &sbp : bp->sub_parts ) {
             // don't worry about secondary sub parts would just make things confusing
             if( !sbp->secondary ) {
-                sub_parts.push_back( sbp );
+                sub_parts.emplace( sbp );
             }
         }
     }
 
     p.worn.prepare_bodymap_info( info, bp, sub_parts, p );
+
+    // update info text cache
+    info_txt.clear();
+    prepare_infotext();
+}
+
+void bodygraph_display::prepare_infotext()
+{
+    top_info = 0;
+    // worn armor
+    info_txt.emplace_back( string_format( "%s:", colorize( _( "Worn" ), c_magenta ) ) );
+    for( const std::string &worn : info.worn_names ) {
+        info_txt.emplace_back( string_format( "  %s", worn ) );
+    }
+    info_txt.emplace_back( "--" );
+    // coverage
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Coverage" ), c_magenta ),
+                                          info.avg_coverage ) );
+    info_txt.emplace_back( "--" );
+    // encumbrance
+    info_txt.emplace_back( string_format( "%s: %d", colorize( _( "Encumbrance" ), c_magenta ),
+                                          info.total_encumbrance ) );
+    info_txt.emplace_back( "--" );
+    // protection
+    info_txt.emplace_back( string_format( "%s:", colorize( _( "Protection" ), c_magenta ) ) );
+    std::string prot_legend = string_format( "%s %s %s", colorize( _( "worst" ), c_red ),
+                              colorize( _( "median" ), c_yellow ), colorize( _( "best" ), c_light_green ) );
+    int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
+    prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
+    info_txt.emplace_back( prot_legend );
+    auto get_res_str = [&]( damage_type dt ) -> std::string {
+        const std::string wval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.worst_case.type_resist( dt ) );
+        const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
+        const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
+        std::string txt = string_format( "%s %s %s", colorize( wval, c_red ), colorize( mval, c_yellow ), colorize( bval, c_light_green ) );
+        int res_avail = clamp( ( info_width - 2 ) - utf8_width( txt, true ), 0, info_width - 2 );
+        txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
+        return txt;
+    };
+    info_txt.emplace_back( string_format( "  %s:", _( "Bash" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::BASH ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Cut" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::CUT ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Pierce" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::STAB ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Ballistic" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::BULLET ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Acid" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::ACID ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Fire" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::HEAT ) );
+    info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
+    info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
 }
 
 shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
@@ -441,9 +521,10 @@ shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
 
 void bodygraph_display::display()
 {
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+    init_ui_windows();
     prepare_partlist();
     prepare_infolist();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
     bool done = false;
     while( !done ) {
@@ -471,6 +552,15 @@ void bodygraph_display::display()
                 sel_part = 0;
             }
             prepare_infolist();
+        } else if( action == "SCROLL_INFOBOX_UP" || action == "PAGE_UP" ) {
+            top_info--;
+        } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
+            top_info++;
+        }
+        if( info_txt.size() >= BPGRAPH_HEIGHT - 2 ) {
+            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( BPGRAPH_HEIGHT - 2 ) );
+        } else {
+            top_info = 0;
         }
         if( sel_part < top_part ) {
             top_part = sel_part;

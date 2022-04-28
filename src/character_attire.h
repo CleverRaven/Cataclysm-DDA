@@ -161,7 +161,7 @@ class outfit
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
                                 const std::vector<bodypart_id> &all_body_parts ) const;
         void prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
-                                   const std::vector<sub_bodypart_id> &sub_parts, const Character &person ) const;
+                                   const std::set<sub_bodypart_id> &sub_parts, const Character &person ) const;
         // concatenates to @overlay_ids
         void get_overlay_ids( std::vector<std::pair<std::string, std::string>> &overlay_ids ) const;
         body_part_set exclusive_flag_coverage( body_part_set bps, const flag_id &flag ) const;

@@ -2091,7 +2091,7 @@ item *outfit::current_unarmed_weapon( const std::string &attack_vector, item *cu
 }
 
 void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
-                                   const std::vector<sub_bodypart_id> &sub_parts, const Character &person ) const
+                                   const std::set<sub_bodypart_id> &sub_parts, const Character &person ) const
 {
     std::map<sub_bodypart_id, resistances> best_cases;
     std::map<sub_bodypart_id, resistances> median_cases;
@@ -2100,8 +2100,21 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
     // go through every item and see how it handles every part of the character
     for( const item &armor : worn ) {
         // check if it covers the part
-        if( ( sub_parts.size() > 1 && !armor.covers( bp ) ) || ( sub_parts.size() == 1 &&
-                !armor.covers( sub_parts[0] ) ) ) {
+        // FIXME: item::covers( const sub_bodypart_id & ) always
+        // returns true if there is no sub_data (ex: hairpin),
+        // so use item::get_covered_sub_body_parts() instead
+        bool covered = false;
+        if( sub_parts.empty() || sub_parts.size() > 1 ) {
+            covered = armor.covers( bp );
+        } else {
+            const std::vector<sub_bodypart_id> splist = armor.get_covered_sub_body_parts();
+            for( const sub_bodypart_id &sid : splist ) {
+                if( std::find( sub_parts.begin(), sub_parts.end(), sid ) != sub_parts.end() ) {
+                    covered = true;
+                }
+            }
+        }
+        if( !covered ) {
             continue;
         }
 
@@ -2112,7 +2125,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         // need to average the coverage on each sub part based on size
         int temp_coverage = 0;
         if( sub_parts.size() == 1 ) {
-            temp_coverage = armor.get_coverage( sub_parts[0] );
+            temp_coverage = armor.get_coverage( *sub_parts.begin() );
         } else {
             // bp armor already has averaged coverage
             temp_coverage = armor.get_coverage( bp );
@@ -2144,9 +2157,9 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
 
     // need to average the protection values on each sublimb for full limbs
     if( sub_parts.size() == 1 ) {
-        info.worst_case += worst_cases[sub_parts[0]];
-        info.median_case += median_cases[sub_parts[0]];
-        info.best_case += best_cases[sub_parts[0]];
+        info.worst_case += worst_cases[*sub_parts.begin()];
+        info.median_case += median_cases[*sub_parts.begin()];
+        info.best_case += best_cases[*sub_parts.begin()];
     } else {
         for( const sub_bodypart_id &sbp : sub_parts ) {
             float scale_factor = static_cast<float>( sbp->max_coverage ) / 100.0f;
