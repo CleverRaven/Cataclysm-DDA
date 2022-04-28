@@ -48,8 +48,6 @@
 #include "weather.h"
 #include "weather_type.h"
 
-static const std::list<tripoint> aiming_circle = { tripoint( 0, 15, 0 ), tripoint( 1, 15, 0 ), tripoint( 2, 15, 0 ), tripoint( 3, 15, 0 ), tripoint( 4, 14, 0 ), tripoint( 5, 14, 0 ), tripoint( 6, 14, 0 ), tripoint( 7, 13, 0 ), tripoint( 8, 13, 0 ), tripoint( 9, 12, 0 ), tripoint( 10, 11, 0 ), tripoint( 11, 10, 0 ), tripoint( 12, 9, 0 ), tripoint( 13, 8, 0 ), tripoint( 13, 7, 0 ), tripoint( 14, 6, 0 ), tripoint( 14, 5, 0 ), tripoint( 14, 4, 0 ), tripoint( 15, 3, 0 ), tripoint( 15, 2, 0 ), tripoint( 15, 1, 0 ), tripoint( 15, 0, 0 ) };
-
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
@@ -661,6 +659,14 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
                map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
+    // possibly reduce view if aiming (also blocks light)
+    if( get_avatar().activity.id() == activity_id( "ACT_AIM" ) ) {
+        if( rl_dist( p, get_avatar().pos() ) > 15 && ( -3 < atan2f( p.y, p.x ) ||
+                atan2f( p.y, p.x ) < 3 ) ) {
+            return { true, 0.0 };
+        }
+    }
+
     const bool p_opaque = is_opaque( p.xy() );
     float apparent_light;
 
@@ -1032,15 +1038,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
 
-        // reduce view if aiming
-        if( get_avatar().activity.id() == activity_id( "ACT_AIM" ) ) {
-            for( const tripoint &loc : aiming_circle ) {
-                // If we're crouching or prone behind an obstacle, we can't see past it.
-                //if( ( loc.x < p.x - 2 || loc.x > p.x + 2 ) || loc.y - p.y > 0 ) {
-                get_cache( target_z ).seen_cache[loc.x + origin.x][loc.y + origin.y] = LIGHT_TRANSPARENCY_SOLID;
-                //}
-            }
-        }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
             directions_to_cast );
