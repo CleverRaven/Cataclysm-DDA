@@ -1109,7 +1109,6 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -1,
     "calories": 195,
     "description": "A heavily processed sausage, dipped in batter and deep-fried.  It would taste much better prepared.",
     "price": 900,
@@ -1138,7 +1137,6 @@
     "name": { "str": "homemade corn dog" },
     "copy-from": "corndogs_frozen",
     "spoils_in": "1 day",
-    "healthy": -1,
     "charges": 1,
     "description": "A homemade sausage, dipped in batter and deep fried.  Cooked, this corn dog now tastes much better, but will spoil.",
     "fun": 18,
@@ -1273,7 +1271,6 @@
     "copy-from": "hotdogs_frozen",
     "description": "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
     "stack_size": 4,
-    "healthy": -1,
     "fun": 5
   },
   {

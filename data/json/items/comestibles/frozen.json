@@ -112,7 +112,6 @@
     "id": "icecream_artificial",
     "name": { "str": "dairy dessert", "str_pl": "dairy dessert scoops" },
     "description": "Government regulations dictate that since this isn't *technically* ice cream, it can be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
-    "healthy": -1,
     "price": 200,
     "price_postapoc": 100,
     "primary_material": "ice_cream",
@@ -138,7 +137,6 @@
     "weight": "25 g",
     "volume": "88 ml",
     "color": "brown",
-    "healthy": -1,
     "calories": 121
   },
   {
@@ -148,7 +146,6 @@
     "name": { "str": "candy ice cream", "str_pl": "candy ice cream scoops" },
     "description": "Ice cream with bits of chocolate, caramel, or other flavoring mixed in.",
     "fun": 20,
-    "healthy": -1,
     "price": 300,
     "price_postapoc": 300,
     "calories": 330,
