@@ -2269,7 +2269,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
-            who.add_msg_if_player( m_bad, _( "You can't open this lock" ) );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
