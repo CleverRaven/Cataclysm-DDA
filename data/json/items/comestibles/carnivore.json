@@ -129,7 +129,6 @@
     "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
   },
@@ -145,7 +144,6 @@
     "price_postapoc": 50,
     "spoils_in": "1 day",
     "calories": 402,
-    "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
@@ -158,7 +156,6 @@
     "copy-from": "meat",
     "name": { "str_sp": "animal blood" },
     "description": "Fresh blood extracted from a living creature.",
-    "healthy": 0,
     "parasites": 0,
     "material": "blood",
     "comestible_type": "DRINK",
@@ -179,7 +176,6 @@
     "price_postapoc": 150,
     "spoils_in": "1 day",
     "calories": 1300,
-    "healthy": -1,
     "fun": -10,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
@@ -197,7 +193,6 @@
     "price": 650,
     "price_postapoc": 300,
     "spoils_in": "14 days",
-    "healthy": -5,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "bacon_uncut"
@@ -214,7 +209,6 @@
     "price_postapoc": 3000,
     "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
     "spoils_in": "24 days",
-    "healthy": -1,
     "fun": 5,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 22 ] ],
     "flags": [ "EATEN_HOT", "SMOKED" ]
@@ -231,7 +225,6 @@
     "price": 500,
     "price_postapoc": 250,
     "spoils_in": "14 days",
-    "healthy": -5,
     "fun": -15,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
     "flags": [  ],
@@ -294,7 +287,6 @@
     "name": { "str_sp": "mutant blood" },
     "description": "Fresh blood extracted from a heavily mutated creature.",
     "comestible_type": "DRINK",
-    "healthy": 0,
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
@@ -330,7 +322,6 @@
     "name": { "str_sp": "mutant human blood" },
     "description": "Fresh blood extracted from a heavily mutated human.",
     "comestible_type": "DRINK",
-    "healthy": 0,
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
@@ -347,7 +338,6 @@
     "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
@@ -406,9 +396,9 @@
     "description": "Eugh.  This is a mess of dirt, excreta, connective tissue, and bits of matter like hair and claws, leftover from the butchering process.  Eating it isn't even worth thinking about, but disposing of it might be a concern as it could attract vermin.",
     "material": [ "flesh" ],
     "spoils_in": "8 hours",
-    "healthy": -25,
     "fun": -25,
     "use_action": [ "POISON" ],
+    "contamination": [ { "disease": "bad_food", "probability": 100 } ],
     "vitamins": [  ]
   },
   {
@@ -440,7 +430,6 @@
     "price": 900,
     "price_postapoc": 300,
     "//": "Luxury good.",
-    "healthy": -1,
     "fun": 2,
     "parasites": 0,
     "vitamins": [  ],
@@ -453,7 +442,6 @@
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
     "parasites": 0,
     "fun": 0,
-    "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
@@ -467,7 +455,6 @@
     "looks_like": "meat_cooked",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "healthy": 0,
     "fun": -1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
@@ -481,7 +468,6 @@
     "parasites": 0,
     "calories": 25,
     "fun": 0,
-    "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -502,7 +488,6 @@
     "name": { "str_sp": "cooked offal" },
     "description": "This is freshly cooked organ meat and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
     "parasites": 0,
-    "healthy": 1,
     "price_postapoc": 50,
     "fun": -5,
     "flags": [ "EATEN_HOT" ]
@@ -528,7 +513,6 @@
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "healthy": -2,
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -541,7 +525,6 @@
     "price_postapoc": 300,
     "stack_size": 2,
     "parasites": 0,
-    "healthy": 1,
     "container": "jar_glass_sealed",
     "spoils_in": "1 day 12 hours",
     "quench": -1,
@@ -558,7 +541,6 @@
     "price_postapoc": 300,
     "stack_size": 2,
     "parasites": 0,
-    "healthy": 1,
     "container": "can_medium",
     "fun": -2,
     "delete": { "flags": [ "RAW" ] }
@@ -576,7 +558,6 @@
     "spoils_in": "8 hours",
     "calories": 60,
     "quench": 1,
-    "healthy": -1,
     "fun": -15,
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
@@ -687,7 +668,6 @@
     "color": "pink",
     "charges": 4,
     "spoils_in": "1 day",
-    "healthy": -1,
     "price_postapoc": 25,
     "quench": 2,
     "fun": -10,
@@ -717,7 +697,6 @@
     "id": "lung_cooked",
     "type": "COMESTIBLE",
     "copy-from": "lung",
-    "healthy": 2,
     "fun": -5,
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
@@ -731,7 +710,6 @@
     "copy-from": "lung",
     "name": { "str": "piece of raw mutant lung", "str_pl": "pieces of raw mutant lung" },
     "snippet_category": "mutant_lung_desc",
-    "healthy": -5,
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
@@ -741,7 +719,6 @@
     "id": "mutant_lung_cooked",
     "type": "COMESTIBLE",
     "copy-from": "lung_cooked",
-    "healthy": -2,
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
     "snippet_category": "cooked_mutant_lung_desc"
   },
@@ -796,8 +773,7 @@
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "fun": 0,
-    "price_postapoc": 50,
-    "healthy": 2
+    "price_postapoc": 50
   },
   {
     "id": "mutant_liver",
@@ -806,7 +782,6 @@
     "name": { "str": "mutant liver" },
     "snippet_category": "mutant_liver_desc",
     "fun": -15,
-    "healthy": -5,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
     "vitamins": [ [ "mutant_toxin", 40 ] ]
@@ -817,8 +792,7 @@
     "copy-from": "liver_cooked",
     "name": { "str": "cooked mutant liver" },
     "snippet_category": "cooked_mutant_liver_desc",
-    "fun": -5,
-    "healthy": -2
+    "fun": -5
   },
   {
     "id": "brain",
@@ -861,7 +835,6 @@
     "description": "Now you can emulate those zombies you love so much!  Preparing brain for eating is challenging, and this doesn't seem to be the best way to do it.",
     "price_postapoc": 25,
     "parasites": 0,
-    "healthy": 0,
     "fun": -5,
     "extend": { "flags": [ "EATEN_HOT" ] }
   },
@@ -873,7 +846,6 @@
     "snippet_category": "mutant_brain_desc",
     "proportional": { "price_postapoc": 0.5 },
     "fun": -20,
-    "healthy": -5,
     "extend": { "flags": [ "BAD_TASTE" ] },
     "vitamins": [ [ "mutant_toxin", 50 ] ]
   },
@@ -883,8 +855,7 @@
     "copy-from": "brain_cooked",
     "name": { "str_sp": "cooked mutant brains" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12,
-    "healthy": -2
+    "fun": -12
   },
   {
     "id": "kidney",
@@ -923,7 +894,6 @@
     "looks_like": "offal_cooked",
     "name": { "str": "cooked kidney" },
     "description": "No, this is not beans.",
-    "healthy": 2,
     "price_postapoc": 25,
     "quench": 0,
     "fun": -2,
@@ -934,7 +904,6 @@
     "type": "COMESTIBLE",
     "copy-from": "kidney",
     "fun": -15,
-    "healthy": -5,
     "name": { "str_sp": "raw mutant kidney" },
     "snippet_category": "mutant_kidney_desc",
     "proportional": { "price_postapoc": 0.5 },
@@ -947,8 +916,7 @@
     "copy-from": "kidney_cooked",
     "name": { "str_sp": "cooked mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
-    "fun": -12,
-    "healthy": -2
+    "fun": -12
   },
   {
     "id": "sweetbread",
@@ -958,7 +926,6 @@
     "name": { "str": "raw sweetbread" },
     "description": "Sweetbreads are the thymus or pancreas of an animal.  These are a delicacy, if prepared properly.",
     "color": "brown",
-    "healthy": 0,
     "price_postapoc": 25,
     "quench": 0,
     "calories": 133,
@@ -1038,7 +1005,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
-    "healthy": -5,
     "price_postapoc": 250,
     "calories": 1923,
     "description": "Freshly butchered fat.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
@@ -1059,7 +1025,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
-    "healthy": -1,
     "calories": 496,
     "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
@@ -1173,7 +1138,6 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -1,
     "calories": 17,
     "description": "A rotten and brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
     "price": 0,
@@ -1212,7 +1176,6 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": -3,
     "calories": 9,
     "description": "A watery yellow glob of fat from some unnatural creature or other.  You could eat it, but it will poison you.",
     "price": 0,
@@ -1234,7 +1197,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
-    "healthy": -2,
     "calories": 18,
     "description": "A smooth grayish block of cleaned and rendered monster fat.  It will remain 'fresh' for a very long time, and can be used as an ingredient in many projects.  You could eat it, but it will poison you.",
     "price": 0,
@@ -1301,7 +1263,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -2,
-    "healthy": -1,
     "calories": 350,
     "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": 330,
@@ -1351,7 +1312,6 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "quench": -20,
-    "healthy": -5,
     "calories": 350,
     "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": 330,
@@ -1545,7 +1505,6 @@
     "name": { "str_sp": "demihuman blood" },
     "description": "Fresh blood extracted from a demihuman.",
     "comestible_type": "DRINK",
-    "healthy": 0,
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
@@ -1561,7 +1520,6 @@
     "description": "A freshly cooked slice of something close to being a real person.  Tastes like long pig.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
-    "healthy": 0,
     "fun": 0,
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
@@ -1614,7 +1572,6 @@
     "price_postapoc": 200,
     "quench": -1,
     "fun": 6,
-    "healthy": -1,
     "weight": "298 g",
     "flags": [ "EATEN_HOT" ]
   }

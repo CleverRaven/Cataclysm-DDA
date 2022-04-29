@@ -221,14 +221,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      {
-        "collection": [
-          { "item": "tacvest", "prob": 5 },
-          { "item": "armor_riot", "prob": 25 },
-          { "group": "swat_ballistic_vest", "prob": 25 }
-        ],
-        "prob": 65
-      },
+      { "distribution": [ { "item": "armor_riot", "prob": 25 }, { "group": "swat_ballistic_vest", "prob": 75 } ], "prob": 65 },
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },

@@ -557,7 +557,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" }
     ]
   },
   {
@@ -568,7 +568,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" }
     ]
   },
   {
@@ -837,7 +837,7 @@
     "type": "keybinding",
     "id": "CONFIRM",
     "name": "Confirm choice",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -1090,7 +1090,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "f" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" },
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
       { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
@@ -2605,7 +2605,7 @@
     "name": "Action menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -3233,7 +3233,7 @@
     "id": "MOVE_SINGLE_ITEM",
     "category": "ADVANCED_INVENTORY",
     "name": "Move a single item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -3286,6 +3286,27 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_6" },
       { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "INCREASE_COUNT",
+    "category": "INVENTORY",
+    "name": "Increase selected amount for the highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "+" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "AUTO_BALANCE",
+    "category": "INVENTORY",
+    "name": "Autobalance trade using highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DECREASE_COUNT",
+    "category": "INVENTORY",
+    "name": "Decrease selected amount for the highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
   },
   {
     "type": "keybinding",
@@ -3577,7 +3598,7 @@
     "category": "FRIENDS_ME_CANCEL",
     "name": "With friends",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "f" },
+      { "input_method": "keyboard_char", "key": "F" },
       { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "f" }
     ]
@@ -3588,7 +3609,7 @@
     "category": "FRIENDS_ME_CANCEL",
     "name": "Just me",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "m" },
+      { "input_method": "keyboard_char", "key": "M" },
       { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "m" }
     ]
@@ -3760,7 +3781,7 @@
       { "input_method": "keyboard_any", "key": "ESC" },
       { "input_method": "keyboard_any", "key": "SPACE" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" }
     ]
   },
   {

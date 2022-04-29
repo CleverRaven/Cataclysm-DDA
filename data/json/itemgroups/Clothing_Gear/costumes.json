@@ -53,6 +53,10 @@
       { "item": "vampire_fangs", "prob": 40 },
       { "item": "santa_belt", "prob": 30 },
       { "item": "apron_leather", "prob": 25 },
+      { "item": "apron_cotton", "prob": 5 },
+      { "item": "apron_cotton", "variant": "camo_apron_cotton", "prob": 10 },
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
+      { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
       { "item": "clown_nose", "prob": 20 },
       { "item": "suitcase_m", "prob": 4 },
       { "item": "hakama", "prob": 1 }

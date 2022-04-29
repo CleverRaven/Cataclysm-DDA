@@ -1173,6 +1173,9 @@ bool item::combine( const item &rhs )
 
     }
     charges += rhs.charges;
+    if( !rhs.has_flag( flag_NO_PARASITES ) ) {
+        unset_flag( flag_NO_PARASITES );
+    }
     return true;
 }
 
@@ -1236,9 +1239,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
 
-        //we can combine liquids of same type and different temperatures
+        // we can combine liquids of same type and different temperatures
         if( !equal_ignoring_elements( rhs.get_flags(), get_flags(),
-        { flag_COLD, flag_FROZEN, flag_HOT } ) ) {
+        { flag_COLD, flag_FROZEN, flag_HOT, flag_NO_PARASITES } ) ) {
             return false;
         }
     } else if( item_tags != rhs.item_tags ) {
@@ -5688,8 +5691,9 @@ void item::on_wield( Character &you )
         you.martial_arts_data->martialart_use_message( you );
     }
 
-    // Update encumbrance in case we were wearing it
+    // Update encumbrance and discomfort in case we were wearing it
     you.flag_encumbrance();
+    you.calc_discomfort();
     you.on_item_acquire( *this );
 }
 
@@ -10319,8 +10323,8 @@ bool item::uses_magazine() const
 itype_id item::magazine_default( bool conversion ) const
 {
     // consider modded ammo types
-    if( conversion && !ammo_types().empty() ) {
-        const itype_id ammo = ammo_default();
+    itype_id ammo;
+    if( conversion && ( ammo = ammo_default(), !ammo.is_null() ) ) {
         for( const itype_id &mag : contents.magazine_compatible() ) {
             auto mag_types = mag->magazine->type;
             if( mag_types.find( ammo->ammo->type ) != mag_types.end() ) {
