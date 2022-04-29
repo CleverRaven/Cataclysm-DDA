@@ -236,7 +236,6 @@ void Item_factory::finalize_pre( itype &obj )
             if( q.second >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
                 // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
-                //obj.ammo_scale.emplace(u.second, 0.0f);
             }
         }
     }
