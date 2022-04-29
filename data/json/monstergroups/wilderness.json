@@ -2661,14 +2661,14 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_slug_small",
+        "monster": "mon_slug_forest",
         "weight": 15,
         "cost_multiplier": 2,
         "ends": "42 hours",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_slug_small",
+        "monster": "mon_slug_forest",
         "weight": 20,
         "cost_multiplier": 2,
         "starts": "42 hours",
@@ -2684,7 +2684,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_slug_giant",
+        "monster": "mon_slug_small",
         "weight": 25,
         "cost_multiplier": 2,
         "starts": "180 hours",
@@ -2701,6 +2701,52 @@
       },
       {
         "monster": "mon_slug_giant",
+        "weight": 35,
+        "cost_multiplier": 2,
+        "starts": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_forest",
+        "weight": 15,
+        "cost_multiplier": 2,
+        "ends": "42 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_forest",
+        "weight": 20,
+        "cost_multiplier": 2,
+        "starts": "42 hours",
+        "ends": "84 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_small",
+        "weight": 25,
+        "cost_multiplier": 2,
+        "starts": "84 hours",
+        "ends": "180 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_small",
+        "weight": 25,
+        "cost_multiplier": 2,
+        "starts": "180 hours",
+        "ends": "15 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_giant",
+        "weight": 30,
+        "cost_multiplier": 2,
+        "starts": "15 days",
+        "ends": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_snail_giant",
         "weight": 35,
         "cost_multiplier": 2,
         "starts": "540 hours",
