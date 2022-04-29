@@ -207,8 +207,8 @@ jobs:
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
-          git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ runner.workspace }}/CDDA-Soundpacks'
-          mv '${{ runner.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ runner.workspace }}/Cataclysm-DDA/data/sound'
+          git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
+          mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.0.2
