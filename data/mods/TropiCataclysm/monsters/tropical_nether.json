@@ -567,7 +567,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_flying_small",
     "name": { "str": "flag tail" },
-    "description": "An alien creature brought by the portal storms.  It resembles a tropical fish with a long flowing tail"
+    "description": "An alien creature brought by the portal storms.  It resembles a tropical fish with a long flowing tail."
   },
   {
     "id": "mon_fish_balloondrift",
