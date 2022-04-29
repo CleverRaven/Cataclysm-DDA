@@ -133,7 +133,7 @@
     "description": "A catfish species native to South America, Panama and even Costa Rica.  They are distinguished by their bony spines and suction adapted mouths."
   },
   {
-    "id": "mon_fish_stringray",
+    "id": "mon_fish_stingray",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "river stingray" },
