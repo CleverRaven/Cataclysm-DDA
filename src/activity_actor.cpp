@@ -1252,6 +1252,12 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 
     act.set_to_null();
 }
+bool hacksaw_activity_actor::can_resume_with_internal(const activity_actor& other,
+    const Character&/*who*/) const {
+    const hacksaw_activity_actor& actor = static_cast<const hacksaw_activity_actor&>
+        (other);
+    return actor.target == target && actor.tool.operator==(tool);
+}
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
 {
