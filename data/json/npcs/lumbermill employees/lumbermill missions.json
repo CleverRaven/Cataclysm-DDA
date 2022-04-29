@@ -39,7 +39,7 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "I need 1,000 nails.",
-	  "offer": "Along with those drive belts, we were waiting for some nails for structural repairs.  Due to <the_cataclysm>, we never recieved them.  So, I need you to get us 1,000 nails. We'll pay you fairly.",
+	  "offer": "Along with those drive belts, we were waiting for some nails for structural repairs.  Due to <the_cataclysm>, we never received them.  So, I need you to get us 1,000 nails. We'll pay you fairly.",
 	  "advice": "Taking apart some furniture in town should get what you need.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Someone's got to do it.",
@@ -129,7 +129,7 @@
 	"has_generic_rewards": true,
 	"dialogue": {
       "describe": "Go negotiate a trade agreement.",
-	  "offer": "While some of us were out scavenging, we came across an old adress for an evac center; and from what we found out, there should be some people there.  I want you to go over there, see whoever runs the joint and negotiate a deal with them for refined lumber.  This will be invaluble to our survival.",
+	  "offer": "While some of us were out scavenging, we came across an old address for an evac center; and from what we found out, there should be some people there.  I want you to go over there, see whoever runs the joint and negotiate a deal with them for refined lumber.  This will be invaluable to our survival.",
 	  "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please? This is really important to us.",
