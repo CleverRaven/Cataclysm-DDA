@@ -425,7 +425,7 @@
     "id": "mon_llama",
     "type": "MONSTER",
     "name": { "str_sp": "llama" },
-    "description": "A big and wooly herbivore domesticated by the Andean cultures of South America.  Llamas and their kin are distant relatives to camels and are adapted to cold montainous environments.",
+    "description": "A big and wooly herbivore domesticated by the Andean cultures of South America.  Llamas and their kin are distant relatives to camels and are adapted to cold montanous environments.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
