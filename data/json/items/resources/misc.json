@@ -28,6 +28,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "1250 ml",
     "bashing": 4,
     "price": 2400,

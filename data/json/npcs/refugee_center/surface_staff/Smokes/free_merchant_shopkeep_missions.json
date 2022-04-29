@@ -337,7 +337,7 @@
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-          { "u_consume_item": "FMCNote", "count": 5 }
+          { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1"
       },
@@ -347,7 +347,7 @@
         "effect": [
           { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-          { "u_consume_item": "FMCNote", "count": 10 }
+          { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup2"
       },

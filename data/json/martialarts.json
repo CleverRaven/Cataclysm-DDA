@@ -99,7 +99,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
+    "weapon_category": [ "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -146,8 +146,7 @@
       "tec_bojutsu_feint",
       "tec_bojutsu_disarm"
     ],
-    "weapon_category": [ "QUARTERSTAVES" ],
-    "weapons": [ "stick_long", "long_pole", "broom", "mop" ]
+    "weapon_category": [ "QUARTERSTAVES" ]
   },
   {
     "type": "martial_art",
@@ -668,6 +667,7 @@
         "description": "You've moved into a perfect position to counter attack!\n\n+30% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "buff_duration": 1,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.3 },
@@ -677,7 +677,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon" ]
+    "weapon_category": [ "CLAWS" ]
   },
   {
     "type": "martial_art",
@@ -1023,7 +1023,7 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "BIONIC_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",

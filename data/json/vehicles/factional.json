@@ -56,10 +56,16 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 55, "item_groups": [ "farming_tools" ] },
       { "x": -2, "y": 1, "chance": 52, "item_groups": [ "mischw" ] },
-      { "x": -2, "y": 1, "chance": 22, "items": [ "jack", "wheel" ] },
-      { "x": -3, "y": 1, "chance": 20, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit" ] },
+      { "x": -3, "y": 1, "chance": 13, "item_groups": [ "car_kit" ] },
       { "x": -3, "y": 0, "chance": 18, "item_groups": [ "fuel_gasoline" ] },
       { "x": -2, "y": 1, "chance": 13, "items": [ "ax" ] }
+    ],
+    "zones": [
+      { "type": "LOOT_UNSORTED", "x": -2, "y": 0 },
+      { "type": "LOOT_UNSORTED", "x": -2, "y": 1 },
+      { "type": "LOOT_AMMO", "x": -3, "y": 0 },
+      { "type": "LOOT_GUNS", "x": -3, "y": 1 }
     ]
   }
 ]

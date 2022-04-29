@@ -60,7 +60,8 @@
   - "**/npc**"
 
 "Melee":
-  - "**/**melee**"
+  - "**/melee**"
+  - "**/**techniques**"
 
 "Info / User Interface":
   - "**/ui/**/*"
@@ -74,6 +75,11 @@
 
 "Items: Containers":
   - "**/**containers**"
+  - "**/**storage**"
+  - "**/**sheath**"
+  - "**/**holster**"
+  - "**/**ammo_pouch**"
+  - "**/**bandolier**"
 
 "Appliance/Power Grid":
   - "**/appliance**"
@@ -109,6 +115,9 @@
   - "**/mapgen_palettes/**/*"
   - "**/overmap/**/*"
   - "**/overmap**"
+
+"Martial Arts":
+  - "**/martialarts**"
 
 "Player Faction Base / Camp":
   - "src/basecamp.*"
@@ -163,6 +172,9 @@
 
 "Mods: TropiCataclysm 🌴":
   - data/mods/TropiCataclysm/**/*
+  
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
 
 "Mods":
   - data/mods/**/*

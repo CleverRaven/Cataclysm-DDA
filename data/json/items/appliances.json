@@ -44,6 +44,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "stationary_water_purifier",
+    "looks_like": "f_water_purifier",
+    "symbol": "W",
+    "description": "This device effectively sterilizes water, can be plugged into the wall and used.",
+    "color": "dark_gray_white",
+    "name": { "str": "large water purifier" },
+    "material": [ "budget_steel" ],
+    "longest_side": "50 cm",
+    "volume": "50 L",
+    "weight": "20 kg"
+  },
+  {
+    "type": "GENERIC",
     "id": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "symbol": "6",
@@ -154,6 +167,61 @@
     "weight": "300 kg"
   },
   {
+    "type": "GENERIC",
+    "id": "hydraulic_press",
+    "looks_like": "f_hydraulic_press",
+    "symbol": "7",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  Can be placed and plugged into a power source.",
+    "color": "black_red",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" },
+    "material": [ "aluminum" ],
+    "//": "Based off Daytona DSP20T Hydraulic Shop Press",
+    "longest_side": "1580 mm",
+    "volume": "500 L",
+    "weight": "76 kg"
+  },
+  {
+    "type": "GENERIC",
+    "id": "air_compressor",
+    "looks_like": "f_standing_tank",
+    "symbol": "7",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.  Can be placed and plugged into a power source.",
+    "color": "black_yellow",
+    "name": { "str": "air compressor" },
+    "material": [ "aluminum" ],
+    "//": "Based off Renegade Industrial 2.2HP 210LPM Air Compressor",
+    "longest_side": "110 cm",
+    "volume": "400 L",
+    "weight": "80 kg"
+  },
+  {
+    "id": "autoclave",
+    "type": "TOOL",
+    "name": { "str": "autoclave" },
+    "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  It requires a massive amount of power, so it will need to be plugged into a power grid.",
+    "weight": "34500 g",
+    "volume": "76 L",
+    "price": 162654,
+    "price_postapoc": 2000,
+    "to_hit": -6,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": "A",
+    "color": "yellow",
+    "looks_like": "microwave",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "15 kg",
+        "flag_restriction": [ "CBM" ],
+        "item_restriction": [ "water_clean", "water" ]
+      }
+    ]
+  },
+  {
     "type": "TOOL",
     "id": "power_cord",
     "name": { "str": "power cord" },
@@ -187,7 +255,8 @@
     "price": 9000,
     "price_postapoc": 5000,
     "symbol": "L",
-    "color": "white"
+    "color": "white",
+    "looks_like": "f_floor_lamp"
   },
   {
     "type": "GENERIC",

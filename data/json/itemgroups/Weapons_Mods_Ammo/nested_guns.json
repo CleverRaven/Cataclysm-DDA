@@ -2009,5 +2009,41 @@
       { "item": "saiga410mag_10rd", "prob": 50 },
       { "group": "on_hand_410shot" }
     ]
+  },
+  {
+    "id": "nested_p50",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p50", "charges-min": 0, "charges-max": 50 },
+      { "item": "fnp90mag" },
+      { "item": "fnp90mag", "prob": 50 },
+      { "group": "on_hand_57" }
+    ]
+  },
+  {
+    "id": "nested_fn_ps90",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "fn_ps90", "charges-min": 0, "charges-max": 50 },
+      { "item": "fnp90mag" },
+      { "item": "fnp90mag", "prob": 50 },
+      { "group": "on_hand_57" }
+    ]
+  },
+  {
+    "id": "nested_ruger_57",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ruger_57", "charges-min": 0, "charges-max": 20 },
+      { "item": "ruger_57mag" },
+      { "item": "ruger_57mag", "prob": 50 },
+      { "group": "on_hand_57" }
+    ]
   }
 ]

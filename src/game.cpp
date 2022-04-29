@@ -1276,8 +1276,8 @@ static bool cancel_auto_move( Character &you, const std::string &text )
         return false;
     }
     g->invalidate_main_ui_adaptor();
-    if( query_yn( _( "%s Cancel auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s Auto-move canceled." ), text );
+    if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
+        add_msg( m_warning, _( "%s Auto move canceled." ), text );
         if( !you.omt_path.empty() ) {
             you.omt_path.clear();
         }
@@ -1719,7 +1719,7 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
 
 static hint_rating rate_action_collapse( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
         if( !pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1729,7 +1729,7 @@ static hint_rating rate_action_collapse( const item &it )
 
 static hint_rating rate_action_expand( const item &it )
 {
-    for( const item_pocket *pocket : it.get_all_standard_pockets().value() ) {
+    for( const item_pocket *pocket : it.get_all_standard_pockets() ) {
         if( pocket->settings.is_collapsed() ) {
             return hint_rating::good;
         }
@@ -1898,7 +1898,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
-            addentry( 'v', pgettext( "action", "pocket autopickup settings" ), hint_rating::good );
+            addentry( 'v', pgettext( "action", "pocket auto pickup settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
@@ -1913,9 +1913,9 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
 
         if( bHPR ) {
-            addentry( '-', _( "Autopickup" ), hint_rating::iffy );
+            addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
         } else {
-            addentry( '+', _( "Autopickup" ), hint_rating::good );
+            addentry( '+', _( "Auto pickup" ), hint_rating::good );
         }
 
         int iScrollPos = 0;
@@ -2135,7 +2135,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case '<':
                 case '>':
-                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets().value() ) {
+                    for( item_pocket *pocket : oThisItem.get_all_standard_pockets() ) {
                         pocket->settings.set_collapse( cMenu == '>' );
                     }
                     break;
@@ -2254,17 +2254,17 @@ input_context get_default_mode_input_context()
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
-    ctxt.register_action( "UP", to_translation( "Move North" ) );
-    ctxt.register_action( "RIGHTUP", to_translation( "Move Northeast" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move East" ) );
-    ctxt.register_action( "RIGHTDOWN", to_translation( "Move Southeast" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", to_translation( "Move Southwest" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move West" ) );
-    ctxt.register_action( "LEFTUP", to_translation( "Move Northwest" ) );
+    ctxt.register_action( "UP", to_translation( "Move north" ) );
+    ctxt.register_action( "RIGHTUP", to_translation( "Move northeast" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Move east" ) );
+    ctxt.register_action( "RIGHTDOWN", to_translation( "Move southeast" ) );
+    ctxt.register_action( "DOWN", to_translation( "Move south" ) );
+    ctxt.register_action( "LEFTDOWN", to_translation( "Move southwest" ) );
+    ctxt.register_action( "LEFT", to_translation( "Move west" ) );
+    ctxt.register_action( "LEFTUP", to_translation( "Move northwest" ) );
     ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend Stairs" ) );
-    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend Stairs" ) );
+    ctxt.register_action( "LEVEL_DOWN", to_translation( "Descend stairs" ) );
+    ctxt.register_action( "LEVEL_UP", to_translation( "Ascend stairs" ) );
     ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
@@ -2476,9 +2476,9 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     destination_preview.clear();
 
     if( cleared_destination ) {
-        // Produce no-op if auto-move had just been cleared on this action
+        // Produce no-op if auto move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
-        // of right-click canceling an auto-move before it is initiated.
+        // of right-click canceling an auto move before it is initiated.
         return false;
     }
 
@@ -3524,7 +3524,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
-        // Draw auto-move preview trail
+        // Draw auto move preview trail
         const tripoint &final_destination = destination_preview.back();
         tripoint line_center = u.pos() + u.view_offset;
         draw_line( final_destination, line_center, destination_preview, true );
@@ -4163,7 +4163,7 @@ void game::mon_info_update( )
             set_safe_mode( SAFE_MODE_STOP );
         }
     } else if( calendar::turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
-               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+               newseen == 0 ) { // Auto safe mode, but only if it's a new turn
         turnssincelastmon += calendar::turn - previous_turn;
         time_duration auto_safe_mode =
             time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
@@ -6881,7 +6881,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             werase( w_info );
             draw_border( w_info );
 
-            center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
+            center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look around</color> >" ) ) );
 
 
             creature_tracker &creatures = get_creature_tracker();
@@ -8164,9 +8164,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                         std::string sSafemode;
                         if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
-                            sSafemode = _( "<R>emove from safemode Blacklist" );
+                            sSafemode = _( "<R>emove from safe mode blacklist" );
                         } else {
-                            sSafemode = _( "<A>dd to safemode Blacklist" );
+                            sSafemode = _( "<A>dd to safe mode blacklist" );
                         }
 
                         shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
@@ -10039,7 +10039,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    //Autopickup
+    // Auto pickup
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {

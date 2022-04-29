@@ -25,16 +25,44 @@
   },
   {
     "type": "item_group",
+    "id": "spare_tire_kit",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 78 },
+      { "item": "jack", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_wide_wheel",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel_wide", "prob": 95 }, { "item": "deflated_wheel_wide", "prob": 5 } ], "prob": 78 },
+      { "item": "jack", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_small_jack",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 78 },
+      { "item": "jack_small", "prob": 88 },
+      { "item": "lug_wrench", "prob": 92 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spare_tire_kit_tools_only",
+    "subtype": "collection",
+    "entries": [ { "item": "jack", "prob": 88 }, { "item": "lug_wrench", "prob": 92 } ]
+  },
+  {
+    "type": "item_group",
     "id": "car_kit",
     "items": [
-      {
-        "collection": [
-          { "distribution": [ { "item": "wheel", "prob": 95 }, { "item": "deflated_wheel", "prob": 5 } ], "prob": 100 },
-          { "item": "jack", "prob": 80 },
-          { "item": "tire_iron", "prob": 50 }
-        ],
-        "prob": 50
-      },
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 3 ],
       [ "hose", 7 ],

@@ -76,7 +76,7 @@
     "tools": [
       [
         [ "water_purifier", 1 ],
-        [ "fake_water_purifier", 1 ],
+        [ "water_purifier_tool", 1 ],
         [ "pur_tablets", 1 ],
         [ "char_purifier", 1 ],
         [ "char_purifier_clay", 1 ]
@@ -405,6 +405,53 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "lobster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mollusk_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "mollusk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gastropod_purged",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "40 m",
+    "charges": 6,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "snail_garden", 6 ], [ "slug_garden", 6 ] ], [ [ "water", 3 ], [ "water_clean", 3 ], [ "salt_water", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gastropod_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "charges": 6,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "gastropod_purged", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -8527,7 +8574,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_young",
+    "result": "sourdough_young_uncovered",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -8536,12 +8583,12 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour_any", 4, "LIST" ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "flour_any", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "sourdough_split",
+    "result": "sourdough_split_uncovered",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -8550,18 +8597,13 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water_clean", 1 ] ],
-      [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "flour_any", 4, "LIST" ] ],
-      [ [ "sourdough_starter", 1 ] ]
-    ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "flour_any", 4, "LIST" ] ], [ [ "sourdough_starter_uncovered", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sourdough_bread",
-    "byproducts": [ [ "sourdough_split", 1 ] ],
+    "byproducts": [ [ "sourdough_split_uncovered", 1 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -8574,7 +8616,7 @@
     "//": "The single water_clean here is for feeding the new starter.",
     "components": [
       [ [ "flour_any", 10, "LIST" ] ],
-      [ [ "sourdough_starter", 1 ] ],
+      [ [ "sourdough_starter_uncovered", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "water_clean", 1 ] ]
     ]

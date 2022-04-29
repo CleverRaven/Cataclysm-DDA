@@ -1014,5 +1014,43 @@
     "longest_side": "150 cm",
     "bashing": 29,
     "price": 34000
+  },
+  {
+    "id": "grim_reaper_scythe",
+    "looks_like": "scythe_war",
+    "repairs_like": "rune_animist_weapon_adept",
+    "type": "TOOL",
+    "name": { "str": "grim reaper's scythe" },
+    "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and a capable of casting a strong offensive spell.",
+    "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enhance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
+    "weight": "2750 g",
+    "volume": "3550 ml",
+    "longest_side": "150 cm",
+    "price": 10000,
+    "bashing": 17,
+    "cutting": 45,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "GRASS_CUT", 2 ] ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "MAGIC_FOCUS",
+      "POLEARM",
+      "SHEATH_SPEAR",
+      "REACH_ATTACK",
+      "ALWAYS_TWOHAND",
+      "NO_RELOAD",
+      "NO_UNLOAD"
+    ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "charges_per_use": 1,
+    "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ]
   }
 ]

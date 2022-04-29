@@ -409,7 +409,7 @@ class map_notes_callback : public uilist_callback
                 }
                 if( action == "MARK_DANGER" ) {
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    if( query_yn( _( "Mark area as dangerous ( to avoid on automove paths? )" ) ) ) {
+                    if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
                         const int max_amount = 20;
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
