@@ -160,14 +160,14 @@
     "id": "mon_fish_discus",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str": "discus" },
+    "name": { "str": "discus", "str_pl": "discuses" },
     "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to mantain in captivity."
   },
   {
     "id": "mon_fish_angelfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str": "angelfish" },
+    "name": { "str": "angelfish", "str_pl:" "angelfishes" },
     "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semiaggresive in captivity."
   }
 ]
