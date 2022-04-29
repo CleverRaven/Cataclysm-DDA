@@ -1357,9 +1357,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
                                      point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
         display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
+        const point filter_pos( 4, 8 );
         // width of the legend
-        legwidth = width - 4 - BORDER_SPACE;
-        spopup.window( w_help, point( 4, 8 ), legwidth )
+        legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
+        // +1 for end-of-text cursor
+        spopup.window( w_help, filter_pos, filter_pos.x + legwidth + 1 )
         .max_length( legwidth )
         .context( ctxt );
         ui.position_from_window( w_help );

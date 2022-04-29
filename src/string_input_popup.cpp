@@ -380,7 +380,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
         // starts scrolling when the cursor is this far from the start or end
         const size_t scroll_width = std::min( 10, scrmax / 5 );
-        if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
+        if( ret.display_width() < static_cast<size_t>( scrmax ) ) {
+            shift = 0;
+        } else if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
             shift = std::max( width_to_cursor_start, scroll_width ) - scroll_width;
         } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) - scroll_width ) {
             shift = std::min( width_to_cursor_end + scroll_width, ret.display_width() ) - scrmax;
