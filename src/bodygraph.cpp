@@ -398,7 +398,7 @@ void bodygraph_display::prepare_partlist()
         if( !std::get<1>( a ) != !std::get<1>( b ) ) {
             return !std::get<1>( a );
         }
-        return true;
+        return a != b;
     } );
 }
 
