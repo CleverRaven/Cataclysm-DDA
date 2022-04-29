@@ -262,7 +262,8 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
     "price": 12500,
     "price_postapoc": 750
-  },{
+  },
+  {
     "id": "bokken_carved",
     "type": "GENERIC",
     "symbol": "/",
