@@ -1790,7 +1790,7 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
                 if( unread[cat] ) {
                     auto it = flagged_names.find( cat );
                     cata_assert( it != flagged_names.end() );
-                    ( *it ).second += "<color_green>*</color>";
+                    ( *it ).second += "<color_light_green>⁺</color>";
                 }
             }
             std::pair<std::vector<std::string>, size_t> fitted_cat_list;
