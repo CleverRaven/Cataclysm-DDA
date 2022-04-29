@@ -231,10 +231,10 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
-    for (const auto& q : obj.charged_qualities) {
-        for (const auto& u : q.first.obj().usages) {
-            if (q.second >= u.first) {
-                emplace_usage(obj.use_methods, u.second);
+    for( const auto &q : obj.charged_qualities ) {
+        for( const auto &u : q.first.obj().usages ) {
+            if( q.second >= u.first ) {
+                emplace_usage( obj.use_methods, u.second );
                 // I do not know how to get the ammo scale, so hopefully it naturally comes with the item's scale?
                 //obj.ammo_scale.emplace(u.second, 0.0f);
             }

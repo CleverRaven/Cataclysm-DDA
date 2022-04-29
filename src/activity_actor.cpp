@@ -188,7 +188,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
-static const quality_id qual_HACKSAW("SAW_M");
+static const quality_id qual_HACKSAW( "SAW_M" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_PRYING_NAIL( "PRYING_NAIL" );
@@ -1132,11 +1132,11 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         return;
     }
 
-    int qual = tool->get_quality(qual_HACKSAW);
-    if (qual < 2) {
-        if (!testing) {
-            debugmsg("Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
-                tool->typeId().c_str());
+    int qual = tool->get_quality( qual_HACKSAW );
+    if( qual < 2 ) {
+        if( !testing ) {
+            debugmsg( "Item %s with 'HACKSAW' use action requires SAW_M quality of at least 2.",
+                      tool->typeId().c_str() );
         }
         act.set_to_null();
         return;
@@ -1145,7 +1145,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
     //Speed of hacksaw action is the SAW_M quality over 2, 2 being the hacksaw level.
     //3 makes the speed one-and-a-half times, and the total moves 66% of hacksaw. 4 is twice the speed, 50% the moves, etc, 5 is 2.5 times the speed, 40% the original time
     //done because it's easy to code, and diminising returns on cutting speed make sense as the limiting factor becomes aligning the tool and controlling it instead of the actual cutting
-    act.moves_total = moves_before_quality / (qual / 2);
+    act.moves_total = moves_before_quality / ( qual / 2 );
     add_msg_debug( debugmode::DF_ACTIVITY, "%s moves_total: %d", act.id().str(), act.moves_total );
     act.moves_left = act.moves_total;
 }
@@ -1253,15 +1253,16 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-//TODO: Make hacksawing resumable with different tools with the same SAW_M quality. 
+//TODO: Make hacksawing resumable with different tools with the same SAW_M quality.
 //Potentially make it possible to resume with different SAW_M quality and recalculate time to completion partway through.
 //This is really not a big deal, and will cost a few minutes of in game time and part of a medium battery charge at worst as someone accidentally cancels the activity_actor and has to start again
 //If a few minutes are life and death, sawing metal may not be the wise choice in the first place.
-bool hacksaw_activity_actor::can_resume_with_internal(const activity_actor& other,
-    const Character&/*who*/) const {
-    const hacksaw_activity_actor& actor = static_cast<const hacksaw_activity_actor&>
-        (other);
-    return actor.target == target && actor.tool.operator==(tool);
+bool hacksaw_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character &/*who*/ ) const
+{
+    const hacksaw_activity_actor &actor = static_cast<const hacksaw_activity_actor &>
+                                          ( other );
+    return actor.target == target && actor.tool.operator == ( tool );
 }
 
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
