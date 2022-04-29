@@ -130,7 +130,7 @@
   {
     "id": "mon_slug_forest",
     "type": "MONSTER",
-    "name": { "str_sp": "big slug" },
+    "name": { "str": "big slug" },
     "description": "A gastropod either of native or introduced stock.  This one Looks larger than usual.",
     "default_faction": "slug",
     "categories": [ "WILDLIFE" ],
