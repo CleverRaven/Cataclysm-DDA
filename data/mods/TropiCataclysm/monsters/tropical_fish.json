@@ -117,5 +117,57 @@
     "copy-from": "mon_fish_huge",
     "name": { "str": "arapaima" },
     "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
+  },
+  {
+    "id": "mon_fish_piraiba",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "piraiba" },
+    "description": "A huge species of south american catfish native to the Amazon and Orinoco rivers, they can reach almost 3 meters in length."
+  },
+  {
+    "id": "mon_fish_pleco",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "pleco" },
+    "description": "A catfish species native to South America, Panama and even Costa Rica.  They are distinguished by their bony spines and suction adapted mouths."
+  },
+  {
+    "id": "mon_fish_stringray",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "river stingray" },
+    "description": "A fish of the Potamotrygonidae family.  These freshwater stingrays are found mostly in South America with a few bred in other parts of the world.",
+    "aggression": -50,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "BADVENOM" ]
+  },
+  {
+    "id": "mon_fish_tucunare",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tucunare" },
+    "description": "A vicious predatory cichlid found along the northern afluents of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
+  },
+  {
+    "id": "mon_fish_discus",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "discus" },
+    "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to mantain in captivity."
+  },
+  {
+    "id": "mon_fish_angelfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "angelfish" },
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semiaggresive in captivity."
   }
 ]
