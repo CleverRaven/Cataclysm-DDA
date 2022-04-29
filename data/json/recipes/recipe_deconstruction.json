@@ -6041,5 +6041,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "components": [ [ [ "plastic_sheet", 1 ] ] ]
+  },
+  {
+    "result": "evac_pamphlet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
