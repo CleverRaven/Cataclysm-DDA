@@ -200,7 +200,7 @@ struct bodygraph_display {
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void prepare_partlist();
     void prepare_infolist();
-    void prepare_infotext();
+    void prepare_infotext( bool reset_pos );
     void init_ui_windows();
     void draw_borders();
     void draw_partlist();
@@ -433,12 +433,12 @@ void bodygraph_display::prepare_infolist()
 
     // update info text cache
     info_txt.clear();
-    prepare_infotext();
+    prepare_infotext( true );
 }
 
-void bodygraph_display::prepare_infotext()
+void bodygraph_display::prepare_infotext( bool reset_pos )
 {
-    top_info = 0;
+    top_info = reset_pos ? 0 : top_info;
     // worn armor
     info_txt.emplace_back( string_format( "%s:", colorize( _( "Worn" ), c_magenta ) ) );
     for( const std::string &worn : info.worn_names ) {
@@ -494,6 +494,8 @@ shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
             init_ui_windows();
+            info_txt.clear();
+            prepare_infotext( false );
             cui.position_from_window( w_border );
         } );
         current_ui->mark_resize();
@@ -510,7 +512,6 @@ shared_ptr_fast<ui_adaptor> bodygraph_display::create_or_get_ui_adaptor()
 void bodygraph_display::display()
 {
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    init_ui_windows();
     prepare_partlist();
     prepare_infolist();
 
