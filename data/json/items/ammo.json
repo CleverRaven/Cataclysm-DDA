@@ -1275,6 +1275,8 @@
     "symbol": "=",
     "color": "brown",
     "count": 50,
+    "//": "Setting stack_size as a precursor to adjusting generated amounts on crafting/spawn by adjusting count.",
+    "stack_size": 50,
     "ammo_type": "tinder",
     "effects": [ "NEVER_MISFIRES" ]
   },
