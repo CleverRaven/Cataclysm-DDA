@@ -1149,7 +1149,7 @@
     "id": "mon_zosasaurus",
     "name": { "str": "mosasaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
-    "looks_like": "mon_zyrannosaurus",
+    "looks_like": "mon_zhark",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "fish",
