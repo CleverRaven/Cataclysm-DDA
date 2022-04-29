@@ -178,6 +178,7 @@ struct bodygraph_display {
     bodygraph_id id;
     input_context ctxt;
     weak_ptr_fast<ui_adaptor> ui;
+    border_helper bh_borders;
     catacurses::window w_border;
     catacurses::window w_partlist;
     catacurses::window w_graph;
@@ -245,21 +246,15 @@ void bodygraph_display::init_ui_windows()
                                   top_left + point( 2 + partlist_width, 2 ) );
     w_info = catacurses::newwin( BPGRAPH_HEIGHT - 2, info_width,
                                  top_left + point( 3 + partlist_width + BPGRAPH_MAXCOLS, 1 ) );
+
+    bh_borders = border_helper();
+    bh_borders.add_border().set( top_left, { total_w, BPGRAPH_HEIGHT } );
+    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, BPGRAPH_HEIGHT } );
 }
 
 void bodygraph_display::draw_borders()
 {
-    draw_border( w_border, c_white );
-    // vertical header separators
-    for( int i = 1; i < BPGRAPH_HEIGHT - 1; i++ ) {
-        mvwputch( w_border, point( 1 + partlist_width, i ), c_white, LINE_XOXO );
-        mvwputch( w_border, point( 2 + partlist_width + BPGRAPH_MAXCOLS, i ), c_white, LINE_XOXO );
-    }
-    mvwputch( w_border, point( 1 + partlist_width, 0 ), c_white, LINE_OXXX );
-    mvwputch( w_border, point( 2 + partlist_width + BPGRAPH_MAXCOLS, 0 ), c_white, LINE_OXXX );
-    mvwputch( w_border, point( 1 + partlist_width, BPGRAPH_HEIGHT - 1 ), c_white, LINE_XXOX );
-    mvwputch( w_border, point( 2 + partlist_width + BPGRAPH_MAXCOLS, BPGRAPH_HEIGHT - 1 ), c_white,
-              LINE_XXOX );
+    bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
     auto center_txt_start = [&first_win_width]( const std::string & txt ) {
