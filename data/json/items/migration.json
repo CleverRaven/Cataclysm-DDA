@@ -1714,6 +1714,39 @@
     "replace": "high_end_folding_stock"
   },
   {
+    "id": "sourdough_young",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_young_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "sourdough_split",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_split_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "sourdough_starter",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ { "id": "sourdough_starter_uncovered", "count": 1 } ]
+  },
+  {
+    "id": "folding_poncho_on",
+    "type": "MIGRATION",
+    "replace": "folding_poncho"
+  },
+  {
+    "id": "emer_blanket_on",
+    "type": "MIGRATION",
+    "replace": "emer_blanket"
+  },
+  {
+    "id": "tire_iron",
+    "type": "MIGRATION",
+    "replace": "lug_wrench"
+  },
+  {
     "id": "reptile_sample",
     "type": "MIGRATION",
     "replace": "lizard_sample"

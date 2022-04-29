@@ -3144,6 +3144,9 @@ static bool damage_item( Character &pl, item_location &fix )
             fix.remove_item();
         }
 
+        pl.calc_encumbrance();
+        pl.calc_discomfort();
+
         return true;
     }
 
@@ -3242,6 +3245,8 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->set_flag( flag_FIT );
+
+                pl.calc_encumbrance();
             }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
@@ -3256,6 +3261,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
                                   fix->tname().c_str() );
             fix->set_flag( flag_UNDERSIZE );
+            pl.calc_encumbrance();
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -3268,6 +3274,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
                                   fix->tname().c_str() );
             fix->unset_flag( flag_UNDERSIZE );
+            pl.calc_encumbrance();
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
@@ -4708,6 +4715,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p.i_rem_keep_contents( &mod );
+            p.calc_encumbrance();
+            p.calc_discomfort();
         }
         return thread_needed / 2;
     } else if( rn <= 10 ) {
@@ -4721,6 +4730,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
         p.consume_items( comps, 1, is_crafting_component );
         mod.set_flag( the_mod );
         mod.update_clothing_mod_val();
+        p.calc_encumbrance();
+        p.calc_discomfort();
         return thread_needed;
     }
 
@@ -4728,6 +4739,8 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
     mod.set_flag( the_mod );
     mod.update_clothing_mod_val();
     p.consume_items( comps, 1, is_crafting_component );
+    p.calc_encumbrance();
+    p.calc_discomfort();
     return thread_needed / 2;
 }
 
