@@ -262,6 +262,26 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
     "price": 12500,
     "price_postapoc": 750
+  },{
+    "id": "bokken_carved",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str_sp": "handcarved bokken" },
+    "description": "This is a handcarved version of a japanese training katana. While the shape is roughly the same, this simple weapon lacks the same power and durability of a real one.",
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "ascii_picture": "bokken",
+    "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
+    "flags": [ "FRAGILE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "weight": "800 g",
+    "volume": "2 L",
+    "longest_side": "100 cm",
+    "bashing": 9,
+    "cutting": 1,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
+    "category": "weapons"
   },
   {
     "type": "GENERIC",
