@@ -34,6 +34,9 @@ struct sub_body_part_type;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 
+struct bodygraph;
+using bodygraph_id = string_id<bodygraph>;
+
 struct character_modifier;
 using character_modifier_id = string_id<character_modifier>;
 
