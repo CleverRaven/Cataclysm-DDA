@@ -3,7 +3,7 @@
     "id": "mon_zombie_garden",
     "type": "MONSTER",
     "name": { "str": "garden zombie" },
-    "description": "A zombie wearing some kind of gardening or bothanics attire and is smeared full of vines, thorns, pollen and sap.  The triffids have it controlled somehow but its purpose remains unclear.",
+    "description": "A zombie wearing some kind of gardening or botanic attire and is smeared full of vines, thorns, pollen and sap.  The triffids have it controlled somehow but its purpose remains unclear.",
     "copy-from": "mon_beekeeper",
     "default_faction": "triffid",
     "harvest": "zombie_thorny",
