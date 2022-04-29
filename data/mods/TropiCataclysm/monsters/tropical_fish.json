@@ -154,7 +154,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "tucunare" },
-    "description": "A vicious predatory cichlid found along the northern afluents of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
+    "description": "A vicious predatory cichlid found along the northern affluents of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
   },
   {
     "id": "mon_fish_discus",
@@ -168,6 +168,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str": "angelfish", "str_pl": "angelfishes" },
-    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semiaggresive in captivity."
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi aggressive in captivity."
   }
 ]
