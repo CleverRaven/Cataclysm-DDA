@@ -299,6 +299,8 @@ int armor_portion_data::convert_descriptor_to_int( encumbrance_modifier em )
             return 10;
         case encumbrance_modifier::WELL_SUPPORTED:
             return -10;
+        case encumbrance_modifier::NONE:
+            return 0;
         case encumbrance_modifier::last:
             break;
     }

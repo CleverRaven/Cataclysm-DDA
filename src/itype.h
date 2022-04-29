@@ -238,6 +238,7 @@ enum class encumbrance_modifier : int {
     IMBALANCED = 0,
     RESTRICTS_NECK,
     WELL_SUPPORTED,
+    NONE,
     last
 };
 

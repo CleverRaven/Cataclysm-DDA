@@ -3576,6 +3576,8 @@ std::string enum_to_string<encumbrance_modifier>( encumbrance_modifier data )
             return "RESTRICTS_NECK";
         case encumbrance_modifier::WELL_SUPPORTED:
             return "WELL_SUPPORTED";
+        case encumbrance_modifier::NONE:
+            return "NONE";
         case encumbrance_modifier::last:
             break;
     }
