@@ -10,6 +10,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "optional.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -317,4 +318,21 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
             }
         }
     }
+}
+
+TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
+{
+    really_clear_map();
+    Character &you = get_player_character();
+    clear_avatar();
+    const tripoint test_origin = you.pos() + point( 6, 2 );
+    map &here = get_map();
+    set_time_to_day();
+
+    REQUIRE( you.sees( you.pos() + point( 10, 10 ) ) );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+    here.set_seen_cache_dirty( 0 );
+    here.build_map_cache( 0 );
+    CHECK( !you.sees( you.pos() + point( 10, 10 ) ) );
 }
