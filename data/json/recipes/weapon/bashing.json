@@ -519,6 +519,45 @@
     ]
   },
   {
+    "result": "mace_pipe",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
+  },
+  {
+    "result": "mace_pipe_large",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 2 ] ] ]
+  },
+  {
+    "result": "staff_pipe",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "pipe", 3 ] ], [ [ "pipe_fittings", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "mace_trench",
