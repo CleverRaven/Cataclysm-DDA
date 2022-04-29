@@ -154,7 +154,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "tucunare" },
-    "description": "A vicious predatory cichlid found along the northern affluents of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
+    "description": "A vicious predatory cichlid found along the northern tributaries of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
   },
   {
     "id": "mon_fish_discus",
