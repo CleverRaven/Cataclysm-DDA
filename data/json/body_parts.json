@@ -62,7 +62,8 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 18,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ]
+    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
+    "encumbrance_per_weight": { "0 g": 0, "300 g": 4, "800 g": 8, "1300 g": 20, "1600 g": 30, "2200 g": 50, "5600 g": 80 }
   },
   {
     "id": "eyes",

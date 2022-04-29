@@ -233,10 +233,26 @@ struct part_material {
     void deserialize( const JsonObject &jo );
 };
 
+// values for attributes related to encumbrance
+enum class encumbrance_modifier : int {
+    IMBALANCED = 0,
+    RESTRICTS_NECK,
+    WELL_SUPPORTED,
+    last
+};
+
+template<>
+struct enum_traits<encumbrance_modifier> {
+    static constexpr encumbrance_modifier last = encumbrance_modifier::last;
+};
+
 struct armor_portion_data {
 
     // The base volume for an item
     const units::volume volume_per_encumbrance = 250_ml; // NOLINT(cata-serialize)
+
+    // descriptors used to infer encumbrance
+    std::vector<encumbrance_modifier> encumber_modifiers;
 
     // How much this piece encumbers the player.
     int encumber = 0;
@@ -319,6 +335,12 @@ struct armor_portion_data {
      * coverage. However only cover 35% of the overall leg.
      */
     int max_coverage( bodypart_str_id bp ) const;
+
+    // helper function to return encumbrance value by descriptor and weight
+    int calc_encumbrance( units::mass weight, bodypart_id bp ) const;
+
+    // converts a specific encumbrance modifier to an actual encumbrance value
+    static int convert_descriptor_to_int( encumbrance_modifier em );
 
     void deserialize( const JsonObject &jo );
 };

@@ -441,6 +441,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "side", part_side );
 
     optional( jo, was_loaded, "sub_parts", sub_parts );
+
+    optional( jo, was_loaded, "encumbrance_per_weight", encumbrance_per_weight );
 }
 
 void body_part_type::reset()
