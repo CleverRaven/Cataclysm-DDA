@@ -1252,6 +1252,11 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 
     act.set_to_null();
 }
+
+//TODO: Make hacksawing resumable with different tools with the same SAW_M quality. 
+//Potentially make it possible to resume with different SAW_M quality and recalculate time to completion partway through.
+//This is really not a big deal, and will cost a few minutes of in game time and part of a medium battery charge at worst as someone accidentally cancels the activity_actor and has to start again
+//If a few minutes are life and death, sawing metal may not be the wise choice in the first place.
 bool hacksaw_activity_actor::can_resume_with_internal(const activity_actor& other,
     const Character&/*who*/) const {
     const hacksaw_activity_actor& actor = static_cast<const hacksaw_activity_actor&>
