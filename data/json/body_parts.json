@@ -63,7 +63,15 @@
     "bionic_slots": 18,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
-    "encumbrance_per_weight": { "0 g": 0, "300 g": 4, "800 g": 8, "1300 g": 20, "1600 g": 30, "2200 g": 50, "5600 g": 80 }
+    "encumbrance_per_weight": [
+      {"weight": "1 g", "encumbrance": 1 },
+      {"weight": "300 g", "encumbrance": 4 },
+      {"weight": "800 g", "encumbrance": 8 },
+      {"weight": "1300 g", "encumbrance": 20 },
+      {"weight": "1600 g", "encumbrance": 30 },
+      {"weight": "2200 g", "encumbrance": 50 },
+      {"weight": "5600 g", "encumbrance": 80 }
+      ]
   },
   {
     "id": "eyes",

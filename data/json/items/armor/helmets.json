@@ -554,7 +554,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumberance_modifiers": ["RESTRICTS_NECK", "WELL_SUPPORTED" ]
+        "encumberance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
