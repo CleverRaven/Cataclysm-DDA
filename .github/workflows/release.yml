@@ -81,6 +81,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            sound: 0
           - name: Windows Tiles Sounds x64 MSVC
             artifact: windows-tiles-sounds-x64-msvc
             arch: x64
@@ -96,6 +97,7 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
+            sound: 0
           - name: Windows Tiles Sounds x32 MSVC
             artifact: windows-tiles-sounds-x32-msvc
             arch: x86
@@ -110,9 +112,10 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            sound: 0
           - name: Windows Tiles Sounds x64
             mxe: x86_64
-            artifact: windows-tiles-x64
+            artifact: windows-tiles-sounds-x64
             os: ubuntu-latest
             ext: zip
             content: application/zip
@@ -123,9 +126,10 @@ jobs:
             os: ubuntu-latest
             ext: zip
             content: application/zip
+            sound: 0
           - name: Windows Tiles Sounds x32
             mxe: i686
-            artifact: windows-tiles-x32
+            artifact: windows-tiles-sounds-x32
             os: ubuntu-latest
             ext: zip
             content: application/zip
@@ -135,6 +139,7 @@ jobs:
             mxe: none
             android: none
             tiles: 1
+            sound: 0
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
@@ -144,7 +149,7 @@ jobs:
             android: none
             tiles: 1
             sound: 1
-            artifact: linux-tiles-x64
+            artifact: linux-tiles-sounds-x64
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
@@ -152,6 +157,7 @@ jobs:
             mxe: none
             android: none
             tiles: 0
+            sound: 0
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
@@ -159,6 +165,7 @@ jobs:
             os: macos-10.15
             mxe: none
             tiles: 0
+            sound: 0
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
@@ -166,14 +173,7 @@ jobs:
             os: macos-10.15
             mxe: none
             tiles: 1
-            artifact: osx-tiles-x64
-            ext: dmg
-            content: application/x-apple-diskimage
-          - name: osx-tiles-sounds-x64
-            os: macos-10.15
-            mxe: none
-            tiles: 1
-            sound: 1
+            sound: 0
             artifact: osx-tiles-x64
             ext: dmg
             content: application/x-apple-diskimage
