@@ -30,7 +30,7 @@
     "mission": 7,
     "chat": "TALK_NPC_HOMELESS_BROKER",
     "faction": "wasteland_scavengers",
-    "mission_offered": "MISSION_KILL_BLOBS"
+    "mission_offered": "MISSION_KILL_SLIMES"
   },
 {
     "type": "npc",
