@@ -66,7 +66,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_FRIENDS",
-    "dynamic_line": "Oh, they're right over there, and one of us is in that tent over there.  They handle any stuff we manage to scavenge, so feel free to buy anything you might want.",
+    "dynamic_line": "Oh, they're right over there, and one of us is in that tent over there.  They handle any stuff we manage to scavenge, so feel free to trade for what you want.",
     "responses": [
       { "text": "Alright.", "topic": "TALK_NONE" }
     ]
