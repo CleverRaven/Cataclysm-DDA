@@ -317,15 +317,15 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_legs",
+    "id": "mt_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_legs",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -333,33 +333,33 @@
     ]
   },
   {
-    "id": "xl_hc_chainmail_legs",
+    "id": "xl_mt_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "copy-from": "mt_chainmail_legs",
+    "name": { "str": "XL moon tears chainmail leggings", "str_pl": "pairs of XL moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings for the largest of redcaps.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_hc_chainmail_legs",
+    "id": "xs_mt_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
-    "description": "Customized high steel chainmail legs for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "copy-from": "mt_chainmail_legs",
+    "name": { "str": "XS moon tears chainmail leggings", "str_pl": "pairs of XS moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings for the smallest of pooka.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_hauberk",
+    "id": "mt_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hauberk",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail hauberk" },
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail hauberk" },
     "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -367,31 +367,31 @@
     ]
   },
   {
-    "id": "xl_hc_chainmail_hauberk",
+    "id": "xl_mt_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail hauberk" },
-    "copy-from": "hc_chainmail_hauberk",
+    "name": { "str": "XL moon tears chainmail hauberk" },
+    "copy-from": "mt_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_hauberk_xs",
+    "id": "mt_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_hauberk",
-    "name": { "str": "XS high steel chainmail hauberk" },
+    "copy-from": "mt_chainmail_hauberk",
+    "name": { "str": "XS moon tears` chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_suit",
+    "id": "mt_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail armor" },
-    "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail armor" },
+    "description": "A fully customized moon tears chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": 20
@@ -399,32 +399,32 @@
     ]
   },
   {
-    "id": "xl_hc_chainmail_suit",
+    "id": "xl_mt_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail armor" },
-    "copy-from": "hc_chainmail_suit",
+    "name": { "str": "XL moon tears chainmail armor" },
+    "copy-from": "mt_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_suit_xs",
+    "id": "mt_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_suit",
-    "material": [ "ch_steel_chain" ],
-    "name": { "str": "XS high steel chainmail armor" },
+    "copy-from": "mt_chainmail_suit",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "XS moon tears chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "hc_chainmail_vest",
+    "id": "mt_chainmail_vest",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_vest",
-    "material": [ "hc_steel_chain" ],
+    "copy-from": "mt_chainmail_vest",
+    "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "high steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
         "coverage": 95,
         "encumbrance": 20
@@ -432,18 +432,18 @@
     ]
   },
   {
-    "id": "xl_hc_chainmail_vest",
+    "id": "xl_mt_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail vest" },
-    "copy-from": "hc_chainmail_vest",
+    "name": { "str": "XL moon tears chainmail vest" },
+    "copy-from": "mt_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_hc_chainmail_vest",
+    "id": "xs_mt_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
-    "name": { "str": "XS high steel chainmail vest" },
+    "name": { "str": "XS moon tears chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   }

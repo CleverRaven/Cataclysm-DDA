@@ -91,7 +91,7 @@
     "armor_cut": 12,
     "armor_bullet": 24,
     "special_attacks": [ { "id": "impale" } ],
-    "death_drops": "changeling_aspirant_death_drops"
+    "death_drops": "changeling_redcap_aspirant_death_drops"
   },
   {
     "id": "mon_pooka_aspirant",
@@ -112,7 +112,7 @@
     "armor_cut": 12,
     "armor_bullet": 24,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "death_drops": "changeling_aspirant_death_drops"
+    "death_drops": "changeling_pooka_aspirant_death_drops"
   },
   {
     "id": "mon_march_lord",
