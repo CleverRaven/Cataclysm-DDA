@@ -225,7 +225,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "tilapia" },
-    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adapatable herbivorous fishes that can survive well even in salt water."
+    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fishes that can survive well even in salt water."
   },
   {
     "id": "mon_fish_sabalo",
