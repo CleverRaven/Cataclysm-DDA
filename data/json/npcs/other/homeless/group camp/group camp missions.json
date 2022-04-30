@@ -187,12 +187,12 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "I need some help.",
-      "offer": "Our sanitation here has become problematic, as we've been going outside the walls to piss.  Last time I did that, I nearly died.  So, if you could get us a shovel, we could make a latrine for ourselves.  We'll pay you fairly, as usual.",
+      "offer": "Our sanitation here has become… problematic.  We've mostly just been going outside the walls to piss.  Not only is it kinda unhealthy, but the last time I wandered out I almost got eaten!  So, if you'd get us a shovel, we could make a latrine for ourselves.  We'll pay you fairly, as usual.",
       "advice": "A hardware store should have one lying around.",
         "accepted": "Thank you.  We'll be sure to compensate your efforts.",
         "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
         "inquire": "Do you have the shovel?",
-        "success": "Thank you.  We are eternally grateful to you.",
+        "success": "Thank you.  We're eternally grateful to you.",
         "success_lie": "I can tell you're lying.  I don't see shit.",
         "failure": "I'll do it myself, then." 
     }
