@@ -444,7 +444,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "encumbrance_per_weight" ) ) {
         const JsonArray &jarr = jo.get_array( "encumbrance_per_weight" );
-        for( const JsonObject &jval : jarr ) {
+        for( const auto &jval : jarr ) {
             units::mass weight = 0_gram;
             int encumbrance = 0;
 
