@@ -5186,6 +5186,7 @@ bool game::npc_menu( npc &who )
         swap_pos,
         push,
         examine_wounds,
+        examine_status,
         use_item,
         sort_armor,
         attack,
@@ -5204,6 +5205,7 @@ bool game::npc_menu( npc &who )
                     !u.is_mounted(), 's', _( "Swap positions" ) );
     amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
+    amenu.addentry( examine_status, true, 'e', _( "Examine status" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
@@ -5251,6 +5253,14 @@ bool game::npc_menu( npc &who )
         const bool precise = prof_bonus * 4 + u.per_cur >= 20;
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
+    } else if( choice == examine_status ) {
+        if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
+                                              who.is_friendly( u ) ) ) ||
+            who.in_sleep_state() ) {
+            display_bodygraph( who );
+        } else {
+            who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
+        }
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = [&who]( const item & it ) {

@@ -1128,7 +1128,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
     } else if( action == "VIEW_BODYSTAT" ) {
-        display_bodygraph();
+        display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
         uilist cmenu;
         cmenu.title = _( "Customize Character" );

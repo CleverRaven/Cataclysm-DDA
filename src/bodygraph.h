@@ -54,6 +54,6 @@ struct bodygraph {
     void check() const;
 };
 
-void display_bodygraph( const bodygraph_id &id = bodygraph_id::NULL_ID() );
+void display_bodygraph( const Character &u, const bodygraph_id &id = bodygraph_id::NULL_ID() );
 
 #endif // CATA_SRC_BODYGRAPH_H

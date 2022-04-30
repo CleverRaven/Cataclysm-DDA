@@ -175,6 +175,7 @@ void bodygraph::check() const
 #define BPGRAPH_HEIGHT 24
 
 struct bodygraph_display {
+    const Character *u;
     bodygraph_id id;
     input_context ctxt;
     weak_ptr_fast<ui_adaptor> ui;
@@ -195,7 +196,7 @@ struct bodygraph_display {
     bodygraph_display() = delete;
     bodygraph_display( const bodygraph_display & ) = delete;
     bodygraph_display( const bodygraph_display && ) = delete;
-    explicit bodygraph_display( const bodygraph_id &id );
+    explicit bodygraph_display( const Character *u, const bodygraph_id &id );
 
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
     void prepare_partlist();
@@ -209,7 +210,8 @@ struct bodygraph_display {
     void display();
 };
 
-bodygraph_display::bodygraph_display( const bodygraph_id &id ) : id( id ), ctxt( "BODYGRAPH" )
+bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id ) :
+    u( u ), id( id ), ctxt( "BODYGRAPH" )
 {
     if( id.is_null() ) {
         this->id = bodygraph_full_body;
@@ -412,11 +414,6 @@ void bodygraph_display::prepare_infolist()
     // sbps will either be a group for a body part and we'll need to do averages OR a single sub part
     std::set<sub_bodypart_id> sub_parts;
 
-    // should maybe be not just the avater I'm not sure how you are getting character passed in
-    // FIXME: pass Character to display_bodygraph() and then to bodygraph constructor,
-    // and access with this->id->character_var
-    const avatar &p = get_avatar();
-
     // this might be null need to test for nullbp as this all continues
     if( std::get<1>( partlist[sel_part] ) != nullptr ) {
         sub_parts.emplace( std::get<1>( partlist[sel_part] )->id );
@@ -429,7 +426,7 @@ void bodygraph_display::prepare_infolist()
         }
     }
 
-    p.worn.prepare_bodymap_info( info, bp, sub_parts, p );
+    u->worn.prepare_bodymap_info( info, bp, sub_parts, *u );
 
     // update info text cache
     info_txt.clear();
@@ -525,7 +522,7 @@ void bodygraph_display::display()
             if( !!std::get<2>( partlist[sel_part] ) ) {
                 bodygraph_id nextgraph = std::get<2>( partlist[sel_part] )->nested_graph;
                 if( !nextgraph.is_null() ) {
-                    display_bodygraph( nextgraph );
+                    display_bodygraph( *u, nextgraph );
                     prepare_infolist();
                 }
             }
@@ -559,8 +556,8 @@ void bodygraph_display::display()
     }
 }
 
-void display_bodygraph( const bodygraph_id &id )
+void display_bodygraph( const Character &u, const bodygraph_id &id )
 {
-    bodygraph_display bgd( id );
+    bodygraph_display bgd( &u, id );
     bgd.display();
 }
