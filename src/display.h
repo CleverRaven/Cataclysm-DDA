@@ -101,7 +101,8 @@ std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
 
-std::pair<std::string, nc_color> temp_text_color( const Character &u );
+std::pair<std::string, nc_color> temp_text_color( const Character &u,
+        const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
 std::pair<std::string, nc_color> str_text_color( const Character &p );

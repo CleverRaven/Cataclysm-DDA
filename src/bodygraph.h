@@ -8,6 +8,7 @@
 #include "type_id.h"
 #include "damage.h"
 
+class effect;
 class JsonObject;
 
 struct bodygraph_part {
@@ -26,11 +27,18 @@ struct bodygraph_part {
 // info that needs to be passed around
 struct bodygraph_info {
     std::vector<std::string> worn_names;
-    int avg_coverage = 0;
-    int total_encumbrance = 0;
     resistances worst_case;
     resistances median_case;
     resistances best_case;
+    std::string parent_bp_name;
+    std::vector<effect> effects;
+    std::pair<int, nc_color> temperature;
+    std::string temp_approx;
+    int avg_coverage = 0;
+    int total_encumbrance = 0;
+    int part_hp_cur = 0;
+    int part_hp_max = 0;
+    float wetness = 0;
     bool specific_sublimb = false;
 };
 

@@ -326,11 +326,12 @@ std::pair<std::string, nc_color> display::temp_delta_arrows( const Character &u 
     return std::make_pair( temp_message, temp_color );
 }
 
-std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
+std::pair<std::string, nc_color> display::temp_text_color( const Character &u,
+        const bodypart_str_id &bp )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    const bodypart_id current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id current_bp_extreme = bp.is_null() ? temp_delta( u ).first : bp;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;

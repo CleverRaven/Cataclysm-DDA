@@ -5,7 +5,9 @@
 #include "damage.h"
 #include "generic_factory.h"
 #include "input.h"
+#include "make_static.h"
 #include "ui_manager.h"
+#include "weather.h"
 
 #define BPGRAPH_MAXROWS 20
 #define BPGRAPH_MAXCOLS 40
@@ -436,6 +438,36 @@ void bodygraph_display::prepare_infolist()
 void bodygraph_display::prepare_infotext( bool reset_pos )
 {
     top_info = reset_pos ? 0 : top_info;
+    if( info.specific_sublimb ) {
+        // parent part
+        info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Sub part of" ), c_magenta ),
+                                              info.parent_bp_name ) );
+    }
+    // part health
+    std::pair<std::string, nc_color> hpbar = get_hp_bar( info.part_hp_cur, info.part_hp_max );
+    info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
+                                          colorize( hpbar.first, hpbar.second ) ) );
+    // part wetness
+    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
+                                          info.wetness ) );
+    // part temperature
+    const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
+                              u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
+    const int temp = info.temperature.first / 100.0 * 2; // farenheit
+    info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
+                                          temp_precise ? colorize( print_temperature( temp ),
+                                                  info.temperature.second ) : info.temp_approx ) );
+    info_txt.emplace_back( "--" );
+    // part effects
+    info_txt.emplace_back( string_format( "%s:", colorize( _( "Effects" ), c_magenta ) ) );
+    for( const effect &eff : info.effects ) {
+        if( eff.get_id()->is_show_in_info() ) {
+            effect_rating rt = eff.get_id()->get_rating();
+            info_txt.emplace_back( string_format( "  %s", colorize( eff.disp_name(),
+                                                  rt == e_good ? c_green : rt == e_bad ? c_red : c_yellow ) ) );
+        }
+    }
+    info_txt.emplace_back( "--" );
     // worn armor
     info_txt.emplace_back( string_format( "%s:", colorize( _( "Worn" ), c_magenta ) ) );
     for( const std::string &worn : info.worn_names ) {
