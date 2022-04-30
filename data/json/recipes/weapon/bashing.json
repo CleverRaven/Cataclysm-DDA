@@ -601,7 +601,7 @@
     "difficulty": 2,
     "//": "Originator set difficulty to 5.  It's a carved, polished and oiled stick.  If you look at other recipes of that general difficulty, they're all way more difficult crafting.",
     "time": "5 h",
-    "//1": "TODO: adjust crafting time down when it's possible to separate the oiling time from the crafting time easily.",
+    "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5, "max_experience": "60 m" } ],
