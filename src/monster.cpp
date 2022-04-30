@@ -3027,6 +3027,9 @@ void monster::init_from_item( item &itm )
             upgrade_time = std::stoi( up_time );
         }
         for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            if( it->is_armor() ) {
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+            }
             inv.push_back( *it );
             itm.remove_item( *it );
         }
