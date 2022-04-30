@@ -1,0 +1,15 @@
+[
+  {
+    "id": "vormithrax_anthology",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "pocket_survival",
+    "name": { "str": "Vormithrax Anthology", "str_pl": "copies of Vormithrax Anthology" },
+    "description": "This book perports to contain all the necessary information about surviving the apocalypse.  It's extremely well written and interesting but the information seems to be impossibly out of date.",
+    "looks_like": "pocket_survival",
+    "max_level": 0,
+    "intelligence": 5,
+    "time": "8 m",
+    "fun": 2
+  }
+]

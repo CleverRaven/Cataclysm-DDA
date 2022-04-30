@@ -72,5 +72,11 @@
         [ "biodiesel", 250 ]
       ]
     ]
+  },
+  {
+    "result": "spear_knife",
+    "type": "recipe",
+    "copy-from": "spear_knife",
+    "book_learn": [ [ "vormithrax_anthology", 0 ] ]
   }
 ]

@@ -33,5 +33,11 @@
     "id": "guns_pistol_common",
     "copy-from": "guns_pistol_common",
     "extend": { "items": [ [ "yeet_cannon", 12 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "book_survival",
+    "copy-from": "book_survival",
+    "extend": { "items": [ [ "vormithrax_anthology", 20 ] ] }
   }
 ]
