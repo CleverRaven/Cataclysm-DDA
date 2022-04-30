@@ -525,7 +525,7 @@ Character::Character() :
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
-    lifetsyle = 0;
+    lifestyle = 0;
     daily_health = 0;
     health_tally = 0;
     hunger = 0;
@@ -3790,7 +3790,7 @@ int Character::ranged_per_mod() const
 
 int Character::get_lifestyle() const
 {
-    return lifetsyle;
+    return lifestyle;
 }
 int Character::get_daily_health() const
 {
@@ -3899,7 +3899,7 @@ std::string enum_to_string<character_stat>( character_stat data )
 
 void Character::set_lifestyle( int nhealthy )
 {
-    lifetsyle = nhealthy;
+    lifestyle = nhealthy;
 }
 void Character::mod_livestyle( int nhealthy )
 {
@@ -3907,7 +3907,7 @@ void Character::mod_livestyle( int nhealthy )
     for( const trait_id &mut : get_mutations() ) {
         mut_rate *= mut.obj().healthy_rate;
     }
-    lifetsyle += nhealthy * mut_rate;
+    lifestyle += nhealthy * mut_rate;
 }
 void Character::set_daily_health( int nhealthy_mod )
 {

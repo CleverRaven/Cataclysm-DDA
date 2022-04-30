@@ -700,7 +700,7 @@ void Character::load( const JsonObject &data )
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
-    data.read( "healthy", lifetsyle );
+    data.read( "healthy", lifestyle );
     data.read( "healthy_mod", daily_health );
 
     // Remove check after 0.F
@@ -1196,7 +1196,7 @@ void Character::store( JsonOut &json ) const
     json.member( "custom_profession", custom_profession );
 
     // health
-    json.member( "healthy", lifetsyle );
+    json.member( "healthy", lifestyle );
     json.member( "healthy_mod", daily_health );
 
     // needs

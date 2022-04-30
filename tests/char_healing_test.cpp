@@ -16,7 +16,7 @@
 //
 // - rest quality (awake or sleeping)
 // - traits like "Imperceptive Healer" and "Rapid Metabolism"
-// - lifetsyle value (hidden health stat)
+// - lifestyle value (hidden health stat)
 // - effects ot being bandaged and/or disinfected
 
 // Character::healing_rate floating-point `at_rest_quality` for awake/asleep states
@@ -43,7 +43,7 @@ static void give_one_trait( Character &dummy, const std::string &trait_name )
     REQUIRE( dummy.has_trait( trait ) );
 }
 
-// Return the Character's `healing_rate` at the given lifetsyle value and rest quality.
+// Return the Character's `healing_rate` at the given lifestyle value and rest quality.
 static float healing_rate_at_health( Character &dummy, const int healthy_value,
                                      const float rest_quality )
 {

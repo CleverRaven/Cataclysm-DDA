@@ -3305,7 +3305,7 @@ class Character : public Creature, public visitable
         int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
-        int lifetsyle = 0;
+        int lifestyle = 0;
         int daily_health = 0;
         int health_tally = 0;
 
