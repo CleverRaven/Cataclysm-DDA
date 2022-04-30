@@ -3006,7 +3006,7 @@ bool monster::is_nemesis() const
 
 void monster::init_from_item( item &itm )
 {
-    if( itm.typeId() == itype_corpse ) {
+    if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
