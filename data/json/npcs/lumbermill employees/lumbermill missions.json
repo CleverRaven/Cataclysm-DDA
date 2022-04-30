@@ -7,7 +7,7 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 2,
     "value": 4000,
-    "goal_condition": { "or": [ { "u_has_item": "drivebelt", "count": 3 }, { "u_has_item": "drivebelt_makeshift", "count": 3 } ] },
+    "goal_condition": { "or": [ { "u_has_items": { "item": "drivebelt", "count": 3 }}, { "u_has_items": { "item": "drivebelt_makeshift", "count": 3 }} ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],          
       "followup": "MISSION_LUMBERMILL_GET_1000_NAILS",   
     "has_generic_rewards": true,
@@ -92,7 +92,7 @@
     "difficulty": 5,
     "value": 4000,
     "//": "Dynamic response dialogs would be more natural to accept so many alternate items here.",
-    "goal_condition": { "or": [ { "u_has_item": "blanket", "count": 6 }, { "u_has_item": "fur_blanket", "count": 6 }, { "u_has_item": "electric_blanket", "count": 6 }, { "u_has_item": "fur_blanket", "count": 6 }, { "u_has_item": "quilt", "count": 6 }, { "u_has_item": "quilt_patchwork", "count": 6 } ] },
+    "goal_condition": { "or": [ { "u_has_items": { "item": "blanket", "count": 6 }}, { "u_has_items": { "item": "fur_blanket", "count": 6 }}, { "u_has_items": { "item": "electric_blanket", "count": 6 }}, { "u_has_items": { "item": "fur_blanket", "count": 6 }}, { "u_has_items": { "item": "quilt", "count": 6 }}, { "u_has_items": { "item": "quilt_patchwork", "count": 6 }} ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],          
       "end": {
         "update_mapgen": { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] }

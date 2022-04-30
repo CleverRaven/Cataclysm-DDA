@@ -123,7 +123,7 @@
     "description": "Obtain 6 ropes.",
     "//": "Dynamic response dialogs would be more natural to accept so many alternate items here.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "or": [ { "u_has_item": "rope_6", "count": 6 }, { "u_has_item": "rope_30", "count": 6 }, { "u_has_item": "rope_makeshift_6", "count": 6 }, { "u_has_item": "rope_makeshift_30", "count": 6 } ] },
+    "goal_condition": { "or": [ { "u_has_items": { "item": "rope_6", "count": 6 }}, { "u_has_items": { "item": "rope_30", "count": 6 }}, { "u_has_items": { "item": "rope_makeshift_6", "count": 6 }}, { "u_has_items": { "item": "rope_makeshift_30", "count": 6 }} ] },
     "difficulty": 1,
     "value": 2500,
     "origins": [ "ORIGIN_OPENER_NPC" ],         
