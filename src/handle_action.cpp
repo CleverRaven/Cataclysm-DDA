@@ -2511,6 +2511,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_medical();
             break;
 
+        case ACTION_BODYSTATUS:
+            display_bodygraph( get_player_character() );
+            break;
+
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;

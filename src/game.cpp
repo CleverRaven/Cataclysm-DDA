@@ -2294,6 +2294,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "bionics" );
     ctxt.register_action( "mutations" );
     ctxt.register_action( "medical" );
+    ctxt.register_action( "bodystatus" );
     ctxt.register_action( "sort_armor" );
     ctxt.register_action( "wait" );
     ctxt.register_action( "craft" );
