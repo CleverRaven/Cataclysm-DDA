@@ -84,7 +84,7 @@ std::string base_camps::faction_decode( const std::string &full_type )
     }
     int last_bar = full_type.find_last_of( '_' );
 
-    return full_type.substr( prefix_len, last_bar - prefix_len );
+    return full_type.substr( prefix_len, size_t( last_bar - prefix_len ) );
 }
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
@@ -146,8 +146,8 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
-    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
+    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
+    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
     e.pos = new_pos;
     return e;
 }
@@ -542,6 +542,45 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
 {
     validate_assignees();
     return assigned_npcs;
+}
+
+void basecamp::hide_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return;
+        }  //  The UI shouldn't allow us to hide something already hidden, but check anyway.
+    }
+    hidden_missions[size_t( base_data.tab_order )].push_back( id );
+}
+
+void basecamp::reveal_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
+         it != hidden_missions[size_t( base_data.tab_order )].end(); it++ ) {
+        if( is_equal( id.id, it->id ) ) {
+            hidden_missions[size_t( base_data.tab_order )].erase( it );
+            return;
+        }
+    }
+    debugmsg( "Trying to reveal revealed mission.  Has no effect." );
+}
+
+bool basecamp::is_hidden( ui_mission_id id )
+{
+    if( hidden_missions.empty() ) {
+        return false;
+    }
+
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // get the subset of companions working on a specific task
