@@ -3240,7 +3240,8 @@
       { "item": "mouthpiece", "prob": 5 },
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       { "group": "costume_masks", "prob": 5 },
-      { "group": "costume_masks", "prob": 25, "event": "halloween" }
+      { "group": "costume_masks", "prob": 25, "event": "halloween" },
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 20, "event": "independence_day" }
     ]
   },
   {

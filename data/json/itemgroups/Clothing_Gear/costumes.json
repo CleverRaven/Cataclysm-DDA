@@ -227,7 +227,10 @@
       { "item": "bondage_mask", "prob": 5 },
       { "item": "balaclava_skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
-      { "item": "scarf_long", "prob": 10 }
+      { "item": "scarf_long", "prob": 10 },
+      { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20},
+      { "item": "mask_dust", "variant": "steampunk_mask_dust", "prob": 15 },
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
     ]
   },
   {
@@ -333,7 +336,8 @@
       { "item": "flag_shirt", "prob": 25 },
       { "item": "flag_pants", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
-      { "group": "costume_independence_undergarments_women", "prob": 25 }
+      { "group": "costume_independence_undergarments_women", "prob": 25 },
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
     ]
   },
   {
