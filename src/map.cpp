@@ -7580,13 +7580,6 @@ void map::actualize( const tripoint &grid )
         }
     }
 
-    tripoint_abs_sm const sm = abs_sub + grid;
-    for( auto const &guy : overmap_buffer.get_npcs_near( sm, 0 ) ) {
-        if( guy->get_location().z() == sm.z() ) {
-            guy->shop_restock();
-        }
-    }
-
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
 }
