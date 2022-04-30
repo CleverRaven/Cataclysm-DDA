@@ -2,72 +2,51 @@
   "version": 3,
   "configurePresets": [
     {
-      "environment": {
-        "VCPKG_ROOT": "C:/vcpkg"
-      },
-      "name": "windows-base",
-      "description": "Target Windows with the Visual Studio development environment.",
-      "hidden": true,
+      "name": "base",
+      "description": "Base Build Configuration",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe",
-        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
-        "CURSES": "False",
-        "LOCALIZE": "False",
-        "TILES": "True"
-      },
+      "hidden": true
+    },
+    {
+      "name": "windows",
+      "description": "Windows Build Configuration",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
-      }
+      },
+      "hidden": true
     },
     {
-      "name": "x64-debug",
-      "displayName": "x64 Debug",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (Debug)",
-      "inherits": "windows-base",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
+      "name": "visual-c++",
+      "inherits": [ "windows" ],
+      "description": "Visual C++ Configuration",
+      "toolchainFile": "${sourceDir}/build-scripts/MSVC.cmake",
+      "hidden": true
+    },
+    {
+      "name": "x64-windows-static",
+      "inherits": [ "base", "visual-c++" ],
+      "description": "Link Statically",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "DYNAMIC_LINKING": "False",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
-      }
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "DYNAMIC_LINKING": "False"
+      },
+      "hidden": true
     },
     {
       "name": "x64-release",
+      "inherits": [ "x64-windows-static" ],
       "displayName": "x64 Release",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": "x64-debug",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "DYNAMIC_LINKING": "False",
-        "VCPKG_TARGET_TRIPLET":"x64-windows-static"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "False",
+        "LOCALIZE": "False",
+        "TILES": "True"
       }
-    },
-    {
-      "name": "x86-debug",
-      "displayName": "x86 Debug",
-      "description": "Target Windows (32-bit) with the Visual Studio development environment. (Debug)",
-      "inherits": "windows-base",
-      "architecture": {
-        "value": "x86",
-        "strategy": "external"
-      },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
-    },
-    {
-      "name": "x86-release",
-      "displayName": "x86 Release",
-      "description": "Target Windows (32-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": "x86-debug",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
     }
   ]
 }
