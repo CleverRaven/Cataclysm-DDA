@@ -5652,6 +5652,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
+    // Don't spawn non-gaseous fields on open air
+    if( has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) && type_id.obj().phase != phase_id::GAS ) {
+        return false;
+    }
+
     // Hacky way to force electricity fields to become unlit electricity fields
     const field_type_id &converted_type_id = ( type_id == fd_electricity ||
             type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
