@@ -410,7 +410,7 @@ struct islot_armor {
         std::vector<std::string> valid_mods;
 
         /**
-         * If the item in question has any sub coverage when testing for encumberance
+         * If the item in question has any sub coverage when testing for encumbrance
          */
         bool has_sub_coverage = false;
 

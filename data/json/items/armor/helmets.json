@@ -62,7 +62,7 @@
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumberance_modifiers": [ "WELL_SUPPORTED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "WELL_SUPPORTED" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "tac_fullhelmet",
@@ -554,7 +554,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumberance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [

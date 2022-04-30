@@ -294,7 +294,6 @@ int armor_portion_data::convert_descriptor_to_int( encumbrance_modifier em )
     // this is where the values for each of these exist
     switch( em ) {
         case encumbrance_modifier::IMBALANCED:
-            return 10;
         case encumbrance_modifier::RESTRICTS_NECK:
             return 10;
         case encumbrance_modifier::WELL_SUPPORTED:
