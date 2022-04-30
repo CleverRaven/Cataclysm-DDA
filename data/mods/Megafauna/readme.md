@@ -23,17 +23,21 @@ north american lion (Panthera atrox) [done]
 dire wolf (Aenocyon dirus) [done]
 stag-moose (Cervalces scotti) [done] (milk_low)
 giant beaver (Castoroides) [done]
-giant sloth (Megalonyx), or other/more species? [done]
+giant sloth (Megalonyx) [done]
 shrub-ox (Euceratherium) [done]
 woodox (Bootherium; https://en.wikipedia.org/wiki/Bootherium) [done]
 ancient bison, or equiv. (Bison antiquus) (wool, milk) [done]
 Scott's horse (Equus scotti) (milk) [done]
 Camelops (wool, milk) [done]
 
-*potential candidates for addition with dubious range, or more research needed*
+*potential candidates for addition with dubious range, or more research needed, or just more time*
 - Soergelia meyfeldis, goatlike (need more research); https://en.wikipedia.org/wiki/Soergelia;
 - Great Auk (Pinguinus impennis), much later extinction but everything else fits, so indeed: why not?
 - Glyptodonts, possibly (https://en.wikipedia.org/wiki/Glyptodont)
+- Harringtonhippus Francesci (https://en.wikipedia.org/wiki/Haringtonhippus)
+- Equus Lambei (https://en.wikipedia.org/wiki/Equus_lambei)
+- Homotherium (https://en.wikipedia.org/wiki/Homotherium)
+- American Cheetah (https://en.wikipedia.org/wiki/American_cheetah)
 
 Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists and they are cool.
 Possibly some kind of goat, maybe extinct pronghorn species?
@@ -58,7 +62,10 @@ Add new monsters to monster groups/implement spawn:
 *tests and tweaks*
 - revamp descriptions (goal is immersive description, not wiki info or strategies how to deal with them)
 - tweak factions/categories/sizes
-- tweak combat stats (HP, damage etc)
+- tweak combat stats (HP, damage etc 
+    -> f.e., panthera atrox apparently bigger than smilodon?
+    -> giant short faced bear might have been quite fast due to characteristically long limbs
+    -> dire wolf might have been slower than modern wolves due to shorter limbs(theorized that scavanger more than hunter)
 - tweak reproduction data (gestation times, grow-up-times etc)
 -  
 
