@@ -2685,9 +2685,9 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 
     optional( jo, false, "rigid_layer_only", rigid_layer_only, false );
 
-    if( jo.has_array( "encumberance_modifiers" ) ) {
+    if( jo.has_array( "encumbrance_modifiers" ) ) {
         // instead of reading encumbrance calculate it by weight
-        optional( jo, false, "encumberance_modifiers", encumber_modifiers );
+        optional( jo, false, "encumbrance_modifiers", encumber_modifiers );
     } else if( jo.has_array( "encumbrance" ) ) {
         encumber = jo.get_array( "encumbrance" ).get_int( 0 );
         max_encumber = jo.get_array( "encumbrance" ).get_int( 1 );
