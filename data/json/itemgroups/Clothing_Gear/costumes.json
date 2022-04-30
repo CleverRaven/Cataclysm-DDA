@@ -228,7 +228,7 @@
       { "item": "balaclava_skull", "prob": 25 },
       { "item": "mask_skull", "prob": 20 },
       { "item": "scarf_long", "prob": 10 },
-      { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20},
+      { "item": "mask_dust", "variant": "skull_mask_dust", "prob": 20 },
       { "item": "mask_dust", "variant": "steampunk_mask_dust", "prob": 15 },
       { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
     ]
