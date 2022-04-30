@@ -17,18 +17,5 @@
       [ [ "duct_tape", 40 ], [ "medical_tape", 40 ], [ "superglue", 2 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
-  },
-  {
-    "result": "grass_keffiyeh",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "grass_sheet", 1 ] ] ]
   }
 ]
