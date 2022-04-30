@@ -713,7 +713,7 @@ class Character : public Creature, public visitable
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
-        virtual void update_health( int external_modifiers = 0 );
+        virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */
         void update_body();
         /** Updates all "biology" as if time between `from` and `to` passed. */

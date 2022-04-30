@@ -4282,7 +4282,7 @@ void Character::enforce_minimum_healing()
     }
 }
 
-void Character::update_health( int external_modifiers )
+void Character::update_health()
 {
     // Limit daily_health to [-200, 200].
     // This also sets approximate bounds for the character's health.
@@ -4310,7 +4310,7 @@ void Character::update_health( int external_modifiers )
     // Health tends toward daily_health.
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
-    int health_change = effective_healthy_mod - get_lifestyle() + external_modifiers;
+    int health_change = effective_healthy_mod - get_lifestyle();
     mod_livestyle( sgn( health_change ) * std::max( 1, std::abs( health_change ) / 10 ) );
 
     // And daily_health decays over time.

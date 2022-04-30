@@ -1221,12 +1221,7 @@ void suffer::from_radiation( Character &you )
     }
 
     if( !radiogenic && you.get_rad() > 0 ) {
-        // Even if you heal the radiation itself, the damage is done.
-        const int hmod = you.get_daily_health();
-        const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
-        if( hmod > health_mod_cap ) {
-            you.set_daily_health( health_mod_cap );
-        }
+        you.mod_daily_health( -you.get_rad(), -200 );
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
