@@ -602,7 +602,7 @@
     "//": "Originator set difficulty to 5.  It's a carved, polished and oiled stick.  If you look at other recipes of that general difficulty, they're all way more difficult crafting.",
     "time": "5 h",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
@@ -627,8 +627,8 @@
     "difficulty": 2,
     "time": "270 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.2 } ],
     "components": [
       [ [ "q_staff", 1 ] ],
       [
