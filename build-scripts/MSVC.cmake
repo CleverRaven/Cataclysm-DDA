@@ -25,3 +25,5 @@ add_link_options(
     /LTCG:OFF
     /MANIFEST:NO
 )
+
+include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)

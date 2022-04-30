@@ -5,7 +5,6 @@
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
-      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "name": "windows-base",
       "description": "Target Windows with the Visual Studio development environment.",
       "hidden": true,
