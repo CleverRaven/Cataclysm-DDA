@@ -603,7 +603,8 @@
     "time": "5 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5, "max_experience": "60 m" } ],
+    "//1": "Max experience set because waiting for oil to soak in isn't really teaching you anything.",
     "components": [
       [ [ "stick_long", 1 ] ],
       [
@@ -628,7 +629,8 @@
     "time": "270 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.2, "max_experience": "30 m" } ],
+    "//1": "Max experience set because waiting for oil to soak in isn't really teaching you anything.",
     "components": [
       [ [ "q_staff", 1 ] ],
       [
