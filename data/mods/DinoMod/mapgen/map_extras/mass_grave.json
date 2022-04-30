@@ -81,11 +81,13 @@
         "c": "f_camp_chair",
         "X": "f_plastic_groundsheet"
       },
+      "place_corpses": [
+        { "group": "GROUP_DINOSAUR", "x": 14, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
+        { "group": "GROUP_DINOSAUR", "x": 17, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
+        { "group": "GROUP_DINOSAUR", "x": 14, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
+        { "group": "GROUP_DINOSAUR", "x": 17, "y": [ 2, 18 ], "repeat": [ 0, 4 ] }
+      ],
       "place_loot": [
-        { "group": "corpse_dino", "x": 14, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
-        { "group": "corpse_dino", "x": 17, "y": [ 2, 18 ], "repeat": [ 5, 20 ] },
-        { "group": "corpse_dino", "x": 14, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
-        { "group": "corpse_dino", "x": 17, "y": [ 2, 18 ], "repeat": [ 0, 4 ] },
         { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
         { "group": "guns_launcher_flame", "chance": 40, "x": [ 2, 5 ], "y": 20 },
         { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
@@ -150,7 +152,7 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_ZOMBIE", "density": 0.5, "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_SCHOOL", "chance": 35, "density": 0.5, "x": [ 1, 22 ], "y": [ 1, 22 ] }
+        { "monster": "GROUP_DINOSAUR_ZOMBIE", "chance": 35, "density": 0.5, "x": [ 1, 22 ], "y": [ 1, 22 ] }
       ],
       "monster": { "a": { "monster": "mon_zappalachiosaurus_scorched", "chance": 1 } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
