@@ -850,7 +850,6 @@
       [ "shortbow", 5 ],
       [ "recurbow", 2 ],
       [ "takedown_recurbow", 2 ],
-      [ "takedown_recurbow_disassembled", 2 ],
       [ "quiver_takedown_bow", 2 ],
       [ "reflexbow", 2 ],
       [ "quiver", 3 ],
