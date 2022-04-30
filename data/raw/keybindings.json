@@ -3298,7 +3298,7 @@
     "type": "keybinding",
     "id": "AUTO_BALANCE",
     "category": "INVENTORY",
-    "name": "Autobalance trade using highlighted item",
+    "name": "Auto balance trade using highlighted item",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
   },
   {
