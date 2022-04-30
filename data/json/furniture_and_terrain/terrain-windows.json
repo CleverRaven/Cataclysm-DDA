@@ -431,7 +431,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
++     "BARRICADABLE_WINDOW"
     ],
     "bash": {
       "str_min": 10,
