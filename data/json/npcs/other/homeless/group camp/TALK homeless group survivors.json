@@ -82,7 +82,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_BROKER",
-    "dynamic_line": "Well, they were the brightest of us bunch when all hell broke loose.  They managed to get us some food early on, along with weapons; and everyone just made them the de-facto leader.",
+    "dynamic_line": "Well, they were the brightest of us when all hell broke loose.  They managed to get us some food and weapons early on.  I guess that just kinda made them the leader.",
     "responses": [
       { "text": "Hmm.", "topic": "TALK_NONE" }
     ]
