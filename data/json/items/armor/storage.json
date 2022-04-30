@@ -2596,7 +2596,7 @@
     "id": "bigtrapper_pack",
     "type": "ARMOR",
     "name": { "str": "big trapper pack" },
-    "description": "A wooden frame with waterproofed cloth stretched around it, and a drawstring at the top to hold things in.  It has straps to wear it on your back",
+    "description": "A wooden frame with waterproofed cloth stretched around it, and a drawstring at the top to hold things in.  It has straps to wear it on your back.",
     "weight": "10 kg",
     "volume": "45 L",
     "price": 800,
