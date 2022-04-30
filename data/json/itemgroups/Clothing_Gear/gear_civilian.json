@@ -80,7 +80,7 @@
       { "group": "stoner", "prob": 5 },
       { "group": "cannedfood", "prob": 10, "count": [ 1, 3 ] },
       { "group": "wallet_duct_tape_full", "prob": 1 },
-      { "item": "ankle_wallet_pouch", "prob": 1 }
+      { "item": "ankle_wallet_pouch", "prob": 1 },
       { "item": "drink_hobo", "prob": 1 }
     ]
   },
@@ -294,6 +294,7 @@
       [ "motorbike_armor", 10 ],
       [ "motorbike_pants", 10 ],
       [ "motorbike_boots", 10 ],
+      [ "leg_bag", 10 ],
       { "item": "shavingkit", "prob": 30, "charges-min": 0 },
       { "item": "elec_hairtrimmer", "prob": 15, "charges": [ 0, 50 ] },
       [ "razor_blade", 5 ],

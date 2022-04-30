@@ -412,6 +412,7 @@
       { "item": "motorbike_armor", "prob": 10 },
       { "item": "motorbike_pants", "prob": 10 },
       { "item": "motorbike_boots", "prob": 10 },
+      { "item": "leg_bag", "prob": 10 },
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
