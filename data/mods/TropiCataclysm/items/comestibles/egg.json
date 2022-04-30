@@ -337,6 +337,6 @@
     "id": "egg_fish_alien",
     "name": "alien roe",
     "copy-from": "egg_fish",
-    "description": "Common roe from an unknown alien creature"
+    "description": "Common roe from an unknown alien creature."
   }
 ]
