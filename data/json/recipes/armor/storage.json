@@ -1108,6 +1108,42 @@
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
   },
   {
+    "result": "leg_sheath6",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "throw", 1 ],
+    "time": "4 h 30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 5 ], [ "clasps", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "gartersheath1",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "melee", 1 ],
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 2 ], [ "plastic_molding", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "gartersheath2",
+    "type": "recipe",
+    "copy-from": "gartersheath1",
+    "time": "2 h",
+    "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "plastic_molding", 2 ] ]
+  },
+  {
     "result": "sheath",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
