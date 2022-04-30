@@ -20,7 +20,9 @@
       { "item": "scythe_toy", "prob": 5 },
       { "item": "bokken_fake", "prob": 1 },
       { "item": "katana_fake", "prob": 1 },
-      { "item": "longsword_fake", "prob": 1 }
+      { "item": "longsword_fake", "prob": 1 },
+      { "item": "clownshoes", "prob": 15 },
+      { "group": "costume_weapons", "prob": 5 }
     ]
   },
   {
@@ -61,6 +63,7 @@
       { "item": "leg_bag", "variant": "steampunk_leg_bag", "prob": 15 },
       { "item": "leg_bag", "variant": "skull_leg_bag", "prob": 15 },
       { "item": "clown_nose", "prob": 20 },
+      { "item": "eyepatch_leather", "prob": 20 },
       { "item": "suitcase_m", "prob": 4 },
       { "item": "hakama", "prob": 1 }
     ]
@@ -74,7 +77,10 @@
       { "item": "cloak_vampire", "prob": 25 },
       { "item": "cloak_vampire_red", "prob": 5 },
       { "item": "cloak_black", "prob": 40 },
-      { "item": "jedi_cloak", "prob": 30 }
+      { "item": "jedi_cloak", "prob": 30 },
+      { "item": "cloak", "prob": 15 },
+      { "item": "cloak_leather", "prob": 20 },
+      { "item": "cloak_wool", "prob": 10 }
     ]
   },
   {
@@ -89,6 +95,7 @@
       { "item": "grim_reaper_robe", "prob": 25 },
       { "item": "coat_lab", "prob": 8 },
       { "item": "coat_straw", "prob": 5 },
+      { "item": "robe", "prob": 10 },
       { "item": "samghati", "prob": 1 },
       { "item": "haori", "prob": 1 }
     ]
@@ -130,7 +137,9 @@
       { "item": "maid_dress", "prob": 25 },
       { "item": "maid_dress_short", "prob": 35 },
       { "item": "kimono", "prob": 5 },
-      { "item": "yukata", "prob": 5 }
+      { "item": "yukata", "prob": 5 },
+      { "item": "gown", "prob": 5 },
+      { "item": "dress_wedding", "prob": 5 }
     ]
   },
   {
@@ -168,7 +177,10 @@
       { "item": "postman_hat", "prob": 10 },
       { "item": "hat_chef", "prob": 5 },
       { "item": "tophat", "prob": 5 },
-      { "item": "straw_hat", "prob": 5 }
+      { "item": "straw_hat", "prob": 5 },
+      { "item": "bandana_head", "prob": 5 },
+      { "item": "fedora", "prob": 10 },
+      { "item": "porkpie", "prob": 10 }
     ]
   },
   {
@@ -217,7 +229,8 @@
       { "item": "mask_hockey", "prob": 20 },
       { "item": "bondage_mask", "prob": 5 },
       { "item": "balaclava_skull", "prob": 25 },
-      { "item": "mask_skull", "prob": 20 }
+      { "item": "mask_skull", "prob": 20 },
+      { "item": "scarf_long", "prob": 10 }
     ]
   },
   {
@@ -264,7 +277,6 @@
     "entries": [
       { "item": "cheerleader_top", "prob": 25 },
       { "item": "cheerleader_top_short", "prob": 35 },
-      { "item": "leotard", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
       { "item": "flag_shirt", "prob": 15 },
       { "item": "dress_shirt", "prob": 10 },
@@ -282,13 +294,15 @@
       { "item": "jumpsuit_skeleton", "prob": 25 },
       { "item": "mummy_jumpsuit", "prob": 25 },
       { "item": "suit", "prob": 10 },
+      { "item": "tux", "prob": 10 },
       { "item": "wolfsuit", "prob": 10 },
       { "item": "clown_suit", "prob": 10 },
       { "item": "dragonsuit", "prob": 10 },
       { "item": "felinesuit", "prob": 10 },
       { "item": "bondage_suit", "prob": 15 },
       { "item": "dinosuit", "prob": 10 },
-      { "item": "beekeeping_suit", "prob": 5 }
+      { "item": "beekeeping_suit", "prob": 5 },
+      { "item": "zentai", "prob": 5 }
     ]
   },
   {
@@ -303,6 +317,9 @@
       { "item": "wetsuit_spring", "prob": 5 },
       { "item": "corset", "prob": 20 },
       { "item": "corset_waist", "prob": 20 },
+      { "item": "leotard", "prob": 10 },
+      { "item": "unitard", "prob": 5 },
+      { "item": "tights", "prob": 25 },
       { "item": "stockings", "prob": 25 },
       { "item": "garter_belt", "prob": 25 },
       { "item": "bikini_top_fur", "prob": 5 },
@@ -357,5 +374,52 @@
     "//": "clothing set for a sexy cheerleader costume",
     "subtype": "collection",
     "entries": [ { "item": "cheerleader_top_short", "prob": 100 }, { "item": "cheerleader_skirt_short", "prob": 100 } ]
+  },
+  {
+    "id": "costume_weapons",
+    "type": "item_group",
+    "items": [
+      [ "cutlass", 1 ],
+      [ "broadsword", 1 ],
+      [ "nodachi", 1 ],
+      [ "zweihander", 1 ],
+      [ "longsword", 1 ],
+      [ "katana", 1 ],
+      [ "kris", 1 ],
+      [ "rapier", 1 ],
+      [ "cavalry_sabre", 1 ],
+      [ "glaive", 1 ],
+      [ "naginata", 1 ],
+      [ "naginata_fake", 5 ],
+      [ "naginata_inferior", 3 ],
+      [ "estoc", 2 ],
+      [ "estoc_inferior", 4 ],
+      [ "estoc_fake", 6 ],
+      [ "qiang", 3 ],
+      [ "halberd", 2 ],
+      [ "halberd_fake", 7 ],
+      [ "katana_fake", 4 ],
+      [ "katana_inferior", 8 ],
+      [ "zweihander_fake", 4 ],
+      [ "zweihander_inferior", 8 ],
+      [ "cutlass_fake", 4 ],
+      [ "cutlass_inferior", 8 ],
+      [ "jian", 2 ],
+      [ "jian_fake", 4 ],
+      [ "jian_inferior", 8 ],
+      [ "scimitar", 4 ],
+      [ "scimitar_fake", 8 ],
+      [ "arming_sword", 4 ],
+      [ "arming_sword_fake", 8 ],
+      [ "broadsword_fake", 4 ],
+      [ "broadsword_inferior", 8 ],
+      [ "longsword_fake", 4 ],
+      [ "longsword_inferior", 8 ],
+      [ "rapier_fake", 4 ],
+      [ "cavalry_sabre_fake", 4 ],
+      [ "wakizashi_fake", 4 ],
+      [ "wakizashi_inferior", 8 ],
+      [ "kris_fake", 8 ]
+    ]
   }
 ]

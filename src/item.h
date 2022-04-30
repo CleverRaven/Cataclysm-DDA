@@ -2534,9 +2534,7 @@ class item : public visitable
         inline void remove_old_owner() const {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( const faction_id &new_owner ) {
-            owner = new_owner;
-        }
+        void set_owner( const faction_id &new_owner );
         void set_owner( const Character &c );
         inline void remove_owner() const {
             owner = faction_id::NULL_ID();

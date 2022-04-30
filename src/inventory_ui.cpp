@@ -100,6 +100,13 @@ void move_if( std::vector<inventory_entry> &src, std::vector<inventory_entry> &d
     }
 }
 
+bool always_yes( const inventory_entry & )
+{
+    return true;
+}
+
+} // namespace
+
 bool is_worn_ablative( item_location const &container, item_location const &child )
 {
     // if the item is in an ablative pocket then put it with the item it is in
@@ -107,13 +114,6 @@ bool is_worn_ablative( item_location const &container, item_location const &chil
     return container->is_ablative() && container->is_worn_by_player() &&
            container->contained_where( *child )->get_pocket_data()->ablative;
 }
-
-bool always_yes( const inventory_entry & )
-{
-    return true;
-}
-
-} // namespace
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
