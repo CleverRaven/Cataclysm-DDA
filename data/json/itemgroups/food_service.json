@@ -519,7 +519,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "apron_leather", "prob": 25 },
+      { "item": "apron_cotton", "prob": 20 },
+      { "item": "apron_leather", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
@@ -1050,6 +1051,7 @@
       [ "armguard_cut_resistant", 2 ],
       [ "hat_chef", 30 ],
       [ "jacket_chef", 30 ],
+      [ "apron_cotton", 30 ],
       [ "pants_checkered", 28 ]
     ]
   },

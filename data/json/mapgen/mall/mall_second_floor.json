@@ -1809,11 +1809,11 @@
         "d": { "item": "fancyfurs", "chance": 20 },
         "V": { "item": "fancyfurs", "chance": 20 },
         "M": { "item": "fancyfurs", "chance": 20 },
-        "3": { "item": "costume_accessories", "chance": 30 },
-        "T": { "item": "costume_clothes", "chance": 30, "repeat": [ 1, 2 ] },
-        "%": [ { "item": "costume_clothes", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
+        "3": { "item": "costume_misc_items", "chance": 30 },
+        "T": { "item": "costume_all_clothing", "chance": 30, "repeat": [ 1, 2 ] },
+        "%": [ { "item": "costume_all_clothing", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
         "z": [
-          { "item": "costume_clothes", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "costume_all_clothing", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "costume_accessories", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       }
@@ -1881,7 +1881,7 @@
         "l": { "item": "fast_fridge", "chance": 20, "repeat": [ 2, 4 ] },
         "Q": { "item": "fast_kitchen", "chance": 20, "repeat": [ 2, 4 ] },
         "3": { "item": "costume_accessories", "chance": 30 },
-        "0": { "item": "costume_weapons", "chance": 30 }
+        "0": { "item": "costume_misc_items", "chance": 30 }
       },
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 3, 23 ], "density": 0.4 } ]
     }
@@ -2218,8 +2218,8 @@
       },
       "furniture": { "3": "f_wardrobe", "4": "f_table", "%": "f_beaded_door" },
       "items": {
-        "M": { "item": "costume_accessories", "chance": 20, "repeat": [ 1, 2 ] },
-        "T": { "item": "costume_clothes", "chance": 20, "repeat": [ 1, 2 ] },
+        "M": { "item": "costume_misc_items", "chance": 20, "repeat": [ 1, 2 ] },
+        "T": { "item": "costume_all", "chance": 20, "repeat": [ 1, 2 ] },
         "I": { "item": "office", "chance": 20 },
         "J": { "item": "office", "chance": 20 },
         "S": { "item": "office_paper", "chance": 100, "repeat": [ 1, 2 ] },
@@ -2288,8 +2288,8 @@
       "items": {
         "4": { "item": "baked_goods", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "costume_accessories", "chance": 20, "repeat": [ 1, 2 ] },
-        "T": { "item": "costume_clothes", "chance": 20, "repeat": [ 1, 2 ] },
-        "d": [ { "item": "costume_clothes", "chance": 100 }, { "item": "costume_accessories", "chance": 100 } ],
+        "T": { "item": "costume_all_clothing", "chance": 20, "repeat": [ 1, 2 ] },
+        "d": [ { "item": "costume_all_clothing", "chance": 100 }, { "item": "costume_misc_items", "chance": 100 } ],
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         "U": { "item": "allclothes", "chance": 30 },

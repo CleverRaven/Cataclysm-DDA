@@ -1361,7 +1361,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add( "SOUND_ENABLED", "general", to_translation( "Sound Enabled" ),
+    add( "SOUND_ENABLED", "general", to_translation( "Sound enabled" ),
          to_translation( "If true, music and sound are enabled." ),
          true, COPT_NO_SOUND_HIDE
        );
@@ -1453,7 +1453,7 @@ void options_manager::add_options_interface()
          to_translation( "If true, the default ammo is added to weapon and magazine names.  For example \"Mosin-Nagant M44 (4/5)\" becomes \"Mosin-Nagant M44 (4/5 7.62x54mm)\"." ),
          true
        );
-    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed Containers" ),
+    add( "DETAILED_CONTAINERS", "interface", to_translation( "Detailed containers" ),
          to_translation( "All: every container has detailed remaining volume info - Worn: only worn containers have detailed remaining volume info - None: no additional info is provided" ),
     {
         { "ALL", to_translation( "All" ) },
@@ -1505,7 +1505,7 @@ void options_manager::add_options_interface()
          false
        );
 
-    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in Use Item menu" ),
+    add( "INV_USE_ACTION_NAMES", "interface", to_translation( "Display actions in \"Use item\" menu" ),
          to_translation(
              R"(If true, actions ( like "Read", "Smoke", "Wrap tighter" ) will be displayed next to the corresponding items.)" ),
          true
@@ -1644,7 +1644,7 @@ void options_manager::add_options_interface()
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
-         to_translation( "Suppress \"unknown command\" messages" ),
+         to_translation( "Suppress \"Unknown command\" messages" ),
          to_translation( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
@@ -1934,7 +1934,7 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night Vision color overlay" ),
+    add( "NV_GREEN_TOGGLE", "graphics", to_translation( "Night vision color overlay" ),
          to_translation( "Toggle the color overlay from night vision goggles and other similar tools." ),
          true, COPT_CURSES_HIDE
        );
@@ -2251,7 +2251,7 @@ void options_manager::add_options_world_default()
          false
        );
 
-    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day / night cycle" ),
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day/night cycle" ),
     to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
         { "normal", to_translation( "Normal" ) },
         { "day", to_translation( "Eternal Day" ) },
@@ -2667,7 +2667,7 @@ static void draw_borders_external(
     const bool world_options_only )
 {
     if( !world_options_only ) {
-        draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+        draw_border( w, BORDER_COLOR, _( "Options" ) );
     }
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-

@@ -1165,5 +1165,22 @@
     "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "12 L", "max_contains_weight": "12 kg", "watertight": true, "rigid": true } ],
     "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "clay_dutch_oven",
+    "name": { "str": "clay pot oven" },
+    "description": "A makeshift oven made of a big clay pot with a lid, containing firebricks to hold heat and a smaller pot to bake in.",
+    "copy-from": "base_cookpot",
+    "looks_like": "pot_canning_clay",
+    "material": [ "clay" ],
+    "color": "brown",
+    "weight": "11388 g",
+    "volume": "30 L",
+    "longest_side": "35 cm",
+    "bashing": 8,
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
   }
 ]

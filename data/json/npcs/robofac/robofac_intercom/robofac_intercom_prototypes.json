@@ -328,7 +328,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH",
     "//": "getting an HWP",
     "type": "talk_topic",
-    "dynamic_line": "The weapon is complete.  I have been instructed to remind all operatives that they must install a barrel in the HWP for it to work as a gun.  Here are the requested items.  If you require more magazines of any caliber we can sell those directly at 1 coin for 2 mags.",
+    "dynamic_line": "The weapon is complete.  I have been instructed to remind all operatives that they must install a barrel in the HWP for it to work as a gun.  Here are the requested items.  If you require more compact magazines of any caliber we can sell those directly at 1 coin for 2 mags.  Several high-capacity magazines are also available for purchase at 3 coins per mag.",
     "responses": [
       {
         "text": "Thanks.",
@@ -361,7 +361,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_consume_item": "phase_immersion_suit", "count": 1 },
+          { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -412,7 +412,7 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },
-          { "u_consume_item": "dimensional_anchor", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -460,8 +460,8 @@
         },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 1 },
-          { "u_consume_item": "dimensional_anchor", "count": 1 },
-          { "u_consume_item": "robofac_armor_rig", "count": 1 },
+          { "u_consume_item": "dimensional_anchor", "count": 1, "popup": true },
+          { "u_consume_item": "robofac_armor_rig", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -507,9 +507,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "pamd68", "count": 1 },
-          { "u_consume_item": "exodiiBRmag", "count": 1 },
-          { "u_consume_item": "123ln", "count": 5 },
+          { "u_consume_item": "pamd68", "count": 1, "popup": true },
+          { "u_consume_item": "exodiiBRmag", "count": 1, "popup": true },
+          { "u_consume_item": "123ln", "count": 5, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
@@ -543,7 +543,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
     "//": "Buying HWP Magazines",
     "type": "talk_topic",
-    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.",
+    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.  We also offer drum magazines for 3 coins, since some of our operatives have found a sustained high-caliber firepower quite necessary lately.",
     "responses": [
       {
         "text": "[1 HGC] I'll take a 5.56 NATO mag.",
@@ -567,6 +567,18 @@
         "text": "[1 HGC] I'll take a pair of shotgun mags.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac10", "count": 2 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[3 HGC] I'll take a 7.62 NATO drum mag.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 3 }, { "u_spawn_item": "robofac50", "count": 1 } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[3 HGC] I'll take a 5.56 NATO drum mag.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 3 }, { "u_spawn_item": "robofac100", "count": 1 } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },

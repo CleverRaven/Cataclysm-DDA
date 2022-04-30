@@ -153,28 +153,8 @@
     },
     "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": 600 } },
     "responses": [
-      { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
-      {
-        "text": "About those contracts…",
-        "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": "has_many_assigned_missions"
-      },
-      {
-        "text": "Any jobs you need done?",
-        "condition": {
-          "and": [
-            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-            { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] }
-          ]
-        },
-        "topic": "TALK_MISSION_LIST"
-      },
-      {
-        "text": "Let's trade.",
-        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
-        "effect": "start_trade"
-      },
+      { "text": "Let's discuss contracts.", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" },
+      { "text": "Let's trade.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
       {
         "text": "The traders at the refugee center asked me to deliver this drive of FEMA data…",
         "condition": {
@@ -188,7 +168,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY"
       },
       {
-        "text": "You mentioned \"portal storms?\"  What are those?",
+        "text": "You mentioned portal storms.  What are those?",
         "condition": {
           "and": [
             { "u_has_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" },
@@ -203,7 +183,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
       },
       {
-        "text": "Listen, something happened earlier.  The world got… bad.  Things felt very wrong.  Do you know anything about that?",
+        "text": "Listen, something happened earlier.  The world got… bad.  Things felt very wrong.  Do you know anything about what that was?",
         "condition": {
           "and": [
             { "u_has_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
@@ -215,7 +195,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
       },
       {
-        "text": "I have some of the portal storm data you wanted.",
+        "text": "I have some portal storm recordings.",
         "condition": {
           "or": [
             { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
@@ -265,7 +245,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
       },
       {
-        "text": "I saw your mercs have specialty rifles.  Would I be able to get one of those?",
+        "text": "I saw that your mercs have specialty rifles.  Would I be able to get one of those?",
         "condition": {
           "and": [
             { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
@@ -314,7 +294,6 @@
     ]
   },
   {
-    "//": "This file contains dialogue for the whole intro sequence to Hub 01, including initial conversations and dialogue introducing the first mission.  Check robofac_intercom_missions.json for a complete definition of the intro mission, as well as some related dialogue calls.",
     "id": "TALK_ROBOFAC_INTERCOM_INTRO",
     "type": "talk_topic",
     "dynamic_line": {
@@ -588,10 +567,7 @@
     "type": "talk_topic",
     "dynamic_line": "Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"It also looks like research needs an external agent to take a few portal storm measurements.  I'll add that one to the list of available contracts, in case you are interested.",
     "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "offer_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
-      ],
+      "effect": [ { "npc_add_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" } ],
       "sentinel": "told_about_portal_storms"
     },
     "responses": [
@@ -637,7 +613,7 @@
     "responses": [
       { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
       {
-        "text": "[INT 10] The armor seemed warped.  Whatever you're using to reinforce the core of the pieces isn't strong enough.",
+        "text": "[INT 10] The pieces seemed warped.  Whatever you're using to reinforce the armor isn't strong enough.",
         "condition": { "u_has_intelligence": 10 },
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
       }

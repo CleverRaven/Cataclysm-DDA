@@ -2120,7 +2120,7 @@ static void draw_border_win( catacurses::window &w, const std::vector<int> &colu
                              int popup_height )
 {
     werase( w );
-    decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+    decorate_panel( _( "Sidebar options" ), w );
     // Draw vertical separators
     mvwvline( w, point( column_widths[0] + 1, 1 ), 0, popup_height - 2 );
     mvwvline( w, point( column_widths[0] + column_widths[1] + 2, 1 ), 0, popup_height - 2 );

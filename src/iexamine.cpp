@@ -276,7 +276,7 @@ bool iexamine::always_true( const tripoint &/*examp*/ )
 
 bool iexamine::harvestable_now( const tripoint &examp )
 {
-    const auto hid = get_map().get_harvest( examp );
+    const harvest_id hid = get_map().get_harvest( examp );
     return !hid->is_null() && !hid->empty();
 }
 
@@ -1805,6 +1805,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
         temp_camp->validate_bb_pos( here.getabs( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
+        temp_camp->scan_pseudo_items();
 
         const std::string title = "Base Missions";
         mission_data mission_key;

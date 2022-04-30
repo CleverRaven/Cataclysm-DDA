@@ -2301,7 +2301,8 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
 {
     itype_id item_name;
     jo.read( member, item_name, true );
-    function = [is_npc, item_name, count, charges]( const dialogue & d ) {
+    const bool do_popup = jo.get_bool( "popup", false );
+    function = [do_popup, is_npc, item_name, count, charges]( const dialogue & d ) {
         // this is stupid, but I couldn't get the assignment to work
         const auto consume_item = [&]( talker & p, const itype_id & item_name, int count, int charges ) {
             if( charges == 0 && item::count_by_charges( item_name ) ) {
@@ -2325,6 +2326,14 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
         if( is_npc ) {
             consume_item( *d.actor( true ), item_name, count, charges );
         } else {
+            if( do_popup ) {
+                if( count == 1 ) {
+                    popup( _( "You give %1$s a %2$s." ), d.actor( true )->disp_name(), item::nname( item_name ) );
+                } else {
+                    popup( _( "You give %1$s %2$d %3$s." ), d.actor( true )->disp_name(), count,
+                           item::nname( item_name, count ) );
+                }
+            }
             consume_item( *d.actor( false ), item_name, count, charges );
         }
     };
