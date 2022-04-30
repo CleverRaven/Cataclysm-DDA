@@ -1222,10 +1222,10 @@ void suffer::from_radiation( Character &you )
 
     if( !radiogenic && you.get_rad() > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
-        const int hmod = you.get_healthy_mod();
+        const int hmod = you.get_daily_health();
         const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
         if( hmod > health_mod_cap ) {
-            you.set_healthy_mod( health_mod_cap );
+            you.set_daily_health( health_mod_cap );
         }
     }
 
@@ -1747,7 +1747,7 @@ void Character::mend( int rate_multiplier )
     }
 
     // Being healthy helps.
-    healing_factor *= 1.0f + get_healthy() / 200.0f;
+    healing_factor *= 1.0f + get_lifestyle() / 200.0f;
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1

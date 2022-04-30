@@ -17,10 +17,10 @@ static void test_diet( const time_duration &dur, npc &dude,
         const size_t index = to_days<int>( i ) % 4;
         // They lightly correspond to breakfast, dinner, supper, night snack
         // No, they don't. The correspond to one meal each day.
-        dude.mod_healthy_mod( hmod_changes_per_day[ index ],
+        dude.mod_daily_health( hmod_changes_per_day[ index ],
                               sgn( hmod_changes_per_day[ index ] ) * 200 );
         dude.update_health();
-        health_samples.emplace_back( dude.get_healthy() );
+        health_samples.emplace_back( dude.get_lifestyle() );
     }
 
     std::stringstream ss;
@@ -28,8 +28,8 @@ static void test_diet( const time_duration &dur, npc &dude,
         ss << i << ", ";
     }
     INFO( "Health samples: " << ss.str() );
-    CHECK( dude.get_healthy() >= min );
-    CHECK( dude.get_healthy() <= max );
+    CHECK( dude.get_lifestyle() >= min );
+    CHECK( dude.get_lifestyle() <= max );
 }
 
 // Maximum possible health in feasible environment
@@ -80,7 +80,7 @@ TEST_CASE( "fasting_breakfast", "[health]" )
 TEST_CASE( "recovering_health", "[health]" )
 {
     standard_npc dude( "recovering junk eater" );
-    dude.set_healthy( -100 );
+    dude.set_lifestyle( -100 );
     // Beans and rice * 3 + broccoli = 3 * 1 + 2 healthy
     // 3 meals per day
     // Just a week should be enough to stop dying, but not enough to get healthy

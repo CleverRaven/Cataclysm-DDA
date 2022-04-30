@@ -491,16 +491,16 @@ class Character : public Creature, public visitable
         void print_health() const;
 
         /** Getters for health values exclusive to characters */
-        int get_healthy() const;
-        int get_healthy_mod() const;
+        int get_lifestyle() const;
+        int get_daily_health() const;
 
         /** Modifiers for health values exclusive to characters */
-        void mod_healthy( int nhealthy );
-        void mod_healthy_mod( int nhealthy_mod, int cap );
+        void mod_livestyle( int nhealthy );
+        void mod_daily_health( int nhealthy_mod, int cap );
 
         /** Setters for health values exclusive to characters */
-        void set_healthy( int nhealthy );
-        void set_healthy_mod( int nhealthy_mod );
+        void set_lifestyle( int nhealthy );
+        void set_daily_health( int nhealthy_mod );
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
@@ -3303,8 +3303,8 @@ class Character : public Creature, public visitable
         int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy = 0;
-        int healthy_mod = 0;
+        int lifetsyle = 0;
+        int daily_health = 0;
 
         // Our bmr at no activity level
         int base_bmr() const;
