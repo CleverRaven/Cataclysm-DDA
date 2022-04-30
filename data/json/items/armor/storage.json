@@ -1153,6 +1153,7 @@
   {
     "id": "leg_bag",
     "type": "ARMOR",
+    "repairs_like": "legrig",
     "name": { "str": "drop leg bag" },
     "//": "Based around https://www.amazon.com/HCoolfly-Waterproof-Motorcycle-Multi-Function-Fishing/dp/B07TVNBPZK/.",
     "description": "A bag that can be worn on the thighs and hips using well adjusted buckled straps.  Provides some extra storage for outdoor activities.",
@@ -1237,8 +1238,9 @@
     "id": "leg_small_bag",
     "type": "ARMOR",
     "copy-from": "armrig",
+    "repairs_like": "armrig",
     "name": { "str": "small leg purse" },
-    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those wo want to wear a dress without pockets while carrying their phones and money.  Use it to adjust it on your arm.",
+    "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phones and money.  Use it to adjust it on your arm.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1309,6 +1311,7 @@
   {
     "id": "ankle_wallet_pouch",
     "type": "ARMOR",
+    "repairs_like": "armrig",
     "name": { "str": "ankle wallet pouch", "str_pl": "ankle wallet pouches" },
     "description": "A small concealed wallet pouch worn on the ankle.  If you strap it under your clothes it can help you to keep your wallet hidden and safe.",
     "weight": "60 g",
