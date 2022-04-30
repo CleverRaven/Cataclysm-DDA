@@ -3908,6 +3908,9 @@ void Character::mod_livestyle( int nhealthy )
         mut_rate *= mut.obj().healthy_rate;
     }
     lifestyle += nhealthy * mut_rate;
+    // Clamp lifestyle between [-200, 200]
+    lifestyle = std::max( lifestyle, -200 );
+    lifestyle = std::min( lifestyle, 200 );
 }
 void Character::set_daily_health( int nhealthy_mod )
 {
