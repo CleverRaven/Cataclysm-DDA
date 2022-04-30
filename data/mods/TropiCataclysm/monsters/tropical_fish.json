@@ -1,5 +1,41 @@
 [
   {
+    "id": "mon_fish_crab",
+    "type": "MONSTER",
+    "name": { "str_sp": "crab" },
+    "description": "A crustacean belonging to either Trichodactylidae or Pseudothelphusidae.  Freshwater crabs are widely spread around Central and South America, some even found in mountain streams.",
+    "default_faction": "fish",
+    "bodytype": "crab",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "100 g",
+    "hp": 3,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "red",
+    "aggression": -50,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 1,
+    "luminance": 0,
+    "harvest": "shellfish",
+    "dissect": "dissect_gastropod_sample_single",
+    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
+    "baby_flags": [ "AUTUMN" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "mon_fish_pancora",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_crab",
+    "name": { "str": "pancora crab" },
+    "description": "A crustacean belonging to the Aeglidae family.  They are among the only living freshwater anomurans, being restricted solely to South America."
+  },
+  {
     "id": "mon_shark",
     "type": "MONSTER",
     "name": { "str": "bull shark" },
@@ -169,5 +205,54 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str": "angelfish", "str_pl": "angelfishes" },
     "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi aggressive in captivity."
+  },
+  {
+    "id": "mon_fish_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "goldfish", "str_pl": "goldfishes" },
+    "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart. "
+  },
+  {
+    "id": "mon_fish_koi",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "koi" },
+    "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
+  },
+  {
+    "id": "mon_fish_tilapia",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "tilapia" },
+    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adapatable herbivorous fishes that can survive well even in salt water."
+  },
+  {
+    "id": "mon_fish_sabalo",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "sabalo" },
+    "description": "A fish belonging to the Prochilodontidae family.  They are native to South America and most species can be found feeding on detritus."
+  },
+  {
+    "id": "mon_fish_oscar",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "oscar" },
+    "description": "A species of omnivorous cichlid native to South America.  Quite popular in aquariums with several different colored breeds."
+  },
+  {
+    "id": "mon_fish_guapote",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "guapote" },
+    "description": "A genus of cichlids found in Central America.  All of the species are predatory with different coloration and sizes."
+  },
+  {
+    "id": "mon_fish_mayaheros",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "mayaheros", "str_pl": "mayaheri" },
+    "description": "A genus of adaptable cichlids native to Central America.  They can survive in marine environments with some populations even reaching Florida."
   }
 ]
