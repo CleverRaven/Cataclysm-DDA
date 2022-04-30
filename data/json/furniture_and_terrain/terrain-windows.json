@@ -432,7 +432,7 @@
       "SMALL_PASSAGE",
       "PERMEABLE",
       "WINDOW",
-+     "BARRICADABLE_WINDOW"
+      "BARRICADABLE_WINDOW"
     ],
     "bash": {
       "str_min": 10,
