@@ -527,6 +527,7 @@ Character::Character() :
     int_bonus = 0;
     lifetsyle = 0;
     daily_health = 0;
+    health_tally = 0;
     hunger = 0;
     thirst = 0;
     fatigue = 0;
@@ -3796,6 +3797,11 @@ int Character::get_daily_health() const
     return daily_health;
 }
 
+int Character::get_health_tally() const
+{
+    return health_tally;
+}
+
 /*
  * Innate stats setters
  */
@@ -3941,6 +3947,11 @@ void Character::mod_daily_health( int nhealthy_mod, int cap )
     // just clamp to the boundaries here.
     daily_health = std::min( daily_health, high_cap );
     daily_health = std::max( daily_health, low_cap );
+}
+
+void Character::mod_health_tally( int mod )
+{
+    health_tally += mod;
 }
 
 int Character::get_stored_kcal() const
@@ -4291,6 +4302,11 @@ void Character::update_health( int external_modifiers )
     int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
     mod_daily_health( healthy_mod, healthy_mod_cap );
 
+    if( calendar::once_every( 1_days ) ) {
+        mod_health_tally( get_daily_health() );
+        mod_livestyle( get_health_tally() / 7 );
+    }
+
     // Health tends toward daily_health.
     // For small differences, it changes 4 points per day
     // For large ones, up to ~40% of the difference per day
@@ -4301,7 +4317,7 @@ void Character::update_health( int external_modifiers )
     // Slowly near 0, but it's hard to overpower it near +/-100
     set_daily_health( roll_remainder( get_daily_health() * 0.95f ) );
 
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Health: %d, Health mod: %d", get_lifestyle(),
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "Lifestyle: %d, Daily health: %d", get_lifestyle(),
                    get_daily_health() );
 }
 
@@ -9236,7 +9252,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "HEALTH", val, reduced, mod ) ) {
             mod_livestyle( bound_mod_to_vals( get_lifestyle(), val,
-                                            it.get_max_val( "HEALTH", reduced ), it.get_min_val( "HEALTH", reduced ) ) );
+                                              it.get_max_val( "HEALTH", reduced ), it.get_min_val( "HEALTH", reduced ) ) );
         }
     }
 

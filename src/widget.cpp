@@ -644,7 +644,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.get_fatigue();
             break;
         case widget_var::health:
-            value = ava.get_healthy();
+            value = ava.get_lifestyle();
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();

@@ -493,10 +493,12 @@ class Character : public Creature, public visitable
         /** Getters for health values exclusive to characters */
         int get_lifestyle() const;
         int get_daily_health() const;
+        int get_health_tally() const;
 
         /** Modifiers for health values exclusive to characters */
         void mod_livestyle( int nhealthy );
         void mod_daily_health( int nhealthy_mod, int cap );
+        void mod_health_tally( int mod );
 
         /** Setters for health values exclusive to characters */
         void set_lifestyle( int nhealthy );
@@ -3305,6 +3307,7 @@ class Character : public Creature, public visitable
         /** How healthy the character is. */
         int lifetsyle = 0;
         int daily_health = 0;
+        int health_tally = 0;
 
         // Our bmr at no activity level
         int base_bmr() const;
