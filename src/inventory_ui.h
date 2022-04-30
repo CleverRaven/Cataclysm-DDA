@@ -1015,4 +1015,6 @@ class inventory_examiner : public inventory_selector
         void setup();
 };
 
+bool is_worn_ablative( item_location const &container, item_location const &child );
+
 #endif // CATA_SRC_INVENTORY_UI_H

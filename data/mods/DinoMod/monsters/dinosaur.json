@@ -1535,6 +1535,7 @@
     "type": "MONSTER",
     "id": "mon_mosasaurus",
     "name": { "str_sp": "mosasaurus" },
+    "looks_like": "mon_zhark",
     "species": "DINOSAUR",
     "default_faction": "mosasaurus",
     "symbol": "D",
