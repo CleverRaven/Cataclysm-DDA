@@ -2,7 +2,7 @@
   {
     "id": "mon_shrimp_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "aether krill" },
+    "name": { "str": "aether krill" },
     "description": "A tiny flying alien creature brought by the portal storms.  It vaguely resembles a marine crustacean like shrimp.",
     "default_faction": "nether",
     "bodytype": "crab",
@@ -30,7 +30,7 @@
   {
     "id": "mon_crab_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "paddle crab" },
+    "name": { "str": "paddle crab" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a crab or lobster with paddles instead of legs.",
     "default_faction": "nether",
     "bodytype": "crab",
@@ -58,7 +58,7 @@
   {
     "id": "mon_lobster_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "emperor prawn" },
+    "name": { "str": "emperor prawn" },
     "description": "A large alien creature brought by the portal storms.  It vaguely resembles a prehistoric crustacean with flippers and a set of pincers.",
     "default_faction": "nether",
     "bodytype": "crab",
@@ -86,7 +86,7 @@
   {
     "id": "mon_seastar_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "triglav star" },
+    "name": { "str": "triglav star" },
     "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a sea star crawling on three spindly legs.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -113,7 +113,7 @@
   {
     "id": "mon_urchin_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "scale urchin" },
+    "name": { "str": "scale urchin" },
     "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a sea urchin with scales instead of spines.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -140,7 +140,7 @@
   {
     "id": "mon_cucumber_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "thornothurian" },
+    "name": { "str": "thornothurian" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a sea cucumber with a set of thorns running on its body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -194,7 +194,7 @@
   {
     "id": "mon_jellyfish_box",
     "type": "MONSTER",
-    "name": { "str_sp": "sea papalotl" },
+    "name": { "str": "sea papalotl" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a floating box jellyfish with a translucent body.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -221,7 +221,7 @@
   {
     "id": "mon_jellyfish_giant",
     "type": "MONSTER",
-    "name": { "str_sp": "sky phantom" },
+    "name": { "str": "sky phantom" },
     "description": "A huge alien creature brought by the portal storms.  It resembles a portuguese man'o'war fused to a zeppelin.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -248,7 +248,7 @@
   {
     "id": "mon_snail_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "wizard snail" },
+    "name": { "str": "wizard snail" },
     "description": "A tiny alien creature brought by the portal storms.  It vaguely resembles a gastropod with a hat-like shell.",
     "default_faction": "nether",
     "bodytype": "slug",
@@ -277,7 +277,7 @@
   {
     "id": "mon_conch_alien",
     "type": "MONSTER",
-    "name": { "str_sp": "hyolith conch" },
+    "name": { "str": "hyolith conch" },
     "description": "An alien creature brought by the portal storms.  It vaguely resembles a large conch snail with a straight shell.",
     "default_faction": "nether",
     "bodytype": "slug",
@@ -306,7 +306,7 @@
   {
     "id": "mon_squid_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "nimbelemnite" },
+    "name": { "str": "nimbelemnite" },
     "description": "An alien flying creature brought by the portal storms.  It vaguely resembles an ancient cephalopod and moves quite fast.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -334,7 +334,7 @@
   {
     "id": "mon_ammonoid_flying",
     "type": "MONSTER",
-    "name": { "str_sp": "atmmonoid" },
+    "name": { "str": "atmmonoid" },
     "description": "An alien flying creature brought by the portal storms.  It vaguely resembles a prehistoric cephalopod with a helix shell.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
@@ -390,7 +390,7 @@
   {
     "id": "mon_fish_flying_tiny",
     "type": "MONSTER",
-    "name": { "str_sp": "tiny flying fish" },
+    "name": { "str": "tiny flying fish", "str_pl": "tiny flying fishes" },
     "//": "a default fish type - does not appear in-game",
     "description": "A tiny flying fish.",
     "default_faction": "nether",
@@ -420,7 +420,7 @@
   {
     "id": "mon_fish_flying_small",
     "type": "MONSTER",
-    "name": { "str_sp": "small flying fish" },
+    "name": { "str": "small flying fish", "str_pl": "small flying fishes" },
     "//": "a default fish type - does not appear in-game",
     "description": "A small flying fish",
     "default_faction": "nether",
@@ -451,7 +451,7 @@
   {
     "id": "mon_fish_flying_medium",
     "type": "MONSTER",
-    "name": { "str_sp": "medium flying fish" },
+    "name": { "str": "medium flying fish", "str_pl": "medium flying fishes" },
     "//": "a default fish type - does not appear in-game",
     "description": "A medium flying fish",
     "default_faction": "nether",
@@ -482,7 +482,7 @@
   {
     "id": "mon_fish_flying_large",
     "type": "MONSTER",
-    "name": { "str_sp": "large flying fish" },
+    "name": { "str": "large flying fish", "str_pl": "large flying fishes" },
     "//": "a default fish type - does not appear in-game",
     "description": "A large flying fish",
     "default_faction": "nether",
@@ -513,7 +513,7 @@
   {
     "id": "mon_fish_flying_huge",
     "type": "MONSTER",
-    "name": { "str_sp": "huge flying fish" },
+    "name": { "str": "huge flying fish", "str_pl": "huge flying fishes" },
     "//": "a default fish type - does not appear in-game",
     "description": "A huge flying fish",
     "default_faction": "nether",
