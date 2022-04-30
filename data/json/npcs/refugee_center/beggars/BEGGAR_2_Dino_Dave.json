@@ -216,15 +216,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-    "dynamic_line": { "and": [
-    "Well… I had it all pretty together,/u0400", {
-      "u_has_var": "beggars_recruited",
-      "type": "general",
-      "context": "recruit",
-      "value": "yes",
-      "yes": "but the others have left, and/u0400",
-    "no": "and I feel bad with all the help you've given me already, but/u0400" },
-"now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"    ]
+    "dynamic_line": {
+      "and": [
+        "Well… I had it all pretty together,/u0400",
+        {
+          "u_has_var": "beggars_recruited",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes",
+          "yes": "but the others have left, and/u0400",
+          "no": "and I feel bad with all the help you've given me already, but/u0400"
+        },
+        "now the masters won't let me build my sanctuary.  I know I can't build it in here, they wouldn't allow it.  They won't listen to me when I ask for a safe place.  They just want me to disappear, like the others.  Can you help me figure them out?"
+      ]
     },
     "responses": [
       {
@@ -232,7 +236,11 @@
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
-      { "text": "Sure, Dave.  One last favor, I think I can talk to Smokes about finding you a place to go.", "effect": {"assign_mission": "MISSION_BEGGAR_2_PERMISSION"}, "topic": "TALK_DONE" },
+      {
+        "text": "Sure, Dave.  One last favor, I think I can talk to Smokes about finding you a place to go.",
+        "effect": { "assign_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_DONE"
+      },
       { "text": "I'll have to think on that, Dave, I've done a lot already.", "topic": "TALK_DONE" }
     ]
   },
@@ -379,27 +387,46 @@
     },
     "end": {
       "effect": [
-        { "global_add_var": "dave_castle_stage", "value": 1 },
+        { "u_add_var": "dave_castle_stage", "value": 1 },
         { "npc_first_topic": "TALK_DINODAVE_1" },
         { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
-        { "mapgen_update": "cardboard_castle", "om_terrain": "evac_center_13_z1" },
-        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
+        { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
+        { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
+        { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" },
+        {
+          "set_queue_effect_on_condition": [
+            {
+              "id": "EOC_DinoDaveCardboardCastle1",
+              "effect": [ { "npc_set_goal": { "om_terrain": "evac_center_13_z1", "z": 1, "offset_x": 3, "offset_y": 19 } } ],
+              "affect_nearby_npcs": true,
+              "npc_range": 15,
+              "npcs_to_affect": "Dino Dave, beggar"
+            }
+          ]
+        }
       ]
-    },
-    {
-      "type": "mapgen",
-      "update_mapgen_id": "cardboard_castle",
-      "method": "json",
-      "object": {
-        "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-        "place_nested": [ { "chunks": [ "cardboard_castle_1" ], "x": 0, "y": 16 } ]
-      }
-    },
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "cardboard_castle_1_main",
+    "method": "json",
+    "object": {
+      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 16 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "cardboard_castle_1_roof",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "cardboard_castle_1_roof" ], "x": 0, "y": 16 } ] }
+  },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "cardboard_castle_1",
-    "//": "First iteration of Dino Dave's cardboard castle.",
+    "nested_mapgen_id": "cardboard_castle_1_main",
+    "//": "First iteration of Dino Dave's cardboard castle - main floor.",
     "object": {
       "mapgensize": [ 7, 7 ],
       "rows": [
@@ -412,21 +439,37 @@
         " ||||| "
       ],
       "furniture": {
-        "|": { "terrain": "f_wall_cardboard" },
-        "_": { "terrain": "f_door_cardboard" },
-        "-": { "terrain": "f_floor_cardboard" },
+        "|": { "terrain": "f_cardboard_wall" },
+        "_": { "terrain": "f_cardboard_door" },
+        "-": { "terrain": "f_cardboard_floor" },
         "C": { "terrain": "f_cardboard_box" },
-        "B": { "terrain": "f_bed_cardboard" }
+        "B": { "terrain": "f_floor_mattress" }
       }
     }
-  }
-    {
-      "type": "mapgen",
-      "update_mapgen_id": "refcenter_unlock_roofstairs",
-      "method": "json",
-      "object": {
-        "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
-      }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cardboard_castle_1_roof",
+    "//": "First iteration of Dino Dave's cardboard castle - roof.",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        " _____ ",
+        " _____ ",
+        " _____ ",
+        " _____ ",
+        " _____ ",
+        " _____ "
+      ],
+      "furniture": { "_": { "terrain": "f_cardboard_roof" } }
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "refcenter_unlock_roofstairs",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }
 ]
