@@ -18,12 +18,12 @@
     "has_generic_rewards": true,
     "dialogue": {
         "describe": "I need some help.",
-      "offer": "We've had some trouble with slimes not far away from us.  It's been hard going through there with all them around, so I want you to go take care of it.",
+      "offer": "We've had some trouble with slimes not far from us.  It's been hard going through there with all them around, so I want you to go take care of it.",
       "advice": "Sure, they can be cut, but I'd say it's better to splatter them with something large and heavy.",
-        "accepted": "I'll be here when you get back.  You can pick what you want out of our stash afterwards.",
-        "rejected": "Someone's going to do it anyway.",
+        "accepted": "I'll be here when you get back.",
+        "rejected": "No problem.  I'm sure one of us will get to it anyway.",
         "inquire": "Are those slimes dead yet?",
-        "success": "Nice. I'll just take those off your hands.  They're good for greasing the hinges around here.",
+        "success": "Nice. I'll just take those off your hands.  Might be good for greasing the bike chains and door hinges around here even though it is a bit… abnormal.",
         "success_lie": "You don't look nearly as sticky as you're supposed to.  Get back to it.",
         "failure": "Did they give you the slip?  It's worse than I thought, then."
     }
@@ -52,7 +52,7 @@
         "describe": "I need some help.",
       "offer": "The last time we went out scouting we found some gargantuan ants crawling around.  We thought we might see how they taste, if they could be cooked and whatnot.  I want you to go kill one and bring back some of its meat.",
       "advice": "A shotgun of some sort might work well.",
-        "accepted": "I'll be here when you get back.  You can pick what you want out of our stash afterwards.",
+        "accepted": "I'll be here when you get back.",
         "rejected": "Alright, I can understand that.",
         "inquire": "Do you have the meat?",
         "success": "Nice. I'll get these cooked up.  Who knows, we might want some more in the future.",

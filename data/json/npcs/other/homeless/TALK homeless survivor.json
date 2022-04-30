@@ -50,7 +50,7 @@
 {
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR_STORY",
-    "dynamic_line": "I was homeless before everything went down, and I was camping out here.  Stuck up <name_b>s shunned me for my condition, but they're all dead now.  I guess I'm better of than they are.",
+    "dynamic_line": "I was homeless before everything went down, just camping out here for a while.  Stuck up <name_b>s shunned me for my condition, but they're all dead now.  I guess I'm better off than they are.",
     "responses": [
       { "text": "Hm.", "topic": "TALK_NONE" }
     ]
